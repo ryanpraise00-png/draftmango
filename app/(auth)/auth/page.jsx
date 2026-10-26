@@ -19,19 +19,8 @@ export default function Page() {
 <h1>{"Your next website."}<br />{"Built around your idea."}</h1>
 <p>{"Build with AI. Refine in your workspace."}<br />{"Keep your ideas, conversations and code together."}</p>
 <div className={"draft-illustration"} aria-hidden={"true"}>
-<div className={"browser-bar"}><span className={"browser-dots"}><i></i><i></i><i></i></span><span>{"Website concept · Form & Field"}</span><svg className={"icon"}><use href={"#arrow"}></use></svg></div>
-<div className={"showcase-site"}>
-<div className={"showcase-nav"}><strong>{"form "}<em>{"&"}</em>{" field"}<span>{"®"}</span></strong><span>{"Shop    Our story    Journal"}</span><span className={"showcase-bag"}>{"Bag "}<b>{"0"}</b></span></div>
-<div className={"showcase-hero"}>
-<div className={"showcase-copy"}><span className={"showcase-eyebrow"}>{"LESS, BUT LOVELIER."}</span><strong>{"Objects for"}<br /><em>{"the everyday."}</em></strong><p>{"Thoughtful pieces. Everyday rituals."}</p><span className={"showcase-cta"}>{"Explore the collection "}<span>{"↗"}</span></span></div>
-<div className={"showcase-photo"}><img src={"/assets/ceramics.jpg"} alt={""} width={"900"} height={"600"} /><span className={"collection-label"}>{"THE EVERYDAY COLLECTION   /   01"}</span><span className={"photo-stamp"}>{"MADE"}<br />{"TO BE"}<br />{"KEPT."}</span></div>
-</div>
-<div className={"showcase-values"}><span>{"✳   Made with intention"}</span><span>{"Natural materials"}</span><span>{"A little less ordinary"}</span></div>
-<div className={"showcase-products"}>
-<div className={"products-heading"}><strong>{"A few everyday favorites."}</strong><span>{"Shop all pieces ↗"}</span></div>
-<div className={"product-grid"}><div className={"product-card"}><div className={"product-photo product-plate"}><img src={"/assets/ceramics.jpg"} alt={""} /><span>{"BEST LOVED"}</span></div><div><span>{"The everyday plate"}</span><span>{"$32"}</span></div></div><div className={"product-card"}><div className={"product-photo product-bowl"}><img src={"/assets/ceramics.jpg"} alt={""} /></div><div><span>{"The morning bowl"}</span><span>{"$28"}</span></div></div><div className={"product-card"}><div className={"product-photo product-set"}><img src={"/assets/ceramics.jpg"} alt={""} /></div><div><span>{"A little gathering"}</span><span>{"$86"}</span></div></div></div>
-</div>
-</div>
+<div className={"browser-bar"}><span className={"browser-dots"}><i></i><i></i><i></i></span><span>{"untitled · blank site"}</span><svg className={"icon"}><use href={"#arrow"}></use></svg></div>
+<div className={"showcase-site blank-showcase"}><span className={"blank-showcase-mark"}>{"+"}</span><strong>{"Blank site"}</strong><span>{"Describe your idea. Draftmango designs it from a blank page."}</span></div>
 </div>
 <div className={"brand-note"}><span className={"idea-icon"} aria-hidden={"true"}><svg className={"icon"}><use href={"#check"}></use></svg></span><div><span>{"Every detail is yours to shape."}</span><p>{"Chat, edit and preview in one workspace."}</p></div></div>
 </div>

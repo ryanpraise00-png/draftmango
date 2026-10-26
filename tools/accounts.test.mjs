@@ -54,3 +54,27 @@ test('AI and domain requests are rejected before provider access when the accoun
   }
   assert.equal(providerLoaded, false);
 });
+test('server-deleted projects leave the device cache, but unsynced drafts are always kept', () => {
+  const synced = project(), edited = project(), fresh = project(), kept = project();
+  const library = S.empty();
+  for (const p of [synced, edited, fresh, kept]) S.put(library, p);
+  library.cloud[synced.id] = { version: 3, seq: 1, dirty: false };
+  library.cloud[edited.id] = { version: 2, seq: 2, dirty: true };
+  library.cloud[kept.id] = { version: 1, seq: 1, dirty: false };
+  library.activeId = synced.id;
+  const { removed } = S.prune(library, [kept.id]);
+  assert.deepEqual(removed, [synced.id]);
+  assert.deepEqual(library.projects.map(p => p.id), [edited.id, fresh.id, kept.id]);
+  assert.equal(library.cloud[synced.id], undefined);
+  assert.equal(library.activeId, edited.id);
+});
+test('the reset tool creates one valid blank project the browser reads unchanged', async () => {
+  const { blankProject } = await import('./reset-projects.mjs');
+  const doc = blankProject('Test');
+  assert.equal(doc.title, 'Test');
+  assert.equal(doc.design.kind, 'blank');
+  assert.ok(globalThis.DraftmangoProject.isReact(doc.files));
+  const again = M.readStore(JSON.stringify({ schema: 1, projects: [doc] })).projects[0];
+  assert.deepEqual(again, doc);
+  assert.deepEqual(doc.messages.map(m => m.role), ['assistant']);
+});

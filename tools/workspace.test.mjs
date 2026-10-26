@@ -15,16 +15,20 @@ test('workspace controls and icon symbols have unique IDs', async () => {
   for (const match of html.matchAll(/href="#([^"]+)"/g)) assert.ok(ids.includes(match[1]), 'Missing ' + match[1]);
 });
 
-test('homepage ideas select an appropriate starter and carry the name into the project', () => {
+test('every new project starts from a blank site and carries the name into the project', () => {
   const draft = M.createProject('A cozy café called Mango Lane. A warm place for good coffee.');
-  assert.equal(draft.design.kind, 'cafe');
+  assert.equal(draft.design.kind, 'blank');
   assert.equal(draft.design.brand, 'Mango Lane');
   assert.equal(draft.title, 'Mango Lane');
   assert.equal(draft.messages[0].text, draft.prompt);
   assert.equal(draft.history[0].design.brand, 'Mango Lane');
-  assert.equal(M.inferTemplate('An artist portfolio'), 'portfolio');
-  assert.equal(M.inferTemplate('An online ceramic store'), 'store');
-  assert.equal(M.inferTemplate('My next big idea'), 'custom');
+  for (const idea of ['An artist portfolio', 'An online ceramic store', 'My next big idea']) assert.equal(M.inferTemplate(idea), 'blank');
+  const unnamed = M.createProject('');
+  assert.equal(unnamed.title, 'Untitled site');
+  assert.match(unnamed.messages[1].text, /blank site/i);
+  const html = M.renderDocument(unnamed.design);
+  assert.match(html, /<h1>Blank site<\/h1>/);
+  assert.doesNotMatch(html, /Slow Days|Studio North|Form &amp; Field|coffee|ceramics/i);
 });
 
 test('sample conversation changes update real design properties without mutating the previous draft', () => {

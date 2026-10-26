@@ -2,6 +2,8 @@
 (() => {
   'use strict';
   const templates = {
+    // The only starting point offered to people. Legacy kinds below remain solely so older saved drafts still open.
+    blank: { title: 'Untitled site', brand: 'Untitled', heading: '', description: '', button: '', theme: 'citrus', eyebrow: '', story: '', storyCopy: '', collection: '', labels: [] },
     cafe: { title: 'Slow Days', brand: 'slow days.', heading: 'Take life\none sip\nat a time.', description: 'Good coffee. Better company. A little corner of the neighborhood to slow down and stay a while.', button: 'Find your slow moment', theme: 'warm', eyebrow: 'COFFEE & GOOD COMPANY', story: 'A little slower. A little sweeter.', storyCopy: 'Some things are better when you take your time. A conversation, a good cup of coffee, an ordinary morning made a little more lovely.', collection: 'Good things, made slowly.', labels: ['The morning ritual', 'Something sweet', 'A moment to yourself'] },
     portfolio: { title: 'Studio North', brand: 'north®', heading: 'A different\npoint of view.', description: 'Independent minds. Original ideas. Thoughtful design with just the right amount of personality.', button: 'Explore selected work', theme: 'citrus', eyebrow: 'GOOD PEOPLE. BOLD IDEAS.', story: 'A small studio. An open mind.', storyCopy: 'The best work starts with a little curiosity. We make space for fresh perspectives, unexpected connections, and ideas worth exploring.', collection: 'A few things we’ve put into the world.', labels: ['Make some noise', 'From the ground up', 'Off script'] },
     store: { title: 'Form & Field', brand: 'form & field', heading: 'Objects for\nthe everyday\nritual.', description: 'Thoughtful objects for the moments that make a home. Made with care, meant to stay.', button: 'Explore the collection', theme: 'sage', eyebrow: 'LESS, BUT LOVELIER.', story: 'A home in the everyday.', storyCopy: 'A favorite bowl. The first cup of the morning. We believe the objects we live with should bring a little pleasure to the ordinary.', collection: 'Little objects. Lasting favorites.', labels: ['The everyday bowl', 'A place at the table', 'Your morning companion'] },
@@ -39,15 +41,11 @@
     return { version: 1, ...Object.fromEntries(briefFields.map(key => [key, value[key].trim()])), ...Object.fromEntries(briefLists.map(key => [key, value[key].map(item => item.trim())])) };
   }
 
-  function inferTemplate(prompt = '') {
-    if (/café|cafe|coffee|restaurant|bakery|food/i.test(prompt)) return 'cafe';
-    if (/shop|store|ceramic|product|sell|commerce/i.test(prompt)) return 'store';
-    if (/portfolio|designer|design studio|photograph|artist|writer/i.test(prompt)) return 'portfolio';
-    return 'custom';
-  }
+  // Every new project starts blank; the brief, not a sample site, drives the design.
+  function inferTemplate() { return 'blank'; }
 
   function sanitizeDesign(value = {}) {
-    const kind = enumValue(value.kind, Object.keys(templates), 'cafe');
+    const kind = enumValue(value.kind, Object.keys(templates), 'blank');
     const base = templates[kind];
     return {
       kind, brand: text(value.brand, base.brand, 60), heading: text(value.heading, base.heading, 180),
@@ -60,7 +58,7 @@
   }
 
   function createProject(prompt = '', kind = inferTemplate(prompt)) {
-    kind = enumValue(kind, Object.keys(templates), 'custom');
+    kind = enumValue(kind, Object.keys(templates), 'blank');
     const design = sanitizeDesign({ kind });
     const named = String(prompt).match(/\b(?:called|named)\s+[“"']?([^.!?\n”"']{2,45})/i);
     const brandName = named?.[1]?.split(/\s+(?:with|using|that|featuring)\s+/i)[0]?.trim();
@@ -71,8 +69,8 @@
       id: id(), title, prompt: String(prompt).slice(0, 1200), createdAt: now, updatedAt: now,
       design, history: [{ id: id(), label: 'First draft', at: now, design: clone(design) }], cursor: 0,
       messages: [
-        { role: 'user', text: String(prompt).slice(0, 1200) || 'A cozy café website with a little personality. Warm colors, lovely typography, and room to tell our story.' },
-        { role: 'assistant', text: `Here’s a starting point for ${title}. I’ve set up a ${kind === 'custom' ? 'flexible starter' : kind === 'cafe' ? 'warm café' : kind === 'store' ? 'thoughtful storefront' : 'bold portfolio'} layout. Let’s make it feel like you.`, initial: true }
+        { role: 'user', text: String(prompt).slice(0, 1200) || 'A new website.' },
+        { role: 'assistant', text: kind === 'blank' ? 'Your blank site is ready. Describe what you want to build and I’ll design it from scratch.' : `Here’s a starting point for ${title}. Let’s make it feel like you.`, initial: true }
       ]
     };
   }
@@ -170,8 +168,14 @@
     } catch { return null; }
   }
 
+  function renderBlank(d) {
+    const e = escapeHtml;
+    return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${e(d.brand)}</title><style>*{box-sizing:border-box}html,body{margin:0;height:100%}body{display:grid;place-items:center;background:#fff;background-image:radial-gradient(circle,#e6e6e6 1px,transparent 1.2px);background-size:22px 22px;color:#777;font:15px/1.6 system-ui,-apple-system,Segoe UI,sans-serif;text-align:center;padding:24px}.mark{width:52px;height:52px;margin:0 auto 14px;border:1px dashed #cfcfcf;border-radius:12px;display:grid;place-items:center;font-size:24px;font-weight:300;color:#999;background:#fff}h1{margin:0 0 6px;font-size:22px;font-weight:500;letter-spacing:-.4px;color:#171717}p{margin:0}</style></head><body><main><div class="mark" aria-hidden="true">+</div><h1>Blank site</h1><p>Describe what you want to build. Your design will appear here.</p></main></body></html>`;
+  }
+
   function renderDocument(candidate, images = {}, source = false) {
     const d = sanitizeDesign(candidate), t = templates[d.kind], p = palettes[d.theme];
+    if (d.kind === 'blank') return renderBlank(d);
     const e = escapeHtml;
     const photo = d.kind === 'cafe' ? images.coffee : d.kind === 'store' ? images.ceramics : null;
     const photoSafe = source && ['cafe', 'store'].includes(d.kind) ? `./assets/${d.kind === 'cafe' ? 'coffee' : 'ceramics'}.jpg` : typeof photo === 'string' && /^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(photo) ? photo : null;

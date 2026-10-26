@@ -1,5 +1,29 @@
 # Draftmango changelog
 
+## 26 October 2026 (evening)
+
+### Blank site replaces the sample templates
+- The homepage gallery (Slow Days, Studio North, Form & Field) and its preview
+  dialog are replaced by one "Blank site" card. The sign-in page showcase is a
+  blank site too. Idea buttons and "Surprise me" now use brand-neutral briefs.
+- Every new project starts as a blank site: the builder's first preview, the
+  React starter files and the Design panel, build settings and preferences
+  pickers all offer only "Blank site". Old sample render code is kept solely so
+  older saved drafts still open.
+- Removed the unused legacy `dist/dashboard.js`. `npm run build` now rebuilds
+  `public/` from scratch so deleted files are never served.
+
+### Project reset tool
+- `npm run reset:projects -- --email you@example.com` backs up an account's
+  projects to `data/backups/`, deletes them and creates one blank "Test"
+  project (built with the browser's own project model).
+- The browser now drops cached copies of projects that were deleted on the
+  server, keeping any unsynced edits.
+- Rehearsed on a copy of the local database: 25 projects backed up and replaced
+  by "Test"; a simulated browser holding the old 25 projects ended with only
+  "Test" after one load (about 7 KB downloaded).
+- Tests: `npm test` 112 passed; `npm run test:accounts` 69 passed.
+
 ## 26 October 2026
 
 ### Version control
@@ -62,8 +86,20 @@
 - `npm test`: 110 passed, 0 failed (requires `npm ci` and `npm run build` first).
 - `npm run test:accounts`: 67 passed, 0 failed.
 
+### Local checkout cleanup
+- The active checkout is now `C:\dev\DraftMango`, outside OneDrive.
+- Removed the obsolete `OneDrive\Desktop\DraftMango` checkout after verifying
+  its Git history and source were preserved in the new checkout. The only
+  substantive source difference was the newer esbuild install-script setting.
+- Verified all 26 saved projects, published-site data, migrations and workspace
+  activity matched. Account differences were limited to login timestamps and
+  sessions. Both SQLite databases passed their integrity checks before cleanup.
+- The current environment and development-mail files were preserved. The local
+  login page returned HTTP 200 after the old folder was removed.
+
 ### Still open
-- Move the project folder out of OneDrive (for example `C:\dev\DraftMango`).
-  OneDrive syncing `.venv`, `node_modules`, `.git` and SQLite can lock files
-  and corrupt the database. Clone from GitHub into the new folder.
-- Empty the OneDrive recycle bin and replace the API keys noted above.
+- Verify OneDrive has synced the deletion, then permanently remove Draftmango's
+  deleted copies from the OneDrive cloud recycle bin. Dashboard sign-in is needed.
+- Replace and verify the configured OpenAI and Name.com keys, then revoke their
+  old keys through the provider accounts. No provider keys have been rotated by
+  this cleanup. The local Stripe secret-key and webhook-secret fields are empty.

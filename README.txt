@@ -65,6 +65,19 @@ Next.js server routes, customer server code and SSR deployment are not enabled.
 This migration does not activate paid plans, public signup, custom domains or
 email delivery, and does not change the configured model.
 
+Starting point
+Every new project starts from a blank site. The former sample sites and
+starter templates are no longer offered; their render code remains only so
+older saved drafts can still open.
+
+Reset projects (local development)
+Stop npm run dev, then:
+  npm run reset:projects -- --email you@example.com
+It writes a JSON backup of that account's projects to data/backups/, deletes
+them, and creates one blank project named Test (--title changes the name,
+--yes skips the confirmation). Open the dashboard afterwards; the browser drops
+its cached copies of deleted projects automatically on the next load.
+
 Checks
   npm run check
   npm run build

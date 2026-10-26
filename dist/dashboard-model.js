@@ -9,7 +9,7 @@
     value = value && typeof value === 'object' ? value : {};
     return {
       name: typeof value.name === 'string' ? value.name.trim().slice(0, 60) : '',
-      starter: ['auto', 'cafe', 'portfolio', 'store', 'custom'].includes(value.starter) ? value.starter : 'auto',
+      starter: 'auto', // Every project starts from a blank site; legacy starter choices are ignored.
       color: ['auto', 'warm', 'citrus', 'sage', 'rose', 'ink'].includes(value.color) ? value.color : 'auto',
       device: ['auto', 'desktop', 'tablet', 'mobile'].includes(value.device) ? value.device : 'auto'
     };
@@ -18,7 +18,7 @@
     const prompt = String(idea || '').trim().slice(0, 1200);
     if (!prompt) return '/dashboard';
     const params = new URLSearchParams({ idea: prompt });
-    if (['cafe', 'portfolio', 'store', 'custom'].includes(template)) params.set('template', template);
+    if (template === 'blank') params.set('template', 'blank');
     if (['warm', 'citrus', 'sage', 'rose', 'ink'].includes(color)) params.set('color', color);
     return '/workspace#' + params.toString();
   }

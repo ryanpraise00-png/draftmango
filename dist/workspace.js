@@ -12,7 +12,6 @@
   const $ = (selector) => document.querySelector(selector);
   const $$ = (selector) => [...document.querySelectorAll(selector)];
   const storageKey = A.key('projects');
-  const defaultPrompt = 'A cozy neighborhood café called Slow Days. Warm earthy colors, lovely typography, and a welcoming place to tell our story.';
   const sizes = { desktop: 1280, tablet: 768, mobile: 390 };
   let library;
   let saveFailed = false;
@@ -48,10 +47,9 @@
     library.activeId = selected.id;
   }
   if (initialIdea) {
-    const next = M.createProject(initialIdea, starting.get('template') || M.inferTemplate(initialIdea));
+    const next = M.createProject(initialIdea, 'blank');
     next.files=P.scaffold({},next.title);next.history[0].files=structuredClone(next.files);
     next.creationPreferences = [];
-    if (Object.hasOwn(M.templates, starting.get('template'))) next.creationPreferences.push('Selected website type: ' + starting.get('template') + '. Follow the written brief for the actual creative direction.');
     next.ai = { state: 'pending' };
     next.messages = [next.messages[0]];
     if (M.palettes[starting.get('color')]) {
@@ -66,7 +64,7 @@
     try { history.replaceState(null, '', location.pathname + location.search); } catch { /* Some file viewers disallow history changes. */ }
   }
   if (!library) {
-    const first = M.createProject(defaultPrompt, 'cafe');
+    const first = M.createProject('', 'blank');
     first.files=P.scaffold({},first.title);first.history[0].files=structuredClone(first.files);
     library = { schema: 1, activeId: first.id, projects: [first] };
   }
@@ -193,7 +191,7 @@
       label.innerHTML = message.role === 'user' ? 'You <span class="avatar">Y</span>' : `<span class="avatar">${icon('mango')}</span>Draftmango`;
       const content = document.createElement(message.role === 'assistant' ? 'div' : 'p');
       content.className = 'message-content';
-      const messageText = message.initial ? 'Your starter layout is ready. Describe a change, edit the files, or adjust the design settings.' : message.text;
+      const messageText = message.initial ? 'Your blank site is ready. Describe what you want to build and I’ll design it from scratch.' : message.text;
       if (message.role === 'assistant') Chat.render(content,messageText); else content.textContent=messageText;
       block.append(label);
       const activity=Chat.renderActivity(message.activity);if(activity)block.append(activity);

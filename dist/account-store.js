@@ -42,11 +42,24 @@
     }
     return { library, remapped };
   }
+  // Drop device copies of projects deleted on the server. Only copies that were fully
+  // synced are removed; unsynced or never-uploaded drafts are always kept.
+  function prune(library, remoteIds) {
+    const keep = new Set(remoteIds), removed = [];
+    library.projects = library.projects.filter(project => {
+      const meta = library.cloud[project.id];
+      const gone = !!meta && meta.version > 0 && !meta.dirty && !keep.has(project.id);
+      if (gone) { removed.push(project.id); delete library.cloud[project.id]; }
+      return !gone;
+    });
+    if (removed.includes(library.activeId)) library.activeId = library.projects[0]?.id || '';
+    return { library, removed };
+  }
   function acknowledge(library, id, sentSeq, version) {
     const current = library.cloud[id];
     if (current) library.cloud[id] = { ...current, version, dirty: current.seq !== sentSeq };
     return library;
   }
   function key(userId, base = 'draftmango-workspace-v1', projectRef = '') { return userId ? `${base}:account:${projectRef}:${userId}` : base; }
-  globalThis.DraftmangoAccountStore = Object.freeze({ empty, read, put, merge, acknowledge, key });
+  globalThis.DraftmangoAccountStore = Object.freeze({ empty, read, put, merge, prune, acknowledge, key });
 })();

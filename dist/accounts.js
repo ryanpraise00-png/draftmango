@@ -57,14 +57,14 @@
           const size = Number.isSafeInteger(result.pageSize) && result.pageSize > 0 ? result.pageSize : 500;
           summary.push(...result.projects); if (result.projects.length < size) break; offset += size;
         }
-        const local = read();
+        const local = S.prune(read(), summary.map(row => row.id)).library;
         const stale = summary.filter(row => typeof row.id === 'string' && local.cloud[row.id]?.version !== row.version).map(row => row.id);
         const rows = [];
         for (let index = 0; index < stale.length; index += 20) {
           const query = stale.slice(index, index + 20).map(id => 'id=' + encodeURIComponent(id)).join('&');
           rows.push(...(await request('/api/projects?' + query)).projects);
         }
-        const merged = S.merge(read(), rows); store(merged.library); remapped = merged.remapped;
+        const merged = S.merge(local, rows); store(merged.library); remapped = merged.remapped;
       });
       message = 'Projects synced';
     } catch { message = 'Saved on this device'; issue = 'Project storage is unavailable. Your edits stay on this device. Reload to reconnect.'; }

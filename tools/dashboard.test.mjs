@@ -9,13 +9,17 @@ const M = globalThis.DraftmangoModel;
 test('account continuation goes to the dashboard unless there is an incoming idea', () => {
   assert.equal(D.accountDestination(new URLSearchParams('mode=login')), '/dashboard');
   assert.equal(D.accountDestination(new URLSearchParams('idea=+++')), '/dashboard');
-  const params = new URLSearchParams({ idea: 'A café called Mango & Co. ☀', template: 'cafe', color: 'sage', email: 'private@example.com', password: 'do-not-carry', next: 'https://example.com' });
+  const params = new URLSearchParams({ idea: 'A café called Mango & Co. ☀', template: 'blank', color: 'sage', email: 'private@example.com', password: 'do-not-carry', next: 'https://example.com' });
   const target = D.accountDestination(params);
   assert.ok(target.startsWith('/workspace#'));
   const route = new URLSearchParams(target.split('#')[1]);
   assert.deepEqual([...route.keys()], ['idea', 'template', 'color']);
   assert.equal(route.get('idea'), 'A café called Mango & Co. ☀');
+  assert.equal(route.get('template'), 'blank');
   assert.equal(route.get('color'), 'sage');
+  // Retired sample starters from old links are dropped; every project starts blank.
+  const legacy = new URLSearchParams(D.accountDestination(new URLSearchParams({ idea: 'A shop', template: 'cafe' })).split('#')[1]);
+  assert.deepEqual([...legacy.keys()], ['idea']);
 });
 
 test('builder handoff limits input and rejects unknown style values', () => {
@@ -45,7 +49,8 @@ test('opening a project selects its own saved history and conversation, never an
 test('preferences recover from invalid storage and keep only bounded supported values', () => {
   const defaults = { name: '', starter: 'auto', color: 'auto', device: 'auto' };
   for (const value of [null, '{broken', 'null', '42', '[]']) assert.deepEqual(D.readPreferences(value), defaults);
-  assert.deepEqual(D.readPreferences(JSON.stringify({ name: '  Mango Maker  ', starter: 'store', color: 'sage', device: 'tablet', password: 'discarded' })), { name: 'Mango Maker', starter: 'store', color: 'sage', device: 'tablet' });
+  // Retired sample starters are ignored: every project starts from a blank site.
+  assert.deepEqual(D.readPreferences(JSON.stringify({ name: '  Mango Maker  ', starter: 'store', color: 'sage', device: 'tablet', password: 'discarded' })), { name: 'Mango Maker', starter: 'auto', color: 'sage', device: 'tablet' });
   const invalid = D.readPreferences(JSON.stringify({ name: 'x'.repeat(90), starter: 'unknown', color: {}, device: 'giant' }));
   assert.equal(invalid.name.length, 60);
   assert.equal(invalid.starter, 'auto');
