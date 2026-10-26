@@ -1,0 +1,12 @@
+[Unit]
+Description=Renew Draftmango HTTPS certificate and reload Nginx when changed
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/draftmango-renew-certificate
+TimeoutStartSec=900
+Nice=10
+IOSchedulingClass=idle

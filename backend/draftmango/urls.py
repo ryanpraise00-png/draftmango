@@ -1,0 +1,32 @@
+from django.urls import path
+from draftmango.health import health
+from accounts import views, workspace_views, billing_views, publishing
+urlpatterns = [
+    path('healthz', health),
+    path('api/publishing/sites', publishing.sites),
+    path('internal/publishing/file', publishing.public_file),
+    path('api/billing/status', billing_views.status),
+    path('api/billing/checkout', billing_views.checkout),
+    path('api/billing/cancel-checkout', billing_views.cancel_checkout),
+    path('api/billing/refresh', billing_views.refresh),
+    path('api/billing/portal', billing_views.portal),
+    path('api/billing/invoices', billing_views.invoices),
+    path('api/billing/webhook', billing_views.webhook),
+    path('api/accounts/import-github', workspace_views.import_github),
+    path('api/accounts/profile', workspace_views.profile),
+    path('api/accounts/sessions', workspace_views.sessions),
+    path('api/accounts/password', workspace_views.change_password),
+    path('api/accounts/activity', workspace_views.activity),
+    path('api/accounts/export', workspace_views.export),
+    path('api/accounts/delete', workspace_views.delete_account),
+    path('api/accounts/config', views.session),
+    path('api/accounts/session', views.session),
+    path('api/accounts/signup', views.signup),
+    path('api/accounts/login', views.signin),
+    path('api/accounts/logout', views.signout),
+    path('api/accounts/reset', views.reset_request),
+    path('api/accounts/reset-confirm', views.reset_confirm),
+    path('api/accounts/verify', views.verify),
+    path('api/accounts/resend-verification', views.resend_verification),
+    path('api/projects', views.projects),
+]

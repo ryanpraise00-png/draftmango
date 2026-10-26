@@ -1,0 +1,9 @@
+FROM node:24-bookworm-slim
+ENV NODE_ENV=production
+WORKDIR /app
+COPY --chown=node:node *.mjs package.json ./
+COPY --chown=node:node dist ./dist
+COPY --chown=node:node tools/*.test.mjs ./tools/
+USER node
+EXPOSE 4175
+CMD ["node", "serve.mjs"]

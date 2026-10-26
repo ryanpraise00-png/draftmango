@@ -1,0 +1,134 @@
+name: draftmango
+x-common: &common
+  restart: unless-stopped
+  security_opt: ["no-new-privileges:true"]
+  logging:
+    driver: json-file
+    options: {max-size: "10m", max-file: "3"}
+services:
+  db:
+    <<: *common
+    image: postgres:17-bookworm
+    mem_limit: 512m
+    cpus: 0.5
+    pids_limit: 100
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: draftmango
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_admin_password
+    secrets: [db_admin_password, db_app_password]
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./init-db.sh:/docker-entrypoint-initdb.d/10-draftmango.sh:ro
+    networks: [data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d draftmango"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+  cache:
+    <<: *common
+    image: redis:7.4-alpine
+    command: ["redis-server", "--maxmemory", "64mb", "--maxmemory-policy", "noeviction", "--appendonly", "yes"]
+    mem_limit: 128m
+    cpus: 0.25
+    pids_limit: 50
+    volumes: ["redis:/data"]
+    networks: [data]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+  backend:
+    <<: *common
+    build: {context: .., dockerfile: deploy/Dockerfile.backend}
+    image: draftmango-backend:${DRAFTMANGO_RELEASE:-initial}
+    env_file: /opt/draftmango/shared/backend.env
+    mem_limit: 512m
+    cpus: 1
+    pids_limit: 100
+    read_only: true
+    cap_drop: [ALL]
+    tmpfs: ["/tmp:size=32m,mode=1777", "/app/data:size=16m,uid=10001,gid=10001,mode=700"]
+    networks: [app, data]
+    depends_on:
+      db: {condition: service_healthy}
+      cache: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; r=urllib.request.Request('http://127.0.0.1:4176/healthz',headers={'Host':'draftmango.com','X-Forwarded-Proto':'https'}); urllib.request.urlopen(r,timeout=5)"]
+      interval: 20s
+      timeout: 8s
+      retries: 5
+  web:
+    <<: *common
+    build: {context: .., dockerfile: deploy/Dockerfile.web}
+    image: draftmango-web:${DRAFTMANGO_RELEASE:-initial}
+    env_file: /opt/draftmango/shared/web.env
+    mem_limit: 512m
+    cpus: 1
+    pids_limit: 100
+    read_only: true
+    cap_drop: [ALL]
+    environment:
+      NODE_OPTIONS: --max-old-space-size=384
+      DRAFTMANGO_PUBLIC_ORIGIN: https://draftmango.com
+      DRAFTMANGO_BIND: 0.0.0.0
+      DJANGO_HOST: backend
+      DJANGO_PORT: "4176"
+    ports: ["127.0.0.1:4180:4175"]
+    networks:
+      app:
+      edge:
+        aliases: [draftmango-web]
+    depends_on:
+      backend: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://127.0.0.1:4175/healthz',{headers:{Host:'draftmango.com'}},r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
+      interval: 20s
+      timeout: 8s
+      retries: 5
+  publisher:
+    <<: *common
+    image: draftmango-web:${DRAFTMANGO_RELEASE:-initial}
+    command: ["node", "publisher.mjs"]
+    env_file: /opt/draftmango/shared/publishing.env
+    environment:
+      NODE_OPTIONS: --max-old-space-size=192
+      PUBLISHING_BIND: 0.0.0.0
+      PUBLISHING_APP_HOST: draftmango.com
+      DJANGO_HOST: backend
+      DJANGO_PORT: "4176"
+      DJANGO_PUBLISHING_PORT: "4177"
+      DJANGO_PUBLISHING_BASE_DOMAIN: draftmango.com
+    mem_limit: 256m
+    cpus: 0.5
+    pids_limit: 50
+    read_only: true
+    cap_drop: [ALL]
+    ports: ["127.0.0.1:4181:4177"]
+    networks:
+      app:
+      edge:
+        aliases: [draftmango-publisher]
+    depends_on:
+      backend: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://127.0.0.1:4177/healthz',{headers:{Host:'localhost'}},r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
+      interval: 20s
+      timeout: 8s
+      retries: 5
+networks:
+  app:
+  data:
+    internal: true
+  edge:
+    name: draftmango-edge
+volumes:
+  postgres:
+  redis:
+secrets:
+  db_admin_password:
+    file: /opt/draftmango/shared/db-admin-password
+  db_app_password:
+    file: /opt/draftmango/shared/db-app-password
