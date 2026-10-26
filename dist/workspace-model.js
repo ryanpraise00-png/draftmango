@@ -87,14 +87,14 @@
 
   const fileNames = ['index.html', 'styles.css', 'app.js'];
   function readFiles(value) {
-    if (!value || typeof value !== 'object' || !fileNames.every(name => typeof value[name] === 'string' && value[name].length <= 500000)) return null;
+    if (!value || typeof value !== 'object' || !(typeof value['src/App.jsx'] === 'string' ? ['src/App.jsx','src/main.jsx','src/styles.css'] : fileNames).every(name => typeof value[name] === 'string' && value[name].length <= 500000)) return null;
     const entries = Object.entries(value).filter(([name]) => /\.(html?|css|[cm]?js|jsx|tsx?|json|md|txt|csv|svg|xml)$/i.test(name));
     if (entries.length > 100 || entries.some(([name, content]) => !/^[a-zA-Z0-9_@() .\/-]+$/.test(name) || name.startsWith('/') || name.split('/').some(part => !part || part === '.' || part === '..' || part.startsWith('.')) || typeof content !== 'string' || content.length > 500000)) return null;
     return Object.fromEntries(entries);
   }
   function commitFiles(project, candidate, label = 'Updated website code', direction = project.designBrief) {
     const files = readFiles(candidate);
-    if (!files) throw new Error('Use HTML, CSS, and JavaScript files of up to 500,000 characters each.');
+    if (!files) throw new Error('Use valid React or HTML source files of up to 500,000 characters each.');
     const designBrief = readDesignBrief(direction);
     if (JSON.stringify(files) === JSON.stringify(project.files) && JSON.stringify(designBrief) === JSON.stringify(project.designBrief || null)) return { ...project, codeDraft: null };
     const history = project.history.slice(0, project.cursor + 1);

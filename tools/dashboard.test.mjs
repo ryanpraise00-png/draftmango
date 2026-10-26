@@ -7,11 +7,11 @@ const D = globalThis.DraftmangoDashboard;
 const M = globalThis.DraftmangoModel;
 
 test('account continuation goes to the dashboard unless there is an incoming idea', () => {
-  assert.equal(D.accountDestination(new URLSearchParams('mode=login')), './dashboard.html');
-  assert.equal(D.accountDestination(new URLSearchParams('idea=+++')), './dashboard.html');
+  assert.equal(D.accountDestination(new URLSearchParams('mode=login')), '/dashboard');
+  assert.equal(D.accountDestination(new URLSearchParams('idea=+++')), '/dashboard');
   const params = new URLSearchParams({ idea: 'A café called Mango & Co. ☀', template: 'cafe', color: 'sage', email: 'private@example.com', password: 'do-not-carry', next: 'https://example.com' });
   const target = D.accountDestination(params);
-  assert.ok(target.startsWith('./workspace.html#'));
+  assert.ok(target.startsWith('/workspace#'));
   const route = new URLSearchParams(target.split('#')[1]);
   assert.deepEqual([...route.keys()], ['idea', 'template', 'color']);
   assert.equal(route.get('idea'), 'A café called Mango & Co. ☀');

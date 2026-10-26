@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parents[2]
 if (BASE_DIR / '.env').exists():
     for line in (BASE_DIR / '.env').read_text(encoding='utf-8-sig').splitlines():
         name, separator, value = line.partition('=')
-        if separator and name.strip().startswith(('DJANGO_', 'EMAIL_', 'STRIPE_', 'BILLING_')):
+        if separator and name.strip().startswith(('DJANGO_', 'EMAIL_', 'STRIPE_', 'BILLING_', 'DRAFTMANGO_BUILD_')):
             os.environ.setdefault(name.strip(), value.strip().strip('\"\''))
 TESTING = 'test' in sys.argv
 PRODUCTION = os.environ.get('DJANGO_ENV') == 'production'
@@ -64,6 +64,8 @@ CSRF_COOKIE_SAMESITE = 'Lax'
 SESSION_COOKIE_SECURE = APP_ORIGIN.startswith('https://')
 CSRF_COOKIE_SECURE = SESSION_COOKIE_SECURE
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 14
+BUILD_URL = os.environ.get('DRAFTMANGO_BUILD_URL', 'http://127.0.0.1:4178/build')
+BUILD_TOKEN = os.environ.get('DRAFTMANGO_BUILD_TOKEN', '')
 PUBLISHING_ENABLED = os.environ.get('DJANGO_PUBLISHING_ENABLED', '0') == '1'
 PUBLISHING_TOKEN = os.environ.get('DJANGO_PUBLISHING_TOKEN', '')
 PUBLISHING_BASE_DOMAIN = os.environ.get('DJANGO_PUBLISHING_BASE_DOMAIN', 'draftmango.com' if PRODUCTION else 'localhost')

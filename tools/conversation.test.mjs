@@ -18,7 +18,7 @@ test('follow-ups create from untouched starters but preserve existing and manual
  assert.equal(Chat.requestMode({files:{...empty,'notes.md':'Keep this'}},empty),'edit');
 });
 test('native conversational roles preserve follow-ups without duplicating the current request',()=>{
- const input=validateInput({mode:'create',interaction:'conversation',prompt:'Use the second one',history:[{role:'user',text:'Suggest two directions'},{role:'assistant',text:'1. A catalog.\n2. A botanical journal.'},{role:'user',text:'Use the second one'}]});
+ const input=validateInput({mode:'create',framework:'html',interaction:'conversation',prompt:'Use the second one',history:[{role:'user',text:'Suggest two directions'},{role:'assistant',text:'1. A catalog.\n2. A botanical journal.'},{role:'user',text:'Use the second one'}]});
  const messages=conversationMessages(input,'openai',modelContent);
  assert.deepEqual(messages.map(m=>m.role),['user','user','assistant','user']);
  assert.equal(messages.at(-1).content,'Use the second one');assert.equal(messages.filter(m=>m.content==='Use the second one').length,1);
@@ -28,11 +28,11 @@ test('conversation context is bounded and excludes initial placeholders and the 
  const history=Array.from({length:50},(_,i)=>({role:i%2?'assistant':'user',text:'Message '+i}));
  history.push({role:'assistant',text:'Starter shown',initial:true},{role:'user',text:'Build it'});
  const selected=Chat.history(history,'Build it');assert.equal(selected.length,40);assert.equal(selected.at(-1).text,'Message 49');assert.equal(selected[0].text,'Message 10');
- assert.throws(()=>validateInput({mode:'create',prompt:'hello',history:Array.from({length:40},()=>({role:'user',text:'a'.repeat(12000)}))}),/too long/);
+ assert.throws(()=>validateInput({mode:'create',framework:'html',prompt:'hello',history:Array.from({length:40},()=>({role:'user',text:'a'.repeat(12000)}))}),/too long/);
 });
 test('a conversational answer does not emit a build plan or generate files',async()=>{
  const updates=[],requests=[];
- const result=await generate({mode:'create',interaction:'conversation',prompt:'Hello'},config,{onProgress:event=>updates.push(event),fetchImpl:async(_,options)=>{
+ const result=await generate({mode:'create',framework:'html',interaction:'conversation',prompt:'Hello'},config,{onProgress:event=>updates.push(event),fetchImpl:async(_,options)=>{
   requests.push(JSON.parse(options.body));return response({action:'reply',message:'Hi! What would you like to build?',designBrief:null});
  }});
  assert.equal(requests.length,1);assert.equal(result.action,'reply');assert.equal(result.files,null);assert.ok(!updates.some(e=>e.message));
@@ -41,7 +41,7 @@ test('a conversational answer does not emit a build plan or generate files',asyn
 test('the validated plan is delivered before implementation; partial files and reasoning stay private',async()=>{
  const events=[],requests=[];
  const plan={action:'plan',message:'I’ll build a botanical storefront with seasonal bouquets and delivery details.',designBrief:brief};
- const result=await generate({mode:'create',interaction:'conversation',prompt:'Build a flower shop'},config,{onProgress:e=>events.push(e),fetchImpl:async(_,options)=>{
+ const result=await generate({mode:'create',framework:'html',interaction:'conversation',prompt:'Build a flower shop'},config,{onProgress:e=>events.push(e),fetchImpl:async(_,options)=>{
   const body=JSON.parse(options.body);requests.push(body);
   if(requests.length===1)return response(plan);
   assert.ok(events.some(e=>e.phase==='building'&&e.message===plan.message));
@@ -51,7 +51,7 @@ test('the validated plan is delivered before implementation; partial files and r
  assert.ok(!JSON.stringify(events).includes('<html>'));assert.ok(!JSON.stringify(events).includes('fake-test-key'));
 });
 test('invalid plans never appear in the chat as an accepted build',async()=>{
- const events=[];await assert.rejects(generate({mode:'create',interaction:'conversation',prompt:'Build'},config,{onProgress:e=>events.push(e),fetchImpl:async()=>response({action:'plan',message:'Broken plan',designBrief:null})}));
+ const events=[];await assert.rejects(generate({mode:'create',framework:'html',interaction:'conversation',prompt:'Build'},config,{onProgress:e=>events.push(e),fetchImpl:async()=>response({action:'plan',message:'Broken plan',designBrief:null})}));
  assert.ok(!events.some(e=>e.message));
 });
 test('message activity survives loading through the model without the chat renderer',()=>{

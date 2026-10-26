@@ -9,7 +9,7 @@ const M = globalThis.DraftmangoModel;
 const C = globalThis.DraftmangoCode;
 
 test('workspace controls and icon symbols have unique IDs', async () => {
-  const html = await readFile(new URL('../dist/workspace.html', import.meta.url), 'utf8');
+  const html = await readFile(new URL('../out/workspace.html', import.meta.url), 'utf8');
   const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
   assert.equal(ids.length, new Set(ids).size, 'A duplicate ID can route an event handler to an SVG instead of its button');
   for (const match of html.matchAll(/href="#([^"]+)"/g)) assert.ok(ids.includes(match[1]), 'Missing ' + match[1]);

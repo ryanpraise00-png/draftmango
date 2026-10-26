@@ -13,7 +13,7 @@ const output = {action:'update',message:'Created the catalogue.',title:'Stamp So
 const response = value => Response.json({status:'completed',usage:{input_tokens:100,output_tokens:200},output:[{type:'message',role:'assistant',content:[{type:'output_text',text:JSON.stringify(value)}]}]});
 
 test('creation discards legacy starter files and passes a validated original direction to implementation', async () => {
-  const input = {mode:'create',prompt:'A playful socks shop',creationPreferences:['Use the user-selected blue palette.'],files:{...files,'styles.css':'OLD_STARTER_ANCHOR'},history:[],designBrief:{bad:'old direction'}};
+  const input = {mode:'create',framework:'html',prompt:'A playful socks shop',creationPreferences:['Use the user-selected blue palette.'],files:{...files,'styles.css':'OLD_STARTER_ANCHOR'},history:[],designBrief:{bad:'old direction'}};
   const before = structuredClone(input), requests = [], progress = [];
   const result = await generate(input,config,{onProgress:event=>progress.push(event.phase),fetchImpl:async (_url,options)=>{
     const body=JSON.parse(options.body);requests.push(body);
@@ -57,40 +57,40 @@ test('editing reuses the current files and direction in a single call and may up
 
 test('legacy projects can be edited without a brief, but malformed briefs and files are rejected',async()=>{
   assert.equal(validateInput({mode:'edit',prompt:'Change text',files}).designBrief,null);
-  assert.equal(validateInput({mode:'create',prompt:'New site'}).files,undefined);
+  assert.equal(validateInput({mode:'create',framework:'html',prompt:'New site'}).files,undefined);
   for(const invalid of [{version:9},{...brief,concept:''},{...brief,sections:['x'.repeat(1001)]}]){
     assert.throws(()=>validateInput({mode:'edit',prompt:'Edit',files,designBrief:invalid}),error=>error.code==='invalid_brief');
   }
   assert.throws(()=>validateInput({mode:'edit',prompt:'Edit'}),error=>error.code==='invalid_request');
   for(const creationPreferences of ['not an array',[42],['x'.repeat(601)],Array(9).fill('x')]){
-    assert.throws(()=>validateInput({mode:'create',prompt:'New site',creationPreferences}),error=>error.code==='invalid_request');
+    assert.throws(()=>validateInput({mode:'create',framework:'html',prompt:'New site',creationPreferences}),error=>error.code==='invalid_request');
   }
 });
 
 test('invalid planning responses never start implementation',async()=>{
   for(const invalid of [{...plan,designBrief:null},{...plan,designBrief:{...brief,concept:''}},{...plan,action:'unexpected'}]){
     let calls=0;
-    await assert.rejects(generate({mode:'create',prompt:'New site'},config,{fetchImpl:async()=>{calls++;return response(invalid);}}),error=>error.code==='invalid_brief');
+    await assert.rejects(generate({mode:'create',framework:'html',prompt:'New site'},config,{fetchImpl:async()=>{calls++;return response(invalid);}}),error=>error.code==='invalid_brief');
     assert.equal(calls,1);
   }
 });
 
 test('a direct answer from the director has no files and does not trigger implementation',async()=>{
   let calls=0;
-  const result=await generate({mode:'create',prompt:'Can you connect a backend?'},config,{fetchImpl:async()=>{calls++;return response({action:'reply',message:'This workspace currently supports frontend demos.',designBrief:null});}});
+  const result=await generate({mode:'create',framework:'html',prompt:'Can you connect a backend?'},config,{fetchImpl:async()=>{calls++;return response({action:'reply',message:'This workspace currently supports frontend demos.',designBrief:null});}});
   assert.equal(calls,1);assert.equal(result.files,null);assert.equal(result.designBrief,null);assert.equal(result.action,'reply');
 });
 
 test('failed implementation never returns a planned brief as a completed draft',async()=>{
   let calls=0;
-  const input={mode:'create',prompt:'New site',files};
+  const input={mode:'create',framework:'html',prompt:'New site',files};
   await assert.rejects(generate(input,config,{fetchImpl:async()=>++calls===1?response(plan):response({...output,files:{...files,'index.html':'<html>partial'}})}),error=>error.code==='invalid_output');
   assert.equal(calls,2);assert.deepEqual(input.files,files);
 });
 
 test('cancellation between stages stops before the second provider request',async()=>{
   let calls=0;const controller=new AbortController();
-  await assert.rejects(generate({mode:'create',prompt:'New site'},config,{signal:controller.signal,fetchImpl:async()=>{
+  await assert.rejects(generate({mode:'create',framework:'html',prompt:'New site'},config,{signal:controller.signal,fetchImpl:async()=>{
     calls++;controller.abort();return response(plan);
   }}),error=>error.name==='AbortError');
   assert.equal(calls,1);
@@ -98,7 +98,7 @@ test('cancellation between stages stops before the second provider request',asyn
 
 test('Anthropic creation uses the same two-stage contract and carries the brief',async()=>{
   const bodies=[];
-  const result=await generate({mode:'create',prompt:'New site'},{...config,provider:'anthropic',model:'claude-sonnet-5-5'}, {fetchImpl:async (_url,options)=>{
+  const result=await generate({mode:'create',framework:'html',prompt:'New site'},{...config,provider:'anthropic',model:'claude-sonnet-5-5'}, {fetchImpl:async (_url,options)=>{
     const body=JSON.parse(options.body);bodies.push(body);
     const value=bodies.length===1?plan:output;
     return Response.json({stop_reason:'end_turn',content:[{type:'text',text:JSON.stringify(value)}]});

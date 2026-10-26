@@ -10,7 +10,7 @@
     const id = Object.hasOwn(plans, planId) ? planId : 'free';
     const period = cadence === 'yearly' ? 'yearly' : 'monthly';
     const plan = plans[id];
-    return Object.freeze({ ...plan, id, cadence: period, amount: period === 'yearly' ? plan.yearly : plan.monthly, monthlyEquivalent: period === 'yearly' ? plan.yearly / 12 : plan.monthly, annualSavings: plan.monthly * 12 - plan.yearly, signup: './auth.html#' + new URLSearchParams({ mode: 'signup', plan: id, billing: period }).toString() });
+    return Object.freeze({ ...plan, id, cadence: period, amount: period === 'yearly' ? plan.yearly : plan.monthly, monthlyEquivalent: period === 'yearly' ? plan.yearly / 12 : plan.monthly, annualSavings: plan.monthly * 12 - plan.yearly, signup: '/auth#' + new URLSearchParams({ mode: 'signup', plan: id, billing: period }).toString() });
   }
   globalThis.DraftmangoPricing = Object.freeze({ quote });
 })();

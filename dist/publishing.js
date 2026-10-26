@@ -54,19 +54,19 @@
     function paint(){
       if(!d.isConnected)return;
       const site=state.site,url=site?publicLink(site):'',live=site?.published;
-      const privateURL=new URL('./workspace.html',location.href);privateURL.hash=new URLSearchParams({project:projectId});
+      const privateURL=new URL('/workspace',location.href);privateURL.hash=new URLSearchParams({project:projectId});
       body.innerHTML=`<p>Publish a saved version of your website. Edits stay private until you publish again.</p>
         ${!state.enabled?'<p class="publishing-notice" role="status">Public publishing is being prepared. You can keep building and exporting your website.</p>':''}
         <section class="publishing-address"><div class="publishing-heading"><h3>Website address</h3><span class="ws-badge">${live?'Published':site?'Unpublished':'Not published'}</span></div>
         ${site?`<p class="publishing-url">${live?`<a href="${e(url)}" target="_blank" rel="noopener noreferrer">${e(url)} ${icon('external')}</a>`:e(url)}</p>`:`<label for="site-slug">Choose your address</label><div class="publishing-slug"><input id="site-slug" autocomplete="off" spellcheck="false" maxlength="48" pattern="[a-z][a-z0-9-]{1,46}[a-z0-9]" placeholder="your-website" aria-describedby="site-address-help"><span>.${e(state.baseDomain)}</span></div><p id="site-address-help" class="muted">3–48 lowercase letters, numbers or hyphens. Your address is permanent once published.</p>`}
         <p class="muted">Your plan allows ${e(String(state.limits.sites))} published website${state.limits.sites===1?'':'s'}.</p></section>
-        <p>HTML, CSS and JavaScript websites are supported. Server code and projects requiring a build step cannot be published here yet.</p>
+        <p>React websites are compiled before publishing. Existing HTML websites are also supported. Server-side application code is not supported yet.</p>
         <label class="publishing-consent"><input type="checkbox" id="publish-consent"><span>I’m ready to make these website files public. I have removed any passwords or private keys.</span></label>
-        <p class="muted">Source files are public. Draftmango conversations, project notes and account details are excluded.</p>
+        <p class="muted">Your website’s compiled browser code is public. Draftmango conversations, project notes and account details are excluded.</p>
         <div class="ws-action-row"><button type="button" class="button primary" id="publish-now">${live?'Publish changes':'Publish website'}</button>${live?'<button type="button" class="button" id="unpublish-site">Unpublish</button>':''}</div>
         <p id="publish-status" role="status" aria-live="polite"></p>
         ${site?.releases.length?`<section class="publishing-history"><h3>Release history</h3><p class="muted">Up to ${e(String(state.maxReleases))} saved releases. Restoring a release only changes the public website.</p><ol>${site.releases.map(r=>`<li><div><strong>Release ${e(String(r.number))}${r.id===site.activeRelease?' · Live':''}</strong><small>${e(new Date(r.createdAt).toLocaleString())} · ${Math.ceil(r.bytes/1024)} KB</small></div>${r.id!==site.activeRelease?`<button type="button" class="button" data-restore="${e(r.id)}">Restore</button>`:''}</li>`).join('')}</ol></section>`:''}
-        <details class="publishing-options"><summary>Private link and custom domains</summary><p>Only your account can open this workspace link.</p><button type="button" class="button" id="copy-editor-link">${icon('copy')}Copy private workspace link</button><p>Custom-domain publishing is the next stage. <a href="./dashboard.html#domains">Manage domains</a></p></details>`;
+        <details class="publishing-options"><summary>Private link and custom domains</summary><p>Only your account can open this workspace link.</p><button type="button" class="button" id="copy-editor-link">${icon('copy')}Copy private workspace link</button><p>Custom-domain publishing is the next stage. <a href="/dashboard#domains">Manage domains</a></p></details>`;
       d.querySelector('#publish-now').onclick=()=>change('publish');
       d.querySelector('#unpublish-site')?.addEventListener('click',()=>confirm('unpublish'));
       d.querySelectorAll('[data-restore]').forEach(b=>b.onclick=()=>confirm('rollback',site.releases.find(r=>r.id===b.dataset.restore)));

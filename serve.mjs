@@ -1,6 +1,7 @@
 import { publicOrigin as validateOrigin, requestBoundary } from './hosting.mjs';
-import { djangoSession, proxyDjango } from './django.mjs';
+import { djangoSession, proxyDjango, sharedLimit } from './django.mjs';
 import http from 'node:http';
+import {buildRemote,BuildError} from './compiler.mjs';
 import { readFile, realpath } from 'node:fs/promises';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import path from 'node:path';
@@ -23,8 +24,11 @@ async function readJSON(request, max = 2 * 1024 * 1024) {
   }
   try { return JSON.parse(Buffer.concat(chunks).toString('utf8')); } catch { throw new AIError(400, 'invalid_json', 'The request was not valid JSON.'); }
 }
-export function createServer({ root = fileURLToPath(new URL('./dist/', import.meta.url)), configLoader = readConfig, fetchImpl = fetch, timeoutMs, heartbeatMs = 5000, cooldownMs = 1500, maxRequests = 20, domainConfigLoader = readDomainConfig, domainFetchImpl = fetch, domainTimeoutMs = 25000, domainMaxRequests = 30, accountSession = djangoSession, accountProxy = proxyDjango, publicOrigin = process.env.DRAFTMANGO_PUBLIC_ORIGIN || '', trustedProxyIPs = (process.env.DRAFTMANGO_TRUSTED_PROXY_IPS || '').split(',').filter(Boolean) } = {}) {
+export function createServer({ root = fileURLToPath(new URL('./out/', import.meta.url)), configLoader = readConfig, fetchImpl = fetch, timeoutMs, heartbeatMs = 5000, cooldownMs = 1500, maxRequests = 20, domainConfigLoader = readDomainConfig, domainFetchImpl = fetch, domainTimeoutMs = 25000, domainMaxRequests = 30, accountSession = djangoSession, accountProxy = proxyDjango, publicOrigin = process.env.DRAFTMANGO_PUBLIC_ORIGIN || '', buildProject = buildRemote, limiter, trustedProxyIPs = (process.env.DRAFTMANGO_TRUSTED_PROXY_IPS || '').split(',').filter(Boolean) } = {}) {
   publicOrigin = validateOrigin(publicOrigin);
+  // One process locally: in-memory limits. Production may run several web
+  // containers, so limits are held in Django's shared Redis cache instead.
+  if (limiter === undefined) limiter = publicOrigin ? sharedLimit : null;
   const traffic = new Map(); let activeGenerations = 0;
   const trafficFor = identity => {
     const now = Date.now();
@@ -45,6 +49,24 @@ export function createServer({ root = fileURLToPath(new URL('./dist/', import.me
         if ((origin && origin !== expectedOrigin) || request.headers['sec-fetch-site'] === 'cross-site') throw new AIError(403, 'origin', 'Only the Draftmango workspace can use this API.');
         if (url.pathname.startsWith('/api/accounts/') || url.pathname === '/api/projects' || url.pathname.startsWith('/api/billing/') || url.pathname.startsWith('/api/publishing/')) {
           await accountProxy(request, response); return;
+        }
+        if (url.pathname === '/api/build') {
+          if(request.method!=='POST')throw new AIError(405,'method','Use POST for builds.');
+          if(origin!==expectedOrigin || !/^application\/json(?:;|$)/i.test(request.headers['content-type']||''))throw new AIError(403,'origin','Build from the Draftmango workspace.');
+          const identity=await accountSession(request);
+          if(limiter){
+            await limiter(request,{action:'acquire',kind:'build',hold:60});
+            try {const input=await readJSON(request,6*1024*1024);json(response,200,await buildProject(input.files));}
+            finally {limiter(request,{action:'release',kind:'build'}).catch(()=>{});}
+            return;
+          }
+          const traffic=trafficFor(identity),now=Date.now();
+          traffic.builds=(traffic.builds||[]).filter(at=>now-at<60000);
+          if(traffic.buildBusy || traffic.builds.length>=30)throw new AIError(429,'build_busy','Wait a moment before rebuilding.');
+          traffic.builds.push(now);traffic.buildBusy=true;
+          try {const input=await readJSON(request,6*1024*1024);json(response,200,await buildProject(input.files));}
+          finally {traffic.buildBusy=false;}
+          return;
         }
         if (url.pathname === '/api/domains/search') {
           if (request.method !== 'POST') throw new DomainError(405, 'method', 'Use POST for domain search.');
@@ -81,11 +103,15 @@ export function createServer({ root = fileURLToPath(new URL('./dist/', import.me
         const input = validateInput(await readJSON(request, 6 * 1024 * 1024));
         const config = await configLoader();
         if (!config.key) throw new AIError(503, 'missing_key', 'Add ' + publicConfig(config).keyVariable + ' to the local .env file, save it, then try again.');
-        const now = Date.now(); accountTraffic.recent = accountTraffic.recent.filter(at => now - at < 600000);
-        if (accountTraffic.busy || activeGenerations >= 2 || now - accountTraffic.lastStarted < cooldownMs || accountTraffic.recent.length >= maxRequests) throw new AIError(429, 'busy', accountTraffic.busy ? 'Another draft is being generated. Wait for it to finish or cancel it first.' : 'Please wait a little before generating again.');
-        accountTraffic.busy = true; accountTraffic.lastStarted = now; accountTraffic.recent.push(now); activeGenerations++;
-        const controller = new AbortController(); let timedOut = false;
+        const now = Date.now();
         const deadlineMs = timeoutMs ?? (config.timeoutSeconds ?? 900) * 1000;
+        if (limiter) await limiter(request, { action: 'acquire', kind: 'generate', hold: Math.ceil(deadlineMs / 1000) });
+        else {
+          accountTraffic.recent = accountTraffic.recent.filter(at => now - at < 600000);
+          if (accountTraffic.busy || activeGenerations >= 2 || now - accountTraffic.lastStarted < cooldownMs || accountTraffic.recent.length >= maxRequests) throw new AIError(429, 'busy', accountTraffic.busy ? 'Another draft is being generated. Wait for it to finish or cancel it first.' : 'Please wait a little before generating again.');
+          accountTraffic.busy = true; accountTraffic.lastStarted = now; accountTraffic.recent.push(now); activeGenerations++;
+        }
+        const controller = new AbortController(); let timedOut = false;
         const timer = setTimeout(() => { timedOut = true; controller.abort(); }, deadlineMs);
         const disconnect = () => { if (!response.writableEnded) controller.abort(); };
         response.on('close', disconnect);
@@ -107,17 +133,21 @@ export function createServer({ root = fileURLToPath(new URL('./dist/', import.me
             signal:controller.signal, fetchImpl,
             onProgress:update => { phase = update.phase; if (streaming) { if (typeof update.message === 'string') send({type:'progress',phase,message:update.message.slice(0,3000),elapsedSeconds:Math.floor((Date.now()-now)/1000)}); else progress(); } }
           });
+          if(result.action==='update' && globalThis.DraftmangoProject.isReact(result.files)) {phase='checking';if(streaming)progress();await buildProject(result.files);}
           if (controller.signal.aborted) throw new Error('Aborted');
           if (streaming) { send({type:'result', result}); response.end(); }
           else json(response, 200, result);
         } catch (error) {
+          if(error instanceof BuildError)error=new AIError(error.status,error.code,error.message+' Your draft is unchanged.');
           if (timedOut) error = new AIError(504, 'timeout', 'The AI did not finish within the generation time limit. Your draft is unchanged. You can try again.');
           if (timedOut || !controller.signal.aborted) {
             if (!streaming) throw error;
             send({type:'error', error:{code:error instanceof AIError ? error.code : 'server_error', message:error instanceof AIError ? error.message : 'The server could not complete this request. Your draft is unchanged.'}});
             response.end();
           }
-        } finally { clearTimeout(timer); clearInterval(heartbeat); response.off('close', disconnect); accountTraffic.busy = false; activeGenerations--; }
+        } finally { clearTimeout(timer); clearInterval(heartbeat); response.off('close', disconnect);
+          if (limiter) limiter(request, { action: 'release', kind: 'generate' }).catch(() => {});
+          else { accountTraffic.busy = false; activeGenerations--; } }
         return;
       }
       if (!['GET', 'HEAD'].includes(request.method)) { response.writeHead(405, { Allow: 'GET, HEAD' }); response.end('Method not allowed'); return; }
@@ -126,7 +156,10 @@ export function createServer({ root = fileURLToPath(new URL('./dist/', import.me
       if (['/pricings/', '/pricing', '/pricing/'].includes(pathname)) {
         response.writeHead(308, { Location: '/pricings' + url.search, 'Cache-Control': 'no-store' }); response.end(); return;
       }
-      const publicPath = pathname === '/pricings' ? '/pricings.html' : pathname === '/' ? '/index.html' : pathname;
+      const pages=['auth','dashboard','workspace','about','help','legal','pricings'];
+      const legacy=pathname.match(/^\/(index|auth|dashboard|workspace|about|help|legal|pricings)\.html$/);
+      if(legacy) {response.writeHead(308,{Location:(legacy[1]==='index'?'/':'/'+legacy[1])+url.search,'Cache-Control':'no-store'});response.end();return;}
+      const publicPath = pathname==='/' ? '/index.html' : pages.includes(pathname.slice(1)) ? pathname+'.html' : pathname;
       const resolvedRoot = await realpath(root);
       let file;
       try { file = await realpath(path.resolve(root, '.' + publicPath)); } catch { throw new AIError(404, 'not_found', 'Not found'); }
@@ -136,6 +169,7 @@ export function createServer({ root = fileURLToPath(new URL('./dist/', import.me
       response.writeHead(200, { 'Content-Type': types[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin' });
       response.end(request.method === 'HEAD' ? undefined : data);
     } catch (error) {
+      if(error instanceof BuildError)error=new AIError(error.status,error.code,error.message);
       json(response, error instanceof AIError ? error.status : error instanceof URIError ? 400 : 500,
         { error: { code: error instanceof AIError ? error.code : 'server_error', message: error instanceof AIError ? error.message : 'The server could not complete this request.' } });
     }

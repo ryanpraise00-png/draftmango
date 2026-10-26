@@ -140,7 +140,7 @@
     saveIdea();
     const start = new URLSearchParams({ idea, template });
     if (color) start.set('color', color);
-    location.href = './auth.html#' + start.toString();
+    location.href = '/auth#' + start.toString();
   }
 
   try {

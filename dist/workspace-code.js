@@ -49,6 +49,7 @@
   }
   function checkFiles(files) {
     const results = [];
+    if (globalThis.DraftmangoProject?.isReact(files)) return globalThis.DraftmangoProject.required.map(file=>({ok:!!files[file]?.trim(),label:file+' is present (Run preview checks compilation)',file}));
     const html = files['index.html'];
     const add = (ok, label, file) => results.push({ ok, label, file });
     add(/<!doctype\s+html/i.test(html), 'HTML document type', 'index.html');

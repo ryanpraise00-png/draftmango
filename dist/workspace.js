@@ -6,6 +6,8 @@
   const M = globalThis.DraftmangoModel;
   const D = globalThis.DraftmangoDashboard;
   const C = globalThis.DraftmangoCode;
+  const P = globalThis.DraftmangoProject;
+  let buildController, buildPromise, buildSequence=0, compiledSignature='';
   const Chat = globalThis.DraftmangoConversation;
   const $ = (selector) => document.querySelector(selector);
   const $$ = (selector) => [...document.querySelectorAll(selector)];
@@ -41,12 +43,13 @@
   const requestedProject = A.remapped[starting.get('project')] || starting.get('project');
   if (!initialIdea && requestedProject) {
     const selected = D.selectProject(library, requestedProject);
-    if (selected?.workspace?.deleted) { location.replace('./dashboard.html#projects'); return; }
-    if (!selected) { location.replace('./dashboard.html#projects'); return; }
+    if (selected?.workspace?.deleted) { location.replace('/dashboard#projects'); return; }
+    if (!selected) { location.replace('/dashboard#projects'); return; }
     library.activeId = selected.id;
   }
   if (initialIdea) {
     const next = M.createProject(initialIdea, starting.get('template') || M.inferTemplate(initialIdea));
+    next.files=P.scaffold({},next.title);next.history[0].files=structuredClone(next.files);
     next.creationPreferences = [];
     if (Object.hasOwn(M.templates, starting.get('template'))) next.creationPreferences.push('Selected website type: ' + starting.get('template') + '. Follow the written brief for the actual creative direction.');
     next.ai = { state: 'pending' };
@@ -64,6 +67,7 @@
   }
   if (!library) {
     const first = M.createProject(defaultPrompt, 'cafe');
+    first.files=P.scaffold({},first.title);first.history[0].files=structuredClone(first.files);
     library = { schema: 1, activeId: first.id, projects: [first] };
   }
   let project = library.projects.find(p => p.id === library.activeId) || library.projects[0];
@@ -235,17 +239,42 @@
   }
   function renderPreview(force = false) {
     const signature = project.id + JSON.stringify(project.files || project.design);
-    if (signature !== previewSignature || force) {
-      previewSignature = signature;
-      previewHtml = C.buildDocument(project.files || C.createFiles(project.design), globalThis.DraftmangoImages);
-      previewToken = crypto.randomUUID();
-      consoleLines = [];
-      renderConsole();
-      $('#preview-status').innerHTML = '<i></i>Loading preview';
-      $('#website-frame').srcdoc = previewDocument(previewHtml, previewToken);
-      $('#website-frame').title = `${project.title} website preview`;
-    }
     scheduleCanvasSize();
+    if (signature===previewSignature && buildPromise) return buildPromise;
+    if (signature===compiledSignature && !force) return Promise.resolve(true);
+    buildController?.abort();
+    const sequence=++buildSequence;
+    previewSignature=signature;
+    const files=structuredClone(project.files || C.createFiles(project.design));
+    const title=project.title;
+    buildController=new AbortController();
+    const signal=buildController.signal;
+    $('#preview-status').textContent=P.isReact(files)?'Building React…':'Loading preview';
+    buildPromise=(async()=>{
+      await Promise.resolve();
+      try {
+        let html;
+        if(P.isReact(files)) {
+          const response=await fetch('/api/build',{method:'POST',headers:{'Content-Type':'application/json',...await A.headers()},body:JSON.stringify({files}),signal});
+          const result=await response.json();
+          if(!response.ok)throw new Error(result.error?.message || 'The React build failed.');
+          html=result.html;
+        } else html=C.buildDocument(files,globalThis.DraftmangoImages);
+        if(sequence!==buildSequence || signal.aborted)return false;
+        previewHtml=html;compiledSignature=signature;
+        previewToken=crypto.randomUUID();consoleLines=[];renderConsole();
+        $('#website-frame').srcdoc=previewDocument(html,previewToken);
+        $('#website-frame').title=`${title} website preview`;
+        return true;
+      } catch(error) {
+        if(sequence!==buildSequence || signal.aborted)return false;
+        $('#preview-status').textContent='Build failed · last successful preview kept';
+        consoleLines=[{level:'error',text:error.message}];renderConsole();
+        if(diagnostic!=='console')setDiagnostic('console');
+        return false;
+      } finally {if(sequence===buildSequence)buildPromise=null;}
+    })();
+    return buildPromise;
   }
   function previewDocument(html, token) {
     const policy = `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data: https:; style-src 'unsafe-inline' data: https:; font-src data: https:; script-src 'unsafe-inline' data:; connect-src 'none'; object-src 'none'; frame-src 'none'; form-action 'none'; base-uri 'none'">`;
@@ -274,14 +303,13 @@
     consoleLines = consoleLines.slice(-100);
     renderConsole();
   });
-  $('#website-frame').addEventListener('load', () => { $('#preview-status').innerHTML = '<i></i>Preview ready'; });
 
   function syncSource() {
     const candidate = project.codeDraft || project.files || C.createFiles(project.design);
     if (!Object.hasOwn(candidate, selectedFile)) selectedFile = 'index.html';
     openFiles = openFiles.filter(name => Object.hasOwn(candidate, name)); if (!openFiles.includes(selectedFile)) openFiles.push(selectedFile);
     const changed = sourceProject !== project.id || JSON.stringify(candidate) !== JSON.stringify(workingFiles);
-    if (sourceProject !== project.id) { selectedFile = 'index.html'; $('#file-search').value = ''; }
+    if (sourceProject !== project.id) { selectedFile = P.isReact(candidate) ? 'src/App.jsx' : 'index.html'; if(!openFiles.includes(selectedFile))openFiles.push(selectedFile); $('#file-search').value = ''; }
     sourceProject = project.id;
     workingFiles = structuredClone(candidate);
     if (changed) renderCode(); else renderFileButtons();
@@ -336,7 +364,7 @@
     input.setAttribute('aria-label', `Edit ${selectedFile}`);
     input.scrollTop = 0; input.scrollLeft = 0;
     $('#source-path').textContent = selectedFile;
-    $('#editor-mode').textContent = selectedFile.endsWith('.html') ? 'HTML' : selectedFile.endsWith('.css') ? 'CSS' : 'JavaScript';
+    $('#editor-mode').textContent = selectedFile.endsWith('.jsx') ? 'React JSX' : selectedFile.endsWith('.tsx') ? 'React TSX' : selectedFile.endsWith('.html') ? 'HTML' : selectedFile.endsWith('.css') ? 'CSS' : 'JavaScript';
     renderFileButtons(); paintSource();
   }
   function syncCodeScroll() {
@@ -409,12 +437,13 @@
       project = M.commitFiles(project, project.codeDraft);
       save(); render();
     }
-    if (run) { renderPreview(true); renderChecks(); W.recordActivity('build', project.id); announce('Your preview is up to date.'); }
+    if (run) { renderPreview(true).then(ok=>{if(ok){W.recordActivity('build',project.id);announce('Your preview is up to date.');}}); renderChecks(); }
   }
   $('#run-preview').addEventListener('click', () => applyCode());
   $('#run-pending').addEventListener('click', () => applyCode());
   $('#reset-code').addEventListener('click', () => {
     clearTimeout(codeSaveTimer);
+    if(P.isReact(project.files)){announce('Edit React components in Code or describe the change in chat.');return;}
     project = M.resetCode(project);
     save(); render();
     announce('Back to visual design. Your code is kept in History.');
@@ -478,6 +507,7 @@
     };
   }
   function commitDesign(design, label, notify = true) {
+    if(P.isReact(project.files)){announce('Edit the React styles in Code or describe your design change in chat.');renderDesign();return;}
     const previous = project;
     project = M.commit(project, design, label);
     save();
@@ -636,7 +666,7 @@
       mode, interaction:'conversation', prompt: text,
       references: project.workspace?.attachments || [],
       projectContext: [project.prompt ? 'Original brief: '+project.prompt : '', parentContext?.workspace?.brief, parentContext?.workspace?.instructions, project.workspace?.notes].filter(Boolean).join('\n\n').slice(0,12000),
-      ...(mode === 'edit' ? { files: Object.fromEntries(C.names.map(name => [name, (project.files || C.createFiles(project.design))[name]])), designBrief: project.designBrief || null } : { creationPreferences: project.creationPreferences || [] }),
+      ...(mode === 'edit' ? { files: structuredClone(project.files || C.createFiles(project.design)), designBrief: project.designBrief || null } : { creationPreferences: project.creationPreferences || [] }),
       history: Chat.history(project.messages,text)
     };
     save(); render(); renderAI();
@@ -805,8 +835,11 @@
   $('#refresh-preview').addEventListener('click', () => { renderPreview(true); announce('Preview refreshed.'); });
   new ResizeObserver(scheduleCanvasSize).observe($('#canvas-stage'));
 
-  function documentLink(download = false) {
+  async function documentLink(download = false) {
+    const tab=download?null:window.open('about:blank','_blank');
+    if(tab)tab.opener=null;
     applyCode(false);
+    if(!await renderPreview()){tab?.close();announce('Fix the build errors before exporting this version.');return;}
     // Keep a separate-tab preview sandboxed too; exported files remain standalone.
     const content = download ? previewHtml : `<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>${M.escapeHtml(project.title)} — Preview</title><style>html,body,iframe{margin:0;width:100%;height:100%;border:0;display:block}</style></head><body><iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="Website preview" srcdoc="${M.escapeHtml(previewDocument(previewHtml, 'standalone'))}"></iframe></body></html>`;
     const url = URL.createObjectURL(new Blob([content], { type: 'text/html;charset=utf-8' }));
@@ -815,7 +848,7 @@
     if (download) link.download = 'draftmango-' + (project.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'my-website') + '.html';
     else { link.target = '_blank'; link.rel = 'noopener noreferrer'; }
     document.body.append(link);
-    link.click();
+    if(!download && tab)tab.location.href=url;else link.click();
     link.remove();
     setTimeout(() => URL.revokeObjectURL(url), 60000);
   }
@@ -887,7 +920,7 @@
     updateMeta(patch){project.workspace={...project.workspace,...patch};save();window.dispatchEvent(new Event('draftmango:editor-render'));},
     syncMeta(){const latest=W.get(project.id);if(latest){project={...project,title:latest.title,workspace:latest.workspace};render();}},
     clearConsole(){consoleLines=[];renderConsole();},
-    stopPreview(){ $('#website-frame').srcdoc='';previewSignature='';$('#preview-status').textContent='Preview stopped';},
+    stopPreview(){ buildSequence++;buildController?.abort();buildPromise=null;compiledSignature='';previewToken='';$('#website-frame').srcdoc='';previewSignature='';$('#preview-status').textContent='Preview stopped';},
     exportHTML(){documentLink(true);}, openPreview(){documentLink();}, runRequest:requestChange,
     diagnostic: setDiagnostic, consoleLines:()=>consoleLines
   };

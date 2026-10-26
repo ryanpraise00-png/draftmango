@@ -18,10 +18,10 @@ test('monthly and yearly quotes keep annual totals and monthly credit allowances
 
 test('signup links preserve validated plan and billing choices without arbitrary redirects', () => {
   const selection = P.quote('pro', 'yearly');
-  assert.equal(selection.signup, './auth.html#mode=signup&plan=pro&billing=yearly');
+  assert.equal(selection.signup, '/auth#mode=signup&plan=pro&billing=yearly');
   const unknown = P.quote('https://untrusted.example', '<script>');
   assert.equal(unknown.id, 'free'); assert.equal(unknown.cadence, 'monthly');
-  assert.equal(unknown.signup, './auth.html#mode=signup&plan=free&billing=monthly');
+  assert.equal(unknown.signup, '/auth#mode=signup&plan=free&billing=monthly');
   assert.equal(P.quote('__proto__', 'yearly').id, 'free');
 });
 

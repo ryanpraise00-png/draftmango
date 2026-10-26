@@ -44,14 +44,14 @@ services:
     <<: *common
     build: {context: .., dockerfile: deploy/Dockerfile.backend}
     image: draftmango-backend:${DRAFTMANGO_RELEASE:-initial}
-    env_file: /opt/draftmango/shared/backend.env
+    env_file: [/opt/draftmango/shared/backend.env, /opt/draftmango/shared/build.env]
     mem_limit: 512m
     cpus: 1
     pids_limit: 100
     read_only: true
     cap_drop: [ALL]
     tmpfs: ["/tmp:size=32m,mode=1777", "/app/data:size=16m,uid=10001,gid=10001,mode=700"]
-    networks: [app, data]
+    networks: [app, data, build]
     depends_on:
       db: {condition: service_healthy}
       cache: {condition: service_healthy}
@@ -64,7 +64,7 @@ services:
     <<: *common
     build: {context: .., dockerfile: deploy/Dockerfile.web}
     image: draftmango-web:${DRAFTMANGO_RELEASE:-initial}
-    env_file: /opt/draftmango/shared/web.env
+    env_file: [/opt/draftmango/shared/web.env, /opt/draftmango/shared/build.env]
     mem_limit: 512m
     cpus: 1
     pids_limit: 100
@@ -79,6 +79,7 @@ services:
     ports: ["127.0.0.1:4180:4175"]
     networks:
       app:
+      build:
       edge:
         aliases: [draftmango-web]
     depends_on:
@@ -118,8 +119,30 @@ services:
       interval: 20s
       timeout: 8s
       retries: 5
+  builder:
+    <<: *common
+    image: draftmango-web:${DRAFTMANGO_RELEASE:-initial}
+    command: ["node", "build-service.mjs"]
+    env_file: /opt/draftmango/shared/build.env
+    environment:
+      BUILD_BIND: 0.0.0.0
+      BUILD_PORT: "4178"
+      NODE_OPTIONS: --max-old-space-size=192
+    mem_limit: 512m
+    cpus: 1
+    pids_limit: 100
+    read_only: true
+    cap_drop: [ALL]
+    networks: [build]
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://127.0.0.1:4178/healthz',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
+      interval: 20s
+      timeout: 8s
+      retries: 5
 networks:
   app:
+  build:
+    internal: true
   data:
     internal: true
   edge:

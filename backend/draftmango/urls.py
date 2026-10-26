@@ -1,10 +1,11 @@
 from django.urls import path
 from draftmango.health import health
-from accounts import views, workspace_views, billing_views, publishing
+from accounts import views, workspace_views, billing_views, publishing, limits
 urlpatterns = [
     path('healthz', health),
     path('api/publishing/sites', publishing.sites),
     path('internal/publishing/file', publishing.public_file),
+    path('internal/limits', limits.limits),
     path('api/billing/status', billing_views.status),
     path('api/billing/checkout', billing_views.checkout),
     path('api/billing/cancel-checkout', billing_views.cancel_checkout),

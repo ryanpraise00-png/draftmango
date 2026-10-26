@@ -20,8 +20,8 @@ test('billing proxy preserves signed webhook bytes and blocks cross-origin brows
 });
 test('paid-plan sign-in opens billing while keeping idea and project handoffs intact',()=>{
  const D=globalThis.DraftmangoDashboard;
- assert.equal(D.accountDestination(new URLSearchParams({plan:'pro',billing:'yearly'})),'./dashboard.html#settings/billing');
- assert.match(D.accountDestination(new URLSearchParams({plan:'pro',idea:'A flower shop'})),/^\.\/workspace.html#idea=/);
+ assert.equal(D.accountDestination(new URLSearchParams({plan:'pro',billing:'yearly'})),'/dashboard#settings/billing');
+ assert.match(D.accountDestination(new URLSearchParams({plan:'pro',idea:'A flower shop'})),/^\/workspace#idea=/);
  assert.match(D.accountDestination(new URLSearchParams({plan:'pro',project:'saved-project'})),/project=saved-project/);
- assert.equal(D.accountDestination(new URLSearchParams({plan:'untrusted'})),'./dashboard.html');
+ assert.equal(D.accountDestination(new URLSearchParams({plan:'untrusted'})),'/dashboard');
 });

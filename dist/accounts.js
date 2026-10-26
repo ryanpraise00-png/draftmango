@@ -10,8 +10,8 @@
   const emit = () => { window.dispatchEvent(new Event('draftmango:sync')); paint(); };
   function status(next, error = '') { message = next; issue = error; emit(); }
   function redirect() {
-    const params = location.pathname.endsWith('workspace.html') ? new URLSearchParams(location.hash.slice(1)) : new URLSearchParams();
-    params.set('mode', 'login'); location.replace('./auth.html#' + params);
+    const params = location.pathname.endsWith('/workspace') ? new URLSearchParams(location.hash.slice(1)) : new URLSearchParams();
+    params.set('mode', 'login'); location.replace('/auth#' + params);
   }
   function endSession() {
     if (locked || !started) return;
@@ -143,7 +143,7 @@
     try { const data = await request('/api/accounts/session'); if (data.user?.id !== user?.id) endSession(); } catch { /* Connectivity errors do not discard drafts. */ }
   }
   async function headers() { if (!user || locked) throw new Error('Sign in again to continue.'); return { 'X-Draftmango-Account': user.id }; }
-  async function signOut() { await sync(); await request('/api/accounts/logout', { method: 'POST', body: {} }); sessionChanged(); location.replace('./auth.html#mode=login'); }
+  async function signOut() { await sync(); await request('/api/accounts/logout', { method: 'POST', body: {} }); sessionChanged(); location.replace('/auth#mode=login'); }
   window.addEventListener('online', sync);
   window.addEventListener('focus', checkSession);
   window.addEventListener('storage', event => { if (event.key === 'draftmango-session-change') checkSession(); else if (started && event.key === key('projects')) paint(); });

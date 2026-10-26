@@ -16,18 +16,18 @@
   }
   function builderDestination(idea, template = 'auto', color = 'auto') {
     const prompt = String(idea || '').trim().slice(0, 1200);
-    if (!prompt) return './dashboard.html';
+    if (!prompt) return '/dashboard';
     const params = new URLSearchParams({ idea: prompt });
     if (['cafe', 'portfolio', 'store', 'custom'].includes(template)) params.set('template', template);
     if (['warm', 'citrus', 'sage', 'rose', 'ink'].includes(color)) params.set('color', color);
-    return './workspace.html#' + params.toString();
+    return '/workspace#' + params.toString();
   }
   function accountDestination(params) {
-    if (!params.get('project') && !params.get('idea') && ['basic','pro'].includes(params.get('plan'))) return './dashboard.html#settings/billing';
+    if (!params.get('project') && !params.get('idea') && ['basic','pro'].includes(params.get('plan'))) return '/dashboard#settings/billing';
     return params.get('project') && !params.get('idea') ? projectDestination(params.get('project')) : builderDestination(params.get('idea'), params.get('template'), params.get('color'));
   }
   function projectDestination(id) {
-    return './workspace.html#' + new URLSearchParams({ project: id }).toString();
+    return '/workspace#' + new URLSearchParams({ project: id }).toString();
   }
   function selectProject(library, id) {
     return library?.projects.find(project => project.id === id) || null;

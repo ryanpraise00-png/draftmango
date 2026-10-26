@@ -6,6 +6,8 @@ import json
 import re
 from pathlib import PurePosixPath
 from urllib.parse import urlsplit
+from urllib.request import Request, urlopen
+from urllib.error import HTTPError, URLError
 from django.conf import settings
 from django.db import transaction, IntegrityError
 from django.http import JsonResponse, HttpResponse
@@ -50,8 +52,24 @@ def valid_path(name):
 
 def public_files(document):
     source = document.get('files')
+    if isinstance(source,dict) and isinstance(source.get('src/App.jsx'),str):
+        # Only authoritative account-owned source reaches the isolated compiler.
+        # Never accept a browser-supplied build or execute its package/config scripts.
+        if len(settings.BUILD_TOKEN)<32:raise APIError(503,'build_setup','React publishing is being prepared. Your draft is unchanged.')
+        request=Request(settings.BUILD_URL,data=json.dumps({'files':source}).encode(),headers={'Content-Type':'application/json','X-Build-Token':settings.BUILD_TOKEN},method='POST')
+        try:
+            with urlopen(request,timeout=14) as response:
+                result=json.loads(response.read(10*1024*1024+1))
+            source=result['files']
+            if not isinstance(source,dict) or set(source)!= {'index.html','assets/site.css','assets/site.js'}:raise ValueError('Invalid build output')
+        except HTTPError as error:
+            try:message=json.loads(error.read(8192)).get('error',{}).get('message','The React build failed.')
+            except (ValueError,AttributeError):message='The React build failed.'
+            raise APIError(422,'site_build',str(message)[:3000]) from error
+        except (URLError,TimeoutError,ValueError,KeyError,TypeError) as error:
+            raise APIError(503,'site_build','The React compiler could not complete this release. Your published website is unchanged.') from error
     if not isinstance(source,dict) or not isinstance(source.get('index.html'),str) or not source['index.html'].strip():
-        raise APIError(400,'site_source','Save your HTML source in the editor before publishing. An index.html file is required.')
+        raise APIError(400,'site_source','Save your React or HTML source in the editor before publishing. An entry file is required.')
     if len(source)>100: raise APIError(413,'site_size','Publish at most 100 source files.')
     output={}
     for name,text in source.items():
@@ -60,7 +78,7 @@ def public_files(document):
         if ext not in TYPES or PurePosixPath(name).name in EXCLUDED or '.test.' in name or '.spec.' in name: continue
         try: encoded=text.encode('utf-8')
         except UnicodeEncodeError: raise APIError(400,'site_encoding','Save source files as valid UTF-8 text before publishing.')
-        if len(encoded)>512*1024: raise APIError(413,'site_size','Each published source file must be below 512 KB.')
+        if len(encoded)>(3*1024*1024 if name=='assets/site.js' and isinstance(document.get('files',{}).get('src/App.jsx'),str) else 512*1024): raise APIError(413,'site_size','Each published source file must be below 512 KB.')
         output[name]={'body':text,'type':TYPES[ext],'binary':False}
     # Include only the shipped sample assets actually referenced by the source.
     combined='\n'.join(x['body'] for x in output.values())

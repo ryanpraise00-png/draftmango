@@ -59,3 +59,28 @@ export function proxyDjango(request, response) {
     request.pipe(upstream);
   });
 }
+
+// Shared generation/build limits held in Django's Redis cache (production).
+// The private token comes from build.env; this route is never proxied publicly.
+export function sharedLimit(request, body, token = process.env.DRAFTMANGO_BUILD_TOKEN || '') {
+  return new Promise((resolve, reject) => {
+    if (token.length < 32) { reject(new AIError(503, 'limits_unavailable', 'Generation is not configured on this server yet.')); return; }
+    const payload = JSON.stringify(body);
+    const base = upstreamHeaders({ ...request, headers: { host: request.headers.host, cookie: request.headers.cookie || '' } });
+    const headers = { ...base, 'content-type': 'application/json', 'content-length': Buffer.byteLength(payload), 'x-draftmango-internal': token };
+    const upstream = http.request({ hostname: hostname(), port: port(), path: '/internal/limits', method: 'POST', headers, timeout: 5000 }, response => {
+      const chunks = []; let size = 0;
+      response.on('data', chunk => { size += chunk.length; if (size > 16384) response.destroy(new Error('Limit response too large')); else chunks.push(chunk); });
+      response.on('end', () => {
+        let data = {}; try { data = JSON.parse(Buffer.concat(chunks).toString('utf8')); } catch { /* handled below */ }
+        if (response.statusCode === 200) resolve(data);
+        else if (response.statusCode === 429 || response.statusCode === 401) reject(new AIError(response.statusCode, data.error?.code || 'busy', data.error?.message || 'Please wait a little before trying again.'));
+        else reject(new AIError(503, 'limits_unavailable', 'Generation limits are unavailable. Please try again shortly.'));
+      });
+      response.on('error', () => reject(new AIError(503, 'limits_unavailable', 'Generation limits are unavailable. Please try again shortly.')));
+    });
+    upstream.on('timeout', () => upstream.destroy(new Error('Limit service timeout')));
+    upstream.on('error', () => reject(new AIError(503, 'limits_unavailable', 'Generation limits are unavailable. Please try again shortly.')));
+    upstream.end(payload);
+  });
+}
