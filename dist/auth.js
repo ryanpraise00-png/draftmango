@@ -18,7 +18,7 @@
     const accent = document.createElement('em'); accent.textContent = passwordStep ? 'password' : view[1];
     $('#form-title').replaceChildren(document.createTextNode(passwordStep ? (mode === 'login' ? 'Enter your ' : 'Create a ') : view[0]), accent);
     $('#form-intro').textContent = passwordStep && mode !== 'recovery' ? (mode === 'signup' ? 'Choose a password to secure your Draftmango account.' : 'Enter your password to open your workspace.') : view[2];
-    document.title = $('#form-title').textContent + ' — Draftmango';
+    document.title = $('#form-title').textContent + ' | Draftmango';
     $('#email-field').hidden = passwordStep; email.disabled = passwordStep || busy;
     $('#email-summary').hidden = !passwordStep || mode === 'recovery'; $('#entered-email').textContent = email.value.trim();
     $('#password-field').hidden = !passwordStep; password.disabled = !passwordStep || busy;

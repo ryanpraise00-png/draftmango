@@ -550,7 +550,7 @@
   function render() {
     $('#project-title').textContent = project.title;
     $('#canvas-project-name').textContent = project.title;
-    document.title = `${project.title} — Draftmango`;
+    document.title = `${project.title} | Draftmango`;
     $('#undo').disabled = project.cursor === 0;
     $('#redo').disabled = project.cursor >= project.history.length - 1;
     $('.history-dot').hidden = project.history.length < 2;
@@ -839,7 +839,7 @@
     applyCode(false);
     if(!await renderPreview()){tab?.close();announce('Fix the build errors before exporting this version.');return;}
     // Keep a separate-tab preview sandboxed too; exported files remain standalone.
-    const content = download ? previewHtml : `<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>${M.escapeHtml(project.title)} — Preview</title><style>html,body,iframe{margin:0;width:100%;height:100%;border:0;display:block}</style></head><body><iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="Website preview" srcdoc="${M.escapeHtml(previewDocument(previewHtml, 'standalone'))}"></iframe></body></html>`;
+    const content = download ? previewHtml : `<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>${M.escapeHtml(project.title)} | Preview</title><style>html,body,iframe{margin:0;width:100%;height:100%;border:0;display:block}</style></head><body><iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="Website preview" srcdoc="${M.escapeHtml(previewDocument(previewHtml, 'standalone'))}"></iframe></body></html>`;
     const url = URL.createObjectURL(new Blob([content], { type: 'text/html;charset=utf-8' }));
     const link = document.createElement('a');
     link.href = url;
