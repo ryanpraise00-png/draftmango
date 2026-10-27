@@ -78,6 +78,25 @@ them, and creates one blank project named Test (--title changes the name,
 --yes skips the confirmation). Open the dashboard afterwards; the browser drops
 its cached copies of deleted projects automatically on the next load.
 
+Design benchmark (see-and-fix loop)
+One-time setup: npm ci, then npx playwright install chromium.
+  npm run benchmark:design
+Generates the fixed Dreadbyte Studios brief with the AI provider in .env, renders
+it at 1440/768/390 px in Chromium, runs automatic checks (overflow, contrast,
+broken images, invisible text, AI-design clichés such as gradient text, purple
+gradients, emoji icons, generic copy and invented statistics), asks the model to
+score the screenshots against a design rubric, applies one targeted repair and
+scores again. The report is written to data/benchmarks/<time>-<name>/report.html.
+The default brief is tools/benchmark-briefs/dreadbyte-studios.md (confirmed
+studio facts; edit it to add a contact email or change details).
+Repairs are safe: only the reviewer's top three fixes are sent, web fonts and
+palette are locked, and a repair is kept only if it scores higher (or the same
+with fewer problems) without losing fonts, sections or artwork. Otherwise the
+previous version stays final and the report says why.
+Options: --no-repair, --rounds 0-3, --target 1-10, --brief "...",
+--brief-file <path>, --files <folder> (score existing React source). Visual review needs AI_PROVIDER=openai or anthropic.
+Each run makes several model calls and is billed to your provider account.
+
 Checks
   npm run check
   npm run build
@@ -103,3 +122,9 @@ https://nextjs.org/docs/app/getting-started/installation
 https://react.dev/learn/build-a-react-app-from-scratch
 https://esbuild.github.io/api/#build
 https://developers.openai.com/api/docs/guides/structured-outputs
+
+AI model selection
+------------------
+The model menu in the dashboard composer and editor selects GPT-6 Luna, GPT-6 Sol, Claude Sonnet 5.5 or Claude Opus 5.5 per conversation. A provider-specific model configured in .env is also included. Existing conversations without a choice use AI_PROVIDER and its model setting.
+Keep OPENAI_API_KEY for GPT and add ANTHROPIC_API_KEY for Claude in the server .env. Keys coexist and remain on the server. Save the file, then refocus the window to refresh the model menu. A model marked Add key can be selected, but generation will stop with setup instructions until its key exists. Availability in your provider account is verified by a real request, not by the menu.
+Selection applies to both design planning and implementation. Switching keeps files and conversation history; there is no automatic fallback to another provider. Existing rate limits apply across all models. Claude supports the same image, PDF and text references as GPT. Requests without a model selection retain the server default.

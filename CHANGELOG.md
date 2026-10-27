@@ -1,5 +1,51 @@
 # Draftmango changelog
 
+## 27 October 2026
+
+### Design benchmark: the see-and-fix loop
+- `npm run benchmark:design` generates the fixed brief "Build a professional
+  website for Dreadbyte Studios, an independent game development studio.",
+  renders it in Chromium at desktop, tablet and mobile, measures it, has the
+  vision model score the screenshots, makes one targeted repair and scores again.
+  Report: `data/benchmarks/<time>-<name>/report.html` (screenshots, source,
+  scores, reviewer fixes, automatic checks, timings).
+- Automatic checks: sideways overflow, broken images, JavaScript errors, text
+  left invisible by reveal animations, WCAG contrast, small mobile text and tap
+  targets, type-scale sprawl, missing imagery; plus a source scan for AI-design
+  clichés (gradient text, purple gradients, emoji icons, glass and glow overuse,
+  generic marketing phrases, invented statistics or testimonials).
+- Rubric: hierarchy, typography, layout, spacing, colour, imagery, copy,
+  polish, distinctiveness and brand fit, scored 1–10 against professional work
+  (7 = polished premium template, 8+ = bespoke professional).
+- Files: `design-review.mjs`, `tools/design-benchmark.mjs`,
+  `tools/design-review.test.mjs`, `tools/fixtures/cliche-site.mjs`.
+  `ai.mjs` now exports its model request so screenshots can be sent.
+  Playwright 1.63.0 is a dev dependency (`npx playwright install chromium`).
+- Not yet wired into the builder: the benchmark first measures whether the
+  loop is worth its time and cost.
+- Tests: `npm test` 120 passed (includes a real Chromium capture).
+
+### First real benchmark run and what changed after it
+- Run 1 (fact-free brief, gpt-6-luna): first draft 6/10 (type 8, colour 8,
+  imagery 3, copy 5). The repair also scored 6 but lost both web fonts (fell
+  back to Arial), deleted a section and the hero artwork, and added a new
+  placeholder line. Both rounds showed a note meant for the site owner on the
+  page ("Replace this note with the studio's email…").
+- The benchmark now uses Ryan's confirmed studio facts
+  (`tools/benchmark-briefs/dreadbyte-studios.md`): Cameroon, since 2016, mobile
+  and PC, Car Parking, Last Fuel and the untitled island game; no public contact
+  address yet.
+- Generation rule (design coordinator): everything visible is written for
+  visitors; never show notes to the owner or "not provided" messages.
+- New checks: leaked owner notes (high); emoji check limited to real emoji
+  (✳ ★ → no longer flagged).
+- Safe repair: top three fixes only; web-font imports, typefaces and palette
+  locked; regression checks for lost fonts, removed font imports, removed
+  sections and removed artwork; a repair is kept only when it is better,
+  otherwise the earlier round stays final. Replaying run 1 through these checks
+  rejects its repair for exactly the problems seen.
+- Tests: `npm test` 124 passed.
+
 ## 26 October 2026 (evening)
 
 ### Blank site replaces the sample templates

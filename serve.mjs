@@ -5,7 +5,7 @@ import {buildRemote,BuildError} from './compiler.mjs';
 import { readFile, realpath } from 'node:fs/promises';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import path from 'node:path';
-import { AIError, readConfig, publicConfig, validateInput, generate } from './ai.mjs';
+import { AIError, readConfig, readModelCatalog, publicConfig, validateInput, generate } from './ai.mjs';
 import { DomainError, readDomainConfig, validateDomainSearch, searchDomains } from './namecom.mjs';
 
 const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg', '.woff2': 'font/woff2', '.png': 'image/png', '.ico': 'image/x-icon' };
@@ -24,7 +24,7 @@ async function readJSON(request, max = 2 * 1024 * 1024) {
   }
   try { return JSON.parse(Buffer.concat(chunks).toString('utf8')); } catch { throw new AIError(400, 'invalid_json', 'The request was not valid JSON.'); }
 }
-export function createServer({ root = fileURLToPath(new URL('./out/', import.meta.url)), configLoader = readConfig, fetchImpl = fetch, timeoutMs, heartbeatMs = 5000, cooldownMs = 1500, maxRequests = 20, domainConfigLoader = readDomainConfig, domainFetchImpl = fetch, domainTimeoutMs = 25000, domainMaxRequests = 30, accountSession = djangoSession, accountProxy = proxyDjango, publicOrigin = process.env.DRAFTMANGO_PUBLIC_ORIGIN || '', buildProject = buildRemote, limiter, trustedProxyIPs = (process.env.DRAFTMANGO_TRUSTED_PROXY_IPS || '').split(',').filter(Boolean) } = {}) {
+export function createServer({ root = fileURLToPath(new URL('./out/', import.meta.url)), configLoader = readConfig, modelCatalogLoader = readModelCatalog, fetchImpl = fetch, timeoutMs, heartbeatMs = 5000, cooldownMs = 1500, maxRequests = 20, domainConfigLoader = readDomainConfig, domainFetchImpl = fetch, domainTimeoutMs = 25000, domainMaxRequests = 30, accountSession = djangoSession, accountProxy = proxyDjango, publicOrigin = process.env.DRAFTMANGO_PUBLIC_ORIGIN || '', buildProject = buildRemote, limiter, trustedProxyIPs = (process.env.DRAFTMANGO_TRUSTED_PROXY_IPS || '').split(',').filter(Boolean) } = {}) {
   publicOrigin = validateOrigin(publicOrigin);
   // One process locally: in-memory limits. Production may run several web
   // containers, so limits are held in Django's shared Redis cache instead.
@@ -91,8 +91,11 @@ export function createServer({ root = fileURLToPath(new URL('./out/', import.met
           } finally { clearTimeout(timer); controller.abort(); response.off('close', disconnect); domainActive--; }
           return;
         }
+        if (url.pathname === '/api/ai/models' && request.method === 'GET') {
+          json(response, 200, await modelCatalogLoader()); return;
+        }
         if (url.pathname === '/api/ai/status' && request.method === 'GET') {
-          const config = await configLoader();
+          const config = await configLoader(undefined, undefined, url.searchParams.get('model') || '');
           json(response, 200, publicConfig(config)); return;
         }
         if (url.pathname !== '/api/ai/generate') throw new AIError(404, 'not_found', 'API route not found.');
@@ -101,7 +104,7 @@ export function createServer({ root = fileURLToPath(new URL('./out/', import.met
         const identity = await accountSession(request);
         const accountTraffic = trafficFor(identity);
         const input = validateInput(await readJSON(request, 6 * 1024 * 1024));
-        const config = await configLoader();
+        const config = await configLoader(undefined, undefined, input.modelId || '');
         if (!config.key) throw new AIError(503, 'missing_key', 'Add ' + publicConfig(config).keyVariable + ' to the local .env file, save it, then try again.');
         const now = Date.now();
         const deadlineMs = timeoutMs ?? (config.timeoutSeconds ?? 900) * 1000;

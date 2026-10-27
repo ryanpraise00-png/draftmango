@@ -12,7 +12,13 @@ const providers = {
   xai: { name:'Grok', service:'xAI', api:'responses', keyVariable:'XAI_API_KEY', modelVariable:'XAI_MODEL', defaultModel:'grok-4.7', modelPattern:/^grok-[a-z0-9.-]{1,100}$/, url:'https://api.x.ai/v1/responses' },
   anthropic: { name:'Claude', service:'Anthropic', keyVariable:'ANTHROPIC_API_KEY', modelVariable:'ANTHROPIC_MODEL', defaultModel:'claude-sonnet-5-5', modelPattern:/^claude-[a-z0-9.-]{1,100}$/, url:'https://api.anthropic.com/v1/messages' }
 };
-export async function readConfig(envFile = new URL('./.env', import.meta.url), environment = process.env) {
+const modelPresets = [
+  {provider:'openai', model:'gpt-6-luna', label:'GPT-6 Luna'},
+  {provider:'openai', model:'gpt-6-sol', label:'GPT-6 Sol'},
+  {provider:'anthropic', model:'claude-sonnet-5-5', label:'Claude Sonnet 5.5'},
+  {provider:'anthropic', model:'claude-opus-5-5', label:'Claude Opus 5.5'}
+];
+async function readEnvironment(envFile = new URL('./.env', import.meta.url), environment = process.env) {
   let source = '';
   try { source = await readFile(envFile, 'utf8'); } catch (error) { if (error.code !== 'ENOENT') throw new AIError(503, 'configuration', 'The local environment file could not be read.'); }
   const local = {};
@@ -24,11 +30,24 @@ export async function readConfig(envFile = new URL('./.env', import.meta.url), e
     else value = value.replace(/\s+#.*$/, '').trim();
     local[match[1]] = value;
   }
-  const get = name => String(environment[name] ?? local[name] ?? '').trim();
-  const provider = get('AI_PROVIDER') || 'openai';
+  return name => String(environment[name] ?? local[name] ?? '').trim();
+}
+function availableModels(get) {
+  const models = modelPresets.map(item => ({...item}));
+  for (const [provider, info] of Object.entries(providers)) {
+    if (provider === 'xai' && !get(info.keyVariable) && get('AI_PROVIDER') !== 'xai') continue;
+    const model = get(info.modelVariable) || info.defaultModel;
+    if (info.modelPattern.test(model) && !models.some(item => item.provider === provider && item.model === model)) models.push({provider, model, label:model});
+  }
+  return models.map(item => ({...item, id:item.provider + ':' + item.model}));
+}
+function configFromEnvironment(get, selection = '') {
+  const selected = selection ? availableModels(get).find(item => item.id === selection) : null;
+  if (selection && !selected) throw new AIError(400, 'invalid_model', 'This model is unavailable. Choose a model from the workspace selector.');
+  const provider = selected?.provider || get('AI_PROVIDER') || 'openai';
   if (!Object.hasOwn(providers, provider)) throw new AIError(503, 'configuration', 'Set AI_PROVIDER to openai, xai or anthropic in .env.');
   const info = providers[provider];
-  const model = get(info.modelVariable) || info.defaultModel;
+  const model = selected?.model || get(info.modelVariable) || info.defaultModel;
   if (!info.modelPattern.test(model)) throw new AIError(503, 'configuration', 'Set ' + info.modelVariable + ' to a supported ' + info.name + ' model ID in .env.');
   const maxTokens = Number(get('AI_MAX_TOKENS') || get(provider.toUpperCase() + '_MAX_TOKENS') || (provider === 'anthropic' ? 16384 : 32768));
   if (!Number.isInteger(maxTokens) || maxTokens < 1024 || maxTokens > 32768) throw new AIError(503, 'configuration', 'Set AI_MAX_TOKENS between 1024 and 32768 in .env.');
@@ -40,8 +59,19 @@ export async function readConfig(envFile = new URL('./.env', import.meta.url), e
   if (info.api === 'responses' && !efforts.includes(reasoningEffort)) throw new AIError(503, 'configuration', 'Set ' + reasoningVariable + ' to ' + efforts.join(', ') + ' in .env.');
   const key = get(info.keyVariable);
   const keyProvider = key.startsWith('sk-ant-') ? 'anthropic' : key.startsWith('sk-') ? 'openai' : key.startsWith('xai-') ? 'xai' : null;
-  if (keyProvider && keyProvider !== provider) throw new AIError(503, 'configuration', 'The key does not match AI_PROVIDER. Put the key in its provider’s variable and select that provider in .env.');
+  if (keyProvider && keyProvider !== provider) throw new AIError(503, 'configuration', 'The key in ' + info.keyVariable + ' belongs to a different provider. Check that variable in .env.');
   return { provider, key, model, workspace: provider === 'anthropic' ? get('ANTHROPIC_WORKSPACE_ID') : '', maxTokens, timeoutSeconds, reasoningEffort };
+}
+export async function readConfig(envFile, environment, selection = '') {
+  return configFromEnvironment(await readEnvironment(envFile, environment), selection);
+}
+export async function readModelCatalog(envFile, environment) {
+  const get = await readEnvironment(envFile, environment);
+  const current = configFromEnvironment(get);
+  return {
+    defaultId:current.provider + ':' + current.model,
+    models:availableModels(get).map(item => ({...item, service:providers[item.provider].service, configured:!!get(providers[item.provider].keyVariable)}))
+  };
 }
 export function publicConfig(config) {
   const info = providers[config.provider];
@@ -51,6 +81,7 @@ export function publicConfig(config) {
 const names = ['index.html', 'styles.css', 'app.js'];
 function validFiles(files) { return Project.valid(files); }
 export function validateInput(value) {
+  if (value?.modelId != null && (typeof value.modelId !== 'string' || !/^(?:openai|anthropic|xai):[a-z0-9.-]{1,100}$/.test(value.modelId))) throw new AIError(400, 'invalid_model', 'Choose a model from the workspace selector.');
   if (!value || !['create', 'edit'].includes(value.mode) || typeof value.prompt !== 'string' || !value.prompt.trim() || value.prompt.length > 12000 || (value.mode === 'edit' ? !validFiles(value.files) : value.files != null && !validFiles(value.files))) throw new AIError(400, 'invalid_request', 'Include a request, and the current project files when editing. Keep the request under 12,000 characters and each file under 500,000 characters.');
   const history = Array.isArray(value.history) ? value.history.slice(-40) : [];
   if (history.some(item => !item || !['user', 'assistant'].includes(item.role) || typeof item.text !== 'string' || item.text.length > 12000)) throw new AIError(400, 'invalid_request', 'The conversation context is invalid. Reload the workspace and try again.');
@@ -77,15 +108,19 @@ export function validateInput(value) {
   });
   const projectContext = value.projectContext ?? '';
   if (typeof projectContext !== 'string' || projectContext.length > 16000) throw new AIError(400, 'context', 'Project context is too long.');
-  return { mode: value.mode, framework: value.mode === 'edit' ? (Project.isReact(value.files) ? 'react' : 'html') : value.framework === 'html' ? 'html' : 'react', ...(value.interaction === 'conversation' ? {interaction:'conversation'} : {}), prompt: value.prompt.trim(), ...(value.mode === 'edit' ? {files:{...value.files}, designBrief} : {creationPreferences}), history: history.map(({role, text}) => ({role, text})), ...(checked.length ? {references:checked} : {}), ...(projectContext ? {projectContext} : {}) };
+  return { ...(value.modelId ? {modelId:value.modelId} : {}), mode: value.mode, framework: value.mode === 'edit' ? (Project.isReact(value.files) ? 'react' : 'html') : value.framework === 'html' ? 'html' : 'react', ...(value.interaction === 'conversation' ? {interaction:'conversation'} : {}), prompt: value.prompt.trim(), ...(value.mode === 'edit' ? {files:{...value.files}, designBrief} : {creationPreferences}), history: history.map(({role, text}) => ({role, text})), ...(checked.length ? {references:checked} : {}), ...(projectContext ? {projectContext} : {}) };
 }
 export function modelContent(input, provider) {
-  const {references = [], ...context} = input;
-  if (!references.length) return JSON.stringify(input);
+  const {references = [], modelId, ...context} = input;
+  if (!references.length) return JSON.stringify(context);
   const binary = references.filter(ref => ref.type !== 'text/plain');
-  if (binary.length && provider !== 'openai') throw new AIError(400, 'references', 'Image and PDF references currently require the OpenAI provider. Text references work with every provider.');
+  if (binary.length && !['openai','anthropic'].includes(provider)) throw new AIError(400, 'references', 'Image and PDF references require OpenAI or Claude. Text references work with every provider.');
   const text = JSON.stringify({...context, references:references.map(ref => ref.type === 'text/plain' ? ref : {name:ref.name,type:ref.type})});
   if (!binary.length) return text;
+  if (provider === 'anthropic') return [{type:'text',text}, ...binary.map(ref => ({
+    type:ref.type === 'application/pdf' ? 'document' : 'image',
+    source:{type:'base64',media_type:ref.type,data:ref.data.slice(ref.data.indexOf(',') + 1)}
+  }))];
   return [{type:'input_text',text}, ...binary.map(ref => ref.type === 'application/pdf' ? {type:'input_file',filename:ref.name,file_data:ref.data} : {type:'input_image',image_url:ref.data,detail:'auto'})];
 }
 const legacySystem = [
@@ -111,7 +146,7 @@ const reactSystem = legacySystem
   .replace('with all three file values empty', 'with files=[]')
   .replace('with all three full files', 'with every complete project source file, including unchanged components');
 const reactSchema = {...legacySchema, properties:{...legacySchema.properties,files:{type:'array',items:{type:'object',additionalProperties:false,properties:{path:{type:'string'},content:{type:'string'}},required:['path','content']}}}};
-function readProviderObject(result, config) {
+export function readProviderObject(result, config) {
   const info = providers[config.provider];
   const limit = info.api === 'responses' ? result?.status === 'incomplete' && result?.incomplete_details?.reason === 'max_output_tokens' : result?.stop_reason === 'max_tokens';
   if (limit) throw new AIError(502, 'incomplete', info.name + ' reached the response limit. Try a smaller change, or increase AI_MAX_TOKENS in .env. Your draft is unchanged.');
@@ -184,7 +219,9 @@ async function readResponsesStream(response, onProgress, name) {
     reader.releaseLock();
   }
 }
-async function requestModel(input, config, { signal, fetchImpl = fetch, onProgress = () => {}, systemPrompt = reactSystem, outputSchema = reactSchema, schemaName = 'draftmango_website' } = {}) {
+// messages: optional provider-formatted messages (for example screenshots for design review);
+// otherwise the conversation is built from input.
+export async function requestModel(input, config, { signal, fetchImpl = fetch, onProgress = () => {}, systemPrompt = reactSystem, outputSchema = reactSchema, schemaName = 'draftmango_website', messages } = {}) {
   const info = providers[config.provider];
   if (!info) throw new AIError(503, 'configuration', 'Select a supported AI_PROVIDER in .env.');
   if (!config.key) throw new AIError(503, 'missing_key', 'Add ' + info.keyVariable + ' to the local .env file, save it, then try again.');
@@ -194,14 +231,14 @@ async function requestModel(input, config, { signal, fetchImpl = fetch, onProgre
     body = {
       model:config.model, max_output_tokens:config.maxTokens, store:false, stream:true,
       reasoning:{effort:config.reasoningEffort || (config.provider === 'openai' ? 'medium' : 'low')},
-      input:[{role:'system', content:systemPrompt}, ...conversationMessages(input, config.provider, modelContent)],
+      input:[{role:'system', content:systemPrompt}, ...(messages || conversationMessages(input, config.provider, modelContent))],
       text:{format:{type:'json_schema', name:schemaName, schema:outputSchema, strict:true}}
     };
   } else {
     headers['anthropic-version'] = '2026-10-21';
     if (config.workspace) headers['anthropic-workspace-id'] = config.workspace;
     body = {model:config.model, max_tokens:config.maxTokens, system:systemPrompt,
-      messages:conversationMessages(input, config.provider, modelContent),
+      messages:messages || conversationMessages(input, config.provider, modelContent),
       output_config:{format:{type:'json_schema',schema:outputSchema}}
     };
   }

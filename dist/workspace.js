@@ -601,6 +601,7 @@
     $('#reset-code').disabled = busy;
     $('#undo').disabled = busy || (!project.codeDraft && project.cursor === 0);
     $('#redo').disabled = busy || !!project.codeDraft || project.cursor >= project.history.length - 1;
+    const picker = $('#ai-model-select'); if (picker?.options.length && picker.options[0].value) picker.disabled = busy;
     const name = aiStatus?.name || 'AI';
     $('#ai-connection').textContent = aiStatus?.configured ? name + ' · Ready' : aiStatus ? 'Set up ' + name : 'AI · Connection';
     $$('[data-ai-name]').forEach(element => { element.textContent = name; });
@@ -625,15 +626,21 @@
     pending.querySelector('.agent-time').textContent=aiJob.elapsedSeconds>=10?Chat.duration(aiJob.elapsedSeconds*1000):'';
     if(atBottom)requestAnimationFrame(()=>{log.scrollTop=log.scrollHeight;});
   }
+  const selectedModel = () => project.workspace?.build?.modelId || '';
+  let connectionCheck = 0;
   async function checkAI() {
+    const check = ++connectionCheck;
     try {
-      const response = await fetch('/api/ai/status', { cache: 'no-store', signal: AbortSignal.timeout(8000) });
+      const response = await fetch('/api/ai/status' + (selectedModel() ? '?model=' + encodeURIComponent(selectedModel()) : ''), { cache: 'no-store', signal: AbortSignal.timeout(8000) });
       if (!response.ok) throw new Error('Setup unavailable');
-      aiStatus = await response.json();
+      const status = await response.json();
+      if (check !== connectionCheck) return;
+      aiStatus = status;
       $('#ai-setup-status').textContent = aiStatus.configured
         ? 'A local API key is configured. Model: ' + aiStatus.model + '. The next generation will verify access.'
         : 'Add your API key to start generating.';
     } catch {
+      if (check !== connectionCheck) return;
       aiStatus = null;
       $('#ai-setup-status').textContent = 'Start Draftmango with npm run dev, then open http://127.0.0.1:4175. AI generation needs the local server.';
     }
@@ -662,6 +669,7 @@
     const parentContext = W.get(project.workspace?.parentId);
     const payload = {
       mode, interaction:'conversation', prompt: text,
+      ...(selectedModel() ? {modelId:selectedModel()} : {}),
       references: project.workspace?.attachments || [],
       projectContext: [project.prompt ? 'Original brief: '+project.prompt : '', parentContext?.workspace?.brief, parentContext?.workspace?.instructions, project.workspace?.notes].filter(Boolean).join('\n\n').slice(0,12000),
       ...(mode === 'edit' ? { files: structuredClone(project.files || C.createFiles(project.design)), designBrief: project.designBrief || null } : { creationPreferences: project.creationPreferences || [] }),
@@ -913,6 +921,7 @@
   globalThis.DraftmangoEditor = {
     get project(){return project;}, get files(){return workingFiles;}, get selectedFile(){return selectedFile;}, get busy(){return !!aiJob;},
     save, render, applyCode, setPanel, setMobileView, updateDevice, scheduleCanvasSize,
+    selectModel(modelId){if(aiJob)return;project.workspace={...project.workspace,build:{...project.workspace?.build,modelId}};aiStatus=null;save();render();checkAI();},
     selectFile(name){if(Object.hasOwn(workingFiles,name)){selectedFile=name;if(!openFiles.includes(name))openFiles.push(name);renderCode();}},
     setFiles(files,label='Updated source files'){if(aiJob)throw new Error('Wait for generation to finish before changing files.');project=M.commitFiles(project,files,label);save();render();},
     updateMeta(patch){project.workspace={...project.workspace,...patch};save();window.dispatchEvent(new Event('draftmango:editor-render'));},
@@ -927,10 +936,10 @@
   if(starting.get('view')) document.querySelector('.view-tabs [data-view="'+(['code','split'].includes(starting.get('view'))?starting.get('view'):'preview')+'"]').click();
   if(starting.get('file')) globalThis.DraftmangoEditor.selectFile(starting.get('file'));
   const queued = project.workspace?.queuedPrompt;
-  if(queued) checkAI().then(status=>{if(status?.configured&&!aiJob){project.workspace={...project.workspace,queuedPrompt:''};save();requestChange(queued);}});
-
   const incomingProjectId = project.id;
   checkAI().then(status => {
-    if (initialIdea && project.id === incomingProjectId && project.ai?.state === 'pending' && status?.configured && !aiJob && !lastAIRequest) requestChange(project.prompt, {mode:'create'});
+    if (!status?.configured || project.id !== incomingProjectId || aiJob || lastAIRequest) return;
+    if (queued) {project.workspace={...project.workspace,queuedPrompt:''};save();requestChange(queued);}
+    else if (initialIdea && project.ai?.state === 'pending') requestChange(project.prompt, {mode:'create'});
   });
 })();

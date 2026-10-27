@@ -13,7 +13,8 @@ test('attachments stay structured for both design stages and never duplicate ima
   assert.ok(content[0].text.includes('editorial voice'));
   assert.ok(content[0].text.includes('Avoid generic cards.'));
   assert.ok(!content[0].text.includes('aGVsbG8='));
-  assert.throws(()=>modelContent(input,'anthropic'),/currently require/);
+  assert.equal(modelContent(input,'anthropic')[1].type,'image');
+  assert.throws(()=>modelContent(input,'xai'),/require OpenAI or Claude/);
 });
 
 test('reference limits reject remote URLs, mismatched MIME and oversized context', () => {

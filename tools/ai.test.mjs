@@ -6,7 +6,7 @@ import { mkdtemp, writeFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { createServer } from '../serve.mjs';
-import { readConfig, parseResult, publicConfig } from '../ai.mjs';
+import { readConfig, readModelCatalog, validateInput, modelContent, parseResult, publicConfig } from '../ai.mjs';
 import '../dist/workspace-model.js';
 import '../dist/workspace-ai.js';
 
@@ -18,6 +18,105 @@ const providerResult = (value = output, stop_reason = 'end_turn') => ({ stop_rea
 // Transport and provider error tests use editing (one call); creation's two stages
 // and failure boundaries are exercised separately in design-coordinator.test.mjs.
 const input = { mode:'edit', prompt:'Build a warm website', files, history:[] };
+const modelEnvironment = {AI_PROVIDER:'openai',OPENAI_API_KEY:'sk-openai-test-only',ANTHROPIC_API_KEY:'sk-ant-test-only'};
+const noEnvironmentFile = new URL('./model-switcher-no-such-env', import.meta.url);
+
+test('model catalog exposes safe choices and per-request selection preserves the default', async () => {
+  const catalog = await readModelCatalog(noEnvironmentFile, modelEnvironment);
+  assert.equal(catalog.defaultId, 'openai:gpt-6-luna');
+  assert.equal(catalog.models.length, 4);
+  assert.ok(catalog.models.every(item => item.configured));
+  assert.ok(!JSON.stringify(catalog).includes('sk-'));
+  const selected = await readConfig(noEnvironmentFile, modelEnvironment, 'anthropic:claude-opus-5-5');
+  assert.equal(selected.provider, 'anthropic');
+  assert.equal(selected.model, 'claude-opus-5-5');
+  assert.equal(selected.key, modelEnvironment.ANTHROPIC_API_KEY);
+  assert.equal((await readConfig(noEnvironmentFile, modelEnvironment)).provider, 'openai');
+  await assert.rejects(readConfig(noEnvironmentFile, modelEnvironment, 'openai:gpt-not-enabled'), {code:'invalid_model'});
+  assert.throws(() => validateInput({...input,modelId:{provider:'anthropic'}}), {code:'invalid_model'});
+});
+
+test('configured model overrides remain selectable and a saved key hot-reloads', async t => {
+  const directory = await mkdtemp(path.join(tmpdir(), 'draftmango-models-'));
+  t.after(() => rm(directory, {recursive:true,force:true}));
+  const file = path.join(directory, '.env');
+  const settings = 'AI_PROVIDER=openai\nOPENAI_API_KEY=sk-openai-test-only\nOPENAI_MODEL=gpt-custom-deployment\n';
+  await writeFile(file, settings);
+  const before = await readModelCatalog(file, {});
+  assert.equal(before.defaultId, 'openai:gpt-custom-deployment');
+  assert.ok(before.models.some(item => item.id === before.defaultId));
+  assert.equal(before.models.find(item => item.provider === 'anthropic').configured, false);
+  const id = 'anthropic:claude-sonnet-5-5';
+  assert.equal((await readConfig(file, {}, id)).key, '');
+  await writeFile(file, settings + 'ANTHROPIC_API_KEY=sk-ant-new-test-only\n');
+  assert.equal((await readConfig(file, {}, id)).key, 'sk-ant-new-test-only');
+  assert.equal((await readConfig(file, {})).key, 'sk-openai-test-only');
+});
+
+test('HTTP model selection routes GPT and Claude to their own credentials and retains context', async t => {
+  const calls = [];
+  const {base,post} = await fixture(t, {
+    configLoader:(_file,_env,id) => readConfig(noEnvironmentFile, modelEnvironment, id),
+    modelCatalogLoader:() => readModelCatalog(noEnvironmentFile, modelEnvironment),
+    fetchImpl:async (url,request) => {
+      const body = JSON.parse(request.body); calls.push({url,body,headers:request.headers});
+      return url.includes('anthropic.com') ? Response.json(providerResult()) : Response.json({status:'completed',output:[{type:'message',role:'assistant',content:[{type:'output_text',text:JSON.stringify(output)}]}]});
+    }
+  });
+  const catalogResponse = await fetch(base + '/api/ai/models');
+  assert.equal(catalogResponse.headers.get('cache-control'), 'no-store');
+  assert.equal((await catalogResponse.json()).models.length, 4);
+  for (const modelId of ['anthropic:claude-sonnet-5-5','openai:gpt-6-sol']) {
+    const status = await (await fetch(base + '/api/ai/status?model=' + encodeURIComponent(modelId))).json();
+    assert.equal(status.model, modelId.split(':')[1]);
+    const response = await post({...input,modelId,history:[{role:'user',text:'Keep the existing colors'}]});
+    assert.equal(response.status, 200);
+    const text = await response.text();
+    assert.ok(!text.includes('sk-')); assert.equal(JSON.parse(text).model, modelId.split(':')[1]);
+  }
+  assert.equal(calls[0].url, 'https://api.anthropic.com/v1/messages');
+  assert.equal(calls[0].headers.authorization, 'Bearer ' + modelEnvironment.ANTHROPIC_API_KEY);
+  assert.equal(calls[0].body.model, 'claude-sonnet-5-5');
+  assert.deepEqual(JSON.parse(calls[0].body.messages[0].content).files, files);
+  assert.equal(JSON.parse(calls[0].body.messages[0].content).history[0].text, 'Keep the existing colors');
+  assert.equal(calls[1].url, 'https://api.openai.com/v1/responses');
+  assert.equal(calls[1].headers.authorization, 'Bearer ' + modelEnvironment.OPENAI_API_KEY);
+  assert.equal(calls[1].body.model, 'gpt-6-sol');
+  assert.equal((await post({...input,modelId:'anthropic:claude-not-enabled'})).status,400);
+  assert.equal(calls.length,2);
+});
+
+test('missing or mismatched Claude keys never fall back to the configured GPT provider', async t => {
+  let calls = 0;
+  const environment = {...modelEnvironment,ANTHROPIC_API_KEY:''};
+  const {post} = await fixture(t, {
+    configLoader:(_file,_env,id) => readConfig(noEnvironmentFile, environment, id),
+    fetchImpl:async () => {calls++; return Response.json(providerResult());}
+  });
+  let response = await post({...input,modelId:'anthropic:claude-sonnet-5-5'});
+  assert.equal(response.status,503); assert.equal((await response.json()).error.code,'missing_key');
+  environment.ANTHROPIC_API_KEY = environment.OPENAI_API_KEY;
+  response = await post({...input,modelId:'anthropic:claude-sonnet-5-5'});
+  assert.equal(response.status,503); assert.equal((await response.json()).error.code,'configuration');
+  assert.equal(calls,0);
+});
+
+test('Claude receives image and PDF attachments as native content blocks without routing metadata', () => {
+  const references = [
+    {name:'reference.png',type:'image/png',data:'data:image/png;base64,aGVsbG8='},
+    {name:'brief.pdf',type:'application/pdf',data:'data:application/pdf;base64,aGVsbG8='},
+    {name:'notes.txt',type:'text/plain',data:'Preserve the logo'}
+  ];
+  const validated = validateInput({...input,modelId:'anthropic:claude-sonnet-5-5',references});
+  const content = modelContent(validated,'anthropic');
+  assert.deepEqual(content.slice(1),[
+    {type:'image',source:{type:'base64',media_type:'image/png',data:'aGVsbG8='}},
+    {type:'document',source:{type:'base64',media_type:'application/pdf',data:'aGVsbG8='}}
+  ]);
+  assert.equal(JSON.parse(content[0].text).references[2].data, 'Preserve the logo');
+  assert.ok(!content[0].text.includes('modelId'));
+  assert.equal(modelContent(validated,'openai')[1].type, 'input_image');
+});
 async function fixture(t, options = {}) {
   const server = createServer({ accountSession: async () => null, configLoader: async () => config, fetchImpl: async () => Response.json(providerResult()), cooldownMs:0, ...options });
   server.listen(0, '127.0.0.1');
