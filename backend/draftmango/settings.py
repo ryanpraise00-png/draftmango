@@ -117,5 +117,6 @@ if PRODUCTION:
 BILLING_MODE = os.environ.get('BILLING_MODE', 'test')
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', '')
 STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET', '')
+STRIPE_PORTAL_CONFIGURATION_ID = os.environ.get('STRIPE_PORTAL_CONFIGURATION_ID', '')
 STRIPE_AUTOMATIC_TAX = os.environ.get('STRIPE_AUTOMATIC_TAX', '0') == '1'
 STRIPE_PRICES = {plan + ':' + cadence: os.environ.get('STRIPE_PRICE_' + plan.upper() + '_' + cadence.upper(), '') for plan in ('basic', 'pro') for cadence in ('monthly', 'yearly')}

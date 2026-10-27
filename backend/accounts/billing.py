@@ -21,7 +21,7 @@ def configuration():
     mode = settings.BILLING_MODE
     key = settings.STRIPE_SECRET_KEY
     prices = settings.STRIPE_PRICES
-    enabled = mode in ('test', 'live') and key.startswith('sk_' + mode + '_') and bool(settings.STRIPE_WEBHOOK_SECRET)
+    enabled = mode in ('test', 'live') and key.startswith(('sk_' + mode + '_', 'rk_' + mode + '_')) and bool(settings.STRIPE_WEBHOOK_SECRET)
     enabled = enabled and len(prices) == 4 and all(isinstance(v, str) and v.startswith('price_') for v in prices.values()) and len(set(prices.values())) == 4
     return {'mode': mode, 'configured': bool(enabled)}
 

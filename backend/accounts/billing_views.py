@@ -122,7 +122,10 @@ def portal(request):
     account = account_for(user)
     if not account.customer_id or not account.subscription_id:
         raise APIError(409, 'no_subscription', 'Complete a subscription checkout before opening billing management.')
-    result = stripe_request('POST', 'billing_portal/sessions', {'customer': account.customer_id, 'return_url': settings.APP_ORIGIN + '/dashboard.html#settings/billing'})
+    fields = {'customer': account.customer_id, 'return_url': settings.APP_ORIGIN + '/dashboard.html#settings/billing'}
+    if settings.STRIPE_PORTAL_CONFIGURATION_ID:
+        fields['configuration'] = provider_id(settings.STRIPE_PORTAL_CONFIGURATION_ID, 'bpc_')
+    result = stripe_request('POST', 'billing_portal/sessions', fields)
     return JsonResponse({'url': stripe_url(result.get('url'), {'billing.stripe.com'})})
 
 @api(['GET'])

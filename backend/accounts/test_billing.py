@@ -5,12 +5,12 @@ import time
 from datetime import timedelta
 from unittest.mock import patch
 from django.conf import settings
-from django.test import Client, TestCase, override_settings
+from django.test import Client, SimpleTestCase, TestCase, override_settings
 from django.core.cache import cache
 from django.utils import timezone
 from . import tests as account_helpers
 from .models import BillingAccount, BillingEvent, User
-from .billing import entitlements, stripe_url
+from .billing import configuration, entitlements, stripe_url
 from .views import APIError
 
 PRICES={'basic:monthly':'price_basic_month','basic:yearly':'price_basic_year','pro:monthly':'price_pro_month','pro:yearly':'price_pro_year'}
@@ -156,6 +156,30 @@ class BillingTests(TestCase):
             result=self.client.get('/api/billing/invoices',HTTP_X_DRAFTMANGO_ACCOUNT=self.client.owner)
             self.assertEqual(len(result.json()['invoices']),1);self.assertEqual(result.json()['invoices'][0]['number'],'in_own')
 
+    @override_settings(STRIPE_PORTAL_CONFIGURATION_ID='bpc_draftmango')
+    def test_portal_uses_server_configuration_not_client_supplied_configuration(self):
+        self.account(subscription_id='sub_example')
+        with patch('accounts.billing_views.stripe_request',return_value={'url':'https://billing.stripe.com/p/session/example'}) as provider:
+            result=self.send(self.client,'/api/billing/portal',{'configuration':'bpc_foreign','customer':'cus_other'})
+            self.assertEqual(result.status_code,200)
+            self.assertEqual(provider.call_args.args[2]['configuration'],'bpc_draftmango')
+            self.assertEqual(provider.call_args.args[2]['customer'],'cus_example')
+
+    @override_settings(STRIPE_PORTAL_CONFIGURATION_ID='invalid')
+    def test_invalid_portal_configuration_fails_before_calling_stripe(self):
+        self.account(subscription_id='sub_example')
+        with patch('accounts.billing_views.stripe_request') as provider:
+            self.assertEqual(self.send(self.client,'/api/billing/portal',{}).status_code,502)
+            provider.assert_not_called()
+
+    def test_invoice_parent_subscription_can_confirm_a_new_account(self):
+        account=self.account()
+        obj={'id':'in_example','customer':'cus_example','parent':{'type':'subscription_details','subscription_details':{'subscription':'sub_example'}}}
+        with patch('accounts.billing_views.stripe_request',return_value=self.subscription(account)) as provider:
+            self.assertEqual(self.event(kind='invoice.paid',obj=obj).status_code,200)
+            provider.assert_called_once_with('GET','subscriptions/sub_example')
+        self.assertEqual(self.status().json()['entitlements']['plan'],'basic')
+
     def test_test_subscription_is_not_a_live_subscription(self):
         self.account(subscription_id='sub_example',plan='pro',status='active',period_end=timezone.now()+timedelta(days=30))
         self.assertEqual(self.status().json()['entitlements']['plan'],'pro')
@@ -201,3 +225,29 @@ class BillingTests(TestCase):
     def test_redirects_cannot_escape_stripe(self):
         for url in ['https://checkout.stripe.com.evil.test/x','http://checkout.stripe.com/x','https://evil@checkout.stripe.com/x','javascript:alert(1)']:
             with self.assertRaises(APIError):stripe_url(url,{'checkout.stripe.com'})
+
+
+@override_settings(STRIPE_WEBHOOK_SECRET='whsec_configuration_test', STRIPE_PRICES=PRICES)
+class BillingKeyConfigurationTests(SimpleTestCase):
+    def test_secret_and_restricted_keys_accept_only_the_matching_environment(self):
+        for mode in ('test', 'live'):
+            for key_mode in ('test', 'live'):
+                for prefix in ('sk', 'rk', 'pk'):
+                    with self.subTest(mode=mode, key_mode=key_mode, prefix=prefix):
+                        with override_settings(BILLING_MODE=mode, STRIPE_SECRET_KEY=f'{prefix}_{key_mode}_configuration_test'):
+                            self.assertEqual(configuration()['configured'], prefix in ('sk', 'rk') and mode == key_mode)
+        for key in ('', 'unrecognized_key', 'sk_org_configuration_test'):
+            with self.subTest(key=key):
+                with override_settings(BILLING_MODE='live', STRIPE_SECRET_KEY=key):
+                    self.assertFalse(configuration()['configured'])
+
+    @override_settings(BILLING_MODE='live', STRIPE_SECRET_KEY='rk_live_configuration_test')
+    def test_restricted_key_still_requires_webhook_and_distinct_plan_prices(self):
+        with override_settings(STRIPE_WEBHOOK_SECRET=''):
+            self.assertFalse(configuration()['configured'])
+        with override_settings(STRIPE_PRICES={}):
+            self.assertFalse(configuration()['configured'])
+        with override_settings(STRIPE_PRICES={name:'price_duplicate' for name in PRICES}):
+            self.assertFalse(configuration()['configured'])
+        with override_settings(BILLING_MODE='disabled'):
+            self.assertFalse(configuration()['configured'])
