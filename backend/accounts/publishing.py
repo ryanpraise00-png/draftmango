@@ -85,7 +85,7 @@ def public_files(document):
     for asset in ('coffee.jpg','ceramics.jpg'):
         name='assets/'+asset
         if name in combined and name not in output:
-            path=settings.BASE_DIR/'dist'/'assets'/asset
+            path=settings.BASE_DIR/'web'/'assets'/asset
             if path.is_file(): output[name]={'body':base64.b64encode(path.read_bytes()).decode(),'type':'image/jpeg','binary':True}
     size=sum(len(base64.b64decode(f['body'])) if f['binary'] else len(f['body'].encode('utf-8')) for f in output.values())
     if size>MAX_BYTES: raise APIError(413,'site_size','This static website exceeds the 4 MB publishing limit.')

@@ -92,7 +92,7 @@ services:
   publisher:
     <<: *common
     image: draftmango-web:${DRAFTMANGO_RELEASE:-initial}
-    command: ["node", "publisher.mjs"]
+    command: ["node", "server/publisher.mjs"]
     env_file: /opt/draftmango/shared/publishing.env
     environment:
       NODE_OPTIONS: --max-old-space-size=192
@@ -122,7 +122,7 @@ services:
   builder:
     <<: *common
     image: draftmango-web:${DRAFTMANGO_RELEASE:-initial}
-    command: ["node", "build-service.mjs"]
+    command: ["node", "server/build-service.mjs"]
     env_file: /opt/draftmango/shared/build.env
     environment:
       BUILD_BIND: 0.0.0.0

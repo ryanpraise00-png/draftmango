@@ -1,5 +1,24 @@
 # Draftmango changelog
 
+## 27 October 2026 (afternoon)
+
+### Project reorganized
+- New layout: `server/` (Node services), `web/` (browser scripts, styles and
+  assets; was `dist/`, which was source rather than build output), `scripts/`
+  (npm commands), `tests/` (Node tests and fixtures), `benchmarks/briefs/`,
+  `docs/` (all guides). `app/`, `components/`, `backend/` and `deploy/` are
+  unchanged in place. Files were moved with `git mv`, so history follows them.
+- One start-here `README.md` with a folder map, common commands and a guide
+  index. The six setup `.txt` files and `deploy/*.md` are now Markdown guides in
+  `docs/`, plus new `architecture.md`, `development.md` and `ai-models.md`.
+- Updated every reference: imports, `.env` and `out/` paths, `package.json`
+  scripts, both Dockerfiles (web image now runs `node server/serve.mjs`),
+  `compose.yaml` (`server/publisher.mjs`, `server/build-service.mjs`),
+  `.dockerignore`, and the Django published-asset path (`web/assets`).
+- Verified: `npm run check`, `npm run build`, `npm test` 129 passed,
+  `npm run test:accounts` 74 passed, and `npm run dev` served pages, assets,
+  the account API and health check from the new layout.
+
 ## 27 October 2026
 
 ### Design benchmark: the see-and-fix loop
