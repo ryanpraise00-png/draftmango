@@ -98,7 +98,7 @@ def user_json(user):
     return {'id': str(user.id), 'email': user.email, 'emailVerified': user.email_verified, 'name': user.first_name, 'joinedAt': user.date_joined.isoformat()} if user.is_authenticated else None
 
 def session_json(request):
-    return {'configured': True, 'provider': 'django', 'providers': [], 'user': user_json(request.user), 'csrfToken': get_token(request), 'emailDelivery': 'smtp' if settings.EMAIL_HOST else 'local', 'emailVerificationRequired': settings.REQUIRE_EMAIL_VERIFICATION}
+    return {'configured': True, 'provider': 'django', 'providers': ['google'] if settings.GOOGLE_CLIENT_ID and settings.GOOGLE_CLIENT_SECRET else [],'user': user_json(request.user), 'csrfToken': get_token(request), 'emailDelivery': 'smtp' if settings.EMAIL_HOST else 'local', 'emailVerificationRequired': settings.REQUIRE_EMAIL_VERIFICATION}
 
 @api(['GET'])
 def session(request):

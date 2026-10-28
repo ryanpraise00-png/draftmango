@@ -46,7 +46,9 @@ export function createServer({ root = fileURLToPath(new URL('../out/', import.me
       if (url.pathname === '/healthz' && request.method === 'GET') { json(response, 200, {status: 'ok'}); return; }
       if (url.pathname.startsWith('/api/')) {
         const origin = request.headers.origin;
-        if ((origin && origin !== expectedOrigin) || request.headers['sec-fetch-site'] === 'cross-site') throw new AIError(403, 'origin', 'Only the Draftmango workspace can use this API.');
+        // Google's redirect back is a cross-site navigation; Django checks its one-time state.
+        const googleReturn = request.method === 'GET' && url.pathname === '/api/accounts/google/callback';
+        if ((origin && origin !== expectedOrigin) || (request.headers['sec-fetch-site'] === 'cross-site' && !googleReturn)) throw new AIError(403, 'origin', 'Only the Draftmango workspace can use this API.');
         if (url.pathname.startsWith('/api/accounts/') || url.pathname === '/api/projects' || url.pathname.startsWith('/api/billing/') || url.pathname.startsWith('/api/publishing/')) {
           await accountProxy(request, response); return;
         }

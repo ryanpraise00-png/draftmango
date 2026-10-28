@@ -47,6 +47,8 @@ export function proxyDjango(request, response) {
     const upstream = http.request({ hostname: hostname(), port: port(), path: request.url, method: request.method, headers, timeout: 30000 }, incoming => {
       const outgoing = { 'Content-Type': incoming.headers['content-type'] || 'application/json', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' };
       if (incoming.headers['set-cookie']) outgoing['Set-Cookie'] = incoming.headers['set-cookie'];
+      // Google sign-in redirects to Google or back to /auth.
+      if (incoming.headers.location) outgoing.Location = incoming.headers.location;
       if (!response.destroyed) { response.writeHead(incoming.statusCode, outgoing); incoming.pipe(response); }
       incoming.on('end', () => { completed = true; resolve(); });
       incoming.on('error', () => fail(502, 'The account connection ended. Please try again.'));

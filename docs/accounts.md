@@ -42,8 +42,33 @@ EMAIL_FROM=Draftmango <your-verified-sender-address>
 DJANGO_REQUIRE_EMAIL_VERIFICATION=1
 DJANGO_APP_ORIGIN=https://your-deployed-draftmango-address
 ```
-Keep email credentials out of chat. Social provider buttons are hidden until
-those providers are integrated; email/password login is working now.
+Keep email credentials out of chat.
+
+## Google sign-in
+"Continue with Google" appears on the sign-in page only when both
+`DJANGO_GOOGLE_CLIENT_ID` and `DJANGO_GOOGLE_CLIENT_SECRET` are set in `.env`.
+Other social providers are not offered.
+
+1. In Google Cloud Console, open APIs & Services → OAuth consent screen and set
+   up the app (name, support email, the `openid`, `email` and `profile` scopes).
+2. Under Credentials, create an OAuth client ID of type "Web application".
+3. Add the authorized redirect URI `<DJANGO_APP_ORIGIN>/api/accounts/google/callback`,
+   for example `http://127.0.0.1:4175/api/accounts/google/callback` locally and
+   `https://draftmango.com/api/accounts/google/callback` in production.
+4. Put the client ID and secret in `.env` and restart `npm run dev`.
+
+How it behaves:
+- Flow: OpenID Connect authorization code with PKCE, a one-time state and a
+  nonce, all held in the Django session for up to 10 minutes. No extra packages.
+- Google must report the email as verified. Accounts are matched by Google's
+  account ID first, then by email, so an existing email/password account is
+  linked automatically and keeps its password.
+- An email signup that was never confirmed is activated by Google sign-in, and
+  its unconfirmed password is removed (reset it to use email login again).
+- A Google email without a Draftmango account gets one only while
+  `DJANGO_REGISTRATION_OPEN` allows signups; otherwise sign-in is refused.
+- Sign-in always starts on `DJANGO_APP_ORIGIN`: visiting from another host name
+  (for example localhost instead of 127.0.0.1) redirects there first.
 
 ## Project storage
 - Project code, design, conversations and history save to the Django database.

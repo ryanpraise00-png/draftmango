@@ -85,6 +85,9 @@ EMAIL_TIMEOUT = 15
 DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_FROM', 'Draftmango <noreply@localhost>')
 REQUIRE_EMAIL_VERIFICATION = os.environ.get('DJANGO_REQUIRE_EMAIL_VERIFICATION', '0') == '1'
 REGISTRATION_OPEN = os.environ.get('DJANGO_REGISTRATION_OPEN', '0' if PRODUCTION else '1') == '1'
+# Google sign-in (OpenID Connect) is offered only when both values are set.
+GOOGLE_CLIENT_ID = os.environ.get('DJANGO_GOOGLE_CLIENT_ID', '')
+GOOGLE_CLIENT_SECRET = os.environ.get('DJANGO_GOOGLE_CLIENT_SECRET', '')
 
 if PRODUCTION:
     # __Host- cookies cannot be set for a parent domain by a published subdomain.

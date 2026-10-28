@@ -1,5 +1,27 @@
 # Draftmango changelog
 
+## 28 October 2026
+
+### Sample sites replace the blank-site card
+- Three fictional sample websites in `web/samples/`: Ember & Oak (café),
+  Kiln & Co. (ceramics store) and Halden Studio (design portfolio). Each is a
+  standalone page served at `/samples/<name>.html`, built from the existing
+  coffee and ceramics photos, and says on the page that it is a sample.
+- The homepage gallery shows their screenshots; each card opens the sample in a
+  new tab, and "Use this idea" fills the prompt with that sample's brief. The
+  sign-in page showcase shows Kiln & Co. New projects still start blank.
+- `npm run samples:thumbnails` regenerates the screenshots with headless Edge or
+  Chrome while the app is running.
+
+### Google sign-in
+- "Continue with Google" via OpenID Connect (code flow with PKCE), shown only
+  when `DJANGO_GOOGLE_CLIENT_ID` and `DJANGO_GOOGLE_CLIENT_SECRET` are set. The
+  Apple, Microsoft and GitHub placeholders are removed. Setup: `docs/accounts.md`.
+- New `User.google_subject` field (migration 0005). New Google accounts follow
+  `DJANGO_REGISTRATION_OPEN`.
+- The Node proxy now passes account redirects through and accepts Google's
+  cross-site return to `/api/accounts/google/callback` only.
+
 ## 27 October 2026 (afternoon)
 
 ### Project reorganized

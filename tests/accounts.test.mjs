@@ -78,3 +78,17 @@ test('the reset tool creates one valid blank project the browser reads unchanged
   assert.deepEqual(again, doc);
   assert.deepEqual(doc.messages.map(m => m.role), ['assistant']);
 });
+test('Google can return to the sign-in callback cross-site, and account redirects pass through the proxy', async t => {
+  const http = await import('node:http');
+  const django = http.createServer((request, response) => { response.writeHead(302, { Location: '/auth', 'Content-Type': 'text/html' }); response.end(); });
+  django.listen(0, '127.0.0.1'); await once(django, 'listening');
+  const previousPort = process.env.DJANGO_PORT; process.env.DJANGO_PORT = String(django.address().port);
+  const server = createServer(); server.listen(0, '127.0.0.1'); await once(server, 'listening');
+  t.after(() => { process.env.DJANGO_PORT = previousPort; if (previousPort === undefined) delete process.env.DJANGO_PORT; for (const s of [server, django]) { s.closeAllConnections(); s.close(); } });
+  const base = 'http://127.0.0.1:' + server.address().port, crossSite = { 'sec-fetch-site': 'cross-site' };
+  const back = await fetch(base + '/api/accounts/google/callback?state=s&code=c', { headers: crossSite, redirect: 'manual' });
+  assert.equal(back.status, 302); assert.equal(back.headers.get('location'), '/auth');
+  assert.equal((await fetch(base + '/api/accounts/session', { headers: crossSite })).status, 403);
+  assert.equal((await fetch(base + '/api/accounts/google/start', { headers: crossSite, redirect: 'manual' })).status, 403);
+  assert.equal((await fetch(base + '/api/accounts/google/callback', { method: 'POST', headers: crossSite })).status, 403);
+});

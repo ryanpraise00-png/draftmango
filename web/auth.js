@@ -29,7 +29,8 @@
     $('#submit-auth').disabled = busy || !connected;
     $('#switch-copy').textContent = view[3]; $('#switch-mode').textContent = view[4];
     for (const id of ['switch-mode', 'change-email', 'forgot-password']) $('#' + id).disabled = busy;
-    $('#social-options').hidden = passwordStep || !['login', 'signup'].includes(mode);
+    $('#social-options').hidden = passwordStep || !['login', 'signup'].includes(mode) || !connected || !A.config?.providers?.includes('google');
+    $('#google-signin').disabled = busy;
     $('#signup-terms').hidden = mode !== 'signup';
     form.setAttribute('aria-busy', String(busy));
   }
@@ -60,6 +61,25 @@
     catch (error) { showFeedback(error.message, true); }
     finally { busy = false; render(); }
   }
+  // Google returns to /auth with #error=<code> when sign-in could not finish.
+  const googleErrors = {
+    google_cancelled: 'Google sign-in was cancelled. Choose an account to continue, or use your email.',
+    google_expired: 'That Google sign-in took too long. Please try again.',
+    google_unverified: 'Your Google account email is not verified. Verify it with Google, or sign in with your email.',
+    google_unavailable: 'Google sign-in is not available right now. Please use your email.',
+    google_failed: 'Google sign-in could not be completed. Please try again.',
+    registration_closed: 'There is no Draftmango account for that Google email, and signups are not open yet.',
+    account_disabled: 'This account is disabled. Contact support if you think this is a mistake.',
+    rate_limit: 'Please wait a little before trying again.'
+  };
+  const googleError = params.get('error');
+  $('#google-signin').addEventListener('click', () => {
+    if (busy) return;
+    if (intent().size) sessionStorage.setItem('draftmango-auth-intent', intent().toString());
+    busy = true; render();
+    location.assign('/api/accounts/google/start');
+  });
+  window.addEventListener('pageshow', event => { if (event.persisted) { busy = false; render(); } });
   $('.skip-link').addEventListener('click', event => { event.preventDefault(); $('#account').focus(); });
   $('#switch-mode').addEventListener('click', () => setMode(mode === 'login' ? 'signup' : 'login'));
   $('#change-email').addEventListener('click', () => { step = 'email'; password.value = ''; feedback.hidden = true; render(); email.focus(); });
@@ -98,6 +118,10 @@
       if (flow === 'recovery' && uid && token) { mode = 'recovery'; step = 'password'; }
       else if (flow === 'verify') { await A.request('/api/accounts/verify', { method: 'POST', body: { uid, token } }); showFeedback('Your email is confirmed. You can sign in now.'); }
     } else if (A.user) { location.replace(destination()); return; }
+    else if (googleError) {
+      params.delete('error'); history.replaceState(null, '', location.pathname + '#' + params);
+      showFeedback(googleErrors[googleError] || googleErrors.google_failed, true);
+    }
   } catch (error) { showFeedback(error.message || 'The account service is unavailable. Start Draftmango with npm run dev.', true); }
   finally { busy = false; render(); }
 })();

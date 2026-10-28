@@ -12,6 +12,12 @@
     store: 'An online store for a small independent brand, with a featured collection, simple product pages and a clear way to buy.',
     cafe: 'A website for a local business, with what it offers, opening hours, where to find it and an easy way to book or visit.'
   };
+  // Briefs behind the sample sites in the gallery. The new project still starts blank.
+  const samples = {
+    'ember-oak': 'A website for a neighbourhood café and bakery. Warm and inviting, with a short menu, opening hours, where to find us and a way to order ahead.',
+    'kiln-co': 'An online store for a small ceramics studio. Calm and modern, with a featured collection, bestselling pieces, our story and clear delivery and returns information.',
+    'halden-studio': 'A portfolio for a two-person brand and interior design studio. Bold typography, a grid of selected projects, the services we offer and an easy way to get in touch.'
+  };
   const surprises = [
     'A playful website for a weekend pottery club. Think buttery yellows, imperfect shapes, and a warm invitation to make something with your hands.',
     'A colorful website for a small flower shop called Little Bloom. A little joy, delivered. Soft greens, warm peach, and flowers for the just-because moments.',
@@ -89,9 +95,9 @@
     focusIdea();
   }));
 
-  $$('[data-blank]').forEach((button) => button.addEventListener('click', () => {
-    focusIdea();
-    announce('Describe your website. Draftmango designs it from a blank page.');
+  $$('[data-sample]').forEach((button) => button.addEventListener('click', () => {
+    focusIdea(samples[button.dataset.sample]);
+    announce('Brief added. Make it your own, then start building.');
   }));
 
   const stepMessages = ['“A flower shop for the little moments.”', '“Use softer colors and simplify the layout.”', 'Review your draft, edit the code, and export.'];

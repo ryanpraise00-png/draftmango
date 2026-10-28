@@ -20,6 +20,8 @@ class User(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
     email_verified = models.BooleanField(default=False)
+    # Google's stable account ID ("sub"), set the first time someone signs in with Google.
+    google_subject = models.CharField(max_length=255, unique=True, null=True, blank=True)
     workspace_preferences = models.JSONField(default=dict, blank=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

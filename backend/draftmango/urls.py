@@ -1,6 +1,6 @@
 from django.urls import path
 from draftmango.health import health
-from accounts import views, workspace_views, billing_views, publishing, limits
+from accounts import views, workspace_views, billing_views, publishing, limits, google
 urlpatterns = [
     path('healthz', health),
     path('api/publishing/sites', publishing.sites),
@@ -25,6 +25,8 @@ urlpatterns = [
     path('api/accounts/signup', views.signup),
     path('api/accounts/login', views.signin),
     path('api/accounts/logout', views.signout),
+    path('api/accounts/google/start', google.start),
+    path('api/accounts/google/callback', google.callback),
     path('api/accounts/reset', views.reset_request),
     path('api/accounts/reset-confirm', views.reset_confirm),
     path('api/accounts/verify', views.verify),
