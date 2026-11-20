@@ -33,27 +33,27 @@ test('conversation context is bounded and excludes initial placeholders and the 
 test('a conversational answer does not emit a build plan or generate files',async()=>{
  const updates=[],requests=[];
  const result=await generate({mode:'create',framework:'html',interaction:'conversation',prompt:'Hello'},config,{onProgress:event=>updates.push(event),fetchImpl:async(_,options)=>{
-  requests.push(JSON.parse(options.body));return response({action:'reply',message:'Hi! What would you like to build?',designBrief:null});
+  requests.push(JSON.parse(options.body));return response({action:'reply',title:'',message:'Hi! What would you like to build?',edits:[],colours:[]});
  }});
  assert.equal(requests.length,1);assert.equal(result.action,'reply');assert.equal(result.files,null);assert.ok(!updates.some(e=>e.message));
  assert.equal(requests[0].input.at(-1).content,'Hello');
 });
-test('the validated plan is delivered before implementation; partial files and reasoning stay private',async()=>{
- const events=[],requests=[];
- const plan={action:'plan',message:'I’ll build a botanical storefront with seasonal bouquets and delivery details.',designBrief:brief};
- const result=await generate({mode:'create',framework:'html',interaction:'conversation',prompt:'Build a flower shop'},config,{onProgress:e=>events.push(e),fetchImpl:async(_,options)=>{
-  const body=JSON.parse(options.body);requests.push(body);
-  if(requests.length===1)return response(plan);
-  assert.ok(events.some(e=>e.phase==='building'&&e.message===plan.message));
-  return response({action:'update',title:'Little Bloom',message:'The storefront is ready.',designBrief:brief,files});
+test('validated template operations announce application without exposing files or reasoning',async()=>{
+ const events=[];
+ const result=await generate({mode:'create',interaction:'conversation',prompt:'Rename framo studio to North Studio',templateId:'architecture-studio-1'},config,{onProgress:e=>events.push(e),fetchImpl:async(_,options)=>{
+  const body=JSON.parse(options.body),c=JSON.parse(body.input[1].content);
+  assert.ok(!events.some(e=>e.message));
+  return response({action:'update',title:'North Studio',message:'Renamed the studio.',edits:[{id:c.fields.find(f=>f.value==='framo studio').id,value:'North Studio',allMatching:true}],colours:[]});
  }});
- assert.equal(result.action,'update');assert.equal(requests.length,2);
+ assert.equal(result.action,'update');assert.ok(events.some(e=>e.phase==='building'&&e.message.includes('keeping its design')));
  assert.ok(!JSON.stringify(events).includes('<html>'));assert.ok(!JSON.stringify(events).includes('fake-test-key'));
 });
-test('invalid plans never appear in the chat as an accepted build',async()=>{
- const events=[];await assert.rejects(generate({mode:'create',framework:'html',interaction:'conversation',prompt:'Build'},config,{onProgress:e=>events.push(e),fetchImpl:async()=>response({action:'plan',message:'Broken plan',designBrief:null})}));
+
+test('invalid source-writing responses never appear in chat as accepted template updates',async()=>{
+ const events=[];await assert.rejects(generate({mode:'create',interaction:'conversation',prompt:'Build'},config,{onProgress:e=>events.push(e),fetchImpl:async()=>response({action:'update',title:'New',message:'Rebuilt',files})}));
  assert.ok(!events.some(e=>e.message));
 });
+
 test('message activity survives loading through the model without the chat renderer',()=>{
  const p=M.createProject('Flowers');p.messages=[{role:'assistant',text:'Ready',activity:{durationMs:34000,phases:['directing','building','bogus','building','checking'],plan:'A botanical storefront.'}}];
  const renderer=globalThis.DraftmangoConversation;delete globalThis.DraftmangoConversation;

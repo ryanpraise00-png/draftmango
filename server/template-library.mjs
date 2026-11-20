@@ -2,10 +2,11 @@ import {readFile} from 'node:fs/promises';
 import '../web/templates-model.js';
 import '../web/project-format.js';
 let catalog,runtime;
-export async function templateForPrompt(prompt) {
+export async function templateForPrompt(prompt, templateId = '') {
  catalog ||= JSON.parse(await readFile(new URL('../web/template-catalog.json',import.meta.url)));
  runtime ||= JSON.parse(await readFile(new URL('../web/framo/starters/runtime.json',import.meta.url)));
- const chosen=globalThis.DraftmangoTemplates.choose(catalog,prompt);
+ const chosen=templateId ? catalog.find(item=>item.id===templateId) : globalThis.DraftmangoTemplates.choose(catalog,prompt);
+ if(!chosen){const error=new Error('That template is unavailable. Choose a design from the library.');error.status=422;error.code='template_unavailable';throw error;}
  const starter=JSON.parse(await readFile(new URL('../web/framo/starters/'+chosen.id+'.json',import.meta.url)));
  return {...chosen,files:globalThis.DraftmangoProject.scaffold({...starter.files,...runtime},chosen.name)};
 }

@@ -41,40 +41,31 @@ test('all 100 imported React templates compile and retain their pages', {timeout
 });
 
 
-test('Framo edits retain unreturned pages and runtime without sending vendor source to the model',async()=>{
+
+test('Framo personalization changes content while retaining every page and runtime',async()=>{
  const starter=JSON.parse(await readFile(new URL('../web/framo/starters/architecture-studio-1.json',import.meta.url)));
- const files=P.scaffold({...starter.files,...runtime},starter.name);
- let received;
- const result=await generate({mode:'edit',prompt:'Change the accent to blue',files},{provider:'openai',key:'test',model:'gpt-6-luna',maxTokens:4096},{fetchImpl:async(_url,options)=>{
-  received=JSON.parse(options.body);
-  return Response.json({status:'completed',output:[{type:'message',role:'assistant',content:[{type:'output_text',text:JSON.stringify({action:'update',title:'Studio',message:'Updated the accent.',designBrief:null,files:[{path:'src/styles.css',content:':root{--color-primary:blue}'}]})}]}]});
+ const files=P.scaffold({...starter.files,...runtime},starter.name);let received;
+ const result=await generate({mode:'edit',prompt:'Rename framo studio to North Studio',files},{provider:'openai',key:'test',model:'gpt-6-luna',maxTokens:4096},{fetchImpl:async(_url,options)=>{
+  received=JSON.parse(options.body);const c=JSON.parse(received.input[1].content);const field=c.fields.find(f=>f.value==='framo studio');assert.ok(field);
+  return Response.json({status:'completed',output:[{type:'message',role:'assistant',content:[{type:'output_text',text:JSON.stringify({action:'update',title:'North Studio',message:'Renamed the studio.',edits:[{id:field.id,value:'North Studio',allMatching:true}],colours:[]})}]}]});
  }});
- assert.equal(result.files['src/styles.css'],':root{--color-primary:blue}');
- for(const [name,source] of Object.entries(files))if(name!=='src/styles.css')assert.equal(result.files[name],source,name);
- const content=JSON.stringify(received);
- assert.ok(content.includes('src/pages/Page0.jsx'));
- assert.ok(content.includes('src/shared/'));
- assert.ok(!content.includes(runtime['src/framo/vendor.txt']));
- assert.equal(result.files['index.html'],files['index.html']);
+ assert.ok(result.files['src/pages/Page0.jsx'].includes('North Studio'));
+ for(const [name,source] of Object.entries(files))if(!/^src\/(pages|shared)\//.test(name))assert.equal(result.files[name],source,name);
+ assert.deepEqual(Object.keys(result.files),Object.keys(files));
+ assert.ok(!JSON.stringify(received).includes(runtime['src/framo/vendor.txt']));
+ assert.equal(JSON.parse(received.input[1].content).files,undefined);
 });
 
-
-test('new React creation customizes a Framo template and preserves its complete page library',async()=>{
- const requests=[];
- const brief={version:1,concept:'Personalize the Framo fashion store for socks.',audience:'Socks shoppers.',primaryAction:'Browse the collection.',composition:'Preserve the Framo fashion-store layout.',typography:'Retain the template type system.',palette:'Retain the template palette.',imagery:'Use the template image slots with appropriate product photos.',motion:'Retain template interactions and respect reduced motion.',sections:['Collection','Products','About'],constraints:['Checkout is a demonstration until connected.']};
- const response=value=>Response.json({status:'completed',output:[{type:'message',role:'assistant',content:[{type:'output_text',text:JSON.stringify(value)}]}]});
- const result=await generate({mode:'create',framework:'react',prompt:'A shop for selling socks'},{provider:'openai',key:'test',model:'gpt-6-luna',maxTokens:4096},{fetchImpl:async(_url,options)=>{
-  const body=JSON.parse(options.body);requests.push(body);
-  return response(requests.length===1?{action:'plan',message:'Personalizing the fashion store.',designBrief:brief}:{action:'update',title:'Socks',message:'Updated the store.',designBrief:brief,files:[{path:'src/styles.css',content:':root{--color-primary:#c2410c}'}]});
+test('new React creation loads the selected library template and accepts only content edits',async()=>{
+ let requests=0;
+ const result=await generate({mode:'create',framework:'react',prompt:'An architecture studio called North Studio',templateId:'architecture-studio-1'},{provider:'openai',key:'test',model:'gpt-6-luna',maxTokens:4096},{fetchImpl:async(_url,options)=>{
+  requests++;const body=JSON.parse(options.body),c=JSON.parse(body.input[1].content);
+  assert.equal(c.template.id,'architecture-studio-1');assert.equal(c.files,undefined);assert.equal(body.text.format.name,'draftmango_template_edits');
+  const field=c.fields.find(f=>f.value==='framo studio');
+  return Response.json({status:'completed',output:[{type:'message',role:'assistant',content:[{type:'output_text',text:JSON.stringify({action:'update',title:'North Studio',message:'Personalised the architecture template.',edits:[{id:field.id,value:'North Studio',allMatching:true}],colours:[]})}]}]});
  }});
- assert.equal(requests.length,2);
- const context=JSON.parse(requests[1].input[1].content);
- assert.equal(context.mode,'edit');
- assert.ok(context.files['TEMPLATE.md'].includes('fashion-store-1'));
- assert.ok(context.files['src/pages/Page0.jsx']);
- assert.ok(result.files['src/framo/vendor.txt']);
- assert.ok(P.valid(result.files));
- assert.equal(result.files['src/styles.css'],':root{--color-primary:#c2410c}');
- const original=JSON.parse(await readFile(new URL('../web/framo/starters/fashion-store-1.json',import.meta.url)));
- for(const [name,source] of Object.entries(original.files))if(name!=='src/styles.css')assert.equal(result.files[name],source,name);
+ assert.equal(requests,1);assert.ok(result.files['src/framo/vendor.txt']);assert.ok(P.valid(result.files));
+ assert.ok(result.files['src/pages/Page0.jsx'].includes('North Studio'));
+ const original=JSON.parse(await readFile(new URL('../web/framo/starters/architecture-studio-1.json',import.meta.url)));
+ for(const [name,source] of Object.entries(original.files))if(!/^src\/(pages|shared)\//.test(name))assert.equal(result.files[name],source,name);
 });

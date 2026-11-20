@@ -12,36 +12,6 @@ const plan = {action:'plan',message:'A collectible stamp-shop direction.',design
 const output = {action:'update',message:'Created the catalogue.',title:'Stamp Socks',designBrief:brief,files};
 const response = value => Response.json({status:'completed',usage:{input_tokens:100,output_tokens:200},output:[{type:'message',role:'assistant',content:[{type:'output_text',text:JSON.stringify(value)}]}]});
 
-test('creation discards legacy starter files and passes a validated original direction to implementation', async () => {
-  const input = {mode:'create',framework:'html',prompt:'A playful socks shop',creationPreferences:['Use the user-selected blue palette.'],files:{...files,'styles.css':'OLD_STARTER_ANCHOR'},history:[],designBrief:{bad:'old direction'}};
-  const before = structuredClone(input), requests = [], progress = [];
-  const result = await generate(input,config,{onProgress:event=>progress.push(event.phase),fetchImpl:async (_url,options)=>{
-    const body=JSON.parse(options.body);requests.push(body);
-    return response(body.text.format.name === 'draftmango_direction' ? plan : output);
-  }});
-  assert.equal(requests.length,2);
-  assert.equal(requests[0].text.format.name,'draftmango_direction');
-  assert.equal(requests[1].text.format.name,'draftmango_website');
-  assert.equal(requests[0].max_output_tokens,8192);
-  assert.equal(requests[1].max_output_tokens,12000);
-  for(const request of requests){
-    assert.equal(request.store,false);
-    assert.equal(request.text.format.strict,true);
-    const context=JSON.parse(request.input[1].content);
-    assert.equal(context.files,undefined);
-    assert.deepEqual(context.creationPreferences,input.creationPreferences);
-    assert.equal(JSON.stringify(request).includes('OLD_STARTER_ANCHOR'),false);
-  }
-  assert.deepEqual(JSON.parse(requests[1].input[1].content).designBrief,brief);
-  assert.deepEqual(result.designBrief,brief);
-  assert.deepEqual(result.files,files);
-  assert.deepEqual(input,before);
-  assert.equal(result.designProcess.stages.length,2);
-  assert.equal(result.designProcess.stages[0].inputTokens,100);
-  assert.ok(progress.includes('directing'));
-  assert.ok(!JSON.stringify(result).includes(config.key));
-});
-
 test('editing reuses the current files and direction in a single call and may update that direction',async()=>{
   const updated={...brief,palette:'Paper white, raspberry and forest green.'};
   const requests=[];
@@ -65,47 +35,6 @@ test('legacy projects can be edited without a brief, but malformed briefs and fi
   for(const creationPreferences of ['not an array',[42],['x'.repeat(601)],Array(9).fill('x')]){
     assert.throws(()=>validateInput({mode:'create',framework:'html',prompt:'New site',creationPreferences}),error=>error.code==='invalid_request');
   }
-});
-
-test('invalid planning responses never start implementation',async()=>{
-  for(const invalid of [{...plan,designBrief:null},{...plan,designBrief:{...brief,concept:''}},{...plan,action:'unexpected'}]){
-    let calls=0;
-    await assert.rejects(generate({mode:'create',framework:'html',prompt:'New site'},config,{fetchImpl:async()=>{calls++;return response(invalid);}}),error=>error.code==='invalid_brief');
-    assert.equal(calls,1);
-  }
-});
-
-test('a direct answer from the director has no files and does not trigger implementation',async()=>{
-  let calls=0;
-  const result=await generate({mode:'create',framework:'html',prompt:'Can you connect a backend?'},config,{fetchImpl:async()=>{calls++;return response({action:'reply',message:'This workspace currently supports frontend demos.',designBrief:null});}});
-  assert.equal(calls,1);assert.equal(result.files,null);assert.equal(result.designBrief,null);assert.equal(result.action,'reply');
-});
-
-test('failed implementation never returns a planned brief as a completed draft',async()=>{
-  let calls=0;
-  const input={mode:'create',framework:'html',prompt:'New site',files};
-  await assert.rejects(generate(input,config,{fetchImpl:async()=>++calls===1?response(plan):response({...output,files:{...files,'index.html':'<html>partial'}})}),error=>error.code==='invalid_output');
-  assert.equal(calls,2);assert.deepEqual(input.files,files);
-});
-
-test('cancellation between stages stops before the second provider request',async()=>{
-  let calls=0;const controller=new AbortController();
-  await assert.rejects(generate({mode:'create',framework:'html',prompt:'New site'},config,{signal:controller.signal,fetchImpl:async()=>{
-    calls++;controller.abort();return response(plan);
-  }}),error=>error.name==='AbortError');
-  assert.equal(calls,1);
-});
-
-test('Anthropic creation uses the same two-stage contract and carries the brief',async()=>{
-  const bodies=[];
-  const result=await generate({mode:'create',framework:'html',prompt:'New site'},{...config,provider:'anthropic',model:'claude-sonnet-5-5'}, {fetchImpl:async (_url,options)=>{
-    const body=JSON.parse(options.body);bodies.push(body);
-    const value=bodies.length===1?plan:output;
-    return Response.json({stop_reason:'end_turn',content:[{type:'text',text:JSON.stringify(value)}]});
-  }});
-  assert.equal(bodies.length,2);
-  assert.deepEqual(JSON.parse(bodies[1].messages[0].content).designBrief,brief);
-  assert.deepEqual(result.designBrief,brief);
 });
 
 test('design direction follows code through reload, undo, redo, branching and cloud merge',()=>{

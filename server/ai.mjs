@@ -1,9 +1,10 @@
-import {templateForPrompt,templateEditContext} from './template-library.mjs';
+import {templateForPrompt} from './template-library.mjs';
+import {templateContentContext,applyTemplateEdits,templateEditSystem,templateEditSchema} from './template-edits.mjs';
 import '../web/project-format.js';
 const Project = globalThis.DraftmangoProject;
 import { readFile } from 'node:fs/promises';
 import { conversationPolicy, conversationMessages } from './conversation.mjs';
-import { creationContext, designPrinciples, plannerSystem, plannerSchema, readDesignBrief, designBriefSchema } from './design-coordinator.mjs';
+import { designPrinciples, readDesignBrief, designBriefSchema } from './design-coordinator.mjs';
 
 export class AIError extends Error {
   constructor(status, code, message) { super(message); this.status = status; this.code = code; }
@@ -84,6 +85,7 @@ function validFiles(files) { return Project.valid(files); }
 export function validateInput(value) {
   if (value?.modelId != null && (typeof value.modelId !== 'string' || !/^(?:openai|anthropic|xai):[a-z0-9.-]{1,100}$/.test(value.modelId))) throw new AIError(400, 'invalid_model', 'Choose a model from the workspace selector.');
   if (!value || !['create', 'edit'].includes(value.mode) || typeof value.prompt !== 'string' || !value.prompt.trim() || value.prompt.length > 12000 || (value.mode === 'edit' ? !validFiles(value.files) : value.files != null && !validFiles(value.files))) throw new AIError(400, 'invalid_request', 'Include a request, and the current project files when editing. Keep the request under 12,000 characters and each file under 500,000 characters.');
+  if(value.templateId != null && (typeof value.templateId !== 'string' || !/^[a-z][a-z0-9-]{0,70}$/.test(value.templateId))) throw new AIError(400,'invalid_template','Choose a template from the library.');
   const history = Array.isArray(value.history) ? value.history.slice(-40) : [];
   if (history.some(item => !item || !['user', 'assistant'].includes(item.role) || typeof item.text !== 'string' || item.text.length > 12000)) throw new AIError(400, 'invalid_request', 'The conversation context is invalid. Reload the workspace and try again.');
   if (history.reduce((total,item)=>total+item.text.length,0)>96000) throw new AIError(400,'invalid_request','The conversation is too long for one request.');
@@ -109,7 +111,7 @@ export function validateInput(value) {
   });
   const projectContext = value.projectContext ?? '';
   if (typeof projectContext !== 'string' || projectContext.length > 16000) throw new AIError(400, 'context', 'Project context is too long.');
-  return { ...(value.modelId ? {modelId:value.modelId} : {}), mode: value.mode, framework: value.mode === 'edit' ? (Project.isReact(value.files) ? 'react' : 'html') : value.framework === 'html' ? 'html' : 'react', ...(value.interaction === 'conversation' ? {interaction:'conversation'} : {}), prompt: value.prompt.trim(), ...(value.mode === 'edit' ? {files:{...value.files}, designBrief} : {creationPreferences}), history: history.map(({role, text}) => ({role, text})), ...(checked.length ? {references:checked} : {}), ...(projectContext ? {projectContext} : {}) };
+  return { ...(value.modelId ? {modelId:value.modelId} : {}), mode: value.mode, framework: value.mode === 'edit' ? (Project.isReact(value.files) ? 'react' : 'html') : 'react', ...(value.interaction === 'conversation' ? {interaction:'conversation'} : {}), prompt: value.prompt.trim(), ...(value.mode === 'edit' ? {files:{...value.files}, designBrief} : {creationPreferences,...(value.templateId ? {templateId:value.templateId} : {})}), history: history.map(({role, text}) => ({role, text})), ...(checked.length ? {references:checked} : {}), ...(projectContext ? {projectContext} : {}) };
 }
 export function modelContent(input, provider) {
   const {references = [], modelId, ...context} = input;
@@ -276,45 +278,32 @@ export async function requestModel(input, config, { signal, fetchImpl = fetch, o
 }
 
 export async function generate(input, config, options = {}) {
-  // Validate here too: direct callers and old browser tabs must not send starters to the model.
   input = validateInput(input);
-  const onProgress = options.onProgress || (() => {});
-  const stages = [];
-  const record = (stage, started, result) => {
-    const usage = result?.usage;
-    stages.push({stage, elapsedMs:Date.now()-started,
-      inputTokens:usage?.input_tokens ?? null, outputTokens:usage?.output_tokens ?? null});
-  };
-  let designBrief = input.designBrief || null;
-  let templateFiles = input.files?.['TEMPLATE.md'] ? input.files : null;
-  if(input.mode==='create' && input.framework==='react'){
-    const template=await templateForPrompt(input.prompt);templateFiles=template.files;
-    input.creationPreferences=[...(input.creationPreferences||[]),'Use the '+template.name+' Framo template. Preserve its layout, typography and components; adapt content to the brief.'];
-  }
-  if (input.mode === 'create') {
+  const onProgress = options.onProgress || (() => {}), stages=[];
+  const record=(stage,started,result)=>stages.push({stage,elapsedMs:Date.now()-started,inputTokens:result?.usage?.input_tokens??null,outputTokens:result?.usage?.output_tokens??null});
+  // Every new site comes from the library, including requests from older clients.
+  // Existing hand-written/legacy projects remain editable without replacing their source.
+  const template=input.mode==='create' ? await templateForPrompt(input.prompt,input.templateId) : null;
+  const base=template?.files || (input.files?.['TEMPLATE.md'] ? input.files : null);
+  if(base){
+    const identity=template || {id:base['TEMPLATE.md'].match(/Imported Framo design: ([a-z0-9-]+)/)?.[1]||'existing-template',name:base['TEMPLATE.md'].match(/^# (.+)/)?.[1]||'Your template'};
+    const context=templateContentContext(base,input.prompt,{creating:!!template});
     onProgress({phase:'directing'});
-    const started = Date.now();
-    const result = await requestModel(creationContext(input), {...config, maxTokens:Math.min(config.maxTokens,8192)}, {
-      ...options, systemPrompt:plannerSystem, outputSchema:plannerSchema, schemaName:'draftmango_direction',
-      onProgress:() => onProgress({phase:'directing'})
-    });
-    record('direction', started, result);
+    const {files,designBrief,...rest}=input;
+    const request={...rest,mode:template?'personalize':'edit-content',template:{id:identity.id,name:identity.name,pages:context.pages},fields:context.fields,omittedFields:context.omittedFields,supportedColours:['primary','background','text']};
+    const started=Date.now();
+    const result=await requestModel(request,config,{...options,systemPrompt:templateEditSystem,outputSchema:templateEditSchema,schemaName:'draftmango_template_edits'});
+    record('template-personalization',started,result);
     options.signal?.throwIfAborted();
-    const plan = readProviderObject(result, config);
-    if (!['plan','reply'].includes(plan.action) || typeof plan.message !== 'string' || !plan.message.trim() || plan.message.length > 3000) throw new AIError(502,'invalid_brief','The creative direction was incomplete. Your draft is unchanged. Please try again.');
-    if (plan.action === 'reply') return {action:'reply',title:'',message:plan.message.trim(),files:null,designBrief:null,designProcess:{version:1,stages},...publicConfig(config)};
-    designBrief = readDesignBrief(plan.designBrief);
-    if (!designBrief) throw new AIError(502,'invalid_brief','The creative direction was incomplete. Your draft is unchanged. Please try again.');
-    onProgress({phase:'building',message:plan.message.trim()});
+    const output=applyTemplateEdits(base,readProviderObject(result,config),context,input.prompt);
+    if(output.action==='update')onProgress({phase:'building',message:'I’ll apply the content changes to '+identity.name+' while keeping its design.'});
+    onProgress({phase:'checking'});
+    return {...output,designBrief:output.action==='update'?input.designBrief||null:null,designProcess:{version:1,stages,templateId:identity.id},...publicConfig(config)};
   }
   options.signal?.throwIfAborted();
-  const started = Date.now();
-  const templateContext=templateFiles ? templateEditContext(templateFiles,input.prompt) : null;
-  const implementation=templateContext ? {...input,mode:'edit',...templateContext,projectContext:(input.projectContext||'')+'\nUse this Framo design. Edit its existing React page components. Unprovided files are retained automatically; request a page filename if a change needs one. Return complete changed files. Preserve App routing and index stylesheet links. Keep vendor runtime imports. Do not invent a replacement layout. Review demo claims and contact details before publishing.'} : input;
-  const result = await requestModel({...implementation, designBrief}, config, {...options, systemPrompt:input.framework === 'react' ? reactSystem : legacySystem, outputSchema:input.framework === 'react' ? reactSchema : legacySchema, schemaName:input.framework === 'react' ? 'draftmango_react_project' : 'draftmango_website'});
-  record('implementation', started, result);
-  options.signal?.throwIfAborted();
-  const output = parseResult(result, config, input.framework, templateFiles);
-  return {...output, designBrief:output.action === 'update' ? output.designBrief || designBrief : null, designProcess:{version:1,stages}, ...publicConfig(config)};
+  const started=Date.now();
+  const result=await requestModel(input,config,{...options,systemPrompt:input.framework==='react'?reactSystem:legacySystem,outputSchema:input.framework==='react'?reactSchema:legacySchema,schemaName:input.framework==='react'?'draftmango_react_project':'draftmango_website'});
+  record('implementation',started,result);options.signal?.throwIfAborted();
+  const output=parseResult(result,config,input.framework);
+  return {...output,designBrief:output.action==='update'?output.designBrief||input.designBrief:null,designProcess:{version:1,stages},...publicConfig(config)};
 }
-
