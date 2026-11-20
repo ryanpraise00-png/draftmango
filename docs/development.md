@@ -58,3 +58,15 @@ makes one safe repair and scores again. See
 The project is in git and pushed to a private GitHub repository. Commit and
 push after each change. Git ignores `.env`, `data/`, logs, `node_modules/`,
 `.venv/`, `.next/`, `out/` and `public/`. See `CHANGELOG.md` for history.
+
+## Previewing the workspace without signing in
+
+On `localhost` or `127.0.0.1` only, add `?preview` to the dashboard or workspace address
+(for example `http://127.0.0.1:4175/dashboard?preview`) to open the app as a stand-in
+"Local preview" user. It lasts for that browser tab; `?preview=off` or Sign out ends it.
+
+- Projects and preferences stay in that browser's storage. Nothing is sent to the account,
+  project, billing or publishing APIs, which still require a real session.
+- Building the preview, AI generation and publishing need a signed-in account, so the
+  canvas stays empty and the console says to sign in.
+- The switch lives in `web/accounts.js` and does nothing on any other host name.

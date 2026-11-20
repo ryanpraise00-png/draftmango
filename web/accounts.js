@@ -4,6 +4,20 @@
   const originalKeys = { projects: 'draftmango-workspace-v1', preferences: 'draftmango-preferences-v1', domains: 'draftmango-domain-drafts-v1' };
   let user, config, csrf = '', locked = false, syncing = false, started = false, readyPromise, timer;
   let message = 'Opening your workspace…', issue = '', remapped = {};
+  // Local UI preview: on this computer only, open the workspace without signing in by adding ?preview
+  // to the address (?preview=off ends it). Projects stay in this browser and never reach the server,
+  // which still requires a real session for every account and project request.
+  const PREVIEW_KEY = 'draftmango-ui-preview';
+  const preview = (() => {
+    if (!['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)) return false;
+    try {
+      const flag = new URLSearchParams(location.search).get('preview');
+      if (flag === 'off') sessionStorage.removeItem(PREVIEW_KEY);
+      else if (flag !== null) sessionStorage.setItem(PREVIEW_KEY, '1');
+      return sessionStorage.getItem(PREVIEW_KEY) === '1';
+    } catch { return false; }
+  })();
+  const previewUser = Object.freeze({ id: 'local-preview', email: 'preview@localhost', emailVerified: true, name: 'Local preview', joinedAt: new Date().toISOString() });
   const key = kind => S.key(user?.id, originalKeys[kind], 'django');
   const read = () => S.read(localStorage.getItem(key('projects')));
   const store = library => localStorage.setItem(key('projects'), JSON.stringify(library));
@@ -14,11 +28,22 @@
     params.set('mode', 'login'); location.replace('/auth#' + params);
   }
   function endSession() {
-    if (locked || !started) return;
+    if (locked || !started || preview) return;
     window.dispatchEvent(new Event('draftmango:session-ended'));
     locked = true; clearTimeout(timer); redirect();
   }
+  function previewResponse(path, method, body) {
+    const route = path.split('?')[0];
+    let saved = {}; try { saved = JSON.parse(localStorage.getItem(key('preferences')) || '{}'); } catch {}
+    if (method === 'GET' && route === '/api/accounts/profile') return { user: previewUser, preferences: saved };
+    if (method === 'PATCH' && route === '/api/accounts/profile') return { user: previewUser, preferences: { ...saved, ...(body?.preferences || {}) } };
+    if (method === 'GET' && route === '/api/accounts/activity') return { activity: [] };
+    if (method === 'POST' && route === '/api/accounts/activity') return { recorded: false };
+    if (method === 'GET' && route === '/api/accounts/sessions') return { sessions: [] };
+    const error = new Error('Not available in the local preview. Sign in to use this.'); error.code = 'preview'; error.status = 401; throw error;
+  }
   async function request(path, { method = 'GET', body } = {}) {
+    if (preview && /^\/api\/(accounts|projects|billing|publishing)\//.test(path.split('?')[0] + '/')) return previewResponse(path, method, body);
     const headers = { 'Content-Type': 'application/json' };
     if (csrf) headers['X-CSRFToken'] = csrf;
     if (user) headers['X-Draftmango-Account'] = user.id;
@@ -32,7 +57,9 @@
     return data;
   }
   async function init() {
-    if (!readyPromise) readyPromise = (async () => { config = await request('/api/accounts/session'); user = config.user; })();
+    if (!readyPromise) readyPromise = preview
+      ? Promise.resolve().then(() => { config = { configured: true, provider: 'preview', providers: [], user: previewUser, preview: true }; user = previewUser; })
+      : (async () => { config = await request('/api/accounts/session'); user = config.user; })();
     return readyPromise;
   }
   function withLock(fn) { return navigator.locks ? navigator.locks.request('draftmango-sync:' + key('projects'), fn) : fn(); }
@@ -47,6 +74,7 @@
       note.append(heading, text, button); main.replaceChildren(note); return false;
     }
     if (!user) { redirect(); return false; }
+    if (preview) { message = 'Local preview · saved in this browser only'; started = true; paint(); return true; }
     try {
       await withLock(async () => {
         // 1. Ask for ids and versions only. 2. Download full documents just for
@@ -75,11 +103,12 @@
     const latest = read(), changed = library.projects.find(project => project.id === changedId);
     if (changed) S.put(latest, changed);
     latest.activeId = library.activeId; store(latest);
+    if (preview) { status('Local preview · saved in this browser only'); return; }
     status('Saved on device · Sync pending', issue); schedule();
   }
   function schedule() { clearTimeout(timer); timer = setTimeout(sync, 1000); }
   async function sync() {
-    if (!user || locked || syncing) return;
+    if (!user || locked || syncing || preview) return;
     syncing = true;
     try {
       await withLock(async () => {
@@ -139,14 +168,16 @@
   }
   function sessionChanged() { localStorage.setItem('draftmango-session-change', crypto.randomUUID()); }
   async function checkSession() {
-    if (!started || locked) return;
+    if (!started || locked || preview) return;
     try { const data = await request('/api/accounts/session'); if (data.user?.id !== user?.id) endSession(); } catch { /* Connectivity errors do not discard drafts. */ }
   }
   async function headers() { if (!user || locked) throw new Error('Sign in again to continue.'); return { 'X-Draftmango-Account': user.id }; }
-  async function signOut() { await sync(); await request('/api/accounts/logout', { method: 'POST', body: {} }); sessionChanged(); location.replace('/auth#mode=login'); }
+  async function signOut() {
+    if (preview) { try { sessionStorage.removeItem(PREVIEW_KEY); } catch {} location.replace('/'); return; }
+    await sync(); await request('/api/accounts/logout', { method: 'POST', body: {} }); sessionChanged(); location.replace('/auth#mode=login'); }
   window.addEventListener('online', sync);
   window.addEventListener('focus', checkSession);
   window.addEventListener('storage', event => { if (event.key === 'draftmango-session-change') checkSession(); else if (started && event.key === key('projects')) paint(); });
   globalThis.DraftmangoAccounts = Object.freeze({ init, protect, key, saveLibrary, sync, headers, signOut, paint, request, sessionChanged,
-    get user() { return user; }, get config() { return config; }, get message() { return message; }, get issue() { return issue; }, get remapped() { return remapped; } });
+    get preview() { return preview; }, get user() { return user; }, get config() { return config; }, get message() { return message; }, get issue() { return issue; }, get remapped() { return remapped; } });
 })();
