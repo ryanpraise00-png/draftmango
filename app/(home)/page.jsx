@@ -1,4 +1,5 @@
 import PageControllers from "../../components/PageControllers";
+import PublicFooter from "../../components/PublicFooter";
 
 export default function Page() {
   return <>
@@ -21,11 +22,11 @@ export default function Page() {
 <header className={"site-header"}>
 <div className={"header-inner container"}>
 <a href={"#"} className={"brand"} aria-label={"Draftmango home"}><svg className={"brand-mark"}><use href={"#mango"}></use></svg><span>{"draftmango"}<span className={"brand-period"}>{"."}</span></span></a>
-<nav className={"desktop-nav"} aria-label={"Main navigation"}><a href={"#inspiration"}>{"Inspiration"}</a><a href={"#how-it-works"}>{"How it works"}</a><a href={"/pricings"}>{"Pricing"}</a><a href={"/auth#mode=login"}>{"Your workspace"}</a></nav>
-<a className={"button button-dark header-cta"} href={"#idea"}>{"Start creating "}<svg className={"icon"}><use href={"#arrow-up"}></use></svg></a>
+<nav className={"desktop-nav"} aria-label={"Main navigation"}><a href={"#inspiration"}>{"Examples"}</a><a href={"#how-it-works"}>{"How it works"}</a><a href={"/pricings"}>{"Pricing"}</a><a href={"/help"}>{"Help"}</a></nav>
+<div className={"header-actions"}><a className={"header-signin"} href={"/auth#mode=login"}>{"Sign in"}</a><a className={"button button-dark header-cta"} href={"#idea"}>{"Start creating "}<svg className={"icon"}><use href={"#arrow-up"}></use></svg></a></div>
 <button className={"menu-toggle"} aria-label={"Open menu"} aria-expanded={"false"} aria-controls={"mobile-menu"}><span></span><span></span></button>
 </div>
-<nav className={"mobile-menu"} id={"mobile-menu"} aria-label={"Mobile navigation"} hidden={true}><a href={"#inspiration"}>{"Inspiration"}</a><a href={"#how-it-works"}>{"How it works"}</a><a href={"/pricings"}>{"Pricing"}</a><a href={"/auth#mode=login"}>{"Your workspace"}</a><a href={"#idea"}>{"Start creating ↗"}</a></nav>
+<nav className={"mobile-menu"} id={"mobile-menu"} aria-label={"Mobile navigation"} hidden={true}><a href={"#inspiration"}>{"Examples"}</a><a href={"#how-it-works"}>{"How it works"}</a><a href={"/pricings"}>{"Pricing"}</a><a href={"/help"}>{"Help"}</a><a href={"/auth#mode=login"}>{"Sign in"}</a><a href={"#idea"}>{"Start creating ↗"}</a></nav>
 </header>
 <main id={"main"}>
 <section className={"hero"} aria-labelledby={"hero-title"}>
@@ -70,7 +71,7 @@ export default function Page() {
 <section className={"faq-section container section-pad"} id={"questions"} aria-labelledby={"faq-title"}><div className={"faq-intro"}><div className={"eyebrow"}>{"QUESTIONS, ANSWERED"}</div><h2 id={"faq-title"}>{"Before your"}<br />{"first draft."}</h2><p>{"What to expect from the builder."}</p></div><div className={"faq-list"}><details open={true}><summary>{"What could I make with Draftmango?"}<span>{"+"}</span></summary><p>{"A home for your business, a portfolio for your work, or a storefront for the things you make. Start with a simple idea and explore the style that fits it."}</p></details><details><summary>{"Do I need to be a designer?"}<span>{"+"}</span></summary><p>{"No. Start by describing your idea. You can guide the design through conversation, use the visual controls, or edit the source code yourself."}</p></details><details><summary>{"What if I don’t know where to start?"}<span>{"+"}</span></summary><p>{"That’s what first drafts are for. Try one of the idea buttons or hit “Surprise me.” A rough sentence is a perfectly good beginning."}</p></details><details><summary>{"What can I do in the builder today?"}<span>{"+"}</span></summary><p>{"The builder supports AI-assisted drafts, chat, source editing, browser previews and exports in enabled workspaces. Public access is being prepared. Paid plans, domain purchases and customer-site publishing are not live yet. "}<a href={"/help#availability"}>{"See current availability."}</a></p></details></div></section>
 <section className={"final-cta container"} aria-labelledby={"cta-title"}><div className={"cta-doodle"} aria-hidden={"true"}>{"✳"}</div><div><span className={"eyebrow"}>{"READY WHEN YOU ARE"}</span><h2 id={"cta-title"}>{"Your next website"}<br />{"starts with a draft."}</h2></div><div className={"cta-action"}><a className={"button button-dark"} href={"#idea"}>{"Start with your idea "}<svg className={"icon"}><use href={"#arrow-up"}></use></svg></a><span>{"Your idea, ready to take shape."}</span></div></section>
 </main>
-<footer className={"site-footer container"}><a href={"#"} className={"brand"} aria-label={"Draftmango home"}><svg className={"brand-mark"}><use href={"#mango"}></use></svg><span>{"draftmango"}<span className={"brand-period"}>{"."}</span></span></a><span>{"Build what you have in mind."}</span><span>{"© "}<span id={"year"}>{"2026"}</span>{" Draftmango"}</span><a href={"/about"}>{"About"}</a><a href={"/help"}>{"Help"}</a><a href={"/legal#terms"}>{"Terms of service"}</a><a href={"/legal#privacy"}>{"Privacy"}</a><a href={"#"}>{"Back to top ↑"}</a><p className={"company-disclosure"}>{"Draftmango is operated by "}<a href={"/about#company"}>{"DROPCIRCLE LTD"}</a>{" · Registered in England and Wales · Company no. 17464240"}</p></footer>
+<PublicFooter />
 <div className={"toast"} id={"toast"} role={"status"} hidden={true}></div>
 
 <PageControllers scripts={["/project-format.js", "/app.js"]} />

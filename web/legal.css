@@ -6,12 +6,17 @@ body.public-theme.document-page a{color:inherit;text-underline-offset:4px}
 body.public-theme.document-page a:hover{color:#8b5719}
 body.public-theme.document-page .skip-link{position:fixed;left:16px;top:-100px;z-index:10;padding:12px 18px;background:#171717;color:white;border-radius:6px}
 body.public-theme.document-page .skip-link:focus{top:12px}
-body.public-theme.document-page .document-header{max-width:1280px;margin:auto;padding:26px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px;border-bottom:1px solid var(--line)}
+body.public-theme.document-page .document-header{background:var(--card);border-bottom:1px solid var(--line)}
+body.public-theme.document-page .document-header-inner{width:min(1216px,calc(100% - 96px));height:80px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:24px}
 body.public-theme.document-page .brand{display:inline-flex;align-items:center;text-decoration:none;flex-shrink:0}
 body.public-theme.document-page .brand img{width:25px;height:29px}
-body.public-theme.document-page .document-header nav{display:flex;gap:24px;flex-wrap:wrap;align-items:center;font-size:14px;color:var(--muted)}
-body.public-theme.document-page .document-header nav a{text-decoration:none;padding:8px 0}
-body.public-theme.document-page .document-layout{display:grid;grid-template-columns:220px minmax(0,760px);gap:64px;max-width:1160px;padding:0 32px;margin:68px auto 92px;align-items:start}
+body.public-theme.document-page .document-header nav{display:flex;gap:28px;align-items:center;font-size:14px;color:var(--muted)}
+body.public-theme.document-page .document-header :is(nav a,.header-signin){text-decoration:none;padding:8px 0;color:var(--muted)}
+body.public-theme.document-page .document-header :is(nav a,.header-signin):hover,body.public-theme.document-page .document-header nav a[aria-current=page]{color:var(--ink)}
+body.public-theme.document-page .header-start{display:inline-flex;align-items:center;min-height:40px;padding:9px 14px;border-radius:7px;background:var(--ink);color:#fff;font-size:14px;font-weight:500;text-decoration:none;transition:background .15s}
+body.public-theme.document-page .header-start:hover{background:#333;color:#fff}
+body.public-theme.document-page .public-footer{margin-top:0}
+body.public-theme.document-page .document-layout{display:grid;grid-template-columns:220px minmax(0,760px);gap:64px;width:min(1216px,calc(100% - 96px));margin:68px auto 92px;align-items:start}
 body.public-theme.document-page .document-nav{position:sticky;top:28px;padding-top:6px;font-size:14px}
 body.public-theme.document-page .document-nav .eyebrow{margin:0 0 18px}
 body.public-theme.document-page .document-nav nav{display:flex;flex-direction:column;gap:6px}
@@ -54,20 +59,17 @@ body.public-theme.document-page .feature-status{list-style:none;padding:0;border
 body.public-theme.document-page .feature-status li{padding:18px 0;margin:0;border-bottom:1px solid var(--line)}
 body.public-theme.document-page .feature-status strong,body.public-theme.document-page .feature-status span{display:block}
 body.public-theme.document-page .feature-status span{margin-top:5px}
-body.public-theme.document-page .document-footer{max-width:1160px;margin:auto;padding:30px 32px 38px;border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px 40px;color:var(--muted)}
-body.public-theme.document-page .document-footer p{font-size:13px;line-height:1.85;margin:0}
-body.public-theme.document-page .document-footer nav{display:grid;grid-template-columns:auto auto;gap:14px 24px;align-content:start;font-size:13px}
-body.public-theme.document-page .document-footer nav a{text-decoration:none}
-body.public-theme.document-page .document-footer small{font-size:12px}
 @media(max-width:900px){
  body.public-theme.document-page .document-layout{grid-template-columns:180px minmax(0,1fr);gap:32px}
+ body.public-theme.document-page .document-header nav{gap:20px}
+ body.public-theme.document-page :is(.document-header-inner,.document-layout){width:calc(100% - 56px)}
  body.public-theme.document-page .company-details>div{grid-template-columns:1fr;gap:6px}
 }
 @media(max-width:680px){
- body.public-theme.document-page .document-header{padding:20px;flex-wrap:wrap;gap:14px}
- body.public-theme.document-page .document-header nav{width:100%;gap:20px;font-size:13px}
- body.public-theme.document-page .document-header nav a:last-child{margin-left:auto}
- body.public-theme.document-page .document-layout{display:flex;flex-direction:column;gap:28px;margin:28px auto 52px;padding:0 22px}
+ body.public-theme.document-page .document-header-inner{width:calc(100% - 32px);height:auto;flex-wrap:wrap;gap:4px 16px;padding:14px 0 6px}
+ body.public-theme.document-page .document-header nav{order:3;width:100%;gap:20px;font-size:13px;overflow-x:auto;scrollbar-width:none}
+ body.public-theme.document-page .document-header nav a{white-space:nowrap}
+ body.public-theme.document-page .document-layout{display:flex;flex-direction:column;gap:28px;margin:28px auto 52px;width:calc(100% - 32px)}
  body.public-theme.document-page .document-nav{position:static;width:100%;padding:0 0 24px;border-bottom:1px solid var(--line)}
  body.public-theme.document-page .document-nav .eyebrow{margin-bottom:10px}
  body.public-theme.document-page .document-nav nav{flex-direction:row;flex-wrap:wrap;gap:2px 20px}
@@ -80,12 +82,13 @@ body.public-theme.document-page .document-footer small{font-size:12px}
  body.public-theme.document-page .document-summary,body.public-theme.document-page .document-note{padding:18px 20px}
  body.public-theme.document-page th,body.public-theme.document-page td{padding:12px 10px;font-size:13px}
  body.public-theme.document-page th:first-child{width:36%}
- body.public-theme.document-page .document-footer{display:block;padding:28px 22px}
- body.public-theme.document-page .document-footer nav{margin:24px 0}
+}
+@media(max-width:420px){
+ body.public-theme.document-page .header-signin{display:none}
 }
 @media print{
  body.public-theme.document-page{background:#fff;color:#000}
- body.public-theme.document-page .document-header,body.public-theme.document-page .document-nav,body.public-theme.document-page .skip-link,body.public-theme.document-page .document-footer nav{display:none}
+ body.public-theme.document-page .document-header,body.public-theme.document-page .document-nav,body.public-theme.document-page .skip-link,body.public-theme.document-page .public-footer-main{display:none}
  body.public-theme.document-page .document-layout{display:block;margin:0;padding:0;max-width:none}
  body.public-theme.document-page main{width:100%}
  body.public-theme.document-page h2,body.public-theme.document-page h3{break-after:avoid}
