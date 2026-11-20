@@ -1,5 +1,6 @@
 import json
 import hashlib
+import re
 from functools import wraps
 from urllib.parse import urlencode
 from uuid import UUID
@@ -98,7 +99,7 @@ def user_json(user):
     return {'id': str(user.id), 'email': user.email, 'emailVerified': user.email_verified, 'name': user.first_name, 'joinedAt': user.date_joined.isoformat()} if user.is_authenticated else None
 
 def session_json(request):
-    return {'configured': True, 'provider': 'django', 'providers': ['google'] if settings.GOOGLE_CLIENT_ID and settings.GOOGLE_CLIENT_SECRET else [],'user': user_json(request.user), 'csrfToken': get_token(request), 'emailDelivery': 'smtp' if settings.EMAIL_HOST else 'local', 'emailVerificationRequired': settings.REQUIRE_EMAIL_VERIFICATION}
+    return {'configured': True, 'provider': 'django', 'providers': ['google'] if getattr(settings, 'GOOGLE_CLIENT_ID', '') and getattr(settings, 'GOOGLE_CLIENT_SECRET', '') else [],'user': user_json(request.user), 'csrfToken': get_token(request), 'emailDelivery': 'smtp' if settings.EMAIL_HOST else 'local', 'emailVerificationRequired': settings.REQUIRE_EMAIL_VERIFICATION, 'registrationOpen': settings.REGISTRATION_OPEN}
 
 @api(['GET'])
 def session(request):
@@ -110,11 +111,33 @@ class VerificationToken(PasswordResetTokenGenerator):
         return f'{user.pk}{user.password}{user.email}{user.email_verified}{timestamp}'
 verification_token = VerificationToken()
 
-def send_link(user, flow, generator):
-    url = settings.APP_ORIGIN + '/auth.html#' + urlencode({'flow': flow, 'uid': str(user.pk), 'token': generator.make_token(user)})
+def email_intent(data):
+    """Only carry known internal navigation fields through account emails."""
+    supplied = data.get('intent', {})
+    if not isinstance(supplied, dict):
+        return {}
+    result = {}
+    for key, limit in [('idea', 1200), ('project', 80), ('template', 71), ('color', 12), ('plan', 8), ('billing', 8)]:
+        value = supplied.get(key)
+        if not isinstance(value, str) or not value.strip() or len(value) > limit:
+            continue
+        if key == 'template' and not re.fullmatch(r'[a-z][a-z0-9-]{0,70}', value):
+            continue
+        choices = {'color': ['auto', 'warm', 'citrus', 'sage', 'rose', 'ink'], 'plan': ['basic', 'pro'], 'billing': ['monthly', 'yearly']}
+        if key in choices and value not in choices[key]:
+            continue
+        result[key] = value.strip()
+    return result
+
+
+def send_link(user, flow, generator, intent=None):
+    params = {**(intent or {}), 'mode': 'login', 'flow': flow, 'uid': str(user.pk), 'token': generator.make_token(user), 'email': user.email}
+    url = settings.APP_ORIGIN + '/auth#' + urlencode(params)
     subject = 'Reset your Draftmango password' if flow == 'recovery' else 'Confirm your Draftmango email'
     try:
-        send_mail(subject, f'{subject}\n\n{url}\n\nThis link expires in one hour. If you did not request it, ignore this email.', settings.DEFAULT_FROM_EMAIL, [user.email], fail_silently=False)
+        delivered = send_mail(subject, f'{subject}\n\n{url}\n\nThis link expires in one hour. If you did not request it, ignore this email.', settings.DEFAULT_FROM_EMAIL, [user.email], fail_silently=False)
+        if delivered != 1:
+            raise RuntimeError('Email was not accepted for delivery.')
     except Exception:
         raise APIError(503, 'email_delivery', 'The email could not be sent. Please try again shortly.')
 
@@ -126,11 +149,15 @@ def signup(request):
     throttle(request, 'signup', email, limit=8, seconds=3600)
     candidate = User(email=email); secret = password(data, candidate)
     try:
-        user = User.objects.create_user(email, secret, is_active=not settings.REQUIRE_EMAIL_VERIFICATION)
+        with transaction.atomic():
+            user = User.objects.create_user(email, secret, is_active=not settings.REQUIRE_EMAIL_VERIFICATION)
     except IntegrityError:
-        raise APIError(409, 'account_exists', 'An account already uses this email. Sign in or reset your password.')
+        # A failed/slow SMTP response must not strand a signup on the next try.
+        user = User.objects.filter(email=email, is_active=False, email_verified=False).first()
+        if not (settings.REQUIRE_EMAIL_VERIFICATION and user and user.check_password(secret)):
+            raise APIError(409, 'account_exists', 'An account already uses this email. Sign in or reset your password.')
     if settings.REQUIRE_EMAIL_VERIFICATION:
-        send_link(user, 'verify', verification_token)
+        send_link(user, 'verify', verification_token, email_intent(data))
         return JsonResponse({'confirmationRequired': True, 'emailDelivery': 'smtp' if settings.EMAIL_HOST else 'local'}, status=201)
     login(request, user)
     request.session['workspace_device'] = request.META.get('HTTP_USER_AGENT', '')[:300]
@@ -145,7 +172,7 @@ def signin(request):
     user = authenticate(request, email=email, password=secret)
     if user is None:
         pending = User.objects.filter(email=email, is_active=False).first()
-        if pending and pending.check_password(secret):
+        if pending and not pending.email_verified and pending.check_password(secret):
             raise APIError(403, 'email_not_confirmed', 'Confirm your email before signing in. You can request a new link below.')
         raise APIError(401, 'invalid_credentials', 'That email and password did not match. Please try again.')
     login(request, user)
@@ -160,10 +187,10 @@ def signout(request):
 
 @api(['POST'])
 def reset_request(request):
-    email = address(body(request)); throttle(request, 'reset', email, limit=5, seconds=3600)
+    data = body(request); email = address(data); throttle(request, 'reset', email, limit=5, seconds=3600)
     user = User.objects.filter(email=email, is_active=True).first()
     if user:
-        send_link(user, 'recovery', default_token_generator)
+        send_link(user, 'recovery', default_token_generator, email_intent(data))
     return JsonResponse({'sent': True, 'emailDelivery': 'smtp' if settings.EMAIL_HOST else 'local'})
 
 def token_user(data, generator):
@@ -202,10 +229,10 @@ def verify(request):
 
 @api(['POST'])
 def resend_verification(request):
-    email = address(body(request)); throttle(request, 'resend', email, limit=5, seconds=3600)
+    data = body(request); email = address(data); throttle(request, 'resend', email, limit=5, seconds=3600)
     user = User.objects.filter(email=email, is_active=False, email_verified=False).first()
     if user:
-        send_link(user, 'verify', verification_token)
+        send_link(user, 'verify', verification_token, email_intent(data))
     return JsonResponse({'sent': True, 'emailDelivery': 'smtp' if settings.EMAIL_HOST else 'local'})
 
 def validate_project(data):

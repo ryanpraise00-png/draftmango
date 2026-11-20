@@ -37,7 +37,7 @@ class AccountTests(TestCase):
         return self.send(client or self.client, '/api/projects', {'project_id': 'same-project', 'project_document': {'id': 'same-project', 'title': title, 'history': [{'design': {}}]}, 'expected_version': version}, method='put')
 
     def link(self):
-        line = next(line for line in mail.outbox[-1].body.splitlines() if '/auth.html#' in line)
+        line = next(line for line in mail.outbox[-1].body.splitlines() if '/auth#' in line)
         return {key: values[0] for key, values in parse_qs(urlsplit(line).fragment).items()}
 
     def test_signup_normalizes_email_hashes_password_and_sets_private_cookie(self):
