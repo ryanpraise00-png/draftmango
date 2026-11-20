@@ -161,7 +161,7 @@ export function createServer({ root = fileURLToPath(new URL('../out/', import.me
       if (['/pricings/', '/pricing', '/pricing/'].includes(pathname)) {
         response.writeHead(308, { Location: '/pricings' + url.search, 'Cache-Control': 'no-store' }); response.end(); return;
       }
-      const pages=['auth','dashboard','workspace','about','help','legal','pricings'];
+      const pages=['auth','dashboard','workspace','about','help','legal','pricings','templates','templates/preview'];
       const legacy=pathname.match(/^\/(index|auth|dashboard|workspace|about|help|legal|pricings)\.html$/);
       if(legacy) {response.writeHead(308,{Location:(legacy[1]==='index'?'/':'/'+legacy[1])+url.search,'Cache-Control':'no-store'});response.end();return;}
       const publicPath = pathname==='/' ? '/index.html' : pages.includes(pathname.slice(1)) ? pathname+'.html' : pathname;
@@ -171,7 +171,9 @@ export function createServer({ root = fileURLToPath(new URL('../out/', import.me
       const relative = path.relative(resolvedRoot, file);
       if (relative.startsWith('..') || path.isAbsolute(relative)) throw new AIError(403, 'forbidden', 'Forbidden');
       const data = await readFile(file);
-      response.writeHead(200, { 'Content-Type': types[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin' });
+      // Public template fonts are also loaded by opaque-origin preview frames and published sites.
+      const templateFont = publicPath.startsWith('/framo/assets/fonts/') && path.extname(file) === '.woff2';
+      response.writeHead(200, { 'Content-Type': types[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', ...(templateFont ? {'Access-Control-Allow-Origin':'*'} : {}) });
       response.end(request.method === 'HEAD' ? undefined : data);
     } catch (error) {
       if(error instanceof BuildError)error=new AIError(error.status,error.code,error.message);

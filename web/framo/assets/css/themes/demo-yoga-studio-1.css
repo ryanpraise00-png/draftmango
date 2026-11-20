@@ -1,0 +1,90 @@
+/* ================================================================
+ *  demo-yoga-studio-1.css — Framo theme for the Yoga Studio demo
+ *
+ *  The colors, fonts and layout settings of the Yoga Studio demo
+ *  (Framo Yoga House, yoga studio in Portland, Oregon (Pearl District)).
+ *  Sage pine for the actions, deep pine for the bands and the footer,
+ *  linen for the page, clay for small marks, oat for soft panels.
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here).
+   Gilda Display sets the headings (one weight, 400: wide and airy, it
+   reads as morning light); Instrument Serif sets the italic second half
+   of a heading; Inter sets the text, the labels and the figures. */
+@import url("https://fonts.googleapis.com/css2?family=Gilda+Display&family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #4e7a62;   /* main color: sage pine for buttons, links and focus; labels on it are white */
+    --color-secondary-base:  #1f3229;   /* second color: deep pine for the bands and the footer; the dark scheme takes its hue */
+    --color-tertiary-base:   #f4efe6;   /* third color: linen, the page and soft fills */
+    --color-quaternary-base: #b98a6a;   /* fourth color: clay, for small marks and level dots */
+    --color-accent-base:     #e7dccb;   /* attention color: oat, for soft panels */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. */
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Mixed from the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-text:      var(--color-secondary-base);   /* headings and body text: deep pine (#1f3229) */
+    --color-text-soft: color-mix(in oklab, var(--color-secondary-base) 80%, var(--color-tertiary-base));   /* secondary text: the pine softened (#4a5a50) */
+    --color-bg:        var(--color-tertiary-base);   /* page background: linen (#f4efe6) */
+    --color-bg-soft:   color-mix(in oklab, var(--color-accent-base) 60%, var(--color-tertiary-base));   /* a step deeper: oat on linen (#ece4d7) */
+    --color-border:    color-mix(in oklab, var(--color-secondary-base) 13%, var(--color-tertiary-base));   /* lines and borders (#dad6cc) */
+    --color-dark:      var(--color-secondary-base);   /* dark sections and dark buttons: deep pine */
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Gilda Display', Georgia, 'Times New Roman', serif;   /* headings */
+    --font-serif:   'Instrument Serif', Georgia, 'Times New Roman', serif;   /* the italic half of a heading */
+    --font-tertiary: 'Urbanist', system-ui, sans-serif;   /* display accents (unused so far) */
+
+    /* Stylesheets of the accent fonts, fetched only on pages that use them.
+       Change a family above and its URL here together. Set one to "" to
+       load nothing, e.g. when that font is a system font. */
+    --font-serif-src:    "";   /* Instrument Serif already comes with the @import above */
+    --font-tertiary-src: "https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800;900&display=swap";
+
+    /* Headings and buttons */
+    --heading-weight:     400;                     /* Gilda Display has one weight */
+    --heading-tracking:   -0.015em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        1.5;   /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 9999px; /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1280px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 1.3;   /* space between sections: 0.75 compact · 1 · 1.25 spacious */
+}

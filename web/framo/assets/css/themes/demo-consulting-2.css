@@ -1,0 +1,88 @@
+/* ================================================================
+ *  demo-consulting-2.css — Framo theme for the Growth Consulting demo
+ *
+ *  The colors, fonts and layout settings of the Growth Consulting
+ *  demo (Framo Growth Co., commercial and growth consulting for B2B companies, Denver).
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here). */
+@import url("https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Jost:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #ff6a1f;   /* main color: tangerine, the spark: buttons, the marker, links; labels on it are white */
+    --color-secondary-base:  #372b5e;   /* second color: aubergine for the text, the bands and the topbar; the dark scheme takes its hue */
+    --color-tertiary-base:   #ffc29f;   /* third color: peach for soft fills */
+    --color-quaternary-base: #6f6680;   /* fourth color: mauve-grey for meta */
+    --color-accent-base:     #ffd166;   /* attention color: sunflower, for ratings only */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. */
+    --color-on-primary: #fff;   /* labels on the brand fill: white (a preset picks its own) */
+
+    --color-primary:       var(--color-primary-base);
+    --color-primary-hover: oklch(from var(--color-primary-base) calc(l - 0.06) c h);
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good. (warm white page, aubergine bands)
+     * ------------------------------------------------------------ */
+    --color-text:        var(--color-secondary-base);   /* headings and body text */
+    --color-text-soft:   oklch(from var(--color-quaternary-base) 0.48 c h);   /* running text */
+    --color-text-muted:  oklch(from var(--color-quaternary-base) 0.5 c h);   /* meta text */
+    --color-dark:        var(--color-secondary-base);   /* dark sections and dark buttons */
+    --color-bg:          oklch(from var(--color-tertiary-base) 0.982 calc(c * 0.06) h);   /* page background: the warm white */
+    --color-bg-soft:     #ffffff;   /* white cards on the warm ground */
+    --color-bg-muted:    oklch(from var(--color-tertiary-base) 0.95 calc(c * 0.18) h);   /* hover fills */
+    --color-border:      oklch(from var(--color-quaternary-base) 0.89 calc(c * 0.35) h);   /* lines and card borders */
+    --color-border-soft: oklch(from var(--color-quaternary-base) 0.93 calc(c * 0.25) h);   /* the faintest rules */
+    /* Brand-colored text on the ground, held at or under 0.5 lightness so a
+       preset's lighter primary still reads at 4.5:1 */
+    --color-primary-ink: oklch(from var(--color-primary-base) min(l, 0.5) c h);
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     *  Jost for headings (geometric, tight), Inter for text and UI.
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Jost', system-ui, sans-serif;    /* headings */
+
+    /* Headings and buttons */
+    --heading-weight:     600;
+    --heading-tracking:   -0.035em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        1.5;      /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 9999px;  /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1320px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 1.2;      /* space between sections: 0.75 compact · 1 · 1.25 spacious */
+}

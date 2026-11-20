@@ -1,0 +1,105 @@
+/* ================================================================
+ *  demo-insurance-1.css — Framo theme for the Insurance demo
+ *
+ *  The colors, fonts and layout settings of the Insurance
+ *  demo (Framo Insurance, an independent insurer and agency for households and small businesses (home, auto, renters, life, business owner's policy)).
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here).
+   Inter for everything, with its optical-size axis: headings render as Inter Display
+   (the user's default, 2026-10-26; the stage-1 font check may name one alternative). */
+@import url("https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #c6ec3f;   /* main color: chartreuse for the Get a Quote pill, the active slide marker and one marker word; labels on it are ink (black) */
+    --color-secondary-base:  #121612;   /* second color: ink for the text, the topbar and the hero scrim; the dark scheme takes its hue */
+    --color-tertiary-base:   #eef0ec;   /* third color: cool grey for the page tint and soft fills */
+    --color-quaternary-base: #686d68;   /* fourth color: grey for meta */
+    --color-accent-base:     #2f6df0;   /* attention color: blue, for links in data and small marks only; labels on it are white */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. Ink labels on the chartreuse (white would be 1.4:1; a preset picks its own). */
+    --color-on-primary: #121612;   /* labels on the chartreuse fill: ink (a preset picks its own) */
+
+    --color-primary:       var(--color-primary-base);
+    --color-primary-hover: oklch(from var(--color-primary-base) calc(l - 0.06) c h);
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-bg:          oklch(from var(--color-tertiary-base) 0.975 calc(c * 0.45) h);   /* page background: cool grey white */
+    --color-bg-soft:     oklch(from var(--color-tertiary-base) 0.952 calc(c * 0.7) h);    /* a step deeper: fills and hover rows */
+    --color-bg-muted:    oklch(from var(--color-tertiary-base) 0.928 calc(c * 0.8) h);    /* placeholders */
+    --color-border:      oklch(from var(--color-tertiary-base) 0.885 calc(c * 0.8) h);    /* lines and borders */
+    --color-border-soft: oklch(from var(--color-tertiary-base) 0.925 calc(c * 0.7) h);    /* the faintest rules */
+    --color-text:        var(--color-secondary-base);   /* headings and body text */
+    --color-text-soft:   oklch(from var(--color-quaternary-base) 0.48 c h);   /* running text */
+    --color-text-muted:  oklch(from var(--color-quaternary-base) 0.5 c h);   /* meta text */
+    --color-dark:        var(--color-secondary-base);   /* dark sections and dark buttons */
+    /* Brand-colored text on the ground, held at or under 0.5 lightness so a
+       preset's lighter primary still reads at 4.5:1 */
+    --color-primary-ink: oklch(from var(--color-primary-base) min(l, 0.5) c h);
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Inter', system-ui, sans-serif;   /* headings (Inter Display through the opsz axis) */
+
+    /* Headings and buttons */
+    --heading-weight:     600;   /* Inter Display semibold: 300–800 is loaded */
+    --heading-tracking:   -0.03em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        1.5;   /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 9999px; /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1320px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 0.75;   /* space between sections: 0.75 compact · 1 · 1.25 spacious (0.75: 96px at 1440, 60px on a phone) */
+}
+
+/* The 1320px container from 1280px up (the template steps it to 1280 there),
+   growing with the window to 1500px, so the bar and the hero never read as a
+   narrow column on a large screen */
+@layer utilities {
+    @media (width >= 80rem) {
+        :where(html[data-demo="insurance-1"]) .container { max-width: var(--container-max); }
+    }
+}
+
+@media (width >= 80rem) {
+    html[data-demo="insurance-1"] {
+        --container-max: clamp(1320px, 78.2vw, 1500px);
+        --container-width: var(--container-max);
+    }
+}

@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en" data-demo="analytics-1">
+    <head>
+        <meta charset="UTF-8">
+        <script async src="../assets/js/entrance.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Customers — SaaS Analytics — Framo</title>
+        <link rel="icon" href="../assets/media/logo/favicon.ico" sizes="32x32">
+        <link rel="icon" href="../assets/media/logo/framo-mark.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="../assets/media/logo/apple-touch-icon.png">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="../assets/css/icons.css">
+        <link rel="stylesheet" href="../assets/css/app.css">
+        <link rel="stylesheet" href="../assets/css/vendor.css">
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" data-theme-fonts>
+        <link rel="stylesheet" href="../assets/css/demos/demo-analytics-1.css">
+        <link rel="stylesheet" href="../assets/css/themes/demo-analytics-1.css" data-theme-file>
+        <link rel="stylesheet" href="../assets/css/custom.css">
+    </head>
+    <body>
+
+        <header class="site-header header-reveal header-topbar nav-style-underline" data-header>
+
+            <!--css .site-topbar-inner, .site-topbar-text, .site-topbar-cta). Edit: the announcement and its link -->
+            <div class="site-topbar custom-topbar text-(--custom-on-ink-soft)">
+                <div class="site-topbar-inner">
+                    <p class="site-topbar-text text-[0.875rem] text-(--custom-on-ink)">
+                        <span class="custom-topbar-tag inline-block me-2.5 py-0.5 px-2 text-[0.75rem] font-semibold tracking-[0.02em] text-(--custom-ink) bg-(--color-accent-base) rounded-pill">New</span>
+                        Framo Analyst now explains every chart
+                    </p>
+                    <a href="demo-analytics-1-changelog.html#analyst-explains" class="btn btn-link btn-link-light btn-xs site-topbar-cta text-(--custom-on-ink) font-semibold">
+                        <span class="site-topbar-cta-label">Read the Launch</span>
+                        <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main navbar -->
+            <nav class="navbar" role="navigation" aria-label="Main navigation">
+                <div class="navbar-inner container">
+
+                    <!-- Brand -->
+                    <a href="demo-analytics-1.html" class="brand">
+
+                        <img class="brand-logo" src="../assets/media/logo/framo-logo.svg" alt="Framo" width="120" height="32" style="--logo-tint: url(#logo-tint-header)">
+
+                        <svg class="brand-tint" aria-hidden="true" focusable="false">
+                            <filter id="logo-tint-header" color-interpolation-filters="sRGB">
+                                <feFlood flood-color="currentColor" />
+                                <feComposite in2="SourceAlpha" operator="in" />
+                            </filter>
+                        </svg>
+
+                    </a>
+
+                    <!-- Desktop navigation links -->
+                    <ul class="nav-links" role="list">
+
+                        <!-- Analytics 1 menu - the <li> items of .nav-links, included by _header.html when "demo": "analytics-1"; inner pages link to their future files -->
+                        <li>
+                            <a href="demo-analytics-1.html" class="nav-link">Home</a>
+                        </li>
+
+                        <!-- Product - the template services mega: three titled groups (the phone panel files the links under each title) and a live KPI card. Edit: the groups, the captions, the card's figure, delta and sparkline -->
+                        <li class="nav-megamenu nav-megamenu--services custom-menu-product">
+                            <button class="nav-link">
+                                Product
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="megamenu-panel" data-lenis-prevent>
+                                <div class="megamenu-inner container">
+
+                                    <div class="megamenu-col megamenu-services">
+                                        <p class="megamenu-col-title">Analyse</p>
+                                        <div class="megamenu-service">
+                                            <a href="demo-analytics-1-feature.html#funnels" class="megamenu-item" aria-describedby="an-menu-funnels"><span class="megamenu-icon" aria-hidden="true"><i class="ph ph-funnel-simple"></i></span>Funnels</a>
+                                            <p id="an-menu-funnels" class="megamenu-caption">See where sign-ups stall, step by step.</p>
+                                        </div>
+                                        <div class="megamenu-service">
+                                            <a href="demo-analytics-1-feature.html#retention" class="megamenu-item" aria-describedby="an-menu-retention"><span class="megamenu-icon" aria-hidden="true"><i class="ph ph-arrows-clockwise"></i></span>Retention</a>
+                                            <p id="an-menu-retention" class="megamenu-caption">Cohorts that show who keeps coming back.</p>
+                                        </div>
+                                        <div class="megamenu-service">
+                                            <a href="demo-analytics-1-product.html#journeys" class="megamenu-item" aria-describedby="an-menu-journeys"><span class="megamenu-icon" aria-hidden="true"><i class="ph ph-path"></i></span>Journeys</a>
+                                            <p id="an-menu-journeys" class="megamenu-caption">Every route users take to the moment that counts.</p>
+                                        </div>
+                                        <div class="megamenu-service">
+                                            <a href="demo-analytics-1-product.html#dashboards" class="megamenu-item" aria-describedby="an-menu-dashboards"><span class="megamenu-icon" aria-hidden="true"><i class="ph ph-squares-four"></i></span>Dashboards</a>
+                                            <p id="an-menu-dashboards" class="megamenu-caption">Shared boards the whole team trusts.</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="megamenu-col megamenu-services">
+                                        <p class="megamenu-col-title">Act</p>
+                                        <div class="megamenu-service">
+                                            <a href="demo-analytics-1-product.html#experiments" class="megamenu-item" aria-describedby="an-menu-experiments"><span class="megamenu-icon" aria-hidden="true"><i class="ph ph-flask"></i></span>Experiments</a>
+                                            <p id="an-menu-experiments" class="megamenu-caption">A/B tests with results you can stand behind.</p>
+                                        </div>
+                                        <div class="megamenu-service">
+                                            <a href="demo-analytics-1-product.html#flags" class="megamenu-item" aria-describedby="an-menu-flags"><span class="megamenu-icon" aria-hidden="true"><i class="ph ph-flag"></i></span>Feature Flags</a>
+                                            <p id="an-menu-flags" class="megamenu-caption">Ship to 5% first, then to everyone.</p>
+                                        </div>
+                                        <div class="megamenu-service">
+                                            <a href="demo-analytics-1-product.html#replay" class="megamenu-item" aria-describedby="an-menu-replay"><span class="megamenu-icon" aria-hidden="true"><i class="ph ph-play-circle"></i></span>Session Replay</a>
+                                            <p id="an-menu-replay" class="megamenu-caption">Watch the moments behind the numbers.</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="megamenu-col megamenu-services">
+                                        <p class="megamenu-col-title">AI</p>
+                                        <div class="megamenu-service">
+                                            <a href="demo-analytics-1-analyst.html" class="megamenu-item" aria-describedby="an-menu-analyst"><span class="megamenu-icon" aria-hidden="true"><i class="ph ph-sparkle"></i></span>Framo Analyst</a>
+                                            <p id="an-menu-analyst" class="megamenu-caption">Ask in plain words, get a chart and the why.</p>
+                                        </div>
+                                        <div class="megamenu-service">
+                                            <a href="demo-analytics-1-analyst.html#alerts" class="megamenu-item" aria-describedby="an-menu-alerts"><span class="megamenu-icon" aria-hidden="true"><i class="ph ph-bell-ringing"></i></span>Anomaly Alerts</a>
+                                            <p id="an-menu-alerts" class="megamenu-caption">A heads-up the hour a metric bends.</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- KPI card (not a column, so the phone panel leaves it out) -->
+                                    <a href="demo-analytics-1-product.html" class="megamenu-case custom-menu-kpi">
+                                        <span class="flex items-center justify-between text-[0.8125rem] font-medium text-(--custom-on-ink-soft)">
+                                            <span>Weekly Active Users</span>
+                                            <span class="custom-menu-kpi-live inline-flex items-center gap-1.5 text-[0.75rem] text-(--color-accent-base)" aria-hidden="true">Live</span>
+                                        </span>
+                                        <span class="custom-menu-kpi-figure flex items-baseline gap-3 font-sans text-[2rem] font-semibold leading-[1] tracking-[-0.02em] tabular-nums">48,210 <span class="custom-delta custom-delta--up"><span class="sr-only">Up </span>12%</span></span>
+                                        <svg class="w-full h-16 overflow-visible text-(--color-accent-base)" viewBox="0 0 240 64" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                                            <path class="custom-menu-kpi-area" d="M0 50 C14 48 22 44 34 45 C48 46 56 38 70 36 C84 34 92 40 106 37 C120 34 128 26 142 25 C156 24 164 30 178 26 C192 22 200 14 214 13 C226 12 234 8 240 6 L240 64 L0 64 Z" />
+                                            <path class="custom-menu-kpi-line" pathLength="1" d="M0 50 C14 48 22 44 34 45 C48 46 56 38 70 36 C84 34 92 40 106 37 C120 34 128 26 142 25 C156 24 164 30 178 26 C192 22 200 14 214 13 C226 12 234 8 240 6" />
+                                        </svg>
+                                        <span class="custom-menu-kpi-axis flex justify-between text-[0.75rem]" aria-hidden="true"><span>Mon</span><span>Wed</span><span>Fri</span><span>Today</span></span>
+                                        <span class="megamenu-case-link mt-1.5 pt-3.5 text-(--custom-on-ink) border-t border-t-(--custom-line-ink)"><span class="link-arrow" aria-hidden="true"></span>Take the Product Tour</span>
+                                    </a>
+
+                                    <!-- Foot row: a template .megamenu-foot, so the phone panel lists its links after the groups -->
+                                    <div class="megamenu-col megamenu-foot custom-menu-foot mt-1 pt-5 pr-3 pl-3 border-t border-t-(--color-border)">
+                                        <p class="megamenu-foot-note">Free up to 1M events a month. Unlimited seats on every plan.</p>
+                                        <a href="demo-analytics-1-integrations.html" class="megamenu-item btn-link-arrow"><span class="link-arrow" aria-hidden="true"></span>120+ Integrations</a>
+                                        <a href="demo-analytics-1-pricing.html" class="megamenu-item btn-link-arrow"><span class="link-arrow" aria-hidden="true"></span>See Pricing</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- Solutions - two titled lists in one panel; the titles are not links, so the phone panel lists the eight links alone -->
+                        <li class="nav-cascade">
+                            <button class="nav-link">
+                                Solutions
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="cascade-panel custom-menu-panel custom-menu-split min-w-54 rounded-(--custom-radius-ui)">
+                                <p class="custom-menu-label pr-3 pb-2 pl-3 text-[0.75rem] font-semibold tracking-[0.1em] uppercase">By Team</p>
+                                <a href="demo-analytics-1-solutions.html#product" class="cascade-item">Product</a>
+                                <a href="demo-analytics-1-solutions.html#growth" class="cascade-item">Growth</a>
+                                <a href="demo-analytics-1-solutions.html#data" class="cascade-item">Data</a>
+                                <a href="demo-analytics-1-solutions.html#engineering" class="cascade-item">Engineering</a>
+                                <p class="custom-menu-label pr-3 pb-2 pl-3 text-[0.75rem] font-semibold tracking-[0.1em] uppercase">By Industry</p>
+                                <a href="demo-analytics-1-solutions.html#saas" class="cascade-item">SaaS</a>
+                                <a href="demo-analytics-1-solutions.html#fintech" class="cascade-item">Fintech</a>
+                                <a href="demo-analytics-1-solutions.html#ecommerce" class="cascade-item">Ecommerce</a>
+                                <a href="demo-analytics-1-solutions.html#media" class="cascade-item">Media</a>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="demo-analytics-1-customers.html" class="nav-link active">Customers</a>
+                        </li>
+
+                        <li>
+                            <a href="demo-analytics-1-pricing.html" class="nav-link">Pricing</a>
+                        </li>
+
+                        <li class="nav-cascade">
+                            <button class="nav-link">
+                                Resources
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="cascade-panel custom-menu-panel min-w-54 rounded-(--custom-radius-ui)">
+                                <a href="demo-analytics-1-changelog.html" class="cascade-item">Changelog</a>
+                                <a href="demo-analytics-1-customers.html" class="cascade-item">Customers</a>
+                                <a href="demo-analytics-1-integrations.html" class="cascade-item">Integrations</a>
+                                <a href="#" class="cascade-item">Docs <i class="ph ph-arrow-up-right ms-auto text-[0.875rem] opacity-55" aria-hidden="true"></i></a>
+                                <a href="#" class="cascade-item">System Status <i class="ph ph-arrow-up-right ms-auto text-[0.875rem] opacity-55" aria-hidden="true"></i></a>
+                            </div>
+                        </li>
+
+                        <li class="nav-cascade">
+                            <button class="nav-link">
+                                Company
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="cascade-panel custom-menu-panel min-w-54 rounded-(--custom-radius-ui)">
+                                <a href="demo-analytics-1-about.html" class="cascade-item">About Us</a>
+                                <a href="demo-analytics-1-about.html#careers" class="cascade-item">Careers</a>
+                                <a href="demo-analytics-1-contact.html" class="cascade-item">Contact</a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                    <!-- Right-side actions -->
+                    <div class="nav-actions">
+
+                        <!-- Meta group - display:contents by default; header-stacked turns it into its own row. -->
+                        <div class="nav-meta">
+
+                        </div><!-- /.nav-meta -->
+
+                        <!-- Analytics 1 header actions - Log In and Start Free; the menu panel carries _mobile-cta.html -->
+                        <a href="#" class="custom-nav-login px-3 font-medium whitespace-nowrap max-xl:hidden text-(length:--text-base)">Log In</a>
+                        <a href="demo-analytics-1-pricing.html" class="btn btn-primary custom-nav-action px-5">Start Free</a>
+
+                        <!-- Menu toggle - mobile hamburger below 1024px; also the close button on header-overlay-menu / header-side-drawer -->
+                        <button class="hamburger" data-toggle aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation menu">
+                            <i class="ph ph-list text-xl nav-toggle-open" aria-hidden="true"></i>
+                            <i class="ph ph-x text-xl nav-toggle-close" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Navigation panel - links are auto-generated by initMobileSync() in main.js -->
+                <!-- data-lenis-prevent: opts this scroll container out of Lenis smooth scrolling -->
+                <div id="mobile-nav" class="mobile-nav" data-mobile-nav data-lenis-prevent role="dialog" aria-modal="true" aria-label="Site navigation">
+
+                    <!-- Menu column - the scroll container -->
+                    <div class="nav-panel-menu">
+
+                        <!-- JS target: desktop nav items are injected here -->
+                        <div data-mobile-links></div>
+
+                        <!-- Mobile-only items: add or remove <a> elements here freely -->
+                        <!-- <a href="#" class="mobile-link" data-mobile-only>Exclusive Item</a> -->
+
+                        <!-- Analytics 1 menu panel CTA - Log In and Start Free -->
+                        <div class="nav-panel-cta flex gap-2.5 mt-6">
+                            <a href="#" class="btn btn-outline-dark flex-1">Log In</a>
+                            <a href="demo-analytics-1-pricing.html" class="btn btn-primary flex-1">Start Free</a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </nav>
+
+        </header>
+
+        <main>
+            <!-- Analytics 1 page header - the inner pages' opening on the cool white page: a blue side glow, a faint trend line drawing in along the foot. Params: phCrumb (this page's crumb); optional phTrail + phHref (a parent crumb); optional phEyebrow; phTitle, optional phSoft (the muted second clause); optional phLead; optional phAction + phLink (the primary button), phSecond + phRoute (the outline button); optional phFigure + phCaption + phIcon, phDelta, phNote (a KPI card at the side); optional phCompact "yes" (less room, for focused pages) -->
+            <section id="an-page-head" class="custom-ph relative isolate overflow-clip" aria-labelledby="an-page-title">
+                <div class="glow-field" aria-hidden="true">
+                    <div class="glow custom-ph-glow -top-56 -left-80"></div>
+                </div>
+                <svg class="custom-ph-trend svg-draw absolute -z-1 w-full h-[clamp(5rem,9vw,9rem)] overflow-visible text-(--color-primary) pointer-events-none" data-anim viewBox="0 0 1440 160" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                    <defs>
+                        <linearGradient id="an-ph-fill" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0" stop-color="currentColor" stop-opacity=".1" />
+                            <stop offset="1" stop-color="currentColor" stop-opacity="0" />
+                        </linearGradient>
+                    </defs>
+                    <path class="custom-ph-trend-area" fill="url(#an-ph-fill)" d="M0 150 C90 146 150 132 240 134 C330 136 380 118 480 112 C580 106 620 120 720 114 C820 108 860 84 960 80 C1060 76 1100 92 1200 82 C1300 72 1360 52 1440 44 L1440 160 L0 160 Z" />
+                    <path class="custom-ph-trend-line opacity-45" pathLength="1" d="M0 150 C90 146 150 132 240 134 C330 136 380 118 480 112 C580 106 620 120 720 114 C820 108 860 84 960 80 C1060 76 1100 92 1200 82 C1300 72 1360 52 1440 44" />
+                </svg>
+
+                <div class="container custom-ph-grid grid">
+                    <div>
+                        <nav class="custom-ph-crumb mb-[clamp(1.75rem,1.25rem_+_1.5vw,2.75rem)]" aria-label="Breadcrumb" data-anim="fade" data-anim-duration="800">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="demo-analytics-1.html">Home</a></li>
+                                <li class="breadcrumb-item" aria-current="page">Customers</li>
+                            </ol>
+                        </nav>
+
+                        <p class="eyebrow mb-5" data-anim="fade-up">Customer Stories</p>
+
+                        <h1 id="an-page-title" class="custom-ph-title max-w-[16ch] font-semibold leading-[1.04] tracking-[-0.024em] text-balance" data-anim="fade-up" data-anim-delay="80" data-anim-duration="1100">Teams who ask first <span class="custom-title-soft">and ship what works.</span></h1>
+
+                        <p class="max-w-144 mt-7 text-[clamp(1.125rem,1.05rem_+_0.3vw,1.25rem)] leading-[1.55] text-soft text-pretty" data-anim="fade-up" data-anim-delay="160">How product teams in SaaS, fintech, health and commerce turned questions into their next release.</p>
+
+                    </div>
+
+                    <!-- KPI card: the figure, its label, delta and note over a sparkline that draws in -->
+                    <aside class="custom-ui custom-ph-kpi grid gap-4 pt-5 pb-4.5 px-5" aria-label="Average Rating on G2" data-anim="fade-up" data-anim-delay="280">
+                        <p class="custom-ui-title"><span class="custom-ui-glyph" aria-hidden="true"><i class="ph ph-star"></i></span><span>Average Rating on G2</span></p>
+                        <p class="custom-ph-figure flex flex-wrap items-baseline gap-3 font-heading text-[clamp(2.5rem,2rem_+_1.4vw,3.25rem)] font-semibold leading-[1] tracking-[-0.026em] tabular-nums">4.7</p>
+                        <svg class="custom-trend svg-draw aspect-[300/80]" data-anim viewBox="0 0 300 80" aria-hidden="true" focusable="false">
+                            <defs>
+                                <linearGradient id="an-ph-kpi-fill" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0" stop-color="currentColor" stop-opacity=".18" />
+                                    <stop offset="1" stop-color="currentColor" stop-opacity="0" />
+                                </linearGradient>
+                            </defs>
+                            <path class="custom-trend-grid" d="M0 20H300M0 50H300" />
+                            <path class="custom-trend-area" fill="url(#an-ph-kpi-fill)" d="M0 66 C20 64 30 58 50 59 C70 60 80 50 100 48 C120 46 130 54 150 51 C170 48 180 36 200 34 C220 32 230 40 250 34 C268 28 284 16 300 12 L300 80 L0 80 Z" />
+                            <path class="custom-trend-line" pathLength="1" d="M0 66 C20 64 30 58 50 59 C70 60 80 50 100 48 C120 46 130 54 150 51 C170 48 180 36 200 34 C220 32 230 40 250 34 C268 28 284 16 300 12" />
+                            <circle class="custom-trend-dot" cx="300" cy="12" r="3.5" />
+                        </svg>
+                        <p class="pt-3.5 text-[0.8125rem] text-(--custom-meta) border-t border-t-(--custom-hair)">From 2,100 reviews · October 2026</p>
+                    </aside>
+
+                </div>
+            </section>
+
+            <!-- LOGOS - a quiet wall of invented customer wordmarks (the Home logo classes). Edit: the line, each wordmark (glyph, name, style modifier) -->
+            <section id="an-cu-logos" class="custom-section" aria-labelledby="an-cu-logos-title">
+                <div class="container">
+                    <p id="an-cu-logos-title" class="custom-logos-title pt-0 pb-0 border-0 mb-6 text-center text-[1rem] leading-[1.45] text-soft" data-anim="fade-up">Trusted by <strong class="inline font-semibold text-text">18,000</strong> product teams</p>
+                    <ul class="custom-logo-wall grid grid-cols-2 gap-3 md:grid-cols-5" role="list" data-anim="fade-up" data-anim-delay="100">
+                        <li class="custom-logo"><i class="ph-fill ph-triangle text-[1.25rem]" aria-hidden="true"></i>Halden</li>
+                        <li class="custom-logo font-sans font-bold tracking-[-0.02em]"><i class="ph-fill ph-leaf text-[1.25rem]" aria-hidden="true"></i>fernway</li>
+                        <li class="custom-logo custom-logo--sans"><i class="ph-fill ph-circle-half text-[1.25rem]" aria-hidden="true"></i>Quillo</li>
+                        <li class="custom-logo custom-logo--caps text-[clamp(0.875rem,0.8rem_+_0.3vw,1.0625rem)]">Northgate</li>
+                        <li class="custom-logo"><i class="ph-fill ph-sun-dim text-[1.25rem]" aria-hidden="true"></i>Brightwork</li>
+                        <li class="custom-logo font-sans font-bold tracking-[-0.02em]"><i class="ph-fill ph-drop text-[1.25rem]" aria-hidden="true"></i>tallow</li>
+                        <li class="custom-logo custom-logo--sans"><i class="ph-fill ph-bird text-[1.25rem]" aria-hidden="true"></i>Kestrel Pay</li>
+                        <li class="custom-logo"><i class="ph-fill ph-plus-circle text-[1.25rem]" aria-hidden="true"></i>Marlow Health</li>
+                        <li class="custom-logo custom-logo--sans"><i class="ph-bold ph-planet text-[1.25rem]" aria-hidden="true"></i>Orbitly</li>
+                        <li class="custom-logo custom-logo--caps text-[clamp(0.875rem,0.8rem_+_0.3vw,1.0625rem)]">Sundry</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- FEATURED STORY - a wide photo beside the story panel (wordmark, title, three results, link). Edit: the photo (src, alt), the wordmark, the title, each result (figure, label), the link -->
+            <section id="an-cu-featured" class="custom-section" aria-labelledby="an-cu-featured-title">
+                <div class="container">
+                    <article class="custom-feature grid grid-cols-1 overflow-clip bg-(--custom-surface) border border-(--custom-hair) lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]" data-anim="fade-up">
+                        <figure class="custom-photo custom-feature-photo lg:aspect-auto lg:min-h-full">
+                            <img class="size-full object-cover object-[var(--custom-photo-pos,50%_50%)]" src="../assets/media/placeholder/1400x1050.svg" alt="Fernway's product lead checking onboarding results on her laptop and phone" width="1400" height="1050" loading="lazy" decoding="async">
+                        </figure>
+                        <div class="custom-feature-body grid content-center justify-items-start gap-6 p-[clamp(2rem,1.5rem_+_2.5vw,3.5rem)]">
+                            <p class="inline-flex items-center gap-2 text-[1.25rem] font-bold tracking-[-0.02em] text-text"><i class="ph-fill ph-leaf" aria-hidden="true"></i>fernway</p>
+                            <h2 id="an-cu-featured-title" class="text-[clamp(1.75rem,1.3rem_+_1.5vw,2.5rem)] leading-[1.12] tracking-[-0.02em] text-balance">How Fernway rebuilt onboarding around three events.</h2>
+                            <dl class="custom-figs grid grid-cols-3 gap-6 w-full pt-6">
+                                <div class="flex flex-col-reverse justify-end gap-1.5">
+                                    <dt class="text-[0.9375rem] text-(--custom-meta)">activation</dt>
+                                    <dd>+31%</dd>
+                                </div>
+                                <div class="flex flex-col-reverse justify-end gap-1.5">
+                                    <dt class="text-[0.9375rem] text-(--custom-meta)">to first chart</dt>
+                                    <dd>−42%</dd>
+                                </div>
+                                <div class="flex flex-col-reverse justify-end gap-1.5">
+                                    <dt class="text-[0.9375rem] text-(--custom-meta)">trial → paid</dt>
+                                    <dd>+12%</dd>
+                                </div>
+                            </dl>
+                            <a href="demo-analytics-1-customer-story.html" class="btn btn-primary btn-lg">Read the Story</a>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- STORIES - team pills (template listFilter + option-pill) over six photo story cards (the Home story card). Edit: the pills, each card (data-filter-tags, photo src / alt, wordmark, figure, label, line, link) -->
+            <section id="an-cu-stories" class="custom-section" aria-labelledby="an-cu-stories-title" x-data="listFilter()">
+                <div class="container">
+                    <div class="custom-head custom-head--row">
+                        <h2 id="an-cu-stories-title" class="custom-title" data-anim="fade-up">More stories, <span class="custom-title-soft">by team.</span></h2>
+                        <div class="custom-int-filters flex gap-2 min-w-0 py-1 overflow-x-auto lg:justify-end" role="radiogroup" aria-label="Team" data-lenis-prevent-touch data-anim="fade-up" data-anim-delay="100">
+                            <label class="option-pill flex-none"><input type="radio" name="an-cu-team" value="all" x-model="tag" checked><span>All</span></label>
+                            <label class="option-pill flex-none"><input type="radio" name="an-cu-team" value="product" x-model="tag"><span>Product</span></label>
+                            <label class="option-pill flex-none"><input type="radio" name="an-cu-team" value="growth" x-model="tag"><span>Growth</span></label>
+                            <label class="option-pill flex-none"><input type="radio" name="an-cu-team" value="data" x-model="tag"><span>Data</span></label>
+                            <label class="option-pill flex-none"><input type="radio" name="an-cu-team" value="engineering" x-model="tag"><span>Engineering</span></label>
+                        </div>
+                    </div>
+
+                    <ul class="custom-stories-grid md:grid-cols-3 md:gap-6" role="list">
+                        <li data-filter-item data-filter-tags="product">
+                            <a href="demo-analytics-1-customer-story.html" class="custom-story">
+                                <img src="../assets/media/placeholder/1000x1333.svg" alt="A Northgate operations lead checking the driver app in a depot" width="1000" height="1333" loading="lazy" decoding="async">
+                                <span class="custom-story-brand custom-story-brand--caps">Northgate</span>
+                                <span class="custom-story-panel">
+                                    <span class="custom-story-figure">−18%</span>
+                                    <span class="custom-story-label">monthly churn</span>
+                                    <span class="custom-story-text">Spotted the churn signal in the driver app two weeks early.</span>
+                                    <i class="ph ph-arrow-up-right custom-story-arrow" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li data-filter-item data-filter-tags="growth">
+                            <a href="demo-analytics-1-customer-story.html" class="custom-story">
+                                <img src="../assets/media/placeholder/1000x1333.svg" alt="A Kestrel Pay customer opening the app at dusk" width="1000" height="1333" loading="lazy" decoding="async">
+                                <span class="custom-story-brand"><i class="ph-fill ph-bird" aria-hidden="true"></i>Kestrel Pay</span>
+                                <span class="custom-story-panel">
+                                    <span class="custom-story-figure">−21%</span>
+                                    <span class="custom-story-label">drop-off at ID checks</span>
+                                    <span class="custom-story-text">Moved one step and doubled first deposits from paid social.</span>
+                                    <i class="ph ph-arrow-up-right custom-story-arrow" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li data-filter-item data-filter-tags="data">
+                            <a href="demo-analytics-1-customer-story.html" class="custom-story">
+                                <img src="../assets/media/placeholder/1000x1333.svg" alt="Two Marlow Health clinicians going through the booking app on a tablet" width="1000" height="1333" loading="lazy" decoding="async">
+                                <span class="custom-story-brand"><i class="ph-fill ph-plus-circle" aria-hidden="true"></i>Marlow Health</span>
+                                <span class="custom-story-panel">
+                                    <span class="custom-story-figure">11 days</span>
+                                    <span class="custom-story-label">question to shipped change</span>
+                                    <span class="custom-story-text">Kept patient data in the EU and answers in the product team.</span>
+                                    <i class="ph ph-arrow-up-right custom-story-arrow" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li data-filter-item data-filter-tags="product">
+                            <a href="demo-analytics-1-customer-story.html" class="custom-story">
+                                <img src="../assets/media/placeholder/1000x1250.svg" alt="Three Halden product managers reviewing a funnel together on a laptop" width="1000" height="1250" loading="lazy" decoding="async">
+                                <span class="custom-story-brand"><i class="ph-fill ph-triangle" aria-hidden="true"></i>Halden</span>
+                                <span class="custom-story-panel">
+                                    <span class="custom-story-figure">+24%</span>
+                                    <span class="custom-story-label">feature adoption</span>
+                                    <span class="custom-story-text">Cut the menu by half after Journeys showed what people used.</span>
+                                    <i class="ph ph-arrow-up-right custom-story-arrow" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li data-filter-item data-filter-tags="growth">
+                            <a href="demo-analytics-1-customer-story.html" class="custom-story">
+                                <img src="../assets/media/placeholder/1200x1600.svg" alt="Brightwork's growth lead and a colleague reviewing campaign results at the end of the day" width="1200" height="1600" loading="lazy" decoding="async">
+                                <span class="custom-story-brand"><i class="ph-fill ph-sun-dim" aria-hidden="true"></i>Brightwork</span>
+                                <span class="custom-story-panel">
+                                    <span class="custom-story-figure">3.1×</span>
+                                    <span class="custom-story-label">return on paid search</span>
+                                    <span class="custom-story-text">Bid on the keywords that brought activated teams, not clicks.</span>
+                                    <i class="ph ph-arrow-up-right custom-story-arrow" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li data-filter-item data-filter-tags="engineering data">
+                            <a href="demo-analytics-1-customer-story.html" class="custom-story">
+                                <img src="../assets/media/placeholder/1200x1600.svg" alt="Two Orbitly engineers watching a release dashboard on the team screen" width="1200" height="1600" loading="lazy" decoding="async" style="--custom-pos: 62% 50%">
+                                <span class="custom-story-brand"><i class="ph-bold ph-planet" aria-hidden="true"></i>Orbitly</span>
+                                <span class="custom-story-panel">
+                                    <span class="custom-story-figure">0</span>
+                                    <span class="custom-story-label">rolled-back releases since flags</span>
+                                    <span class="custom-story-text">Every release goes to 5% first, read on real activation.</span>
+                                    <i class="ph ph-arrow-up-right custom-story-arrow" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- QUOTES - ice band; three short quotes with avatars. Edit: each quote, the person (avatar, name, role) -->
+            <section id="an-cu-quotes" class="custom-section custom-section--tint" aria-labelledby="an-cu-quotes-title">
+                <div class="container">
+                    <div class="custom-head custom-head--center">
+                        <h2 id="an-cu-quotes-title" class="custom-title" data-anim="fade-up">In their <span class="custom-title-soft">own words.</span></h2>
+                    </div>
+                    <ul class="custom-cards md:grid-cols-2 lg:grid-cols-3" role="list" data-anim-stagger="100">
+                        <li class="custom-card custom-cu-quote h-full gap-7" data-anim="fade-up">
+                            <blockquote>
+                                <p>We used to wait a sprint for an answer. Now the PM asks, checks the events and we ship on Thursday.</p>
+                            </blockquote>
+                            <p class="custom-quote-by flex items-center gap-3.5 mt-auto"><img class="size-12 object-cover" src="../assets/media/placeholder/800x800.svg" alt="" width="800" height="800" loading="lazy" decoding="async"><span><strong class="block font-semibold text-text">Freya Collins</strong> VP Product, Marlow Health</span></p>
+                        </li>
+                        <li class="custom-card custom-cu-quote h-full gap-7" data-anim="fade-up">
+                            <blockquote>
+                                <p>The funnel showed us the leak in an afternoon. Replay showed us why.</p>
+                            </blockquote>
+                            <p class="custom-quote-by flex items-center gap-3.5 mt-auto"><img class="size-12 object-cover" src="../assets/media/placeholder/800x800.svg" alt="" width="800" height="800" loading="lazy" decoding="async"><span><strong class="block font-semibold text-text">Callum Reid</strong> Head of Growth, Kestrel Pay</span></p>
+                        </li>
+                        <li class="custom-card custom-cu-quote h-full gap-7" data-anim="fade-up">
+                            <blockquote>
+                                <p>Four teams, one set of numbers. The arguments are about what to build now.</p>
+                            </blockquote>
+                            <p class="custom-quote-by flex items-center gap-3.5 mt-auto"><img class="size-12 object-cover" src="../assets/media/placeholder/800x800.svg" alt="" width="800" height="800" loading="lazy" decoding="async"><span><strong class="block font-semibold text-text">Hannah Lowe</strong> Director of Data, Orbitly</span></p>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Analytics 1 closing call - a navy card on the light page: the claim and two actions on the left, a trend line with a "you, next quarter" annotation on the right. Params: ctaTitle, optional ctaSoft (the muted clause), optional ctaText (one line). Edit: the actions, the note, the chip -->
+            <section id="an-cta" class="custom-section" aria-labelledby="an-cta-title">
+                <div class="container">
+                    <div class="custom-cta-card relative isolate grid gap-[clamp(3rem,5vw,4rem)] overflow-clip p-[clamp(2.25rem,5vw,4.5rem)] text-(--custom-on-ink-soft) lg:gap-x-[clamp(3rem,6vw,6rem)] lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:items-center" data-anim="fade-up">
+                        <div class="grid justify-items-start gap-6">
+                            <h2 id="an-cta-title" class="custom-title text-(--custom-on-ink)">Your story <span class="custom-title-soft">starts with one event.</span></h2>
+                            <p class="custom-lead">Most teams find their first answer in the first week.</p>
+                            <div class="flex flex-wrap gap-3.5 mt-3">
+                                <a href="demo-analytics-1-pricing.html" class="btn btn-primary btn-lg text-(--custom-on-pop) bg-(--custom-pop) border-(--custom-pop)">Start Free</a>
+                                <a href="demo-analytics-1-contact.html" class="btn btn-outline-light btn-lg">Book a Demo</a>
+                            </div>
+                            <p class="custom-small">Free up to 1M events a month <span aria-hidden="true">·</span> Unlimited seats</p>
+                        </div>
+                        <div class="custom-cta-chart custom-trend-frame [align-self:end] mt-8" aria-hidden="true">
+                            <svg class="custom-trend svg-draw" data-anim viewBox="0 0 480 110" focusable="false">
+                                <defs>
+                                    <linearGradient id="an-cta-fill" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0" stop-color="currentColor" stop-opacity=".22" />
+                                        <stop offset="1" stop-color="currentColor" stop-opacity="0" />
+                                    </linearGradient>
+                                </defs>
+                                <path class="custom-trend-grid" d="M0 20H480M0 55H480M0 90H480" />
+                                <path class="custom-trend-area" fill="url(#an-cta-fill)" d="M0 96 C40 94 60 88 100 88 C140 88 160 80 200 76 C240 72 260 78 300 70 C340 62 360 46 400 40 C430 36 455 26 480 18 L480 110 L0 110 Z" />
+                                <path class="custom-trend-line" pathLength="1" d="M0 96 C40 94 60 88 100 88 C140 88 160 80 200 76 C240 72 260 78 300 70 C340 62 360 46 400 40 C430 36 455 26 480 18" />
+                                <circle class="custom-trend-dot" cx="200" cy="76" r="3.5" />
+                                <circle class="custom-trend-dot" cx="400" cy="40" r="3.5" />
+                            </svg>
+                            <p class="custom-annot" style="--custom-x: 41.7%; --custom-y: 69.1%"><span class="custom-annot-label">You start here</span></p>
+                            <p class="custom-annot" style="--custom-x: 83.3%; --custom-y: 36.4%"><span class="custom-annot-label">Next quarter</span><span class="custom-delta custom-delta--up">27%</span></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Analytics 1 footer - the template newsletter footer on the navy ink, a faint trend line across its top: The Funnel sign-up beside the link columns, then the status, compliance and legal row. Edit: the letter's name, title, lead and reader count, the columns, the status, the badges, the address, the legal links -->
+        <footer class="site-footer site-footer--dark footer-newsletter custom-footer isolate overflow-clip">
+
+            <svg class="custom-footer-trend absolute -z-1 w-full h-[clamp(4.5rem,7vw,6.5rem)] text-(--color-primary) pointer-events-none" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                <defs>
+                    <linearGradient id="an-footer-trend-fill" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stop-color="currentColor" stop-opacity=".14" />
+                        <stop offset=".8" stop-color="currentColor" stop-opacity="0" />
+                    </linearGradient>
+                </defs>
+                <path fill="url(#an-footer-trend-fill)" d="M0 92 C120 90 180 80 290 82 C400 84 450 66 560 63 C670 60 720 71 830 60 C940 49 990 35 1100 33 C1210 31 1270 19 1440 8 L1440 100 L0 100 Z" />
+                <path class="custom-footer-trend-line opacity-60" d="M0 92 C120 90 180 80 290 82 C400 84 450 66 560 63 C670 60 720 71 830 60 C940 49 990 35 1100 33 C1210 31 1270 19 1440 8" />
+            </svg>
+
+            <div class="footer-main pt-[clamp(4.5rem,8vw,7rem)] pb-[clamp(3.5rem,6vw,5rem)]">
+                <div class="container grid grid-cols-1 gap-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-[clamp(3rem,6vw,7rem)]">
+
+                    <!-- The Funnel - newsletter -->
+                    <div class="footer-newsletter-inner items-start text-start">
+                        <span class="footer-newsletter-kicker custom-footer-kicker mb-6 py-1.25 px-3.5 text-[0.875rem] font-semibold text-(--custom-on-ink) border-(--custom-line-ink)">
+                            <span class="footer-newsletter-pulse bg-(--color-accent-base)" aria-hidden="true"></span>
+                            The Funnel
+                        </span>
+
+                        <h2 class="footer-newsletter-title max-w-[20ch] text-[clamp(1.875rem,1.4rem_+_1.6vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.02em]">One email a month on product analytics <em class="font-heading not-italic tracking-[-0.02em] text-(--custom-on-ink-soft)">that actually changed something.</em></h2>
+
+                        <form class="footer-newsletter-form custom-footer-form max-w-120 mt-8 mb-7" x-data="formValidate()" novalidate @submit.prevent="onSubmit($event)">
+                            <div class="footer-subscribe footer-subscribe--boxed">
+                                <i class="ph ph-envelope-simple footer-newsletter-icon" aria-hidden="true"></i>
+                                <input class="py-2.5 text-(length:--text-base)" id="an-footer-email" name="email" type="email" placeholder="Your work email" aria-label="Email address" aria-describedby="an-footer-email-msg" autocomplete="email" required @blur="check($event.target)" @input="check($event.target)">
+                                <button type="submit" aria-label="Subscribe"><i class="ph ph-arrow-right" aria-hidden="true"></i></button>
+                            </div>
+                            <span class="footer-subscribe-msg text-start" id="an-footer-email-msg">
+                                <span x-show="!errors.email &amp;&amp; !sent">First Tuesday of the month. Unsubscribe in one click.</span>
+                                <span class="footer-subscribe-msg--error" x-show="errors.email" x-text="errors.email" x-cloak></span>
+                                <span class="footer-subscribe-msg--ok" x-show="sent" x-cloak>You're on the list — the next issue lands on the first Tuesday.</span>
+                            </span>
+                        </form>
+
+                        <div class="footer-newsletter-proof justify-start mb-0 text-(--custom-on-ink-soft)">
+                            <div class="avatar-stack avatar-stack-sm">
+                                <img src="../assets/media/placeholder/160x160.svg" alt="" width="80" height="80" loading="lazy" decoding="async">
+                                <img src="../assets/media/placeholder/160x160.svg" alt="" width="80" height="80" loading="lazy" decoding="async">
+                                <img src="../assets/media/placeholder/160x160.svg" alt="" width="80" height="80" loading="lazy" decoding="async">
+                            </div>
+                            <span>Read by <strong>4,800</strong> product people</span>
+                        </div>
+                    </div>
+
+                    <!-- Columns -->
+                    <nav class="grid grid-cols-2 gap-y-10 gap-x-6 md:grid-cols-5 lg:pt-2" aria-label="Footer">
+                        <div>
+                            <p class="footer-col-title mb-5 text-[0.9375rem] font-semibold">Product</p>
+                            <ul class="footer-links gap-3" role="list">
+                                <li><a href="demo-analytics-1-product.html">Overview</a></li>
+                                <li><a href="demo-analytics-1-feature.html#funnels">Funnels</a></li>
+                                <li><a href="demo-analytics-1-feature.html#retention">Retention</a></li>
+                                <li><a href="demo-analytics-1-analyst.html">Framo Analyst</a></li>
+                                <li><a href="demo-analytics-1-pricing.html">Pricing</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="footer-col-title mb-5 text-[0.9375rem] font-semibold">Solutions</p>
+                            <ul class="footer-links gap-3" role="list">
+                                <li><a href="demo-analytics-1-solutions.html#product">Product</a></li>
+                                <li><a href="demo-analytics-1-solutions.html#growth">Growth</a></li>
+                                <li><a href="demo-analytics-1-solutions.html#data">Data</a></li>
+                                <li><a href="demo-analytics-1-solutions.html#engineering">Engineering</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="footer-col-title mb-5 text-[0.9375rem] font-semibold">Resources</p>
+                            <ul class="footer-links gap-3" role="list">
+                                <li><a href="demo-analytics-1-changelog.html">Changelog</a></li>
+                                <li><a href="demo-analytics-1-customers.html">Customers</a></li>
+                                <li><a href="demo-analytics-1-integrations.html">Integrations</a></li>
+                                <li><a href="#">Docs</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="footer-col-title mb-5 text-[0.9375rem] font-semibold">Company</p>
+                            <ul class="footer-links gap-3" role="list">
+                                <li><a href="demo-analytics-1-about.html">About Us</a></li>
+                                <li><a href="demo-analytics-1-about.html#careers">Careers</a></li>
+                                <li><a href="demo-analytics-1-contact.html">Contact</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="footer-col-title mb-5 text-[0.9375rem] font-semibold">Legal</p>
+                            <ul class="footer-links gap-3" role="list">
+                                <li><a href="#">Privacy</a></li>
+                                <li><a href="#">Terms</a></li>
+                                <li><a href="#">DPA</a></li>
+                                <li><a href="#">Cookies</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+
+                </div>
+            </div>
+
+            <div class="footer-bottom py-7">
+                <div class="container flex flex-wrap items-center gap-y-4 gap-x-6">
+                    <a href="demo-analytics-1.html" class="brand text-(--footer-title) me-auto">
+
+                        <img class="brand-logo" src="../assets/media/logo/framo-logo.svg" alt="Framo" width="120" height="32" style="--logo-tint: url(#logo-tint-footer)">
+
+                        <svg class="brand-tint" aria-hidden="true" focusable="false">
+                            <filter id="logo-tint-footer" color-interpolation-filters="sRGB">
+                                <feFlood flood-color="currentColor" />
+                                <feComposite in2="SourceAlpha" operator="in" />
+                            </filter>
+                        </svg>
+                    </a>
+                    <a href="#" class="custom-footer-status text-(--footer-title)"><span class="custom-footer-status-dot w-2 aspect-square bg-(--color-accent-base)" aria-hidden="true"></span>All systems operational</a>
+                    <ul class="custom-footer-badges flex flex-wrap gap-2" role="list" aria-label="Compliance">
+                        <li>SOC 2 Type II</li>
+                        <li>ISO 27001</li>
+                        <li>GDPR</li>
+                        <li>HIPAA on Enterprise</li>
+                    </ul>
+                    <p class="basis-[100%] mt-1 text-[0.9375rem]">© 2026 Framo Analytics Ltd · 20 Farringdon Lane, London EC1R&nbsp;3AU</p>
+                </div>
+            </div>
+
+        </footer>
+
+        <!-- Back to top button -->
+        <button data-back-top aria-label="Back to top" class="back-to-top fixed bottom-8 right-8 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer border-0 text-white bg-primary shadow-token-lg z-sticky">
+            <i class="ph ph-arrow-up"></i>
+        </button>
+
+        <script defer src="../assets/js/vendor.js"></script>
+        <script defer src="../assets/js/main.js"></script>
+    </body>
+</html>

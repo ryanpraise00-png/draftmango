@@ -113,3 +113,18 @@ test('production asks the shared limit service before generating and always rele
   held.clear(); serviceDown = true;
   assert.equal(await post('a'), 503);
 });
+
+
+test('isolated template previews can load public icon fonts without exposing API responses', async t => {
+ const server=createServer({publicOrigin:'https://draftmango.com',accountProxy:async(_req,res)=>{res.writeHead(200);res.end('{}');}});
+ server.listen(0,'127.0.0.1');await once(server,'listening');
+ t.after(()=>{server.closeAllConnections();server.close();});
+ const get=pathname=>new Promise((resolve,reject)=>{
+  const req=http.get({hostname:'127.0.0.1',port:server.address().port,path:pathname,headers:{Host:'draftmango.com',Origin:'null'}},res=>{res.resume();res.on('end',()=>resolve({status:res.statusCode,headers:res.headers}));});req.on('error',reject);
+ });
+ const font=await get('/framo/assets/fonts/Phosphor.woff2');
+ assert.equal(font.status,200);assert.equal(font.headers['access-control-allow-origin'],'*');assert.equal(font.headers['content-type'],'font/woff2');
+ assert.equal(font.headers['access-control-allow-credentials'],undefined);
+ const api=await get('/api/accounts/session');assert.equal(api.status,403);assert.equal(api.headers['access-control-allow-origin'],undefined);
+ const page=await get('/');assert.equal(page.headers['access-control-allow-origin'],undefined);
+});

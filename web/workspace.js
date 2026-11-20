@@ -48,10 +48,21 @@
   }
   if (initialIdea) {
     const next = M.createProject(initialIdea, 'blank');
-    next.files=P.scaffold({},next.title);next.history[0].files=structuredClone(next.files);
-    next.creationPreferences = [];
-    next.ai = { state: 'pending' };
-    next.messages = [next.messages[0]];
+    let selectedTemplate;
+    try { selectedTemplate = await globalThis.DraftmangoTemplates.load(starting.get('template'), initialIdea); }
+    catch (error) {
+      const notice = document.createElement('div'); notice.setAttribute('role','alert'); notice.className='ws-template-error';
+      const message=document.createElement('p');message.textContent=error.message;
+      const retry=document.createElement('button');retry.textContent='Try again';retry.onclick=()=>location.reload();
+      const link=document.createElement('a');link.href='/templates';link.textContent='Choose another template';
+      notice.append(message,retry,link);document.body.append(notice);return;
+    }
+    next.files=selectedTemplate.files;next.history[0].files=structuredClone(next.files);
+    next.workspace={...next.workspace,templateId:selectedTemplate.id,templateName:selectedTemplate.name};
+    next.creationPreferences = ['Use the '+selectedTemplate.name+' Framo template. Preserve its design and page layouts.'];
+    const explicitlyChosen=starting.has('template') && !['blank','auto'].includes(starting.get('template'));
+    next.ai = { state: explicitlyChosen ? 'ready' : 'pending' };
+    next.messages = [{role:'assistant',text:explicitlyChosen ? selectedTemplate.name+' is ready to edit. Tell me about your business and what you want to personalise. The template includes demonstration content; forms and checkout will need connecting.' : 'I’ve selected '+selectedTemplate.name+' as the starting point for your website. I’ll adapt the content while keeping its design.',initial:false}];
     if (M.palettes[starting.get('color')]) {
       next.design.theme = starting.get('color');
       next.history[0].design.theme = next.design.theme;
@@ -191,7 +202,7 @@
       label.innerHTML = message.role === 'user' ? 'You <span class="avatar">Y</span>' : `<span class="avatar">${icon('mango')}</span>Draftmango`;
       const content = document.createElement(message.role === 'assistant' ? 'div' : 'p');
       content.className = 'message-content';
-      const messageText = message.initial ? 'Your blank site is ready. Describe what you want to build and I’ll design it from scratch.' : message.text;
+      const messageText = message.initial ? 'Tell me what you want to build. I’ll start with a suitable design from the template library.' : message.text;
       if (message.role === 'assistant') Chat.render(content,messageText); else content.textContent=messageText;
       block.append(label);
       const activity=Chat.renderActivity(message.activity);if(activity)block.append(activity);
@@ -275,8 +286,18 @@
     return buildPromise;
   }
   function previewDocument(html, token) {
-    const policy = `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data: https:; style-src 'unsafe-inline' data: https:; font-src data: https:; script-src 'unsafe-inline' data:; connect-src 'none'; object-src 'none'; frame-src 'none'; form-action 'none'; base-uri 'none'">`;
-    const bridge = `<script>(()=>{const token=${JSON.stringify(token)};const send=(level,text)=>parent.postMessage({draftmango:token,level,text:String(text).slice(0,2000)},'*');for(const level of ['log','info','warn','error']){const original=console[level];console[level]=(...args)=>{send(level,args.map(value=>{try{return typeof value==='string'?value:JSON.stringify(value)}catch{return String(value)}}).join(' '));original.apply(console,args)}}addEventListener('error',event=>send('error',event.message+' (line '+event.lineno+')'));addEventListener('unhandledrejection',event=>send('error',event.reason?.message||event.reason));addEventListener('load',()=>send('ready','Preview ready'));document.addEventListener('click',event=>{const link=event.target.closest('a[href^="#"]');if(link){event.preventDefault();const target=document.getElementById(decodeURIComponent(link.hash.slice(1)));target?.scrollIntoView({behavior:'smooth'})}})})()<\/script>`;
+    const localAssets = ['127.0.0.1','localhost'].includes(location.hostname);
+    if(localAssets){
+      const rewrite=value=>value.replaceAll('https://draftmango.com/framo/',location.origin+'/framo/');
+      html=rewrite(html).replace(/data:(text\/javascript|text\/css);base64,([A-Za-z0-9+/=]+)/g,(_all,type,data)=>{
+        try{return 'data:'+type+';base64,'+btoa(rewrite(atob(data)))}catch{return _all}
+      });
+    }
+    // Alpine's supplied interactions evaluate local expressions. The opaque-origin
+    // iframe still forbids parent access, connections, forms and remote scripts.
+    const templateRuntime=!!project.files?.['src/framo/vendor.txt'];
+    const policy = `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data: https: ${localAssets?location.origin:''}; style-src 'unsafe-inline' data: https: ${localAssets?location.origin:''}; font-src data: https: ${localAssets?location.origin:''}; script-src 'unsafe-inline' data: ${templateRuntime?"'unsafe-eval'":''}; connect-src 'none'; object-src 'none'; frame-src 'none'; form-action 'none'; base-uri 'none'">`;
+    const bridge = `<script>(()=>{const token=${JSON.stringify(token)};const send=(level,text)=>parent.postMessage({draftmango:token,level,text:String(text).slice(0,2000)},'*');for(const level of ['log','info','warn','error']){const original=console[level];console[level]=(...args)=>{send(level,args.map(value=>{try{return typeof value==='string'?value:JSON.stringify(value)}catch{return String(value)}}).join(' '));original.apply(console,args)}}addEventListener('error',event=>send('error',event.message+' (line '+event.lineno+')'));addEventListener('unhandledrejection',event=>send('error',event.reason?.message||event.reason));addEventListener('load',()=>send('ready','Preview ready'));document.addEventListener('click',event=>{const link=event.target.closest('a[href^="#"]');if(link&&!link.hash.startsWith('#page=')){event.preventDefault();const target=document.getElementById(decodeURIComponent(link.hash.slice(1)));target?.scrollIntoView({behavior:'smooth'})}})})()<\/script>`;
     const start = policy + bridge;
     return /<head\b[^>]*>/i.test(html) ? html.replace(/<head\b[^>]*>/i, match => match + start) : start + html;
   }
@@ -661,6 +682,7 @@
     if (!text || aiJob) return;
     applyCode(false);
     mode = mode || Chat.requestMode(project,W.emptyFiles());
+    if(project.files?.['TEMPLATE.md']) mode='edit';
     if (!retry && !(project.messages.at(-1)?.role === 'user' && project.messages.at(-1)?.text === text)) addMessage('user', text);
     lastAIRequest = { text, mode };
     const job = { controller: new AbortController(), projectId: project.id, revision: fileRevision(project), startedAt:Date.now(), phase:'connecting', phases:['connecting'], plan:'', elapsedSeconds:0 };
@@ -668,7 +690,7 @@
     aiFeedback = { text:'Thinking…', state:'busy', retry:false };
     const parentContext = W.get(project.workspace?.parentId);
     const payload = {
-      mode, interaction:'conversation', prompt: text,
+      mode, interaction:'conversation', prompt: project.files?.['TEMPLATE.md'] ? text+'\n\nPreserve the supplied Framo design, page routing and shared styles. Personalise the existing React pages; do not replace them with a new generic design.' : text,
       ...(selectedModel() ? {modelId:selectedModel()} : {}),
       references: project.workspace?.attachments || [],
       projectContext: [project.prompt ? 'Original brief: '+project.prompt : '', parentContext?.workspace?.brief, parentContext?.workspace?.instructions, project.workspace?.notes].filter(Boolean).join('\n\n').slice(0,12000),

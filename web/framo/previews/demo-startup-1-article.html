@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en" data-demo="startup-1">
+    <head>
+        <meta charset="UTF-8">
+        <script async src="../assets/js/entrance.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Framo Is Now in Public Beta — Blog — Startup — Framo</title>
+        <link rel="icon" href="../assets/media/logo/favicon.ico" sizes="32x32">
+        <link rel="icon" href="../assets/media/logo/framo-mark.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="../assets/media/logo/apple-touch-icon.png">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="../assets/css/icons.css">
+        <link rel="stylesheet" href="../assets/css/app.css">
+        <link rel="stylesheet" href="../assets/css/vendor.css">
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@400..700&amp;family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" data-theme-fonts>
+        <link rel="stylesheet" href="../assets/css/demos/demo-startup-1.css">
+        <link rel="stylesheet" href="../assets/css/themes/demo-startup-1.css" data-theme-file>
+        <link rel="stylesheet" href="../assets/css/custom.css">
+    </head>
+    <body>
+
+        <header class="site-header header-floating header-floating--contained header-topbar" data-header>
+
+            <!--css .site-topbar-inner, .site-topbar-text, .site-topbar-cta). Edit: the announcement and its link -->
+            <div class="site-topbar custom-topbar">
+                <div class="site-topbar-inner">
+                    <p class="site-topbar-text"><span class="custom-topbar-dot" aria-hidden="true"></span>Framo is now in public beta</p>
+                    <a href="demo-startup-1-article.html" class="btn btn-link btn-xs site-topbar-cta custom-topbar-cta">
+                        <span class="site-topbar-cta-label">Read the Launch Post</span>
+                        <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main navbar -->
+            <nav class="navbar" role="navigation" aria-label="Main navigation">
+                <div class="navbar-inner">
+
+                    <!-- Brand -->
+                    <a href="demo-startup-1.html" class="brand">
+
+                        <img class="brand-logo" src="../assets/media/logo/framo-logo.svg" alt="Framo" width="120" height="32" style="--logo-tint: url(#logo-tint-header)">
+
+                        <svg class="brand-tint" aria-hidden="true" focusable="false">
+                            <filter id="logo-tint-header" color-interpolation-filters="sRGB">
+                                <feFlood flood-color="currentColor" />
+                                <feComposite in2="SourceAlpha" operator="in" />
+                            </filter>
+                        </svg>
+
+                    </a>
+
+                    <!-- Desktop navigation links -->
+                    <ul class="nav-links" role="list">
+
+                        <!-- Startup menu - the <li> items of . Inner pages: product, pricing, changelog, customers, about (#jobs holds the careers link), blog, article, contact -->
+
+                        <li>
+                            <a href="demo-startup-1.html" class="nav-link">Home</a>
+                        </li>
+
+                        <!-- Product - tabs mega (megamenu-tabs): the four steps as a row of tabs, each panel a mini preview and its links (a caption under each). Edit: the tab titles and captions, each preview, the links and their captions, the foot line -->
+                        <li class="nav-megamenu nav-megamenu--tabs custom-menu-product">
+                            <button class="nav-link">
+                                Product
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="megamenu-panel" data-lenis-prevent>
+                                <div class="megamenu-inner megamenu-inner--tabs">
+                                    <!-- hover(): a short dwell before switching; go(): arrow keys move between the tabs, Tab goes on into the open panel -->
+                                    <div class="tabs tabs-rich megamenu-tabs custom-menu-tabs" x-data="{ tab: 'collect', tabs: ['collect', 'prioritize', 'plan', 'announce'], t: null, hover(v) { clearTimeout(this.t); this.t = setTimeout(() => this.tab = v, 120) }, go(d) { clearTimeout(this.t); const n = this.tabs.length; this.tab = this.tabs[(this.tabs.indexOf(this.tab) + d + n) % n]; this.$refs[this.tab].focus() } }">
+
+                                        <div class="tabs-nav" role="tablist" aria-label="Product" @keydown.right.prevent="go(1)" @keydown.left.prevent="go(-1)">
+                                            <button type="button" class="tab-btn is-active" role="tab" id="st-pr-tab-collect" aria-controls="st-pr-panel-collect" x-ref="collect" :class="{ 'is-active': tab === 'collect' }" :aria-selected="tab === 'collect'" :tabindex="tab === 'collect' ? 0 : -1" @mouseenter="hover('collect')" @mouseleave="clearTimeout(t)" @click="tab = 'collect'">
+                                                <span class="tab-btn-icon"><i class="ph ph-tray-arrow-down" aria-hidden="true"></i></span>
+                                                <span class="tab-btn-title">Collect</span>
+                                                <span class="tab-btn-caption">Every request, one inbox</span>
+                                            </button>
+                                            <button type="button" class="tab-btn" role="tab" id="st-pr-tab-prioritize" aria-controls="st-pr-panel-prioritize" x-ref="prioritize" tabindex="-1" :class="{ 'is-active': tab === 'prioritize' }" :aria-selected="tab === 'prioritize'" :tabindex="tab === 'prioritize' ? 0 : -1" @mouseenter="hover('prioritize')" @mouseleave="clearTimeout(t)" @click="tab = 'prioritize'">
+                                                <span class="tab-btn-icon"><i class="ph ph-arrow-fat-up" aria-hidden="true"></i></span>
+                                                <span class="tab-btn-title">Prioritize</span>
+                                                <span class="tab-btn-caption">Rank by votes and revenue</span>
+                                            </button>
+                                            <button type="button" class="tab-btn" role="tab" id="st-pr-tab-plan" aria-controls="st-pr-panel-plan" x-ref="plan" tabindex="-1" :class="{ 'is-active': tab === 'plan' }" :aria-selected="tab === 'plan'" :tabindex="tab === 'plan' ? 0 : -1" @mouseenter="hover('plan')" @mouseleave="clearTimeout(t)" @click="tab = 'plan'">
+                                                <span class="tab-btn-icon"><i class="ph ph-kanban" aria-hidden="true"></i></span>
+                                                <span class="tab-btn-title">Plan</span>
+                                                <span class="tab-btn-caption">A roadmap people can see</span>
+                                            </button>
+                                            <button type="button" class="tab-btn" role="tab" id="st-pr-tab-announce" aria-controls="st-pr-panel-announce" x-ref="announce" tabindex="-1" :class="{ 'is-active': tab === 'announce' }" :aria-selected="tab === 'announce'" :tabindex="tab === 'announce' ? 0 : -1" @mouseenter="hover('announce')" @mouseleave="clearTimeout(t)" @click="tab = 'announce'">
+                                                <span class="tab-btn-icon"><i class="ph ph-megaphone-simple" aria-hidden="true"></i></span>
+                                                <span class="tab-btn-title">Announce</span>
+                                                <span class="tab-btn-caption">Tell everyone who asked</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="tabs-panels">
+
+                                            <div class="tabs-panel megamenu-tabpanel custom-menu-panel is-active" role="tabpanel" id="st-pr-panel-collect" aria-labelledby="st-pr-tab-collect" :class="{ 'is-active': tab === 'collect' }">
+                                                <div class="custom-menu-preview" aria-hidden="true">
+                                                    <span class="custom-menu-preview-label">Inbox <b>24 new</b></span>
+                                                    <span class="custom-menu-row"><i class="ph ph-chat-circle"></i>"Could we get dark mode?"<em>Chat</em></span>
+                                                    <span class="custom-menu-row"><i class="ph ph-envelope-simple"></i>"Export the roadmap as PDF"<em>Email</em></span>
+                                                    <span class="custom-menu-row"><i class="ph ph-hash"></i>"Bulk-merge duplicates pls"<em>Team chat</em></span>
+                                                </div>
+                                                <div class="megamenu-col">
+                                                    <div class="custom-menu-link">
+                                                        <a href="demo-startup-1-product.html#collect" class="megamenu-item">Feedback Inbox</a>
+                                                        <span class="custom-menu-caption">Chat, email and portal in one list</span>
+                                                    </div>
+                                                    <div class="custom-menu-link">
+                                                        <a href="demo-startup-1-product.html#portal" class="megamenu-item">Public Portal &amp; Widget</a>
+                                                        <span class="custom-menu-caption">A page and a button for your users</span>
+                                                    </div>
+                                                    <div class="custom-menu-link">
+                                                        <a href="demo-startup-1-product.html#capture" class="megamenu-item">Chat &amp; Email Capture</a>
+                                                        <span class="custom-menu-caption">Forward a thread, it becomes a post</span>
+                                                    </div>
+                                                    <div class="custom-menu-link">
+                                                        <a href="demo-startup-1-product.html#import" class="megamenu-item">Import from a Spreadsheet</a>
+                                                        <span class="custom-menu-caption">Bring the backlog you already have</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="tabs-panel megamenu-tabpanel custom-menu-panel" role="tabpanel" id="st-pr-panel-prioritize" aria-labelledby="st-pr-tab-prioritize" :class="{ 'is-active': tab === 'prioritize' }">
+                                                <div class="custom-menu-preview" aria-hidden="true">
+                                                    <span class="custom-menu-preview-label">Top requests <b>this month</b></span>
+                                                    <span class="custom-menu-rank"><span class="custom-vote custom-vote--voted">214</span>Dark mode<i style="--custom-impact: .92"></i></span>
+                                                    <span class="custom-menu-rank"><span class="custom-vote">143</span>Thread capture<i style="--custom-impact: .7"></i></span>
+                                                    <span class="custom-menu-rank"><span class="custom-vote">92</span>PDF export<i style="--custom-impact: .48"></i></span>
+                                                </div>
+                                                <div class="megamenu-col">
+                                                    <div class="custom-menu-link">
+                                                        <a href="demo-startup-1-product.html#prioritize" class="megamenu-item">Votes &amp; Comments</a>
+                                                        <span class="custom-menu-caption">See who asked, and how often</span>
+                                                    </div>
+                                                    <div class="custom-menu-link">
+                                                        <a href="demo-startup-1-product.html#impact" class="megamenu-item">Impact Scoring</a>
+                                                        <span class="custom-menu-caption">Weigh requests by revenue and reach</span>
+                                                    </div>
+                                                    <div class="custom-menu-link">
+                                                        <a href="demo-startup-1-product.html#segments" class="megamenu-item">Segments by Plan</a>
+                                                        <span class="custom-menu-caption">Filter by plan, team size or region</span>
+                                                    </div>
+                                                    <div class="custom-menu-link">
+                                                        <a href="demo-startup-1-product.html#duplicates" class="megamenu-item">Merge Duplicates</a>
+                                                        <span class="custom-menu-caption">Five posts, one request, every vote kept</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="tabs-panel megamenu-tabpanel custom-menu-panel" role="tabpanel" id="st-pr-panel-plan" aria-labelledby="st-pr-tab-plan" :class="{ 'is-active': tab === 'plan' }">
+                                                <div class="custom-menu-preview custom-menu-preview--board" aria-hidden="true">
+                                                    <span class="custom-menu-lane"><span class="custom-status">Planned</span><i></i><i></i></span>
+                                                    <span class="custom-menu-lane"><span class="custom-status custom-status--progress">In Progress</span><i></i><i class="is-lit"></i></span>
+                                                    <span class="custom-menu-lane"><span class="custom-status custom-status--shipped">Shipped</span><i></i></span>
+                                                </div>
+                                                <div class="megamenu-col">
+                                                    <div class="custom-menu-link">
+                                                        <a href="demo-startup-1-product.html#plan" class="megamenu-item">Boards &amp; Statuses</a>
+                                                        <span class="custom-menu-caption">Planned, In Progress, Shipped — your way</span>
+                                                    </div>
+                                                    <div class="custom-menu-link">
+                                                        <a href="demo-startup-1-product.html#roadmap" class="megamenu-item">Public Roadmap</a>
+                                                        <span class="custom-menu-caption">Share what's next without a slide deck</span>
+                                                    </div>
+                                                    <div class="custom-menu-link">
+                                                        <a href="demo-startup-1-product.html#releases" class="megamenu-item">Releases</a>
+                                                        <span class="custom-menu-caption">Group shipped work into versions</span>
+                                                    </div>
+                                                    <div class="custom-menu-link">
+                                                        <a href="demo-startup-1-product.html#sync" class="megamenu-item">Issue Tracker Sync</a>
+                                                        <span class="custom-menu-caption">Status changes flow both ways</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="tabs-panel megamenu-tabpanel custom-menu-panel" role="tabpanel" id="st-pr-panel-announce" aria-labelledby="st-pr-tab-announce" :class="{ 'is-active': tab === 'announce' }">
+                                                <div class="custom-menu-preview" aria-hidden="true">
+                                                    <span class="custom-menu-preview-label">Changelog</span>
+                                                    <span class="custom-log custom-log--compact"><span class="custom-log-date">Oct 9</span><span class="custom-log-text"><strong>Shipped: Dark mode</strong>214 voters notified</span></span>
+                                                    <span class="custom-log custom-log--compact"><span class="custom-log-date">Oct 2</span><span class="custom-log-text"><strong>Shipped: Keyboard shortcuts</strong>117 voters notified</span></span>
+                                                </div>
+                                                <div class="megamenu-col">
+                                                    <div class="custom-menu-link">
+                                                        <a href="demo-startup-1-product.html#announce" class="megamenu-item">Changelog</a>
+                                                        <span class="custom-menu-caption">A public page for every release</span>
+                                                    </div>
+                                                    <div class="custom-menu-link">
+                                                        <a href="demo-startup-1-product.html#emails" class="megamenu-item">Release Emails</a>
+                                                        <span class="custom-menu-caption">One email to everyone who voted</span>
+                                                    </div>
+                                                    <div class="custom-menu-link">
+                                                        <a href="demo-startup-1-product.html#widget" class="megamenu-item">In-App Widget</a>
+                                                        <span class="custom-menu-caption">News where your users already are</span>
+                                                    </div>
+                                                    <div class="custom-menu-link">
+                                                        <a href="demo-startup-1-product.html#loop" class="megamenu-item">Close the Loop</a>
+                                                        <span class="custom-menu-caption">Tell each voter their idea shipped</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <p class="custom-menu-foot">
+                                        <span>Free during the public beta</span>
+                                        <a href="demo-startup-1-product.html" class="custom-menu-foot-link">Take the Product Tour <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="demo-startup-1-pricing.html" class="nav-link">Pricing</a>
+                        </li>
+
+                        <li>
+                            <a href="demo-startup-1-changelog.html" class="nav-link">Changelog</a>
+                        </li>
+
+                        <li>
+                            <a href="demo-startup-1-customers.html" class="nav-link">Customers</a>
+                        </li>
+
+                        <!-- Company - a cascade in the same card look. Edit: the pages -->
+                        <li class="nav-cascade custom-menu-company">
+                            <button class="nav-link active">
+                                Company
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="cascade-panel">
+                                <a href="demo-startup-1-about.html" class="cascade-item">About</a>
+                                <a href="demo-startup-1-about.html#jobs" class="cascade-item">Careers</a>
+                                <a href="demo-startup-1-blog.html" class="cascade-item">Blog</a>
+                                <a href="demo-startup-1-contact.html" class="cascade-item">Contact</a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                    <!-- Right-side actions -->
+                    <div class="nav-actions">
+
+                        <!-- Meta group - display:contents by default; header-stacked turns it into its own row. -->
+                        <div class="nav-meta">
+
+                        </div><!-- /.nav-meta -->
+
+                        <!-- Startup header actions - the menu panel carries _mobile-cta.html -->
+                        <a href="#" class="custom-nav-login">Log In</a>
+                        <a href="#" class="btn btn-dark custom-nav-action">Join the Beta</a>
+
+                        <!-- Menu toggle - mobile hamburger below 1024px; also the close button on header-overlay-menu / header-side-drawer -->
+                        <button class="hamburger" data-toggle aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation menu">
+                            <i class="ph ph-list text-xl nav-toggle-open" aria-hidden="true"></i>
+                            <i class="ph ph-x text-xl nav-toggle-close" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Navigation panel - links are auto-generated by initMobileSync() in main.js -->
+                <!-- data-lenis-prevent: opts this scroll container out of Lenis smooth scrolling -->
+                <div id="mobile-nav" class="mobile-nav" data-mobile-nav data-lenis-prevent role="dialog" aria-modal="true" aria-label="Site navigation">
+
+                    <!-- Menu column - the scroll container -->
+                    <div class="nav-panel-menu">
+
+                        <!-- JS target: desktop nav items are injected here -->
+                        <div data-mobile-links></div>
+
+                        <!-- Mobile-only items: add or remove <a> elements here freely -->
+                        <!-- <a href="#" class="mobile-link" data-mobile-only>Exclusive Item</a> -->
+
+                        <!-- Startup menu panel CTA -->
+                        <div class="nav-panel-cta flex custom-panel-cta">
+                            <a href="#" class="btn btn-outline-dark">Log In</a>
+                            <a href="#" class="btn btn-dark">Join the Beta</a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </nav>
+
+        </header>
+
+        <main>
+            <!-- Startup 1 page header - the inner pages' opening on the white page: one primary glow at the left edge, two outlined up-triangles at the right (wide screens). Params: phCrumb (this page's crumb); optional phTrail + phHref (a parent crumb); optional phEyebrow; phTitle; optional phLead; optional phAction + phLink (the main button), phSecond + phRoute (the outline button); optional phNote (a small line under the buttons) -->
+            <section id="st-page-head" class="custom-ph relative isolate overflow-clip pt-[calc(var(--header-h-rest,var(--header-h))_+_clamp(3rem,2rem_+_3vw,5.5rem))] pb-(--section-space)" aria-labelledby="st-page-title">
+                <div class="glow-field" aria-hidden="true"><span class="glow custom-ph-glow top-[10%] -left-88"></span></div>
+                <svg class="custom-ph-art absolute right-[clamp(2rem,6vw,7rem)] bottom-[clamp(2.5rem,4vw,4rem)] -z-1 hidden w-[clamp(14rem,22vw,20rem)] lg:block" viewBox="0 0 400 360" fill="none" aria-hidden="true" focusable="false">
+                    <path d="M200 12 388 348H12Z" />
+                    <path d="M200 92 318 304H82Z" />
+                </svg>
+
+                <div class="container grid justify-items-start">
+                    <nav class="custom-ph-crumb mb-[clamp(1.75rem,1.25rem_+_1.5vw,2.5rem)]" aria-label="Breadcrumb" data-anim="fade" data-anim-duration="800">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="demo-startup-1.html">Home</a></li>
+                            <li class="breadcrumb-item"><a href="demo-startup-1-blog.html">Blog</a></li>
+                            <li class="breadcrumb-item" aria-current="page">Public Beta</li>
+                        </ol>
+                    </nav>
+
+                    <p class="eyebrow mb-5" data-anim="fade-up">Company · Oct 14, 2026 · 5 min read</p>
+
+                    <h1 id="st-page-title" class="max-w-[15ch] text-[clamp(2.75rem,1.6rem_+_3.4vw,4.75rem)] font-semibold leading-[1] tracking-[-0.045em] text-balance" data-anim="fade-up" data-anim-delay="80" data-anim-duration="1100">Framo is now in public beta.</h1>
+
+                    <p class="custom-lead max-w-152 mt-6" data-anim="fade-up" data-anim-delay="160">Eighteen months, 12,400 waiting teams and one very long spreadsheet later, anyone can sign up. Here is what is in it, what is not yet, and how the beta works.</p>
+
+                </div>
+            </section>
+
+            <!-- ARTICLE - the cover photo, then the post on a reading measure (template article.css .article-body): paragraphs, headings, a list, a pull quote, a figure, the sign-off. Edit: the photo, then the text -->
+            <section id="st-article" class="custom-section" aria-label="The post">
+                <div class="container">
+                    <figure class="mb-[clamp(3rem,2rem_+_3vw,5rem)] aspect-[21/9] overflow-hidden rounded-(--custom-radius-card) max-md:aspect-[4/3]" data-anim="fade-up">
+                        <img class="size-full object-cover" src="../assets/media/placeholder/1800x1200.svg" alt="The Framo team gathered on sofas for the launch-day kickoff" width="1800" height="1200">
+                    </figure>
+
+                    <article class="article-body article-body--flush custom-article-body max-w-176 mx-auto">
+                        <p class="text-[1.3125rem] leading-[1.6] text-text">This morning we took the waitlist down. If you have been holding a place in line since last spring: thank you, and sorry it took this long. Your invite is in your inbox. If you only heard of us today, you can sign up in about a minute.</p>
+                        <p>Framo started as an argument between the two of us. Lea had six years of customer requests in a spreadsheet only she could read. Sam had six years of features nobody could prove anyone wanted. We both thought the other was the problem. We were both right.</p>
+
+                        <h2 class="mt-12 text-[clamp(1.75rem,1.5rem_+_0.8vw,2.25rem)] font-semibold">What is in the beta</h2>
+                        <p>Everything we have built so far, on every plan, for free. That means the whole loop:</p>
+                        <ul>
+                            <li><strong>Collect</strong> requests from chat, email, your support desk and a public portal, all in one inbox.</li>
+                            <li><strong>Prioritize</strong> them by votes, revenue and reach, and merge the duplicates.</li>
+                            <li><strong>Plan</strong> on a board that publishes your roadmap as you drag things around.</li>
+                            <li><strong>Announce</strong> what shipped, with an email to every person who asked.</li>
+                        </ul>
+
+                        <blockquote class="custom-article-quote pl-0 border-0 border-none">
+                            <p class="font-heading text-[clamp(1.75rem,1.4rem_+_1.2vw,2.5rem)] font-semibold leading-[1.15] tracking-[-0.035em] text-balance">The best feedback tool is the one that makes you write back.</p>
+                        </blockquote>
+
+                        <h2 class="mt-12 text-[clamp(1.75rem,1.5rem_+_0.8vw,2.25rem)] font-semibold">What is not in it yet</h2>
+                        <p>A mobile app, duplicate detection that understands new wording, and a roadmap you can export as a PDF for your board meeting. All three are on our own public roadmap. You can vote on them, and you will get an email when they ship. That is rather the point.</p>
+
+                        <figure>
+                            <img class="w-full aspect-[16/10] object-cover rounded-(--custom-radius-card)" src="../assets/media/placeholder/1600x1067.svg" alt="A teammate pinning the last few printed requests to the office wall" width="1600" height="1067" loading="lazy">
+                            <figcaption>The wall we used before Framo could hold our own requests. It came down last week.</figcaption>
+                        </figure>
+
+                        <h2 class="mt-12 text-[clamp(1.75rem,1.5rem_+_0.8vw,2.25rem)] font-semibold">How the beta works</h2>
+                        <p>It is free until launch, with no card. We will give you 30 days' notice before prices start, beta teams keep 30% off their first year, and anyone who does nothing simply stays on the Free plan with all their data.</p>
+                        <p>One thing we ask in return: tell us what is missing. Post it on our board, vote on what is already there, and reply to the release emails. We read every one, usually before lunch.</p>
+
+                        <p class="font-heading text-[1.5rem] font-semibold tracking-[-0.03em] text-text">— Lea &amp; Sam, Austin</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- AUTHOR - the author's card: portrait, name, role, a line and a link. Edit: the portrait, the name, the role, the line, the link -->
+            <section id="st-author" class="custom-section" aria-labelledby="st-author-name">
+                <div class="container">
+                    <aside class="custom-author grid grid-cols-1 gap-6 items-center max-w-176 mx-auto p-[clamp(1.5rem,1rem_+_1.5vw,2.25rem)] bg-(--custom-card) rounded-(--custom-radius-card) sm:grid-cols-[auto_minmax(0,1fr)] sm:gap-8" data-anim="fade-up">
+                        <img class="w-28 aspect-square object-cover object-[50%_20%] rounded-full" src="../assets/media/placeholder/1000x1333.svg" alt="Portrait of Lea Morgan" width="1000" height="1333" loading="lazy">
+                        <div class="grid gap-2.5 justify-items-start">
+                            <p class="eyebrow">Written By</p>
+                            <h2 id="st-author-name" class="text-[1.75rem] font-semibold tracking-[-0.03em]">Lea Morgan</h2>
+                            <p class="text-[1.0625rem] leading-[1.6] text-soft">Co-founder and CEO of Framo. Before that, a product manager for six years, mostly at companies with more customers than people to listen to them.</p>
+                            <a href="demo-startup-1-about.html" class="custom-link">Meet the Team <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                        </div>
+                    </aside>
+                </div>
+            </section>
+
+            <!-- READ NEXT - three more posts (the blog's cards). Edit: the head, each post (link, photo src, topic, date, title, reading time) -->
+            <section id="st-related" class="custom-section custom-section--soft" aria-labelledby="st-related-title">
+                <div class="container">
+                    <div class="custom-head custom-head--row">
+                        <h2 id="st-related-title" class="custom-title" data-anim="fade-up">Read next.</h2>
+                        <a href="demo-startup-1-blog.html" class="custom-link" data-anim="fade-up" data-anim-delay="100">All Posts <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                    </div>
+                    <ul class="grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 lg:grid-cols-3" role="list">
+                        <li data-anim="fade-up">
+                            <a href="demo-startup-1-article.html" class="custom-entry">
+                                <span class="custom-entry-photo"><img class="size-full object-cover" src="../assets/media/placeholder/1400x933.svg" alt="" width="1400" height="933" loading="lazy"></span>
+                                <span class="custom-entry-meta"><span class="custom-entry-topic font-semibold">Product</span><time datetime="2026-10-09">Oct 9, 2026</time></span>
+                                <span class="custom-entry-title">Dark mode took 214 votes and three tries</span>
+                                <span class="text-[0.9375rem] text-(--custom-meta)">4 min read</span>
+                            </a>
+                        </li>
+                        <li data-anim="fade-up" data-anim-delay="100">
+                            <a href="demo-startup-1-article.html" class="custom-entry">
+                                <span class="custom-entry-photo"><img class="size-full object-cover" src="../assets/media/placeholder/1000x667.svg" alt="" width="1000" height="667" loading="lazy"></span>
+                                <span class="custom-entry-meta"><span class="custom-entry-topic font-semibold">Guides</span><time datetime="2026-09-24">Sep 24, 2026</time></span>
+                                <span class="custom-entry-title">Release notes people actually read</span>
+                                <span class="text-[0.9375rem] text-(--custom-meta)">5 min read</span>
+                            </a>
+                        </li>
+                        <li data-anim="fade-up" data-anim-delay="200">
+                            <a href="demo-startup-1-article.html" class="custom-entry">
+                                <span class="custom-entry-photo"><img class="size-full object-cover" src="../assets/media/placeholder/1000x667.svg" alt="" width="1000" height="667" loading="lazy"></span>
+                                <span class="custom-entry-meta"><span class="custom-entry-topic font-semibold">Company</span><time datetime="2026-08-27">Aug 27, 2026</time></span>
+                                <span class="custom-entry-title">Why voters will always be free</span>
+                                <span class="text-[0.9375rem] text-(--custom-meta)">3 min read</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Startup 1 closing call - the Home's primary stage: the line, the beta form (input-group + formValidate()) and a photo. Params: ctaTitle; ctaPhoto + ctaAlt (the photo). Edit: the form copy and messages -->
+            <section id="st-close" class="custom-section" aria-labelledby="st-close-title">
+                <div class="container">
+                    <div class="custom-cta relative isolate grid grid-cols-1 gap-10 items-center p-[clamp(2rem,1rem_+_4vw,4.5rem)] overflow-hidden text-on-primary rounded-2xl lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]" data-anim="fade-up">
+                        <svg class="custom-cta-art absolute left-[38%] -bottom-20 -z-1 w-88" viewBox="0 0 400 360" fill="none" aria-hidden="true">
+                            <path d="M200 12 388 348H12Z" />
+                            <path d="M200 92 318 304H82Z" />
+                        </svg>
+                        <div>
+                            <h2 id="st-close-title" class="max-w-[14ch] mb-8 text-[clamp(2.25rem,1.5rem_+_2.6vw,3.75rem)] font-semibold leading-[1.02] tracking-[-0.045em] text-on-primary text-balance">The waitlist is gone. Come on in.</h2>
+                            <form class="max-w-124" x-data="formValidate()" novalidate @submit.prevent="onSubmit($event)">
+                                <div class="input-group custom-hero-group custom-cta-group gap-1 p-1.25" :class="errors.email && 'is-invalid'">
+                                    <label class="sr-only" for="st-close-email">Work email</label>
+                                    <input id="st-close-email" name="email" type="email" required autocomplete="email" class="form-input form-input-lg max-[30rem]:px-3.5" placeholder="Work email" aria-describedby="st-close-email-msg" @blur="check($event.target)" @input="check($event.target)">
+                                    <button type="submit" class="btn btn-dark btn-lg h-13 rounded-pill max-[30rem]:w-full">Join the Beta</button>
+                                </div>
+                                <div id="st-close-email-msg" class="custom-cta-msg min-h-6 mt-3 text-[0.9375rem] font-medium" aria-live="polite">
+                                    <span x-show="!errors.email &amp;&amp; !sent">Free during the beta · set up in ten minutes</span>
+                                    <span class="form-error-msg" x-show="errors.email" x-text="errors.email" x-cloak></span>
+                                    <span class="form-success-msg" x-show="sent" x-cloak><i class="ph-fill ph-check-circle" aria-hidden="true"></i>You're in. Check your inbox for the invite.</span>
+                                </div>
+                            </form>
+                        </div>
+                        <figure class="aspect-[4/3] overflow-hidden rounded-(--custom-radius-card)">
+                            <img class="size-full object-cover" src="../assets/media/placeholder/1600x1067.svg" alt="Three teammates reading customer requests on a tablet at a café table" width="1520" height="855" loading="lazy">
+                        </figure>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Startup footer - template footer-newsletter-split on the green ink: the changelog sign-up (input-group + formValidate()), the brand and three link columns, the legal row. Edit: the heading, the form copy and messages, the columns, the social links, the legal row -->
+        <footer class="site-footer site-footer--dark footer-newsletter-split isolate overflow-hidden custom-footer bg-(--custom-ink)">
+
+            <div class="glow custom-footer-glow -top-72 -left-56" aria-hidden="true"></div>
+
+            <div class="footer-main">
+                <div class="container">
+
+                    <!-- Sign-up row -->
+                    <div class="footer-newsletter-split-top">
+                        <h2 class="footer-heading custom-footer-heading text-[clamp(2.25rem,1.5rem_+_2.6vw,3.75rem)] font-semibold tracking-[-0.04em]">
+                            <span class="block" data-anim="rise-mask" data-anim-delay="80">Get the changelog.</span>
+                            <span class="block" data-anim="rise-mask" data-anim-delay="200"><em class="not-italic text-(--custom-primary-on-ink)">One email when we ship.</em></span>
+                        </h2>
+
+                        <form class="flex-1 max-w-124" x-data="formValidate()" novalidate @submit.prevent="onSubmit($event)" data-anim="fade-up" data-anim-delay="120">
+                            <label class="block mb-3.5 text-[1.0625rem] font-medium text-(--custom-on-ink)" for="st-footer-email">What shipped, every Thursday</label>
+                            <div class="input-group custom-footer-group gap-1 p-1.25" :class="errors.email && 'is-invalid'">
+                                <input id="st-footer-email" name="email" type="email" required autocomplete="email" class="form-input form-input-lg text-(--custom-on-ink)" placeholder="Work email" aria-describedby="st-footer-email-msg" @blur="check($event.target)" @input="check($event.target)">
+                                <button type="submit" class="btn btn-primary btn-lg h-13 rounded-pill">Subscribe</button>
+                            </div>
+                            <div id="st-footer-email-msg" class="custom-footer-msg min-h-6 mt-3 text-[0.9375rem] text-(--custom-on-ink-soft)" aria-live="polite">
+                                <span x-show="!errors.email &amp;&amp; !sent">No roundups, no tips. Only what changed.</span>
+                                <span class="form-error-msg" x-show="errors.email" x-text="errors.email" x-cloak></span>
+                                <span class="form-success-msg text-(--color-primary)" x-show="sent" x-cloak><i class="ph-fill ph-check-circle" aria-hidden="true"></i>You're in. The next one goes out Thursday.</span>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Sitemap -->
+                    <div class="grid grid-cols-2 gap-y-10 gap-x-8 sm:grid-cols-3 lg:grid-cols-[minmax(0,1.6fr)_repeat(3,minmax(0,1fr))]">
+
+                        <div class="col-span-full lg:col-[auto]" data-anim="fade-up">
+                            <a href="demo-startup-1.html" class="brand inline-block">
+
+                                <img class="brand-logo" src="../assets/media/logo/framo-logo.svg" alt="Framo" width="120" height="32" style="--logo-tint: url(#logo-tint-footer)">
+
+                                <svg class="brand-tint" aria-hidden="true" focusable="false">
+                                    <filter id="logo-tint-footer" color-interpolation-filters="sRGB">
+                                        <feFlood flood-color="currentColor" />
+                                        <feComposite in2="SourceAlpha" operator="in" />
+                                    </filter>
+                                </svg>
+                            </a>
+                            <p class="max-w-88 mt-5 mb-6 text-[1rem] leading-[1.6] text-(--custom-on-ink-soft)">Feedback, roadmap and changelog for small product teams. Made in Austin, Texas.</p>
+                            <ul class="social-list" role="list">
+                                <li><a href="#" class="social-link social-link--circle text-(--custom-on-ink) border-(--custom-line-ink)" aria-label="Framo on X"><i class="ph ph-x-logo" aria-hidden="true"></i></a></li>
+                                <li><a href="#" class="social-link social-link--circle text-(--custom-on-ink) border-(--custom-line-ink)" aria-label="Framo on LinkedIn"><i class="ph ph-linkedin-logo" aria-hidden="true"></i></a></li>
+                                <li><a href="#" class="social-link social-link--circle text-(--custom-on-ink) border-(--custom-line-ink)" aria-label="Framo on GitHub"><i class="ph ph-github-logo" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+
+                        <div data-anim="fade-up" data-anim-delay="80">
+                            <h3 class="footer-col-title">Product</h3>
+                            <ul class="footer-links footer-links--slide">
+                                <li><a class="text-[1rem]" href="demo-startup-1-product.html#collect">Collect</a></li>
+                                <li><a class="text-[1rem]" href="demo-startup-1-product.html#prioritize">Prioritize</a></li>
+                                <li><a class="text-[1rem]" href="demo-startup-1-product.html#plan">Plan</a></li>
+                                <li><a class="text-[1rem]" href="demo-startup-1-product.html#announce">Announce</a></li>
+                                <li><a class="text-[1rem]" href="demo-startup-1-pricing.html">Pricing</a></li>
+                            </ul>
+                        </div>
+
+                        <div data-anim="fade-up" data-anim-delay="160">
+                            <h3 class="footer-col-title">Follow Along</h3>
+                            <ul class="footer-links footer-links--slide">
+                                <li><a class="text-[1rem]" href="demo-startup-1-changelog.html">Changelog</a></li>
+                                <li><a class="text-[1rem]" href="demo-startup-1-customers.html">Customers</a></li>
+                                <li><a class="text-[1rem]" href="demo-startup-1-article.html">Launch Post</a></li>
+                                <li><a class="text-[1rem]" href="demo-startup-1-blog.html">Blog</a></li>
+                            </ul>
+                        </div>
+
+                        <div data-anim="fade-up" data-anim-delay="240">
+                            <h3 class="footer-col-title">Company</h3>
+                            <ul class="footer-links footer-links--slide">
+                                <li><a class="text-[1rem]" href="demo-startup-1-about.html">About</a></li>
+                                <li><a class="text-[1rem]" href="demo-startup-1-about.html#jobs">Careers</a></li>
+                                <li><a class="text-[1rem]" href="demo-startup-1-contact.html">Contact</a></li>
+                                <li><a class="text-[1rem]" href="mailto:hello@framo.com">hello@framo.com</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Bottom bar -->
+            <div class="footer-bottom">
+                <div class="container footer-bottom-inner">
+                    <span>© 2026 Framo Software, Inc.</span>
+                    <ul class="footer-nav" role="list">
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </footer>
+
+        <!-- Back to top button -->
+        <button data-back-top aria-label="Back to top" class="back-to-top fixed bottom-8 right-8 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer border-0 bg-primary shadow-token-lg z-sticky">
+            <i class="ph ph-arrow-up"></i>
+        </button>
+
+        <script defer src="../assets/js/vendor.js"></script>
+        <script defer src="../assets/js/main.js"></script>
+        <script defer src="../assets/js/demos/demo-startup-1.js"></script>
+    </body>
+</html>

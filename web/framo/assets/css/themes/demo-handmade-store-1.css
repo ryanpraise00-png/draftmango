@@ -1,0 +1,107 @@
+/* ================================================================
+ *  demo-handmade-store-1.css — Framo theme for the Handmade Store demo
+ *
+ *  The colors, fonts and layout settings of the Handmade Store
+ *  demo (Framo Made, a marketplace of 40 independent makers (ceramics, candles, linen, baskets, wood, prints), with a studio in Portland, Oregon).
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here).
+   Newsreader 500 for headings and the wordmark (picked over Young Serif, which reads
+   retro-heavy, and Literata, which reads bookish: Newsreader's display optical size is a
+   warm, contemporary serif), Inter for the body. */
+@import url("https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #6c7a3c;   /* main color: moss for buttons, the bag count and links; labels on it are white */
+    --color-secondary-base:  #2a2118;   /* second color: umber for the text and the strip; the dark scheme takes its hue */
+    --color-tertiary-base:   #efe7da;   /* third color: linen for soft fills and the head card */
+    --color-quaternary-base: #736a5d;   /* fourth color: warm grey for meta */
+    --color-accent-base:     #c4673f;   /* attention color: clay, for small marks; labels on it are white */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. White labels on the brand fills (a preset picks its own). */
+    --color-on-primary: #fff;
+    --color-on-accent:  #fff;
+
+    --color-primary:       var(--color-primary-base);
+    --color-primary-hover: oklch(from var(--color-primary-base) calc(l - 0.06) c h);
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-bg:          oklch(from var(--color-quaternary-base) 0.960 0.013 calc(h + 5));   /* page background: raw linen (#f6f1e8) */
+    --color-bg-soft:     oklch(from var(--color-quaternary-base) 0.937 0.019 calc(h + 5));   /* a step deeper: fills and hover rows */
+    --color-bg-muted:    oklch(from var(--color-quaternary-base) 0.912 0.024 calc(h + 5));   /* placeholders */
+    --color-border:      oklch(from var(--color-quaternary-base) 0.877 0.028 calc(h + 5));   /* lines and borders */
+    --color-border-soft: oklch(from var(--color-quaternary-base) 0.912 0.019 calc(h + 5));   /* the faintest rules */
+    --color-text:        var(--color-secondary-base);   /* headings and body text */
+    --color-text-soft:   oklch(from var(--color-quaternary-base) 0.48 c h);   /* running text */
+    --color-text-muted:  oklch(from var(--color-quaternary-base) 0.5 c h);   /* meta text */
+    --color-dark:        var(--color-secondary-base);   /* dark sections and dark buttons */
+    /* Brand-colored text on the ground, held at or under 0.5 lightness so a
+       preset's lighter primary still reads at 4.5:1 */
+    --color-primary-ink: oklch(from var(--color-primary-base) min(l, 0.5) c h);
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Newsreader', Georgia, serif;   /* headings and the wordmark (optical size follows the type size) */
+
+    /* Headings and buttons */
+    --heading-weight:     500;
+    --heading-tracking:   -0.025em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        1.5;   /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 9999px; /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1360px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 0.55;     /* space between sections: 0.55 ≈ 70px at 1440 (44px on a phone) · 0.75 · 1 spacious */
+}
+
+/* The 1360px container from 1280px up (the template steps it to 1280 there),
+   growing with the window to 1520px, so the bar and the hero never read as a
+   narrow column on a large screen */
+@layer utilities {
+    @media (width >= 80rem) {
+        :where(html[data-demo="handmade-store-1"]) .container { max-width: var(--container-max); }
+    }
+}
+
+@media (width >= 80rem) {
+    html[data-demo="handmade-store-1"] {
+        --container-max: clamp(1360px, 79.2vw, 1520px);
+        --container-width: var(--container-max);
+    }
+}

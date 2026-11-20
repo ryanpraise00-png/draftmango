@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="en" data-demo="analytics-1">
+    <head>
+        <meta charset="UTF-8">
+        <script async src="../assets/js/entrance.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SaaS Analytics — Framo</title>
+        <link rel="icon" href="../assets/media/logo/favicon.ico" sizes="32x32">
+        <link rel="icon" href="../assets/media/logo/framo-mark.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="../assets/media/logo/apple-touch-icon.png">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="../assets/css/icons.css">
+        <link rel="stylesheet" href="../assets/css/app.css">
+        <link rel="stylesheet" href="../assets/css/vendor.css">
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" data-theme-fonts>
+        <link rel="stylesheet" href="../assets/css/demos/demo-analytics-1.css">
+        <link rel="stylesheet" href="../assets/css/themes/demo-analytics-1.css" data-theme-file>
+        <link rel="stylesheet" href="../assets/css/custom.css">
+    </head>
+    <body>
+
+        <header class="site-header header-reveal header-topbar nav-style-underline" data-header>
+
+            <!--css .site-topbar-inner, .site-topbar-text, .site-topbar-cta). Edit: the announcement and its link -->
+            <div class="site-topbar custom-topbar text-(--custom-on-ink-soft)">
+                <div class="site-topbar-inner">
+                    <p class="site-topbar-text text-[0.875rem] text-(--custom-on-ink)">
+                        <span class="custom-topbar-tag inline-block me-2.5 py-0.5 px-2 text-[0.75rem] font-semibold tracking-[0.02em] text-(--custom-ink) bg-(--color-accent-base) rounded-pill">New</span>
+                        Framo Analyst now explains every chart
+                    </p>
+                    <a href="demo-analytics-1-changelog.html#analyst-explains" class="btn btn-link btn-link-light btn-xs site-topbar-cta text-(--custom-on-ink) font-semibold">
+                        <span class="site-topbar-cta-label">Read the Launch</span>
+                        <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main navbar -->
+            <nav class="navbar" role="navigation" aria-label="Main navigation">
+                <div class="navbar-inner container">
+
+                    <!-- Brand -->
+                    <a href="demo-analytics-1.html" class="brand">
+
+                        <img class="brand-logo" src="../assets/media/logo/framo-logo.svg" alt="Framo" width="120" height="32" style="--logo-tint: url(#logo-tint-header)">
+
+                        <svg class="brand-tint" aria-hidden="true" focusable="false">
+                            <filter id="logo-tint-header" color-interpolation-filters="sRGB">
+                                <feFlood flood-color="currentColor" />
+                                <feComposite in2="SourceAlpha" operator="in" />
+                            </filter>
+                        </svg>
+
+                    </a>
+
+                    <!-- Desktop navigation links -->
+                    <ul class="nav-links" role="list">
+
+                        <!-- Analytics 1 menu - the <li> items of .nav-links, included by _header.html when "demo": "analytics-1"; inner pages link to their future files -->
+                        <li>
+                            <a href="demo-analytics-1.html" class="nav-link active">Home</a>
+                        </li>
+
+                        <!-- Product - the template services mega: three titled groups (the phone panel files the links under each title) and a live KPI card. Edit: the groups, the captions, the card's figure, delta and sparkline -->
+                        <li class="nav-megamenu nav-megamenu--services custom-menu-product">
+                            <button class="nav-link">
+                                Product
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="megamenu-panel" data-lenis-prevent>
+                                <div class="megamenu-inner container">
+
+                                    <div class="megamenu-col megamenu-services">
+                                        <p class="megamenu-col-title">Analyse</p>
+                                        <div class="megamenu-service">
+                                            <a href="demo-analytics-1-feature.html#funnels" class="megamenu-item" aria-describedby="an-menu-funnels"><span class="megamenu-icon" aria-hidden="true"><i class="ph ph-funnel-simple"></i></span>Funnels</a>
+                                            <p id="an-menu-funnels" class="megamenu-caption">See where sign-ups stall, step by step.</p>
+                                        </div>
+                                        <div class="megamenu-service">
+                                            <a href="demo-analytics-1-feature.html#retention" class="megamenu-item" aria-describedby="an-menu-retention"><span class="megamenu-icon" aria-hidden="true"><i class="ph ph-arrows-clockwise"></i></span>Retention</a>
+                                            <p id="an-menu-retention" class="megamenu-caption">Cohorts that show who keeps coming back.</p>
+                                        </div>
+                                        <div class="megamenu-service">
+                                            <a href="demo-analytics-1-product.html#journeys" class="megamenu-item" aria-describedby="an-menu-journeys"><span class="megamenu-icon" aria-hidden="true"><i class="ph ph-path"></i></span>Journeys</a>
+                                            <p id="an-menu-journeys" class="megamenu-caption">Every route users take to the moment that counts.</p>
+                                        </div>
+                                        <div class="megamenu-service">
+                                            <a href="demo-analytics-1-product.html#dashboards" class="megamenu-item" aria-describedby="an-menu-dashboards"><span class="megamenu-icon" aria-hidden="true"><i class="ph ph-squares-four"></i></span>Dashboards</a>
+                                            <p id="an-menu-dashboards" class="megamenu-caption">Shared boards the whole team trusts.</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="megamenu-col megamenu-services">
+                                        <p class="megamenu-col-title">Act</p>
+                                        <div class="megamenu-service">
+                                            <a href="demo-analytics-1-product.html#experiments" class="megamenu-item" aria-describedby="an-menu-experiments"><span class="megamenu-icon" aria-hidden="true"><i class="ph ph-flask"></i></span>Experiments</a>
+                                            <p id="an-menu-experiments" class="megamenu-caption">A/B tests with results you can stand behind.</p>
+                                        </div>
+                                        <div class="megamenu-service">
+                                            <a href="demo-analytics-1-product.html#flags" class="megamenu-item" aria-describedby="an-menu-flags"><span class="megamenu-icon" aria-hidden="true"><i class="ph ph-flag"></i></span>Feature Flags</a>
+                                            <p id="an-menu-flags" class="megamenu-caption">Ship to 5% first, then to everyone.</p>
+                                        </div>
+                                        <div class="megamenu-service">
+                                            <a href="demo-analytics-1-product.html#replay" class="megamenu-item" aria-describedby="an-menu-replay"><span class="megamenu-icon" aria-hidden="true"><i class="ph ph-play-circle"></i></span>Session Replay</a>
+                                            <p id="an-menu-replay" class="megamenu-caption">Watch the moments behind the numbers.</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="megamenu-col megamenu-services">
+                                        <p class="megamenu-col-title">AI</p>
+                                        <div class="megamenu-service">
+                                            <a href="demo-analytics-1-analyst.html" class="megamenu-item" aria-describedby="an-menu-analyst"><span class="megamenu-icon" aria-hidden="true"><i class="ph ph-sparkle"></i></span>Framo Analyst</a>
+                                            <p id="an-menu-analyst" class="megamenu-caption">Ask in plain words, get a chart and the why.</p>
+                                        </div>
+                                        <div class="megamenu-service">
+                                            <a href="demo-analytics-1-analyst.html#alerts" class="megamenu-item" aria-describedby="an-menu-alerts"><span class="megamenu-icon" aria-hidden="true"><i class="ph ph-bell-ringing"></i></span>Anomaly Alerts</a>
+                                            <p id="an-menu-alerts" class="megamenu-caption">A heads-up the hour a metric bends.</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- KPI card (not a column, so the phone panel leaves it out) -->
+                                    <a href="demo-analytics-1-product.html" class="megamenu-case custom-menu-kpi">
+                                        <span class="flex items-center justify-between text-[0.8125rem] font-medium text-(--custom-on-ink-soft)">
+                                            <span>Weekly Active Users</span>
+                                            <span class="custom-menu-kpi-live inline-flex items-center gap-1.5 text-[0.75rem] text-(--color-accent-base)" aria-hidden="true">Live</span>
+                                        </span>
+                                        <span class="custom-menu-kpi-figure flex items-baseline gap-3 font-sans text-[2rem] font-semibold leading-[1] tracking-[-0.02em] tabular-nums">48,210 <span class="custom-delta custom-delta--up"><span class="sr-only">Up </span>12%</span></span>
+                                        <svg class="w-full h-16 overflow-visible text-(--color-accent-base)" viewBox="0 0 240 64" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                                            <path class="custom-menu-kpi-area" d="M0 50 C14 48 22 44 34 45 C48 46 56 38 70 36 C84 34 92 40 106 37 C120 34 128 26 142 25 C156 24 164 30 178 26 C192 22 200 14 214 13 C226 12 234 8 240 6 L240 64 L0 64 Z" />
+                                            <path class="custom-menu-kpi-line" pathLength="1" d="M0 50 C14 48 22 44 34 45 C48 46 56 38 70 36 C84 34 92 40 106 37 C120 34 128 26 142 25 C156 24 164 30 178 26 C192 22 200 14 214 13 C226 12 234 8 240 6" />
+                                        </svg>
+                                        <span class="custom-menu-kpi-axis flex justify-between text-[0.75rem]" aria-hidden="true"><span>Mon</span><span>Wed</span><span>Fri</span><span>Today</span></span>
+                                        <span class="megamenu-case-link mt-1.5 pt-3.5 text-(--custom-on-ink) border-t border-t-(--custom-line-ink)"><span class="link-arrow" aria-hidden="true"></span>Take the Product Tour</span>
+                                    </a>
+
+                                    <!-- Foot row: a template .megamenu-foot, so the phone panel lists its links after the groups -->
+                                    <div class="megamenu-col megamenu-foot custom-menu-foot mt-1 pt-5 pr-3 pl-3 border-t border-t-(--color-border)">
+                                        <p class="megamenu-foot-note">Free up to 1M events a month. Unlimited seats on every plan.</p>
+                                        <a href="demo-analytics-1-integrations.html" class="megamenu-item btn-link-arrow"><span class="link-arrow" aria-hidden="true"></span>120+ Integrations</a>
+                                        <a href="demo-analytics-1-pricing.html" class="megamenu-item btn-link-arrow"><span class="link-arrow" aria-hidden="true"></span>See Pricing</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- Solutions - two titled lists in one panel; the titles are not links, so the phone panel lists the eight links alone -->
+                        <li class="nav-cascade">
+                            <button class="nav-link">
+                                Solutions
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="cascade-panel custom-menu-panel custom-menu-split min-w-54 rounded-(--custom-radius-ui)">
+                                <p class="custom-menu-label pr-3 pb-2 pl-3 text-[0.75rem] font-semibold tracking-[0.1em] uppercase">By Team</p>
+                                <a href="demo-analytics-1-solutions.html#product" class="cascade-item">Product</a>
+                                <a href="demo-analytics-1-solutions.html#growth" class="cascade-item">Growth</a>
+                                <a href="demo-analytics-1-solutions.html#data" class="cascade-item">Data</a>
+                                <a href="demo-analytics-1-solutions.html#engineering" class="cascade-item">Engineering</a>
+                                <p class="custom-menu-label pr-3 pb-2 pl-3 text-[0.75rem] font-semibold tracking-[0.1em] uppercase">By Industry</p>
+                                <a href="demo-analytics-1-solutions.html#saas" class="cascade-item">SaaS</a>
+                                <a href="demo-analytics-1-solutions.html#fintech" class="cascade-item">Fintech</a>
+                                <a href="demo-analytics-1-solutions.html#ecommerce" class="cascade-item">Ecommerce</a>
+                                <a href="demo-analytics-1-solutions.html#media" class="cascade-item">Media</a>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="demo-analytics-1-customers.html" class="nav-link">Customers</a>
+                        </li>
+
+                        <li>
+                            <a href="demo-analytics-1-pricing.html" class="nav-link">Pricing</a>
+                        </li>
+
+                        <li class="nav-cascade">
+                            <button class="nav-link">
+                                Resources
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="cascade-panel custom-menu-panel min-w-54 rounded-(--custom-radius-ui)">
+                                <a href="demo-analytics-1-changelog.html" class="cascade-item">Changelog</a>
+                                <a href="demo-analytics-1-customers.html" class="cascade-item">Customers</a>
+                                <a href="demo-analytics-1-integrations.html" class="cascade-item">Integrations</a>
+                                <a href="#" class="cascade-item">Docs <i class="ph ph-arrow-up-right ms-auto text-[0.875rem] opacity-55" aria-hidden="true"></i></a>
+                                <a href="#" class="cascade-item">System Status <i class="ph ph-arrow-up-right ms-auto text-[0.875rem] opacity-55" aria-hidden="true"></i></a>
+                            </div>
+                        </li>
+
+                        <li class="nav-cascade">
+                            <button class="nav-link">
+                                Company
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="cascade-panel custom-menu-panel min-w-54 rounded-(--custom-radius-ui)">
+                                <a href="demo-analytics-1-about.html" class="cascade-item">About Us</a>
+                                <a href="demo-analytics-1-about.html#careers" class="cascade-item">Careers</a>
+                                <a href="demo-analytics-1-contact.html" class="cascade-item">Contact</a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                    <!-- Right-side actions -->
+                    <div class="nav-actions">
+
+                        <!-- Meta group - display:contents by default; header-stacked turns it into its own row. -->
+                        <div class="nav-meta">
+
+                        </div><!-- /.nav-meta -->
+
+                        <!-- Analytics 1 header actions - Log In and Start Free; the menu panel carries _mobile-cta.html -->
+                        <a href="#" class="custom-nav-login px-3 font-medium whitespace-nowrap max-xl:hidden text-(length:--text-base)">Log In</a>
+                        <a href="demo-analytics-1-pricing.html" class="btn btn-primary custom-nav-action px-5">Start Free</a>
+
+                        <!-- Menu toggle - mobile hamburger below 1024px; also the close button on header-overlay-menu / header-side-drawer -->
+                        <button class="hamburger" data-toggle aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation menu">
+                            <i class="ph ph-list text-xl nav-toggle-open" aria-hidden="true"></i>
+                            <i class="ph ph-x text-xl nav-toggle-close" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Navigation panel - links are auto-generated by initMobileSync() in main.js -->
+                <!-- data-lenis-prevent: opts this scroll container out of Lenis smooth scrolling -->
+                <div id="mobile-nav" class="mobile-nav" data-mobile-nav data-lenis-prevent role="dialog" aria-modal="true" aria-label="Site navigation">
+
+                    <!-- Menu column - the scroll container -->
+                    <div class="nav-panel-menu">
+
+                        <!-- JS target: desktop nav items are injected here -->
+                        <div data-mobile-links></div>
+
+                        <!-- Mobile-only items: add or remove <a> elements here freely -->
+                        <!-- <a href="#" class="mobile-link" data-mobile-only>Exclusive Item</a> -->
+
+                        <!-- Analytics 1 menu panel CTA - Log In and Start Free -->
+                        <div class="nav-panel-cta flex gap-2.5 mt-6">
+                            <a href="#" class="btn btn-outline-dark flex-1">Log In</a>
+                            <a href="demo-analytics-1-pricing.html" class="btn btn-primary flex-1">Start Free</a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </nav>
+
+        </header>
+
+        <main>
+            <!-- HERO - cool white ground with a blue and a mint side glow; the claim on the left, on the right a photo tile with the Activation dashboard over its lower left (7D / 30D / 90D tabs swap the KPIs, the trend and the funnel) and a Framo Analyst insight at its upper right. Figures are fixed demo values. Edit: the chip, the title and its soft second sentence, the lead, the actions, the note, the avatars and customer names, the photo (src, alt, --custom-hero-pos), each period's KPIs, chart paths, axis labels and funnel, the annotation, the insight -->
+            <section id="an-hero" class="custom-section custom-hero isolate overflow-x-clip pt-[clamp(2rem,0.5rem_+_3vw,3.5rem)]" aria-labelledby="an-hero-title">
+                <div class="glow-field" aria-hidden="true">
+                    <div class="glow custom-hero-glow top-[4%] -left-64 max-md:top-[2%] max-md:-left-44"></div>
+                    <div class="glow custom-hero-glow custom-hero-glow--accent top-[18%] -right-72 max-md:top-auto max-md:-right-44 max-md:bottom-[8%]"></div>
+                </div>
+
+                <div class="container grid grid-cols-1 gap-[clamp(3rem,6vw,4.5rem)] min-[1200px]:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] min-[1200px]:gap-[clamp(2.5rem,4vw,4rem)] min-[1200px]:items-center">
+                    <div class="custom-hero-copy min-w-0">
+                        <p class="custom-hero-chip" data-anim="fade-up">
+                            <span class="custom-hero-stars inline-flex gap-0.25 text-[0.875rem]" aria-hidden="true"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star-half"></i></span>
+                            <span><strong class="font-semibold text-text">4.7 on G2</strong><span class="mx-2 opacity-50" aria-hidden="true">·</span>18,000 product teams</span>
+                        </p>
+                        <h1 id="an-hero-title" class="custom-hero-title text-[clamp(2.75rem,1.5rem_+_3.2vw,4.25rem)] font-semibold leading-[1.02] tracking-[-0.024em] text-balance" data-anim="fade-up" data-anim-delay="100" data-anim-duration="1100">See what users do. <span class="custom-hero-title-soft font-normal">Know what to build next.</span></h1>
+                        <p class="custom-hero-lead max-w-120 mt-6 text-[clamp(1.125rem,1.05rem_+_0.3vw,1.25rem)] leading-[1.55] text-soft text-pretty" data-anim="fade-up" data-anim-delay="200">Product analytics with an AI analyst built in — funnels, retention and journeys answered in seconds, not sprints.</p>
+                        <div class="custom-hero-actions flex flex-wrap gap-3 mt-9" data-anim="fade-up" data-anim-delay="300">
+                            <a href="demo-analytics-1-pricing.html" class="btn btn-primary btn-lg">Start Free</a>
+                            <a href="demo-analytics-1-contact.html" class="btn btn-outline-dark btn-lg">Book a Demo</a>
+                        </div>
+                        <p class="custom-hero-note mt-4 text-[0.9375rem] text-(--custom-meta)" data-anim="fade-up" data-anim-delay="360">Free up to 1M events a month <span class="mx-1.5 opacity-60" aria-hidden="true">·</span> No card needed</p>
+                        <div class="custom-hero-proof flex items-center gap-3.5 mt-10 pt-6 border-t border-t-(--custom-hair) max-w-120" data-anim="fade-up" data-anim-delay="440">
+                            <div class="avatar-stack avatar-stack-sm" aria-hidden="true">
+                                <img class="size-9" src="../assets/media/placeholder/160x160.svg" alt="" width="80" height="80" decoding="async">
+                                <img class="size-9" src="../assets/media/placeholder/160x160.svg" alt="" width="80" height="80" decoding="async">
+                                <img class="size-9" src="../assets/media/placeholder/160x160.svg" alt="" width="80" height="80" decoding="async">
+                            </div>
+                            <p class="text-[0.9375rem] leading-[1.45] text-soft">Used by product teams at <strong class="font-semibold text-text">Halden</strong>, <strong class="font-semibold text-text">Fernway</strong> and <strong class="font-semibold text-text">Quillo</strong></p>
+                        </div>
+                    </div>
+
+                    <div class="custom-hero-visual relative flex flex-col min-w-0 sm:block sm:pb-32 max-[1200px]:w-full max-[1200px]:max-w-184 max-[1200px]:mx-auto">
+                        <figure class="custom-hero-photo relative overflow-hidden rounded-(--custom-radius-photo)" data-anim="fade" data-anim-duration="1200" style="--custom-hero-pos: 30% 50%">
+                            <img class="size-full object-cover object-[var(--custom-hero-pos,50%_50%)]" src="../assets/media/placeholder/1200x1500.svg" alt="A product manager reading the week's numbers on her laptop at a bright desk by the window" width="1200" height="1500" fetchpriority="high" decoding="async">
+                        </figure>
+
+                        <!-- Framo Analyst insight -->
+                        <aside class="custom-ui custom-ui--ink custom-hero-insight order-3 grid gap-3 pt-3.5 pb-4 px-4" aria-label="Framo Analyst insight" data-anim="fade-up" data-anim-delay="700">
+                            <p class="flex items-center gap-2 text-[0.8125rem] font-semibold">
+                                <span class="custom-insight-glyph" aria-hidden="true"><i class="ph-fill ph-sparkle"></i></span>
+                                <span>Framo Analyst</span>
+                                <span class="ms-auto text-[0.75rem] font-medium text-(--custom-meta)">2 min ago</span>
+                            </p>
+                            <p class="text-[0.8125rem] leading-[1.5] text-(--custom-on-ink-soft)"><strong class="font-semibold text-(--custom-on-ink)">Trial → paid fell 6%</strong> after the 9 Oct pricing change; most drop-off is on mobile.</p>
+                            <p class="grid gap-1.5" aria-label="Share of the drop-off: mobile 71%, desktop 29%">
+                                <span class="custom-insight-bar block h-1.5 overflow-hidden rounded-pill" aria-hidden="true"><span class="block w-[calc(var(--custom-v)_*_100%)] h-full bg-(--custom-down)" style="--custom-v: .71"></span></span>
+                                <span class="flex justify-between text-[0.75rem] font-medium text-(--custom-meta) tabular-nums" aria-hidden="true"><span class="text-(--custom-on-ink-soft)">Mobile 71%</span><span>Desktop 29%</span></span>
+                            </p>
+                            <a href="demo-analytics-1-feature.html#funnels" class="custom-insight-link">Open in Funnels <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                        </aside>
+
+                        <!-- Activation dashboard: the period tabs (template tabs-segmented) swap the three panels; static state without JS: 30D -->
+                        <div class="custom-ui custom-dash tabs tabs-segmented order-2" data-anim="fade-up" data-anim-delay="350" data-anim-duration="1000" x-data="{ tab: '30', tabs: ['7', '30', '90'], go(d) { const n = this.tabs.length; this.tab = this.tabs[(this.tabs.indexOf(this.tab) + d + n) % n]; this.$refs['p' + this.tab].focus() } }">
+                            <div class="custom-ui-head">
+                                <p class="custom-ui-title">
+                                    <span class="custom-ui-glyph" aria-hidden="true"><i class="ph ph-chart-line-up"></i></span>
+                                    <span>Activation <small>Sign-up → shared report · All users</small></span>
+                                </p>
+                                <div class="tabs-nav custom-dash-range flex-none gap-0.5 p-0.75 bg-soft border-(--custom-hair)" role="tablist" aria-label="Period" @keydown.right.prevent="go(1)" @keydown.left.prevent="go(-1)">
+                                    <button type="button" class="tab-btn" role="tab" id="an-dash-tab-7" aria-controls="an-dash-7" aria-label="Last 7 days" x-ref="p7" aria-selected="false" tabindex="-1" :class="{ 'is-active': tab === '7' }" :aria-selected="tab === '7'" :tabindex="tab === '7' ? 0 : -1" @click="tab = '7'">7D</button>
+                                    <button type="button" class="tab-btn is-active" role="tab" id="an-dash-tab-30" aria-controls="an-dash-30" aria-label="Last 30 days" x-ref="p30" aria-selected="true" :class="{ 'is-active': tab === '30' }" :aria-selected="tab === '30'" :tabindex="tab === '30' ? 0 : -1" @click="tab = '30'">30D</button>
+                                    <button type="button" class="tab-btn" role="tab" id="an-dash-tab-90" aria-controls="an-dash-90" aria-label="Last 90 days" x-ref="p90" aria-selected="false" tabindex="-1" :class="{ 'is-active': tab === '90' }" :aria-selected="tab === '90'" :tabindex="tab === '90' ? 0 : -1" @click="tab = '90'">90D</button>
+                                </div>
+                            </div>
+                            <div class="tabs-panels">
+                                <!-- 7D -->
+                                <div class="tabs-panel custom-dash-panel grid gap-4" role="tabpanel" id="an-dash-7" aria-labelledby="an-dash-tab-7" :class="{ 'is-active': tab === '7' }">
+                                    <dl class="custom-dash-kpis">
+                                        <div class="custom-dash-kpi custom-delta--up grid gap-1 min-w-0">
+                                            <dt>Sign-ups</dt>
+                                            <dd class="custom-dash-value tabular-nums">2,964</dd>
+                                            <dd class="custom-dash-change flex items-center justify-between gap-2"><span class="custom-delta custom-delta--up"><span class="sr-only">Up </span>3.2%</span><svg class="custom-spark" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                    <path pathLength="1" d="M0.0 14.0 C1.0 14.7 3.7 18.3 5.8 18.0 C7.9 17.7 9.5 13.4 11.6 12.2 C13.7 10.9 15.4 10.7 17.5 11.0 C19.5 11.3 21.2 14.0 23.3 13.8 C25.4 13.7 27.0 10.5 29.1 10.1 C31.2 9.6 32.8 12.2 34.9 11.2 C37.0 10.2 38.6 5.6 40.7 4.5 C42.8 3.4 44.5 4.3 46.5 5.1 C48.6 5.9 50.3 9.3 52.4 8.8 C54.5 8.2 56.1 3.0 58.2 2.0 C60.3 1.0 63.0 3.1 64.0 3.4" />
+                                                </svg></dd>
+                                        </div>
+                                        <div class="custom-dash-kpi custom-delta--up grid gap-1 min-w-0 border-l border-l-(--custom-hair)">
+                                            <dt>Activation Rate</dt>
+                                            <dd class="custom-dash-value tabular-nums">41.2%</dd>
+                                            <dd class="custom-dash-change flex items-center justify-between gap-2"><span class="custom-delta custom-delta--up"><span class="sr-only">Up </span>5.1 pts</span><svg class="custom-spark" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                    <path pathLength="1" d="M0.0 18.0 C1.0 17.8 3.7 17.6 5.8 17.1 C7.9 16.7 9.5 17.3 11.6 15.6 C13.7 13.9 15.4 8.3 17.5 7.6 C19.5 6.9 21.2 11.4 23.3 11.5 C25.4 11.6 27.0 8.6 29.1 8.2 C31.2 7.8 32.8 9.4 34.9 9.1 C37.0 8.9 38.6 8.1 40.7 6.9 C42.8 5.6 44.5 2.5 46.5 2.0 C48.6 1.5 50.3 3.5 52.4 4.1 C54.5 4.7 56.1 5.5 58.2 5.1 C60.3 4.7 63.0 2.6 64.0 2.0" />
+                                                </svg></dd>
+                                        </div>
+                                        <div class="custom-dash-kpi custom-delta--down grid gap-1 min-w-0 border-l border-l-(--custom-hair)">
+                                            <dt>Trial → Paid</dt>
+                                            <dd class="custom-dash-value tabular-nums">5.8%</dd>
+                                            <dd class="custom-dash-change flex items-center justify-between gap-2"><span class="custom-delta custom-delta--down"><span class="sr-only">Down </span>6.4%</span><svg class="custom-spark" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                    <path pathLength="1" d="M0.0 3.3 C1.0 3.0 3.7 1.4 5.8 2.0 C7.9 2.6 9.5 5.9 11.6 6.7 C13.7 7.6 15.4 6.0 17.5 6.8 C19.5 7.5 21.2 10.4 23.3 10.9 C25.4 11.5 27.0 9.5 29.1 9.7 C31.2 10.0 32.8 11.9 34.9 12.4 C37.0 12.8 38.6 12.2 40.7 12.0 C42.8 11.9 44.5 12.0 46.5 11.6 C48.6 11.2 50.3 8.8 52.4 10.0 C54.5 11.1 56.1 17.6 58.2 18.0 C60.3 18.4 63.0 13.4 64.0 12.4" />
+                                                </svg></dd>
+                                        </div>
+                                    </dl>
+                                    <div class="custom-dash-chart relative grid gap-2">
+                                        <div class="custom-trend-frame">
+                                            <svg class="custom-trend" viewBox="0 0 480 110" aria-hidden="true" focusable="false">
+                                                <defs>
+                                                    <linearGradient id="an-trend-fill-7" x1="0" y1="0" x2="0" y2="1">
+                                                        <stop offset="0" stop-color="currentColor" stop-opacity=".18" />
+                                                        <stop offset="1" stop-color="currentColor" stop-opacity="0" />
+                                                    </linearGradient>
+                                                </defs>
+                                                <path class="custom-trend-grid" d="M0 10H480M0 40H480M0 70H480" />
+                                                <path class="custom-trend-area" fill="url(#an-trend-fill-7)" d="M0.0 45.5 C14.4 44.2 51.2 39.7 80.0 38.1 C108.8 36.4 131.2 37.9 160.0 36.4 C188.8 34.9 211.2 31.7 240.0 29.8 C268.8 27.8 291.2 25.9 320.0 25.7 C348.8 25.5 371.2 28.7 400.0 28.6 C428.8 28.6 465.6 26.0 480.0 25.4 L480 110 L0 110 Z" />
+                                                <path class="custom-trend-prev" d="M0.0 72.0 C14.4 72.0 51.2 73.1 80.0 72.4 C108.8 71.6 131.2 68.2 160.0 67.6 C188.8 67.1 211.2 69.1 240.0 69.3 C268.8 69.6 291.2 70.2 320.0 69.2 C348.8 68.2 371.2 66.3 400.0 64.0 C428.8 61.7 465.6 57.9 480.0 56.6" />
+                                                <path class="custom-trend-line" pathLength="1" d="M0.0 45.5 C14.4 44.2 51.2 39.7 80.0 38.1 C108.8 36.4 131.2 37.9 160.0 36.4 C188.8 34.9 211.2 31.7 240.0 29.8 C268.8 27.8 291.2 25.9 320.0 25.7 C348.8 25.5 371.2 28.7 400.0 28.6 C428.8 28.6 465.6 26.0 480.0 25.4" />
+                                                <circle class="custom-trend-dot" cx="160.0" cy="36.4" r="3.5" />
+                                                <circle class="custom-trend-dot" cx="480.0" cy="25.4" r="3.5" />
+                                            </svg>
+                                            <p class="custom-dash-prev" aria-hidden="true" style="--custom-y: 57.5%">Previous 7 days</p>
+                                            <p class="custom-trend-y tabular-nums absolute w-8" aria-hidden="true"><span style="--custom-y: 9.1%">45%</span><span style="--custom-y: 36.4%">40%</span><span style="--custom-y: 63.6%">35%</span></p>
+                                        </div>
+                                        <p class="custom-dash-axis tabular-nums" aria-hidden="true"><span>11 Oct</span><span>13 Oct</span><span>15 Oct</span><span>Today</span></p>
+                                    </div>
+                                    <div class="custom-dash-funnel">
+                                        <p class="custom-dash-label">Activation Funnel <span class="text-[0.75rem] font-medium text-(--custom-meta)">Share of sign-ups</span></p>
+                                        <ol class="custom-funnel" role="list">
+                                            <li class="custom-funnel-step grid grid-rows-[auto_1fr_auto] gap-0.5 min-w-0" style="--custom-v: 1.00">
+                                                <span class="custom-funnel-track relative block h-12 mb-1.5" aria-hidden="true"><span class="custom-funnel-bar absolute h-[calc(var(--custom-v)_*_100%)]"></span></span>
+                                                <span class="custom-funnel-name">Signed Up</span>
+                                                <span class="custom-funnel-num tabular-nums text-[0.75rem] text-(--custom-meta)"><strong class="text-[0.8125rem] font-semibold text-text">100%</strong> <span>2,964</span></span>
+                                            </li>
+                                            <li class="custom-funnel-step grid grid-rows-[auto_1fr_auto] gap-0.5 min-w-0" style="--custom-v: 0.74">
+                                                <span class="custom-funnel-track relative block h-12 mb-1.5" aria-hidden="true"><span class="custom-funnel-bar absolute h-[calc(var(--custom-v)_*_100%)]"></span><span class="custom-funnel-drop">−26%</span></span>
+                                                <span class="custom-funnel-name">Added Data</span>
+                                                <span class="custom-funnel-num tabular-nums text-[0.75rem] text-(--custom-meta)"><strong class="text-[0.8125rem] font-semibold text-text">74%</strong> <span>2,193</span></span>
+                                            </li>
+                                            <li class="custom-funnel-step grid grid-rows-[auto_1fr_auto] gap-0.5 min-w-0" style="--custom-v: 0.52">
+                                                <span class="custom-funnel-track relative block h-12 mb-1.5" aria-hidden="true"><span class="custom-funnel-bar absolute h-[calc(var(--custom-v)_*_100%)]"></span><span class="custom-funnel-drop">−30%</span></span>
+                                                <span class="custom-funnel-name">First Chart</span>
+                                                <span class="custom-funnel-num tabular-nums text-[0.75rem] text-(--custom-meta)"><strong class="text-[0.8125rem] font-semibold text-text">52%</strong> <span>1,541</span></span>
+                                            </li>
+                                            <li class="custom-funnel-step grid grid-rows-[auto_1fr_auto] gap-0.5 min-w-0" style="--custom-v: 0.41">
+                                                <span class="custom-funnel-track relative block h-12 mb-1.5" aria-hidden="true"><span class="custom-funnel-bar absolute h-[calc(var(--custom-v)_*_100%)]"></span><span class="custom-funnel-drop">−21%</span></span>
+                                                <span class="custom-funnel-name">Shared Report</span>
+                                                <span class="custom-funnel-num tabular-nums text-[0.75rem] text-(--custom-meta)"><strong class="text-[0.8125rem] font-semibold text-text">41%</strong> <span>1,221</span></span>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                                <!-- 30D -->
+                                <div class="tabs-panel custom-dash-panel is-active grid gap-4" role="tabpanel" id="an-dash-30" aria-labelledby="an-dash-tab-30" :class="{ 'is-active': tab === '30' }">
+                                    <dl class="custom-dash-kpis">
+                                        <div class="custom-dash-kpi custom-delta--up grid gap-1 min-w-0">
+                                            <dt>Sign-ups</dt>
+                                            <dd class="custom-dash-value tabular-nums">12,480</dd>
+                                            <dd class="custom-dash-change flex items-center justify-between gap-2"><span class="custom-delta custom-delta--up"><span class="sr-only">Up </span>8.1%</span><svg class="custom-spark" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                    <path pathLength="1" d="M0.0 15.8 C1.0 16.2 3.7 18.4 5.8 18.0 C7.9 17.6 9.5 14.7 11.6 13.5 C13.7 12.4 15.4 11.9 17.5 11.6 C19.5 11.3 21.2 12.2 23.3 11.9 C25.4 11.7 27.0 10.9 29.1 10.1 C31.2 9.3 32.8 7.3 34.9 7.4 C37.0 7.6 38.6 11.7 40.7 10.8 C42.8 9.9 44.5 3.6 46.5 2.6 C48.6 1.7 50.3 5.6 52.4 5.6 C54.5 5.5 56.1 3.2 58.2 2.6 C60.3 1.9 63.0 2.1 64.0 2.0" />
+                                                </svg></dd>
+                                        </div>
+                                        <div class="custom-dash-kpi custom-delta--up grid gap-1 min-w-0 border-l border-l-(--custom-hair)">
+                                            <dt>Activation Rate</dt>
+                                            <dd class="custom-dash-value tabular-nums">38.4%</dd>
+                                            <dd class="custom-dash-change flex items-center justify-between gap-2"><span class="custom-delta custom-delta--up"><span class="sr-only">Up </span>4.2 pts</span><svg class="custom-spark" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                    <path pathLength="1" d="M0.0 15.0 C1.0 15.5 3.7 18.3 5.8 18.0 C7.9 17.7 9.5 13.9 11.6 13.2 C13.7 12.5 15.4 13.9 17.5 14.1 C19.5 14.2 21.2 14.6 23.3 14.1 C25.4 13.7 27.0 12.5 29.1 11.6 C31.2 10.6 32.8 9.7 34.9 8.9 C37.0 8.1 38.6 7.2 40.7 7.2 C42.8 7.2 44.5 8.9 46.5 8.9 C48.6 8.8 50.3 7.6 52.4 6.9 C54.5 6.2 56.1 5.8 58.2 4.9 C60.3 4.0 63.0 2.5 64.0 2.0" />
+                                                </svg></dd>
+                                        </div>
+                                        <div class="custom-dash-kpi custom-delta--down grid gap-1 min-w-0 border-l border-l-(--custom-hair)">
+                                            <dt>Trial → Paid</dt>
+                                            <dd class="custom-dash-value tabular-nums">6.1%</dd>
+                                            <dd class="custom-dash-change flex items-center justify-between gap-2"><span class="custom-delta custom-delta--down"><span class="sr-only">Down </span>6.0%</span><svg class="custom-spark" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                    <path pathLength="1" d="M0.0 3.3 C1.0 3.0 3.7 1.4 5.8 2.0 C7.9 2.6 9.5 5.9 11.6 6.7 C13.7 7.6 15.4 6.0 17.5 6.8 C19.5 7.5 21.2 10.4 23.3 10.9 C25.4 11.5 27.0 9.5 29.1 9.7 C31.2 10.0 32.8 11.9 34.9 12.4 C37.0 12.8 38.6 12.2 40.7 12.0 C42.8 11.9 44.5 12.0 46.5 11.6 C48.6 11.2 50.3 8.8 52.4 10.0 C54.5 11.1 56.1 17.6 58.2 18.0 C60.3 18.4 63.0 13.4 64.0 12.4" />
+                                                </svg></dd>
+                                        </div>
+                                    </dl>
+                                    <div class="custom-dash-chart relative grid gap-2">
+                                        <div class="custom-trend-frame">
+                                            <svg class="custom-trend" viewBox="0 0 480 110" aria-hidden="true" focusable="false">
+                                                <defs>
+                                                    <linearGradient id="an-trend-fill-30" x1="0" y1="0" x2="0" y2="1">
+                                                        <stop offset="0" stop-color="currentColor" stop-opacity=".18" />
+                                                        <stop offset="1" stop-color="currentColor" stop-opacity="0" />
+                                                    </linearGradient>
+                                                </defs>
+                                                <path class="custom-trend-grid" d="M0 10H480M0 40H480M0 70H480" />
+                                                <path class="custom-trend-area" fill="url(#an-trend-fill-30)" d="M0.0 69.9 C3.0 70.2 10.6 72.6 16.6 71.5 C22.5 70.5 27.1 64.3 33.1 64.3 C39.1 64.2 43.7 71.2 49.7 71.3 C55.6 71.3 60.2 65.4 66.2 64.5 C72.2 63.5 76.8 65.2 82.8 66.1 C88.7 67.0 93.4 70.0 99.3 69.5 C105.3 68.9 109.9 63.1 115.9 62.9 C121.8 62.7 126.5 68.5 132.4 68.4 C138.4 68.3 143.0 62.8 149.0 62.5 C154.9 62.2 159.6 66.1 165.5 66.7 C171.5 67.2 176.1 66.8 182.1 65.7 C188.0 64.6 192.7 62.6 198.6 60.7 C204.6 58.7 209.2 54.2 215.2 54.7 C221.1 55.2 225.8 62.1 231.7 63.3 C237.7 64.5 242.3 62.8 248.3 61.3 C254.2 59.9 258.9 58.6 264.8 55.3 C270.8 52.1 275.4 45.9 281.4 43.2 C287.3 40.5 292.0 41.8 297.9 40.3 C303.9 38.7 308.5 37.3 314.5 34.8 C320.4 32.3 325.1 25.9 331.0 26.5 C337.0 27.1 341.6 38.0 347.6 38.1 C353.5 38.1 358.2 27.5 364.1 26.7 C370.1 25.9 374.7 32.1 380.7 33.5 C386.6 35.0 391.3 34.6 397.2 34.8 C403.2 35.0 407.8 35.1 413.8 34.5 C419.8 33.9 424.4 33.2 430.3 31.3 C436.3 29.4 440.9 23.9 446.9 24.0 C452.9 24.0 457.5 31.4 463.4 31.7 C469.4 32.0 477.0 26.8 480.0 25.7 L480 110 L0 110 Z" />
+                                                <path class="custom-trend-prev" d="M0.0 78.8 C3.0 79.0 10.6 79.1 16.6 79.7 C22.5 80.3 27.1 83.5 33.1 82.3 C39.1 81.2 43.7 73.2 49.7 73.4 C55.6 73.6 60.2 82.8 66.2 83.5 C72.2 84.2 76.8 79.3 82.8 77.3 C88.7 75.3 93.4 71.5 99.3 72.4 C105.3 73.2 109.9 81.3 115.9 82.0 C121.8 82.7 126.5 77.3 132.4 76.1 C138.4 74.9 143.0 74.1 149.0 75.1 C154.9 76.2 159.6 81.4 165.5 81.8 C171.5 82.3 176.1 79.1 182.1 77.6 C188.0 76.1 192.7 73.7 198.6 73.5 C204.6 73.2 209.2 76.4 215.2 76.3 C221.1 76.2 225.8 72.2 231.7 72.8 C237.7 73.4 242.3 78.4 248.3 79.4 C254.2 80.4 258.9 78.2 264.8 78.2 C270.8 78.3 275.4 80.2 281.4 79.6 C287.3 78.9 292.0 76.4 297.9 74.6 C303.9 72.8 308.5 69.6 314.5 69.4 C320.4 69.1 325.1 72.9 331.0 73.2 C337.0 73.4 341.6 70.4 347.6 70.8 C353.5 71.1 358.2 75.3 364.1 75.2 C370.1 75.2 374.7 70.2 380.7 70.7 C386.6 71.2 391.3 77.3 397.2 78.2 C403.2 79.1 407.8 77.0 413.8 75.7 C419.8 74.4 424.4 71.9 430.3 70.9 C436.3 69.9 440.9 69.6 446.9 70.1 C452.9 70.6 457.5 72.2 463.4 73.5 C469.4 74.8 477.0 76.7 480.0 77.3" />
+                                                <path class="custom-trend-line" pathLength="1" d="M0.0 69.9 C3.0 70.2 10.6 72.6 16.6 71.5 C22.5 70.5 27.1 64.3 33.1 64.3 C39.1 64.2 43.7 71.2 49.7 71.3 C55.6 71.3 60.2 65.4 66.2 64.5 C72.2 63.5 76.8 65.2 82.8 66.1 C88.7 67.0 93.4 70.0 99.3 69.5 C105.3 68.9 109.9 63.1 115.9 62.9 C121.8 62.7 126.5 68.5 132.4 68.4 C138.4 68.3 143.0 62.8 149.0 62.5 C154.9 62.2 159.6 66.1 165.5 66.7 C171.5 67.2 176.1 66.8 182.1 65.7 C188.0 64.6 192.7 62.6 198.6 60.7 C204.6 58.7 209.2 54.2 215.2 54.7 C221.1 55.2 225.8 62.1 231.7 63.3 C237.7 64.5 242.3 62.8 248.3 61.3 C254.2 59.9 258.9 58.6 264.8 55.3 C270.8 52.1 275.4 45.9 281.4 43.2 C287.3 40.5 292.0 41.8 297.9 40.3 C303.9 38.7 308.5 37.3 314.5 34.8 C320.4 32.3 325.1 25.9 331.0 26.5 C337.0 27.1 341.6 38.0 347.6 38.1 C353.5 38.1 358.2 27.5 364.1 26.7 C370.1 25.9 374.7 32.1 380.7 33.5 C386.6 35.0 391.3 34.6 397.2 34.8 C403.2 35.0 407.8 35.1 413.8 34.5 C419.8 33.9 424.4 33.2 430.3 31.3 C436.3 29.4 440.9 23.9 446.9 24.0 C452.9 24.0 457.5 31.4 463.4 31.7 C469.4 32.0 477.0 26.8 480.0 25.7" />
+                                                <circle class="custom-trend-dot" cx="99.3" cy="69.5" r="3.5" />
+                                                <circle class="custom-trend-dot" cx="297.9" cy="40.3" r="3.5" />
+                                                <circle class="custom-trend-dot" cx="480.0" cy="25.7" r="3.5" />
+                                            </svg>
+                                            <p class="custom-dash-prev" aria-hidden="true" style="--custom-y: 76.3%">Previous 30 days</p>
+                                            <p class="custom-trend-y tabular-nums absolute w-8" aria-hidden="true"><span style="--custom-y: 9.1%">45%</span><span style="--custom-y: 36.4%">40%</span><span style="--custom-y: 63.6%">35%</span></p>
+                                            <p class="custom-annot" style="--custom-x: 62.1%; --custom-y: 36.6%"><span class="custom-annot-label">Onboarding v2</span><span class="custom-delta custom-delta--up"><span class="sr-only">Up </span>18%</span></p>
+                                        </div>
+                                        <p class="custom-dash-axis tabular-nums" aria-hidden="true"><span>18 Sept</span><span>28 Sept</span><span>8 Oct</span><span>Today</span></p>
+                                    </div>
+                                    <div class="custom-dash-funnel">
+                                        <p class="custom-dash-label">Activation Funnel <span class="text-[0.75rem] font-medium text-(--custom-meta)">Share of sign-ups</span></p>
+                                        <ol class="custom-funnel" role="list">
+                                            <li class="custom-funnel-step grid grid-rows-[auto_1fr_auto] gap-0.5 min-w-0" style="--custom-v: 1.00">
+                                                <span class="custom-funnel-track relative block h-12 mb-1.5" aria-hidden="true"><span class="custom-funnel-bar absolute h-[calc(var(--custom-v)_*_100%)]"></span></span>
+                                                <span class="custom-funnel-name">Signed Up</span>
+                                                <span class="custom-funnel-num tabular-nums text-[0.75rem] text-(--custom-meta)"><strong class="text-[0.8125rem] font-semibold text-text">100%</strong> <span>12,480</span></span>
+                                            </li>
+                                            <li class="custom-funnel-step grid grid-rows-[auto_1fr_auto] gap-0.5 min-w-0" style="--custom-v: 0.72">
+                                                <span class="custom-funnel-track relative block h-12 mb-1.5" aria-hidden="true"><span class="custom-funnel-bar absolute h-[calc(var(--custom-v)_*_100%)]"></span><span class="custom-funnel-drop">−28%</span></span>
+                                                <span class="custom-funnel-name">Added Data</span>
+                                                <span class="custom-funnel-num tabular-nums text-[0.75rem] text-(--custom-meta)"><strong class="text-[0.8125rem] font-semibold text-text">72%</strong> <span>8,986</span></span>
+                                            </li>
+                                            <li class="custom-funnel-step grid grid-rows-[auto_1fr_auto] gap-0.5 min-w-0" style="--custom-v: 0.50">
+                                                <span class="custom-funnel-track relative block h-12 mb-1.5" aria-hidden="true"><span class="custom-funnel-bar absolute h-[calc(var(--custom-v)_*_100%)]"></span><span class="custom-funnel-drop">−31%</span></span>
+                                                <span class="custom-funnel-name">First Chart</span>
+                                                <span class="custom-funnel-num tabular-nums text-[0.75rem] text-(--custom-meta)"><strong class="text-[0.8125rem] font-semibold text-text">50%</strong> <span>6,240</span></span>
+                                            </li>
+                                            <li class="custom-funnel-step grid grid-rows-[auto_1fr_auto] gap-0.5 min-w-0" style="--custom-v: 0.38">
+                                                <span class="custom-funnel-track relative block h-12 mb-1.5" aria-hidden="true"><span class="custom-funnel-bar absolute h-[calc(var(--custom-v)_*_100%)]"></span><span class="custom-funnel-drop">−23%</span></span>
+                                                <span class="custom-funnel-name">Shared Report</span>
+                                                <span class="custom-funnel-num tabular-nums text-[0.75rem] text-(--custom-meta)"><strong class="text-[0.8125rem] font-semibold text-text">38%</strong> <span>4,793</span></span>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                                <!-- 90D -->
+                                <div class="tabs-panel custom-dash-panel grid gap-4" role="tabpanel" id="an-dash-90" aria-labelledby="an-dash-tab-90" :class="{ 'is-active': tab === '90' }">
+                                    <dl class="custom-dash-kpis">
+                                        <div class="custom-dash-kpi custom-delta--up grid gap-1 min-w-0">
+                                            <dt>Sign-ups</dt>
+                                            <dd class="custom-dash-value tabular-nums">35,920</dd>
+                                            <dd class="custom-dash-change flex items-center justify-between gap-2"><span class="custom-delta custom-delta--up"><span class="sr-only">Up </span>14.6%</span><svg class="custom-spark" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                    <path pathLength="1" d="M0.0 15.8 C1.0 16.2 3.7 18.4 5.8 18.0 C7.9 17.6 9.5 14.7 11.6 13.5 C13.7 12.4 15.4 11.9 17.5 11.6 C19.5 11.3 21.2 12.2 23.3 11.9 C25.4 11.7 27.0 10.9 29.1 10.1 C31.2 9.3 32.8 7.3 34.9 7.4 C37.0 7.6 38.6 11.7 40.7 10.8 C42.8 9.9 44.5 3.6 46.5 2.6 C48.6 1.7 50.3 5.6 52.4 5.6 C54.5 5.5 56.1 3.2 58.2 2.6 C60.3 1.9 63.0 2.1 64.0 2.0" />
+                                                </svg></dd>
+                                        </div>
+                                        <div class="custom-dash-kpi custom-delta--up grid gap-1 min-w-0 border-l border-l-(--custom-hair)">
+                                            <dt>Activation Rate</dt>
+                                            <dd class="custom-dash-value tabular-nums">34.9%</dd>
+                                            <dd class="custom-dash-change flex items-center justify-between gap-2"><span class="custom-delta custom-delta--up"><span class="sr-only">Up </span>2.7 pts</span><svg class="custom-spark" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                    <path pathLength="1" d="M0.0 15.0 C1.0 15.5 3.7 18.3 5.8 18.0 C7.9 17.7 9.5 13.9 11.6 13.2 C13.7 12.5 15.4 13.9 17.5 14.1 C19.5 14.2 21.2 14.6 23.3 14.1 C25.4 13.7 27.0 12.5 29.1 11.6 C31.2 10.6 32.8 9.7 34.9 8.9 C37.0 8.1 38.6 7.2 40.7 7.2 C42.8 7.2 44.5 8.9 46.5 8.9 C48.6 8.8 50.3 7.6 52.4 6.9 C54.5 6.2 56.1 5.8 58.2 4.9 C60.3 4.0 63.0 2.5 64.0 2.0" />
+                                                </svg></dd>
+                                        </div>
+                                        <div class="custom-dash-kpi custom-delta--up grid gap-1 min-w-0 border-l border-l-(--custom-hair)">
+                                            <dt>Trial → Paid</dt>
+                                            <dd class="custom-dash-value tabular-nums">6.6%</dd>
+                                            <dd class="custom-dash-change flex items-center justify-between gap-2"><span class="custom-delta custom-delta--up"><span class="sr-only">Up </span>1.2%</span><svg class="custom-spark" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                    <path pathLength="1" d="M0.0 18.0 C1.0 17.8 3.7 17.6 5.8 16.7 C7.9 15.7 9.5 13.9 11.6 12.7 C13.7 11.5 15.4 10.6 17.5 10.0 C19.5 9.4 21.2 9.8 23.3 9.5 C25.4 9.2 27.0 8.3 29.1 8.5 C31.2 8.8 32.8 10.9 34.9 10.9 C37.0 11.0 38.6 9.7 40.7 8.9 C42.8 8.2 44.5 7.1 46.5 6.7 C48.6 6.2 50.3 7.3 52.4 6.4 C54.5 5.6 56.1 1.9 58.2 2.0 C60.3 2.1 63.0 6.3 64.0 7.2" />
+                                                </svg></dd>
+                                        </div>
+                                    </dl>
+                                    <div class="custom-dash-chart relative grid gap-2">
+                                        <div class="custom-trend-frame">
+                                            <svg class="custom-trend" viewBox="0 0 480 110" aria-hidden="true" focusable="false">
+                                                <defs>
+                                                    <linearGradient id="an-trend-fill-90" x1="0" y1="0" x2="0" y2="1">
+                                                        <stop offset="0" stop-color="currentColor" stop-opacity=".18" />
+                                                        <stop offset="1" stop-color="currentColor" stop-opacity="0" />
+                                                    </linearGradient>
+                                                </defs>
+                                                <path class="custom-trend-grid" d="M0 10H480M0 40H480M0 70H480" />
+                                                <path class="custom-trend-area" fill="url(#an-trend-fill-90)" d="M0.0 91.5 C7.2 90.7 25.6 89.3 40.0 87.2 C54.4 85.2 65.6 81.1 80.0 80.1 C94.4 79.2 105.6 82.2 120.0 81.9 C134.4 81.6 145.6 79.7 160.0 78.3 C174.4 76.9 185.6 74.8 200.0 74.3 C214.4 73.8 225.6 76.5 240.0 75.5 C254.4 74.5 265.6 70.8 280.0 68.8 C294.4 66.8 305.6 66.1 320.0 64.4 C334.4 62.7 345.6 59.6 360.0 59.5 C374.4 59.4 385.6 64.1 400.0 63.9 C414.4 63.7 425.6 59.6 440.0 58.5 C454.4 57.3 472.8 57.8 480.0 57.6 L480 110 L0 110 Z" />
+                                                <path class="custom-trend-prev" d="M0.0 99.0 C7.2 98.5 25.6 96.9 40.0 96.2 C54.4 95.5 65.6 94.5 80.0 95.0 C94.4 95.5 105.6 98.2 120.0 98.9 C134.4 99.7 145.6 99.9 160.0 99.1 C174.4 98.3 185.6 95.4 200.0 94.5 C214.4 93.7 225.6 95.5 240.0 94.4 C254.4 93.2 265.6 89.2 280.0 88.1 C294.4 87.0 305.6 88.2 320.0 88.2 C334.4 88.1 345.6 88.1 360.0 87.9 C374.4 87.8 385.6 87.7 400.0 87.2 C414.4 86.7 425.6 84.8 440.0 85.2 C454.4 85.5 472.8 88.3 480.0 89.0" />
+                                                <path class="custom-trend-line" pathLength="1" d="M0.0 91.5 C7.2 90.7 25.6 89.3 40.0 87.2 C54.4 85.2 65.6 81.1 80.0 80.1 C94.4 79.2 105.6 82.2 120.0 81.9 C134.4 81.6 145.6 79.7 160.0 78.3 C174.4 76.9 185.6 74.8 200.0 74.3 C214.4 73.8 225.6 76.5 240.0 75.5 C254.4 74.5 265.6 70.8 280.0 68.8 C294.4 66.8 305.6 66.1 320.0 64.4 C334.4 62.7 345.6 59.6 360.0 59.5 C374.4 59.4 385.6 64.1 400.0 63.9 C414.4 63.7 425.6 59.6 440.0 58.5 C454.4 57.3 472.8 57.8 480.0 57.6" />
+                                                <circle class="custom-trend-dot" cx="160.0" cy="78.3" r="3.5" />
+                                                <circle class="custom-trend-dot" cx="360.0" cy="59.5" r="3.5" />
+                                                <circle class="custom-trend-dot" cx="480.0" cy="57.6" r="3.5" />
+                                            </svg>
+                                            <p class="custom-dash-prev" aria-hidden="true" style="--custom-y: 86.9%">Previous 90 days</p>
+                                            <p class="custom-trend-y tabular-nums absolute w-8" aria-hidden="true"><span style="--custom-y: 9.1%">45%</span><span style="--custom-y: 36.4%">40%</span><span style="--custom-y: 63.6%">35%</span></p>
+                                        </div>
+                                        <p class="custom-dash-axis tabular-nums" aria-hidden="true"><span>July</span><span>Aug</span><span>Sept</span><span>Oct</span></p>
+                                    </div>
+                                    <div class="custom-dash-funnel">
+                                        <p class="custom-dash-label">Activation Funnel <span class="text-[0.75rem] font-medium text-(--custom-meta)">Share of sign-ups</span></p>
+                                        <ol class="custom-funnel" role="list">
+                                            <li class="custom-funnel-step grid grid-rows-[auto_1fr_auto] gap-0.5 min-w-0" style="--custom-v: 1.00">
+                                                <span class="custom-funnel-track relative block h-12 mb-1.5" aria-hidden="true"><span class="custom-funnel-bar absolute h-[calc(var(--custom-v)_*_100%)]"></span></span>
+                                                <span class="custom-funnel-name">Signed Up</span>
+                                                <span class="custom-funnel-num tabular-nums text-[0.75rem] text-(--custom-meta)"><strong class="text-[0.8125rem] font-semibold text-text">100%</strong> <span>35,920</span></span>
+                                            </li>
+                                            <li class="custom-funnel-step grid grid-rows-[auto_1fr_auto] gap-0.5 min-w-0" style="--custom-v: 0.70">
+                                                <span class="custom-funnel-track relative block h-12 mb-1.5" aria-hidden="true"><span class="custom-funnel-bar absolute h-[calc(var(--custom-v)_*_100%)]"></span><span class="custom-funnel-drop">−30%</span></span>
+                                                <span class="custom-funnel-name">Added Data</span>
+                                                <span class="custom-funnel-num tabular-nums text-[0.75rem] text-(--custom-meta)"><strong class="text-[0.8125rem] font-semibold text-text">70%</strong> <span>25,144</span></span>
+                                            </li>
+                                            <li class="custom-funnel-step grid grid-rows-[auto_1fr_auto] gap-0.5 min-w-0" style="--custom-v: 0.48">
+                                                <span class="custom-funnel-track relative block h-12 mb-1.5" aria-hidden="true"><span class="custom-funnel-bar absolute h-[calc(var(--custom-v)_*_100%)]"></span><span class="custom-funnel-drop">−31%</span></span>
+                                                <span class="custom-funnel-name">First Chart</span>
+                                                <span class="custom-funnel-num tabular-nums text-[0.75rem] text-(--custom-meta)"><strong class="text-[0.8125rem] font-semibold text-text">48%</strong> <span>17,242</span></span>
+                                            </li>
+                                            <li class="custom-funnel-step grid grid-rows-[auto_1fr_auto] gap-0.5 min-w-0" style="--custom-v: 0.35">
+                                                <span class="custom-funnel-track relative block h-12 mb-1.5" aria-hidden="true"><span class="custom-funnel-bar absolute h-[calc(var(--custom-v)_*_100%)]"></span><span class="custom-funnel-drop">−27%</span></span>
+                                                <span class="custom-funnel-name">Shared Report</span>
+                                                <span class="custom-funnel-num tabular-nums text-[0.75rem] text-(--custom-meta)"><strong class="text-[0.8125rem] font-semibold text-text">35%</strong> <span>12,536</span></span>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LOGOS - the count beside invented customer wordmarks drifting past with soft edges (template marquee, fade + pause). Edit: the line, each wordmark (glyph, name, style modifier) -->
+            <section id="an-logos" class="custom-section mt-[calc(var(--section-space)_*_-0.4)]" aria-labelledby="an-logos-title">
+                <div class="container grid gap-5 items-center lg:gap-12 lg:grid-cols-[12.5rem_minmax(0,1fr)]">
+                    <p id="an-logos-title" class="custom-logos-title lg:py-2 lg:border-e lg:border-e-(--custom-hair) text-[1rem] leading-[1.45] text-soft">Trusted by <strong class="font-semibold text-text lg:block">18,000</strong> product teams</p>
+                    <div class="marquee-wrap marquee-wrap--fade marquee-wrap--pause min-w-0" data-lenis-prevent-touch>
+                        <ul class="marquee gap-[clamp(2.5rem,4vw,4rem)] pt-3 pb-3" role="list" data-speed="36">
+                            <li class="custom-logo"><i class="ph-fill ph-triangle text-[1.25rem]" aria-hidden="true"></i>Halden</li>
+                            <li class="custom-logo font-sans font-bold tracking-[-0.02em]"><i class="ph-fill ph-leaf text-[1.25rem]" aria-hidden="true"></i>fernway</li>
+                            <li class="custom-logo custom-logo--sans"><i class="ph-fill ph-circle-half text-[1.25rem]" aria-hidden="true"></i>Quillo</li>
+                            <li class="custom-logo custom-logo--caps">Northgate</li>
+                            <li class="custom-logo"><i class="ph-fill ph-sun-dim text-[1.25rem]" aria-hidden="true"></i>Brightwork</li>
+                            <li class="custom-logo font-sans font-bold tracking-[-0.02em]"><i class="ph-fill ph-drop text-[1.25rem]" aria-hidden="true"></i>tallow</li>
+                            <li class="custom-logo custom-logo--sans"><i class="ph-fill ph-bird text-[1.25rem]" aria-hidden="true"></i>Kestrel Pay</li>
+                            <li class="custom-logo"><i class="ph-fill ph-plus-circle text-[1.25rem]" aria-hidden="true"></i>Marlow Health</li>
+                            <li class="custom-logo custom-logo--sans"><i class="ph-bold ph-planet text-[1.25rem]" aria-hidden="true"></i>Orbitly</li>
+                            <li class="custom-logo custom-logo--caps">Sundry</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FRAMO ANALYST - navy band with faint trend lines behind; three example questions (template option-pill radios) switch the insight report beside them: the finding, its figures, a chart, the events it used. Edit: the title, the lead, each question and its report (headline, figures, chart, event chips, footer), the note -->
+            <section id="an-analyst" class="custom-section custom-section--ink" aria-labelledby="an-analyst-title" x-data="{ q: 'drop' }">
+                <svg class="custom-analyst-texture absolute inset-0 -z-1 size-full opacity-35" viewBox="0 0 1440 600" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                    <path d="M0.0 420.0 C18.5 416.7 73.8 401.7 110.8 400.0 C147.7 398.3 184.6 416.7 221.5 410.0 C258.5 403.3 295.4 365.0 332.3 360.0 C369.2 355.0 406.2 385.0 443.1 380.0 C480.0 375.0 516.9 336.7 553.8 330.0 C590.8 323.3 627.7 348.3 664.6 340.0 C701.5 331.7 738.5 286.7 775.4 280.0 C812.3 273.3 849.2 306.7 886.2 300.0 C923.1 293.3 960.0 248.3 996.9 240.0 C1033.8 231.7 1070.8 258.3 1107.7 250.0 C1144.6 241.7 1181.5 198.3 1218.5 190.0 C1255.4 181.7 1292.3 206.7 1329.2 200.0 C1366.2 193.3 1421.5 158.3 1440.0 150.0" />
+                    <path class="custom-analyst-texture-soft opacity-60" d="M0.0 500.0 C18.5 498.3 73.8 493.3 110.8 490.0 C147.7 486.7 184.6 483.3 221.5 480.0 C258.5 476.7 295.4 474.2 332.3 470.0 C369.2 465.8 406.2 458.3 443.1 455.0 C480.0 451.7 516.9 454.2 553.8 450.0 C590.8 445.8 627.7 435.0 664.6 430.0 C701.5 425.0 738.5 423.3 775.4 420.0 C812.3 416.7 849.2 416.7 886.2 410.0 C923.1 403.3 960.0 386.7 996.9 380.0 C1033.8 373.3 1070.8 375.0 1107.7 370.0 C1144.6 365.0 1181.5 356.7 1218.5 350.0 C1255.4 343.3 1292.3 335.0 1329.2 330.0 C1366.2 325.0 1421.5 321.7 1440.0 320.0" />
+                </svg>
+
+                <div class="container grid gap-[clamp(3rem,6vw,5rem)] min-[1100px]:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] min-[1100px]:items-center">
+                    <div class="grid justify-items-start gap-6 min-w-0">
+                        <p class="eyebrow inline-flex items-center gap-2 text-(--color-accent-base)" data-anim="fade-up"><i class="ph-fill ph-sparkle" aria-hidden="true"></i> Framo Analyst</p>
+                        <h2 id="an-analyst-title" class="custom-title" data-anim="fade-up" data-anim-delay="80">Insights that find you <span class="custom-title-soft">first.</span></h2>
+                        <p class="custom-lead" data-anim="fade-up" data-anim-delay="160">It watches every metric overnight and writes up what moved, where and why — before anyone thinks to ask.</p>
+
+                        <fieldset class="custom-analyst-asks grid gap-2.5 w-full max-w-124 min-w-0 mt-3 border-0" data-anim="fade-up" data-anim-delay="240">
+                            <legend class="mb-3 text-[0.9375rem] font-medium text-(--custom-meta)">Open a report</legend>
+                            <label class="option-pill flex"><input type="radio" name="an-analyst-q" value="drop" x-model="q" checked><span><i class="ph ph-trend-down flex-none text-[1.125rem]" aria-hidden="true"></i>Why did trial → paid drop last week?</span></label>
+                            <label class="option-pill flex"><input type="radio" name="an-analyst-q" value="retain" x-model="q"><span><i class="ph ph-arrows-clockwise flex-none text-[1.125rem]" aria-hidden="true"></i>Which features do retained teams adopt first?</span></label>
+                            <label class="option-pill flex"><input type="radio" name="an-analyst-q" value="leak" x-model="q"><span><i class="ph ph-funnel-simple flex-none text-[1.125rem]" aria-hidden="true"></i>Where do new sign-ups drop off?</span></label>
+                        </fieldset>
+
+                        <p class="inline-flex items-center gap-2 text-[1rem] text-(--custom-on-ink-soft)" data-anim="fade-up" data-anim-delay="320"><i class="ph ph-list-magnifying-glass text-[1.25rem] text-(--color-accent-base)" aria-hidden="true"></i>Every insight shows the events behind it.</p>
+                    </div>
+
+                    <div class="tabs-panels min-w-0 mt-0" data-anim="fade-up" data-anim-delay="200">
+                        <!-- Report: trial → paid -->
+                        <article class="tabs-panel is-active custom-ui custom-ui--ink custom-analyst-report flex flex-col" :class="{ 'is-active': q === 'drop' }" aria-label="Report: why trial to paid dropped">
+                            <header class="custom-ui-head">
+                                <p class="custom-ui-title"><span class="custom-insight-glyph" aria-hidden="true"><i class="ph-fill ph-sparkle"></i></span><span>Insight <small>Trial → Paid · Last 14 days · All plans</small></span></p>
+                                <span class="custom-analyst-conf">High Confidence</span>
+                            </header>
+                            <div class="custom-analyst-body">
+                                <p class="custom-analyst-finding"><strong>Trial → paid fell 6% after the 9 Oct pricing change.</strong> Desktop held steady; 71% of the lost conversions are on mobile checkout.</p>
+                                <dl class="custom-analyst-figs">
+                                    <div class="min-w-0 py-2.5 px-3.5">
+                                        <dt class="text-[0.75rem] font-medium text-(--custom-meta)">Before</dt>
+                                        <dd>6.5%</dd>
+                                    </div>
+                                    <div class="min-w-0 py-2.5 px-3.5 border-s border-s-(--custom-hair)">
+                                        <dt class="text-[0.75rem] font-medium text-(--custom-meta)">After</dt>
+                                        <dd>6.1% <span class="custom-delta custom-delta--down"><span class="sr-only">Down </span>6%</span></dd>
+                                    </div>
+                                    <div class="min-w-0 py-2.5 px-3.5 border-s border-s-(--custom-hair)">
+                                        <dt class="text-[0.75rem] font-medium text-(--custom-meta)">Mobile Share</dt>
+                                        <dd>71%</dd>
+                                    </div>
+                                </dl>
+                                <div class="grid gap-2">
+                                    <p class="flex gap-4 text-[0.75rem] font-medium text-(--custom-meta) max-md:mb-7" aria-hidden="true"><span class="custom-analyst-key inline-flex items-center gap-1.5">Mobile</span><span class="custom-analyst-key custom-analyst-key--alt inline-flex items-center gap-1.5">Desktop</span></p>
+                                    <div class="custom-trend-frame">
+                                        <svg class="custom-trend" viewBox="0 0 480 110" aria-hidden="true" focusable="false">
+                                            <path class="custom-trend-grid" d="M0 20H480M0 55H480M0 90H480" />
+                                            <path class="custom-analyst-mark" d="M268 0V110" />
+                                            <path class="custom-trend-line custom-analyst-alt" pathLength="1" d="M0.0 58.0 C6.2 57.8 24.6 56.8 36.9 57.0 C49.2 57.2 61.5 59.2 73.8 59.0 C86.2 58.8 98.5 56.2 110.8 56.0 C123.1 55.8 135.4 57.8 147.7 58.0 C160.0 58.2 172.3 57.3 184.6 57.0 C196.9 56.7 209.2 55.8 221.5 56.0 C233.8 56.2 246.2 57.8 258.5 58.0 C270.8 58.2 283.1 56.8 295.4 57.0 C307.7 57.2 320.0 58.8 332.3 59.0 C344.6 59.2 356.9 58.3 369.2 58.0 C381.5 57.7 393.8 57.0 406.2 57.0 C418.5 57.0 430.8 58.0 443.1 58.0 C455.4 58.0 473.8 57.2 480.0 57.0" />
+                                            <path class="custom-trend-line" pathLength="1" d="M0.0 40.0 C6.2 39.7 24.6 37.8 36.9 38.0 C49.2 38.2 61.5 41.2 73.8 41.0 C86.2 40.8 98.5 37.3 110.8 37.0 C123.1 36.7 135.4 39.2 147.7 39.0 C160.0 38.8 172.3 36.2 184.6 36.0 C196.9 35.8 209.2 37.8 221.5 38.0 C233.8 38.2 246.2 34.7 258.5 37.0 C270.8 39.3 283.1 47.2 295.4 52.0 C307.7 56.8 320.0 62.7 332.3 66.0 C344.6 69.3 356.9 70.7 369.2 72.0 C381.5 73.3 393.8 73.3 406.2 74.0 C418.5 74.7 430.8 75.8 443.1 76.0 C455.4 76.2 473.8 75.2 480.0 75.0" />
+                                            <circle class="custom-trend-dot" cx="480" cy="75" r="3.5" />
+                                        </svg>
+                                        <p class="custom-annot" style="--custom-x: 55.8%; --custom-y: 34.5%"><span class="custom-annot-label">Pricing v2 · 9 Oct</span></p>
+                                    </div>
+                                    <p class="custom-dash-axis tabular-nums" aria-hidden="true"><span>3 Oct</span><span>7 Oct</span><span>11 Oct</span><span>Today</span></p>
+                                </div>
+                                <div class="custom-analyst-events">
+                                    <p class="text-[0.75rem] font-medium text-(--custom-meta)">Events Used</p>
+                                    <ul role="list">
+                                        <li>trial_started</li>
+                                        <li>pricing_viewed</li>
+                                        <li>checkout_completed</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <footer class="custom-analyst-foot">
+                                <p class="text-[0.75rem] text-(--custom-meta)">Based on 9,412 trials · checked against last month</p>
+                                <a href="demo-analytics-1-analyst.html" class="btn btn-primary btn-sm">Pin to Dashboard</a>
+                            </footer>
+                        </article>
+
+                        <!-- Report: retention drivers -->
+                        <article class="tabs-panel custom-ui custom-ui--ink custom-analyst-report flex flex-col" :class="{ 'is-active': q === 'retain' }" aria-label="Report: features retained teams adopt first">
+                            <header class="custom-ui-head">
+                                <p class="custom-ui-title"><span class="custom-insight-glyph" aria-hidden="true"><i class="ph-fill ph-sparkle"></i></span><span>Insight <small>Week-8 retention · Teams who signed up in Q3</small></span></p>
+                                <span class="custom-analyst-conf">High Confidence</span>
+                            </header>
+                            <div class="custom-analyst-body">
+                                <p class="custom-analyst-finding"><strong>Teams that build a dashboard in week one stay 2.3× more often.</strong> Sharing a report is the next strongest signal; alerts barely move it.</p>
+                                <dl class="custom-analyst-figs">
+                                    <div class="min-w-0 py-2.5 px-3.5">
+                                        <dt class="text-[0.75rem] font-medium text-(--custom-meta)">Teams</dt>
+                                        <dd>3,186</dd>
+                                    </div>
+                                    <div class="min-w-0 py-2.5 px-3.5 border-s border-s-(--custom-hair)">
+                                        <dt class="text-[0.75rem] font-medium text-(--custom-meta)">Baseline</dt>
+                                        <dd>29%</dd>
+                                    </div>
+                                    <div class="min-w-0 py-2.5 px-3.5 border-s border-s-(--custom-hair)">
+                                        <dt class="text-[0.75rem] font-medium text-(--custom-meta)">With Dashboard</dt>
+                                        <dd>68% <span class="custom-delta custom-delta--up"><span class="sr-only">Up </span>2.3×</span></dd>
+                                    </div>
+                                </dl>
+                                <ul class="custom-analyst-bars grid gap-3" role="list">
+                                    <li style="--custom-v: .68"><span>Built a dashboard</span><span class="custom-analyst-bar relative h-2.5 overflow-hidden rounded-pill" aria-hidden="true"></span><strong class="text-end font-semibold tabular-nums text-(--custom-on-ink)">68%</strong></li>
+                                    <li style="--custom-v: .54"><span>Shared a report</span><span class="custom-analyst-bar relative h-2.5 overflow-hidden rounded-pill" aria-hidden="true"></span><strong class="text-end font-semibold tabular-nums text-(--custom-on-ink)">54%</strong></li>
+                                    <li style="--custom-v: .41"><span>Saved a funnel</span><span class="custom-analyst-bar relative h-2.5 overflow-hidden rounded-pill" aria-hidden="true"></span><strong class="text-end font-semibold tabular-nums text-(--custom-on-ink)">41%</strong></li>
+                                    <li style="--custom-v: .33"><span>Set an alert</span><span class="custom-analyst-bar relative h-2.5 overflow-hidden rounded-pill" aria-hidden="true"></span><strong class="text-end font-semibold tabular-nums text-(--custom-on-ink)">33%</strong></li>
+                                    <li class="custom-analyst-base" style="--custom-v: .29"><span>None of these</span><span class="custom-analyst-bar relative h-2.5 overflow-hidden rounded-pill" aria-hidden="true"></span><strong class="text-end font-semibold tabular-nums text-(--custom-on-ink)">29%</strong></li>
+                                </ul>
+                                <div class="custom-analyst-events">
+                                    <p class="text-[0.75rem] font-medium text-(--custom-meta)">Events Used</p>
+                                    <ul role="list">
+                                        <li>dashboard_created</li>
+                                        <li>report_shared</li>
+                                        <li>session_started</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <footer class="custom-analyst-foot">
+                                <p class="text-[0.75rem] text-(--custom-meta)">Based on 3,186 teams · 8 weeks of activity</p>
+                                <a href="demo-analytics-1-analyst.html" class="btn btn-primary btn-sm">Pin to Dashboard</a>
+                            </footer>
+                        </article>
+
+                        <!-- Report: sign-up drop-off -->
+                        <article class="tabs-panel custom-ui custom-ui--ink custom-analyst-report flex flex-col" :class="{ 'is-active': q === 'leak' }" aria-label="Report: where new sign-ups drop off">
+                            <header class="custom-ui-head">
+                                <p class="custom-ui-title"><span class="custom-insight-glyph" aria-hidden="true"><i class="ph-fill ph-sparkle"></i></span><span>Insight <small>Onboarding funnel · Last 30 days · New sign-ups</small></span></p>
+                                <span class="custom-analyst-conf">Medium Confidence</span>
+                            </header>
+                            <div class="custom-analyst-body">
+                                <p class="custom-analyst-finding"><strong>38% of new sign-ups stop at Connect Data.</strong> CSV imports take 4 minutes on average; the warehouse path takes 40 seconds.</p>
+                                <dl class="custom-analyst-figs">
+                                    <div class="min-w-0 py-2.5 px-3.5">
+                                        <dt class="text-[0.75rem] font-medium text-(--custom-meta)">Sign-ups</dt>
+                                        <dd>12,480</dd>
+                                    </div>
+                                    <div class="min-w-0 py-2.5 px-3.5 border-s border-s-(--custom-hair)">
+                                        <dt class="text-[0.75rem] font-medium text-(--custom-meta)">Stuck at Step 2</dt>
+                                        <dd>4,742</dd>
+                                    </div>
+                                    <div class="min-w-0 py-2.5 px-3.5 border-s border-s-(--custom-hair)">
+                                        <dt class="text-[0.75rem] font-medium text-(--custom-meta)">CSV Import</dt>
+                                        <dd>4m 06s</dd>
+                                    </div>
+                                </dl>
+                                <ol class="custom-funnel" role="list">
+                                    <li class="custom-funnel-step grid grid-rows-[auto_1fr_auto] gap-0.5 min-w-0" style="--custom-v: 1.00">
+                                        <span class="custom-funnel-track relative block h-16 mb-1.5" aria-hidden="true"><span class="custom-funnel-bar absolute h-[calc(var(--custom-v)_*_100%)]"></span></span>
+                                        <span class="custom-funnel-name">Signed Up</span>
+                                        <span class="custom-funnel-num tabular-nums text-[0.75rem] text-(--custom-meta)"><strong class="text-[0.8125rem] font-semibold text-(--custom-on-ink)">100%</strong></span>
+                                    </li>
+                                    <li class="custom-funnel-step custom-analyst-leak grid grid-rows-[auto_1fr_auto] gap-0.5 min-w-0" style="--custom-v: 0.62">
+                                        <span class="custom-funnel-track relative block h-16 mb-1.5" aria-hidden="true"><span class="custom-funnel-bar absolute h-[calc(var(--custom-v)_*_100%)]"></span><span class="custom-funnel-drop">−38%</span></span>
+                                        <span class="custom-funnel-name">Connect Data</span>
+                                        <span class="custom-funnel-num tabular-nums text-[0.75rem] text-(--custom-meta)"><strong class="text-[0.8125rem] font-semibold text-(--custom-on-ink)">62%</strong></span>
+                                    </li>
+                                    <li class="custom-funnel-step grid grid-rows-[auto_1fr_auto] gap-0.5 min-w-0" style="--custom-v: 0.51">
+                                        <span class="custom-funnel-track relative block h-16 mb-1.5" aria-hidden="true"><span class="custom-funnel-bar absolute h-[calc(var(--custom-v)_*_100%)]"></span><span class="custom-funnel-drop">−18%</span></span>
+                                        <span class="custom-funnel-name">First Chart</span>
+                                        <span class="custom-funnel-num tabular-nums text-[0.75rem] text-(--custom-meta)"><strong class="text-[0.8125rem] font-semibold text-(--custom-on-ink)">51%</strong></span>
+                                    </li>
+                                    <li class="custom-funnel-step grid grid-rows-[auto_1fr_auto] gap-0.5 min-w-0" style="--custom-v: 0.44">
+                                        <span class="custom-funnel-track relative block h-16 mb-1.5" aria-hidden="true"><span class="custom-funnel-bar absolute h-[calc(var(--custom-v)_*_100%)]"></span><span class="custom-funnel-drop">−14%</span></span>
+                                        <span class="custom-funnel-name">Invited Team</span>
+                                        <span class="custom-funnel-num tabular-nums text-[0.75rem] text-(--custom-meta)"><strong class="text-[0.8125rem] font-semibold text-(--custom-on-ink)">44%</strong></span>
+                                    </li>
+                                </ol>
+                                <div class="custom-analyst-events">
+                                    <p class="text-[0.75rem] font-medium text-(--custom-meta)">Events Used</p>
+                                    <ul role="list">
+                                        <li>signup_completed</li>
+                                        <li>source_connected</li>
+                                        <li>chart_created</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <footer class="custom-analyst-foot">
+                                <p class="text-[0.75rem] text-(--custom-meta)">Based on 12,480 sign-ups · 1 Sept – 30 Sept</p>
+                                <a href="demo-analytics-1-analyst.html" class="btn btn-primary btn-sm">Pin to Dashboard</a>
+                            </footer>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ANALYSIS SUITE - light; template feature tabs (tabs-feature + tablist()) advance on their own while in view, a progress line running under the open tab (a click, a tap or a key stops it). Each panel: a product card and two lines. Edit: the title, the lead, each tab (icon, label), each panel's card data, title, line and link -->
+            <section id="an-suite" class="custom-section" aria-labelledby="an-suite-title">
+                <div class="container">
+                    <div class="custom-head custom-head--center">
+                        <h2 id="an-suite-title" class="custom-title" data-anim="fade-up">Every question, <span class="custom-title-soft">one workspace.</span></h2>
+                        <p class="custom-lead" data-anim="fade-up" data-anim-delay="100">Five tools on one event model, so a funnel, a cohort and an experiment always agree on the numbers.</p>
+                    </div>
+
+                    <div class="custom-suite-wrap" x-data="{ auto: true, inview: false }" :class="{ 'is-auto': auto, 'is-inview': inview }" x-intersect:enter="inview = true" x-intersect:leave="inview = false" @pointerdown="auto = false" @keydown="auto = false">
+                        <div class="tabs tabs-feature tabs-justified custom-suite-tabs" x-data="tablist()">
+                            <div class="tabs-nav gap-1 border-b border-b-(--custom-hair)" role="tablist" aria-label="Analysis tools" x-bind="list" data-anim="fade-up">
+                                <button type="button" class="tab-btn is-active" role="tab" id="an-suite-tab-1" aria-controls="an-suite-1" aria-selected="true" x-bind="tab"><i class="ph ph-funnel text-[1.5rem]" aria-hidden="true"></i>Funnels<span class="custom-suite-bar absolute h-[2px] overflow-hidden" aria-hidden="true" @animationend="select(active + 1)"></span></button>
+                                <button type="button" class="tab-btn" role="tab" id="an-suite-tab-2" aria-controls="an-suite-2" aria-selected="false" tabindex="-1" x-bind="tab"><i class="ph ph-arrows-clockwise text-[1.5rem]" aria-hidden="true"></i>Retention<span class="custom-suite-bar absolute h-[2px] overflow-hidden" aria-hidden="true" @animationend="select(active + 1)"></span></button>
+                                <button type="button" class="tab-btn" role="tab" id="an-suite-tab-3" aria-controls="an-suite-3" aria-selected="false" tabindex="-1" x-bind="tab"><i class="ph ph-path text-[1.5rem]" aria-hidden="true"></i>Journeys<span class="custom-suite-bar absolute h-[2px] overflow-hidden" aria-hidden="true" @animationend="select(active + 1)"></span></button>
+                                <button type="button" class="tab-btn" role="tab" id="an-suite-tab-4" aria-controls="an-suite-4" aria-selected="false" tabindex="-1" x-bind="tab"><i class="ph ph-squares-four text-[1.5rem]" aria-hidden="true"></i>Dashboards<span class="custom-suite-bar absolute h-[2px] overflow-hidden" aria-hidden="true" @animationend="select(active + 1)"></span></button>
+                                <button type="button" class="tab-btn" role="tab" id="an-suite-tab-5" aria-controls="an-suite-5" aria-selected="false" tabindex="-1" x-bind="tab"><i class="ph ph-flask text-[1.5rem]" aria-hidden="true"></i>Experiments<span class="custom-suite-bar absolute h-[2px] overflow-hidden" aria-hidden="true" @animationend="select(active + 1)"></span></button>
+                            </div>
+
+                            <div class="tabs-panels">
+                                <!-- Funnels -->
+                                <div class="tabs-panel is-active custom-suite-panel grid items-center" role="tabpanel" id="an-suite-1" aria-labelledby="an-suite-tab-1" x-bind="panel">
+                                    <div class="custom-ui min-w-0">
+                                        <div class="custom-ui-head">
+                                            <p class="custom-ui-title"><span class="custom-ui-glyph" aria-hidden="true"><i class="ph ph-funnel"></i></span><span>Checkout Funnel <small>Breakdown by platform · Last 30 days</small></span></p>
+                                            <span class="custom-ui-select">Platform</span>
+                                        </div>
+                                        <div class="custom-ui-body">
+                                            <div class="custom-suite-row">
+                                                <p class="custom-suite-kpi grid gap-0.5"><span class="text-[0.75rem] font-medium text-(--custom-meta)">Overall conversion</span><strong>27.4%</strong></p>
+                                                <p class="custom-suite-legend" aria-hidden="true"><span class="custom-suite-key inline-flex items-center gap-1.5">Desktop</span><span class="custom-suite-key custom-suite-key--alt inline-flex items-center gap-1.5">Mobile</span></p>
+                                            </div>
+                                            <ol class="custom-suite-funnel" role="list">
+                                                <li class="grid gap-1 min-w-0" style="--custom-a: 1; --custom-b: 1"><span class="custom-suite-cols" aria-hidden="true"><span class="flex-1 h-[calc(var(--custom-a)_*_100%)] bg-primary"></span><span class="flex-1 h-[calc(var(--custom-b)_*_100%)] bg-(--color-accent-base)"></span></span><span class="custom-suite-step overflow-hidden text-[0.8125rem] font-semibold whitespace-nowrap">Viewed Pricing</span><span class="text-[0.75rem] text-(--custom-meta) tabular-nums">100% · 100%</span></li>
+                                                <li class="grid gap-1 min-w-0" style="--custom-a: .61; --custom-b: .48"><span class="custom-suite-cols" aria-hidden="true"><span class="flex-1 h-[calc(var(--custom-a)_*_100%)] bg-primary"></span><span class="flex-1 h-[calc(var(--custom-b)_*_100%)] bg-(--color-accent-base)"></span></span><span class="custom-suite-step overflow-hidden text-[0.8125rem] font-semibold whitespace-nowrap">Started Checkout</span><span class="text-[0.75rem] text-(--custom-meta) tabular-nums">61% · 48%</span></li>
+                                                <li class="grid gap-1 min-w-0" style="--custom-a: .44; --custom-b: .29"><span class="custom-suite-cols" aria-hidden="true"><span class="flex-1 h-[calc(var(--custom-a)_*_100%)] bg-primary"></span><span class="flex-1 h-[calc(var(--custom-b)_*_100%)] bg-(--color-accent-base)"></span></span><span class="custom-suite-step overflow-hidden text-[0.8125rem] font-semibold whitespace-nowrap">Entered Payment</span><span class="text-[0.75rem] text-(--custom-meta) tabular-nums">44% · 29%</span></li>
+                                                <li class="grid gap-1 min-w-0" style="--custom-a: .34; --custom-b: .17"><span class="custom-suite-cols" aria-hidden="true"><span class="flex-1 h-[calc(var(--custom-a)_*_100%)] bg-primary"></span><span class="flex-1 h-[calc(var(--custom-b)_*_100%)] bg-(--color-accent-base)"></span></span><span class="custom-suite-step overflow-hidden text-[0.8125rem] font-semibold whitespace-nowrap">Completed</span><span class="text-[0.75rem] text-(--custom-meta) tabular-nums">34% · 17%</span></li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                    <div class="custom-suite-text grid justify-items-start gap-4">
+                                        <h3>See where every step leaks.</h3>
+                                        <p>Build a funnel from any events, split it by plan, device or campaign, and open the sessions behind a drop-off.</p>
+                                        <a href="demo-analytics-1-feature.html#funnels" class="custom-link">Explore Funnels <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+
+                                <!-- Retention -->
+                                <div class="tabs-panel custom-suite-panel grid items-center" role="tabpanel" id="an-suite-2" aria-labelledby="an-suite-tab-2" x-bind="panel">
+                                    <div class="custom-ui min-w-0">
+                                        <div class="custom-ui-head">
+                                            <p class="custom-ui-title"><span class="custom-ui-glyph" aria-hidden="true"><i class="ph ph-arrows-clockwise"></i></span><span>Weekly Retention <small>Returned and ran a query · Weekly cohorts</small></span></p>
+                                            <span class="custom-ui-select">Weekly</span>
+                                        </div>
+                                        <div class="custom-ui-body overflow-x-auto" data-lenis-prevent-touch>
+                                            <table class="custom-cohort w-full min-w-136 text-[0.75rem] tabular-nums">
+                                                <caption class="sr-only">Share of each weekly cohort still active in the weeks after sign-up</caption>
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Cohort</th>
+                                                        <th scope="col">Users</th>
+                                                        <th class="text-center" scope="col">W0</th>
+                                                        <th class="text-center" scope="col">W1</th>
+                                                        <th class="text-center" scope="col">W2</th>
+                                                        <th class="text-center" scope="col">W3</th>
+                                                        <th class="text-center" scope="col">W4</th>
+                                                        <th class="text-center" scope="col">W5</th>
+                                                        <th class="text-center" scope="col">W6</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="font-semibold text-text" scope="row">1 Sept</th>
+                                                        <td class="py-2 px-1 text-center">2,140</td>
+                                                        <td class="py-2 px-1 text-center bg-primary" style="--custom-v: 1">100%</td>
+                                                        <td class="py-2 px-1 text-center" style="--custom-v: .58">58%</td>
+                                                        <td class="py-2 px-1 text-center" style="--custom-v: .47">47%</td>
+                                                        <td class="py-2 px-1 text-center" style="--custom-v: .42">42%</td>
+                                                        <td class="py-2 px-1 text-center" style="--custom-v: .39">39%</td>
+                                                        <td class="py-2 px-1 text-center" style="--custom-v: .37">37%</td>
+                                                        <td class="py-2 px-1 text-center" style="--custom-v: .36">36%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="font-semibold text-text" scope="row">8 Sept</th>
+                                                        <td class="py-2 px-1 text-center">2,310</td>
+                                                        <td class="py-2 px-1 text-center bg-primary" style="--custom-v: 1">100%</td>
+                                                        <td class="py-2 px-1 text-center" style="--custom-v: .6">60%</td>
+                                                        <td class="py-2 px-1 text-center" style="--custom-v: .49">49%</td>
+                                                        <td class="py-2 px-1 text-center" style="--custom-v: .44">44%</td>
+                                                        <td class="py-2 px-1 text-center" style="--custom-v: .41">41%</td>
+                                                        <td class="py-2 px-1 text-center" style="--custom-v: .39">39%</td>
+                                                        <td class="py-2 px-1 text-center"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="font-semibold text-text" scope="row">15 Sept</th>
+                                                        <td class="py-2 px-1 text-center">2,265</td>
+                                                        <td class="py-2 px-1 text-center bg-primary" style="--custom-v: 1">100%</td>
+                                                        <td class="py-2 px-1 text-center" style="--custom-v: .61">61%</td>
+                                                        <td class="py-2 px-1 text-center" style="--custom-v: .51">51%</td>
+                                                        <td class="py-2 px-1 text-center" style="--custom-v: .45">45%</td>
+                                                        <td class="py-2 px-1 text-center" style="--custom-v: .42">42%</td>
+                                                        <td class="py-2 px-1 text-center"></td>
+                                                        <td class="py-2 px-1 text-center"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="font-semibold text-text" scope="row">22 Sept</th>
+                                                        <td class="py-2 px-1 text-center">2,480</td>
+                                                        <td class="py-2 px-1 text-center bg-primary" style="--custom-v: 1">100%</td>
+                                                        <td class="py-2 px-1 text-center" style="--custom-v: .63">63%</td>
+                                                        <td class="py-2 px-1 text-center" style="--custom-v: .52">52%</td>
+                                                        <td class="py-2 px-1 text-center" style="--custom-v: .47">47%</td>
+                                                        <td class="py-2 px-1 text-center"></td>
+                                                        <td class="py-2 px-1 text-center"></td>
+                                                        <td class="py-2 px-1 text-center"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="font-semibold text-text" scope="row">29 Sept</th>
+                                                        <td class="py-2 px-1 text-center">2,512</td>
+                                                        <td class="py-2 px-1 text-center bg-primary" style="--custom-v: 1">100%</td>
+                                                        <td class="py-2 px-1 text-center" style="--custom-v: .64">64%</td>
+                                                        <td class="py-2 px-1 text-center" style="--custom-v: .54">54%</td>
+                                                        <td class="py-2 px-1 text-center"></td>
+                                                        <td class="py-2 px-1 text-center"></td>
+                                                        <td class="py-2 px-1 text-center"></td>
+                                                        <td class="py-2 px-1 text-center"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="font-semibold text-text" scope="row">6 Oct</th>
+                                                        <td class="py-2 px-1 text-center">2,604</td>
+                                                        <td class="py-2 px-1 text-center bg-primary" style="--custom-v: 1">100%</td>
+                                                        <td class="py-2 px-1 text-center" style="--custom-v: .66">66%</td>
+                                                        <td class="py-2 px-1 text-center"></td>
+                                                        <td class="py-2 px-1 text-center"></td>
+                                                        <td class="py-2 px-1 text-center"></td>
+                                                        <td class="py-2 px-1 text-center"></td>
+                                                        <td class="py-2 px-1 text-center"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="custom-suite-text grid justify-items-start gap-4">
+                                        <h3>Know who comes back, and why.</h3>
+                                        <p>Cohorts by sign-up week, plan or first feature used — then save the ones that keep coming back as a segment.</p>
+                                        <a href="demo-analytics-1-feature.html#retention" class="custom-link">Explore Retention <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+
+                                <!-- Journeys -->
+                                <div class="tabs-panel custom-suite-panel grid items-center" role="tabpanel" id="an-suite-3" aria-labelledby="an-suite-tab-3" x-bind="panel">
+                                    <div class="custom-ui min-w-0">
+                                        <div class="custom-ui-head">
+                                            <p class="custom-ui-title"><span class="custom-ui-glyph" aria-hidden="true"><i class="ph ph-path"></i></span><span>Journeys <small>After sign-up · Next two steps · 12,480 users</small></span></p>
+                                            <span class="custom-ui-select">2 Steps</span>
+                                        </div>
+                                        <div class="custom-ui-body">
+                                            <div class="grid grid-cols-[minmax(0,1fr)_minmax(1.25rem,0.55fr)_minmax(0,1fr)_minmax(1.25rem,0.55fr)_minmax(0,1fr)] h-[clamp(13rem,22vw,16rem)]">
+                                                <div class="grid grid-rows-[1fr] items-center">
+                                                    <p class="custom-flow-node custom-flow-node--start bg-primary border-transparent">Signed Up <strong class="text-[0.9375rem] font-semibold tabular-nums text-on-primary">100%</strong></p>
+                                                </div>
+                                                <svg class="custom-flow-lane size-full overflow-visible" viewBox="0 0 100 300" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                                                    <path style="--custom-w: 14px" d="M0 150 C50 150 50 50 100 50" />
+                                                    <path style="--custom-w: 16px" d="M0 150 C50 150 50 150 100 150" />
+                                                    <path class="custom-flow-out" style="--custom-w: 7px" d="M0 150 C50 150 50 250 100 250" />
+                                                </svg>
+                                                <div class="grid grid-rows-3 items-center">
+                                                    <p class="custom-flow-node">Invited Team <strong class="text-[0.9375rem] font-semibold tabular-nums text-text">38%</strong></p>
+                                                    <p class="custom-flow-node">Connected Data <strong class="text-[0.9375rem] font-semibold tabular-nums text-text">44%</strong></p>
+                                                    <p class="custom-flow-node custom-flow-node--drop">Left <strong class="text-[0.9375rem] font-semibold tabular-nums text-(--custom-down)">18%</strong></p>
+                                                </div>
+                                                <svg class="custom-flow-lane size-full overflow-visible" viewBox="0 0 100 300" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                                                    <path style="--custom-w: 9px" d="M0 50 C50 50 50 150 100 150" />
+                                                    <path style="--custom-w: 5px" d="M0 50 C50 50 50 50 100 50" />
+                                                    <path style="--custom-w: 12px" d="M0 150 C50 150 50 50 100 50" />
+                                                    <path style="--custom-w: 4px" d="M0 150 C50 150 50 150 100 150" />
+                                                    <path class="custom-flow-out" style="--custom-w: 5px" d="M0 150 C50 150 50 250 100 250" />
+                                                </svg>
+                                                <div class="grid grid-rows-3 items-center">
+                                                    <p class="custom-flow-node">First Dashboard <strong class="text-[0.9375rem] font-semibold tabular-nums text-text">52%</strong></p>
+                                                    <p class="custom-flow-node">Shared Report <strong class="text-[0.9375rem] font-semibold tabular-nums text-text">31%</strong></p>
+                                                    <p class="custom-flow-node custom-flow-node--drop">Left <strong class="text-[0.9375rem] font-semibold tabular-nums text-(--custom-down)">17%</strong></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="custom-suite-text grid justify-items-start gap-4">
+                                        <h3>Follow the paths people really take.</h3>
+                                        <p>Pick any event and see what comes before and after it, so the shortcut users invented becomes the main road.</p>
+                                        <a href="demo-analytics-1-product.html#journeys" class="custom-link">Explore Journeys <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+
+                                <!-- Dashboards -->
+                                <div class="tabs-panel custom-suite-panel grid items-center" role="tabpanel" id="an-suite-4" aria-labelledby="an-suite-tab-4" x-bind="panel">
+                                    <div class="custom-ui min-w-0">
+                                        <div class="custom-ui-head">
+                                            <p class="custom-ui-title"><span class="custom-ui-glyph" aria-hidden="true"><i class="ph ph-squares-four"></i></span><span>Growth Weekly <small>Shared with 14 people · Updated hourly</small></span></p>
+                                            <span class="custom-ui-select">This Week</span>
+                                        </div>
+                                        <div class="custom-ui-body grid grid-cols-2 gap-3">
+                                            <div class="custom-tile custom-delta--up">
+                                                <p class="custom-tile-label">Weekly Active Users</p>
+                                                <p class="custom-tile-value">48,210</p>
+                                                <p class="flex items-center justify-between gap-2"><span class="custom-delta custom-delta--up"><span class="sr-only">Up </span>12%</span><svg class="custom-spark" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                        <path pathLength="1" d="M0.0 16.0 C1.0 15.7 3.9 14.2 5.8 14.0 C7.8 13.8 9.7 15.3 11.6 15.0 C13.6 14.7 15.5 12.3 17.5 12.0 C19.4 11.7 21.3 13.3 23.3 13.0 C25.2 12.7 27.2 10.3 29.1 10.0 C31.0 9.7 33.0 11.2 34.9 11.0 C36.8 10.8 38.8 9.5 40.7 9.0 C42.7 8.5 44.6 8.0 46.5 8.0 C48.5 8.0 50.4 9.3 52.4 9.0 C54.3 8.7 56.2 6.8 58.2 6.0 C60.1 5.2 63.0 4.3 64.0 4.0" />
+                                                    </svg></p>
+                                            </div>
+                                            <div class="custom-tile custom-delta--up">
+                                                <p class="custom-tile-label">Monthly Recurring Revenue</p>
+                                                <p class="custom-tile-value">$412.6k</p>
+                                                <p class="flex items-center justify-between gap-2"><span class="custom-delta custom-delta--up"><span class="sr-only">Up </span>6.4%</span><svg class="custom-spark" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                        <path pathLength="1" d="M0.0 15.0 C1.0 15.2 3.9 16.3 5.8 16.0 C7.8 15.7 9.7 13.3 11.6 13.0 C13.6 12.7 15.5 14.2 17.5 14.0 C19.4 13.8 21.3 12.3 23.3 12.0 C25.2 11.7 27.2 12.3 29.1 12.0 C31.0 11.7 33.0 10.2 34.9 10.0 C36.8 9.8 38.8 11.3 40.7 11.0 C42.7 10.7 44.6 8.7 46.5 8.0 C48.5 7.3 50.4 7.2 52.4 7.0 C54.3 6.8 56.2 7.7 58.2 7.0 C60.1 6.3 63.0 3.7 64.0 3.0" />
+                                                    </svg></p>
+                                            </div>
+                                            <div class="custom-tile">
+                                                <p class="custom-tile-label">Sessions by Day <span>Mon – Sun</span></p>
+                                                <ol class="custom-tile-bars flex items-stretch gap-2 h-18" role="list" aria-label="Sessions: Monday 31k, Tuesday 34k, Wednesday 36k, Thursday 33k, Friday 29k, Saturday 14k, Sunday 12k">
+                                                    <li style="--custom-v: .86"><span>M</span></li>
+                                                    <li style="--custom-v: .94"><span>T</span></li>
+                                                    <li style="--custom-v: 1"><span>W</span></li>
+                                                    <li style="--custom-v: .92"><span>T</span></li>
+                                                    <li style="--custom-v: .8"><span>F</span></li>
+                                                    <li style="--custom-v: .39"><span>S</span></li>
+                                                    <li style="--custom-v: .33"><span>S</span></li>
+                                                </ol>
+                                            </div>
+                                            <div class="custom-tile grid-cols-[auto_minmax(0,1fr)] gap-x-4 items-center max-sm:grid-cols-1">
+                                                <p class="custom-tile-label col-span-full">Plan Mix</p>
+                                                <div class="custom-tile-donut w-17 aspect-square" aria-hidden="true"></div>
+                                                <ul class="custom-tile-keys grid gap-1 text-[0.75rem] tabular-nums" role="list">
+                                                    <li class="flex items-center gap-1.5 whitespace-nowrap">Growth 54%</li>
+                                                    <li class="flex items-center gap-1.5 whitespace-nowrap">Free 31%</li>
+                                                    <li class="flex items-center gap-1.5 whitespace-nowrap">Enterprise 15%</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="custom-suite-text grid justify-items-start gap-4">
+                                        <h3>One page the whole company reads.</h3>
+                                        <p>Pin any chart, add a note, and send it to team chat every Monday — every number one click from its events.</p>
+                                        <a href="demo-analytics-1-product.html#dashboards" class="custom-link">Explore Dashboards <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+
+                                <!-- Experiments -->
+                                <div class="tabs-panel custom-suite-panel grid items-center" role="tabpanel" id="an-suite-5" aria-labelledby="an-suite-tab-5" x-bind="panel">
+                                    <div class="custom-ui min-w-0">
+                                        <div class="custom-ui-head">
+                                            <p class="custom-ui-title"><span class="custom-ui-glyph" aria-hidden="true"><i class="ph ph-flask"></i></span><span>Annual Toggle by Default <small>Pricing page · Running 14 days · Goal: trial → paid</small></span></p>
+                                            <span class="custom-suite-live inline-flex flex-none items-center gap-1.5 py-1 px-2.5 text-[0.75rem] font-semibold text-(--custom-up) rounded-pill">Significant</span>
+                                        </div>
+                                        <div class="custom-ui-body">
+                                            <table class="custom-ab w-full text-[0.8125rem] tabular-nums">
+                                                <caption class="sr-only">Experiment result by variant</caption>
+                                                <thead>
+                                                    <tr>
+                                                        <th class="ps-0 text-start text-[0.75rem] font-medium text-(--custom-meta)" scope="col">Variant</th>
+                                                        <th class="text-[0.75rem] font-medium text-(--custom-meta)" scope="col">Users</th>
+                                                        <th class="text-[0.75rem] font-medium text-(--custom-meta)" scope="col">Conversion</th>
+                                                        <th class="pe-0 text-[0.75rem] font-medium text-(--custom-meta)" scope="col">Uplift</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="ps-0 text-start font-semibold" scope="row"><span class="custom-ab-dot inline-block w-2 aspect-square me-2" aria-hidden="true"></span>Control</th>
+                                                        <td>8,412</td>
+                                                        <td>6.1%</td>
+                                                        <td class="pe-0">—</td>
+                                                    </tr>
+                                                    <tr class="is-winner">
+                                                        <th class="ps-0 text-start font-semibold" scope="row"><span class="custom-ab-dot inline-block w-2 aspect-square me-2" aria-hidden="true"></span>Variant B</th>
+                                                        <td>8,390</td>
+                                                        <td>7.3%</td>
+                                                        <td class="pe-0"><span class="custom-delta custom-delta--up"><span class="sr-only">Up </span>19.7%</span></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="grid gap-2 mt-5">
+                                                <p class="flex flex-wrap justify-between gap-2 text-[0.75rem] text-(--custom-meta)">Uplift, 95% interval <strong class="font-semibold text-text">+9% to +31%</strong></p>
+                                                <div class="custom-ci-track relative h-7" aria-hidden="true"><span class="absolute -inset-y-1 left-[20%] w-px bg-(--custom-meta)"></span><span class="custom-ci-range absolute inset-y-2 left-[38%] w-[44%] rounded-pill"></span><span class="custom-ci-mid absolute top-[50%] left-[59.4%] w-3 aspect-square bg-primary"></span></div>
+                                                <p class="flex justify-between text-[0.6875rem] tabular-nums text-(--custom-meta)" aria-hidden="true"><span>−10%</span><span>0</span><span>+10%</span><span>+20%</span><span>+30%</span><span>+40%</span></p>
+                                            </div>
+                                            <div class="custom-suite-row items-center mt-5 mb-0">
+                                                <p class="custom-suite-kpi grid gap-0.5"><span class="text-[0.75rem] font-medium text-(--custom-meta)">Chance to beat control</span><strong>97%</strong></p>
+                                                <span class="btn btn-primary btn-sm" aria-hidden="true">Ship Variant B</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="custom-suite-text grid justify-items-start gap-4">
+                                        <h3>Ship the winner, not the hunch.</h3>
+                                        <p>Run tests on feature flags you already use and read results on the metrics the team already trusts.</p>
+                                        <a href="demo-analytics-1-product.html#experiments" class="custom-link">Explore Experiments <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BUILT FOR EVERY TEAM - four roles on the left; the photo on the right swaps to the role under the pointer or keyboard focus (crossfade), each with a small UI chip. Edit: the title, the link, each role (number, name, line, link), each photo (src, alt) and its chip (label, figure, delta) -->
+            <section id="an-teams" class="custom-section" aria-labelledby="an-teams-title" x-data="{ role: 0 }">
+                <div class="container">
+                    <div class="custom-head custom-head--row">
+                        <h2 id="an-teams-title" class="custom-title" data-anim="fade-up">Built for every team <span class="custom-title-soft">that ships.</span></h2>
+                        <a href="demo-analytics-1-solutions.html" class="custom-link" data-anim="fade-up" data-anim-delay="100">Solutions by Team <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                    </div>
+
+                    <div class="grid gap-10 lg:gap-[clamp(3rem,6vw,6rem)] lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:items-center">
+                        <ol class="border-t border-t-(--custom-hair)" role="list" data-anim-stagger="80">
+                            <li class="border-b border-b-(--custom-hair)" data-anim="fade-up"><a href="demo-analytics-1-solutions.html#product" class="custom-teams-item is-active" :class="{ 'is-active': role === 0 }" @mouseenter="role = 0" @focus="role = 0"><span class="custom-teams-num text-[0.9375rem] font-semibold tabular-nums">01</span><span class="custom-teams-name">Product</span><span class="custom-teams-text">See which features stick and which flows leak, without queuing for a query.</span><i class="ph ph-arrow-up-right custom-teams-arrow" aria-hidden="true"></i></a></li>
+                            <li class="border-b border-b-(--custom-hair)" data-anim="fade-up"><a href="demo-analytics-1-solutions.html#growth" class="custom-teams-item" :class="{ 'is-active': role === 1 }" @mouseenter="role = 1" @focus="role = 1"><span class="custom-teams-num text-[0.9375rem] font-semibold tabular-nums">02</span><span class="custom-teams-name">Growth</span><span class="custom-teams-text">Tie every campaign to activation and revenue, not just to clicks.</span><i class="ph ph-arrow-up-right custom-teams-arrow" aria-hidden="true"></i></a></li>
+                            <li class="border-b border-b-(--custom-hair)" data-anim="fade-up"><a href="demo-analytics-1-solutions.html#data" class="custom-teams-item" :class="{ 'is-active': role === 2 }" @mouseenter="role = 2" @focus="role = 2"><span class="custom-teams-num text-[0.9375rem] font-semibold tabular-nums">03</span><span class="custom-teams-name">Data</span><span class="custom-teams-text">Model once in your warehouse; everyone else self-serves on trusted metrics.</span><i class="ph ph-arrow-up-right custom-teams-arrow" aria-hidden="true"></i></a></li>
+                            <li class="border-b border-b-(--custom-hair)" data-anim="fade-up"><a href="demo-analytics-1-solutions.html#engineering" class="custom-teams-item" :class="{ 'is-active': role === 3 }" @mouseenter="role = 3" @focus="role = 3"><span class="custom-teams-num text-[0.9375rem] font-semibold tabular-nums">04</span><span class="custom-teams-name">Engineering</span><span class="custom-teams-text">Ship behind flags, watch errors and replays, roll back in one click.</span><i class="ph ph-arrow-up-right custom-teams-arrow" aria-hidden="true"></i></a></li>
+                        </ol>
+
+                        <div class="relative grid overflow-hidden aspect-[4/3] bg-soft rounded-(--custom-radius-photo) lg:aspect-[5/6] max-lg:-order-1" data-anim="fade" data-anim-duration="1000">
+                            <figure class="custom-teams-photo is-active [grid-area:1_/_1] relative" :class="{ 'is-active': role === 0 }">
+                                <img class="size-full object-cover" src="../assets/media/placeholder/1200x1440.svg" alt="A product designer sorting research notes on a wall during a discovery session" width="1200" height="1440" loading="lazy" decoding="async">
+                                <figcaption class="custom-ui custom-teams-chip"><span class="col-span-full text-[0.75rem] font-medium text-(--custom-meta)">Feature Adoption</span><strong>64%</strong><span class="custom-delta custom-delta--up"><span class="sr-only">Up </span>9 pts</span></figcaption>
+                            </figure>
+                            <figure class="custom-teams-photo [grid-area:1_/_1] relative" :class="{ 'is-active': role === 1 }">
+                                <img class="size-full object-cover" src="../assets/media/placeholder/1200x1440.svg" alt="A growth lead and a colleague comparing campaign results on a laptop" width="1200" height="1440" loading="lazy" decoding="async">
+                                <figcaption class="custom-ui custom-teams-chip"><span class="col-span-full text-[0.75rem] font-medium text-(--custom-meta)">CAC Payback</span><strong>7.2 mo</strong><span class="custom-delta custom-delta--up"><span class="sr-only">Better by </span>1.4 mo</span></figcaption>
+                            </figure>
+                            <figure class="custom-teams-photo [grid-area:1_/_1] relative" :class="{ 'is-active': role === 2 }">
+                                <img class="size-full object-cover" src="../assets/media/placeholder/1200x1440.svg" alt="A data analyst reviewing charts across two monitors" width="1200" height="1440" loading="lazy" decoding="async">
+                                <figcaption class="custom-ui custom-teams-chip"><span class="col-span-full text-[0.75rem] font-medium text-(--custom-meta)">Warehouse Sync</span><strong>2 min ago</strong><span class="custom-teams-ok inline-flex items-center gap-1.5 text-[0.75rem] font-semibold text-(--custom-up)">Healthy</span></figcaption>
+                            </figure>
+                            <figure class="custom-teams-photo [grid-area:1_/_1] relative" :class="{ 'is-active': role === 3 }">
+                                <img class="size-full object-cover" src="../assets/media/placeholder/1200x1440.svg" alt="An engineer at a standing desk with code open on his laptop" width="1200" height="1440" loading="lazy" decoding="async">
+                                <figcaption class="custom-ui custom-teams-chip"><span class="col-span-full text-[0.75rem] font-medium text-(--custom-meta)">Error-free Sessions</span><strong>99.2%</strong><span class="custom-delta custom-delta--up"><span class="sr-only">Up </span>0.6 pts</span></figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DATA FOUNDATION - ice band; sources flow into the Framo hub and on to destinations along dotted lines that travel (still under reduced motion), then three ticks. Edit: the title, the lead, each source / destination (icon, name), the hub figure, the three ticks -->
+            <section id="an-data" class="custom-section custom-section--tint" aria-labelledby="an-data-title">
+                <div class="container">
+                    <div class="custom-head max-w-192">
+                        <p class="eyebrow" data-anim="fade-up">Data Foundation</p>
+                        <h2 id="an-data-title" class="custom-title" data-anim="fade-up" data-anim-delay="80">Your data, <span class="custom-title-soft">wherever it lives.</span></h2>
+                        <p class="custom-lead" data-anim="fade-up" data-anim-delay="160">Collect from every app, model it in your warehouse, and send clean audiences back to the tools your teams already use.</p>
+                    </div>
+
+                    <div class="custom-data-flow min-[900px]:grid-cols-[minmax(0,1fr)_minmax(3rem,0.9fr)_auto_minmax(3rem,0.9fr)_minmax(0,1fr)] min-[900px]:gap-0" data-anim="fade-up" data-anim-delay="120">
+                        <div class="grid grid-rows-[auto_1fr] gap-4 min-w-0">
+                            <p class="text-[0.8125rem] font-semibold leading-[1.25rem] tracking-[0.12em] uppercase text-(--custom-meta)">Sources</p>
+                            <ul class="grid grid-cols-2 gap-3 min-[900px]:grid-cols-1 min-[900px]:gap-0 min-[900px]:auto-rows-[1fr]" role="list">
+                                <li class="custom-data-node min-[900px]:my-1.5"><span class="custom-data-glyph" aria-hidden="true"><i class="ph ph-browser"></i></span>Web SDK</li>
+                                <li class="custom-data-node min-[900px]:my-1.5"><span class="custom-data-glyph" aria-hidden="true"><i class="ph ph-apple-logo"></i></span>iOS</li>
+                                <li class="custom-data-node min-[900px]:my-1.5"><span class="custom-data-glyph" aria-hidden="true"><i class="ph ph-android-logo"></i></span>Android</li>
+                                <li class="custom-data-node min-[900px]:my-1.5"><span class="custom-data-glyph" aria-hidden="true"><i class="ph ph-hard-drives"></i></span>Server</li>
+                                <li class="custom-data-node min-[900px]:my-1.5"><span class="custom-data-glyph" aria-hidden="true"><i class="ph ph-database"></i></span>Data Warehouse</li>
+                                <li class="custom-data-node min-[900px]:my-1.5"><span class="custom-data-glyph" aria-hidden="true"><i class="ph ph-users-three"></i></span>CDP</li>
+                            </ul>
+                        </div>
+                        <svg class="custom-data-lane hidden w-full h-[calc(100%_-_var(--custom-label))] mt-(--custom-label) overflow-visible min-[900px]:block" viewBox="0 0 100 600" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                            <path d="M0 50 C55 50 45 300 100 300" />
+                            <path d="M0 150 C55 150 45 300 100 300" />
+                            <path d="M0 250 C55 250 45 300 100 300" />
+                            <path d="M0 350 C55 350 45 300 100 300" />
+                            <path d="M0 450 C55 450 45 300 100 300" />
+                            <path d="M0 550 C55 550 45 300 100 300" />
+                        </svg>
+                        <div class="custom-data-hub grid place-items-center py-10 min-[900px]:p-0 min-[900px]:mt-(--custom-label)">
+                            <div class="custom-ui custom-ui--ink custom-data-core grid justify-items-center gap-1.5 w-52 py-6 px-5 text-center">
+                                <span class="custom-data-mark grid place-items-center w-12 aspect-square mb-1.5 text-[1.375rem] text-on-primary" aria-hidden="true"><i class="ph-bold ph-chart-line-up"></i></span>
+                                <p class="font-heading text-[1.5rem] font-semibold tracking-[-0.02em]">Framo</p>
+                                <p class="inline-flex items-center gap-2 text-[0.75rem] font-medium text-(--custom-meta)"><span class="custom-data-live flex-none w-2 aspect-square bg-(--color-accent-base)" aria-hidden="true"></span>5.6M events a minute</p>
+                            </div>
+                        </div>
+                        <svg class="custom-data-lane hidden w-full h-[calc(100%_-_var(--custom-label))] mt-(--custom-label) overflow-visible min-[900px]:block" viewBox="0 0 100 400" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                            <path d="M0 200 C55 200 45 50 100 50" />
+                            <path d="M0 200 C55 200 45 150 100 150" />
+                            <path d="M0 200 C55 200 45 250 100 250" />
+                            <path d="M0 200 C55 200 45 350 100 350" />
+                        </svg>
+                        <div class="grid grid-rows-[auto_1fr] gap-4 min-w-0">
+                            <p class="text-[0.8125rem] font-semibold leading-[1.25rem] tracking-[0.12em] uppercase text-(--custom-meta)">Destinations</p>
+                            <ul class="grid grid-cols-2 gap-3 min-[900px]:grid-cols-1 min-[900px]:gap-0 min-[900px]:auto-rows-[1fr]" role="list">
+                                <li class="custom-data-node min-[900px]:my-1.5"><span class="custom-data-glyph" aria-hidden="true"><i class="ph ph-address-book"></i></span>CRM</li>
+                                <li class="custom-data-node min-[900px]:my-1.5"><span class="custom-data-glyph" aria-hidden="true"><i class="ph ph-megaphone-simple"></i></span>Ad Platforms</li>
+                                <li class="custom-data-node min-[900px]:my-1.5"><span class="custom-data-glyph" aria-hidden="true"><i class="ph ph-chat-circle-dots"></i></span>Messaging</li>
+                                <li class="custom-data-node min-[900px]:my-1.5"><span class="custom-data-glyph" aria-hidden="true"><i class="ph ph-database"></i></span>Data Warehouse</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <ul class="check-list check-list--primary custom-data-ticks md:grid-cols-3" role="list" data-anim-stagger="90">
+                        <li data-anim="fade-up"><i class="ph ph-check-circle mt-0.5 text-[1.375rem]" aria-hidden="true"></i><span><strong>Autocapture</strong> Clicks, pages and forms tracked from day one, no tagging sprint.</span></li>
+                        <li data-anim="fade-up"><i class="ph ph-check-circle mt-0.5 text-[1.375rem]" aria-hidden="true"></i><span><strong>Identity Resolution</strong> One person across web, app and server, before and after login.</span></li>
+                        <li data-anim="fade-up"><i class="ph ph-check-circle mt-0.5 text-[1.375rem]" aria-hidden="true"></i><span><strong>Data Dictionary</strong> Every event named, owned and described, so nobody guesses.</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- METRICS BAND - navy; four figures (template counters) sat on one trend line that draws in under them (template svg-draw), with the as-at note. Edit: each figure (data-counter, prefix / suffix, label), the marker heights (--custom-y, and the path), the note -->
+            <section id="an-metrics" class="custom-section custom-section--ink custom-metrics" aria-labelledby="an-metrics-title">
+                <div class="container">
+                    <h2 id="an-metrics-title" class="sr-only">Framo Analytics in numbers</h2>
+                    <div class="relative">
+                        <dl class="relative z-1 grid grid-cols-2 gap-y-12 lg:grid-cols-4" data-anim-stagger="100">
+                            <div class="custom-metrics-item" data-anim="fade-up">
+                                <dt class="text-[1rem] text-(--custom-on-ink-soft)">Events a month</dt>
+                                <dd class="custom-figure text-(--custom-on-ink)"><span data-counter="240">240</span><span class="custom-figure-unit">B</span></dd>
+                            </div>
+                            <div class="custom-metrics-item" data-anim="fade-up">
+                                <dt class="text-[1rem] text-(--custom-on-ink-soft)">Product teams</dt>
+                                <dd class="custom-figure text-(--custom-on-ink)"><span data-counter="18000">18,000</span></dd>
+                            </div>
+                            <div class="custom-metrics-item" data-anim="fade-up">
+                                <dt class="text-[1rem] text-(--custom-on-ink-soft)">Median query</dt>
+                                <dd class="custom-figure text-(--custom-on-ink)"><span class="custom-figure-unit">&lt;</span>1<span class="custom-figure-unit">&#8239;s</span></dd>
+                            </div>
+                            <div class="custom-metrics-item" data-anim="fade-up">
+                                <dt class="text-[1rem] text-(--custom-on-ink-soft)">Uptime</dt>
+                                <dd class="custom-figure text-(--custom-on-ink)"><span data-counter="99.99">99.99</span><span class="custom-figure-unit">%</span></dd>
+                            </div>
+                        </dl>
+                        <div class="relative h-[clamp(5rem,9vw,8rem)] mt-[clamp(2rem,4vw,3rem)]" aria-hidden="true">
+                            <svg class="svg-draw size-full overflow-visible" data-anim viewBox="0 0 1000 100" preserveAspectRatio="none" focusable="false">
+                                <path class="custom-metrics-line" pathLength="1" d="M0.0 88.0 C20.8 85.0 83.3 72.3 125.0 70.0 C166.7 67.7 208.3 77.3 250.0 74.0 C291.7 70.7 333.3 53.0 375.0 50.0 C416.7 47.0 458.3 58.5 500.0 56.0 C541.7 53.5 583.3 37.8 625.0 35.0 C666.7 32.2 708.3 41.8 750.0 39.0 C791.7 36.2 833.3 22.8 875.0 18.0 C916.7 13.2 979.2 11.3 1000.0 10.0" />
+                            </svg>
+                            <span class="custom-metrics-dot" style="--custom-x: 12.5%; --custom-y: 70%"></span>
+                            <span class="custom-metrics-dot" style="--custom-x: 37.5%; --custom-y: 50%"></span>
+                            <span class="custom-metrics-dot" style="--custom-x: 62.5%; --custom-y: 35%"></span>
+                            <span class="custom-metrics-dot" style="--custom-x: 87.5%; --custom-y: 18%"></span>
+                        </div>
+                    </div>
+                    <p class="custom-small mt-6">Last 12 months to 30 Sept 2026.</p>
+                </div>
+            </section>
+
+            <!-- INSTALL - light split; three numbered steps on the left, a desk photo with the code card (template code-block + copy button; tablist() switches JavaScript · iOS · Python · MCP) over its lower edge. Edit: the title, the lead, each step, the photo, each snippet (keep the highlight spans or drop them) -->
+            <section id="an-install" class="custom-section" aria-labelledby="an-install-title">
+                <div class="container grid gap-[clamp(3rem,6vw,5rem)] lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:items-center">
+                    <div class="grid justify-items-start gap-5 min-w-0">
+                        <p class="eyebrow" data-anim="fade-up">Install</p>
+                        <h2 id="an-install-title" class="custom-title" data-anim="fade-up" data-anim-delay="80">Live in <span class="custom-title-soft">five minutes.</span></h2>
+                        <p class="custom-lead" data-anim="fade-up" data-anim-delay="160">One snippet, autocapture on, and your first chart before the coffee cools.</p>
+                        <ol class="custom-install-steps" role="list" data-anim-stagger="100">
+                            <li data-anim="fade-up"><span class="custom-install-num">1</span>
+                                <div>
+                                    <h3>Install the SDK</h3>
+                                    <p>npm, Swift, Python or one script tag — or point Framo at your warehouse instead.</p>
+                                </div>
+                            </li>
+                            <li data-anim="fade-up"><span class="custom-install-num">2</span>
+                                <div>
+                                    <h3>Ship one event</h3>
+                                    <p>Track the moment that matters most, like a shared report; autocapture handles the rest.</p>
+                                </div>
+                            </li>
+                            <li data-anim="fade-up"><span class="custom-install-num">3</span>
+                                <div>
+                                    <h3>Ask your first question</h3>
+                                    <p>Open Framo Analyst and ask where new users stall. The answer comes with its events.</p>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="relative grid min-w-0">
+                        <figure class="w-full ml-0 overflow-hidden aspect-[4/3] bg-soft rounded-(--custom-radius-photo) sm:w-[76%] sm:ml-auto" data-anim="fade" data-anim-duration="1000">
+                            <img class="size-full object-cover" src="../assets/media/placeholder/1200x900.svg" alt="A laptop with code open beside a notebook on an engineer's desk" width="1200" height="900" loading="lazy" decoding="async">
+                        </figure>
+                        <div class="custom-code sm:w-[min(100%,34rem)] sm:-mt-36 sm:mb-0 sm:mx-0" x-data="tablist()" data-anim="fade-up" data-anim-delay="150">
+                            <div class="flex items-center justify-between gap-3 py-2 pr-4 pl-2 border-b border-b-(--custom-line-ink)">
+                                <div class="custom-code-tabs flex gap-0.5 min-w-0 overflow-x-auto" role="tablist" aria-label="Language" x-bind="list">
+                                    <button type="button" class="is-active" role="tab" id="an-code-tab-js" aria-controls="an-code-js" aria-selected="true" x-bind="tab">JavaScript</button>
+                                    <button type="button" role="tab" id="an-code-tab-ios" aria-controls="an-code-ios" aria-selected="false" tabindex="-1" x-bind="tab">iOS</button>
+                                    <button type="button" role="tab" id="an-code-tab-py" aria-controls="an-code-py" aria-selected="false" tabindex="-1" x-bind="tab">Python</button>
+                                    <button type="button" role="tab" id="an-code-tab-mcp" aria-controls="an-code-mcp" aria-selected="false" tabindex="-1" x-bind="tab">MCP</button>
+                                </div>
+                                <span class="custom-ui-dots" aria-hidden="true"></span>
+                            </div>
+                            <div class="grid">
+                                <div class="code-block custom-code-panel is-active [grid-area:1_/_1] min-w-0" data-code-block role="tabpanel" id="an-code-js" aria-labelledby="an-code-tab-js" x-bind="panel" data-lenis-prevent-touch>
+                                    <pre><code><span class="custom-c-cm">// npm install @framo/analytics</span>
+<span class="custom-c-kw">import</span> { framo } <span class="custom-c-kw">from</span> <span class="custom-c-st">'@framo/analytics'</span>
+
+framo.<span class="text-white">init</span>(<span class="custom-c-st">'nx_live_4f8c2e91'</span>, { autocapture: <span class="custom-c-kw">true</span> })
+
+framo.<span class="text-white">identify</span>(user.id, { plan: <span class="custom-c-st">'growth'</span> })
+framo.<span class="text-white">track</span>(<span class="custom-c-st">'report_shared'</span>, {
+  report_id: <span class="custom-c-st">'rpt_0193'</span>,
+  channel: <span class="custom-c-st">'link'</span>,
+})</code></pre>
+                                    <button class="code-copy" data-copy type="button" aria-label="Copy the JavaScript snippet"><i class="ph ph-copy" aria-hidden="true"></i><span data-copy-label>Copy</span></button>
+                                </div>
+                                <div class="code-block custom-code-panel [grid-area:1_/_1] min-w-0" data-code-block role="tabpanel" id="an-code-ios" aria-labelledby="an-code-tab-ios" x-bind="panel" data-lenis-prevent-touch>
+                                    <pre><code><span class="custom-c-cm">// Swift Package: github.com/framo/analytics-ios</span>
+<span class="custom-c-kw">import</span> FramoAnalytics
+
+<span class="custom-c-kw">let</span> framo = <span class="text-white">Framo</span>(apiKey: <span class="custom-c-st">"nx_live_4f8c2e91"</span>)
+
+framo.<span class="text-white">identify</span>(user.id, traits: [<span class="custom-c-st">"plan"</span>: <span class="custom-c-st">"growth"</span>])
+framo.<span class="text-white">track</span>(<span class="custom-c-st">"report_shared"</span>, properties: [
+  <span class="custom-c-st">"report_id"</span>: <span class="custom-c-st">"rpt_0193"</span>,
+  <span class="custom-c-st">"channel"</span>: <span class="custom-c-st">"link"</span>,
+])</code></pre>
+                                    <button class="code-copy" data-copy type="button" aria-label="Copy the iOS snippet"><i class="ph ph-copy" aria-hidden="true"></i><span data-copy-label>Copy</span></button>
+                                </div>
+                                <div class="code-block custom-code-panel [grid-area:1_/_1] min-w-0" data-code-block role="tabpanel" id="an-code-py" aria-labelledby="an-code-tab-py" x-bind="panel" data-lenis-prevent-touch>
+                                    <pre><code><span class="custom-c-cm"># pip install framo-analytics</span>
+<span class="custom-c-kw">from</span> framo <span class="custom-c-kw">import</span> Framo
+
+framo = <span class="text-white">Framo</span>(<span class="custom-c-st">"nx_live_4f8c2e91"</span>)
+
+framo.<span class="text-white">track</span>(
+    user_id=<span class="custom-c-st">"u_8812"</span>,
+    event=<span class="custom-c-st">"invoice_paid"</span>,
+    properties={<span class="custom-c-st">"amount"</span>: <span class="custom-c-nu">240</span>, <span class="custom-c-st">"currency"</span>: <span class="custom-c-st">"USD"</span>},
+)</code></pre>
+                                    <button class="code-copy" data-copy type="button" aria-label="Copy the Python snippet"><i class="ph ph-copy" aria-hidden="true"></i><span data-copy-label>Copy</span></button>
+                                </div>
+                                <div class="code-block custom-code-panel [grid-area:1_/_1] min-w-0" data-code-block role="tabpanel" id="an-code-mcp" aria-labelledby="an-code-tab-mcp" x-bind="panel" data-lenis-prevent-touch>
+                                    <pre><code><span class="custom-c-cm">// Your AI assistant's MCP config</span>
+{
+  <span class="custom-c-st">"mcpServers"</span>: {
+    <span class="custom-c-st">"framo"</span>: {
+      <span class="custom-c-st">"command"</span>: <span class="custom-c-st">"npx"</span>,
+      <span class="custom-c-st">"args"</span>: [<span class="custom-c-st">"-y"</span>, <span class="custom-c-st">"@framo/mcp-server"</span>],
+      <span class="custom-c-st">"env"</span>: { <span class="custom-c-st">"FRAMO_API_KEY"</span>: <span class="custom-c-st">"nx_live_4f8c2e91"</span> }
+    }
+  }
+}</code></pre>
+                                    <button class="code-copy" data-copy type="button" aria-label="Copy the MCP config"><i class="ph ph-copy" aria-hidden="true"></i><span data-copy-label>Copy</span></button>
+                                </div>
+                            </div>
+                            <p class="custom-code-foot flex items-center gap-2.5 py-3 px-5 text-[0.75rem] font-medium border-t border-t-(--custom-line-ink)"><span class="custom-data-live flex-none w-2 aspect-square bg-(--color-accent-base)" aria-hidden="true"></span>Listening for your first event…</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CUSTOMER STORIES - three tall photo cards (wordmark on the photo, outcome panel at its foot), then one wide quote card. Edit: the title, the link, each story (photo src / alt, wordmark, figure, label, line, link), the quote, the person (avatar, name, role, company) and the quote's figure -->
+            <section id="an-stories" class="custom-section" aria-labelledby="an-stories-title">
+                <div class="container">
+                    <div class="custom-head custom-head--row">
+                        <h2 id="an-stories-title" class="custom-title" data-anim="fade-up">Teams that found <span class="custom-title-soft">their next move.</span></h2>
+                        <a href="demo-analytics-1-customers.html" class="custom-link" data-anim="fade-up" data-anim-delay="100">All Customer Stories <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                    </div>
+
+                    <ul class="custom-stories-grid md:grid-cols-3 md:gap-6" role="list" data-anim-stagger="100">
+                        <li data-anim="fade-up">
+                            <a href="demo-analytics-1-customer-story.html" class="custom-story">
+                                <img src="../assets/media/placeholder/1200x1600.svg" alt="Fernway's product team working along a long table in a bright studio" width="1200" height="1600" loading="lazy" decoding="async">
+                                <span class="custom-story-brand"><i class="ph-fill ph-leaf" aria-hidden="true"></i>fernway</span>
+                                <span class="custom-story-panel">
+                                    <span class="custom-story-figure">+31%</span>
+                                    <span class="custom-story-label">activation in two quarters</span>
+                                    <span class="custom-story-text">Rebuilt onboarding around the three events that predict a paying team.</span>
+                                    <i class="ph ph-arrow-up-right custom-story-arrow" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li data-anim="fade-up">
+                            <a href="demo-analytics-1-customer-story.html" class="custom-story">
+                                <img src="../assets/media/placeholder/1200x1600.svg" alt="Northgate's team reviewing a churn dashboard together on a wall screen" width="1200" height="1600" loading="lazy" decoding="async" style="--custom-pos: 38% 50%">
+                                <span class="custom-story-brand custom-story-brand--caps">Northgate</span>
+                                <span class="custom-story-panel">
+                                    <span class="custom-story-figure">−18%</span>
+                                    <span class="custom-story-label">monthly churn</span>
+                                    <span class="custom-story-text">Spotted the churn signal in the driver app two weeks before cancellations.</span>
+                                    <i class="ph ph-arrow-up-right custom-story-arrow" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li data-anim="fade-up">
+                            <a href="demo-analytics-1-customer-story.html" class="custom-story">
+                                <img src="../assets/media/placeholder/1200x1600.svg" alt="Quillo product managers working side by side on laptops" width="1200" height="1600" loading="lazy" decoding="async">
+                                <span class="custom-story-brand"><i class="ph-fill ph-circle-half" aria-hidden="true"></i>Quillo</span>
+                                <span class="custom-story-panel">
+                                    <span class="custom-story-figure">4×</span>
+                                    <span class="custom-story-label">faster answers</span>
+                                    <span class="custom-story-text">PMs answer their own questions; the data team builds models again.</span>
+                                    <i class="ph ph-arrow-up-right custom-story-arrow" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <figure class="custom-quote lg:grid-cols-[minmax(0,1fr)_16rem] lg:gap-x-16" data-anim="fade-up">
+                        <blockquote class="custom-quote-text">
+                            <p>We used to wait a sprint for an answer from the data team. Now the PM asks Framo Analyst, checks the events it used, and we ship on Thursday.</p>
+                        </blockquote>
+                        <figcaption class="custom-quote-by flex items-center gap-3.5">
+                            <img class="size-12 object-cover" src="../assets/media/placeholder/800x800.svg" alt="" width="800" height="800" loading="lazy" decoding="async">
+                            <span><strong class="block font-semibold text-text">Freya Collins</strong> VP Product, Marlow Health</span>
+                        </figcaption>
+                        <div class="custom-quote-stat grid content-center gap-2 lg:col-[2] lg:row-[1_/_span_2] lg:ps-12 lg:border-s lg:border-s-(--custom-hair)">
+                            <p class="custom-figure">11<span class="custom-figure-unit">&#8239;days</span></p>
+                            <p class="custom-small">from question to shipped change, down from 34</p>
+                        </div>
+                    </figure>
+                </div>
+            </section>
+
+            <!-- SECURITY - light; a navy inset card with the claim, a drawn shield and six line-icon items. Edit: the title, the line, the Trust Centre link, each item (icon, title, line) -->
+            <section id="an-security" class="custom-section" aria-labelledby="an-security-title">
+                <div class="container">
+                    <div class="custom-security-card relative isolate grid overflow-clip p-[clamp(2rem,5vw,4.5rem)] text-(--custom-on-ink-soft)" data-anim="fade-up">
+                        <div class="grid justify-items-start gap-5">
+                            <svg class="custom-security-shield svg-draw w-18 h-auto mb-2 overflow-visible" data-anim viewBox="0 0 120 140" aria-hidden="true" focusable="false">
+                                <path pathLength="1" d="M60 6 L108 24 V64 C108 98 86 122 60 134 C34 122 12 98 12 64 V24 Z" />
+                                <path pathLength="1" d="M60 22 L94 35 V64 C94 89 79 107 60 117 C41 107 26 89 26 64 V35 Z" />
+                                <path pathLength="1" style="--draw-delay: 1s" d="M42 68 L55 81 L80 54" />
+                            </svg>
+                            <p class="eyebrow text-(--color-accent-base)">Security</p>
+                            <h2 id="an-security-title" class="custom-title text-(--custom-on-ink)">Enterprise-grade <span class="custom-title-soft">from day one.</span></h2>
+                            <p class="custom-lead">Encrypted in transit and at rest, kept in the region you choose, and never used to train a model.</p>
+                            <a href="demo-analytics-1-about.html" class="btn btn-outline-light">Visit the Trust Centre <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
+                        </div>
+                        <ul class="custom-security-list grid sm:grid-cols-2 sm:gap-x-10" role="list">
+                            <li><i class="ph ph-seal-check" aria-hidden="true"></i>
+                                <h3 class="text-(--custom-on-ink)">SOC 2 Type II</h3>
+                                <p>Audited every year by an independent firm.</p>
+                            </li>
+                            <li><i class="ph ph-certificate" aria-hidden="true"></i>
+                                <h3 class="text-(--custom-on-ink)">ISO 27001</h3>
+                                <p>Certified information security management.</p>
+                            </li>
+                            <li><i class="ph ph-globe-hemisphere-west" aria-hidden="true"></i>
+                                <h3 class="text-(--custom-on-ink)">GDPR &amp; EU Data Residency</h3>
+                                <p>Keep every event in the EU if you choose.</p>
+                            </li>
+                            <li><i class="ph ph-key" aria-hidden="true"></i>
+                                <h3 class="text-(--custom-on-ink)">SSO &amp; SCIM</h3>
+                                <p>Any SAML provider, with automatic provisioning.</p>
+                            </li>
+                            <li><i class="ph ph-users-three" aria-hidden="true"></i>
+                                <h3 class="text-(--custom-on-ink)">Role-Based Access</h3>
+                                <p>Decide who sees revenue, personal data and raw events.</p>
+                            </li>
+                            <li><i class="ph ph-eraser" aria-hidden="true"></i>
+                                <h3 class="text-(--custom-on-ink)">Data Deletion API</h3>
+                                <p>Erase a person everywhere with one call.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PRICING - template pricing cards + billing toggle (annual saves 20%); on Growth an events slider (inline Alpine, the pricing-plans calculator pattern: data-tier-price, data-price-maths) sets the price. Static state without JS: monthly, 1M events, $25. Edit: the title, the lead, each plan (name, line, price, features, action), the slider steps (tiers) and monthly prices (m), the note -->
+            <section id="an-pricing" class="custom-section" aria-labelledby="an-pricing-title" x-data="{ annual: false, step: 0, tiers: ['1M', '2M', '5M', '10M', '20M', '50M', '100M'], m: [25, 45, 95, 160, 290, 590, 990],
+                get price() { return this.annual ? Math.round(this.m[this.step] * 0.8) : this.m[this.step] },
+                fmt(n) { return n.toLocaleString('en-US') } }">
+                <div class="container">
+                    <div class="custom-head custom-head--center">
+                        <h2 id="an-pricing-title" class="custom-title" data-anim="fade-up">Start free. <span class="custom-title-soft">Pay as you grow.</span></h2>
+                        <div class="pricing-billing mt-3 bg-(--custom-surface)" data-anim="fade-up" data-anim-delay="100">
+                            <button type="button" class="pricing-billing-label is-active text-[1rem]" :class="{ 'is-active': !annual }" @click="annual = false">Monthly</button>
+                            <label class="form-toggle">
+                                <input type="checkbox" x-model="annual" aria-label="Annual billing">
+                                <span class="form-toggle-track"><span class="form-toggle-thumb"></span></span>
+                            </label>
+                            <button type="button" class="pricing-billing-label text-[1rem]" :class="{ 'is-active': annual }" @click="annual = true">Annual</button>
+                            <span class="custom-pricing-save py-1 px-2.5 text-[0.8125rem] font-semibold text-(--custom-up) rounded-pill">Save 20%</span>
+                        </div>
+                    </div>
+
+                    <div class="grid gap-6 max-w-288 mx-auto pt-3 lg:grid-cols-3" data-anim-stagger="100">
+                        <div class="pricing-card pricing-card--bordered custom-pricing-card bg-(--custom-surface) rounded-(--custom-radius-photo)" data-tier="free" data-anim="fade-up">
+                            <span class="pricing-plan font-heading text-[1.5rem] font-semibold">Free</span>
+                            <p class="pricing-desc">For a side project or a first look at your funnel.</p>
+                            <div class="pricing-price"><span class="pricing-currency">$</span><span class="pricing-amount font-heading font-semibold">0</span><span class="pricing-period text-[1rem]">/ month</span></div>
+                            <p class="custom-pricing-sub">Free forever, no card</p>
+                            <hr class="pricing-divider">
+                            <ul class="pricing-features">
+                                <li class="pricing-feature text-[1rem]"><i class="pricing-feature-icon ph ph-check" aria-hidden="true"></i>1M events a month</li>
+                                <li class="pricing-feature text-[1rem]"><i class="pricing-feature-icon ph ph-check" aria-hidden="true"></i>5 saved reports</li>
+                                <li class="pricing-feature text-[1rem]"><i class="pricing-feature-icon ph ph-check" aria-hidden="true"></i>1-year history</li>
+                                <li class="pricing-feature text-[1rem]"><i class="pricing-feature-icon ph ph-check" aria-hidden="true"></i>Community support</li>
+                            </ul>
+                            <div class="pricing-cta"><a href="demo-analytics-1-pricing.html" class="btn btn-outline-dark btn-block">Start Free</a></div>
+                        </div>
+
+                        <div class="pricing-card pricing-card--featured pricing-card--filled pricing-card--secondary custom-pricing-card custom-pricing-card--growth bg-(--custom-ink) rounded-(--custom-radius-photo)" data-tier="growth" data-anim="fade-up">
+                            <span class="pricing-popular text-on-primary bg-primary">Most Popular</span>
+                            <span class="pricing-plan font-heading text-[1.5rem] font-semibold">Growth</span>
+                            <p class="pricing-desc">For product teams who ask questions every day.</p>
+                            <div class="pricing-price" aria-live="polite"><span class="pricing-period text-[1rem] self-center me-1">from</span><span class="pricing-currency">$</span><span class="pricing-amount font-heading font-semibold" data-tier-price x-text="fmt(price)">25</span><span class="pricing-period text-[1rem]">/ month</span></div>
+                            <p class="custom-pricing-sub" data-price-maths x-text="annual ? tiers[step] + ' events a month · $' + fmt(price * 12) + ' billed yearly' : tiers[step] + ' events a month · billed monthly'">1M events a month · billed monthly</p>
+                            <div class="custom-pricing-range grid gap-2 mt-5 pt-4 pb-3 px-4">
+                                <div class="custom-pricing-range-head flex items-baseline justify-between gap-4">
+                                    <label class="text-[1rem]" for="an-pricing-events">Events a month</label>
+                                    <output class="text-[1.125rem] font-semibold tabular-nums text-white" for="an-pricing-events" x-text="tiers[step]">1M</output>
+                                </div>
+                                <input id="an-pricing-events" type="range" min="0" max="6" step="1" value="0" class="form-range custom-pricing-slider h-5 bg-transparent" x-model.number="step" :style="{ '--custom-fill': (step / 6 * 100) + '%' }" :aria-valuetext="tiers[step] + ' events a month'">
+                                <p class="custom-pricing-ticks flex justify-between text-[0.75rem]" aria-hidden="true"><span>1M</span><span>10M</span><span>100M</span></p>
+                            </div>
+                            <hr class="pricing-divider">
+                            <ul class="pricing-features">
+                                <li class="pricing-feature text-[1rem]"><i class="pricing-feature-icon ph ph-check text-(--color-accent-base)" aria-hidden="true"></i>Unlimited saved reports</li>
+                                <li class="pricing-feature text-[1rem]"><i class="pricing-feature-icon ph ph-check text-(--color-accent-base)" aria-hidden="true"></i>Framo Analyst</li>
+                                <li class="pricing-feature text-[1rem]"><i class="pricing-feature-icon ph ph-check text-(--color-accent-base)" aria-hidden="true"></i>2-year history</li>
+                                <li class="pricing-feature text-[1rem]"><i class="pricing-feature-icon ph ph-check text-(--color-accent-base)" aria-hidden="true"></i>Experiments and session replay</li>
+                            </ul>
+                            <div class="pricing-cta"><a href="demo-analytics-1-pricing.html" class="btn btn-primary btn-block">Start a Growth Trial</a></div>
+                        </div>
+
+                        <div class="pricing-card pricing-card--bordered custom-pricing-card bg-(--custom-surface) rounded-(--custom-radius-photo)" data-tier="enterprise" data-anim="fade-up">
+                            <span class="pricing-plan font-heading text-[1.5rem] font-semibold">Enterprise</span>
+                            <p class="pricing-desc">For companies with governance, security reviews and scale.</p>
+                            <div class="pricing-price"><span class="pricing-amount font-heading font-semibold text-[2.75rem] tracking-[-0.024em]">Custom</span></div>
+                            <p class="custom-pricing-sub">Annual contract, volume pricing</p>
+                            <hr class="pricing-divider">
+                            <ul class="pricing-features">
+                                <li class="pricing-feature text-[1rem]"><i class="pricing-feature-icon ph ph-check" aria-hidden="true"></i>SSO &amp; SCIM</li>
+                                <li class="pricing-feature text-[1rem]"><i class="pricing-feature-icon ph ph-check" aria-hidden="true"></i>Data governance and audit log</li>
+                                <li class="pricing-feature text-[1rem]"><i class="pricing-feature-icon ph ph-check" aria-hidden="true"></i>HIPAA and a 99.99% SLA</li>
+                                <li class="pricing-feature text-[1rem]"><i class="pricing-feature-icon ph ph-check" aria-hidden="true"></i>Dedicated success manager</li>
+                            </ul>
+                            <div class="pricing-cta"><a href="demo-analytics-1-contact.html" class="btn btn-outline-dark btn-block">Talk to Sales</a></div>
+                        </div>
+                    </div>
+
+                    <p class="flex items-center justify-center gap-2 mt-11 text-[1.0625rem] text-soft" data-anim="fade-up"><i class="ph ph-users-three text-[1.25rem] text-primary-ink" aria-hidden="true"></i>Unlimited seats on every plan.</p>
+                </div>
+            </section>
+
+            <!-- FAQ - split; the title, a line and an office photo with the support lead's card on the left, the template accordion (accordion-filled) on the right. Edit: the title, the line, the photo, the person (avatar, name, role, reply time), the action, each question and answer -->
+            <section id="an-faq" class="custom-section" aria-labelledby="an-faq-title">
+                <div class="container custom-faq-grid grid">
+                    <div class="grid justify-items-start gap-5 min-w-0">
+                        <h2 id="an-faq-title" class="custom-title" data-anim="fade-up">Questions, <span class="custom-title-soft">answered.</span></h2>
+                        <p class="custom-lead" data-anim="fade-up" data-anim-delay="80">Straight answers from the people who run support. Ask anything else — a human replies.</p>
+                        <figure class="relative w-full mt-4 overflow-hidden aspect-[4/3] bg-soft rounded-(--custom-radius-photo)" data-anim="fade" data-anim-duration="1000">
+                            <img class="size-full object-cover" src="../assets/media/placeholder/1200x900.svg" alt="The Framo support team's bright open office with plants by the windows" width="1200" height="900" loading="lazy" decoding="async">
+                            <figcaption class="custom-ui custom-faq-person absolute flex flex-wrap items-center gap-3 p-3">
+                                <img class="flex-none size-11 object-cover" src="../assets/media/placeholder/160x160.svg" alt="" width="80" height="80" loading="lazy" decoding="async">
+                                <span class="flex-1 min-w-36 text-[0.875rem] leading-[1.4] text-(--custom-meta)"><strong class="block text-[1rem] font-semibold text-text">Tom Ashby</strong> Support Lead · replies within 2 h</span>
+                                <a href="demo-analytics-1-contact.html" class="btn btn-primary btn-sm">Talk to Us</a>
+                            </figcaption>
+                        </figure>
+                    </div>
+
+                    <div class="accordion accordion-filled custom-faq-list" x-data="{ open: 1 }" data-anim="fade-up" data-anim-delay="120">
+                        <div class="accordion-item">
+                            <button type="button" class="accordion-trigger is-open" :class="{ 'is-open': open === 1 }" @click="open = open === 1 ? null : 1" :aria-expanded="open === 1" aria-expanded="true">
+                                What counts as an event?
+                                <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                    <polyline points="6 9 12 15 18 9" />
+                                </svg>
+                            </button>
+                            <div class="accordion-body is-open" :class="{ 'is-open': open === 1 }">
+                                <div>Any action you track or we autocapture — a page view, a click, a report shared. Identify calls are free, and so are events you filter out before they are stored.</div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button type="button" class="accordion-trigger" :class="{ 'is-open': open === 2 }" @click="open = open === 2 ? null : 2" :aria-expanded="open === 2" aria-expanded="false">
+                                Can I import historical data?
+                                <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                    <polyline points="6 9 12 15 18 9" />
+                                </svg>
+                            </button>
+                            <div class="accordion-body" :class="{ 'is-open': open === 2 }">
+                                <div>Yes. Backfill from your warehouse, a CSV or your previous analytics tool. Imported events up to 24 months old don't count towards your monthly allowance.</div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button type="button" class="accordion-trigger" :class="{ 'is-open': open === 3 }" @click="open = open === 3 ? null : 3" :aria-expanded="open === 3" aria-expanded="false">
+                                Where is my data stored?
+                                <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                    <polyline points="6 9 12 15 18 9" />
+                                </svg>
+                            </button>
+                            <div class="accordion-body" :class="{ 'is-open': open === 3 }">
+                                <div>In the EU (Frankfurt) or the US (Virginia) — you choose when you sign up. Enterprise teams can pin data to one region and bring their own encryption keys.</div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button type="button" class="accordion-trigger" :class="{ 'is-open': open === 4 }" @click="open = open === 4 ? null : 4" :aria-expanded="open === 4" aria-expanded="false">
+                                Does Framo Analyst train on my data?
+                                <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                    <polyline points="6 9 12 15 18 9" />
+                                </svg>
+                            </button>
+                            <div class="accordion-body" :class="{ 'is-open': open === 4 }">
+                                <div>No. Your events answer your team's questions and nothing else. We never train models on customer data, and Enterprise admins can switch the analyst off per project.</div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button type="button" class="accordion-trigger" :class="{ 'is-open': open === 5 }" @click="open = open === 5 ? null : 5" :aria-expanded="open === 5" aria-expanded="false">
+                                How does seat pricing work?
+                                <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                    <polyline points="6 9 12 15 18 9" />
+                                </svg>
+                            </button>
+                            <div class="accordion-body" :class="{ 'is-open': open === 5 }">
+                                <div>It doesn't — every plan has unlimited seats. You pay for events, so inviting the whole company costs nothing.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Analytics 1 footer - the template newsletter footer on the navy ink, a faint trend line across its top: The Funnel sign-up beside the link columns, then the status, compliance and legal row. Edit: the letter's name, title, lead and reader count, the columns, the status, the badges, the address, the legal links -->
+        <footer class="site-footer site-footer--dark footer-newsletter custom-footer isolate overflow-clip">
+
+            <svg class="custom-footer-trend absolute -z-1 w-full h-[clamp(4.5rem,7vw,6.5rem)] text-(--color-primary) pointer-events-none" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                <defs>
+                    <linearGradient id="an-footer-trend-fill" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stop-color="currentColor" stop-opacity=".14" />
+                        <stop offset=".8" stop-color="currentColor" stop-opacity="0" />
+                    </linearGradient>
+                </defs>
+                <path fill="url(#an-footer-trend-fill)" d="M0 92 C120 90 180 80 290 82 C400 84 450 66 560 63 C670 60 720 71 830 60 C940 49 990 35 1100 33 C1210 31 1270 19 1440 8 L1440 100 L0 100 Z" />
+                <path class="custom-footer-trend-line opacity-60" d="M0 92 C120 90 180 80 290 82 C400 84 450 66 560 63 C670 60 720 71 830 60 C940 49 990 35 1100 33 C1210 31 1270 19 1440 8" />
+            </svg>
+
+            <div class="footer-main pt-[clamp(4.5rem,8vw,7rem)] pb-[clamp(3.5rem,6vw,5rem)]">
+                <div class="container grid grid-cols-1 gap-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-[clamp(3rem,6vw,7rem)]">
+
+                    <!-- The Funnel - newsletter -->
+                    <div class="footer-newsletter-inner items-start text-start">
+                        <span class="footer-newsletter-kicker custom-footer-kicker mb-6 py-1.25 px-3.5 text-[0.875rem] font-semibold text-(--custom-on-ink) border-(--custom-line-ink)">
+                            <span class="footer-newsletter-pulse bg-(--color-accent-base)" aria-hidden="true"></span>
+                            The Funnel
+                        </span>
+
+                        <h2 class="footer-newsletter-title max-w-[20ch] text-[clamp(1.875rem,1.4rem_+_1.6vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.02em]">One email a month on product analytics <em class="font-heading not-italic tracking-[-0.02em] text-(--custom-on-ink-soft)">that actually changed something.</em></h2>
+
+                        <form class="footer-newsletter-form custom-footer-form max-w-120 mt-8 mb-7" x-data="formValidate()" novalidate @submit.prevent="onSubmit($event)">
+                            <div class="footer-subscribe footer-subscribe--boxed">
+                                <i class="ph ph-envelope-simple footer-newsletter-icon" aria-hidden="true"></i>
+                                <input class="py-2.5 text-(length:--text-base)" id="an-footer-email" name="email" type="email" placeholder="Your work email" aria-label="Email address" aria-describedby="an-footer-email-msg" autocomplete="email" required @blur="check($event.target)" @input="check($event.target)">
+                                <button type="submit" aria-label="Subscribe"><i class="ph ph-arrow-right" aria-hidden="true"></i></button>
+                            </div>
+                            <span class="footer-subscribe-msg text-start" id="an-footer-email-msg">
+                                <span x-show="!errors.email &amp;&amp; !sent">First Tuesday of the month. Unsubscribe in one click.</span>
+                                <span class="footer-subscribe-msg--error" x-show="errors.email" x-text="errors.email" x-cloak></span>
+                                <span class="footer-subscribe-msg--ok" x-show="sent" x-cloak>You're on the list — the next issue lands on the first Tuesday.</span>
+                            </span>
+                        </form>
+
+                        <div class="footer-newsletter-proof justify-start mb-0 text-(--custom-on-ink-soft)">
+                            <div class="avatar-stack avatar-stack-sm">
+                                <img src="../assets/media/placeholder/160x160.svg" alt="" width="80" height="80" loading="lazy" decoding="async">
+                                <img src="../assets/media/placeholder/160x160.svg" alt="" width="80" height="80" loading="lazy" decoding="async">
+                                <img src="../assets/media/placeholder/160x160.svg" alt="" width="80" height="80" loading="lazy" decoding="async">
+                            </div>
+                            <span>Read by <strong>4,800</strong> product people</span>
+                        </div>
+                    </div>
+
+                    <!-- Columns -->
+                    <nav class="grid grid-cols-2 gap-y-10 gap-x-6 md:grid-cols-5 lg:pt-2" aria-label="Footer">
+                        <div>
+                            <p class="footer-col-title mb-5 text-[0.9375rem] font-semibold">Product</p>
+                            <ul class="footer-links gap-3" role="list">
+                                <li><a href="demo-analytics-1-product.html">Overview</a></li>
+                                <li><a href="demo-analytics-1-feature.html#funnels">Funnels</a></li>
+                                <li><a href="demo-analytics-1-feature.html#retention">Retention</a></li>
+                                <li><a href="demo-analytics-1-analyst.html">Framo Analyst</a></li>
+                                <li><a href="demo-analytics-1-pricing.html">Pricing</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="footer-col-title mb-5 text-[0.9375rem] font-semibold">Solutions</p>
+                            <ul class="footer-links gap-3" role="list">
+                                <li><a href="demo-analytics-1-solutions.html#product">Product</a></li>
+                                <li><a href="demo-analytics-1-solutions.html#growth">Growth</a></li>
+                                <li><a href="demo-analytics-1-solutions.html#data">Data</a></li>
+                                <li><a href="demo-analytics-1-solutions.html#engineering">Engineering</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="footer-col-title mb-5 text-[0.9375rem] font-semibold">Resources</p>
+                            <ul class="footer-links gap-3" role="list">
+                                <li><a href="demo-analytics-1-changelog.html">Changelog</a></li>
+                                <li><a href="demo-analytics-1-customers.html">Customers</a></li>
+                                <li><a href="demo-analytics-1-integrations.html">Integrations</a></li>
+                                <li><a href="#">Docs</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="footer-col-title mb-5 text-[0.9375rem] font-semibold">Company</p>
+                            <ul class="footer-links gap-3" role="list">
+                                <li><a href="demo-analytics-1-about.html">About Us</a></li>
+                                <li><a href="demo-analytics-1-about.html#careers">Careers</a></li>
+                                <li><a href="demo-analytics-1-contact.html">Contact</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="footer-col-title mb-5 text-[0.9375rem] font-semibold">Legal</p>
+                            <ul class="footer-links gap-3" role="list">
+                                <li><a href="#">Privacy</a></li>
+                                <li><a href="#">Terms</a></li>
+                                <li><a href="#">DPA</a></li>
+                                <li><a href="#">Cookies</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+
+                </div>
+            </div>
+
+            <div class="footer-bottom py-7">
+                <div class="container flex flex-wrap items-center gap-y-4 gap-x-6">
+                    <a href="demo-analytics-1.html" class="brand text-(--footer-title) me-auto">
+
+                        <img class="brand-logo" src="../assets/media/logo/framo-logo.svg" alt="Framo" width="120" height="32" style="--logo-tint: url(#logo-tint-footer)">
+
+                        <svg class="brand-tint" aria-hidden="true" focusable="false">
+                            <filter id="logo-tint-footer" color-interpolation-filters="sRGB">
+                                <feFlood flood-color="currentColor" />
+                                <feComposite in2="SourceAlpha" operator="in" />
+                            </filter>
+                        </svg>
+                    </a>
+                    <a href="#" class="custom-footer-status text-(--footer-title)"><span class="custom-footer-status-dot w-2 aspect-square bg-(--color-accent-base)" aria-hidden="true"></span>All systems operational</a>
+                    <ul class="custom-footer-badges flex flex-wrap gap-2" role="list" aria-label="Compliance">
+                        <li>SOC 2 Type II</li>
+                        <li>ISO 27001</li>
+                        <li>GDPR</li>
+                        <li>HIPAA on Enterprise</li>
+                    </ul>
+                    <p class="basis-[100%] mt-1 text-[0.9375rem]">© 2026 Framo Analytics Ltd · 20 Farringdon Lane, London EC1R&nbsp;3AU</p>
+                </div>
+            </div>
+
+        </footer>
+
+        <!-- Back to top button -->
+        <button data-back-top aria-label="Back to top" class="back-to-top fixed bottom-8 right-8 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer border-0 text-white bg-primary shadow-token-lg z-sticky">
+            <i class="ph ph-arrow-up"></i>
+        </button>
+
+        <script defer src="../assets/js/vendor.js"></script>
+        <script defer src="../assets/js/main.js"></script>
+    </body>
+</html>

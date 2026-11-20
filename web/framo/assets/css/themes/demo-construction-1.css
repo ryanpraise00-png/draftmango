@@ -1,0 +1,106 @@
+/* ================================================================
+ *  demo-construction-1.css — Framo theme for the Construction demo
+ *
+ *  The colors, fonts and layout settings of the Construction demo
+ *  (Framo Builders, commercial general contractor and construction manager in Charlotte, North Carolina).
+ *  Starter values from the spec (Task 0); the foundation refines them.
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here).
+   Archivo sets the headings: a grotesque with engineered, squared-off
+   terminals that holds together at 800 and very large sizes (compared
+   with Barlow Semi Condensed and Inter Display at the hero size; Barlow
+   read as stencil-signage, Inter as every other demo). Its 400–500 give
+   the weight contrast in the second hero line. Inter sets the text. */
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #f5781f;   /* main color: safety orange for buttons, links and focus; labels on it are white */
+    --color-secondary-base:  #15171b;   /* second color: ink for the bands and the footer; the dark scheme takes its hue */
+    --color-tertiary-base:   #efeeeb;   /* third color: concrete, soft fills and panels */
+    --color-quaternary-base: #62676f;   /* fourth color: steel, for meta */
+    --color-accent-base:     #ffd23f;   /* attention color: hi-vis, tiny accents only */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. */
+    --color-on-primary: #fff;   /* labels on the brand fill: white (a preset picks its own) */
+
+    /* The fill a step deeper than the seed: white on #f5781f is 2.8:1,
+       under AA large; 0.045 down in lightness (about #e96a12) reaches 3:1
+       and still reads as safety orange. Every preset gets the same step,
+       so Green's white label goes from 4.3 to about 4.8:1. Hover goes
+       deeper again, so the label keeps its contrast. */
+    --color-primary:       oklch(from var(--color-primary-base) calc(l - 0.045) c h);
+    --color-primary-hover: oklch(from var(--color-primary-base) calc(l - 0.11) c h);
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-text:        var(--color-secondary-base);   /* headings and body text */
+    --color-text-soft:   oklch(from var(--color-secondary-base) 0.44 calc(c * 0.6) h);   /* secondary text: the ink softened */
+    --color-text-muted:  oklch(from var(--color-quaternary-base) 0.52 c h);   /* meta text */
+    --color-bg:          #ffffff;   /* page background: white */
+    --color-bg-soft:     var(--color-tertiary-base);   /* soft fills and panels */
+    --color-bg-muted:    oklch(from var(--color-tertiary-base) 0.93 calc(c * 1.3) h);   /* hover fills */
+    --color-border:      oklch(from var(--color-tertiary-base) 0.9 calc(c * 1.4) h);   /* lines and borders */
+    --color-border-soft: oklch(from var(--color-tertiary-base) 0.94 c h);   /* the faintest rules */
+    --color-dark:        var(--color-secondary-base);   /* dark sections and dark buttons */
+    /* Brand-colored text on white: the orange deepened so a link or a
+       label reads (the seed itself is about 2.8:1 on white) */
+    --color-primary-ink: oklch(from var(--color-primary-base) min(l, 0.54) c h);
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Archivo', 'Arial', system-ui, sans-serif;   /* headings and figures */
+    --font-serif:   'Instrument Serif', Georgia, 'Times New Roman', serif;   /* italic accents */
+    --font-tertiary: 'Urbanist', system-ui, sans-serif;   /* display accents (unused so far) */
+
+    /* Stylesheets of the accent fonts, fetched only on pages that use them.
+       Change a family above and its URL here together. Set one to "" to
+       load nothing, e.g. when that font is a system font. */
+    --font-serif-src:    "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap";
+    --font-tertiary-src: "https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800;900&display=swap";
+
+    /* Headings and buttons */
+    --heading-weight:     700;
+    --heading-tracking:   -0.025em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0.01em;                      /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        0;     /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 0px;     /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1320px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 1.15; /* space between sections: 0.75 compact · 1 · 1.25 spacious */
+}

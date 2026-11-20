@@ -1,0 +1,2392 @@
+@layer components {
+    html[data-demo='meditation-app-1'] {
+        --custom-night: var(--color-secondary);
+        --custom-panel: var(--color-tertiary);
+        --custom-mist: var(--color-quaternary-base);
+        --custom-accent: var(--color-accent-base);
+        --custom-primary-lit: oklch(from var(--color-primary-base) max(l, 0.74) min(c, 0.16) h);
+        --custom-line: #ffffff14;
+        --custom-line-strong: #ffffff24;
+        --custom-paper: #f7f2ea;
+        --custom-radius-card: var(--radius-20);
+        --custom-player-art-radius: 7cqi;
+        --custom-head-space: clamp(2.5rem, 1.6rem + 2.6vw, 4.5rem);
+        --custom-shadow: 0 1px 2px #0003, 0 40px 80px -40px #040310d9;
+        --custom-stars-img: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='640' height='640' fill='%23fff'><circle cx='207' cy='97' r='1.2' fill-opacity='0.25'/><circle cx='46' cy='343' r='0.8' fill-opacity='0.8'/><circle cx='37' cy='325' r='0.6' fill-opacity='0.25'/><circle cx='278' cy='45' r='0.6' fill-opacity='0.8'/><circle cx='272' cy='529' r='0.6' fill-opacity='0.35'/><circle cx='404' cy='373' r='0.6' fill-opacity='0.8'/><circle cx='375' cy='32' r='0.6' fill-opacity='0.25'/><circle cx='356' cy='85' r='0.8' fill-opacity='0.35'/><circle cx='346' cy='365' r='1' fill-opacity='0.35'/><circle cx='66' cy='366' r='0.6' fill-opacity='0.45'/><circle cx='62' cy='456' r='1' fill-opacity='0.25'/><circle cx='396' cy='318' r='1' fill-opacity='0.6'/><circle cx='497' cy='298' r='0.8' fill-opacity='0.45'/><circle cx='192' cy='508' r='1.2' fill-opacity='0.35'/><circle cx='52' cy='192' r='0.8' fill-opacity='0.45'/><circle cx='467' cy='184' r='0.6' fill-opacity='0.25'/><circle cx='328' cy='106' r='0.8' fill-opacity='0.35'/><circle cx='597' cy='270' r='1.2' fill-opacity='0.25'/><circle cx='489' cy='367' r='0.8' fill-opacity='0.45'/><circle cx='445' cy='380' r='1' fill-opacity='0.6'/><circle cx='44' cy='60' r='0.8' fill-opacity='0.6'/><circle cx='446' cy='42' r='1.2' fill-opacity='0.45'/><circle cx='414' cy='636' r='0.8' fill-opacity='0.45'/><circle cx='459' cy='568' r='0.8' fill-opacity='0.25'/><circle cx='602' cy='227' r='1' fill-opacity='0.25'/><circle cx='316' cy='140' r='0.8' fill-opacity='0.35'/><circle cx='473' cy='255' r='0.8' fill-opacity='0.25'/><circle cx='106' cy='257' r='0.8' fill-opacity='0.35'/><circle cx='524' cy='553' r='0.8' fill-opacity='0.6'/><circle cx='631' cy='437' r='0.8' fill-opacity='0.35'/><circle cx='97' cy='113' r='0.6' fill-opacity='0.35'/><circle cx='8' cy='532' r='0.6' fill-opacity='0.45'/><circle cx='180' cy='93' r='1' fill-opacity='0.45'/><circle cx='390' cy='204' r='0.6' fill-opacity='0.8'/><circle cx='608' cy='419' r='1.2' fill-opacity='0.25'/><circle cx='292' cy='557' r='1.2' fill-opacity='0.8'/><circle cx='251' cy='255' r='0.6' fill-opacity='0.6'/><circle cx='406' cy='40' r='0.6' fill-opacity='0.35'/><circle cx='282' cy='70' r='1' fill-opacity='0.25'/><circle cx='66' cy='363' r='1' fill-opacity='0.25'/><circle cx='607' cy='393' r='0.6' fill-opacity='0.35'/><circle cx='393' cy='95' r='0.8' fill-opacity='0.45'/><circle cx='385' cy='303' r='0.6' fill-opacity='0.6'/><circle cx='636' cy='298' r='0.8' fill-opacity='0.45'/><circle cx='55' cy='65' r='0.8' fill-opacity='0.45'/><circle cx='306' cy='443' r='1' fill-opacity='0.25'/></svg>");
+        font-variation-settings:
+            'SOFT' 100,
+            'WONK' 0;
+    }
+
+    html[data-demo='meditation-app-1'] body {
+        --color-primary-ink: var(--custom-primary-lit);
+        background: var(--color-bg);
+        color: var(--color-text-soft);
+    }
+
+    .custom-section {
+        padding-block: 0 var(--section-space);
+        position: relative;
+    }
+
+    :is(.custom-section--panel, .custom-section--paper) {
+        padding-block: var(--section-space);
+        isolation: isolate;
+        overflow: clip;
+    }
+
+    .custom-section--panel {
+        background: var(--custom-panel);
+    }
+
+    .custom-section--paper {
+        --color-text: #1a1730;
+        --color-text-soft: #4a4660;
+        --color-text-muted: #6a6680;
+        --color-bg: var(--custom-paper);
+        --color-bg-soft: #efe8dc;
+        --color-bg-muted: #e8e0d2;
+        --color-surface: #fffdf9;
+        --color-border: #e2d9c9;
+        --color-border-soft: #ece4d6;
+        --color-primary-ink: oklch(from var(--color-primary-base) min(l, 0.5) c h);
+        --custom-mist: #6a6680;
+        --custom-line: #1a173017;
+        --custom-line-strong: #1a173029;
+        background: var(--custom-paper);
+        color: var(--color-text-soft);
+    }
+
+    :is(.custom-section--panel, .custom-section--paper)
+        + .custom-section:not(.custom-section--panel, .custom-section--paper) {
+        padding-block-start: var(--section-space);
+    }
+
+    .custom-head {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.25rem;
+        margin-block-end: var(--custom-head-space);
+        display: grid;
+    }
+
+    .custom-head--center {
+        text-align: center;
+        justify-items: center;
+
+        & .custom-title,
+        & .custom-lead {
+            margin-inline: auto;
+        }
+    }
+
+    @media (width >= 1024px) {
+        .custom-head--row {
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: end;
+            column-gap: 4rem;
+        }
+
+        .custom-head--row > .custom-lead {
+            max-inline-size: 26rem;
+        }
+    }
+
+    .custom-title {
+        max-inline-size: 16ch;
+        font-family: var(--font-heading);
+        letter-spacing: -0.015em;
+        color: var(--color-text);
+        text-wrap: balance;
+        margin: 0;
+        font-size: clamp(2.5rem, 1.6rem + 2.8vw, 4.25rem);
+        font-weight: 300;
+        line-height: 1.04;
+
+        & em {
+            font-family: var(--font-serif);
+            letter-spacing: -0.01em;
+            color: var(--custom-accent);
+            padding-inline-end: 0.04em;
+            font-style: italic;
+        }
+    }
+
+    .custom-section--paper .custom-title em {
+        color: var(--color-primary-ink);
+    }
+
+    .custom-lead {
+        max-inline-size: 34rem;
+        color: var(--color-text-soft);
+        text-wrap: pretty;
+        margin: 0;
+        font-size: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
+        line-height: 1.6;
+    }
+
+    .custom-small {
+        color: var(--custom-mist);
+        margin: 0;
+        font-size: 0.9375rem;
+        line-height: 1.5;
+    }
+
+    .custom-stars {
+        isolation: isolate;
+    }
+
+    .custom-stars:before {
+        content: '';
+        z-index: -1;
+        background: var(--custom-stars-img) 0 0 / 40rem repeat;
+        opacity: 0.85;
+        pointer-events: none;
+        position: absolute;
+        inset: 0;
+    }
+
+    .custom-moon {
+        --custom-moon-size: 6rem;
+        width: var(--custom-moon-size);
+        aspect-ratio: 1;
+        border-radius: var(--radius-full);
+        box-shadow: inset calc(var(--custom-moon-size) * -0.24)
+            calc(var(--custom-moon-size) * -0.08) 0 0 var(--custom-accent);
+        display: block;
+        position: relative;
+        rotate: -18deg;
+
+        &:before {
+            content: '';
+            z-index: -1;
+            border-radius: inherit;
+            background: radial-gradient(
+                circle,
+                color-mix(in oklch, var(--custom-accent) 20%, transparent) 0%,
+                color-mix(in oklch, var(--custom-accent) 6%, transparent) 32%,
+                transparent 62%
+            );
+            position: absolute;
+            inset: -90%;
+        }
+    }
+
+    .custom-breath {
+        --custom-breath-size: 30rem;
+        --custom-breath-cycle: 19s;
+        width: var(--custom-breath-size);
+        aspect-ratio: 1;
+        pointer-events: none;
+        place-items: center;
+        display: grid;
+        position: relative;
+    }
+
+    .custom-breath-rings {
+        place-items: center;
+        display: grid;
+        position: absolute;
+        inset: 0;
+    }
+
+    .custom-breath-ring {
+        --custom-ring: 1;
+        width: calc(100% * var(--custom-ring));
+        aspect-ratio: 1;
+        border-radius: var(--radius-full);
+        background: radial-gradient(
+            circle,
+            transparent 58%,
+            color-mix(in oklch, var(--custom-primary-lit) 9%, transparent) 100%
+        );
+        box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--custom-accent) 16%, transparent);
+        animation: custom-breath-ring var(--custom-breath-cycle) ease-in-out infinite;
+        grid-area: 1 / 1;
+        scale: 0.86;
+
+        &:nth-child(2) {
+            --custom-ring: 0.8;
+            animation-delay: 0.15s;
+        }
+
+        &:nth-child(3) {
+            --custom-ring: 0.6;
+            background: radial-gradient(
+                circle,
+                transparent 50%,
+                color-mix(in oklch, var(--custom-primary-lit) 14%, transparent) 100%
+            );
+            animation-delay: 0.3s;
+        }
+
+        &:nth-child(4) {
+            --custom-ring: 0.42;
+            background: radial-gradient(
+                circle,
+                color-mix(in oklch, var(--custom-primary-lit) 10%, transparent) 30%,
+                color-mix(in oklch, var(--custom-primary-lit) 22%, transparent) 100%
+            );
+            box-shadow:
+                inset 0 0 0 1px color-mix(in oklch, var(--custom-accent) 26%, transparent),
+                0 0 60px color-mix(in oklch, var(--custom-primary-lit) 22%, transparent);
+            animation-delay: 0.45s;
+        }
+    }
+
+    @keyframes custom-breath-ring {
+        0%,
+        100% {
+            scale: 0.86;
+        }
+
+        21%,
+        58% {
+            scale: 1;
+        }
+    }
+
+    .custom-breath-label {
+        font-family: var(--font-serif);
+        color: var(--custom-accent);
+        white-space: nowrap;
+        font-size: 1.5rem;
+        font-style: italic;
+        font-weight: 300;
+        line-height: 1.2;
+        display: grid;
+        position: relative;
+
+        & > span {
+            opacity: 0;
+            animation: var(--custom-breath-cycle) linear infinite;
+            grid-area: 1 / 1;
+            justify-self: center;
+        }
+
+        & > span:first-child {
+            animation-name: custom-breath-in;
+        }
+
+        & > span:nth-child(2) {
+            animation-name: custom-breath-hold;
+        }
+
+        & > span:nth-child(3) {
+            animation-name: custom-breath-out;
+        }
+    }
+
+    @keyframes custom-breath-in {
+        0%,
+        19% {
+            opacity: 1;
+        }
+
+        22%,
+        98% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    @keyframes custom-breath-hold {
+        0%,
+        20% {
+            opacity: 0;
+        }
+
+        23%,
+        56% {
+            opacity: 1;
+        }
+
+        59%,
+        100% {
+            opacity: 0;
+        }
+    }
+
+    @keyframes custom-breath-out {
+        0%,
+        57% {
+            opacity: 0;
+        }
+
+        60%,
+        97% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+
+    .custom-breath.is-paused :is(.custom-breath-ring, .custom-breath-label > span) {
+        animation-play-state: paused;
+    }
+
+    .custom-breath.is-reset :is(.custom-breath-ring, .custom-breath-label > span) {
+        animation: none;
+    }
+
+    [data-pause-offscreen].is-offscreen :is(*) {
+        animation-play-state: paused;
+    }
+
+    .custom-phone {
+        --_phone-w: var(--custom-phone-w, 17rem);
+        width: var(--_phone-w);
+        aspect-ratio: 9 / 19.5;
+        padding: calc(var(--_phone-w) * 0.03);
+        border-radius: calc(var(--_phone-w) * 0.17);
+        box-shadow:
+            inset 0 0 0 1px #ffffff1f,
+            0 0 0 1px #00000080,
+            var(--custom-shadow);
+        background: #0a0918;
+        position: relative;
+        container-type: inline-size;
+
+        &:before {
+            content: '';
+            top: calc(var(--_phone-w) * 0.055);
+            z-index: 2;
+            width: 30%;
+            height: calc(var(--_phone-w) * 0.075);
+            border-radius: var(--radius-full);
+            background: #05040e;
+            position: absolute;
+            left: 50%;
+            translate: -50%;
+        }
+    }
+
+    .custom-phone-screen {
+        border-radius: calc(var(--_phone-w) * 0.14);
+        background: linear-gradient(
+            180deg,
+            color-mix(in oklch, var(--custom-panel) 80%, var(--custom-primary-lit)) 0%,
+            var(--custom-panel) 42%,
+            var(--custom-night) 100%
+        );
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .custom-player {
+        color: #fff;
+        text-align: center;
+        flex-direction: column;
+        padding: 17cqi 7cqi 7cqi;
+        display: flex;
+    }
+
+    .custom-player-bar {
+        color: #ffffffb8;
+        font-size: 4.4cqi;
+
+        & .ph {
+            font-size: 5.6cqi;
+        }
+    }
+
+    .custom-player-art {
+        box-shadow: 0 6cqi 12cqi -6cqi #0009;
+    }
+
+    .custom-player-moon {
+        --custom-moon-size: 11cqi;
+    }
+
+    .custom-player-title {
+        font-size: 7.6cqi;
+    }
+
+    .custom-player-meta {
+        font-size: 4.6cqi;
+    }
+
+    .custom-wave {
+        fill: none;
+        stroke: var(--custom-accent);
+        stroke-width: 1.5px;
+        stroke-linecap: round;
+        vector-effect: non-scaling-stroke;
+        display: block;
+        overflow: visible;
+
+        & path {
+            vector-effect: non-scaling-stroke;
+        }
+    }
+
+    .custom-player-wave {
+        & path {
+            animation: 6s linear infinite custom-wave-drift;
+        }
+    }
+
+    @keyframes custom-wave-drift {
+        to {
+            translate: -240px;
+        }
+    }
+
+    .custom-player.is-paused .custom-player-wave path {
+        animation-play-state: paused;
+    }
+
+    .custom-player-track {
+        background: #ffffff24;
+
+        & i {
+            border-radius: inherit;
+        }
+    }
+
+    .custom-player-times {
+        color: #fff9;
+        font-size: 3.8cqi;
+    }
+
+    .custom-player-skip {
+        color: #ffffffd1;
+        font-size: 9cqi;
+
+        & small {
+            font-size: 2.8cqi;
+        }
+    }
+
+    .custom-player-play {
+        aspect-ratio: 1;
+        width: 19cqi;
+        color: var(--custom-night);
+        background: var(--custom-accent);
+        border-radius: var(--radius-full);
+        box-shadow: 0 0 0 3cqi color-mix(in oklch, var(--custom-accent) 14%, transparent);
+        cursor: pointer;
+        transition: scale var(--duration-fast) var(--ease-out);
+        border: 0;
+        place-items: center;
+        padding: 0;
+        font-size: 7.5cqi;
+        display: grid;
+
+        &:active {
+            scale: 0.94;
+        }
+    }
+
+    .custom-player-foot {
+        color: #fff9;
+        font-size: 3.8cqi;
+    }
+
+    .custom-cover {
+        aspect-ratio: 4 / 5;
+        border-radius: var(--custom-radius-card);
+        background: var(--custom-panel);
+        margin: 0;
+        position: relative;
+        overflow: hidden;
+
+        & img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+
+        & :is(figcaption, .custom-cover-plate) {
+            text-align: start;
+            background: color-mix(in oklch, var(--custom-night) 78%, transparent);
+            border-radius: calc(var(--custom-radius-card) - 0.625rem);
+            gap: 0.125rem;
+            padding: 0.75rem 0.875rem;
+            display: grid;
+            position: absolute;
+            inset: auto 0.625rem 0.625rem;
+        }
+    }
+
+    .custom-cover-title {
+        font-family: var(--font-heading);
+        color: #fff;
+        font-size: 1.125rem;
+        font-weight: 500;
+        line-height: 1.2;
+    }
+
+    .custom-cover-meta {
+        white-space: nowrap;
+        color: var(--custom-mist);
+        font-size: 0.9375rem;
+    }
+
+    .custom-stores {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.625rem;
+        display: flex;
+    }
+
+    .custom-store {
+        color: #fff;
+        border-radius: var(--radius-pill);
+        min-height: 3.375rem;
+        box-shadow: inset 0 0 0 1px var(--custom-line-strong);
+        transition:
+            background-color var(--duration-fast) var(--ease-out),
+            box-shadow var(--duration-fast) var(--ease-out);
+        background: #ffffff0a;
+        align-items: center;
+        gap: 0.625rem;
+        padding: 0.375rem 1.25rem 0.375rem 1rem;
+        text-decoration: none;
+        display: inline-flex;
+
+        & .ph {
+            font-size: 1.5rem;
+        }
+
+        & > span {
+            letter-spacing: -0.01em;
+            text-align: start;
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.15;
+            display: grid;
+        }
+
+        & small {
+            letter-spacing: 0;
+            color: #ffffffa8;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        &:hover {
+            color: #fff;
+            background: #ffffff14;
+            box-shadow: inset 0 0 0 1px #ffffff3d;
+        }
+    }
+
+    .custom-section--paper .custom-store {
+        color: var(--color-text);
+        background: none;
+
+        & small {
+            color: var(--color-text-soft);
+        }
+
+        &:hover {
+            color: var(--color-text);
+            background: #1a17300a;
+        }
+    }
+
+    .custom-link {
+        color: var(--color-text);
+        white-space: nowrap;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-flex;
+
+        & .ph {
+            color: var(--custom-accent);
+            transition: translate var(--duration-fast) var(--ease-out);
+        }
+
+        &:hover {
+            color: var(--color-text);
+
+            & .ph {
+                translate: 0.25rem;
+            }
+        }
+    }
+
+    .custom-section--paper .custom-link .ph {
+        color: var(--color-primary-ink);
+    }
+
+    html[data-demo='meditation-app-1'] .custom-arrow-btn {
+        aspect-ratio: 1;
+        color: #fff;
+        border-radius: var(--radius-full);
+        width: 3.25rem;
+        box-shadow: inset 0 0 0 1px var(--custom-line-strong);
+        opacity: 1;
+        cursor: pointer;
+        transition:
+            background-color var(--duration-fast) var(--ease-out),
+            color var(--duration-fast) var(--ease-out);
+        background: #ffffff0d;
+        border: 0;
+        place-items: center;
+        font-size: 1.125rem;
+        display: grid;
+        position: static;
+        transform: none;
+
+        &:hover {
+            color: var(--custom-night);
+            background: var(--custom-accent);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .custom-breath-ring {
+            animation: none;
+            scale: 1;
+        }
+
+        .custom-breath-label {
+            gap: 0.5em;
+            display: flex;
+
+            & > span {
+                opacity: 1;
+                animation: none;
+            }
+
+            & > span + span:before {
+                content: '·';
+                margin-inline-end: 0.5em;
+            }
+        }
+
+        .custom-player-wave path {
+            animation: none;
+        }
+    }
+
+    html[data-demo='meditation-app-1'] .site-header {
+        --color-dark: #f3f1fa;
+        --menu-surface: color-mix(in oklch, var(--custom-panel) 74%, transparent);
+        --menu-border: #ffffff1a;
+        --menu-shadow: 0 30px 70px -30px #040310d9;
+        --menu-title: var(--custom-mist);
+        --menu-text: #ffffffd6;
+        --menu-strong: #fff;
+        --menu-hover-bg: #ffffff0f;
+        --menu-hover-text: #fff;
+
+        & .brand {
+            color: #fff;
+        }
+
+        & .nav-link {
+            color: #ffffffc2;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            position: relative;
+
+            &:hover {
+                color: #fff;
+            }
+
+            &.active {
+                color: #fff;
+
+                &:after {
+                    content: '';
+                    aspect-ratio: 1;
+                    border-radius: var(--radius-full);
+                    background: var(--custom-accent);
+                    width: 0.3125rem;
+                    box-shadow: 0 0 10px 1px
+                        color-mix(in oklch, var(--custom-accent) 60%, transparent);
+                    position: absolute;
+                    bottom: -0.125rem;
+                    left: 50%;
+                    translate: -50%;
+                }
+            }
+        }
+
+        & .nav-cascade:is(:hover, :focus-within) > .nav-link,
+        & .hamburger {
+            color: #fff;
+        }
+    }
+
+    html[data-demo='meditation-app-1'] .header-transparent {
+        &:before {
+            content: '';
+            z-index: -1;
+            background: color-mix(in oklch, var(--custom-night) 72%, transparent);
+            box-shadow: inset 0 -1px 0 var(--custom-line);
+            -webkit-backdrop-filter: blur(18px) saturate(140%);
+            backdrop-filter: blur(18px) saturate(140%);
+            opacity: 0;
+            transition: opacity var(--duration-base) var(--ease-out);
+            pointer-events: none;
+            position: absolute;
+            inset: 0;
+        }
+
+        &,
+        &.scrolled,
+        &:has(.nav-cascade:hover) {
+            box-shadow: none;
+            background: none;
+        }
+
+        &:is(
+                .scrolled,
+                :has(.nav-cascade:is(:hover, :focus-within)),
+                :has(.mobile-nav.open)
+            ):before {
+            opacity: 1;
+        }
+
+        &:has(.mobile-nav.open):before {
+            background: var(--custom-night);
+        }
+
+        &:is(.scrolled, :has(.nav-cascade:hover), :has(.mobile-nav.open)) {
+            & .brand {
+                color: #fff;
+            }
+
+            & .nav-link {
+                color: #ffffffc2;
+
+                &:is(:hover, .active) {
+                    color: #fff;
+                }
+            }
+
+            & .hamburger {
+                color: #fff;
+            }
+
+            & .nav-phone {
+                color: #fff;
+
+                & .nav-phone-icon {
+                    color: var(--custom-accent);
+                    border-color: var(--custom-line-strong);
+                    background: #ffffff0f;
+                }
+            }
+
+            & .social-link {
+                color: #ffffffb8;
+            }
+        }
+
+        & .mobile-nav {
+            background: var(--custom-night);
+            border-top-color: var(--custom-line);
+        }
+    }
+
+    :root:not([data-focus-source='pointer'])[data-demo='meditation-app-1']
+        .nav-cascade:focus-within {
+        & > .cascade-panel {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transition:
+                opacity 0.3s var(--ease-out),
+                transform 0.3s var(--ease-out),
+                visibility 0s;
+            transform: translateY(0);
+        }
+
+        & .nav-link i {
+            transform: rotate(180deg);
+        }
+    }
+
+    html[data-demo='meditation-app-1'] .custom-nav-tonight {
+        color: #fff;
+
+        & .nav-phone-icon {
+            color: var(--custom-accent);
+            border-color: var(--custom-line-strong);
+            background: #ffffff0f;
+        }
+
+        & .nav-phone-number {
+            color: #ffffffd6;
+            font-weight: 500;
+        }
+
+        & .custom-nav-tonight-label {
+            font-family: var(--font-serif);
+            font-weight: 300;
+        }
+    }
+
+    html[data-demo='meditation-app-1']
+        .site-header
+        .custom-nav-tonight.nav-phone:hover
+        .nav-phone-icon {
+        color: var(--custom-night);
+        background: var(--custom-accent);
+        border-color: var(--custom-accent);
+    }
+
+    .custom-nav-login {
+        color: #fffc;
+        transition: color var(--duration-fast) var(--ease-out);
+
+        &:hover {
+            color: #fff;
+        }
+    }
+
+    html[data-demo='meditation-app-1'] .nav-actions .custom-nav-action {
+        padding: 0.625rem 1.25rem;
+        font-size: 0.9375rem;
+    }
+
+    .custom-navbar-wide {
+        width: 100%;
+        padding-inline: var(--container-x);
+    }
+
+    @media (width >= 1024px) {
+        .custom-navbar-wide {
+            padding-inline: 3.75rem;
+        }
+    }
+
+    @media (width <= 1599px) {
+        html[data-demo='meditation-app-1'] .header-split .nav-actions .nav-social {
+            display: none;
+        }
+    }
+
+    @media (1280px <= width < 1600px) {
+        html[data-demo='meditation-app-1'] .header-split {
+            --brand-slot-gap: 1rem;
+
+            & .nav-link {
+                padding-inline: 0.625rem;
+            }
+
+            & .custom-nav-tonight-label {
+                display: none;
+            }
+        }
+    }
+
+    @media (width <= 639px) {
+        html[data-demo='meditation-app-1'] .nav-actions .custom-nav-action {
+            display: none;
+        }
+    }
+
+    html[data-demo='meditation-app-1'] .custom-cascade {
+        -webkit-backdrop-filter: blur(20px) saturate(150%);
+        backdrop-filter: blur(20px) saturate(150%);
+    }
+
+    html[data-demo='meditation-app-1'] .custom-cascade-item {
+        border-radius: var(--radius-lg);
+        gap: 0.75rem;
+        padding: 0.4375rem 1rem 0.4375rem 0.4375rem;
+        font-size: 0.9375rem;
+        font-weight: 500;
+
+        &:hover {
+            & .custom-cascade-icon {
+                color: var(--custom-night);
+                background: var(--custom-accent);
+            }
+        }
+    }
+
+    .custom-cascade-icon {
+        aspect-ratio: 1;
+        width: 2.25rem;
+        color: var(--custom-primary-lit);
+        border-radius: var(--radius-full);
+        transition:
+            color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out);
+        background: #ffffff0f;
+        flex: none;
+        place-items: center;
+        font-size: 1.0625rem;
+        display: grid;
+    }
+
+    html[data-demo='meditation-app-1'] .custom-footer {
+        --footer-bg: var(--custom-night);
+        --footer-title: #fff;
+        --footer-link: #ffffffad;
+        --footer-body: #ffffffad;
+        --footer-link-hover: #fff;
+        --footer-muted: var(--custom-mist);
+        --footer-rule: var(--custom-line);
+
+        & .footer-col-title {
+            font-family: var(--font-sans);
+            letter-spacing: 0;
+            text-transform: none;
+            color: var(--custom-mist);
+            margin-bottom: 1.25rem;
+            font-size: 0.9375rem;
+            font-weight: 600;
+        }
+    }
+
+    html[data-demo='meditation-app-1'] .back-to-top {
+        color: var(--color-on-primary);
+    }
+
+    .custom-footer-brand {
+        & .custom-stores {
+            justify-content: flex-start;
+        }
+    }
+
+    .custom-footer-moon {
+        --custom-moon-size: 3rem;
+    }
+
+    html[data-demo='meditation-app-1'] .custom-footer-line {
+        & em {
+            font-family: var(--font-serif);
+        }
+    }
+
+    .custom-footer-social {
+        & .social-link {
+            --social-size: 2.5rem;
+        }
+    }
+
+    html[data-demo='meditation-app-1'] .custom-footer-mark {
+        & .footer-watermark-text {
+            max-inline-size: 100%;
+            font-family: var(--font-heading);
+            letter-spacing: -0.02em;
+            color: #0000;
+            background: linear-gradient(
+                180deg,
+                color-mix(in oklch, var(--custom-accent) 42%, transparent) 0%,
+                color-mix(in oklch, var(--custom-primary-lit) 22%, transparent) 70%,
+                color-mix(in oklch, var(--custom-primary-lit) 10%, transparent) 100%
+            );
+            opacity: 1;
+            background-clip: text;
+            margin: 0;
+            padding-block-end: 0.12em;
+            font-size: min(17.5cqi, 15.5rem);
+            font-weight: 400;
+            line-height: 1;
+            display: inline-block;
+        }
+    }
+
+    .custom-hero {
+        background: linear-gradient(
+            180deg,
+            var(--custom-night) 0%,
+            color-mix(in oklch, var(--custom-night) 45%, var(--custom-panel)) 58%,
+            var(--custom-night) 100%
+        );
+    }
+
+    .custom-hero-sky {
+        background:
+            radial-gradient(
+                42rem 30rem at 50% 72%,
+                color-mix(in oklch, var(--color-primary-base) 26%, transparent),
+                transparent 70%
+            ),
+            radial-gradient(
+                30rem 34rem at -4% 30%,
+                color-mix(in oklch, var(--color-primary-base) 18%, transparent),
+                transparent 70%
+            ),
+            radial-gradient(
+                26rem 30rem at 104% 62%,
+                color-mix(in oklch, var(--custom-accent) 7%, transparent),
+                transparent 70%
+            );
+    }
+
+    .custom-hero-moon {
+        --custom-moon-size: clamp(3.5rem, 2.5rem + 3vw, 6rem);
+    }
+
+    .custom-hero-twinkle {
+        top: var(--y);
+        left: var(--x);
+        z-index: -1;
+        aspect-ratio: 1;
+        background: var(--custom-accent);
+        clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
+        opacity: 0.4;
+        width: 0.625rem;
+        animation: custom-twinkle 6s ease-in-out var(--d, 0s) infinite;
+        position: absolute;
+    }
+
+    @keyframes custom-twinkle {
+        0%,
+        100% {
+            opacity: 0.25;
+            scale: 0.7;
+        }
+
+        50% {
+            opacity: 0.95;
+            scale: 1;
+        }
+    }
+
+    .custom-hero-chip {
+        color: #ffffffc7;
+        box-shadow: inset 0 0 0 1px var(--custom-line-strong);
+        transition: background-color var(--duration-fast) var(--ease-out);
+        background: #ffffff0d;
+
+        &:hover {
+            color: #fff;
+            background: #ffffff14;
+        }
+    }
+
+    .custom-hero-title {
+        max-inline-size: 11.5ch;
+        font-family: var(--font-heading);
+        letter-spacing: -0.02em;
+        color: #fff;
+        text-wrap: balance;
+        margin: 1.25rem 0 0;
+        font-size: clamp(3rem, 1.6rem + 5vw, 6rem);
+        font-weight: 300;
+        line-height: 1.02;
+
+        & em {
+            font-family: var(--font-serif);
+        }
+    }
+
+    html[data-demo='meditation-app-1'] .custom-hero-cta {
+        box-shadow: 0 10px 30px -10px
+            color-mix(in oklch, var(--color-primary-base) 70%, transparent);
+    }
+
+    .custom-hero-stage {
+        --custom-phone-w: clamp(12.5rem, 8rem + 10vw, 17.5rem);
+        --custom-phone-h: calc(var(--custom-phone-w) * 19.5 / 9);
+    }
+
+    .custom-hero-breath {
+        --custom-breath-size: min(64rem, 96cqi);
+        translate: -50% -50%;
+
+        & .custom-breath-rings {
+            mask-image: linear-gradient(#000 0% 55%, #0000 88%);
+        }
+
+        & .custom-breath-label {
+            top: calc(50% + var(--custom-phone-h) / 2 + 1.5rem);
+            font-size: 1.375rem;
+            position: absolute;
+            left: 50%;
+            translate: -50%;
+        }
+    }
+
+    .custom-hero-cover {
+        box-shadow: var(--custom-shadow);
+
+        &.custom-hero-cover--left {
+            rotate: -5deg;
+        }
+
+        &.custom-hero-cover--right {
+            left: calc(50% + var(--custom-phone-w) / 2 + clamp(1rem, 5cqi, 4.5rem));
+            rotate: 4deg;
+        }
+
+        &.visible.anim-done {
+            animation: 10s ease-in-out infinite custom-drift;
+        }
+
+        &.custom-hero-cover--right.visible.anim-done {
+            animation-duration: 13s;
+        }
+    }
+
+    @keyframes custom-drift {
+        0%,
+        100% {
+            translate: 0;
+        }
+
+        50% {
+            translate: 0 -0.625rem;
+        }
+    }
+
+    @media (width <= 767px) {
+        .custom-hero-cover {
+            & :is(figcaption, .custom-cover-plate) {
+                display: none;
+            }
+        }
+
+        .custom-hero-moon {
+            --custom-moon-size: 2.5rem;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .custom-hero-twinkle {
+            opacity: 0.7;
+            animation: none;
+        }
+
+        .custom-hero-cover.visible.anim-done {
+            animation: none;
+        }
+    }
+
+    .custom-proof-inner {
+        border-block: 1px solid var(--custom-line);
+    }
+
+    .custom-proof-mark {
+        color: #ffffff9e;
+        white-space: nowrap;
+        font-size: 1.375rem;
+        line-height: 1;
+    }
+
+    .custom-proof-mark--italic {
+        font-family: var(--font-serif);
+        font-weight: 300;
+    }
+
+    .custom-tonight-tab {
+        color: #ffffffc7;
+        border-radius: var(--radius-pill);
+        box-shadow: inset 0 0 0 1px var(--custom-line-strong);
+        cursor: pointer;
+        transition:
+            color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out),
+            box-shadow var(--duration-fast) var(--ease-out);
+        background: #ffffff0a;
+        border: 0;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.25rem 0.75rem 1rem;
+        font-size: 1rem;
+        font-weight: 500;
+        display: inline-flex;
+
+        & .ph {
+            color: var(--custom-primary-lit);
+        }
+
+        &:hover {
+            color: #fff;
+        }
+
+        &.is-active {
+            color: var(--custom-night);
+            background: var(--custom-accent);
+            box-shadow: none;
+
+            & .ph {
+                color: var(--custom-night);
+            }
+        }
+    }
+
+    .custom-tonight-panel {
+        aspect-ratio: 5 / 4;
+        border-radius: var(--custom-radius-card);
+        opacity: 0;
+        visibility: hidden;
+        transition:
+            opacity 0.5s var(--ease-out),
+            visibility 0s 0.5s;
+        grid-area: 1 / 1;
+        position: relative;
+        overflow: hidden;
+
+        &.is-active {
+            opacity: 1;
+            visibility: visible;
+            transition:
+                opacity 0.5s var(--ease-out),
+                visibility 0s;
+        }
+    }
+
+    .custom-tonight-line {
+        max-inline-size: 18rem;
+        font-family: var(--font-serif);
+        color: #fff;
+        background: color-mix(in oklch, var(--custom-night) 72%, transparent);
+        border-radius: var(--radius-lg);
+        margin: 0;
+        padding: 0.875rem 1.125rem;
+        font-size: 1.375rem;
+        font-style: italic;
+        font-weight: 300;
+        line-height: 1.25;
+        position: absolute;
+        top: 1.5rem;
+        left: 1.5rem;
+    }
+
+    .custom-tonight-phone {
+        --custom-phone-w: clamp(8rem, 5.5rem + 5vw, 11rem);
+        bottom: 1.25rem;
+        right: 1.25rem;
+    }
+
+    .custom-tonight-screen {
+        text-align: center;
+        color: var(--custom-mist);
+        flex-direction: column;
+        align-items: center;
+        gap: 2cqi;
+        padding: 24cqi 9cqi 10cqi;
+        font-size: 6.4cqi;
+        display: flex;
+
+        & b {
+            font-family: var(--font-heading);
+            color: #fff;
+            margin-top: 4cqi;
+            font-size: 9cqi;
+            font-weight: 500;
+            line-height: 1.15;
+        }
+    }
+
+    .custom-tonight-screen-label {
+        font-size: 6cqi;
+    }
+
+    .custom-tonight-ring {
+        aspect-ratio: 1;
+        width: 52cqi;
+        color: var(--custom-accent);
+        border-radius: var(--radius-full);
+        background:
+            radial-gradient(closest-side, var(--custom-panel) 86%, transparent 87%),
+            conic-gradient(var(--custom-accent) calc(var(--value, 0.5) * 360deg), #ffffff1f 0);
+        place-items: center;
+        margin-top: 6cqi;
+        font-size: 16cqi;
+        display: grid;
+    }
+
+    .custom-tonight-screen-play {
+        aspect-ratio: 1;
+        width: 22cqi;
+        color: var(--color-on-primary);
+        background: var(--color-primary);
+        border-radius: var(--radius-full);
+        place-items: center;
+        margin-top: auto;
+        font-size: 9cqi;
+        display: grid;
+    }
+
+    @media (width >= 1024px) {
+        .custom-tonight-line {
+            left: auto;
+            right: 1.5rem;
+        }
+
+        .custom-tonight-phone {
+            bottom: -2rem;
+            right: auto;
+        }
+    }
+
+    @media (width <= 639px) {
+        .custom-tonight-phone {
+            bottom: 1rem;
+            right: 1rem;
+        }
+    }
+
+    .custom-story {
+        & img {
+            transition: scale 0.7s var(--ease-out);
+        }
+
+        &:hover img {
+            scale: 1.04;
+        }
+    }
+
+    .custom-story-play {
+        aspect-ratio: 1;
+        width: 2.75rem;
+        color: var(--custom-night);
+        background: var(--custom-accent);
+        border-radius: var(--radius-full);
+        place-items: center;
+        font-size: 1rem;
+        display: grid;
+        position: absolute;
+        top: 0.875rem;
+        right: 0.875rem;
+    }
+
+    .custom-breathe-breath {
+        --custom-breath-size: min(34rem, 92cqi);
+
+        & .custom-breath-ring {
+            background: radial-gradient(
+                circle,
+                transparent 58%,
+                color-mix(in oklch, var(--color-primary-base) 10%, transparent) 100%
+            );
+            box-shadow: inset 0 0 0 1px
+                color-mix(in oklch, var(--color-primary-base) 26%, transparent);
+        }
+
+        & .custom-breath-ring:nth-child(4) {
+            background: radial-gradient(
+                circle,
+                color-mix(in oklch, var(--color-primary-base) 14%, transparent) 20%,
+                color-mix(in oklch, var(--color-primary-base) 30%, transparent) 100%
+            );
+            box-shadow: 0 0 80px color-mix(in oklch, var(--color-primary-base) 26%, transparent);
+        }
+
+        & .custom-breath-label {
+            color: var(--color-text);
+            font-size: clamp(1.625rem, 1.2rem + 1.4vw, 2.25rem);
+        }
+    }
+
+    @media (width >= 1024px) {
+        .custom-breathe-breath {
+            --custom-breath-size: min(34rem, 54cqi);
+        }
+    }
+
+    .custom-sounds-arch {
+        border-radius: 999px 999px var(--custom-radius-card) var(--custom-radius-card);
+    }
+
+    .custom-sounds-moon {
+        --custom-moon-size: 3rem;
+        translate: -50%;
+    }
+
+    html[data-demo='meditation-app-1'] .custom-sounds-player .audio-player {
+        box-shadow: inset 0 0 0 1px var(--custom-line);
+
+        & .audio-player-wave > span.is-played {
+            background: var(--custom-accent);
+        }
+    }
+
+    .custom-sounds-track {
+        text-align: start;
+        color: #ffffffc7;
+        border-radius: var(--radius-pill);
+        cursor: pointer;
+        width: 100%;
+        transition:
+            background-color var(--duration-fast) var(--ease-out),
+            color var(--duration-fast) var(--ease-out);
+        background: none;
+        border: 0;
+        align-items: center;
+        gap: 0.875rem;
+        padding: 0.5rem 0.75rem 0.5rem 0.5rem;
+        font-size: 1rem;
+        display: flex;
+
+        &:hover {
+            color: #fff;
+            background: #ffffff0a;
+        }
+
+        &.is-active {
+            color: #fff;
+            background: #ffffff0f;
+
+            & .custom-sounds-track-icon {
+                color: var(--custom-night);
+                background: var(--custom-accent);
+            }
+        }
+    }
+
+    .custom-sounds-track-icon {
+        aspect-ratio: 1;
+        width: 2.5rem;
+        color: var(--custom-primary-lit);
+        border-radius: var(--radius-full);
+        background: #ffffff0f;
+        place-items: center;
+        font-size: 1.125rem;
+        display: grid;
+    }
+
+    .custom-science-value {
+        font-family: var(--font-heading);
+        letter-spacing: -0.03em;
+        font-variant-numeric: tabular-nums;
+        color: #fff;
+        margin: 0;
+        font-size: clamp(4rem, 2.5rem + 4.5vw, 7rem);
+        line-height: 1;
+
+        & small {
+            font-family: var(--font-serif);
+            letter-spacing: 0;
+            color: var(--custom-accent);
+            margin-inline: 0.08em;
+            font-size: 0.5em;
+            font-style: italic;
+            font-weight: 300;
+        }
+    }
+
+    .custom-science-text {
+        max-inline-size: 15rem;
+        color: var(--color-text-soft);
+        margin: 0.75rem auto 0;
+        font-size: 1.125rem;
+        line-height: 1.45;
+    }
+
+    .custom-science-advisor {
+        max-inline-size: 52rem;
+        margin: var(--custom-head-space) auto 0;
+        padding-top: var(--custom-head-space);
+        text-align: center;
+        border-top: 1px solid var(--custom-line);
+        grid-template-columns: minmax(0, 1fr);
+        justify-items: center;
+        gap: 1.75rem;
+        display: grid;
+    }
+
+    .custom-day-wave {
+        translate: 0 -50%;
+    }
+
+    .custom-day-step {
+        & img {
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+            border-radius: var(--custom-radius-card);
+            width: 100%;
+            margin-top: 1.75rem;
+        }
+    }
+
+    .custom-day-dot {
+        z-index: 1;
+        aspect-ratio: 1;
+        width: 2.75rem;
+        color: var(--custom-accent);
+        background: var(--custom-night);
+        border-radius: var(--radius-full);
+        box-shadow: inset 0 0 0 1px var(--custom-line-strong);
+        place-items: center;
+        font-size: 1.125rem;
+        display: grid;
+        position: relative;
+    }
+
+    .custom-day-time {
+        font-variant-numeric: tabular-nums;
+        color: var(--custom-mist);
+        margin: 1.25rem 0 0;
+        font-size: 0.9375rem;
+    }
+
+    html[data-demo='meditation-app-1'] .custom-day-title {
+        font-family: var(--font-heading);
+        color: #fff;
+        margin: 0.25rem 0 0;
+        font-size: 1.5rem;
+        font-weight: 500;
+        line-height: 1.2;
+    }
+
+    .custom-day-text {
+        color: var(--color-text-soft);
+        margin: 0.375rem 0 0;
+        font-size: 1rem;
+    }
+
+    @media (width <= 1023px) {
+        .custom-day-rail {
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+        }
+
+        .custom-day-step {
+            scroll-snap-align: start;
+        }
+    }
+
+    .custom-voice {
+        border-radius: var(--custom-radius-card);
+        box-shadow: inset 0 0 0 1px var(--custom-line);
+        background: #ffffff08;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 2rem;
+        padding: 2rem;
+        display: flex;
+
+        & blockquote {
+            font-family: var(--font-heading);
+            color: #fff;
+            margin: 0;
+            font-size: 1.375rem;
+            line-height: 1.4;
+        }
+    }
+
+    .custom-voice-who {
+        & img {
+            aspect-ratio: 1;
+            object-fit: cover;
+            object-position: 50% 18%;
+            border-radius: var(--radius-full);
+            width: 3.25rem;
+        }
+    }
+
+    .custom-premium-billing {
+        margin-block: calc(var(--custom-head-space) * -0.5) var(--custom-head-space);
+    }
+
+    html[data-demo='meditation-app-1'] .custom-premium .pricing-billing-label {
+        color: var(--custom-mist);
+
+        &.is-active {
+            color: #fff;
+        }
+    }
+
+    html[data-demo='meditation-app-1'] .custom-plan {
+        --pricing-accent: var(--color-primary);
+        --pricing-pad: 2.25rem;
+        box-shadow: inset 0 0 0 1px var(--custom-line);
+        background: #ffffff08;
+
+        &:hover {
+            box-shadow: inset 0 0 0 1px var(--custom-line-strong);
+            transform: none;
+        }
+    }
+
+    html[data-demo='meditation-app-1'] .custom-plan--featured {
+        background: color-mix(in oklch, var(--color-primary-base) 16%, var(--custom-panel));
+        box-shadow:
+            inset 0 0 0 1px color-mix(in oklch, var(--custom-primary-lit) 45%, transparent),
+            var(--custom-shadow);
+        transform: none;
+
+        &:hover {
+            box-shadow:
+                inset 0 0 0 1px color-mix(in oklch, var(--custom-primary-lit) 60%, transparent),
+                var(--custom-shadow);
+        }
+    }
+
+    .custom-plan-note {
+        color: var(--custom-mist);
+        margin: 0.25rem 0 0;
+        font-size: 0.9375rem;
+    }
+
+    html[data-demo='meditation-app-1'] .custom-faq-list {
+        & .accordion-body > div {
+            color: var(--color-text-soft);
+            font-size: 1.0625rem;
+            line-height: 1.6;
+        }
+    }
+
+    .custom-cta {
+        margin-top: calc(var(--section-space) * 0.9);
+        background:
+            radial-gradient(
+                36rem 26rem at 85% 110%,
+                color-mix(in oklch, var(--color-primary-base) 42%, transparent),
+                transparent 70%
+            ),
+            linear-gradient(160deg, var(--custom-panel), var(--custom-night));
+        border-radius: var(--radius-40);
+        box-shadow: inset 0 0 0 1px var(--custom-line);
+        grid-template-columns: minmax(0, 1fr);
+        align-items: center;
+        gap: 2.5rem;
+        padding: clamp(2.5rem, 1.5rem + 4vw, 5rem);
+        display: grid;
+        position: relative;
+        overflow: clip;
+
+        & .custom-title {
+            max-inline-size: 13ch;
+        }
+
+        & .custom-stores {
+            justify-content: flex-start;
+            margin-top: 2rem;
+        }
+    }
+
+    .custom-cta-copy {
+        & .custom-stores {
+            margin-top: 0.75rem;
+        }
+    }
+
+    .custom-cta-moon {
+        --custom-moon-size: clamp(3.5rem, 2.5rem + 3vw, 5.5rem);
+    }
+
+    .custom-cta-qr {
+        z-index: 1;
+        background: var(--custom-paper);
+        border-radius: var(--radius-lg);
+        justify-self: start;
+        justify-items: center;
+        gap: 0.75rem;
+        padding: 1rem 1rem 0.875rem;
+        display: grid;
+        position: relative;
+
+        & svg {
+            fill: #1a1730;
+            shape-rendering: crispedges;
+        }
+
+        & p {
+            color: #1a1730;
+        }
+    }
+
+    @media (width <= 899px) {
+        .custom-cta-moon {
+            --custom-moon-size: 2.75rem;
+        }
+    }
+
+    .custom-ph {
+        padding-block: calc(var(--header-h) + clamp(3rem, 2rem + 3.5vw, 6rem))
+            clamp(4.5rem, 3rem + 5vw, 8rem);
+        background: linear-gradient(
+            180deg,
+            var(--custom-night) 0%,
+            color-mix(in oklch, var(--custom-night) 50%, var(--custom-panel)) 72%,
+            var(--custom-night) 100%
+        );
+    }
+
+    .custom-ph .custom-hero-sky {
+        mask-image: linear-gradient(#000 55%, #0000 100%);
+    }
+
+    .custom-ph--compact {
+        padding-block: calc(var(--header-h) + clamp(2.5rem, 1.75rem + 2.5vw, 4.5rem))
+            clamp(3.5rem, 2.5rem + 3.5vw, 6rem);
+    }
+
+    .custom-ph-moon {
+        --custom-moon-size: clamp(3rem, 2.25rem + 2.4vw, 5rem);
+    }
+
+    .custom-ph-breath {
+        --custom-breath-size: min(56rem, 130vw);
+        translate: -50% -42%;
+
+        & .custom-breath-rings {
+            mask-image: linear-gradient(#0000 0%, #000 20% 28%, #0000 40%);
+        }
+    }
+
+    .custom-ph-crumb .breadcrumb {
+        & .breadcrumb-item,
+        & .breadcrumb-item a {
+            color: var(--custom-mist);
+        }
+
+        & .breadcrumb-item a:hover,
+        & .breadcrumb-item[aria-current='page'] {
+            color: #fff;
+        }
+
+        & .breadcrumb-item + .breadcrumb-item:before {
+            color: var(--custom-accent);
+        }
+    }
+
+    html[data-demo='meditation-app-1'] .custom-ph-title {
+        max-inline-size: 15ch;
+        font-family: var(--font-heading);
+        letter-spacing: -0.02em;
+        color: #fff;
+        text-wrap: balance;
+        margin: 1.25rem 0 0;
+        font-size: clamp(2.875rem, 1.75rem + 4vw, 5.25rem);
+        font-weight: 300;
+        line-height: 1.03;
+
+        & em {
+            font-family: var(--font-serif);
+        }
+    }
+
+    .custom-card {
+        border-radius: var(--custom-radius-card);
+        box-shadow: inset 0 0 0 1px var(--custom-line);
+        background: #ffffff08;
+    }
+
+    html[data-demo='meditation-app-1'] .custom-card-title {
+        font-family: var(--font-heading);
+        letter-spacing: -0.01em;
+        color: #fff;
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 500;
+        line-height: 1.2;
+
+        & a {
+            color: inherit;
+            text-decoration: none;
+
+            &:hover {
+                color: var(--custom-accent);
+            }
+        }
+    }
+
+    html[data-demo='meditation-app-1'] .custom-section--paper .custom-card-title {
+        color: var(--color-text);
+    }
+
+    .custom-card-text {
+        color: var(--color-text-soft);
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    .custom-icon {
+        aspect-ratio: 1;
+        width: 3rem;
+        color: var(--custom-accent);
+        border-radius: var(--radius-full);
+        box-shadow: inset 0 0 0 1px var(--custom-line);
+        background: #ffffff0f;
+        flex: none;
+        place-items: center;
+        font-size: 1.375rem;
+        display: grid;
+    }
+
+    .custom-meta {
+        color: var(--custom-mist);
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.375rem 0.75rem;
+        margin: 0;
+        font-size: 0.9375rem;
+        display: flex;
+    }
+
+    .custom-tag {
+        font-family: var(--font-serif);
+        color: var(--custom-accent);
+        font-size: 1.125rem;
+        font-style: italic;
+        font-weight: 300;
+    }
+
+    .custom-story-stage {
+        --custom-phone-w: clamp(13rem, 10rem + 6vw, 16.5rem);
+
+        & .custom-breath {
+            --custom-breath-size: min(36rem, 100cqi);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            translate: -50% -50%;
+        }
+
+        & .custom-phone {
+            position: relative;
+        }
+    }
+
+    .custom-story-copy {
+        & .custom-title {
+            max-inline-size: 13ch;
+        }
+    }
+
+    .custom-chapters {
+        counter-reset: custom-chapter;
+
+        & li {
+            color: var(--color-text);
+            border-bottom: 1px solid var(--custom-line);
+            counter-increment: custom-chapter;
+            align-items: baseline;
+            gap: 1rem;
+            padding-block: 0.875rem;
+            font-size: 1.0625rem;
+            display: flex;
+
+            &:before {
+                content: counter(custom-chapter, decimal-leading-zero);
+                font-variant-numeric: tabular-nums;
+                min-width: 1.75rem;
+                color: var(--custom-accent);
+                font-size: 0.9375rem;
+            }
+        }
+    }
+
+    .custom-library-head {
+        & .custom-head {
+            margin: 0;
+        }
+    }
+
+    @media (width <= 639px) {
+        .custom-library {
+            & :is(figcaption, .custom-cover-plate) {
+                padding: 0.5rem 0.625rem;
+                inset: auto 0.375rem 0.375rem;
+            }
+
+            & .custom-cover-title {
+                font-size: 1rem;
+            }
+
+            & .custom-cover-meta {
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                font-size: 0.875rem;
+                overflow: hidden;
+            }
+        }
+    }
+
+    .custom-steps {
+        counter-reset: custom-step;
+
+        & li {
+            counter-increment: custom-step;
+
+            &:before {
+                content: counter(custom-step);
+                aspect-ratio: 1;
+                width: 2.5rem;
+                font-family: var(--font-heading);
+                color: var(--color-primary-ink);
+                border-radius: var(--radius-full);
+                box-shadow: inset 0 0 0 1px var(--custom-line-strong);
+                grid-row: span 2;
+                place-items: center;
+                font-size: 1.125rem;
+                display: grid;
+            }
+        }
+    }
+
+    .custom-course {
+        align-content: start;
+        gap: 0.75rem;
+        padding: 0.625rem 0.625rem 1.75rem;
+        display: grid;
+        position: relative;
+    }
+
+    .custom-course-art {
+        aspect-ratio: 4 / 3;
+        border-radius: calc(var(--custom-radius-card) - 0.625rem);
+        margin: 0 0 0.75rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .custom-course-badge {
+        color: #fff;
+        background: color-mix(in oklch, var(--custom-night) 72%, transparent);
+        border-radius: var(--radius-pill);
+        padding: 0.375rem 0.875rem;
+        font-size: 0.9375rem;
+        font-weight: 500;
+        position: absolute;
+        top: 0.75rem;
+        left: 0.75rem;
+    }
+
+    .custom-course .custom-meta {
+        margin-top: 0.25rem;
+    }
+
+    .custom-course-link:after {
+        content: '';
+        border-radius: var(--custom-radius-card);
+        position: absolute;
+        inset: 0;
+    }
+
+    .custom-course:has(.custom-course-link:hover) {
+        box-shadow: inset 0 0 0 1px var(--custom-line-strong);
+    }
+
+    .custom-technique {
+        text-align: center;
+        background: var(--color-surface);
+        border-radius: var(--custom-radius-card);
+        box-shadow: inset 0 0 0 1px var(--custom-line);
+        justify-items: center;
+        gap: 0.75rem;
+        padding: 2.25rem 2rem 2.5rem;
+        display: grid;
+
+        & .custom-card-title {
+            color: var(--color-text);
+        }
+    }
+
+    .custom-technique-breath {
+        --custom-breath-size: 9.5rem;
+
+        & .custom-breath-ring {
+            background: radial-gradient(
+                circle,
+                transparent 58%,
+                color-mix(in oklch, var(--color-primary-base) 10%, transparent) 100%
+            );
+            box-shadow: inset 0 0 0 1px
+                color-mix(in oklch, var(--color-primary-base) 26%, transparent);
+        }
+
+        & .custom-breath-ring:nth-child(4) {
+            background: radial-gradient(
+                circle,
+                color-mix(in oklch, var(--color-primary-base) 14%, transparent) 20%,
+                color-mix(in oklch, var(--color-primary-base) 30%, transparent) 100%
+            );
+            box-shadow: 0 0 40px color-mix(in oklch, var(--color-primary-base) 22%, transparent);
+        }
+    }
+
+    .custom-technique-count {
+        font-family: var(--font-heading);
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0.04em;
+        color: var(--color-text);
+        font-size: 1.375rem;
+        position: relative;
+    }
+
+    .custom-technique-for {
+        color: var(--color-primary-ink);
+        margin: 0.25rem 0 0;
+        font-size: 0.9375rem;
+        font-weight: 600;
+    }
+
+    .custom-focus {
+        & .custom-tonight-copy .custom-small {
+            margin-top: 1.75rem;
+        }
+    }
+
+    .custom-ph + .custom-premium .custom-premium-billing {
+        margin-top: 0;
+    }
+
+    .custom-ph ~ .custom-faq .custom-faq-grid > .custom-head {
+        align-content: start;
+    }
+
+    .custom-guide {
+        text-align: center;
+        justify-items: center;
+        gap: 0.625rem;
+        padding: 2.5rem 2rem;
+        display: grid;
+
+        & img {
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: var(--radius-full);
+            width: 7rem;
+            box-shadow:
+                0 0 0 6px #ffffff0a,
+                0 0 0 7px var(--custom-line);
+            margin-bottom: 0.75rem;
+        }
+
+        & .custom-card-text {
+            max-inline-size: 20rem;
+        }
+
+        & .custom-link {
+            margin-top: 0.75rem;
+        }
+    }
+
+    .custom-compare-wrap {
+        box-shadow: inset 0 0 0 1px var(--custom-line);
+    }
+
+    .custom-compare {
+        border-collapse: collapse;
+
+        & th,
+        & td {
+            text-align: center;
+            border-bottom: 1px solid var(--custom-line);
+            padding: 1rem 1.25rem;
+        }
+
+        & thead th {
+            font-family: var(--font-heading);
+            color: #fff;
+            padding-block: 1.25rem;
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+
+        & :is(td, th):nth-child(2) {
+            background: color-mix(in oklch, var(--color-primary-base) 12%, transparent);
+        }
+
+        & .ph-minus {
+            color: #ffffff47;
+        }
+    }
+
+    @media (width <= 639px) {
+        .custom-compare {
+            & th,
+            & td {
+                padding: 0.875rem 0.625rem;
+            }
+
+            & th[scope='row'] {
+                padding-inline-start: 1rem;
+            }
+        }
+    }
+
+    .custom-family-profiles {
+        color: #fff;
+        background: color-mix(in oklch, var(--custom-night) 76%, transparent);
+        border-radius: var(--radius-pill);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+        align-items: center;
+        gap: 0.875rem;
+        padding: 0.625rem 1.125rem 0.625rem 0.625rem;
+        font-size: 0.9375rem;
+        font-weight: 500;
+        display: flex;
+        position: absolute;
+        bottom: 1rem;
+        left: 1rem;
+    }
+
+    .custom-family-copy {
+        & .custom-head {
+            margin: 0;
+        }
+    }
+
+    .custom-ticks {
+        & .ph {
+            color: var(--custom-accent);
+            flex: none;
+            margin-top: 0.2rem;
+            font-size: 1.25rem;
+        }
+    }
+
+    .custom-feature-art {
+        margin: 0;
+
+        & img {
+            transition: scale 0.7s var(--ease-out);
+        }
+
+        &:hover img {
+            scale: 1.03;
+        }
+    }
+
+    html[data-demo='meditation-app-1'] .custom-feature-title {
+        & a {
+            color: inherit;
+
+            &:hover {
+                color: var(--custom-accent);
+            }
+        }
+    }
+
+    .custom-post {
+        & .custom-feature-art {
+            margin-bottom: 0.5rem;
+        }
+
+        &:has(a:hover) .custom-feature-art img {
+            scale: 1.03;
+        }
+
+        & .custom-card-title a:after {
+            content: '';
+            position: absolute;
+            inset: 0;
+        }
+    }
+
+    .custom-letter {
+        & .custom-moon {
+            --custom-moon-size: 3rem;
+            --custom-accent: var(--color-primary-ink);
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    .custom-letter-note {
+        display: flex;
+    }
+
+    .custom-article-by {
+        max-inline-size: 46rem;
+        padding-inline: var(--container-x);
+        box-sizing: content-box;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem 2rem;
+        margin: 0 auto 2.5rem;
+        display: flex;
+    }
+
+    html[data-demo='meditation-app-1'] .custom-article-body {
+        & li::marker {
+            color: var(--custom-accent);
+        }
+
+        & > blockquote {
+            font-family: var(--font-serif);
+            letter-spacing: -0.005em;
+            text-align: center;
+            color: #fff;
+            text-wrap: balance;
+            border: 0;
+            padding: 0;
+            font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.375rem);
+            font-style: italic;
+            font-weight: 400;
+            line-height: 1.25;
+
+            &:before {
+                content: '“';
+                height: 0.6em;
+                color: var(--custom-accent);
+                font-size: 2em;
+                line-height: 1;
+                display: block;
+            }
+        }
+
+        & figcaption {
+            color: var(--custom-mist);
+        }
+    }
+
+    .custom-article-try {
+        transition: box-shadow var(--duration-fast) var(--ease-out);
+
+        & img {
+            border-radius: calc(var(--custom-radius-card) - 0.5rem);
+        }
+
+        &:hover {
+            box-shadow: inset 0 0 0 1px var(--custom-line-strong);
+        }
+    }
+
+    .custom-article-try-label {
+        font-family: var(--font-serif);
+        font-weight: 300;
+    }
+
+    .custom-about-photo {
+        & img {
+            border-radius: 999px 999px var(--custom-radius-card) var(--custom-radius-card);
+        }
+
+        & .custom-moon {
+            --custom-moon-size: 3rem;
+            position: absolute;
+            top: 14%;
+            left: 50%;
+            translate: -50%;
+        }
+    }
+
+    .custom-about-copy {
+        & .custom-head {
+            margin: 0;
+        }
+
+        & p:not([class]) {
+            color: var(--color-text-soft);
+            margin: 0;
+            font-size: 1.0625rem;
+            line-height: 1.7;
+        }
+    }
+
+    .custom-stats {
+        border-top: 1px solid var(--custom-line);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+        margin: 1rem 0 0;
+        padding: 1.75rem 0 0;
+        list-style: none;
+        display: grid;
+
+        & b {
+            font-family: var(--font-heading);
+            letter-spacing: -0.02em;
+            font-variant-numeric: tabular-nums;
+            color: #fff;
+            font-size: clamp(2rem, 1.5rem + 1.6vw, 2.75rem);
+            font-weight: 400;
+            line-height: 1;
+            display: block;
+        }
+
+        & span {
+            color: var(--custom-mist);
+            margin-top: 0.5rem;
+            font-size: 0.9375rem;
+            line-height: 1.4;
+            display: block;
+        }
+    }
+
+    .custom-member {
+        & img {
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: var(--custom-radius-card);
+            background: var(--custom-panel);
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+    }
+
+    .custom-role {
+        border-bottom: 1px solid var(--custom-line);
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 0.5rem 1.5rem;
+        padding-block: 1.5rem;
+        display: grid;
+        position: relative;
+
+        & .custom-card-title a:after {
+            content: '';
+            position: absolute;
+            inset: 0;
+        }
+
+        & .custom-meta {
+            grid-column: 1;
+        }
+
+        & > .ph {
+            aspect-ratio: 1;
+            width: 3rem;
+            color: var(--color-text);
+            border-radius: var(--radius-full);
+            box-shadow: inset 0 0 0 1px var(--custom-line-strong);
+            transition:
+                background-color var(--duration-fast) var(--ease-out),
+                color var(--duration-fast) var(--ease-out);
+            grid-area: 1 / 2 / span 2;
+            place-items: center;
+            font-size: 1.125rem;
+            display: grid;
+        }
+
+        &:has(a:hover) > .ph {
+            color: var(--color-on-primary);
+            background: var(--color-primary);
+            box-shadow: none;
+        }
+    }
+
+    html[data-demo='meditation-app-1'] .custom-form {
+        box-shadow: inset 0 0 0 1px var(--custom-line);
+
+        & :is(.form-input, .form-select, .form-textarea) {
+            border-color: var(--custom-line-strong);
+            background-color: #ffffff0a;
+
+            &::placeholder {
+                color: #fff6;
+            }
+        }
+
+        & .form-select option {
+            color: #1a1730;
+        }
+    }
+
+    .custom-form-note {
+        display: flex;
+    }
+
+    .custom-contact-aside {
+        & .custom-head {
+            margin: 0;
+        }
+    }
+
+    .custom-route {
+        & .custom-icon {
+            margin-bottom: 0.5rem;
+        }
+
+        & .custom-link {
+            margin-top: 0.5rem;
+        }
+    }
+}

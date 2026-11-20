@@ -1,0 +1,89 @@
+/* ================================================================
+ *  demo-consulting-1.css — Framo theme for the Consulting demo
+ *
+ *  The colors, fonts and layout settings of the Consulting demo (a royal
+ *  blue for the actions, an ink navy for the slabs and the footer, ice
+ *  for quiet fills, slate for meta text and an amber used only for the
+ *  exhibit markers, on a white ground with mist panels).
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Each page also preloads this URL in its <head>
+   (the <link data-theme-fonts> line) so the fonts arrive sooner: after
+   changing it here, replace it in the pages too, or delete that line.
+   Geist (500 and 600) sets the headings and figures; Inter the text. */
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #0d58d8;   /* main color: royal blue for buttons, links and focus; labels on it are white */
+    --color-secondary-base:  #0b1630;   /* second color: the ink navy of the slabs and the footer; the dark scheme takes its hue */
+    --color-tertiary-base:   #cfe0ff;   /* third color: ice, for quiet fills */
+    --color-quaternary-base: #5b6b82;   /* fourth color: slate, for meta text */
+    --color-accent-base:     #f2a516;   /* attention color: amber, used small (exhibit markers, the highlighter) */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. */
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-text:      var(--color-secondary-base);   /* headings and body text: the ink navy (#0b1630) */
+    --color-text-soft: oklch(from var(--color-primary-base) 0.4572 calc(c * 0.193) calc(h - 1.8));   /* secondary text (#4a586e) */
+    --color-bg:        #ffffff;   /* page background: white */
+    --color-bg-soft:   oklch(from var(--color-primary-base) 0.9723 calc(c * 0.036) calc(h - 0.4));   /* a step deeper: the mist panels (#f3f6fb) */
+    --color-border:    oklch(from var(--color-quaternary-base) 0.926 calc(c * 0.334) calc(h + 0.9));   /* lines and borders (#e1e7f0) */
+    --color-dark:      var(--color-secondary-base);   /* dark sections and dark buttons (#0b1630) */
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Geist', system-ui, sans-serif;   /* headings and figures */
+    --font-serif:   'Instrument Serif', Georgia, 'Times New Roman', serif;   /* italic accents */
+    --font-tertiary: 'Urbanist', system-ui, sans-serif;   /* display accents */
+
+    /* Stylesheets of the accent fonts, fetched only on pages that use them.
+       Change a family above and its URL here together. Set one to "" to
+       load nothing, e.g. when that font is a system font. */
+    --font-serif-src:    "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap";
+    --font-tertiary-src: "https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800;900&display=swap";
+
+    /* Headings and buttons */
+    --heading-weight:     500;                     /* Geist medium: the range 400–700 is loaded */
+    --heading-tracking:   -0.035em;                 /* Geist reads best set tight */
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        0.5;      /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 0.375rem;   /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1320px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 1.2;   /* space between sections: 0.75 compact · 1 · 1.25 spacious */
+}

@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en" data-demo="grocery-store-1">
+    <head>
+        <meta charset="UTF-8">
+        <script async src="../assets/js/entrance.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Checkout — Grocery Store — Framo</title>
+        <link rel="icon" href="../assets/media/logo/favicon.ico" sizes="32x32">
+        <link rel="icon" href="../assets/media/logo/framo-mark.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="../assets/media/logo/apple-touch-icon.png">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link rel="stylesheet" href="../assets/css/icons.css">
+        <link rel="stylesheet" href="../assets/css/app.css">
+        <link rel="stylesheet" href="../assets/css/vendor.css">
+        <link rel="stylesheet" href="../assets/css/shop.css">
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Figtree:wght@500..700&amp;family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" data-theme-fonts>
+        <link rel="stylesheet" href="../assets/css/demos/demo-grocery-store-1.css">
+        <link rel="stylesheet" href="../assets/css/themes/demo-grocery-store-1.css" data-theme-file>
+        <link rel="stylesheet" href="../assets/css/custom.css">
+    </head>
+    <body>
+
+        <header class="site-header header-stacked header-topbar header-shop" data-header>
+
+            <!-- Grocery Store strip - header-topbar includes it for a demo (in place of the template shop strip; one forest row): the delivery promise on the left, delivery areas, recipes, help and the app on the right. Edit: the lines, the links -->
+            <div class="site-topbar">
+                <div class="site-topbar-inner shop-utility container">
+                    <p class="shop-utility-note"><i class="ph ph-clock-countdown" aria-hidden="true"></i> Order by 2 pm, at your door by 6 pm <span class="size-[4px] mx-2 bg-(--color-border) rounded-full" aria-hidden="true"></span> Free delivery over $35</p>
+                    <nav class="shop-utility-links" aria-label="Customer links">
+                        <a href="demo-grocery-store-1-delivery-areas.html">Delivery Areas</a>
+                        <a href="demo-grocery-store-1-recipes.html">Recipes</a>
+                        <a href="demo-grocery-store-1-about.html">About Us</a>
+                        <a href="demo-grocery-store-1-contact.html">Help</a>
+                        <a href="#">Get the App</a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main navbar -->
+            <nav class="navbar" role="navigation" aria-label="Main navigation">
+                <div class="navbar-inner container">
+
+                    <!-- Brand -->
+                    <a href="demo-grocery-store-1.html" class="brand">
+
+                        <img class="brand-logo" src="../assets/media/logo/framo-logo.svg" alt="Framo" width="120" height="32" style="--logo-tint: url(#logo-tint-header)">
+
+                        <svg class="brand-tint" aria-hidden="true" focusable="false">
+                            <filter id="logo-tint-header" color-interpolation-filters="sRGB">
+                                <feFlood flood-color="currentColor" />
+                                <feComposite in2="SourceAlpha" operator="in" />
+                            </filter>
+                        </svg>
+
+                    </a>
+
+                    <!-- Desktop navigation links -->
+                    <ul class="nav-links" role="list">
+
+                        <!-- Grocery Store menu - the <li> items of . Inner pages: shop (5 columns), aisle (filter dropdowns), deals (category circles), product (sidebar), recipe (bundle), cart, checkout, order-complete, recipes, delivery-areas, contact -->
+
+                        <li>
+                            <a href="demo-grocery-store-1.html" class="nav-link custom-home"><i class="ph ph-house" aria-hidden="true"></i><span class="custom-home-label">Home</span></a>
+                        </li>
+
+                        <!-- All Aisles - the tabs mega (template .nav-megamenu--tabs): the aisle list on the left swaps a panel of sub-aisle links and four mini product cards with a quick-add (+ bumps the cart count and total); the Weekly Deals card stays on the right. Edit: the aisles (icon, name, count), the links, each card (image, name, unit, price), the deal card -->
+                        <li class="nav-megamenu nav-megamenu--tabs custom-mega">
+                            <button class="nav-link custom-aisles-btn">
+                                <i class="ph ph-squares-four" aria-hidden="true"></i>
+                                All Aisles
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="megamenu-panel" data-lenis-prevent>
+                                <div class="megamenu-inner megamenu-inner--tabs container">
+                                    <!-- hover(): a short dwell before switching; go(): arrow keys move between the aisles, Tab goes on into the open panel -->
+                                    <div class="tabs tabs-vertical tabs-rich megamenu-tabs custom-aisles lg:gap-y-0 lg:gap-x-8" x-data="{ tab: 'fruit', tabs: ['fruit', 'vegetables', 'bakery', 'dairy', 'meat-fish', 'pantry'], t: null, hover(v) { clearTimeout(this.t); this.t = setTimeout(() => this.tab = v, 110) }, go(d) { clearTimeout(this.t); const n = this.tabs.length; this.tab = this.tabs[(this.tabs.indexOf(this.tab) + d + n) % n]; this.$refs[this.tab.replace('-', '_')].focus() } }">
+
+                                        <div class="tabs-nav" role="tablist" aria-label="Aisles" aria-orientation="vertical" @keydown.down.prevent="go(1)" @keydown.up.prevent="go(-1)">
+                                            <button type="button" class="tab-btn is-active" role="tab" id="gs1-aisle-tab-fruit" aria-controls="gs1-aisle-panel-fruit" x-ref="fruit" :class="{ 'is-active': tab === 'fruit' }" :aria-selected="tab === 'fruit'" :tabindex="tab === 'fruit' ? 0 : -1" @mouseenter="hover('fruit')" @mouseleave="clearTimeout(t)" @click="tab = 'fruit'" @focus="tab = 'fruit'">
+                                                <span class="tab-btn-icon" aria-hidden="true"><i class="ph ph-orange"></i></span>
+                                                <span class="tab-btn-title">Fruit</span>
+                                                <span class="tab-btn-caption lg:mt-0 lg:tabular-nums">412 products</span>
+                                            </button>
+                                            <button type="button" class="tab-btn" role="tab" id="gs1-aisle-tab-vegetables" aria-controls="gs1-aisle-panel-vegetables" x-ref="vegetables" tabindex="-1" :class="{ 'is-active': tab === 'vegetables' }" :aria-selected="tab === 'vegetables'" :tabindex="tab === 'vegetables' ? 0 : -1" @mouseenter="hover('vegetables')" @mouseleave="clearTimeout(t)" @click="tab = 'vegetables'" @focus="tab = 'vegetables'">
+                                                <span class="tab-btn-icon" aria-hidden="true"><i class="ph ph-carrot"></i></span>
+                                                <span class="tab-btn-title">Vegetables</span>
+                                                <span class="tab-btn-caption lg:mt-0 lg:tabular-nums">538 products</span>
+                                            </button>
+                                            <button type="button" class="tab-btn" role="tab" id="gs1-aisle-tab-bakery" aria-controls="gs1-aisle-panel-bakery" x-ref="bakery" tabindex="-1" :class="{ 'is-active': tab === 'bakery' }" :aria-selected="tab === 'bakery'" :tabindex="tab === 'bakery' ? 0 : -1" @mouseenter="hover('bakery')" @mouseleave="clearTimeout(t)" @click="tab = 'bakery'" @focus="tab = 'bakery'">
+                                                <span class="tab-btn-icon" aria-hidden="true"><i class="ph ph-bread"></i></span>
+                                                <span class="tab-btn-title">Bakery</span>
+                                                <span class="tab-btn-caption lg:mt-0 lg:tabular-nums">186 products</span>
+                                            </button>
+                                            <button type="button" class="tab-btn" role="tab" id="gs1-aisle-tab-dairy" aria-controls="gs1-aisle-panel-dairy" x-ref="dairy" tabindex="-1" :class="{ 'is-active': tab === 'dairy' }" :aria-selected="tab === 'dairy'" :tabindex="tab === 'dairy' ? 0 : -1" @mouseenter="hover('dairy')" @mouseleave="clearTimeout(t)" @click="tab = 'dairy'" @focus="tab = 'dairy'">
+                                                <span class="tab-btn-icon" aria-hidden="true"><i class="ph ph-egg"></i></span>
+                                                <span class="tab-btn-title">Dairy &amp; Eggs</span>
+                                                <span class="tab-btn-caption lg:mt-0 lg:tabular-nums">324 products</span>
+                                            </button>
+                                            <button type="button" class="tab-btn" role="tab" id="gs1-aisle-tab-meat-fish" aria-controls="gs1-aisle-panel-meat-fish" x-ref="meat_fish" tabindex="-1" :class="{ 'is-active': tab === 'meat-fish' }" :aria-selected="tab === 'meat-fish'" :tabindex="tab === 'meat-fish' ? 0 : -1" @mouseenter="hover('meat-fish')" @mouseleave="clearTimeout(t)" @click="tab = 'meat-fish'" @focus="tab = 'meat-fish'">
+                                                <span class="tab-btn-icon" aria-hidden="true"><i class="ph ph-fish"></i></span>
+                                                <span class="tab-btn-title">Meat &amp; Fish</span>
+                                                <span class="tab-btn-caption lg:mt-0 lg:tabular-nums">267 products</span>
+                                            </button>
+                                            <button type="button" class="tab-btn" role="tab" id="gs1-aisle-tab-pantry" aria-controls="gs1-aisle-panel-pantry" x-ref="pantry" tabindex="-1" :class="{ 'is-active': tab === 'pantry' }" :aria-selected="tab === 'pantry'" :tabindex="tab === 'pantry' ? 0 : -1" @mouseenter="hover('pantry')" @mouseleave="clearTimeout(t)" @click="tab = 'pantry'" @focus="tab = 'pantry'">
+                                                <span class="tab-btn-icon" aria-hidden="true"><i class="ph ph-grains"></i></span>
+                                                <span class="tab-btn-title">Pantry</span>
+                                                <span class="tab-btn-caption lg:mt-0 lg:tabular-nums">1,940 products</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="tabs-panels">
+                                            <div class="tabs-panel megamenu-tabpanel is-active" role="tabpanel" id="gs1-aisle-panel-fruit" aria-labelledby="gs1-aisle-tab-fruit" :class="{ 'is-active': tab === 'fruit' }">
+                                                <div class="megamenu-col custom-aisle-links lg:items-center lg:gap-1.5">
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Berries</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Citrus</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Stone Fruit</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Tropical</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Apples &amp; Pears</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item custom-aisle-all">Shop All Fruit <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                                                </div>
+                                                <ul class="custom-mini-grid" role="list">
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/488x384.svg" alt="" width="488" height="384" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Organic Strawberries</a>
+                                                        <span class="custom-mini-unit">1 lb clamshell</span>
+                                                        <span class="custom-mini-price">$5.49</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 5.49" :data-state="state" aria-label="Add Organic Strawberries to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/466x501.svg" alt="" width="466" height="501" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Yellow Peaches</a>
+                                                        <span class="custom-mini-unit">$3.49 / lb</span>
+                                                        <span class="custom-mini-price">$3.49</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 3.49" :data-state="state" aria-label="Add Yellow Peaches to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/760x517.svg" alt="" width="760" height="517" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Meyer Lemons</a>
+                                                        <span class="custom-mini-unit">$0.89 each</span>
+                                                        <span class="custom-mini-price">$0.89</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 0.89" :data-state="state" aria-label="Add Meyer Lemons to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/801x528.svg" alt="" width="801" height="528" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Hass Avocados</a>
+                                                        <span class="custom-mini-unit">$1.79 each</span>
+                                                        <span class="custom-mini-price">$1.79</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 1.79" :data-state="state" aria-label="Add Hass Avocados to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="tabs-panel megamenu-tabpanel" role="tabpanel" id="gs1-aisle-panel-vegetables" aria-labelledby="gs1-aisle-tab-vegetables" :class="{ 'is-active': tab === 'vegetables' }">
+                                                <div class="megamenu-col custom-aisle-links lg:items-center lg:gap-1.5">
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Salad &amp; Greens</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Tomatoes</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Root Vegetables</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Herbs</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Mushrooms</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item custom-aisle-all">Shop All Vegetables <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                                                </div>
+                                                <ul class="custom-mini-grid" role="list">
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/849x568.svg" alt="" width="849" height="568" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Tomatoes on the Vine</a>
+                                                        <span class="custom-mini-unit">$3.49 / lb</span>
+                                                        <span class="custom-mini-price">$3.49</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 3.49" :data-state="state" aria-label="Add Tomatoes on the Vine to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/756x767.svg" alt="" width="756" height="767" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Curly Kale</a>
+                                                        <span class="custom-mini-unit">$2.99 / bunch</span>
+                                                        <span class="custom-mini-price">$2.99</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 2.99" :data-state="state" aria-label="Add Curly Kale to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/772x821.svg" alt="" width="772" height="821" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Bunched Carrots</a>
+                                                        <span class="custom-mini-unit">$2.49 / bunch</span>
+                                                        <span class="custom-mini-price">$2.49</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 2.49" :data-state="state" aria-label="Add Bunched Carrots to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/814x608.svg" alt="" width="814" height="608" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Red Radishes</a>
+                                                        <span class="custom-mini-unit">$1.99 / bunch</span>
+                                                        <span class="custom-mini-price">$1.99</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 1.99" :data-state="state" aria-label="Add Red Radishes to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="tabs-panel megamenu-tabpanel" role="tabpanel" id="gs1-aisle-panel-bakery" aria-labelledby="gs1-aisle-tab-bakery" :class="{ 'is-active': tab === 'bakery' }">
+                                                <div class="megamenu-col custom-aisle-links lg:items-center lg:gap-1.5">
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Sourdough</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Baguettes</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Pastries</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Gluten-Free</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item custom-aisle-all">Shop All Bakery <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                                                </div>
+                                                <ul class="custom-mini-grid" role="list">
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/488x377.svg" alt="" width="488" height="377" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Country Sourdough</a>
+                                                        <span class="custom-mini-unit">800 g loaf</span>
+                                                        <span class="custom-mini-price">$7.25</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 7.25" :data-state="state" aria-label="Add Country Sourdough to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/522x316.svg" alt="" width="522" height="316" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Butter Croissants</a>
+                                                        <span class="custom-mini-unit">Pack of 2</span>
+                                                        <span class="custom-mini-price">$5.50</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 5.50" :data-state="state" aria-label="Add Butter Croissants to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/403x319.svg" alt="" width="403" height="319" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Cinnamon Rolls</a>
+                                                        <span class="custom-mini-unit">Pack of 2</span>
+                                                        <span class="custom-mini-price">$6.00</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 6.00" :data-state="state" aria-label="Add Cinnamon Rolls to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/556x438.svg" alt="" width="556" height="438" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Classic Baguette</a>
+                                                        <span class="custom-mini-unit">$3.75 each</span>
+                                                        <span class="custom-mini-price">$3.75</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 3.75" :data-state="state" aria-label="Add Classic Baguette to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="tabs-panel megamenu-tabpanel" role="tabpanel" id="gs1-aisle-panel-dairy" aria-labelledby="gs1-aisle-tab-dairy" :class="{ 'is-active': tab === 'dairy' }">
+                                                <div class="megamenu-col custom-aisle-links lg:items-center lg:gap-1.5">
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Milk &amp; Cream</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Eggs</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Cheese</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Butter &amp; Yogurt</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item custom-aisle-all">Shop All Dairy &amp; Eggs <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                                                </div>
+                                                <ul class="custom-mini-grid" role="list">
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/278x632.svg" alt="" width="278" height="632" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Whole Milk, Fernhill Farm</a>
+                                                        <span class="custom-mini-unit">Half gallon, glass</span>
+                                                        <span class="custom-mini-price">$4.99</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 4.99" :data-state="state" aria-label="Add Whole Milk, Fernhill Farm to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/457x308.svg" alt="" width="457" height="308" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Pasture-Raised Eggs</a>
+                                                        <span class="custom-mini-unit">Dozen, large</span>
+                                                        <span class="custom-mini-price">$6.99</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 6.99" :data-state="state" aria-label="Add Pasture-Raised Eggs to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/549x455.svg" alt="" width="549" height="455" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Aged Mountain Cheese</a>
+                                                        <span class="custom-mini-unit">$18.99 / lb</span>
+                                                        <span class="custom-mini-price">$18.99</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 18.99" :data-state="state" aria-label="Add Aged Mountain Cheese to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/546x406.svg" alt="" width="546" height="406" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Cultured Butter</a>
+                                                        <span class="custom-mini-unit">8 oz</span>
+                                                        <span class="custom-mini-price">$5.49</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 5.49" :data-state="state" aria-label="Add Cultured Butter to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="tabs-panel megamenu-tabpanel" role="tabpanel" id="gs1-aisle-panel-meat-fish" aria-labelledby="gs1-aisle-tab-meat-fish" :class="{ 'is-active': tab === 'meat-fish' }">
+                                                <div class="megamenu-col custom-aisle-links lg:items-center lg:gap-1.5">
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Beef</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Poultry</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Seafood</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Sausages</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item custom-aisle-all">Shop All Meat &amp; Fish <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                                                </div>
+                                                <ul class="custom-mini-grid" role="list">
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/763x423.svg" alt="" width="763" height="423" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Wild Sockeye Salmon</a>
+                                                        <span class="custom-mini-unit">$16.99 / lb</span>
+                                                        <span class="custom-mini-price">$16.99</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 16.99" :data-state="state" aria-label="Add Wild Sockeye Salmon to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/533x355.svg" alt="" width="533" height="355" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Dry-Aged Ribeye</a>
+                                                        <span class="custom-mini-unit">$24.99 / lb</span>
+                                                        <span class="custom-mini-price">$24.99</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 24.99" :data-state="state" aria-label="Add Dry-Aged Ribeye to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/454x306.svg" alt="" width="454" height="306" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Wild Gulf Shrimp</a>
+                                                        <span class="custom-mini-unit">$14.99 / lb</span>
+                                                        <span class="custom-mini-price">$14.99</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 14.99" :data-state="state" aria-label="Add Wild Gulf Shrimp to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/529x357.svg" alt="" width="529" height="357" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Free-Range Chicken Breast</a>
+                                                        <span class="custom-mini-unit">$8.99 / lb</span>
+                                                        <span class="custom-mini-price">$8.99</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 8.99" :data-state="state" aria-label="Add Free-Range Chicken Breast to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="tabs-panel megamenu-tabpanel" role="tabpanel" id="gs1-aisle-panel-pantry" aria-labelledby="gs1-aisle-tab-pantry" :class="{ 'is-active': tab === 'pantry' }">
+                                                <div class="megamenu-col custom-aisle-links lg:items-center lg:gap-1.5">
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Pasta &amp; Rice</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Oils &amp; Vinegars</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Sauces</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item">Honey &amp; Spreads</a>
+                                                    <a href="demo-grocery-store-1-aisle.html" class="megamenu-item custom-aisle-all">Shop All Pantry <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                                                </div>
+                                                <ul class="custom-mini-grid" role="list">
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/574x496.svg" alt="" width="574" height="496" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Wildflower Honey</a>
+                                                        <span class="custom-mini-unit">12 oz jar</span>
+                                                        <span class="custom-mini-price">$9.49</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 9.49" :data-state="state" aria-label="Add Wildflower Honey to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/282x804.svg" alt="" width="282" height="804" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Extra Virgin Olive Oil</a>
+                                                        <span class="custom-mini-unit">500 ml</span>
+                                                        <span class="custom-mini-price">$14.99</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 14.99" :data-state="state" aria-label="Add Extra Virgin Olive Oil to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/302x446.svg" alt="" width="302" height="446" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Tomato Passata</a>
+                                                        <span class="custom-mini-unit">24 oz jar</span>
+                                                        <span class="custom-mini-price">$4.29</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 4.29" :data-state="state" aria-label="Add Tomato Passata to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="custom-mini">
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-img" tabindex="-1" aria-hidden="true"><img src="../assets/media/placeholder/300x549.svg" alt="" width="300" height="549" loading="lazy" decoding="async"></a>
+                                                        <a href="demo-grocery-store-1-product.html" class="custom-mini-name">Bronze-Cut Spaghetti</a>
+                                                        <span class="custom-mini-unit">1 lb</span>
+                                                        <span class="custom-mini-price">$3.29</span>
+                                                        <button type="button" class="custom-mini-add btn-atc" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 1; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 3.29" :data-state="state" aria-label="Add Bronze-Cut Spaghetti to cart">
+                                                            <span class="btn-atc-idle"><i class="ph ph-plus" aria-hidden="true"></i></span>
+                                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i></span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <a href="demo-grocery-store-1-deals.html" class="custom-deal">
+                                            <span class="lg:inline-flex lg:items-center lg:gap-1.5 lg:text-[0.8125rem] lg:font-bold lg:tracking-[0.06em] lg:uppercase"><i class="ph-fill ph-tag" aria-hidden="true"></i> Weekly Deals</span>
+                                            <span class="lg:mt-3 lg:font-heading lg:text-[1.625rem] lg:font-semibold lg:leading-[1.1] lg:tracking-[-0.025em]">Up to 30% off summer berries</span>
+                                            <span class="custom-deal-line lg:mt-2.5 lg:text-[0.9375rem] lg:leading-[1.45]">Strawberries and peaches from Fernhill Farm, this week only.</span>
+                                            <img class="custom-deal-img lg:w-[78%] lg:mt-auto lg:mb-0 lg:mr-0 lg:ml-auto lg:pt-3" src="../assets/media/placeholder/488x384.svg" alt="" width="488" height="384" loading="lazy" decoding="async">
+                                            <span class="custom-deal-cta">Shop Deals <i class="ph ph-arrow-right" aria-hidden="true"></i></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="demo-grocery-store-1-aisle.html" class="nav-link"><i class="ph ph-carrot" aria-hidden="true"></i>Fruit &amp; Veg</a>
+                        </li>
+                        <li>
+                            <a href="demo-grocery-store-1-aisle.html" class="nav-link"><i class="ph ph-bread" aria-hidden="true"></i>Bakery</a>
+                        </li>
+                        <li>
+                            <a href="demo-grocery-store-1-aisle.html" class="nav-link"><i class="ph ph-egg" aria-hidden="true"></i>Dairy &amp; Eggs</a>
+                        </li>
+                        <li>
+                            <a href="demo-grocery-store-1-aisle.html" class="nav-link"><i class="ph ph-fish" aria-hidden="true"></i>Meat &amp; Fish</a>
+                        </li>
+                        <li class="custom-nav-end">
+                            <a href="demo-grocery-store-1-deals.html" class="nav-link custom-chip--deal"><i class="ph-fill ph-tag" aria-hidden="true"></i>Weekly Deals</a>
+                        </li>
+
+                    </ul>
+
+                    <!-- Right-side actions -->
+                    <div class="nav-actions">
+
+                        <!-- Meta group - display:contents by default; header-stacked turns it into its own row. -->
+                        <div class="nav-meta">
+
+                            <!--html: the product search pill (WooCommerce's own fields: s, post_type=product). Edit: the placeholder, the action -->
+                            <form class="shop-search custom-search pl-4.5 bg-surface" role="search" method="get" action="demo-grocery-store-1-shop.html">
+                                <button type="submit" class="custom-search-glyph grid place-items-center flex-none text-[1.25rem] border-none cursor-pointer" aria-label="Search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i></button>
+                                <label class="sr-only" for="gs1-search-q">Search products</label>
+                                <input class="px-2.5 text-[1rem]" id="gs1-search-q" type="search" name="s" placeholder="Search 6,000+ products" autocomplete="off">
+                                <input type="hidden" name="post_type" value="product">
+                            </form>
+
+                            <!-- Edit: the ZIP, the slots, the note -->
+                            <div class="custom-slot relative" x-data="{ open: false, zip: '11211', draft: '11211', slot: 'Today 4–6 pm', toggle() { this.open = !this.open; if (this.open) this.$nextTick(() => this.$refs.zip.focus()) }, close(back = true) { if (!this.open) return; this.open = false; if (back) this.$refs.chip.focus() } }" @keydown.escape="close()" @click.outside="close(false)" @gs1-slot.window="slot = $event.detail">
+                                <button type="button" class="nav-contact custom-slot-chip" x-ref="chip" @click="toggle()" :aria-expanded="open" aria-expanded="false" aria-controls="gs1-slot-panel">
+                                    <span class="custom-slot-icon place-items-center flex-none size-10 text-[1.25rem] text-primary-ink bg-(--color-primary-50) rounded-full" aria-hidden="true"><i class="ph ph-truck"></i></span>
+                                    <span class="nav-contact-text">
+                                        <span class="nav-contact-label">Delivering to <span x-text="zip">11211</span></span>
+                                        <span class="nav-contact-value"><span x-text="slot">Today 4–6 pm</span> <i class="ph ph-caret-down" aria-hidden="true"></i></span>
+                                    </span>
+                                </button>
+                                <div id="gs1-slot-panel" class="custom-slot-panel absolute top-[calc(100%_+_0.625rem)] left-0 z-(--z-dropdown) w-92 p-5 bg-surface border border-(--color-border-soft) rounded-lg" role="dialog" aria-label="Delivery address and time slot" x-show="open" x-transition.opacity.duration.200ms x-cloak>
+                                    <p class="mb-3.5 font-heading text-[1.125rem] font-semibold tracking-[-0.02em]">Where and when?</p>
+                                    <form class="input-group" @submit.prevent="zip = draft">
+                                        <label class="sr-only" for="gs1-slot-zip">ZIP code</label>
+                                        <input id="gs1-slot-zip" class="form-input tabular-nums" x-ref="zip" x-model="draft" type="text" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code" required>
+                                        <button type="submit" class="btn btn-dark btn-sm">Update</button>
+                                    </form>
+                                    <fieldset class="custom-slot-options grid gap-2 mt-4 border-none">
+                                        <legend class="mb-2 text-[0.875rem] font-semibold text-soft">Delivery slot</legend>
+                                        <label class="option-pill flex"><input type="radio" name="gs1-slot-header" value="Today 4–6 pm" x-model="slot" @change="$dispatch('gs1-slot', slot)" checked><span class="justify-between w-full">Today 4–6 pm <small>Free</small></span></label>
+                                        <label class="option-pill flex"><input type="radio" name="gs1-slot-header" value="Today 6–8 pm" x-model="slot" @change="$dispatch('gs1-slot', slot)"><span class="justify-between w-full">Today 6–8 pm <small>Free</small></span></label>
+                                        <label class="option-pill flex"><input type="radio" name="gs1-slot-header" value="Tomorrow 8–10 am" x-model="slot" @change="$dispatch('gs1-slot', slot)"><span class="justify-between w-full">Tomorrow 8–10 am <small>Free</small></span></label>
+                                    </fieldset>
+                                    <p class="flex items-center gap-1.5 mt-3.5 text-[0.875rem] text-muted"><i class="ph ph-seal-check text-primary-ink" aria-hidden="true"></i> Free delivery over $35, $3.99 below</p>
+                                </div>
+                            </div>
+
+                            <button class="nav-search-toggle" data-panel-toggle="search" aria-expanded="false" aria-controls="header-search" aria-label="Open search">
+                                <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+
+                                <span class="nav-search-label">Search</span>
+
+                            </button>
+
+                        </div><!-- /.nav-meta -->
+
+                        <!--html: account, wishlist and the cart pill with the count and running total (both from Alpine.store('cart'), written by the mini cart and the quick-add buttons). Edit: the links, the wishlist count -->
+                        <div class="shop-actions" x-data>
+                            <a href="#" class="shop-action shop-action--account" aria-label="My account"><i class="ph ph-user" aria-hidden="true"></i></a>
+                            <a href="#" class="shop-action shop-action--wishlist" aria-label="Saved items, 5"><i class="ph ph-heart" aria-hidden="true"></i><span class="shop-action-count">5</span></a>
+                            <button type="button" class="shop-action shop-action--cart custom-cart max-sm:gap-1.5 max-sm:h-11 max-sm:ps-3 max-sm:pe-2.5 max-sm:text-[1.25rem]" data-panel-toggle="cart" aria-expanded="false" aria-controls="mini-cart" :aria-label="'Open cart, ' + $store.cart.count + ' items, ' + '$' + ($store.cart.total ?? 39.2).toFixed(2)" aria-label="Open cart, 6 items, $39.20">
+                                <i class="ph ph-shopping-cart-simple" aria-hidden="true"></i>
+                                <span class="custom-cart-count grid place-items-center min-w-6 h-6 px-1.5 text-[0.8125rem] font-bold tabular-nums bg-(--color-on-primary) rounded-pill" x-text="$store.cart.count">6</span>
+                                <span class="text-[1rem] font-semibold tabular-nums tracking-[-0.01em] max-sm:hidden" x-text="'$' + ($store.cart.total ?? 39.2).toFixed(2)">$39.20</span>
+                            </button>
+                        </div>
+
+                        <!-- Menu toggle - mobile hamburger below 1024px; also the close button on header-overlay-menu / header-side-drawer -->
+                        <button class="hamburger" data-toggle aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation menu">
+                            <i class="ph ph-list text-xl nav-toggle-open" aria-hidden="true"></i>
+                            <i class="ph ph-x text-xl nav-toggle-close" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Navigation panel - links are auto-generated by initMobileSync() in main.js -->
+                <!-- data-lenis-prevent: opts this scroll container out of Lenis smooth scrolling -->
+                <div id="mobile-nav" class="mobile-nav" data-mobile-nav data-lenis-prevent role="dialog" aria-modal="true" aria-label="Site navigation">
+
+                    <!-- Menu column - the scroll container -->
+                    <div class="nav-panel-menu">
+
+                        <!-- JS target: desktop nav items are injected here -->
+                        <div data-mobile-links></div>
+
+                        <!-- Mobile-only items: add or remove <a> elements here freely -->
+                        <!-- <a href="#" class="mobile-link" data-mobile-only>Exclusive Item</a> -->
+
+                    </div>
+
+                    <!--html out of the panel); keeps the template classes. Edit: the lines, the links, the number -->
+                    <div class="nav-panel-foot">
+                        <div class="nav-panel-foot-col">
+                            <span class="nav-panel-foot-title">Delivery</span>
+                            <span class="text-base text-soft">Brooklyn <span aria-hidden="true">·</span> Queens <span aria-hidden="true">·</span> by 6 pm</span>
+                            <a href="demo-grocery-store-1-delivery-areas.html" class="nav-panel-foot-link">Delivery Areas</a>
+                            <a href="demo-grocery-store-1-recipes.html" class="nav-panel-foot-link">Recipes</a>
+                        </div>
+                        <div class="nav-panel-foot-col">
+                            <span class="nav-panel-foot-title">Help</span>
+                            <a href="tel:+17185550137" class="nav-panel-foot-link tabular-nums">(718) 555-0137</a>
+                            <a href="demo-grocery-store-1-contact.html" class="nav-panel-foot-link">Contact Us</a>
+                            <a href="demo-grocery-store-1-about.html" class="nav-panel-foot-link">About Us</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </nav>
+
+            <!-- Edit: the placeholder, the tags, the picks -->
+            <div id="header-search" class="site-search" data-panel="search" role="dialog" aria-modal="false" aria-label="Search">
+                <div class="site-search-inner" data-lenis-prevent>
+                    <div class="site-search-body container">
+
+                        <button class="site-panel-close" data-panel-close aria-label="Close search">
+                            <i class="ph ph-x" aria-hidden="true"></i>
+                        </button>
+
+                        <h2 class="site-search-title">Search the market</h2>
+
+                        <form class="site-search-form" role="search" method="get" action="demo-grocery-store-1-shop.html">
+                            <input type="hidden" name="post_type" value="product">
+                            <label class="sr-only" for="site-search-input">Search products</label>
+                            <input id="site-search-input" type="search" name="s" class="form-input form-input-underline site-search-input" placeholder="Search berries, sourdough, oat milk…" autocomplete="off" />
+                            <button type="submit" class="site-search-submit" aria-label="Search">
+                                <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+                            </button>
+                        </form>
+
+                        <div class="site-search-suggest">
+                            <span class="site-search-suggest-label">Popular</span>
+                            <a href="demo-grocery-store-1-aisle.html" class="site-search-tag">Strawberries</a>
+                            <a href="demo-grocery-store-1-aisle.html" class="site-search-tag">Sourdough</a>
+                            <a href="demo-grocery-store-1-aisle.html" class="site-search-tag">Avocados</a>
+                            <a href="demo-grocery-store-1-aisle.html" class="site-search-tag">Oat Milk</a>
+                            <a href="demo-grocery-store-1-deals.html" class="site-search-tag">Weekly Deals</a>
+                        </div>
+
+                        <ul class="grid grid-cols-[repeat(auto-fit,minmax(15rem,1fr))] gap-3 mt-8" role="list" aria-label="Fresh today">
+                            <li><a href="demo-grocery-store-1-product.html" class="custom-search-pick"><img src="../assets/media/placeholder/849x568.svg" alt="" width="849" height="568" loading="lazy" decoding="async"><span class="grid gap-0.5 text-left"><strong class="font-semibold">Tomatoes on the Vine</strong><small class="text-[0.875rem] text-muted tabular-nums">$3.49 / lb</small></span></a></li>
+                            <li><a href="demo-grocery-store-1-product.html" class="custom-search-pick"><img src="../assets/media/placeholder/522x316.svg" alt="" width="522" height="316" loading="lazy" decoding="async"><span class="grid gap-0.5 text-left"><strong class="font-semibold">Butter Croissants</strong><small class="text-[0.875rem] text-muted tabular-nums">Pack of 2 · $5.50</small></span></a></li>
+                            <li><a href="demo-grocery-store-1-product.html" class="custom-search-pick"><img src="../assets/media/placeholder/801x528.svg" alt="" width="801" height="528" loading="lazy" decoding="async"><span class="grid gap-0.5 text-left"><strong class="font-semibold">Hass Avocados</strong><small class="text-[0.875rem] text-muted tabular-nums">$1.79 each</small></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!--html. Lines, totals and the meter run on cartPage() in main.js. The thumbnails are the demo's own cut-outs. Edit: the lines (name, meta, price, image), the threshold, the links -->
+            <div id="mini-cart" class="mini-cart" data-panel="cart" data-panel-modal role="dialog" aria-modal="true" aria-labelledby="mini-cart-title">
+                <div class="mini-cart-panel" x-data="cartPage({ threshold: 35 })" x-effect="$store.cart.count = itemCount + ($store.cart.extra ?? 0); $store.cart.total = subtotal + ($store.cart.extraTotal ?? 0)" @change="sync($event)" data-lenis-prevent>
+
+                    <div class="mini-cart-head">
+                        <h2 id="mini-cart-title" class="mini-cart-title">Your cart <span class="mini-cart-count" x-text="itemCount + (itemCount === 1 ? ' item' : ' items')">6 items</span></h2>
+                        <button type="button" class="modal-close" data-panel-close aria-label="Close cart"><i class="ph ph-x" aria-hidden="true"></i></button>
+                    </div>
+
+                    <div class="mini-cart-body" x-show="!empty">
+                        <div class="shipping-meter is-complete" :class="{ 'is-complete': freeShipping }" :style="'--p:' + progress + '%'" style="--p: 100%">
+                            <p class="flex items-center gap-3">
+                                <i class="ph text-xl" :class="freeShipping ? 'ph-seal-check text-[var(--color-success)]' : 'ph-truck color-primary'" aria-hidden="true"></i>
+                                <span x-show="!freeShipping" x-cloak>Add <strong x-text="money(remaining)">$0.00</strong> more for <strong>free delivery</strong></span>
+                                <span x-show="freeShipping"><strong>Free delivery</strong> is on us</span>
+                            </p>
+                            <div class="shipping-meter-track">
+                                <div class="shipping-meter-fill"></div>
+                            </div>
+                        </div>
+
+                        <ul class="mini-cart-list">
+                            <li class="mini-cart-item" data-cart-line="m1" data-price="3.49" data-name="Tomatoes on the Vine" x-show="!line('m1').removed" x-transition.opacity.duration.300ms>
+                                <a href="demo-grocery-store-1-product.html" class="mini-cart-thumb bg-(--product-bg)"><img class="object-contain p-2" src="../assets/media/placeholder/849x568.svg" alt="" width="849" height="568" loading="lazy"></a>
+                                <div class="mini-cart-info">
+                                    <a href="demo-grocery-store-1-product.html" class="mini-cart-name">Tomatoes on the Vine</a>
+                                    <p class="mini-cart-meta">2 lb · Fernhill Farm</p>
+                                    <div class="qty qty--sm">
+                                        <button type="button" class="qty-btn" data-step="-1" aria-label="Decrease quantity of Tomatoes on the Vine"><i class="ph ph-minus" aria-hidden="true"></i></button>
+                                        <input type="number" class="qty-input" name="cart[m1][qty]" value="2" min="0" max="10" aria-label="Quantity of Tomatoes on the Vine">
+                                        <button type="button" class="qty-btn" data-step="1" aria-label="Increase quantity of Tomatoes on the Vine"><i class="ph ph-plus" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                                <div class="mini-cart-end">
+                                    <button type="button" class="cart-remove" @click="remove('m1')" aria-label="Remove Tomatoes on the Vine"><i class="ph ph-x" aria-hidden="true"></i></button>
+                                    <span class="mini-cart-price" x-text="money(line('m1').price * line('m1').qty)">$6.98</span>
+                                </div>
+                            </li>
+                            <li class="mini-cart-item" data-cart-line="m2" data-price="7.25" data-name="Country Sourdough, Brook &amp; Barrow Bakery" x-show="!line('m2').removed" x-transition.opacity.duration.300ms>
+                                <a href="demo-grocery-store-1-product.html" class="mini-cart-thumb bg-(--product-bg)"><img class="object-contain p-2" src="../assets/media/placeholder/488x377.svg" alt="" width="488" height="377" loading="lazy"></a>
+                                <div class="mini-cart-info">
+                                    <a href="demo-grocery-store-1-product.html" class="mini-cart-name">Country Sourdough, Brook &amp; Barrow Bakery</a>
+                                    <p class="mini-cart-meta">800 g loaf</p>
+                                    <div class="qty qty--sm">
+                                        <button type="button" class="qty-btn" data-step="-1" aria-label="Decrease quantity of Country Sourdough, Brook &amp; Barrow Bakery"><i class="ph ph-minus" aria-hidden="true"></i></button>
+                                        <input type="number" class="qty-input" name="cart[m2][qty]" value="1" min="0" max="10" aria-label="Quantity of Country Sourdough, Brook &amp; Barrow Bakery">
+                                        <button type="button" class="qty-btn" data-step="1" aria-label="Increase quantity of Country Sourdough, Brook &amp; Barrow Bakery"><i class="ph ph-plus" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                                <div class="mini-cart-end">
+                                    <button type="button" class="cart-remove" @click="remove('m2')" aria-label="Remove Country Sourdough, Brook &amp; Barrow Bakery"><i class="ph ph-x" aria-hidden="true"></i></button>
+                                    <span class="mini-cart-price" x-text="money(line('m2').price * line('m2').qty)">$7.25</span>
+                                </div>
+                            </li>
+                            <li class="mini-cart-item" data-cart-line="m3" data-price="15.99" data-name="Aged Mountain Cheese" x-show="!line('m3').removed" x-transition.opacity.duration.300ms>
+                                <a href="demo-grocery-store-1-product.html" class="mini-cart-thumb bg-(--product-bg)"><img class="object-contain p-2" src="../assets/media/placeholder/549x455.svg" alt="" width="549" height="455" loading="lazy"></a>
+                                <div class="mini-cart-info">
+                                    <a href="demo-grocery-store-1-product.html" class="mini-cart-name">Aged Mountain Cheese</a>
+                                    <p class="mini-cart-meta">1 lb, cut to order</p>
+                                    <div class="qty qty--sm">
+                                        <button type="button" class="qty-btn" data-step="-1" aria-label="Decrease quantity of Aged Mountain Cheese"><i class="ph ph-minus" aria-hidden="true"></i></button>
+                                        <input type="number" class="qty-input" name="cart[m3][qty]" value="1" min="0" max="10" aria-label="Quantity of Aged Mountain Cheese">
+                                        <button type="button" class="qty-btn" data-step="1" aria-label="Increase quantity of Aged Mountain Cheese"><i class="ph ph-plus" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                                <div class="mini-cart-end">
+                                    <button type="button" class="cart-remove" @click="remove('m3')" aria-label="Remove Aged Mountain Cheese"><i class="ph ph-x" aria-hidden="true"></i></button>
+                                    <span class="mini-cart-price" x-text="money(line('m3').price * line('m3').qty)">$15.99</span>
+                                </div>
+                            </li>
+                            <li class="mini-cart-item" data-cart-line="m4" data-price="4.49" data-name="Organic Strawberries" x-show="!line('m4').removed" x-transition.opacity.duration.300ms>
+                                <a href="demo-grocery-store-1-product.html" class="mini-cart-thumb bg-(--product-bg)"><img class="object-contain p-2" src="../assets/media/placeholder/488x384.svg" alt="" width="488" height="384" loading="lazy"></a>
+                                <div class="mini-cart-info">
+                                    <a href="demo-grocery-store-1-product.html" class="mini-cart-name">Organic Strawberries</a>
+                                    <p class="mini-cart-meta">1 lb</p>
+                                    <div class="qty qty--sm">
+                                        <button type="button" class="qty-btn" data-step="-1" aria-label="Decrease quantity of Organic Strawberries"><i class="ph ph-minus" aria-hidden="true"></i></button>
+                                        <input type="number" class="qty-input" name="cart[m4][qty]" value="2" min="0" max="10" aria-label="Quantity of Organic Strawberries">
+                                        <button type="button" class="qty-btn" data-step="1" aria-label="Increase quantity of Organic Strawberries"><i class="ph ph-plus" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                                <div class="mini-cart-end">
+                                    <button type="button" class="cart-remove" @click="remove('m4')" aria-label="Remove Organic Strawberries"><i class="ph ph-x" aria-hidden="true"></i></button>
+                                    <span class="mini-cart-price" x-text="money(line('m4').price * line('m4').qty)">$8.98</span>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <p class="mini-cart-undo" x-show="undoLine" x-cloak><span x-text="(undoLine?.name ?? '') + ' removed.'"></span> <button type="button" @click="undo()">Undo</button></p>
+                    </div>
+
+                    <div class="mini-cart-empty" x-show="empty" x-cloak>
+                        <span class="mx-auto grid size-16 place-items-center rounded-full bg-soft text-3xl"><i class="ph ph-shopping-cart-simple" aria-hidden="true"></i></span>
+                        <p class="mt-5 text-lg font-semibold">Your cart is empty</p>
+                        <p class="mt-1 text-soft">Nothing in the cart yet — fresh produce is one tap away.</p>
+                        <a href="demo-grocery-store-1-shop.html" class="btn btn-dark btn-pill mt-6">Start Shopping</a>
+                    </div>
+
+                    <div class="mini-cart-foot" x-show="!empty">
+                        <p class="mini-cart-subtotal"><span>Subtotal</span> <strong class="tabular-nums" x-text="money(subtotal)">$39.20</strong></p>
+                        <p class="mini-cart-note"><i class="ph ph-lock-simple" aria-hidden="true"></i> Taxes and delivery calculated at checkout</p>
+                        <div class="mini-cart-buttons">
+                            <a href="demo-grocery-store-1-cart.html" class="btn btn-outline-dark btn-pill">View Cart</a>
+                            <a href="demo-grocery-store-1-checkout.html" class="btn btn-dark btn-pill">Checkout <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+
+        <main id="main">
+            <!-- Grocery Store page header - the inner pages' opening, in three kinds: "compact" (shop pages: breadcrumb, the title left and a line right), "stage" (content pages: the hero's pea-mist stage with its contour lines and four floating cut-outs around a centred title) and "steps" (cart and checkout: a centred title over the checkout steps). Params: phKind (compact | stage | steps), phCrumb (this page); optional phTrail + phHref (a parent crumb); phTitle, phLead; stage: phEyebrow, phIcon (a Phosphor name), phA / phB / phC / phD (cut-out file names, gs1-*.webp); steps: phStep (cart | checkout) -->
+
+            <section class="pt-8 pb-12 text-center md:pt-12 md:pb-16" aria-labelledby="gs1-page-title">
+                <div class="container">
+                    <h1 id="gs1-page-title" class="custom-ph-title" data-anim="fade-up" data-anim-delay="60">Checkout</h1>
+                    <p class="custom-ph-lead mx-auto mt-4" data-anim="fade-up" data-anim-delay="160">Pick a slot, tell us how to swap, and you're done. We only charge the final weight.</p>
+                    <div data-anim="fade-up" data-anim-delay="240">
+
+                        <!-- Params: stepOne / stepTwo / stepThree = active | is-complete | (empty) -->
+                        <nav class="shop-steps" aria-label="Checkout progress">
+                            <ol class="stepper">
+                                <li class="stepper-item is-complete">
+                                    <a href="demo-grocery-store-1-cart.html" class="stepper-link">
+                                        <span class="stepper-marker"><i class="ph-bold ph-check" aria-hidden="true"></i><span class="sr-only">Done:</span></span>
+                                        <span class="stepper-label">Cart</span>
+                                    </a>
+                                </li>
+                                <li class="stepper-item active">
+                                    <a href="demo-grocery-store-1-checkout.html" class="stepper-link" aria-current="step">
+                                        <span class="stepper-marker">2</span>
+                                        <span class="stepper-label">Delivery &amp; Payment</span>
+                                    </a>
+                                </li>
+                                <li class="stepper-item">
+                                    <a href="demo-grocery-store-1-order-complete.html" class="stepper-link">
+                                        <span class="stepper-marker">3</span>
+                                        <span class="stepper-label">Order Placed</span>
+                                    </a>
+                                </li>
+                            </ol>
+                        </nav>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- CHECKOUT - the template Checkout page: contact, address, the delivery slot (option pills), substitutions (radio cards) on the left; the order review, the driver tip, payment and Place Order on the right, tied to the form by form="checkout-form". formValidate() checks the fields and goes on to Order Placed -->
+            <section class="pb-(--section-space)">
+                <div class="container" x-data="cartPage({ threshold: 35, coupons: { FRESH10: 0.1 }, rates: { standard: 3.99, express: 7.99, pickup: 0 } })">
+                    <div class="shop-form grid gap-10 lg:grid-cols-12 lg:gap-14" x-data="formValidate()">
+
+                        <div class="lg:col-span-7">
+
+                            <!-- Returning customer -->
+                            <div class="shop-panel py-4" x-data="{ open: false, done: false }" data-anim="fade-up">
+                                <p class="flex flex-wrap items-center gap-x-2 gap-y-1" x-show="!done">
+                                    <i class="ph ph-user-circle text-xl color-primary" aria-hidden="true"></i>
+                                    <span>Shopped with us before?</span>
+                                    <button type="button" class="font-semibold color-primary hover:underline" @click="open = !open" :aria-expanded="open" aria-controls="co-login">Sign in to use your saved address</button>
+                                </p>
+                                <p class="flex items-center gap-2 color-primary" x-show="done" x-cloak role="status"><i class="ph ph-check-circle text-xl" aria-hidden="true"></i>Signed in as <strong>Nora Mitchell</strong>. Your Williamsburg address is filled in.</p>
+                                <form id="co-login" method="post" action="#" x-show="open && !done" x-collapse x-cloak @submit.prevent="done = true">
+                                    <div class="grid gap-4 pt-5 sm:grid-cols-2">
+                                        <div class="form-group">
+                                            <label class="form-label" for="co-username">Email</label>
+                                            <input type="email" id="co-username" name="username" class="form-input" autocomplete="username">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="co-password">Password</label>
+                                            <input type="password" id="co-password" name="password" class="form-input" autocomplete="current-password">
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3">
+                                        <button type="submit" name="login" class="btn btn-dark btn-pill btn-sm">Sign In</button>
+                                        <label class="form-check"><input type="checkbox" class="form-check-input" name="rememberme" value="forever"><span class="form-check-label">Remember me</span></label>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <form id="checkout-form" name="checkout" class="mt-10 space-y-11" method="post" action="demo-grocery-store-1-order-complete.html" novalidate data-redirect="demo-grocery-store-1-order-complete.html" @submit.prevent="onSubmit($event)">
+
+                                <!-- 1 · Contact -->
+                                <fieldset aria-labelledby="co-contact-title" data-anim="fade-up">
+                                    <div class="mb-5 flex items-center gap-3">
+                                        <span class="stepper-marker">1</span>
+                                        <h2 id="co-contact-title" class="custom-sub">Contact</h2>
+                                    </div>
+                                    <div class="grid gap-x-4 gap-y-5 sm:grid-cols-2">
+                                        <div class="form-group">
+                                            <label class="form-label" for="billing_email">Email <span class="required">*</span></label>
+                                            <input type="email" id="billing_email" name="billing_email" class="form-input" placeholder="you@example.com" autocomplete="email" required @blur="check($event.target)" @input="errors.billing_email && check($event.target)">
+                                            <span class="form-error-msg" x-show="errors.billing_email" x-text="errors.billing_email" x-cloak></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="billing_phone">Mobile <span class="required">*</span></label>
+                                            <input type="tel" id="billing_phone" name="billing_phone" class="form-input" autocomplete="tel" required aria-describedby="billing_phone-hint" @blur="check($event.target)" @input="errors.billing_phone && check($event.target)">
+                                            <p class="form-hint" id="billing_phone-hint">We text you when the driver is ten minutes away.</p>
+                                            <span class="form-error-msg" x-show="errors.billing_phone" x-text="errors.billing_phone" x-cloak></span>
+                                        </div>
+                                    </div>
+                                    <label class="form-check mt-4">
+                                        <input type="checkbox" class="form-check-input" name="newsletter" value="1" checked>
+                                        <span class="form-check-label">Email me the weekly deals on Thursdays</span>
+                                    </label>
+                                </fieldset>
+
+                                <!-- 2 · Address -->
+                                <fieldset aria-labelledby="co-address-title" data-anim="fade-up">
+                                    <div class="mb-5 flex items-center gap-3">
+                                        <span class="stepper-marker">2</span>
+                                        <h2 id="co-address-title" class="custom-sub">Delivery address</h2>
+                                    </div>
+                                    <div class="grid gap-x-4 gap-y-5 sm:grid-cols-6">
+                                        <div class="form-group sm:col-span-3">
+                                            <label class="form-label" for="billing_first_name">First name <span class="required">*</span></label>
+                                            <input type="text" id="billing_first_name" name="billing_first_name" class="form-input" autocomplete="given-name" required @blur="check($event.target)" @input="errors.billing_first_name && check($event.target)">
+                                            <span class="form-error-msg" x-show="errors.billing_first_name" x-text="errors.billing_first_name" x-cloak></span>
+                                        </div>
+                                        <div class="form-group sm:col-span-3">
+                                            <label class="form-label" for="billing_last_name">Last name <span class="required">*</span></label>
+                                            <input type="text" id="billing_last_name" name="billing_last_name" class="form-input" autocomplete="family-name" required @blur="check($event.target)" @input="errors.billing_last_name && check($event.target)">
+                                            <span class="form-error-msg" x-show="errors.billing_last_name" x-text="errors.billing_last_name" x-cloak></span>
+                                        </div>
+                                        <div class="form-group sm:col-span-4">
+                                            <label class="form-label" for="billing_address_1">Street address <span class="required">*</span></label>
+                                            <input type="text" id="billing_address_1" name="billing_address_1" class="form-input" placeholder="House number and street" autocomplete="address-line1" required @blur="check($event.target)" @input="errors.billing_address_1 && check($event.target)">
+                                            <span class="form-error-msg" x-show="errors.billing_address_1" x-text="errors.billing_address_1" x-cloak></span>
+                                        </div>
+                                        <div class="form-group sm:col-span-2">
+                                            <label class="form-label" for="billing_address_2">Apt / floor</label>
+                                            <input type="text" id="billing_address_2" name="billing_address_2" class="form-input" autocomplete="address-line2">
+                                        </div>
+                                        <div class="form-group sm:col-span-3">
+                                            <label class="form-label" for="billing_city">Borough <span class="required">*</span></label>
+                                            <select id="billing_city" name="billing_city" class="form-select" required @change="check($event.target)">
+                                                <option value="">Select…</option>
+                                                <option>Brooklyn</option>
+                                                <option>Queens</option>
+                                                <option>Manhattan (next morning)</option>
+                                                <option>The Bronx (next morning)</option>
+                                                <option>Staten Island (next morning)</option>
+                                            </select>
+                                            <span class="form-error-msg" x-show="errors.billing_city" x-text="errors.billing_city" x-cloak></span>
+                                        </div>
+                                        <div class="form-group sm:col-span-3">
+                                            <label class="form-label" for="billing_postcode">ZIP code <span class="required">*</span></label>
+                                            <input type="text" id="billing_postcode" name="billing_postcode" class="form-input" inputmode="numeric" autocomplete="postal-code" required pattern="[0-9]{5}" title="Use 5 digits, e.g. 11211." @blur="check($event.target)" @input="errors.billing_postcode && check($event.target)">
+                                            <span class="form-error-msg" x-show="errors.billing_postcode" x-text="errors.billing_postcode" x-cloak></span>
+                                        </div>
+                                        <div class="form-group sm:col-span-6">
+                                            <label class="form-label" for="order_comments">Notes for the driver <span class="font-normal text-muted">(optional)</span></label>
+                                            <input type="text" id="order_comments" name="order_comments" class="form-input" placeholder="Buzzer 4B, leave with the doorman, mind the dog…">
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <!-- 3 · Slot -->
+                                <fieldset aria-labelledby="co-slot-title" x-data="{ slot: 'Today 4–6 pm' }" data-anim="fade-up">
+                                    <div class="mb-5 flex items-center gap-3">
+                                        <span class="stepper-marker">3</span>
+                                        <h2 id="co-slot-title" class="custom-sub">Delivery slot</h2>
+                                    </div>
+                                    <div class="grid gap-5 sm:gap-8 sm:grid-cols-2">
+                                        <div>
+                                            <p class="mb-3 font-semibold">Today</p>
+                                            <div class="flex flex-wrap gap-2.5">
+                                                <label class="option-pill"><input type="radio" name="delivery_slot" value="Today 4–6 pm" x-model="slot" checked><span>4–6 pm</span></label>
+                                                <label class="option-pill"><input type="radio" name="delivery_slot" value="Today 6–8 pm" x-model="slot"><span>6–8 pm</span></label>
+                                                <label class="option-pill"><input type="radio" name="delivery_slot" value="Today 8–10 pm" x-model="slot"><span>8–10 pm</span></label>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p class="mb-3 font-semibold">Tomorrow</p>
+                                            <div class="flex flex-wrap gap-2.5">
+                                                <label class="option-pill"><input type="radio" name="delivery_slot" value="Tomorrow 8–10 am" x-model="slot"><span>8–10 am</span></label>
+                                                <label class="option-pill"><input type="radio" name="delivery_slot" value="Tomorrow 10 am–12 pm" x-model="slot"><span>10 am–12 pm</span></label>
+                                                <label class="option-pill"><input type="radio" name="delivery_slot" value="Tomorrow 4–6 pm" x-model="slot"><span>4–6 pm</span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-4 flex items-center gap-2 text-soft"><i class="ph ph-truck color-primary" aria-hidden="true"></i>Arriving <strong class="text-[var(--color-text)]" x-text="slot">Today 4–6 pm</strong> · chilled van</p>
+                                </fieldset>
+
+                                <!-- 4 · Substitutions -->
+                                <fieldset aria-labelledby="co-swap-title" data-anim="fade-up">
+                                    <div class="mb-5 flex items-center gap-3">
+                                        <span class="stepper-marker">4</span>
+                                        <h2 id="co-swap-title" class="custom-sub">If something's sold out</h2>
+                                    </div>
+                                    <div class="grid gap-3 sm:grid-cols-3">
+                                        <label class="form-radio-card"><input type="radio" class="form-check-input mt-0.5" name="substitutions" value="similar" checked><span class="form-radio-card-body"><span class="form-radio-card-title block">Pick a close match</span><span class="form-radio-card-desc block">Same size or bigger, never pricier.</span></span></label>
+                                        <label class="form-radio-card"><input type="radio" class="form-check-input mt-0.5" name="substitutions" value="text"><span class="form-radio-card-body"><span class="form-radio-card-title block">Text me first</span><span class="form-radio-card-desc block">Your picker asks before swapping.</span></span></label>
+                                        <label class="form-radio-card"><input type="radio" class="form-check-input mt-0.5" name="substitutions" value="refund"><span class="form-radio-card-body"><span class="form-radio-card-title block">Leave it out</span><span class="form-radio-card-desc block">Refunded the same evening.</span></span></label>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+
+                        <!-- ORDER REVIEW + PAYMENT -->
+                        <aside class="lg:col-span-5" aria-labelledby="co-review-title" x-data="{ tip: 3 }">
+                            <div class="shop-panel" data-anim="fade-up" data-anim-delay="120">
+                                <div class="flex items-baseline justify-between gap-4">
+                                    <h2 id="co-review-title" class="custom-sub">Your basket</h2>
+                                    <a href="demo-grocery-store-1-cart.html" class="shop-meta mt-0 font-medium underline underline-offset-4 hover:text-[var(--color-text)]">Edit Cart</a>
+                                </div>
+                                <div class="mt-5">
+                                    <!-- Grocery Store order lines - the template order-line list with the mini cart's four lines (fixed quantities, data-qty); the checkout review and the order page. Generated by the stage-3 cart script. Edit: per line the name, meta, price, quantity, image -->
+                                    <ul class="order-lines" role="list">
+                                        <li class="order-line" data-cart-line="k1" data-price="3.49" data-qty="2" data-name="Tomatoes on the Vine">
+                                            <a href="demo-grocery-store-1-product.html" class="order-line-thumb bg-(--product-bg)"><img class="object-contain p-2" src="../assets/media/placeholder/849x568.svg" alt="Red tomatoes on the vine" width="849" height="568" loading="lazy"><span class="order-line-qty">2</span></a>
+                                            <div><a href="demo-grocery-store-1-product.html" class="order-line-name">Tomatoes on the Vine</a>
+                                                <p class="shop-meta">Per lb · Fernhill Farm</p>
+                                            </div>
+                                            <span class="order-line-price">$6.98</span>
+                                        </li>
+                                        <li class="order-line" data-cart-line="k2" data-price="7.25" data-qty="1" data-name="Country Sourdough">
+                                            <a href="demo-grocery-store-1-product.html" class="order-line-thumb bg-(--product-bg)"><img class="object-contain p-2" src="../assets/media/placeholder/488x377.svg" alt="A round country sourdough loaf" width="488" height="377" loading="lazy"><span class="order-line-qty">1</span></a>
+                                            <div><a href="demo-grocery-store-1-product.html" class="order-line-name">Country Sourdough</a>
+                                                <p class="shop-meta">800 g loaf · Brook &amp; Barrow</p>
+                                            </div>
+                                            <span class="order-line-price">$7.25</span>
+                                        </li>
+                                        <li class="order-line" data-cart-line="k3" data-price="15.99" data-qty="1" data-name="Aged Mountain Cheese">
+                                            <a href="demo-grocery-store-1-product.html" class="order-line-thumb bg-(--product-bg)"><img class="object-contain p-2" src="../assets/media/placeholder/549x455.svg" alt="A wedge of aged mountain cheese" width="549" height="455" loading="lazy"><span class="order-line-qty">1</span></a>
+                                            <div><a href="demo-grocery-store-1-product.html" class="order-line-name">Aged Mountain Cheese</a>
+                                                <p class="shop-meta">1 lb, cut to order</p>
+                                            </div>
+                                            <span class="order-line-price">$15.99</span>
+                                        </li>
+                                        <li class="order-line" data-cart-line="k4" data-price="4.49" data-qty="2" data-name="Organic Strawberries">
+                                            <a href="demo-grocery-store-1-product.html" class="order-line-thumb bg-(--product-bg)"><img class="object-contain p-2" src="../assets/media/placeholder/488x384.svg" alt="A heap of ripe organic strawberries" width="488" height="384" loading="lazy"><span class="order-line-qty">2</span></a>
+                                            <div><a href="demo-grocery-store-1-product.html" class="order-line-name">Organic Strawberries</a>
+                                                <p class="shop-meta">1 lb clamshell · Fernhill Farm</p>
+                                            </div>
+                                            <span class="order-line-price">$8.98</span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="mt-5">
+                                    <label class="shop-meta mb-2 block pl-4" for="co-coupon">Have a code? Try <strong class="text-[var(--color-text)]">FRESH10</strong></label>
+                                    <div class="input-group">
+                                        <input type="text" id="co-coupon" name="coupon_code" class="form-input form-input-pill form-input-sm" placeholder="Promo code" x-model="code" @keydown.enter.prevent="applyCoupon()">
+                                        <button type="button" name="apply_coupon" class="btn btn-dark btn-pill btn-sm" @click="applyCoupon()">Apply</button>
+                                    </div>
+                                    <p class="shop-meta mt-2 pl-4" :class="couponOk ? 'color-primary' : 'text-[var(--color-danger)]'" x-show="couponMsg" x-text="couponMsg" x-cloak aria-live="polite"></p>
+                                </div>
+
+                                <div class="mt-3">
+                                    <div class="totals-row"><span>Subtotal</span><span class="font-semibold" x-text="money(subtotal)">$39.20</span></div>
+                                    <div class="totals-row" x-show="applied" x-cloak>
+                                        <span class="flex items-center gap-2">Discount <span class="badge badge-xs text-primary-ink bg-(--custom-tile)" x-text="applied"></span></span>
+                                        <span class="flex items-center gap-3"><button type="button" class="shop-meta mt-0 underline" @click="removeCoupon()">Remove</button><span class="font-semibold color-primary" x-text="'−' + money(discount)"></span></span>
+                                    </div>
+                                    <fieldset class="border-b border-default py-4">
+                                        <legend class="float-left mb-3 w-full text-soft">Delivery</legend>
+                                        <div class="clear-both space-y-3">
+                                            <label class="form-check justify-between"><span class="flex items-center gap-2.5"><input type="radio" class="form-check-input" name="shipping_method[0]" value="standard" form="checkout-form" x-model="shipping" checked><span class="form-check-label">In your slot</span></span><span class="font-medium tabular-nums" x-text="freeShipping ? 'Free' : money(rates.standard)">Free</span></label>
+                                            <label class="form-check justify-between"><span class="flex items-center gap-2.5"><input type="radio" class="form-check-input" name="shipping_method[0]" value="express" form="checkout-form" x-model="shipping"><span class="form-check-label">Priority · within 2 hours</span></span><span class="font-medium tabular-nums">$7.99</span></label>
+                                            <label class="form-check justify-between"><span class="flex items-center gap-2.5"><input type="radio" class="form-check-input" name="shipping_method[0]" value="pickup" form="checkout-form" x-model="shipping"><span class="form-check-label">Pick up · Red Hook depot</span></span><span class="font-medium">Free</span></label>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="border-b border-default py-4">
+                                        <legend class="float-left mb-3 w-full text-soft">Tip for your driver <span class="text-muted">· all of it goes to them</span></legend>
+                                        <div class="clear-both flex flex-wrap gap-2">
+                                            <label class="option-pill"><input type="radio" name="tip" :value="0" x-model.number="tip" form="checkout-form"><span>$0</span></label>
+                                            <label class="option-pill"><input type="radio" name="tip" :value="2" x-model.number="tip" form="checkout-form"><span>$2</span></label>
+                                            <label class="option-pill"><input type="radio" name="tip" :value="3" x-model.number="tip" form="checkout-form" checked><span>$3</span></label>
+                                            <label class="option-pill"><input type="radio" name="tip" :value="5" x-model.number="tip" form="checkout-form"><span>$5</span></label>
+                                        </div>
+                                    </fieldset>
+                                    <div class="totals-row totals-row--total"><span>Total</span><span x-text="money(total + tip)">$42.20</span></div>
+                                    <p class="shop-meta mt-2">Produce sold by weight is charged on the final weight — usually within a few cents.</p>
+                                </div>
+                            </div>
+
+                            <!-- Payment -->
+                            <div class="mt-6" x-data="{ pay: 'card' }" data-anim="fade-up" data-anim-delay="180">
+                                <h2 class="custom-sub flex items-center gap-3"><span class="stepper-marker">5</span>Payment</h2>
+                                <ul class="mt-5 space-y-2.5" role="list">
+                                    <li class="form-radio-card pay-method">
+                                        <label>
+                                            <input type="radio" class="form-check-input" id="payment_method_card" name="payment_method" value="card" form="checkout-form" x-model="pay" checked>
+                                            <span class="form-radio-card-title flex-1">Credit or debit card</span>
+                                            <span class="flex gap-1.5 text-xl text-muted" aria-hidden="true"><i class="ph ph-credit-card"></i><i class="ph ph-contactless-payment"></i></span>
+                                        </label>
+                                        <div class="pay-method-box" x-show="pay === 'card'" x-collapse>
+                                            <div class="grid grid-cols-2 gap-3">
+                                                <div class="col-span-2">
+                                                    <label class="sr-only" for="card-number">Card number</label>
+                                                    <div class="input-icon-wrapper">
+                                                        <input type="text" id="card-number" name="card_number" class="form-input form-input-sm form-input-icon-right" inputmode="numeric" autocomplete="cc-number" placeholder="Card number" form="checkout-form" required :disabled="pay !== 'card'" data-error="Enter your card number." @blur="check($event.target)">
+                                                        <i class="ph ph-lock-simple input-icon-right" aria-hidden="true"></i>
+                                                    </div>
+                                                    <span class="form-error-msg" x-show="errors.card_number" x-text="errors.card_number" x-cloak></span>
+                                                </div>
+                                                <div>
+                                                    <label class="sr-only" for="card-expiry">Expiry date</label>
+                                                    <input type="text" id="card-expiry" name="card_expiry" class="form-input form-input-sm" inputmode="numeric" autocomplete="cc-exp" placeholder="MM / YY" form="checkout-form" required :disabled="pay !== 'card'" data-error="Add the expiry date." @blur="check($event.target)">
+                                                    <span class="form-error-msg" x-show="errors.card_expiry" x-text="errors.card_expiry" x-cloak></span>
+                                                </div>
+                                                <div>
+                                                    <label class="sr-only" for="card-cvc">Security code</label>
+                                                    <input type="text" id="card-cvc" name="card_cvc" class="form-input form-input-sm" inputmode="numeric" autocomplete="cc-csc" placeholder="CVC" form="checkout-form" required :disabled="pay !== 'card'" data-error="Add the 3-digit code." @blur="check($event.target)">
+                                                    <span class="form-error-msg" x-show="errors.card_cvc" x-text="errors.card_cvc" x-cloak></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="form-radio-card pay-method">
+                                        <label>
+                                            <input type="radio" class="form-check-input" id="payment_method_wallet" name="payment_method" value="wallet" form="checkout-form" x-model="pay">
+                                            <span class="form-radio-card-title flex-1">Digital wallet</span>
+                                            <i class="ph ph-wallet text-xl text-muted" aria-hidden="true"></i>
+                                        </label>
+                                        <div class="pay-method-box" x-show="pay === 'wallet'" x-collapse x-cloak>You confirm the payment in your wallet app right after you place the order.</div>
+                                    </li>
+                                    <li class="form-radio-card pay-method">
+                                        <label>
+                                            <input type="radio" class="form-check-input" id="payment_method_credit" name="payment_method" value="credit" form="checkout-form" x-model="pay">
+                                            <span class="form-radio-card-title flex-1">Framo credit · $6.40 available</span>
+                                            <i class="ph ph-coins text-xl text-muted" aria-hidden="true"></i>
+                                        </label>
+                                        <div class="pay-method-box" x-show="pay === 'credit'" x-collapse x-cloak>Your credit goes first; the rest is charged to the card on your account.</div>
+                                    </li>
+                                </ul>
+
+                                <div class="mt-5">
+                                    <label class="form-check items-start">
+                                        <input type="checkbox" class="form-check-input mt-0.5" id="terms" name="terms" value="1" form="checkout-form" required data-error="Please accept the terms to place your order." @change="check($event.target)">
+                                        <span class="form-check-label">I agree to the <a href="demo-grocery-store-1-contact.html" class="font-medium color-primary hover:underline">terms of sale</a> and the freshness promise <span class="text-[var(--color-danger)]">*</span></span>
+                                    </label>
+                                    <span class="form-error-msg" x-show="errors.terms" x-text="errors.terms" x-cloak></span>
+                                </div>
+
+                                <button type="submit" form="checkout-form" name="place_order" id="place_order" value="Place order" class="btn btn-dark btn-pill btn-lg mt-6 w-full">
+                                    <i class="ph ph-lock-key" aria-hidden="true"></i>Place Order · <span x-text="money(total + tip)">$42.20</span>
+                                </button>
+                                <p class="shop-meta mt-4 text-center">Payments are encrypted. We never store card details.</p>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Edit: the icons, titles, lines, links -->
+            <section class="shop-ui border-t border-default" aria-label="Why shop with us">
+                <div class="container">
+                    <ul class="usp-strip py-(--section-space)" data-anim-stagger="80">
+                        <li class="usp-item" data-anim="fade-up">
+                            <i class="ph-light ph-truck usp-icon" aria-hidden="true"></i>
+                            <h3 class="usp-title">Today by 6 pm</h3>
+                            <p class="usp-text">Order by 2 pm anywhere in Brooklyn or Queens for a slot this evening.</p>
+                            <a href="demo-grocery-store-1-delivery-areas.html" class="usp-link">Delivery areas <i class="ph ph-caret-right" aria-hidden="true"></i></a>
+                        </li>
+                        <li class="usp-item" data-anim="fade-up">
+                            <i class="ph-light ph-tag usp-icon" aria-hidden="true"></i>
+                            <h3 class="usp-title">Free over $35</h3>
+                            <p class="usp-text">Delivery is $3.99 below that, and always free with Framo+.</p>
+                            <a href="demo-grocery-store-1-deals.html" class="usp-link">This week's deals <i class="ph ph-caret-right" aria-hidden="true"></i></a>
+                        </li>
+                        <li class="usp-item" data-anim="fade-up">
+                            <i class="ph-light ph-plant usp-icon" aria-hidden="true"></i>
+                            <h3 class="usp-title">Freshness promise</h3>
+                            <p class="usp-text">Not as fresh as you'd pick it yourself? Tell us by midnight and we refund it.</p>
+                            <a href="demo-grocery-store-1-contact.html" class="usp-link">Refunds &amp; swaps <i class="ph ph-caret-right" aria-hidden="true"></i></a>
+                        </li>
+                        <li class="usp-item" data-anim="fade-up">
+                            <i class="ph-light ph-recycle usp-icon" aria-hidden="true"></i>
+                            <h3 class="usp-title">Bottles come back</h3>
+                            <p class="usp-text">Leave the empty glass on your step and the driver takes it on the next run.</p>
+                            <a href="demo-grocery-store-1-contact.html" class="usp-link">Bottle returns <i class="ph ph-caret-right" aria-hidden="true"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <!-- Grocery Store footer - delivery zones + app: the neighbourhoods we reach today (by borough) beside the app card, then the brand, three link columns (template footer-acc on phones) and the weekly-deals form, the payments bar. Edit: the zones, the app card, the brand line, the columns, the form, the small print -->
+        <footer class="site-footer site-footer--dark custom-footer">
+
+            <div class="footer-main">
+                <div class="container">
+
+                    <div class="custom-zones grid gap-12 mb-(--section-space) pb-(--section-space) border-b border-b-(--footer-rule) md:gap-y-12 md:gap-x-16 md:grid-cols-2 xl:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)_minmax(0,0.95fr)]">
+                        <div data-anim="fade-up">
+                            <p class="custom-kicker text-(--color-primary-300)"><i class="ph-fill ph-map-pin text-[1.125rem]" aria-hidden="true"></i>Delivery Zones</p>
+                            <h2 class="footer-heading mt-2 text-[clamp(1.75rem,1.3rem_+_1.1vw,2.25rem)] leading-[1.1] tracking-[-0.02em]">Same-day across Brooklyn &amp; Queens</h2>
+                            <p class="footer-detail mt-5 mb-0 max-w-[30rem]">Order by 2 pm for a slot between 4 and 10 pm. Next-day delivery reaches the rest of New York City.</p>
+                            <a href="demo-grocery-store-1-delivery-areas.html" class="custom-more mt-8">See Every ZIP Code <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="grid grid-cols-2 gap-8" data-anim="fade-up" data-anim-delay="100">
+                            <div>
+                                <h3 class="footer-col-title">Brooklyn</h3>
+                                <ul class="custom-hoods grid gap-2.5 mt-4 text-(--footer-body)" role="list">
+                                    <li class="flex items-center gap-2.5">Williamsburg</li>
+                                    <li class="flex items-center gap-2.5">Greenpoint</li>
+                                    <li class="flex items-center gap-2.5">Bushwick</li>
+                                    <li class="flex items-center gap-2.5">Park Slope</li>
+                                    <li class="flex items-center gap-2.5">Fort Greene</li>
+                                    <li class="flex items-center gap-2.5">Red Hook</li>
+                                    <li class="flex items-center gap-2.5">Crown Heights</li>
+                                    <li class="flex items-center gap-2.5">Cobble Hill</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="footer-col-title">Queens</h3>
+                                <ul class="custom-hoods grid gap-2.5 mt-4 text-(--footer-body)" role="list">
+                                    <li class="flex items-center gap-2.5">Astoria</li>
+                                    <li class="flex items-center gap-2.5">Long Island City</li>
+                                    <li class="flex items-center gap-2.5">Sunnyside</li>
+                                    <li class="flex items-center gap-2.5">Ridgewood</li>
+                                    <li class="flex items-center gap-2.5">Jackson Heights</li>
+                                    <li class="flex items-center gap-2.5">Forest Hills</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="custom-app [align-self:start] p-8 rounded-card md:col-span-full md:grid md:grid-cols-[minmax(0,1fr)_auto] md:gap-x-12 md:items-center xl:col-[auto] xl:block" data-anim="fade-up" data-anim-delay="200">
+                            <h3 class="footer-shop-title text-[1.375rem] md:col-[1]">Shop faster in the app</h3>
+                            <p class="footer-detail mt-3 mb-6 md:mb-0 xl:mb-6 md:col-[1]">Reorder last week in one tap, track the van live and get $10 off your first app order.</p>
+                            <div class="footer-app-badges">
+                                <a href="#" class="btn btn-dark btn-hover-lift rounded-2xl gap-2.5 py-1.5 pl-3 pr-4">
+                                    <i class="ph-fill ph-apple-logo text-[1.5rem]" aria-hidden="true"></i>
+                                    <span class="text-left leading-[1.15] tracking-normal">
+                                        <span class="block text-[0.6875rem] font-medium opacity-70">Download on the</span>
+                                        <span class="block text-[0.9375rem] font-semibold tracking-[-0.01em]">App Store</span>
+                                    </span>
+                                </a>
+                                <a href="#" class="btn btn-dark btn-hover-lift rounded-2xl gap-2.5 py-1.5 pl-3 pr-4">
+                                    <i class="ph-fill ph-google-play-logo text-[1.5rem]" aria-hidden="true"></i>
+                                    <span class="text-left leading-[1.15] tracking-normal">
+                                        <span class="block text-[0.6875rem] font-medium opacity-70">Get it on</span>
+                                        <span class="block text-[0.9375rem] font-semibold tracking-[-0.01em]">Google Play</span>
+                                    </span>
+                                </a>
+                            </div>
+                            <p class="flex items-center gap-2 mt-5 text-(--footer-body) md:col-[1]"><i class="ph-fill ph-star text-(--color-accent)" aria-hidden="true"></i><span><strong class="text-white">4.8</strong> from 12,460 reviews</span></p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-x-10 gap-y-10 md:grid-cols-3 lg:grid-cols-[1.4fr_repeat(3,1fr)_1.8fr]">
+
+                        <div class="flex flex-col gap-5 md:col-span-3 lg:col-span-1" data-anim="fade-up">
+                            <a href="demo-grocery-store-1.html" class="brand block">
+
+                                <img class="brand-logo" src="../assets/media/logo/framo-logo.svg" alt="Framo" width="120" height="32" style="--logo-tint: url(#logo-tint-footer)">
+
+                                <svg class="brand-tint" aria-hidden="true" focusable="false">
+                                    <filter id="logo-tint-footer" color-interpolation-filters="sRGB">
+                                        <feFlood flood-color="currentColor" />
+                                        <feComposite in2="SourceAlpha" operator="in" />
+                                    </filter>
+                                </svg>
+                            </a>
+                            <p class="footer-detail max-w-[30ch]">Farm produce, fresh bread and the pantry, delivered the same day from our depot in Red Hook.</p>
+                            <ul class="social-list" role="list">
+                                <li><a href="#" aria-label="Instagram" data-social="instagram" class="social-link social-link--circle social-link--outline"><i class="ph ph-instagram-logo" aria-hidden="true"></i></a></li>
+                                <li><a href="#" aria-label="TikTok" data-social="tiktok" class="social-link social-link--circle social-link--outline"><i class="ph ph-tiktok-logo" aria-hidden="true"></i></a></li>
+                                <li><a href="#" aria-label="Pinterest" data-social="pinterest" class="social-link social-link--circle social-link--outline"><i class="ph ph-pinterest-logo" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+
+                        <nav class="footer-acc" x-data="{ open: false }" :class="open ? 'is-open' : 'is-shut'" aria-labelledby="gs1-col-shop" data-anim="fade-up" data-anim-delay="80">
+                            <button type="button" class="footer-acc-toggle" id="gs1-col-shop" @click="open = !open" :aria-expanded="open">Shop <i class="ph ph-plus footer-acc-caret" aria-hidden="true"></i></button>
+                            <div class="footer-acc-body">
+                                <ul class="footer-links footer-links--slide">
+                                    <li><a href="demo-grocery-store-1-aisle.html">Fruit &amp; Veg</a></li>
+                                    <li><a href="demo-grocery-store-1-aisle.html">Bakery</a></li>
+                                    <li><a href="demo-grocery-store-1-aisle.html">Dairy &amp; Eggs</a></li>
+                                    <li><a href="demo-grocery-store-1-aisle.html">Meat &amp; Fish</a></li>
+                                    <li><a href="demo-grocery-store-1-aisle.html">Pantry</a></li>
+                                    <li><a href="demo-grocery-store-1-deals.html">Weekly Deals</a></li>
+                                </ul>
+                            </div>
+                        </nav>
+
+                        <nav class="footer-acc" x-data="{ open: false }" :class="open ? 'is-open' : 'is-shut'" aria-labelledby="gs1-col-help" data-anim="fade-up" data-anim-delay="160">
+                            <button type="button" class="footer-acc-toggle" id="gs1-col-help" @click="open = !open" :aria-expanded="open">Help <i class="ph ph-plus footer-acc-caret" aria-hidden="true"></i></button>
+                            <div class="footer-acc-body">
+                                <ul class="footer-links footer-links--slide">
+                                    <li><a href="demo-grocery-store-1-delivery-areas.html">Delivery Areas</a></li>
+                                    <li><a href="#">Delivery Slots</a></li>
+                                    <li><a href="#">Refunds &amp; Swaps</a></li>
+                                    <li><a href="#">Bottle Returns</a></li>
+                                    <li><a href="demo-grocery-store-1-contact.html">Contact Us</a></li>
+                                </ul>
+                            </div>
+                        </nav>
+
+                        <nav class="footer-acc" x-data="{ open: false }" :class="open ? 'is-open' : 'is-shut'" aria-labelledby="gs1-col-about" data-anim="fade-up" data-anim-delay="240">
+                            <button type="button" class="footer-acc-toggle" id="gs1-col-about" @click="open = !open" :aria-expanded="open">Framo Market <i class="ph ph-plus footer-acc-caret" aria-hidden="true"></i></button>
+                            <div class="footer-acc-body">
+                                <ul class="footer-links footer-links--slide">
+                                    <li><a href="demo-grocery-store-1-about.html">About Us</a></li>
+                                    <li><a href="demo-grocery-store-1-about.html#gs1-farms">Our Farms</a></li>
+                                    <li><a href="#">Framo+</a></li>
+                                    <li><a href="demo-grocery-store-1-recipes.html">Recipes</a></li>
+                                    <li><a href="#">Gift Cards</a></li>
+                                    <li><a href="demo-grocery-store-1-about.html#gs1-team-title">Careers</a></li>
+                                </ul>
+                            </div>
+                        </nav>
+
+                        <div class="md:col-span-3 lg:col-span-1" data-anim="fade-up" data-anim-delay="320">
+                            <h2 class="footer-col-title">Weekly Deals by Email</h2>
+                            <p class="footer-detail mb-5 max-w-[34ch]">Every Thursday: the week's best prices and what just came in from the farms.</p>
+                            <form x-data="formValidate()" novalidate @submit.prevent="onSubmit($event)">
+                                <div class="footer-subscribe">
+                                    <input id="gs1-news" name="email" type="email" placeholder="Your email" aria-label="Email address" aria-describedby="gs1-news-msg" required @blur="check($event.target)" @input="check($event.target)">
+                                    <button type="submit">Sign Up <i class="ph ph-arrow-right" aria-hidden="true"></i></button>
+                                </div>
+                                <span class="footer-subscribe-msg" id="gs1-news-msg">
+                                    <span x-show="!errors.email &amp;&amp; !sent">One email a week. Leave any time.</span>
+                                    <span class="footer-subscribe-msg--error" x-show="errors.email" x-text="errors.email" x-cloak></span>
+                                    <span class="footer-subscribe-msg--ok" x-show="sent" x-cloak>You're in. The first one lands Thursday.</span>
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="container footer-shop-bar py-7">
+                    <span>&copy; 2027 Framo Market. Prices and slots vary by ZIP code.</span>
+                    <ul class="pay-marks" aria-label="Payment methods we accept">
+                        <li class="pay-mark pay-mark--visa"><span>VISA</span></li>
+                        <li class="pay-mark pay-mark--mc" aria-label="Mastercard"><span class="pay-mark-circles" aria-hidden="true"><i></i><i></i></span></li>
+                        <li class="pay-mark" aria-label="PayPal"><i class="ph-fill ph-paypal-logo" aria-hidden="true"></i></li>
+                        <li class="pay-mark" aria-label="Apple Pay"><i class="ph-fill ph-apple-logo" aria-hidden="true"></i><span>Pay</span></li>
+                        <li class="pay-mark" aria-label="Google Pay"><i class="ph-bold ph-google-logo" aria-hidden="true"></i><span>Pay</span></li>
+                    </ul>
+                </div>
+            </div>
+
+        </footer>
+
+        <!-- Back to top button -->
+        <button data-back-top aria-label="Back to top" class="back-to-top fixed bottom-8 right-8 size-11 rounded-full flex items-center justify-center cursor-pointer border-0 text-white bg-primary shadow-token-lg z-sticky">
+            <i class="ph ph-arrow-up" aria-hidden="true"></i>
+        </button>
+
+        <script defer src="../assets/js/vendor.js"></script>
+        <script defer src="../assets/js/shop.js"></script>
+        <script defer src="../assets/js/main.js"></script>
+        <script defer src="../assets/js/demos/demo-grocery-store-1.js"></script>
+    </body>
+</html>

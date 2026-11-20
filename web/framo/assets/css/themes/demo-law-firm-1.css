@@ -1,0 +1,96 @@
+/* ================================================================
+ *  demo-law-firm-1.css — Framo theme for the Law Firm demo
+ *
+ *  The colors, fonts and layout settings of the Law Firm demo
+ *  (Framo Law LLP, full-service business law firm, New York · Chicago · San Francisco · London).
+ *  Brass for the actions (white labels on it), a navy ink for the bands
+ *  and the footer, parchment for the page, slate for meta and a deep
+ *  teal as the one quiet accent.
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here).
+   EB Garamond (regular 400 to bold 700, and its true italic) sets the
+   headings and figures at medium 500: a sturdy, refined old-style serif
+   for the big headlines, its italic for the one key word. Inter sets the
+   text. */
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..700;1,400..700&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #b08d4f;   /* main color: brass for buttons, links and focus; labels on it are white */
+    --color-secondary-base:  #13283a;   /* second color: navy ink for the bands and the footer; the dark scheme takes its hue */
+    --color-tertiary-base:   #f5f1ea;   /* third color: parchment, the page and soft fills */
+    --color-quaternary-base: #66707a;   /* fourth color: slate, for meta and small marks */
+    --color-accent-base:     #1f5a5c;   /* attention color: deep teal, one quiet accent */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. */
+    /* Labels on the primary: white (the demo's choice), dark only on a very light primary;
+       the hover deepens the fill so the white label never loses contrast */
+    --color-on-primary: oklch(from var(--color-primary-base) clamp(0.2, (0.8 - l) * 1000, 1) 0 0);
+    --color-primary-hover: oklch(from var(--color-primary-base) calc(l - 0.07) c h);
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-text:      var(--color-secondary-base);   /* headings and body text (#13283a) */
+    --color-text-soft: oklch(from var(--color-secondary-base) 0.4099 calc(c * 0.604) calc(h + 0.2));   /* secondary text: the navy softened, never washed grey (#3f4c58) */
+    --color-bg:        var(--color-tertiary-base);   /* page background (#f5f1ea) */
+    --color-bg-soft:   oklch(from var(--color-primary-base) 0.9269 calc(c * 0.164) calc(h + 0.2));   /* a step deeper (#ece6dc) */
+    --color-border:    oklch(from var(--color-tertiary-base) 0.8876 calc(c * 1.749) calc(h - 0.5));   /* lines and borders (#e0d9cd) */
+    --color-dark:      var(--color-secondary-base);   /* dark sections and dark buttons (#13283a) */
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'EB Garamond', Georgia, 'Times New Roman', serif;   /* headings and figures */
+    --font-serif:   'EB Garamond', Georgia, 'Times New Roman', serif;   /* italic accents: the display face's own italic */
+    --font-tertiary: 'Urbanist', system-ui, sans-serif;   /* display accents (unused so far) */
+
+    /* Stylesheets of the accent fonts, fetched only on pages that use them.
+       Change a family above and its URL here together. Set one to "" to
+       load nothing, e.g. when that font is a system font. */
+    --font-serif-src:    "";   /* EB Garamond italic already comes with the @import above */
+    --font-tertiary-src: "https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800;900&display=swap";
+
+    /* Headings and buttons */
+    --heading-weight:     500;                     /* EB Garamond medium: 400–700 are loaded */
+    --heading-tracking:   -0.015em;
+    --btn-font-weight:    500;                     /* 500–700: Inter medium, quiet beside the serif */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        0.5;    /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 2px;     /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1280px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 1.25;   /* space between sections: 0.75 compact · 1 · 1.25 spacious */
+}

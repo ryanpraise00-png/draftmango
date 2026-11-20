@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en" data-demo="consulting-3">
+    <head>
+        <meta charset="UTF-8">
+        <script async src="../assets/js/entrance.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Contact — People &amp; Organisation — Framo</title>
+        <link rel="icon" href="../assets/media/logo/favicon.ico" sizes="32x32">
+        <link rel="icon" href="../assets/media/logo/framo-mark.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="../assets/media/logo/apple-touch-icon.png">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="../assets/css/icons.css">
+        <link rel="stylesheet" href="../assets/css/app.css">
+        <link rel="stylesheet" href="../assets/css/vendor.css">
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" data-theme-fonts>
+        <link rel="stylesheet" href="../assets/css/demos/demo-consulting-3.css">
+        <link rel="stylesheet" href="../assets/css/themes/demo-consulting-3.css" data-theme-file>
+        <link rel="stylesheet" href="../assets/css/custom.css">
+    </head>
+    <body>
+
+        <header class="site-header header-topbar nav-style-underline" data-header>
+
+            <!-- People & Organisation contact strip - the navy strip of header-topbar (template .site-topbar--contact): phone, email and hours as icon chips on the left, the health check link on the right. Edit: the details, the link -->
+            <div class="site-topbar site-topbar--contact custom-topbar">
+                <div class="site-topbar-inner container">
+                    <div class="site-topbar-meta">
+                        <a href="tel:+16125550137" class="site-topbar-meta-item tabular-nums">
+                            <i class="ph ph-phone" aria-hidden="true"></i>
+                            (612) 555-0137
+                        </a>
+                        <a href="mailto:hello@framopeople.com" class="site-topbar-meta-item custom-topbar-mail">
+                            <i class="ph ph-envelope-simple" aria-hidden="true"></i>
+                            hello@framopeople.com
+                        </a>
+                        <span class="site-topbar-meta-item custom-topbar-hours">
+                            <i class="ph ph-clock" aria-hidden="true"></i>
+                            Mon – Fri, 8 am – 6 pm CT
+                        </span>
+                    </div>
+                    <a href="demo-consulting-3-contact.html" class="site-topbar-cta custom-topbar-cta">
+                        <span class="site-topbar-cta-label">Free Team Health Check</span>
+                        <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main navbar -->
+            <nav class="navbar" role="navigation" aria-label="Main navigation">
+                <div class="navbar-inner container">
+
+                    <!-- Brand -->
+                    <a href="demo-consulting-3.html" class="brand">
+
+                        <img class="brand-logo" src="../assets/media/logo/framo-logo.svg" alt="Framo" width="120" height="32" style="--logo-tint: url(#logo-tint-header)">
+
+                        <svg class="brand-tint" aria-hidden="true" focusable="false">
+                            <filter id="logo-tint-header" color-interpolation-filters="sRGB">
+                                <feFlood flood-color="currentColor" />
+                                <feComposite in2="SourceAlpha" operator="in" />
+                            </filter>
+                        </svg>
+
+                    </a>
+
+                    <!-- Desktop navigation links -->
+                    <ul class="nav-links" role="list">
+
+                        <!-- People & Organisation menu - the <li> items of . Inner pages: services, service, programs, about, team, careers, stories, blog, article, contact -->
+
+                        <li>
+                            <a href="demo-consulting-3.html" class="nav-link">Home</a>
+                        </li>
+
+                        <!-- Services - the tabs mega (template .nav-megamenu--tabs): By Service (six rows) / By Moment (four rows), each with an overview link and the Team Health Check card. Edit: the tabs (icon, title, caption), each row (icon, link, line), the card (_health-card.html) -->
+                        <li class="nav-megamenu nav-megamenu--tabs custom-mega">
+                            <button class="nav-link">
+                                Services
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="megamenu-panel" data-lenis-prevent>
+                                <div class="megamenu-inner megamenu-inner--tabs container">
+                                    <!-- hover(): a short dwell before switching; go(): arrow keys move between the tabs, Tab goes on into the open panel -->
+                                    <div class="tabs tabs-vertical tabs-rich megamenu-tabs" x-data="{ tab: 'service', tabs: ['service', 'moment'], t: null, hover(v) { clearTimeout(this.t); this.t = setTimeout(() => this.tab = v, 120) }, go(d) { clearTimeout(this.t); const n = this.tabs.length; this.tab = this.tabs[(this.tabs.indexOf(this.tab) + d + n) % n]; this.$refs[this.tab].focus() } }">
+
+                                        <div class="tabs-nav" role="tablist" aria-label="Services" aria-orientation="vertical" @keydown.down.prevent="go(1)" @keydown.up.prevent="go(-1)">
+                                            <button type="button" class="tab-btn is-active" role="tab" id="c3p-sv-tab-service" aria-controls="c3p-sv-panel-service" x-ref="service" :class="{ 'is-active': tab === 'service' }" :aria-selected="tab === 'service'" :tabindex="tab === 'service' ? 0 : -1" @mouseenter="hover('service')" @mouseleave="clearTimeout(t)" @click="tab = 'service'">
+                                                <span class="tab-btn-icon" aria-hidden="true"><i class="ph ph-squares-four"></i></span>
+                                                <span class="tab-btn-title">By Service</span>
+                                                <span class="tab-btn-caption">Six practices, one team</span>
+                                            </button>
+                                            <button type="button" class="tab-btn" role="tab" id="c3p-sv-tab-moment" aria-controls="c3p-sv-panel-moment" x-ref="moment" tabindex="-1" :class="{ 'is-active': tab === 'moment' }" :aria-selected="tab === 'moment'" :tabindex="tab === 'moment' ? 0 : -1" @mouseenter="hover('moment')" @mouseleave="clearTimeout(t)" @click="tab = 'moment'">
+                                                <span class="tab-btn-icon" aria-hidden="true"><i class="ph ph-flag-banner"></i></span>
+                                                <span class="tab-btn-title">By Moment</span>
+                                                <span class="tab-btn-caption">Hiring, growth, merger, restructure</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="tabs-panels">
+
+                                            <!-- By Service -->
+                                            <div class="tabs-panel megamenu-tabpanel is-active" role="tabpanel" id="c3p-sv-panel-service" aria-labelledby="c3p-sv-tab-service" :class="{ 'is-active': tab === 'service' }">
+                                                <div class="megamenu-links">
+                                                    <div class="megamenu-col">
+                                                        <div class="custom-mega-row">
+                                                            <a href="demo-consulting-3-service.html" class="megamenu-item"><i class="ph ph-tree-structure" aria-hidden="true"></i>Organisation Design</a>
+                                                            <span class="custom-mega-line">Structures, spans and roles that fit the next stage</span>
+                                                        </div>
+                                                        <div class="custom-mega-row">
+                                                            <a href="demo-consulting-3-service.html" class="megamenu-item"><i class="ph ph-compass" aria-hidden="true"></i>Leadership Development</a>
+                                                            <span class="custom-mega-line">Programs and coaching for first-time to senior leaders</span>
+                                                        </div>
+                                                        <div class="custom-mega-row">
+                                                            <a href="demo-consulting-3-service.html" class="megamenu-item"><i class="ph ph-heart" aria-hidden="true"></i>Culture &amp; Engagement</a>
+                                                            <span class="custom-mega-line">Listening, values and the habits that make them real</span>
+                                                        </div>
+                                                        <div class="custom-mega-row">
+                                                            <a href="demo-consulting-3-service.html" class="megamenu-item"><i class="ph ph-user-plus" aria-hidden="true"></i>Talent &amp; Hiring</a>
+                                                            <span class="custom-mega-line">Role design, interview loops and onboarding that sticks</span>
+                                                        </div>
+                                                        <div class="custom-mega-row">
+                                                            <a href="demo-consulting-3-service.html" class="megamenu-item"><i class="ph ph-path" aria-hidden="true"></i>Change Management</a>
+                                                            <span class="custom-mega-line">Plans, comms and managers ready to carry the change</span>
+                                                        </div>
+                                                        <div class="custom-mega-row">
+                                                            <a href="demo-consulting-3-service.html" class="megamenu-item"><i class="ph ph-handshake" aria-hidden="true"></i>HR Advisory</a>
+                                                            <span class="custom-mega-line">Policies, pay frameworks and a senior HR partner on call</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="megamenu-col megamenu-col--lead">
+                                                        <a href="demo-consulting-3-services.html" class="megamenu-item">All Services</a>
+                                                    </div>
+                                                </div>
+                                                <!-- Team Health Check card - the side card of both Services tabs. Edit: the label, title, line, checks, the two faces, the button -->
+                                                <div class="megamenu-feature custom-mega-card relative isolate overflow-hidden flex flex-col gap-4 p-7">
+                                                    <p class="m-0 inline-flex items-center gap-2 text-[0.8125rem] font-semibold tracking-[0.12em] uppercase text-primary-ink"><i class="ph-fill ph-heartbeat text-base" aria-hidden="true"></i>Free · 20 Minutes</p>
+                                                    <p class="m-0 font-heading text-[1.625rem] font-bold leading-[1.15] tracking-[-0.03em]">Team Health Check</p>
+                                                    <p class="m-0 text-base leading-relaxed text-soft">Twenty minutes with a senior consultant: where your team is strong, where it is stretched, and what to do first.</p>
+                                                    <ul class="grid gap-2 m-0 p-0 list-none text-[0.9375rem]" role="list">
+                                                        <li class="flex items-center gap-2.5"><i class="ph-bold ph-check text-primary-ink" aria-hidden="true"></i>A survey for your managers</li>
+                                                        <li class="flex items-center gap-2.5"><i class="ph-bold ph-check text-primary-ink" aria-hidden="true"></i>A summary the next day</li>
+                                                    </ul>
+                                                    <div class="flex items-center gap-3 mt-auto pt-2">
+                                                        <span class="avatar-stack avatar-stack-sm" aria-hidden="true">
+                                                            <img src="../assets/media/placeholder/240x240.svg" alt="" width="240" height="240" loading="lazy" decoding="async">
+                                                            <img src="../assets/media/placeholder/240x240.svg" alt="" width="240" height="240" loading="lazy" decoding="async">
+                                                        </span>
+                                                        <span class="text-[0.9375rem] leading-snug text-soft">With Tessa or Rhys</span>
+                                                    </div>
+                                                    <a href="demo-consulting-3-contact.html" class="btn btn-primary justify-center">Book the Check</a>
+                                                </div>
+                                            </div>
+
+                                            <!-- By Moment -->
+                                            <div class="tabs-panel megamenu-tabpanel" role="tabpanel" id="c3p-sv-panel-moment" aria-labelledby="c3p-sv-tab-moment" :class="{ 'is-active': tab === 'moment' }">
+                                                <div class="megamenu-links">
+                                                    <div class="megamenu-col">
+                                                        <div class="custom-mega-row">
+                                                            <a href="demo-consulting-3-services.html" class="megamenu-item"><i class="ph ph-lightning" aria-hidden="true"></i>Hiring Fast</a>
+                                                            <span class="custom-mega-line">Forty roles in a quarter without lowering the bar.</span>
+                                                        </div>
+                                                        <div class="custom-mega-row">
+                                                            <a href="demo-consulting-3-services.html" class="megamenu-item"><i class="ph ph-chart-line-up" aria-hidden="true"></i>Scaling Past 250</a>
+                                                            <span class="custom-mega-line">The point where founders stop knowing everyone by name.</span>
+                                                        </div>
+                                                        <div class="custom-mega-row">
+                                                            <a href="demo-consulting-3-services.html" class="megamenu-item"><i class="ph ph-intersect" aria-hidden="true"></i>After a Merger</a>
+                                                            <span class="custom-mega-line">Two cultures, one org chart and a plan for the first 100 days.</span>
+                                                        </div>
+                                                        <div class="custom-mega-row">
+                                                            <a href="demo-consulting-3-services.html" class="megamenu-item"><i class="ph ph-arrows-split" aria-hidden="true"></i>Restructuring</a>
+                                                            <span class="custom-mega-line">Fewer layers, clear roles, and people treated with care.</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="megamenu-col megamenu-col--lead">
+                                                        <a href="demo-consulting-3-stories.html" class="megamenu-item">Read the Client Stories</a>
+                                                    </div>
+                                                </div>
+                                                <!-- Team Health Check card - the side card of both Services tabs. Edit: the label, title, line, checks, the two faces, the button -->
+                                                <div class="megamenu-feature custom-mega-card relative isolate overflow-hidden flex flex-col gap-4 p-7">
+                                                    <p class="m-0 inline-flex items-center gap-2 text-[0.8125rem] font-semibold tracking-[0.12em] uppercase text-primary-ink"><i class="ph-fill ph-heartbeat text-base" aria-hidden="true"></i>Free · 20 Minutes</p>
+                                                    <p class="m-0 font-heading text-[1.625rem] font-bold leading-[1.15] tracking-[-0.03em]">Team Health Check</p>
+                                                    <p class="m-0 text-base leading-relaxed text-soft">Twenty minutes with a senior consultant: where your team is strong, where it is stretched, and what to do first.</p>
+                                                    <ul class="grid gap-2 m-0 p-0 list-none text-[0.9375rem]" role="list">
+                                                        <li class="flex items-center gap-2.5"><i class="ph-bold ph-check text-primary-ink" aria-hidden="true"></i>A survey for your managers</li>
+                                                        <li class="flex items-center gap-2.5"><i class="ph-bold ph-check text-primary-ink" aria-hidden="true"></i>A summary the next day</li>
+                                                    </ul>
+                                                    <div class="flex items-center gap-3 mt-auto pt-2">
+                                                        <span class="avatar-stack avatar-stack-sm" aria-hidden="true">
+                                                            <img src="../assets/media/placeholder/240x240.svg" alt="" width="240" height="240" loading="lazy" decoding="async">
+                                                            <img src="../assets/media/placeholder/240x240.svg" alt="" width="240" height="240" loading="lazy" decoding="async">
+                                                        </span>
+                                                        <span class="text-[0.9375rem] leading-snug text-soft">With Tessa or Rhys</span>
+                                                    </div>
+                                                    <a href="demo-consulting-3-contact.html" class="btn btn-primary justify-center">Book the Check</a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="demo-consulting-3-programs.html" class="nav-link">Programs</a>
+                        </li>
+
+                        <!-- About - Edit: the links -->
+                        <li class="nav-cascade">
+                            <button class="nav-link">
+                                About
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="cascade-panel">
+                                <a href="demo-consulting-3-about.html" class="cascade-item">About Us</a>
+                                <a href="demo-consulting-3-team.html" class="cascade-item">Our Team</a>
+                                <a href="demo-consulting-3-careers.html" class="cascade-item">Careers</a>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="demo-consulting-3-stories.html" class="nav-link">Stories</a>
+                        </li>
+                        <li>
+                            <a href="demo-consulting-3-blog.html" class="nav-link">Blog</a>
+                        </li>
+                        <li>
+                            <a href="demo-consulting-3-contact.html" class="nav-link active">Contact</a>
+                        </li>
+
+                    </ul>
+
+                    <!-- Right-side actions -->
+                    <div class="nav-actions">
+
+                        <!-- Meta group - display:contents by default; header-stacked turns it into its own row. -->
+                        <div class="nav-meta">
+
+                        </div><!-- /.nav-meta -->
+
+                        <!--html -->
+                        <button type="button" class="btn btn-circle btn-ghost custom-search-toggle" data-panel-toggle="search" aria-expanded="false" aria-controls="header-search" aria-label="Open search">
+                            <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+                        </button>
+                        <a href="demo-consulting-3-contact.html" class="btn btn-primary custom-nav-action max-sm:hidden"><span class="lg:max-xl:hidden">Book a Consultation</span><span class="hidden lg:max-xl:inline">Book a Call</span></a>
+
+                        <!-- Menu toggle - mobile hamburger below 1024px; also the close button on header-overlay-menu / header-side-drawer -->
+                        <button class="hamburger" data-toggle aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation menu">
+                            <i class="ph ph-list text-xl nav-toggle-open" aria-hidden="true"></i>
+                            <i class="ph ph-x text-xl nav-toggle-close" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Navigation panel - links are auto-generated by initMobileSync() in main.js -->
+                <!-- data-lenis-prevent: opts this scroll container out of Lenis smooth scrolling -->
+                <div id="mobile-nav" class="mobile-nav" data-mobile-nav data-lenis-prevent role="dialog" aria-modal="true" aria-label="Site navigation">
+
+                    <!-- Menu column - the scroll container -->
+                    <div class="nav-panel-menu">
+
+                        <!-- JS target: desktop nav items are injected here -->
+                        <div data-mobile-links></div>
+
+                        <!-- Mobile-only items: add or remove <a> elements here freely -->
+                        <!-- <a href="#" class="mobile-link" data-mobile-only>Exclusive Item</a> -->
+
+                        <!-- People & Organisation menu panel foot - the lead action and the phone under the links. Edit: the button, the number, the hours -->
+                        <div class="nav-panel-cta grid gap-3 mt-6">
+                            <a href="demo-consulting-3-contact.html" class="btn btn-primary btn-lg justify-center">Book a Consultation</a>
+                            <a href="tel:+16125550137" class="btn btn-outline btn-lg justify-center tabular-nums"><i class="ph ph-phone" aria-hidden="true"></i>(612) 555-0137</a>
+                            <p class="m-0 text-center text-base text-soft">Mon – Fri, 8 am – 6 pm CT</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </nav>
+
+        </header>
+        <!-- People & Organisation search sheet - the template search sheet (header.css . Edit: the title, the placeholder, the popular links -->
+        <div id="header-search" class="site-search custom-search" data-panel="search" role="dialog" aria-modal="false" aria-label="Search">
+            <div class="site-search-inner" data-lenis-prevent>
+                <div class="site-search-body container">
+                    <button type="button" class="site-panel-close" data-panel-close aria-label="Close search">
+                        <i class="ph ph-x" aria-hidden="true"></i>
+                    </button>
+                    <h2 class="site-search-title">What is your team working through?</h2>
+                    <form class="site-search-form" role="search" action="#" x-data @submit.prevent>
+                        <label class="sr-only" for="site-search-input">Search Framo People Advisory</label>
+                        <input id="site-search-input" type="search" name="q" class="form-input form-input-underline site-search-input" placeholder="Search services, programs, stories…" autocomplete="off">
+                        <button type="submit" class="site-search-submit" aria-label="Search">
+                            <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                    <div class="site-search-suggest">
+                        <span class="site-search-suggest-label">Popular</span>
+                        <a href="demo-consulting-3-service.html" class="site-search-tag">Leadership Development</a>
+                        <a href="demo-consulting-3-service.html" class="site-search-tag">Organisation Design</a>
+                        <a href="demo-consulting-3-services.html" class="site-search-tag">After a Merger</a>
+                        <a href="demo-consulting-3-contact.html" class="site-search-tag">Team Health Check</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <main>
+            <!-- People & Organisation page header - three kinds: "pale" (blue-grey ground with the line bundles), "navy" (brand band, faint white lines), "photo" (pale ground with a wide photo strip hanging into the page). Params: phKind, phCrumb, optional phTrail + phHref, phEyebrow, phTitle, optional phPill (photo in the title) + phSoft (lighter second clause), optional phLead, phImg + phAlt (kind "photo") -->
+            <section id="c3p-page-head" class="custom-ph custom-ph--pale relative isolate overflow-clip" aria-labelledby="c3p-page-title">
+                <!-- Line bundles - two fans of hairlines (generated offset curves) entering from the left edge and the top-right corner, behind the content; colour from .custom-lines. Edit: nothing (decor) -->
+                <div class="custom-lines" aria-hidden="true">
+                    <svg class="custom-lines-start" viewBox="0 0 600 800" fill="none" focusable="false">
+                        <defs>
+                            <linearGradient id="c3p-ph-lines-start-fade" gradientUnits="userSpaceOnUse" x1="0" y1="80" x2="320" y2="800">
+                                <stop offset="0.3" stop-color="currentColor" />
+                                <stop offset="1" stop-color="currentColor" stop-opacity="0" />
+                            </linearGradient>
+                        </defs>
+                        <g stroke="url(#c3p-ph-lines-start-fade)">
+                            <path d="M-10.0 40.0C140.0 60.0 200.0 200.0 240.0 320.0C280.0 440.0 300.0 560.0 420.0 810.0" />
+                            <path d="M-10.0 45.2C138.8 65.2 198.4 204.4 238.0 324.0C277.6 443.6 297.4 562.8 416.4 810.0" />
+                            <path d="M-10.0 52.3C137.2 72.3 196.2 210.4 235.3 329.4C274.3 448.5 293.9 566.6 411.5 810.0" />
+                            <path d="M-10.0 60.4C135.3 80.4 193.7 217.2 232.2 335.7C270.6 454.1 289.8 571.0 405.9 810.0" />
+                            <path d="M-10.0 69.2C133.3 89.2 191.0 224.7 228.8 342.5C266.5 460.2 285.4 575.7 399.8 810.0" />
+                            <path d="M-10.0 78.6C131.1 98.6 188.1 232.7 225.2 349.7C262.2 466.7 280.7 580.8 393.3 810.0" />
+                            <path d="M-10.0 88.5C128.8 108.5 185.1 241.0 221.4 357.3C257.6 473.6 275.8 586.1 386.4 810.0" />
+                            <path d="M-10.0 98.8C126.4 118.8 181.9 249.7 217.4 365.2C252.9 480.7 270.6 591.6 379.3 810.0" />
+                            <path d="M-10.0 109.5C124.0 129.5 178.6 258.8 213.3 373.4C247.9 488.1 265.3 597.4 371.9 810.0" />
+                            <path d="M-10.0 120.5C121.4 140.5 175.2 268.1 209.1 381.9C242.9 495.7 259.8 603.3 364.3 810.0" />
+                            <path d="M-10.0 131.8C118.8 151.8 171.8 277.7 204.7 390.6C237.6 503.5 254.1 609.4 356.5 810.0" />
+                            <path d="M-10.0 143.4C116.1 163.4 168.2 287.5 200.2 399.5C232.3 511.6 248.3 615.7 348.4 810.0" />
+                            <path d="M-10.0 155.3C113.4 175.3 164.5 297.6 195.7 408.7C226.8 519.8 242.4 622.1 340.2 810.0" />
+                            <path d="M-10.0 167.4C110.6 187.4 160.8 307.8 191.0 418.0C221.2 528.2 236.3 628.6 331.8 810.0" />
+                            <path d="M-10.0 179.8C107.7 199.8 157.0 318.3 186.2 427.5C215.5 536.8 230.1 635.3 323.2 810.0" />
+                            <path d="M-10.0 192.4C104.8 212.4 153.1 328.9 181.4 437.2C209.7 545.5 223.8 642.1 314.5 810.0" />
+                            <path d="M-10.0 205.2C101.9 225.2 149.2 339.8 176.5 447.1C203.8 554.4 217.4 648.9 305.6 810.0" />
+                            <path d="M-10.0 218.2C98.9 238.2 145.2 350.8 171.5 457.1C197.8 563.4 210.9 655.9 296.6 810.0" />
+                            <path d="M-10.0 231.4C95.8 251.4 141.1 361.9 166.4 467.2C191.7 572.5 204.3 663.1 287.5 810.0" />
+                            <path d="M-10.0 244.8C92.7 264.8 137.0 373.3 161.2 477.5C185.5 581.8 197.6 670.3 278.2 810.0" />
+                            <path d="M-10.0 258.3C89.6 278.3 132.8 384.7 156.0 487.9C179.2 591.1 190.8 677.6 268.9 810.0" />
+                            <path d="M-10.0 272.1C86.4 292.1 128.6 396.4 150.7 498.5C172.9 600.7 184.0 685.0 259.3 810.0" />
+                            <path d="M-10.0 285.9C83.2 305.9 124.3 408.1 145.4 509.2C166.5 610.3 177.0 692.4 249.7 810.0" />
+                            <path d="M-10.0 300.0C80.0 320.0 120.0 420.0 140.0 520.0C160.0 620.0 170.0 700.0 240.0 810.0" />
+                        </g>
+                    </svg>
+                    <svg class="custom-lines-end" viewBox="0 0 760 620" fill="none" focusable="false">
+                        <defs>
+                            <linearGradient id="c3p-ph-lines-end-fade" gradientUnits="userSpaceOnUse" x1="760" y1="60" x2="220" y2="420">
+                                <stop offset="0.35" stop-color="currentColor" />
+                                <stop offset="1" stop-color="currentColor" stop-opacity="0" />
+                            </linearGradient>
+                        </defs>
+                        <g stroke="url(#c3p-ph-lines-end-fade)">
+                            <path d="M560.0 -10.0C600.0 60.0 640.0 40.0 690.0 90.0C730.0 130.0 740.0 120.0 770.0 150.0" />
+                            <path d="M553.1 -10.0C593.5 61.9 635.8 41.9 686.7 93.3C727.7 134.6 738.9 125.0 770.0 155.9" />
+                            <path d="M544.2 -10.0C585.0 64.4 630.3 44.4 682.5 97.5C724.7 140.6 737.4 131.4 770.0 163.6" />
+                            <path d="M534.2 -10.0C575.7 67.2 624.2 47.2 677.8 102.2C721.4 147.2 735.7 138.6 770.0 172.2" />
+                            <path d="M523.6 -10.0C565.6 70.1 617.8 50.1 672.8 107.2C717.9 154.3 733.9 146.3 770.0 181.3" />
+                            <path d="M512.4 -10.0C555.1 73.2 610.9 53.2 667.5 112.5C714.1 161.7 732.1 154.4 770.0 191.0" />
+                            <path d="M500.8 -10.0C544.1 76.4 603.8 56.4 662.0 118.0C710.3 169.5 730.1 162.8 770.0 201.0" />
+                            <path d="M488.8 -10.0C532.7 79.8 596.5 59.8 656.4 123.6C706.3 177.5 728.1 171.5 770.0 211.4" />
+                            <path d="M476.4 -10.0C521.0 83.2 588.9 63.2 650.5 129.5C702.1 185.8 726.1 180.4 770.0 222.0" />
+                            <path d="M463.7 -10.0C509.0 86.8 581.1 66.8 644.5 135.5C697.9 194.2 723.9 189.6 770.0 232.9" />
+                            <path d="M450.7 -10.0C496.8 90.4 573.2 70.4 638.4 141.6C693.6 202.9 721.8 198.9 770.0 244.1" />
+                            <path d="M437.4 -10.0C484.3 94.0 565.1 74.0 632.1 147.9C689.1 211.7 719.6 208.5 770.0 255.5" />
+                            <path d="M424.0 -10.0C471.5 97.8 556.9 77.8 625.8 154.2C684.7 220.7 717.3 218.3 770.0 267.2" />
+                            <path d="M410.2 -10.0C458.6 101.6 548.5 81.6 619.3 160.7C680.1 229.8 715.0 228.2 770.0 279.0" />
+                            <path d="M396.3 -10.0C445.4 105.5 540.0 85.5 612.7 167.3C675.4 239.1 712.7 238.2 770.0 291.0" />
+                            <path d="M382.2 -10.0C432.1 109.4 531.3 89.4 606.0 174.0C670.7 248.5 710.4 248.4 770.0 303.1" />
+                            <path d="M367.9 -10.0C418.5 113.4 522.6 93.4 599.3 180.7C666.0 258.1 708.0 258.8 770.0 315.5" />
+                            <path d="M353.4 -10.0C404.8 117.4 513.7 97.4 592.4 187.6C661.1 267.8 705.6 269.2 770.0 327.9" />
+                            <path d="M338.7 -10.0C391.0 121.5 504.8 101.5 585.5 194.5C656.2 277.5 703.1 279.8 770.0 340.6" />
+                            <path d="M323.9 -10.0C377.0 125.6 495.7 105.6 578.5 201.5C651.3 287.4 700.6 290.5 770.0 353.3" />
+                            <path d="M308.9 -10.0C362.8 129.8 486.5 109.8 571.4 208.6C646.3 297.4 698.1 301.4 770.0 366.3" />
+                            <path d="M293.7 -10.0C348.5 134.0 477.3 114.0 564.3 215.7C641.2 307.5 695.6 312.3 770.0 379.3" />
+                            <path d="M278.4 -10.0C334.1 138.2 467.9 118.2 557.0 223.0C636.1 317.7 693.1 323.3 770.0 392.5" />
+                            <path d="M263.0 -10.0C319.5 142.5 458.5 122.5 549.8 230.2C631.0 328.0 690.5 334.5 770.0 405.7" />
+                            <path d="M247.5 -10.0C304.8 146.8 449.0 126.8 542.4 237.6C625.8 338.4 687.9 345.7 770.0 419.1" />
+                            <path d="M231.8 -10.0C290.0 151.2 439.4 131.2 535.0 245.0C620.6 348.8 685.3 357.1 770.0 432.7" />
+                            <path d="M215.9 -10.0C275.1 155.6 429.7 135.6 527.5 252.5C615.3 359.4 682.7 368.5 770.0 446.3" />
+                            <path d="M200.0 -10.0C260.0 160.0 420.0 140.0 520.0 260.0C610.0 370.0 680.0 380.0 770.0 460.0" />
+                        </g>
+                    </svg>
+                </div>
+                <div class="container">
+                    <nav aria-label="Breadcrumb" data-anim="fade">
+                        <ol class="breadcrumb custom-ph-crumb">
+                            <li class="breadcrumb-item"><a href="demo-consulting-3.html">Home</a></li>
+                            <li class="breadcrumb-item" aria-current="page">Contact</li>
+                        </ol>
+                    </nav>
+                    <div class="grid gap-8 mt-[clamp(2rem,1.5rem+2vw,3.5rem)] lg:grid-cols-12 lg:items-end">
+                        <div class="lg:col-span-8">
+                            <p class="eyebrow custom-eyebrow m-0" data-anim="fade-up">Contact</p>
+                            <h1 id="c3p-page-title" class="custom-ph-title mt-6 mb-0" data-anim="fade-up" data-anim-delay="80">Tell us what your team <span class="custom-ph-soft">is working through.</span></h1>
+                        </div>
+                        <p class="m-0 text-lg leading-relaxed custom-ph-lead lg:col-span-4" data-anim="fade-up" data-anim-delay="160">A senior consultant reads every message and replies within one business day.</p>
+                    </div>
+                </div>
+            </section>
+            <!-- CONTACT - the details beside the request form (template formValidate()). Edit: the details, the form fields and messages -->
+            <section id="c3p-contact" class="py-(--section-space)">
+                <div class="container grid gap-[clamp(2.5rem,2rem+3vw,5rem)] lg:grid-cols-[minmax(0,1fr)_minmax(0,36rem)]">
+                    <div>
+                        <p class="eyebrow custom-eyebrow m-0" data-anim="fade-up">Talk to Us</p>
+                        <h2 class="custom-section-title mt-5 mb-0" data-anim="fade-up">Call, write <span class="custom-hero-title-soft">or come by.</span></h2>
+                        <ul class="custom-contact-list grid gap-6 mt-10 mb-0 p-0 list-none" role="list" data-anim="fade-up">
+                            <li><span class="custom-service-icon"><i class="ph ph-phone" aria-hidden="true"></i></span><span><strong>Phone</strong><a href="tel:+16125550137" class="tabular-nums">(612) 555-0137</a></span></li>
+                            <li><span class="custom-service-icon"><i class="ph ph-envelope-simple" aria-hidden="true"></i></span><span><strong>Email</strong><a href="mailto:hello@framopeople.com">hello@framopeople.com</a></span></li>
+                            <li><span class="custom-service-icon"><i class="ph ph-clock" aria-hidden="true"></i></span><span><strong>Hours</strong>Mon – Fri, 8 am – 6 pm CT</span></li>
+                        </ul>
+                    </div>
+                    <form class="custom-check-form grid gap-5 p-[clamp(1.75rem,1.25rem+1.6vw,2.75rem)] rounded-(--radius-lg) border border-default bg-base" action="#" novalidate x-data="formValidate()" @submit.prevent="onSubmit($event)" data-anim="fade-up">
+                        <div class="grid gap-5 sm:grid-cols-2">
+                            <div class="form-group m-0">
+                                <label class="form-label" for="c3p-ct-name">Your Name</label>
+                                <input id="c3p-ct-name" name="name" type="text" class="form-input" autocomplete="name" required aria-describedby="c3p-ct-name-msg" @blur="check($event.target)" @input="check($event.target)">
+                                <span class="custom-field-msg" id="c3p-ct-name-msg" x-show="errors.name" x-text="errors.name" x-cloak></span>
+                            </div>
+                            <div class="form-group m-0">
+                                <label class="form-label" for="c3p-ct-company">Company</label>
+                                <input id="c3p-ct-company" name="company" type="text" class="form-input" autocomplete="organization">
+                            </div>
+                        </div>
+                        <div class="form-group m-0">
+                            <label class="form-label" for="c3p-ct-email">Work Email</label>
+                            <input id="c3p-ct-email" name="email" type="email" class="form-input" autocomplete="email" required aria-describedby="c3p-ct-email-msg" @blur="check($event.target)" @input="check($event.target)">
+                            <span class="custom-field-msg" id="c3p-ct-email-msg" x-show="errors.email" x-text="errors.email" x-cloak></span>
+                        </div>
+                        <div class="form-group m-0">
+                            <label class="form-label" for="c3p-ct-topic">What Is It About?</label>
+                            <select id="c3p-ct-topic" name="topic" class="form-select">
+                                <option>A free Team Health Check</option>
+                                <option>Organisation design</option>
+                                <option>Leadership programs</option>
+                                <option>A merger or restructure</option>
+                                <option>Something else</option>
+                            </select>
+                        </div>
+                        <div class="form-group m-0">
+                            <label class="form-label" for="c3p-ct-message">Message</label>
+                            <textarea id="c3p-ct-message" name="message" rows="5" class="form-textarea" required aria-describedby="c3p-ct-message-msg" @blur="check($event.target)" @input="check($event.target)"></textarea>
+                            <span class="custom-field-msg" id="c3p-ct-message-msg" x-show="errors.message" x-text="errors.message" x-cloak></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg justify-center">Send Message</button>
+                        <p class="m-0 text-[0.9375rem] text-soft" aria-live="polite">
+                            <span x-show="!sent">We reply within one business day.</span>
+                            <span class="inline-flex items-center gap-2 font-semibold text-primary-ink" x-show="sent" x-cloak><i class="ph ph-check-circle text-[1.125rem]" aria-hidden="true"></i>Thank you. We will be in touch within a day.</span>
+                        </p>
+                    </form>
+                </div>
+            </section>
+            <!-- OFFICES - two office cards and the template map locator. Edit: each office (photo, name, address), the map markers -->
+            <section id="c3p-offices" class="py-(--section-space) bg-soft" aria-labelledby="c3p-offices-title">
+                <div class="container">
+                    <p class="eyebrow custom-eyebrow m-0" data-anim="fade-up">Offices</p>
+                    <h2 id="c3p-offices-title" class="custom-section-title mt-5 mb-0" data-anim="fade-up">Minneapolis and Chicago. <span class="custom-hero-title-soft">Video everywhere else.</span></h2>
+                    <div class="grid gap-6 mt-[clamp(2.5rem,2rem+2vw,4rem)] md:grid-cols-2" data-anim-stagger="90">
+                        <article class="custom-office" data-anim="fade-up">
+                            <img src="../assets/media/placeholder/1100x1100.svg" alt="Consultants talking around a long oak table in the bright Minneapolis office" width="1100" height="1100" loading="lazy" decoding="async">
+                            <div>
+                                <h3>Minneapolis · Headquarters</h3>
+                                <p>80 S 8th St, Minneapolis, MN 55402</p>
+                                <p>Visits Monday to Friday, by appointment</p>
+                            </div>
+                        </article>
+                        <article class="custom-office" data-anim="fade-up">
+                            <img src="../assets/media/placeholder/1100x1100.svg" alt="Two colleagues setting up a workshop circle in the Chicago studio by the river" width="1100" height="1100" loading="lazy" decoding="async">
+                            <div>
+                                <h3>Chicago</h3>
+                                <p>Studio on the Riverwalk, Chicago, IL</p>
+                                <p>Workshops and coaching, by appointment</p>
+                            </div>
+                        </article>
+                    </div>
+                    <div id="c3p-map" class="map custom-map mt-6" data-map data-anim="fade-up">
+                        <div data-marker data-lat="44.9765" data-lng="-93.2722" data-label="Framo Minneapolis"><strong>Framo Minneapolis</strong><br>80 S 8th St</div>
+                        <div data-marker data-lat="41.8868" data-lng="-87.6290" data-label="Framo Chicago"><strong>Framo Chicago</strong><br>Riverwalk studio</div>
+                    </div>
+                </div>
+            </section>
+            <!-- FAQ - three questions in the template accordion. Edit: each question and answer -->
+            <section id="c3p-faq" class="py-(--section-space)">
+                <div class="container">
+                    <div class="text-center">
+                        <p class="eyebrow custom-eyebrow m-0" data-anim="fade-up">Questions</p>
+                        <h2 class="custom-section-title mx-auto mt-5 mb-0 max-w-[22ch]" data-anim="fade-up">Before you <span class="custom-hero-title-soft">get in touch.</span></h2>
+
+                    </div>
+                    <div class="accordion custom-faq mt-[clamp(2rem,1.5rem+2vw,3rem)] max-w-[52rem] mx-auto" x-data="{ open: 1 }" data-anim="fade-up">
+                        <!-- One question - a row of the template accordion (x-data="{ open: 1 }" on the wrapper). Params: fqN (row number, unique on the page), fqQ, fqA -->
+                        <div class="accordion-item">
+                            <button type="button" class="accordion-trigger" id="c3p-faq-1" aria-controls="c3p-faq-body-1" :class="{ 'is-open': open === 1 }" @click="open = open === 1 ? null : 1" :aria-expanded="open === 1">
+                                What happens after I send a message?
+                                <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                    <polyline points="6 9 12 15 18 9" />
+                                </svg>
+                            </button>
+                            <div class="accordion-body" id="c3p-faq-body-1" role="region" aria-labelledby="c3p-faq-1" :class="{ 'is-open': open === 1 }">
+                                <div>A senior consultant replies within one business day to book a 20-minute call. No sales team in between.</div>
+                            </div>
+                        </div>
+                        <!-- One question - a row of the template accordion (x-data="{ open: 1 }" on the wrapper). Params: fqN (row number, unique on the page), fqQ, fqA -->
+                        <div class="accordion-item">
+                            <button type="button" class="accordion-trigger" id="c3p-faq-2" aria-controls="c3p-faq-body-2" :class="{ 'is-open': open === 2 }" @click="open = open === 2 ? null : 2" :aria-expanded="open === 2">
+                                Is the Team Health Check really free?
+                                <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                    <polyline points="6 9 12 15 18 9" />
+                                </svg>
+                            </button>
+                            <div class="accordion-body" id="c3p-faq-body-2" role="region" aria-labelledby="c3p-faq-2" :class="{ 'is-open': open === 2 }">
+                                <div>Yes. Twenty minutes, a short survey for your managers and a one-page summary. No obligation.</div>
+                            </div>
+                        </div>
+                        <!-- One question - a row of the template accordion (x-data="{ open: 1 }" on the wrapper). Params: fqN (row number, unique on the page), fqQ, fqA -->
+                        <div class="accordion-item">
+                            <button type="button" class="accordion-trigger" id="c3p-faq-3" aria-controls="c3p-faq-body-3" :class="{ 'is-open': open === 3 }" @click="open = open === 3 ? null : 3" :aria-expanded="open === 3">
+                                Do you work with companies under 100 people?
+                                <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                    <polyline points="6 9 12 15 18 9" />
+                                </svg>
+                            </button>
+                            <div class="accordion-body" id="c3p-faq-body-3" role="region" aria-labelledby="c3p-faq-3" :class="{ 'is-open': open === 3 }">
+                                <div>Occasionally, mostly through our open programs. Our engagements are built for 100 to 5,000 people.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- People & Organisation footer - template footer-cta-bar on navy: the People Letter strip (newsletter, template formValidate()), brand + socials, Services, Company, the two offices, the small print. Edit: the strip, the brand line, each column, the offices, the small print -->
+        <footer class="site-footer site-footer--dark footer-cta-bar custom-footer isolate overflow-hidden">
+
+            <div class="footer-cta-bar-strip">
+                <div class="container flex flex-col items-start gap-7 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
+                    <div>
+                        <p class="footer-eyebrow m-0 inline-flex items-center gap-2"><i class="ph ph-envelope-simple-open" aria-hidden="true"></i>The People Letter</p>
+                        <h2 class="footer-heading mt-3 mb-0 text-[clamp(1.75rem,1.2rem+1.8vw,2.5rem)]">One practical note a month <span class="custom-band-soft">for people leaders.</span></h2>
+                    </div>
+                    <form class="w-full lg:max-w-[28rem]" action="#" novalidate x-data="formValidate()" @submit.prevent="onSubmit($event)">
+                        <div class="footer-subscribe footer-subscribe--boxed">
+                            <label class="sr-only" for="c3p-footer-email">Work email</label>
+                            <input id="c3p-footer-email" name="email" type="email" placeholder="Your work email" autocomplete="email" aria-describedby="c3p-footer-email-msg" required @blur="check($event.target)" @input="check($event.target)">
+                            <button type="submit" aria-label="Subscribe"><i class="ph ph-arrow-right" aria-hidden="true"></i></button>
+                        </div>
+                        <span class="footer-subscribe-msg" id="c3p-footer-email-msg">
+                            <span x-show="!errors.email &amp;&amp; !sent">Read by 9,000 managers. Unsubscribe in one click.</span>
+                            <span class="footer-subscribe-msg--error" x-show="errors.email" x-text="errors.email" x-cloak></span>
+                            <span class="footer-subscribe-msg--ok" x-show="sent" x-cloak>Thank you. The next letter arrives on the first Tuesday.</span>
+                        </span>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-main">
+                <div class="container">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1.4fr] gap-x-8 gap-y-12">
+
+                        <div class="flex flex-col gap-5">
+                            <a href="demo-consulting-3.html" class="brand block">
+
+                                <img class="brand-logo" src="../assets/media/logo/framo-logo.svg" alt="Framo" width="120" height="32" style="--logo-tint: url(#logo-tint-footer)">
+
+                                <svg class="brand-tint" aria-hidden="true" focusable="false">
+                                    <filter id="logo-tint-footer" color-interpolation-filters="sRGB">
+                                        <feFlood flood-color="currentColor" />
+                                        <feComposite in2="SourceAlpha" operator="in" />
+                                    </filter>
+                                </svg>
+                            </a>
+                            <p class="footer-detail max-w-[32ch] m-0">People and organisation consulting for companies of 100 to 5,000 people. Since 2011.</p>
+                            <ul class="social-list" role="list">
+                                <li><a href="#" aria-label="LinkedIn" data-social="linkedin" class="social-link social-link--circle social-link--outline"><i class="ph ph-linkedin-logo"></i></a></li>
+                                <li><a href="#" aria-label="Instagram" data-social="instagram" class="social-link social-link--circle social-link--outline"><i class="ph ph-instagram-logo"></i></a></li>
+                                <li><a href="#" aria-label="YouTube" data-social="youtube" class="social-link social-link--circle social-link--outline"><i class="ph ph-youtube-logo"></i></a></li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h2 class="footer-col-title">Services</h2>
+                            <ul class="footer-links footer-links--slide">
+                                <li><a href="demo-consulting-3-service.html">Organisation Design</a></li>
+                                <li><a href="demo-consulting-3-service.html">Leadership Development</a></li>
+                                <li><a href="demo-consulting-3-service.html">Culture &amp; Engagement</a></li>
+                                <li><a href="demo-consulting-3-service.html">Talent &amp; Hiring</a></li>
+                                <li><a href="demo-consulting-3-programs.html">Programs</a></li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h2 class="footer-col-title">Company</h2>
+                            <ul class="footer-links footer-links--slide">
+                                <li><a href="demo-consulting-3-about.html">About Us</a></li>
+                                <li><a href="demo-consulting-3-team.html">Our Team</a></li>
+                                <li><a href="demo-consulting-3-stories.html">Client Stories</a></li>
+                                <li><a href="demo-consulting-3-careers.html">Careers</a></li>
+                                <li><a href="demo-consulting-3-contact.html">Contact</a></li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h2 class="footer-col-title">Offices</h2>
+                            <div class="footer-detail grid gap-1"><span class="custom-footer-city">Minneapolis · Headquarters</span><span>80 S 8th St, Minneapolis, MN 55402</span></div>
+                            <div class="footer-detail grid gap-1 mt-4"><span class="custom-footer-city">Chicago</span><span>Studio on the Riverwalk, by appointment</span></div>
+                            <a href="tel:+16125550137" class="footer-contact-item mt-5 tabular-nums"><i class="ph ph-phone" aria-hidden="true"></i><span>(612) 555-0137</span></a>
+                            <a href="mailto:hello@framopeople.com" class="footer-contact-item"><i class="ph ph-envelope-simple" aria-hidden="true"></i><span>hello@framopeople.com</span></a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="container footer-bottom-inner">
+                    <span>&copy; 2026 Framo People Advisory. Mon – Fri, 8 am – 6 pm CT.</span>
+                    <ul class="footer-nav" role="list">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Accessibility</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </footer>
+
+        <button data-back-top aria-label="Back to top" class="back-to-top fixed bottom-8 right-8 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer border-0 text-white bg-primary shadow-token-lg z-sticky">
+            <i class="ph ph-arrow-up" aria-hidden="true"></i>
+        </button>
+
+        <script defer src="../assets/js/vendor.js"></script>
+        <script defer src="../assets/js/vendor-leaflet.js"></script>
+        <script defer src="../assets/js/main.js"></script>
+        <script defer src="../assets/js/demos/demo-consulting-3.js"></script>
+    </body>
+</html>

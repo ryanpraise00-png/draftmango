@@ -1,0 +1,794 @@
+@layer components {
+    html[data-demo='yoga-studio-1'] {
+        --custom-paper: color-mix(in oklab, var(--color-bg) 45%, #fff);
+        --custom-lit: oklch(from var(--color-primary-base) max(l, 0.8) min(c, 0.09) h);
+        --custom-line: color-mix(in oklab, var(--color-primary) 55%, var(--color-bg));
+        --custom-shadow:
+            0 1px 2px rgb(from var(--color-secondary) r g b / 0.05),
+            0 30px 60px -34px rgb(from var(--color-secondary) r g b / 0.3);
+    }
+
+    html[data-demo='yoga-studio-1'] body {
+        --color-primary-ink: oklch(from var(--color-primary-base) min(l, 0.47) c h);
+    }
+
+    html[data-demo='yoga-studio-1'] :is(h1, h2, h3, .footer-newsletter-title) em {
+        font-family: var(--font-serif);
+        letter-spacing: -0.01em;
+        color: var(--custom-em, var(--color-primary-ink));
+        font-size: 1.06em;
+        font-style: italic;
+        font-weight: 400;
+    }
+
+    html[data-demo='yoga-studio-1'] :is(.custom-section--deep, .custom-footer) {
+        --custom-em: var(--custom-lit);
+        --custom-label: var(--custom-lit);
+    }
+
+    html[data-demo='yoga-studio-1'] .eyebrow {
+        color: var(--custom-label, var(--color-primary-ink));
+        font-family: var(--font-sans);
+        letter-spacing: 0.18em;
+        font-weight: 600;
+    }
+
+    html[data-demo='yoga-studio-1'] .back-to-top {
+        color: var(--color-on-primary);
+    }
+
+    .custom-section--deep {
+        color: color-mix(in oklab, #fff 82%, var(--color-secondary));
+        background: var(--color-secondary);
+
+        & :is(h1, h2, h3, h4, h5, h6) {
+            color: #fff;
+        }
+    }
+
+    .custom-breath {
+        z-index: -1;
+        pointer-events: none;
+        inline-size: 100%;
+        position: absolute;
+        inset-inline: 0;
+        overflow: visible;
+
+        & path {
+            fill: none;
+            stroke: var(--custom-line);
+            stroke-width: 1.5px;
+            stroke-linecap: round;
+            vector-effect: non-scaling-stroke;
+        }
+
+        & .custom-breath-echo {
+            stroke: color-mix(in oklab, var(--color-quaternary) 45%, transparent);
+            stroke-width: 1px;
+        }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .custom-breath {
+            transform-origin: 50% 60%;
+            animation: 18s ease-in-out 2.4s infinite custom-breathe;
+
+            & path {
+                stroke-dasharray: 1;
+                stroke-dashoffset: 1px;
+                animation: 2.6s cubic-bezier(0.45, 0, 0.2, 1) 0.4s forwards custom-breath-draw;
+            }
+
+            & .custom-breath-echo {
+                animation-delay: 0.9s;
+            }
+        }
+
+        .custom-breath.is-resting {
+            animation-play-state: paused;
+        }
+    }
+
+    @keyframes custom-breath-draw {
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    @keyframes custom-breathe {
+        0%,
+        100% {
+            transform: scaleY(1);
+        }
+
+        50% {
+            transform: scaleY(0.45) translateY(6%);
+        }
+    }
+
+    .custom-grain:before {
+        content: '';
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0.32;
+        mix-blend-mode: multiply;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.4 0 0 0 0 0.32 0 0 0 0.22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        position: absolute;
+        inset: 0;
+        mask-image: linear-gradient(#000 70%, #0000);
+    }
+
+    .custom-collage-frame {
+        border-radius: var(--radius-2xl);
+        background: var(--color-bg-soft);
+        position: relative;
+        overflow: hidden;
+
+        & > img {
+            object-fit: cover;
+            block-size: 100%;
+            inline-size: 100%;
+        }
+    }
+
+    .custom-collage-frame--arch {
+        border-radius: 50% 50% var(--radius-2xl) var(--radius-2xl) / 34% 34% var(--radius-2xl)
+            var(--radius-2xl);
+    }
+
+    .custom-collage-echo {
+        z-index: -1;
+        border: 1px solid var(--custom-line);
+        border-radius: 50% 50% var(--radius-2xl) var(--radius-2xl) / 34% 34% var(--radius-2xl)
+            var(--radius-2xl);
+        pointer-events: none;
+        position: absolute;
+        inset: 0;
+        translate: 0.9rem -0.9rem;
+    }
+
+    @media (width <= 767px) {
+        .custom-collage-echo {
+            display: none;
+        }
+    }
+
+    .custom-collage-frame--round {
+        border-radius: 50%;
+    }
+
+    @supports (animation-timeline: view()) {
+        @media (prefers-reduced-motion: no-preference) and (width >= 1280px) {
+            .custom-hero {
+                view-timeline: --custom-hero block;
+            }
+
+            .custom-collage-drift {
+                animation: linear both custom-drift;
+                animation-timeline: --custom-hero;
+                animation-range: exit;
+            }
+        }
+    }
+
+    @keyframes custom-drift {
+        to {
+            translate: var(--custom-dx, 0) var(--custom-dy, 0);
+        }
+    }
+
+    .custom-level {
+        gap: 0.25rem;
+        display: inline-flex;
+
+        &:before,
+        &:after,
+        & > span {
+            content: '';
+            aspect-ratio: 1;
+            border: 1.5px solid var(--color-quaternary);
+            border-radius: 50%;
+            inline-size: 0.5rem;
+        }
+
+        &:before,
+        &:is([data-level='2'], [data-level='3']) > span,
+        &[data-level='3']:after {
+            background: var(--color-quaternary);
+        }
+    }
+
+    .custom-class {
+        border-block-end: 1px solid var(--color-border);
+        grid-template-columns: 4.75rem minmax(0, 1fr);
+        align-items: center;
+        gap: 0.5rem 1rem;
+        padding-block: 1.125rem;
+        display: grid;
+
+        & > .custom-room {
+            grid-column: 2;
+            justify-self: start;
+        }
+    }
+
+    @media (width >= 640px) {
+        .custom-class {
+            grid-template-columns: 5.5rem minmax(0, 1fr) auto auto;
+            column-gap: 1.5rem;
+
+            & > .custom-room {
+                grid-column: auto;
+            }
+        }
+    }
+
+    @media (width >= 768px) {
+        .custom-class {
+            grid-template-columns: 5.5rem minmax(0, 1fr) 11rem 8.5rem auto;
+        }
+    }
+
+    .custom-room {
+        font-family: var(--font-sans);
+        white-space: nowrap;
+        color: var(--color-text);
+        background: var(--custom-paper);
+        border-radius: var(--radius-pill);
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.3rem 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 1.2;
+        display: inline-flex;
+
+        &:before {
+            content: '';
+            aspect-ratio: 1;
+            background: var(--color-primary);
+            border-radius: 50%;
+            inline-size: 0.4rem;
+        }
+    }
+
+    .custom-room--heated:before {
+        background: var(--color-quaternary);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-quaternary) 28%, transparent);
+    }
+
+    .custom-offer {
+        color: var(--color-text);
+        background: var(--custom-paper);
+        box-shadow: inset 0 0 0 1px var(--color-border);
+        transition:
+            background-color var(--duration-fast) var(--ease-out),
+            box-shadow var(--duration-fast) var(--ease-out);
+        gap: 0.75rem;
+        padding-inline-end: 0.5rem;
+
+        &:hover {
+            color: var(--color-text);
+            box-shadow: inset 0 0 0 1px
+                color-mix(in oklab, var(--color-primary) 50%, var(--color-border));
+            background: #fff;
+        }
+    }
+
+    .custom-offer-price {
+        font-variant-numeric: tabular-nums;
+        color: var(--color-on-primary);
+        background: var(--color-primary);
+        border-radius: var(--radius-pill);
+        padding: 0.45rem 0.9rem;
+        font-size: 0.9375rem;
+    }
+
+    html[data-demo='yoga-studio-1'] .header-floating {
+        & .navbar-inner {
+            padding-inline: 1.25rem;
+        }
+
+        & .navbar {
+            background: color-mix(in oklab, var(--custom-paper) 88%, transparent);
+            -webkit-backdrop-filter: blur(14px);
+            backdrop-filter: blur(14px);
+            box-shadow:
+                0 0 0 1px color-mix(in oklab, var(--color-border) 70%, transparent),
+                0 18px 40px -30px rgb(from var(--color-secondary) r g b / 0.35);
+        }
+
+        & .nav-link {
+            color: var(--color-text);
+            font-size: 0.96875rem;
+            font-weight: 500;
+        }
+
+        & .nav-link:hover,
+        & .nav-link.active,
+        & .nav-megamenu:is(:hover, :focus-within) > .nav-link,
+        & .nav-cascade:is(:hover, :focus-within) > .nav-link {
+            color: var(--color-primary-ink);
+        }
+
+        & .nav-link.active {
+            position: relative;
+
+            &:after {
+                content: '';
+                aspect-ratio: 1;
+                background: var(--color-quaternary);
+                border-radius: 50%;
+                inline-size: 0.3rem;
+                position: absolute;
+                inset-block-end: 0.15rem;
+                inset-inline-start: 50%;
+                translate: -50%;
+            }
+        }
+    }
+
+    html[data-demo='yoga-studio-1'] .header-floating.scrolled .navbar {
+        box-shadow:
+            0 0 0 1px var(--color-border),
+            0 18px 40px -26px rgb(from var(--color-secondary) r g b / 0.4);
+    }
+
+    html[data-demo='yoga-studio-1'] .custom-nav-new {
+        font-family: var(--font-serif);
+        font-size: 1.1875rem;
+        font-style: italic;
+        font-weight: 400;
+    }
+
+    @media (width <= 1279px) {
+        html[data-demo='yoga-studio-1'] .custom-nav-new {
+            display: none;
+        }
+    }
+
+    @media (width >= 1280px) {
+        html[data-demo='yoga-studio-1'] .header-floating {
+            & .nav-links {
+                gap: 0;
+            }
+
+            & .nav-link {
+                padding-inline: 0.75rem;
+            }
+        }
+    }
+
+    @media (width >= 1024px) and (width <= 1279px) {
+        html[data-demo='yoga-studio-1'] .header-floating {
+            & .nav-links {
+                gap: 0;
+            }
+
+            & .nav-link {
+                padding-inline: 0.45rem;
+                font-size: 0.9375rem;
+            }
+        }
+    }
+
+    html[data-demo='yoga-studio-1'] .nav-megamenu.custom-mega {
+        & .megamenu-panel {
+            background: var(--custom-paper);
+            border-top-color: var(--color-border);
+        }
+
+        & .megamenu-inner {
+            grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr);
+            gap: 2.5rem;
+            padding: 1.75rem;
+        }
+
+        & .megamenu-col {
+            padding-block-start: 0.75rem;
+        }
+
+        & .megamenu-col-title {
+            letter-spacing: 0.18em;
+            color: var(--color-text-soft);
+            border-block-end: 1px solid var(--color-border);
+            margin-block-end: 0.5rem;
+            padding-block-end: 0.875rem;
+            padding-inline: 0;
+            font-size: 0.8125rem;
+        }
+
+        & .megamenu-item {
+            color: var(--color-text);
+            border-radius: 0;
+            padding: 0.4rem 0;
+            font-size: 0.96875rem;
+
+            &:hover {
+                color: var(--color-primary-ink);
+                background: none;
+            }
+        }
+    }
+
+    html[data-demo='yoga-studio-1'] .nav-megamenu .custom-mega-styles {
+        grid-template-columns: 1fr 1fr;
+        align-content: start;
+        column-gap: 1.5rem;
+        display: grid;
+
+        & > .megamenu-col-title,
+        & > .custom-mega-all {
+            grid-column: 1 / -1;
+        }
+    }
+
+    html[data-demo='yoga-studio-1'] .custom-mega .custom-mega-all {
+        color: var(--color-primary-ink);
+        gap: 0.5rem;
+        margin-block-start: 0.75rem;
+        font-weight: 600;
+    }
+
+    html[data-demo='yoga-studio-1'] .custom-mega .custom-mega-format {
+        gap: 0.3rem;
+        padding-block: 0.6rem;
+        display: grid;
+
+        & > span {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            line-height: 1.2;
+        }
+
+        & > small {
+            color: var(--color-text-soft);
+            font-size: 0.875rem;
+        }
+
+        &:hover > small {
+            color: var(--color-text-soft);
+        }
+    }
+
+    .custom-mega-today {
+        color: #fff;
+        background: var(--color-secondary);
+        border-radius: var(--radius-xl);
+        --custom-label: var(--custom-lit);
+        align-content: start;
+        gap: 1rem;
+        padding: 1.5rem 1.75rem 1.25rem;
+        display: grid;
+
+        & .custom-room {
+            color: #fff;
+            background: #ffffff1a;
+        }
+    }
+
+    .custom-mega-class {
+        color: #ffffffb8;
+        border-block-start: 1px solid #ffffff1f;
+        grid-template-columns: 4.75rem minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 1rem;
+        padding-block: 0.8rem;
+        font-size: 0.9375rem;
+        display: grid;
+
+        & b {
+            color: #fff;
+            font-size: 1.1875rem;
+            line-height: 1.2;
+            display: block;
+        }
+    }
+
+    .custom-mega-today-link {
+        color: #fff;
+        transition: border-color var(--duration-fast) var(--ease-out);
+        border-block-end: 1px solid #ffffff4d;
+        justify-self: start;
+        align-items: center;
+        gap: 0.5rem;
+        padding-block: 0.25rem;
+        font-size: 0.9375rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+
+        &:hover {
+            color: #fff;
+            border-block-end-color: #fff;
+        }
+    }
+
+    html[data-demo='yoga-studio-1'] .custom-cascade .cascade-panel {
+        background: var(--custom-paper);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--custom-shadow);
+        padding: 0.5rem;
+
+        & .cascade-item {
+            color: var(--color-text);
+            border-radius: max(0px, var(--radius-xl) - 0.5rem - 1px);
+            padding: 0.6rem 0.875rem;
+            font-size: 0.96875rem;
+
+            &:hover {
+                color: var(--color-primary-ink);
+                background: var(--color-bg-soft);
+            }
+        }
+    }
+
+    :root:not([data-focus-source='pointer'])[data-demo='yoga-studio-1'] .nav-cascade:focus-within {
+        & > .cascade-panel {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transition-delay: 0s;
+            transform: none;
+        }
+
+        & .nav-link i {
+            transform: rotate(180deg);
+        }
+    }
+
+    .custom-footer {
+        --footer-accent: var(--color-primary);
+        --footer-accent-ink: var(--custom-lit);
+        position: relative;
+
+        & .footer-main {
+            padding-block-start: clamp(6rem, 4rem + 6vw, 9rem);
+        }
+
+        & .footer-newsletter-inner {
+            padding-block-end: 1.5rem;
+        }
+
+        & .footer-newsletter-title {
+            letter-spacing: -0.02em;
+            font-weight: 400;
+        }
+
+        & .footer-subscribe {
+            border-color: #ffffff40;
+        }
+
+        & .footer-newsletter-go {
+            color: var(--color-secondary);
+            background: #fff;
+        }
+
+        & .footer-col-title {
+            letter-spacing: 0;
+            font-size: 1.3125rem;
+            font-weight: 400;
+        }
+
+        & .footer-contact-item {
+            color: var(--footer-body);
+        }
+    }
+
+    .custom-breath--footer {
+        block-size: clamp(3.5rem, 2.5rem + 3vw, 6rem);
+        inset-block-start: clamp(1.5rem, 1rem + 1.5vw, 2.5rem);
+
+        & path {
+            stroke: color-mix(in oklab, var(--custom-lit) 55%, transparent);
+        }
+    }
+
+    .custom-breath--hero {
+        block-size: clamp(7rem, 4rem + 8vw, 12rem);
+        inset-block-end: 12%;
+    }
+
+    @media (width >= 1280px) {
+        .custom-breath--hero {
+            block-size: 9rem;
+            inset-block-end: 0;
+        }
+    }
+
+    @media (width >= 640px) {
+        .custom-hero-facts > li + li:before {
+            content: '';
+            aspect-ratio: 1;
+            vertical-align: middle;
+            background: var(--color-quaternary);
+            border-radius: 50%;
+            inline-size: 0.3rem;
+            margin-inline-end: 1.5rem;
+            display: inline-block;
+        }
+    }
+
+    .custom-teacher {
+        outline-offset: 6px;
+        border-radius: var(--radius-2xl);
+    }
+
+    .custom-teacher-quote {
+        font-family: var(--font-serif);
+        color: var(--color-text);
+        background: var(--custom-paper);
+        border-radius: var(--radius-lg);
+        opacity: 0;
+        transition:
+            opacity var(--duration-base) var(--ease-out),
+            translate var(--duration-base) var(--ease-out);
+        margin: 0;
+        padding: 1rem 1.125rem;
+        font-size: 1.1875rem;
+        font-style: italic;
+        line-height: 1.3;
+        position: absolute;
+        inset-block-end: 0.75rem;
+        inset-inline: 0.75rem;
+        translate: 0 0.75rem;
+    }
+
+    .custom-teacher:is(:hover, :focus) .custom-teacher-quote {
+        opacity: 1;
+        translate: 0;
+    }
+
+    .custom-timeline {
+        padding-inline-start: 2.25rem;
+        position: relative;
+
+        &:before {
+            content: '';
+            background: #ffffff2e;
+            inline-size: 1px;
+            position: absolute;
+            inset-block: 0.6rem;
+            inset-inline-start: 0.3125rem;
+        }
+    }
+
+    .custom-timeline-step {
+        gap: 0.5rem;
+        display: grid;
+        position: relative;
+
+        &:before {
+            content: '';
+            aspect-ratio: 1;
+            background: var(--color-secondary);
+            inline-size: 0.6875rem;
+            box-shadow: inset 0 0 0 1.5px var(--custom-lit);
+            border-radius: 50%;
+            position: absolute;
+            inset-block-start: 0.3rem;
+            inset-inline-start: -2.25rem;
+        }
+
+        &:first-child:before {
+            background: var(--custom-lit);
+        }
+    }
+
+    .custom-breath--band {
+        block-size: clamp(3rem, 2rem + 3vw, 5rem);
+        inset-block-end: clamp(1rem, 0.5rem + 2vw, 2.5rem);
+
+        & path {
+            stroke: color-mix(in oklab, var(--custom-lit) 45%, transparent);
+        }
+    }
+
+    html[data-demo='yoga-studio-1'] .map .leaflet-tile-pane {
+        filter: saturate(0.35) sepia(0.16) contrast(0.95) brightness(1.03);
+    }
+
+    .custom-page-title {
+        letter-spacing: -0.025em;
+        text-wrap: balance;
+        margin: 0;
+        font-size: clamp(3rem, 1.6rem + 4.4vw, 5.75rem);
+        font-weight: 400;
+        line-height: 1;
+    }
+
+    .custom-crumb {
+        color: var(--color-text-soft);
+        flex-wrap: wrap;
+        gap: 0.25rem 0.75rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+
+        & > li + li:before {
+            content: '/';
+            color: var(--color-border);
+            margin-inline-end: 0.75rem;
+        }
+
+        & a {
+            color: inherit;
+            text-decoration: none;
+
+            &:hover {
+                color: var(--color-primary-ink);
+            }
+        }
+
+        & [aria-current] {
+            color: var(--custom-label, var(--color-primary-ink));
+        }
+    }
+
+    .custom-breath--head {
+        block-size: clamp(6rem, 4rem + 6vw, 10rem);
+        inset-block-end: 6%;
+    }
+
+    .custom-breath--low {
+        block-size: clamp(3rem, 2rem + 3vw, 5rem);
+        inset-block-end: clamp(1rem, 0.5rem + 2vw, 2.5rem);
+    }
+
+    html[data-demo='yoga-studio-1'] .custom-faq {
+        border-block-start: 1px solid var(--color-border);
+
+        & .accordion-item {
+            border-color: var(--color-border);
+        }
+
+        & .accordion-trigger {
+            font-family: var(--font-heading);
+            gap: 1.5rem;
+            padding-block: 1.5rem;
+            font-size: clamp(1.3125rem, 1.15rem + 0.45vw, 1.625rem);
+            font-weight: 400;
+            line-height: 1.25;
+
+            &:hover,
+            &.is-open {
+                color: var(--color-primary-ink);
+                font-weight: 400;
+            }
+        }
+
+        & .accordion-body > div {
+            max-inline-size: 42rem;
+            color: var(--color-text-soft);
+            font-size: 1.0625rem;
+            line-height: 1.65;
+        }
+    }
+
+    .custom-prose {
+        font-size: 1.125rem;
+        line-height: 1.75;
+
+        & > * + * {
+            margin-block-start: 1.4em;
+        }
+
+        & h2 {
+            margin-block-start: 2.2em;
+            font-size: clamp(1.75rem, 1.4rem + 1vw, 2.25rem);
+            font-weight: 400;
+            line-height: 1.15;
+        }
+
+        & blockquote {
+            font-family: var(--font-serif);
+            color: var(--color-primary-ink);
+            margin: 2em 0;
+            font-size: clamp(1.625rem, 1.3rem + 1vw, 2.125rem);
+            font-style: italic;
+            line-height: 1.3;
+        }
+    }
+}

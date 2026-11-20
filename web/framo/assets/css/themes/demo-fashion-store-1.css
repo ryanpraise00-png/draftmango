@@ -1,0 +1,92 @@
+/* ================================================================
+ *  demo-fashion-store-1.css — Framo theme for the Fashion Store demo
+ *
+ *  The colors, fonts and layout settings of the Fashion Store
+ *  demo (Framo Studio, women's & men's ready-to-wear and accessories, LA studio and Melrose flagship).
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here).
+   Inter with its optical-size axis: headings render as Inter Display 500 in
+   sentence case, tightly tracked (font check: chosen over Archivo wdth 112 and
+   Instrument Sans 500); the spaced capitals live in the wordmark and labels. */
+@import url("https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #171717;   /* main color: ink for buttons and links (the first ink-primary shop); labels on it are white */
+    --color-secondary-base:  #0f0e0d;   /* second color: warm black for the text and the strip; the dark scheme takes its hue */
+    --color-tertiary-base:   #e8e2d8;   /* third color: stone for soft fills */
+    --color-quaternary-base: #6f6a62;   /* fourth color: taupe for meta */
+    --color-accent-base:     #d8352a;   /* attention color: sale red, for the Sale link and sale tags; labels on it are white */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. White labels on the brand fills (a preset picks its own). */
+    --color-on-primary: #fff;
+    --color-on-accent:  #fff;
+
+    --color-primary:       var(--color-primary-base);
+    --color-primary-hover: oklch(from var(--color-primary-base) calc(l - 0.06) c h);
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-text:        var(--color-secondary-base);   /* headings and body text: warm black */
+    --color-text-soft:   oklch(from var(--color-quaternary-base) 0.46 c h);   /* running text: the taupe, deepened */
+    --color-text-muted:  oklch(from var(--color-quaternary-base) 0.5 c h);   /* meta text (4.6:1 on the ecru) */
+    --color-bg:          oklch(from var(--color-tertiary-base) 0.957 calc(c * 0.55) h);   /* page background: ecru (#f3f0ea) */
+    --color-bg-soft:     oklch(from var(--color-tertiary-base) 0.928 calc(c * 0.8) h);   /* a step deeper: stone (#ebe6de) */
+    --color-bg-muted:    oklch(from var(--color-tertiary-base) 0.9 c h);   /* hover fills */
+    --color-surface:     oklch(from var(--color-tertiary-base) 0.982 calc(c * 0.3) h);   /* cards and panels: paper (#faf8f5) */
+    --color-border:      oklch(from var(--color-tertiary-base) 0.86 calc(c * 0.9) h);   /* lines and borders */
+    --color-border-soft: oklch(from var(--color-tertiary-base) 0.9 calc(c * 0.8) h);   /* the faintest rules */
+    --color-dark:        var(--color-secondary-base);   /* dark sections, the strip and dark buttons: warm black */
+    /* Brand-colored text on the ground, held at or under 0.5 lightness so a
+       preset's lighter primary still reads at 4.5:1 */
+    --color-primary-ink: oklch(from var(--color-primary-base) min(l, 0.5) c h);
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Inter', system-ui, sans-serif;   /* headings (Inter Display through the opsz axis) */
+
+    /* Headings and buttons */
+    --heading-weight:     500;   /* Inter Display 500 */
+    --heading-tracking:   -0.035em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        0.5;      /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 0.3125rem;  /* one shape for every button: 0px square · 0.3125rem editorial · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1600px;   /* widest content column: fluid up to 1600px */
+    --section-y-scale: 0.6;      /* space between sections: 0.75 compact · 1 · 1.25 spacious (0.6: ≈ 77px at 1440, 48px on a phone) */
+}

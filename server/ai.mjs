@@ -1,3 +1,4 @@
+import {templateForPrompt,templateEditContext} from './template-library.mjs';
 import '../web/project-format.js';
 const Project = globalThis.DraftmangoProject;
 import { readFile } from 'node:fs/promises';
@@ -165,12 +166,12 @@ export function readProviderObject(result, config) {
   if (!output || typeof output !== 'object' || Array.isArray(output)) throw new AIError(502, 'invalid_output', info.name + ' returned an unreadable response. Your draft is unchanged.');
   return output;
 }
-export function parseResult(result, config = {provider:'xai'}, framework = 'html') {
+export function parseResult(result, config = {provider:'xai'}, framework = 'html', baseFiles = null) {
   const info = providers[config.provider];
   const output = readProviderObject(result, config);
   if (framework === 'react') {
     if (!Array.isArray(output.files) || output.files.length>100 || output.files.some(file => !file || !Project.safePath(file.path) || typeof file.content !== 'string') || new Set(output.files.map(f=>f.path)).size!==output.files.length) throw new AIError(502,'invalid_output','The React source files could not be read. Your draft is unchanged.');
-    const files=Object.fromEntries(output.files.map(file=>[file.path,file.content]));
+    const files={...(baseFiles || {}),...Object.fromEntries(output.files.map(file=>[file.path,file.content]))};
     if (output.action === 'update' && (!Project.valid(files) || !Project.isReact(files) || Project.required.some(name=>!files[name].trim()))) throw new AIError(502,'invalid_output','The React entry files are incomplete. Your draft is unchanged.');
     output.files=output.action === 'update' ? Project.scaffold(files,output.title) : Project.scaffold();
   }
@@ -285,6 +286,11 @@ export async function generate(input, config, options = {}) {
       inputTokens:usage?.input_tokens ?? null, outputTokens:usage?.output_tokens ?? null});
   };
   let designBrief = input.designBrief || null;
+  let templateFiles = input.files?.['TEMPLATE.md'] ? input.files : null;
+  if(input.mode==='create' && input.framework==='react'){
+    const template=await templateForPrompt(input.prompt);templateFiles=template.files;
+    input.creationPreferences=[...(input.creationPreferences||[]),'Use the '+template.name+' Framo template. Preserve its layout, typography and components; adapt content to the brief.'];
+  }
   if (input.mode === 'create') {
     onProgress({phase:'directing'});
     const started = Date.now();
@@ -303,10 +309,12 @@ export async function generate(input, config, options = {}) {
   }
   options.signal?.throwIfAborted();
   const started = Date.now();
-  const result = await requestModel({...input, designBrief}, config, {...options, systemPrompt:input.framework === 'react' ? reactSystem : legacySystem, outputSchema:input.framework === 'react' ? reactSchema : legacySchema, schemaName:input.framework === 'react' ? 'draftmango_react_project' : 'draftmango_website'});
+  const templateContext=templateFiles ? templateEditContext(templateFiles,input.prompt) : null;
+  const implementation=templateContext ? {...input,mode:'edit',...templateContext,projectContext:(input.projectContext||'')+'\nUse this Framo design. Edit its existing React page components. Unprovided files are retained automatically; request a page filename if a change needs one. Return complete changed files. Preserve App routing and index stylesheet links. Keep vendor runtime imports. Do not invent a replacement layout. Review demo claims and contact details before publishing.'} : input;
+  const result = await requestModel({...implementation, designBrief}, config, {...options, systemPrompt:input.framework === 'react' ? reactSystem : legacySystem, outputSchema:input.framework === 'react' ? reactSchema : legacySchema, schemaName:input.framework === 'react' ? 'draftmango_react_project' : 'draftmango_website'});
   record('implementation', started, result);
   options.signal?.throwIfAborted();
-  const output = parseResult(result, config, input.framework);
+  const output = parseResult(result, config, input.framework, templateFiles);
   return {...output, designBrief:output.action === 'update' ? output.designBrief || designBrief : null, designProcess:{version:1,stages}, ...publicConfig(config)};
 }
 

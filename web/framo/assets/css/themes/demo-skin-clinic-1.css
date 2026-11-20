@@ -1,0 +1,96 @@
+/* ================================================================
+ *  demo-skin-clinic-1.css — Framo theme for the Skin Clinic demo
+ *
+ *  The colors, fonts and layout settings of the Skin Clinic demo
+ *  (Framo Skin, medical aesthetics clinic in Scottsdale, Arizona).
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here).
+   Playfair Display sets the headings (500, with its true 400 italic for
+   the marked words); Inter sets the text, the labels and the figures. */
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..600;1,400..500&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #a3675b;   /* main color: dusty rose clay for buttons, links and focus; labels on it are white (4.5:1) */
+    --color-secondary-base:  #2a2220;   /* second color: warm brown-black ink for the text, the topbar, the bands and the footer; the dark scheme takes its hue */
+    --color-tertiary-base:   #f7f0ec;   /* third color: pale nude, the page */
+    --color-quaternary-base: #82736e;   /* fourth color: taupe, for meta and small marks */
+    --color-accent-base:     #e9c2b8;   /* attention color: blush, the light leaks and small details */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. */
+    /* Labels on the primary: white (the demo's choice, 4.5:1 on the
+       rose clay), dark only on a very light primary */
+    --color-on-primary: oklch(from var(--color-primary-base) clamp(0.2, (0.75 - l) * 1000, 1) 0 0);
+    /* Brand-colored text on the nude: the primary deepened so a link or a
+       marked word reads */
+    --color-primary-ink: oklch(from var(--color-primary-base) min(l, 0.5) c h);
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-text:      var(--color-secondary-base);   /* headings and body text: the brown-black ink (#2a2220) */
+    --color-text-soft: oklch(from var(--color-secondary-base) 0.45 calc(c * 1.4) h);   /* secondary text: the ink softened (#5f524f) */
+    --color-text-muted: oklch(from var(--color-quaternary-base) 0.555 c h);   /* meta text: the taupe (#7f6f69) */
+    --color-bg:        var(--color-tertiary-base);   /* page background: pale nude (#f7f0ec) */
+    --color-bg-soft:   oklch(from var(--color-primary-base) 0.905 calc(c * 0.25) calc(h + 12));   /* a step deeper: the nude panel (#ecdcd5) */
+    --color-bg-muted:  oklch(from var(--color-primary-base) 0.88 calc(c * 0.3) calc(h + 12));   /* hover fills (#e7d3cb) */
+    --color-border:    oklch(from var(--color-primary-base) 0.87 calc(c * 0.22) calc(h + 12));   /* lines and borders (#dfd1cb) */
+    --color-border-soft: oklch(from var(--color-primary-base) 0.92 calc(c * 0.17) calc(h + 12));   /* the faintest rules (#ede2dd) */
+    --color-dark:      var(--color-secondary-base);   /* dark sections and dark buttons */
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Playfair Display', Georgia, serif;   /* headings and the marked words */
+    --font-serif:   'Instrument Serif', Georgia, 'Times New Roman', serif;   /* italic accents */
+    --font-tertiary: 'Urbanist', system-ui, sans-serif;   /* display accents (unused so far) */
+
+    /* Stylesheets of the accent fonts, fetched only on pages that use them.
+       Change a family above and its URL here together. Set one to "" to
+       load nothing, e.g. when that font is a system font. */
+    --font-serif-src:    "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap";
+    --font-tertiary-src: "https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800;900&display=swap";
+
+    /* Headings and buttons */
+    --heading-weight:     500;                     /* Playfair at 500; the marked words in its 400 italic */
+    --heading-tracking:   -0.02em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        1;      /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 9999px; /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1280px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 1.25;   /* space between sections: 0.75 compact · 1 · 1.25 spacious */
+}

@@ -1,0 +1,1376 @@
+@layer components {
+    html[data-demo='furniture-store-1'] {
+        --custom-stage-r: calc(var(--radius-lg) * 1.25);
+        --custom-line: color-mix(in oklab, var(--color-text) 10%, transparent);
+        --custom-shadow:
+            0 1px 2px color-mix(in oklab, var(--color-secondary-base) 5%, transparent),
+            0 24px 48px -24px color-mix(in oklab, var(--color-secondary-base) 20%, transparent);
+
+        & :is(h1, h2, h3, h4) {
+            font-variation-settings: 'SOFT' 50;
+        }
+    }
+
+    html[data-demo='furniture-store-1']
+        main
+        > :is(.custom-hero, .section, .section-sm):not(.bg-surface, .bg-soft, .custom-band)
+        + :is(.section, .section-sm):not(.bg-surface, .bg-soft, .custom-band),
+    html[data-demo='furniture-store-1'] main > .bg-surface + .section.bg-surface {
+        padding-top: 0;
+    }
+
+    html[data-demo='furniture-store-1'] .site-header {
+        --menu-surface: var(--color-surface);
+        --menu-border: var(--custom-line);
+        --menu-shadow: var(--custom-shadow);
+        --menu-hover-bg: color-mix(in oklab, var(--color-primary) 9%, var(--color-surface));
+        --menu-hover-text: var(--color-primary-ink);
+        background: var(--color-bg);
+        border-bottom-color: var(--custom-line);
+
+        &.scrolled {
+            background: var(--color-surface);
+            box-shadow: var(--custom-shadow);
+        }
+
+        & .site-topbar-meta-item {
+            color: var(--color-text-soft);
+
+            &:hover {
+                color: var(--color-primary-ink);
+            }
+        }
+
+        & .custom-strip-cta {
+            color: var(--color-text);
+        }
+
+        & .navbar {
+            background: none;
+        }
+
+        & .nav-links > li > .nav-link {
+            font-size: 0.9375rem;
+            font-weight: 500;
+        }
+
+        & .nav-search-toggle,
+        & .shop-action {
+            width: 2.75rem;
+            min-width: 2.75rem;
+            height: 2.75rem;
+            color: var(--color-text);
+            border-radius: var(--radius-full);
+            background: none;
+            border: 0;
+            font-size: 1.375rem;
+
+            &:hover,
+            &[aria-expanded='true'] {
+                color: var(--color-primary-ink);
+                background: var(--menu-hover-bg);
+                border-color: #0000;
+            }
+        }
+
+        & .shop-action-count {
+            box-shadow: 0 0 0 2px var(--color-bg);
+        }
+
+        &.scrolled .shop-action-count {
+            box-shadow: 0 0 0 2px var(--color-surface);
+        }
+
+        & .nav-actions {
+            gap: 0.25rem;
+        }
+    }
+
+    @media (width >= 1024px) and (width <= 1439px) {
+        html[data-demo='furniture-store-1'] .site-header .nav-links > li > .nav-link {
+            padding-inline: 0.625rem;
+        }
+    }
+
+    @media (width >= 1024px) and (width <= 1279px) {
+        html[data-demo='furniture-store-1'] .site-header .nav-links > li > .nav-link {
+            padding-inline: 0.5rem;
+            font-size: 0.875rem;
+        }
+    }
+
+    html[data-demo='furniture-store-1'] .custom-mega {
+        & .megamenu-inner.custom-mega-inner {
+            gap: 1.75rem 2rem;
+            padding: 2rem 2rem 1.75rem;
+        }
+
+        & .megamenu-col-title {
+            letter-spacing: 0.08em;
+            color: var(--color-text-muted);
+            padding-inline: 0.75rem;
+            font-size: 0.75rem;
+        }
+
+        & .megamenu-item {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.9375rem;
+        }
+
+        & .megamenu-item > i {
+            color: var(--color-text-muted);
+            transition: color var(--duration-fast) var(--ease-out);
+            flex: none;
+            font-size: 1.25rem;
+        }
+
+        & .megamenu-item:hover > i {
+            color: var(--menu-hover-text);
+        }
+
+        & .megamenu-panel .megamenu-col--cta {
+            display: flex;
+        }
+    }
+
+    html[data-demo='furniture-store-1'] .custom-mega .custom-mega-feature img {
+        border-radius: calc(var(--radius-lg) - 0.625rem);
+    }
+
+    .custom-mega-feature-title {
+        font-family: var(--font-heading);
+        font-variation-settings: 'SOFT' 50;
+        transition: color var(--duration-fast) var(--ease-out);
+    }
+
+    .custom-mega-feature:hover .custom-mega-feature-title {
+        color: var(--color-primary-ink);
+    }
+
+    .custom-mega-foot-link {
+        color: var(--color-text-soft);
+        transition: color var(--duration-fast) var(--ease-out);
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        text-decoration: none;
+        display: inline-flex;
+
+        &:hover {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    .custom-mega-foot-link--all {
+        color: var(--color-text);
+
+        & i {
+            transition: translate var(--duration-fast) var(--ease-out);
+        }
+
+        &:hover i {
+            translate: 3px;
+        }
+    }
+
+    html[data-demo='furniture-store-1'] .custom-mega .custom-mega-inner--rooms {
+        column-gap: 2.5rem;
+    }
+
+    html[data-demo='furniture-store-1'] .custom-mega .megamenu-item.custom-room {
+        color: var(--color-text);
+        gap: 0.125rem;
+        padding: 0;
+        font-size: 1rem;
+        font-weight: 600;
+        display: grid;
+
+        &:hover {
+            color: var(--color-primary-ink);
+            background: none;
+        }
+
+        & img {
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            width: 100%;
+            margin-bottom: 0.875rem;
+        }
+
+        &:after {
+            content: attr(data-count);
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+            font-weight: 400;
+        }
+    }
+
+    .custom-store-name {
+        font-family: var(--font-heading);
+        font-variation-settings: 'SOFT' 50;
+    }
+
+    .custom-store-line {
+        color: var(--color-text-soft);
+        align-items: center;
+        gap: 0.4rem;
+        margin: 0;
+        font-size: 0.875rem;
+        text-decoration: none;
+        display: flex;
+    }
+
+    a.custom-store-line:hover {
+        color: var(--color-primary-ink);
+    }
+
+    .custom-store-dot {
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-success) 22%, transparent);
+    }
+
+    .custom-store-more {
+        color: var(--color-text);
+
+        &:hover {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    html[data-demo='furniture-store-1'] .site-search-title {
+        font-weight: 380;
+    }
+
+    .custom-search-pick {
+        color: var(--color-text-soft);
+        align-items: center;
+        gap: 0.875rem;
+        font-size: 0.875rem;
+        text-decoration: none;
+        display: flex;
+
+        & img {
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            flex: none;
+            width: 4rem;
+        }
+
+        & strong {
+            color: var(--color-text);
+            transition: color var(--duration-fast) var(--ease-out);
+        }
+
+        &:hover strong {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    .custom-hero {
+        --custom-slide-h: clamp(
+            24rem,
+            calc(100svh - var(--topbar-h) - var(--navbar-h) - 20rem),
+            46rem
+        );
+        padding-block: clamp(1.75rem, 4svh, 3rem) var(--section-space);
+        overflow-x: clip;
+    }
+
+    .custom-hero-title em {
+        color: var(--color-primary-ink);
+    }
+
+    .custom-slide-media {
+        isolation: isolate;
+        height: var(--custom-slide-h);
+        border-radius: var(--custom-stage-r);
+        background: var(--color-bg-soft);
+        position: relative;
+        overflow: hidden;
+
+        &:after {
+            content: '';
+            z-index: 2;
+            background: var(--color-bg);
+            opacity: 0.4;
+            transition: opacity 0.7s var(--ease-out);
+            pointer-events: none;
+            position: absolute;
+            inset: 0;
+        }
+    }
+
+    :is(
+            .swiper-slide-active,
+            .custom-hero-swiper:not(.swiper-initialized) .custom-slide:first-child
+        )
+        .custom-slide-media:after {
+        opacity: 0;
+    }
+
+    .custom-slide-photo {
+        object-fit: cover;
+        object-position: 50% 62%;
+        opacity: 0;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        transition: opacity 0s 0.6s;
+        position: absolute;
+        inset: 0;
+
+        &.is-active {
+            opacity: 1;
+            z-index: 1;
+            transition: opacity 0.6s var(--ease-out);
+        }
+    }
+
+    .custom-piece {
+        z-index: 3;
+        width: min(22rem, 100% - 2.5rem);
+        color: var(--color-text);
+        background: var(--color-surface);
+        border-radius: calc(var(--custom-stage-r) - 0.5rem);
+        box-shadow: var(--custom-shadow);
+        opacity: 0;
+        visibility: hidden;
+        transition:
+            opacity 0.5s var(--ease-out),
+            translate 0.5s var(--ease-out),
+            visibility 0s 0.5s;
+        padding: 1.25rem 1.375rem 1.375rem;
+        position: absolute;
+        top: 1.25rem;
+        left: 1.25rem;
+        translate: 0 -0.5rem;
+    }
+
+    :is(
+            .swiper-slide-active,
+            .custom-hero-swiper:not(.swiper-initialized) .custom-slide:first-child
+        )
+        .custom-piece {
+        opacity: 1;
+        visibility: visible;
+        transition:
+            opacity 0.6s var(--ease-out) 0.35s,
+            translate 0.6s var(--ease-out) 0.35s,
+            visibility 0s;
+        translate: 0;
+    }
+
+    .custom-piece-head {
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+    }
+
+    .custom-piece-room {
+        color: var(--color-primary-ink);
+    }
+
+    .custom-piece-rating {
+        align-items: center;
+        gap: 0.25rem;
+        margin: 0;
+        font-size: 0.875rem;
+        font-weight: 600;
+        display: flex;
+    }
+
+    .custom-piece-title {
+        margin: 0;
+        font-size: 1.625rem;
+        line-height: 1.15;
+    }
+
+    .custom-piece-price {
+        color: var(--color-text-soft);
+        margin: 0.25rem 0 0;
+        font-size: 1rem;
+    }
+
+    .custom-piece-finish,
+    .custom-piece-fabrics {
+        border: 0;
+        border-top: 1px solid var(--custom-line);
+        margin: 1rem 0 0;
+        padding: 1rem 0 0;
+    }
+
+    .custom-piece-finish {
+        color: var(--color-text-soft);
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.9375rem;
+        display: flex;
+    }
+
+    .custom-piece-legend {
+        float: left;
+    }
+
+    .custom-piece-swatches {
+        clear: both;
+    }
+
+    .custom-swatch .swatch-color {
+        width: 2.25rem;
+        height: 2.25rem;
+        box-shadow:
+            inset 0 0 0 1px color-mix(in oklab, var(--color-secondary-base) 14%, transparent),
+            0 0 0 3px var(--color-surface),
+            0 0 0 4.5px transparent;
+        overflow: hidden;
+
+        & img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .custom-swatch:hover .swatch-color {
+        box-shadow:
+            0 0 0 3px var(--color-surface),
+            0 0 0 4.5px var(--color-border);
+    }
+
+    .custom-swatch > input:checked + .swatch-color {
+        box-shadow:
+            0 0 0 3px var(--color-surface),
+            0 0 0 4.5px var(--color-text);
+    }
+
+    .custom-swatch > input:focus-visible + .swatch-color {
+        box-shadow:
+            0 0 0 3px var(--color-surface),
+            0 0 0 5px var(--color-primary);
+    }
+
+    .custom-piece-foot {
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1.125rem;
+        display: flex;
+    }
+
+    .custom-piece-lead {
+        color: var(--color-text-soft);
+        align-items: center;
+        gap: 0.4rem;
+        margin: 0;
+        font-size: 0.875rem;
+        display: flex;
+    }
+
+    .custom-pieces {
+        --thumb-card-bg: transparent;
+        --thumb-card-bg-hover: var(--color-bg-soft);
+        --thumb-card-border: transparent;
+        --thumb-card-active-bg: var(--color-surface);
+        --thumb-card-active-color: var(--color-text);
+        flex: 0 50rem;
+
+        & .carousel-thumb-card {
+            --thumb-card-pad: 0.375rem;
+            padding-right: 1rem;
+
+            & img {
+                background: var(--product-bg, #f4f4f4);
+                width: 3.25rem;
+                height: 3.25rem;
+            }
+
+            &.is-active {
+                box-shadow: var(--custom-shadow);
+            }
+        }
+
+        & .carousel-thumb-card-meta {
+            font-size: 0.875rem;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .custom-slide-photo,
+        .custom-slide-photo.is-active,
+        .custom-slide-media:after,
+        .custom-piece,
+        .swiper-slide-active .custom-piece {
+            transition: none;
+        }
+    }
+
+    @media (width <= 1279px) {
+        .custom-piece {
+            padding: 1rem 1.125rem 1.125rem;
+        }
+    }
+
+    @media (width <= 767px) {
+        .custom-hero {
+            --custom-slide-h: auto;
+        }
+
+        .custom-slide-media {
+            aspect-ratio: 4 / 3;
+        }
+
+        .custom-slide-photo {
+            object-position: 44% 60%;
+        }
+
+        .custom-piece {
+            width: auto;
+            box-shadow: none;
+            border: 1px solid var(--custom-line);
+            margin-top: 0.75rem;
+            padding: 1.125rem 1.125rem 1.25rem;
+            position: relative;
+            bottom: auto;
+            left: auto;
+        }
+
+        .custom-pieces {
+            flex: 1;
+        }
+    }
+
+    .custom-h2 {
+        letter-spacing: -0.03em;
+        text-wrap: balance;
+        margin: 0;
+        font-size: clamp(2.25rem, 1.4rem + 2.2vw, 3.375rem);
+        line-height: 1.04;
+    }
+
+    .custom-rooms {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 1rem;
+        margin: 0;
+        padding: 0;
+        display: grid;
+    }
+
+    .custom-room-tile {
+        aspect-ratio: 3 / 4;
+        border-radius: var(--radius-lg);
+        background: var(--color-bg-soft);
+        display: block;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .custom-room-label {
+        inset-inline: 0.75rem;
+        color: var(--color-text);
+        background: var(--color-surface);
+        border-radius: max(0.25rem, calc(var(--radius-lg) - 0.75rem));
+        transition:
+            color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out);
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        font-weight: 600;
+        display: flex;
+        position: absolute;
+        bottom: 0.75rem;
+
+        & span {
+            color: var(--color-text-muted);
+            transition: color var(--duration-fast) var(--ease-out);
+        }
+    }
+
+    .custom-room-tile:hover .custom-room-label {
+        color: var(--color-on-primary);
+        background: var(--color-primary);
+
+        & span {
+            color: color-mix(in oklab, var(--color-on-primary) 80%, transparent);
+        }
+    }
+
+    @media (width <= 1023px) {
+        .custom-rooms {
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            margin-inline: calc(var(--container-x) * -1);
+            padding-inline: var(--container-x);
+            scroll-padding-inline: var(--container-x);
+            grid-template-columns: none;
+            grid-auto-columns: minmax(13rem, 42%);
+            grid-auto-flow: column;
+            overflow-x: auto;
+
+            & > li {
+                scroll-snap-align: start;
+            }
+        }
+    }
+
+    .custom-photo {
+        border-radius: var(--custom-stage-r);
+        background: var(--color-bg-soft);
+        overflow: hidden;
+
+        & img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .custom-fabric-list {
+        border-top: 1px solid var(--custom-line);
+        gap: 1rem;
+        margin: 2rem 0 0;
+        padding: 1.75rem 0 0;
+        list-style: none;
+        display: grid;
+    }
+
+    .custom-fabric-chips img,
+    .custom-fabric-chips span {
+        box-shadow: 0 0 0 3px var(--color-bg);
+    }
+
+    .custom-promise {
+        & li {
+            border-left: 1px solid var(--custom-line);
+            align-content: start;
+            gap: 0.75rem;
+            padding: 0.5rem 2rem;
+            display: grid;
+        }
+
+        & strong {
+            font-family: var(--font-heading);
+            letter-spacing: -0.04em;
+            font-variation-settings: 'SOFT' 50;
+            color: var(--color-primary-ink);
+            font-size: clamp(3rem, 2rem + 2.6vw, 4.5rem);
+            font-weight: 340;
+            line-height: 1;
+        }
+    }
+
+    @media (width <= 479px) {
+        .custom-promise li {
+            padding-inline: 1.25rem 0;
+        }
+    }
+
+    .custom-band .eyebrow {
+        color: oklch(from var(--color-secondary-base) 0.8 calc(c * 0.5) h);
+    }
+
+    .custom-band-soft {
+        color: oklch(from var(--color-secondary-base) 0.86 calc(c * 0.4) h);
+    }
+
+    .custom-ways i {
+        width: 3rem;
+        height: 3rem;
+        color: var(--color-primary-ink);
+        background: var(--color-surface);
+        border-radius: var(--radius-full);
+        flex: none;
+        place-items: center;
+        font-size: 1.375rem;
+        display: grid;
+    }
+
+    .custom-score > strong {
+        font-weight: 340;
+    }
+
+    .custom-quote {
+        background: var(--color-bg);
+        border-radius: var(--radius-lg);
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 2rem;
+        padding: 2rem;
+        display: flex;
+
+        & p {
+            color: var(--color-text);
+            margin: 0;
+            font-size: 1.125rem;
+            line-height: 1.6;
+        }
+    }
+
+    .custom-quote-by img {
+        border-radius: var(--radius-full);
+        object-fit: cover;
+        flex: none;
+        width: 3rem;
+        height: 3rem;
+    }
+
+    @media (width >= 1024px) and (width <= 1439px) {
+        .custom-room-label span {
+            display: none;
+        }
+    }
+
+    .custom-page-title {
+        letter-spacing: -0.035em;
+        text-wrap: balance;
+        margin: 0;
+        font-size: clamp(2.5rem, 1.6rem + 2.6vw, 4rem);
+        line-height: 1.02;
+    }
+
+    :is(.custom-page-title, .custom-h2) em {
+        color: var(--color-primary-ink);
+        font-style: italic;
+    }
+
+    .custom-h2--sm {
+        font-size: clamp(1.875rem, 1.3rem + 1.4vw, 2.625rem);
+    }
+
+    html[data-demo='furniture-store-1'] :is(.shop-title, .shop-heading, .product-title) {
+        letter-spacing: -0.03em;
+        font-weight: 400;
+    }
+
+    html[data-demo='furniture-store-1'] .product-card--shade .product-card-media:after {
+        background: color-mix(in oklab, var(--shop-scrim) 58%, transparent);
+    }
+
+    html[data-demo='furniture-store-1'] .product-card--overlay {
+        --custom-alt-t: 5.25rem;
+        --custom-alt-x: 1rem;
+        --custom-alt-b: 4.25rem;
+        --custom-alt-r: var(--radius-md);
+
+        &:has(.product-card-badges) {
+            --custom-alt-t: 7rem;
+        }
+
+        @media (hover: none), (width <= 767px) {
+            --custom-alt-t: 5.5rem;
+            --custom-alt-x: 0.5rem;
+            --custom-alt-b: 4.5rem;
+
+            &:has(.product-card-badges) {
+                --custom-alt-t: 6.5rem;
+            }
+        }
+
+        & .product-card-img--alt {
+            padding: var(--custom-alt-t) var(--custom-alt-x) var(--custom-alt-b);
+            object-fit: cover;
+            clip-path: inset(
+                var(--custom-alt-t) var(--custom-alt-x) var(--custom-alt-b) round
+                    var(--custom-alt-r)
+            );
+            transition:
+                opacity 0.6s var(--ease-out),
+                transform 1.2s var(--ease-out),
+                clip-path 1.2s var(--ease-out);
+        }
+
+        @media (hover: hover) {
+            &:hover .product-card-img--alt {
+                clip-path: inset(
+                    calc(1.923% + var(--custom-alt-t) / 1.04)
+                        calc(1.923% + var(--custom-alt-x) / 1.04)
+                        calc(1.923% + var(--custom-alt-b) / 1.04) round
+                        calc(var(--custom-alt-r) / 1.04)
+                );
+            }
+        }
+    }
+
+    .custom-consult {
+        --custom-inset: 0.75rem;
+        padding: var(--custom-inset) clamp(1.5rem, 5vw, 5rem) var(--custom-inset)
+            var(--custom-inset);
+        background: var(--color-bg-soft);
+        border-radius: var(--custom-stage-r);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: center;
+        gap: 2.5rem clamp(2.5rem, 5vw, 5rem);
+        display: grid;
+    }
+
+    .custom-consult-photo {
+        border-radius: max(0.25rem, calc(var(--custom-stage-r) - var(--custom-inset)));
+    }
+
+    .custom-consult-phone {
+        color: var(--color-text);
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+
+        &:hover {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    .custom-steps {
+        margin: 0;
+
+        & p {
+            max-width: 34ch;
+            color: var(--color-text-soft);
+            margin: 0.75rem 0 0;
+        }
+    }
+
+    .custom-steps-num {
+        font-family: var(--font-heading);
+        letter-spacing: -0.04em;
+        font-variation-settings: 'SOFT' 50;
+        color: var(--color-primary-ink);
+        font-size: 2.75rem;
+        font-weight: 340;
+        line-height: 1;
+        display: block;
+    }
+
+    .custom-steps-title {
+        font-family: var(--font-sans);
+        letter-spacing: -0.01em;
+        margin: 1.25rem 0 0;
+        font-size: 1.1875rem;
+        font-weight: 600;
+    }
+
+    .custom-layers {
+        counter-reset: layer;
+
+        & li {
+            counter-increment: layer;
+            border-top: 1px solid #ffffff24;
+            grid-template-columns: 2.5rem minmax(0, 1fr);
+            gap: 0.125rem 0.5rem;
+            padding-block: 1.125rem;
+            display: grid;
+
+            &:before {
+                content: '0' counter(layer);
+                font-family: var(--font-heading);
+                color: oklch(from var(--color-secondary-base) 0.8 calc(c * 0.5) h);
+                grid-row: span 2;
+                font-size: 1.25rem;
+                line-height: 1.3;
+            }
+        }
+
+        & span {
+            color: oklch(from var(--color-secondary-base) 0.86 calc(c * 0.4) h);
+        }
+    }
+
+    .custom-lamp-list.products--list .product-card--icons {
+        grid-template-columns: minmax(8rem, 16rem) minmax(0, 1fr);
+        gap: 1.25rem clamp(1.5rem, 4vw, 3.5rem);
+
+        & .product-card-body {
+            text-align: left;
+            align-items: flex-start;
+        }
+
+        & .product-card-meta {
+            flex-direction: row;
+        }
+
+        & .product-price {
+            justify-content: flex-start;
+            font-size: 1.125rem;
+        }
+
+        & .product-card-title {
+            font-size: clamp(1.375rem, 1.1rem + 0.6vw, 1.75rem);
+        }
+
+        & .product-card-excerpt {
+            font-size: 1.0625rem;
+        }
+    }
+
+    .custom-acc-title {
+        font-family: var(--font-heading);
+        font-variation-settings: 'SOFT' 50;
+    }
+
+    .custom-swatch--lg .swatch-color {
+        width: 2.75rem;
+        height: 2.75rem;
+        box-shadow:
+            inset 0 0 0 1px color-mix(in oklab, var(--color-secondary-base) 14%, transparent),
+            0 0 0 3px var(--color-bg),
+            0 0 0 4.5px transparent;
+    }
+
+    .custom-swatch--lg > input:checked + .swatch-color {
+        box-shadow:
+            0 0 0 3px var(--color-bg),
+            0 0 0 4.5px var(--color-text);
+    }
+
+    .custom-swatch--lg > input:focus-visible + .swatch-color {
+        box-shadow:
+            0 0 0 3px var(--color-bg),
+            0 0 0 5px var(--color-primary);
+    }
+
+    .custom-sit-card {
+        background: var(--color-bg-soft);
+        transition: background-color var(--duration-fast) var(--ease-out);
+
+        & img {
+            border-radius: max(0.25rem, calc(var(--radius-lg) - 0.5rem));
+        }
+
+        &:hover {
+            background: var(--color-bg-muted);
+        }
+    }
+
+    .custom-fabric-families {
+        margin: 0;
+
+        & li {
+            color: var(--color-text-soft);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem;
+            display: flex;
+        }
+
+        & img {
+            border-radius: var(--radius-full);
+            object-fit: cover;
+            flex: none;
+            width: 3.5rem;
+            height: 3.5rem;
+        }
+    }
+
+    .custom-addon {
+        border: 1px solid var(--color-border);
+        transition:
+            border-color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out);
+
+        &:hover {
+            border-color: var(--color-text-muted);
+        }
+
+        &:has(:checked) {
+            background: var(--color-bg-soft);
+            border-color: var(--color-text);
+        }
+    }
+
+    .custom-look {
+        padding-block: var(--section-space);
+    }
+
+    .custom-look + .custom-look {
+        padding-top: 0;
+    }
+
+    .custom-look-grid {
+        grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+        align-items: center;
+        gap: 2.5rem clamp(2.5rem, 5vw, 5rem);
+        display: grid;
+    }
+
+    .custom-look-photo > img {
+        border-radius: inherit;
+    }
+
+    .custom-pin-card {
+        min-width: 11rem;
+        color: var(--color-text-soft);
+        gap: 0.125rem;
+        text-decoration: none;
+        display: grid;
+
+        & strong {
+            color: var(--color-text);
+        }
+
+        &:hover strong {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    .custom-look-list {
+        border-top: 1px solid var(--custom-line);
+        margin: 2rem 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+    }
+
+    .custom-look-item {
+        color: var(--color-text-soft);
+        border-bottom: 1px solid var(--custom-line);
+        grid-template-columns: 3.5rem minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 1rem;
+        padding-block: 0.875rem;
+        text-decoration: none;
+        display: grid;
+
+        & img {
+            object-fit: cover;
+            border-radius: var(--radius-sm);
+            background: var(--product-bg);
+            width: 3.5rem;
+            height: 3.5rem;
+        }
+
+        & strong,
+        & > span:last-child {
+            color: var(--color-text);
+        }
+
+        &:hover strong {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    .custom-look-total {
+        color: var(--color-text-soft);
+        justify-content: space-between;
+        align-items: baseline;
+        margin: 1.25rem 0 0;
+        display: flex;
+    }
+
+    .custom-showroom {
+        --custom-inset: 0.625rem;
+        padding: var(--custom-inset);
+        background: var(--color-surface);
+        border-radius: var(--custom-stage-r);
+        flex-direction: column;
+        display: flex;
+
+        & > img {
+            border-radius: max(0.25rem, calc(var(--custom-stage-r) - var(--custom-inset)));
+        }
+    }
+
+    .custom-showroom-body {
+        flex-direction: column;
+        flex: 1;
+        padding: 1.75rem clamp(1rem, 2vw, 1.5rem) 1.25rem;
+        display: flex;
+    }
+
+    .custom-showroom-name {
+        letter-spacing: -0.03em;
+        margin: 0;
+        font-size: 2rem;
+        line-height: 1.05;
+    }
+
+    .custom-hours {
+        border-top: 1px solid var(--custom-line);
+        gap: 0.375rem;
+        margin: 1.25rem 0 0;
+        padding-top: 1.25rem;
+        display: grid;
+    }
+
+    .custom-showroom-tags {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin: 1.25rem 0 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+
+        & li {
+            color: var(--color-text-soft);
+            background: var(--color-bg-soft);
+            border-radius: var(--radius-full);
+            padding: 0.25rem 0.75rem;
+            font-size: 0.875rem;
+        }
+    }
+
+    .custom-steps--stack .custom-steps-num {
+        grid-row: span 2;
+        font-size: 1.75rem;
+    }
+
+    .custom-form-panel {
+        background: var(--color-surface);
+        border-radius: var(--custom-stage-r);
+        align-self: start;
+        padding: clamp(1.5rem, 3.5vw, 2.75rem);
+    }
+
+    .custom-pillars {
+        & li {
+            border-top: 1px solid #ffffff24;
+        }
+
+        & i {
+            color: oklch(from var(--color-secondary-base) 0.8 calc(c * 0.5) h);
+        }
+
+        & h3 {
+            letter-spacing: -0.02em;
+            margin: 1.25rem 0 0;
+            font-size: 1.5rem;
+        }
+
+        & p {
+            color: oklch(from var(--color-secondary-base) 0.86 calc(c * 0.4) h);
+        }
+    }
+
+    .custom-founder-quote {
+        font-family: var(--font-heading);
+        font-variation-settings: 'SOFT' 50;
+        font-weight: 360;
+    }
+
+    .custom-chapters {
+        & .timeline-item-date {
+            font-variation-settings: 'SOFT' 50;
+            color: var(--color-primary-ink);
+            font-size: clamp(2.25rem, 1.8rem + 1.2vw, 3rem);
+            font-weight: 340;
+        }
+
+        & .timeline-item-title {
+            font-family: var(--font-heading);
+            letter-spacing: -0.02em;
+            font-size: 1.375rem;
+            font-weight: 400;
+        }
+
+        & .timeline-item-text {
+            color: var(--color-text-soft);
+            font-size: 1rem;
+        }
+
+        & .timeline-item-line {
+            background: var(--custom-line);
+        }
+
+        @media (width >= 1024px) {
+            overflow: visible;
+
+            & .timeline-item {
+                flex: 1 1 0;
+                min-width: 0;
+            }
+        }
+    }
+
+    .custom-person-name {
+        letter-spacing: -0.02em;
+        margin: 1.25rem 0 0;
+        font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+    }
+
+    .custom-person-role {
+        color: var(--color-text-soft);
+        margin: 0.25rem 0 0;
+    }
+
+    .custom-jobs {
+        & a {
+            color: var(--color-text-soft);
+            border-bottom: 1px solid var(--custom-line);
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            padding-block: 1rem;
+            text-decoration: none;
+            display: flex;
+        }
+
+        & strong {
+            color: var(--color-text);
+        }
+
+        & a:hover strong {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    .custom-channels {
+        & a {
+            height: 100%;
+            color: var(--color-text-soft);
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            transition: background-color var(--duration-fast) var(--ease-out);
+            gap: 0.25rem;
+            padding: 1.75rem;
+            text-decoration: none;
+            display: grid;
+        }
+
+        & a:hover {
+            background: var(--color-bg-soft);
+        }
+    }
+
+    .custom-swatch-pick {
+        text-align: center;
+        color: var(--color-text-soft);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition:
+            border-color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out);
+        justify-items: center;
+        gap: 0.5rem;
+        padding: 0.875rem 0.5rem 0.75rem;
+        font-size: 0.875rem;
+        display: grid;
+        position: relative;
+
+        & img,
+        & i {
+            object-fit: cover;
+            background: var(--swatch);
+            border-radius: var(--radius-full);
+            width: 2.75rem;
+            height: 2.75rem;
+            box-shadow: inset 0 0 0 1px
+                color-mix(in oklab, var(--color-secondary-base) 14%, transparent);
+        }
+
+        &:hover {
+            border-color: var(--color-text-muted);
+        }
+
+        &:has(:checked) {
+            color: var(--color-text);
+            background: var(--color-surface);
+            border-color: var(--color-text);
+        }
+
+        &:has(:focus-visible) {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
+        }
+
+        &:has(:disabled) {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+    }
+
+    .custom-help-nav {
+        & a {
+            color: var(--color-text-soft);
+            border-bottom: 1px solid var(--custom-line);
+            padding-block: 0.5rem;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        & a:hover {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    .custom-help-title {
+        letter-spacing: -0.02em;
+        margin: 0 0 1rem;
+        font-size: 1.5rem;
+    }
+
+    html[data-demo='furniture-store-1'] .custom-footer {
+        --footer-bg: var(--color-secondary-base);
+        --footer-card: #ffffff0a;
+        --footer-accent: var(--color-white, #fff);
+        --footer-accent-on: var(--color-secondary-base);
+        --footer-y: var(--section-space);
+    }
+
+    html[data-demo='furniture-store-1'] .custom-footer :is(.footer-col-title, .footer-acc-toggle) {
+        font-family: var(--font-sans);
+        letter-spacing: 0;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    html[data-demo='furniture-store-1'] .custom-footer .footer-store-name {
+        font-weight: 420;
+    }
+
+    .custom-footer-phone {
+        color: var(--footer-title);
+
+        &:hover {
+            color: var(--footer-em);
+        }
+    }
+
+    html[data-demo='furniture-store-1'] .custom-footer-stores .footer-store:hover {
+        box-shadow: none;
+        border-color: #ffffff47;
+        translate: none;
+    }
+
+    .custom-footer-store-img {
+        border-radius: calc(var(--radius-lg) - 0.625rem);
+    }
+
+    @media (width <= 767px) {
+        html[data-demo='furniture-store-1'] .custom-footer-stores {
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            scroll-padding-inline: var(--container-x);
+
+            & > li {
+                scroll-snap-align: start;
+            }
+        }
+    }
+}
+
+html[data-demo='furniture-store-1'] .custom-hero-swiper {
+    clip-path: inset(-2rem -100vw -2rem 0);
+    overflow: visible;
+
+    & .custom-slide {
+        width: 80%;
+    }
+}
+
+@media (width <= 1023px) {
+    html[data-demo='furniture-store-1'] .custom-hero-swiper .custom-slide {
+        width: 86%;
+    }
+}
+
+@media (width <= 767px) {
+    html[data-demo='furniture-store-1'] .custom-hero-swiper .custom-slide {
+        width: 88%;
+    }
+}

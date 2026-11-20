@@ -1,5 +1,5 @@
 export default function DocumentLayout({children, styles, bodyProps}) {
-  return <html lang="en" suppressHydrationWarning>
+  return <html lang="en" data-demo="automation-1" suppressHydrationWarning>
     <head>
       <meta name="theme-color" content="#fafafa" />
       <meta name="referrer" content="same-origin" />

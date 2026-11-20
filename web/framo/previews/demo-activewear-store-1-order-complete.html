@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en" data-demo="activewear-store-1">
+    <head>
+        <meta charset="UTF-8">
+        <script async src="../assets/js/entrance.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Order Complete — Activewear Store — Framo</title>
+        <link rel="icon" href="../assets/media/logo/favicon.ico" sizes="32x32">
+        <link rel="icon" href="../assets/media/logo/framo-mark.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="../assets/media/logo/apple-touch-icon.png">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link rel="stylesheet" href="../assets/css/icons.css">
+        <link rel="stylesheet" href="../assets/css/app.css">
+        <link rel="stylesheet" href="../assets/css/vendor.css">
+        <link rel="stylesheet" href="../assets/css/shop.css">
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,600;0,700;1,500;1,600;1,700;1,800&amp;family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" data-theme-fonts>
+        <link rel="stylesheet" href="../assets/css/demos/demo-activewear-store-1.css">
+        <link rel="stylesheet" href="../assets/css/themes/demo-activewear-store-1.css" data-theme-file>
+        <link rel="stylesheet" href="../assets/css/custom.css">
+    </head>
+    <body>
+
+        <header class="site-header header-reveal header-topbar header-search header-cart" data-header>
+
+            <!-- Activewear strip - header-topbar includes it for a demo (graphite, 34px): the store promises as a fade ticker (template carousel, autoplay; reduced motion shows the first) and the customer links. Edit: the lines, the links -->
+            <div class="site-topbar">
+                <div class="site-topbar-inner container">
+                    <div class="custom-ticker flex-[1_1_auto] min-w-0 max-w-136 h-(--topbar-h) max-sm:max-w-none" role="region" aria-label="Store promises">
+                        <div class="swiper" data-effect="fade" data-loop="true" data-speed="600" data-autoplay="4200">
+                            <ul class="swiper-wrapper">
+                                <li class="swiper-slide"><i class="ph ph-truck text-[1rem] text-(--custom-light)" aria-hidden="true"></i><span><strong class="font-semibold">Free shipping</strong> on orders over $60</span></li>
+                                <li class="swiper-slide"><i class="ph ph-arrow-counter-clockwise text-[1rem] text-(--custom-light)" aria-hidden="true"></i><span><strong class="font-semibold">30-day sweat-test returns</strong>, worn or not</span></li>
+                                <li class="swiper-slide"><i class="ph ph-person-simple-run text-[1rem] text-(--custom-light)" aria-hidden="true"></i><a class="text-inherit" href="demo-activewear-store-1-run-club.html"><strong class="font-semibold">Join Run Club</strong>, Saturdays 8 AM at Mission Bay</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <nav class="custom-strip-links flex items-center gap-6 flex-none max-sm:hidden" aria-label="Customer links">
+                        <a class="text-[0.875rem]" href="demo-activewear-store-1-size-guide.html">Size Guide</a>
+                        <a class="text-[0.875rem]" href="demo-activewear-store-1-account.html#orders">Track Order</a>
+                        <a class="text-[0.875rem]" href="demo-activewear-store-1-about.html#help">Help</a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main navbar -->
+            <nav class="navbar" role="navigation" aria-label="Main navigation">
+                <div class="navbar-inner container">
+
+                    <!-- Brand -->
+                    <a href="demo-activewear-store-1.html" class="brand">
+
+                        <!-- Activewear Store wordmark - set in type: a stride mark (two slanted bars in the primary) and FRAMO ACTIVE in condensed italic (header brand: "demo" slot). Edit: the two words -->
+                        <span class="custom-brand max-sm:text-[1.375rem]"><svg class="custom-brand-mark w-[1.25em] h-auto me-[0.12em]" viewBox="0 0 30 22" aria-hidden="true" focusable="false">
+                                <path d="M9.5 0H17L7.5 22H0z" />
+                                <path d="M22.5 0H30l-9.5 22H13z" />
+                            </svg><span>Framo</span> <b class="font-medium">Active</b></span>
+
+                    </a>
+
+                    <!-- Desktop navigation links -->
+                    <ul class="nav-links" role="list">
+
+                        <!-- Activewear Store menu - the <li> items of .2); the phone panel is built from it. Inner pages (planned, demo-activewear-store-1-<slug>.html): shop (hidden sidebar), activities (banner), product (sidebar + fit finder), cart, checkout, account, order-complete, size-guide, run-club, about, blog -->
+
+                        <!-- Women | Men switch - the template capsule tabs; main.js swaps the Shop mega's set and the hero tiles (aria-pressed). No . Edit: the labels -->
+                        <li class="flex items-center me-auto pe-6">
+                            <div class="tabs tabs-capsule custom-seg w-auto">
+                                <div class="tabs-nav" role="group" aria-label="Shop for">
+                                    <button type="button" class="tab-btn is-active" data-aw-show="women" aria-pressed="true">Women</button>
+                                    <button type="button" class="tab-btn" data-aw-show="men" aria-pressed="false">Men</button>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="demo-activewear-store-1.html" class="nav-link">Home</a>
+                        </li>
+                        <li>
+                            <a href="demo-activewear-store-1-shop.html?sort=new" class="nav-link">New</a>
+                        </li>
+
+                        <!-- Shop - by activity + by fit: one panel, a Women set and a Men set (template tabs panels; the in-panel switch and the header switch stay in step). Activity photo tiles, four link columns (support / inseam legend), the Find Your Fit card. Edit: the tiles, the columns, the chips -->
+                        <li class="nav-megamenu custom-mega custom-mega--shop">
+                            <button class="nav-link">
+                                Shop
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="megamenu-panel" data-lenis-prevent>
+                                <div class="megamenu-inner container">
+                                    <div class="tabs tabs-capsule custom-seg w-auto">
+                                        <div class="tabs-nav" role="group" aria-label="Shop for">
+                                            <button type="button" class="tab-btn is-active py-1.25 px-4.5 text-[1rem]" data-aw-show="women" aria-pressed="true" aria-controls="aw1-shop-women">Women</button>
+                                            <button type="button" class="tab-btn py-1.25 px-4.5 text-[1rem]" data-aw-show="men" aria-pressed="false" aria-controls="aw1-shop-men">Men</button>
+                                        </div>
+                                    </div>
+                                    <div class="tabs-panels mt-0">
+
+                                        <!-- Women -->
+                                        <div id="aw1-shop-women" class="tabs-panel is-active grid grid-cols-[minmax(0,1.5fr)_repeat(4,minmax(0,1fr))_minmax(0,1.4fr)] gap-8 [align-items:start]" data-aw-pane="women">
+                                            <div class="grid grid-cols-2 gap-2.5" role="group" aria-label="Women's activities">
+                                                <a href="demo-activewear-store-1-activities.html?for=women#train" class="custom-act"><img src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><span>Train</span></a>
+                                                <a href="demo-activewear-store-1-activities.html?for=women#run" class="custom-act"><img src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><span>Run</span></a>
+                                                <a href="demo-activewear-store-1-activities.html?for=women#yoga" class="custom-act"><img src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><span>Yoga</span></a>
+                                                <a href="demo-activewear-store-1-activities.html?for=women#studio" class="custom-act"><img src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><span>Studio</span></a>
+                                            </div>
+                                            <div class="megamenu-col">
+                                                <div class="megamenu-col-title">Tops</div>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=tanks" class="megamenu-item">Tanks</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=tees" class="megamenu-item">Tees</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=crop-tops" class="megamenu-item">Crop Tops</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=long-sleeves" class="megamenu-item">Long Sleeves</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=outer-layers" class="megamenu-item">Outer Layers</a>
+                                            </div>
+                                            <div class="megamenu-col">
+                                                <div class="megamenu-col-title">Bottoms</div>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=leggings" class="megamenu-item">Leggings</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=shorts" class="megamenu-item">Shorts</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=joggers" class="megamenu-item">Joggers</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=leggings&amp;length=flare" class="megamenu-item">Flares</a>
+                                                <a href="demo-activewear-store-1-product.html" class="megamenu-item">Sculpt Leggings</a>
+                                            </div>
+                                            <div class="megamenu-col">
+                                                <div class="megamenu-col-title">Sports Bras</div>
+                                                <a href="demo-activewear-store-1-shop.html?cat=bras&amp;support=light" class="megamenu-item">Light Support<span class="custom-level" data-level="1" aria-hidden="true"><i class="bg-primary"></i><i class="h-[70%]"></i><i class="h-full"></i></span></a>
+                                                <a href="demo-activewear-store-1-shop.html?cat=bras&amp;support=medium" class="megamenu-item">Medium Support<span class="custom-level" data-level="2" aria-hidden="true"><i class="bg-primary"></i><i class="h-[70%] bg-primary"></i><i class="h-full"></i></span></a>
+                                                <a href="demo-activewear-store-1-shop.html?cat=bras&amp;support=high" class="megamenu-item">High Support<span class="custom-level" data-level="3" aria-hidden="true"><i class="bg-primary"></i><i class="h-[70%] bg-primary"></i><i class="h-full bg-primary"></i></span></a>
+                                                <a href="demo-activewear-store-1-shop.html?cat=bras" class="megamenu-item">All Sports Bras</a>
+                                            </div>
+                                            <div class="megamenu-col">
+                                                <div class="megamenu-col-title">Accessories</div>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=bags" class="megamenu-item">Gym Bags</a>
+                                                <a href="demo-activewear-store-1-shop.html?cat=bottles" class="megamenu-item">Bottles</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=caps" class="megamenu-item">Caps &amp; Visors</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=socks" class="megamenu-item">Socks</a>
+                                                <a href="demo-activewear-store-1-shop.html?cat=mats" class="megamenu-item">Yoga Mats</a>
+                                            </div>
+                                            <div class="megamenu-col megamenu-col--cta custom-fit relative gap-0 self-stretch pt-5.5 pb-5 px-5.5 overflow-hidden text-text">
+                                                <span class="custom-fit-thumb absolute top-4.5 right-4.5 grid place-items-center size-21 p-2 bg-surface"><img class="w-auto max-w-17 max-h-17" src="../assets/media/placeholder/371x1000.svg" alt="" width="371" height="1000" loading="lazy" decoding="async"></span>
+                                                <p class="max-w-[calc(100%_-_6rem)] font-heading text-[1.625rem] italic font-bold leading-[1.05]">Find Your Fit</p>
+                                                <p class="max-w-[calc(100%_-_6rem)] mt-1.5 mb-5.5 text-[0.875rem] leading-[1.4] text-soft">Leggings by rise and length.</p>
+                                                <div class="custom-fit-group">
+                                                    <span class="w-full text-[0.8125rem] font-semibold text-soft">Rise</span>
+                                                    <a href="demo-activewear-store-1-shop.html?cat=leggings&amp;rise=high">High</a>
+                                                    <a href="demo-activewear-store-1-shop.html?cat=leggings&amp;rise=mid">Mid</a>
+                                                </div>
+                                                <div class="custom-fit-group">
+                                                    <span class="w-full text-[0.8125rem] font-semibold text-soft">Length</span>
+                                                    <a href="demo-activewear-store-1-shop.html?cat=leggings&amp;length=7-8">7/8</a>
+                                                    <a href="demo-activewear-store-1-shop.html?cat=leggings&amp;length=full">Full</a>
+                                                    <a href="demo-activewear-store-1-shop.html?cat=leggings&amp;length=flare">Flare</a>
+                                                </div>
+                                                <a href="demo-activewear-store-1-size-guide.html" class="custom-fit-link inline-flex items-center gap-1.5 self-start mt-2 text-[0.9375rem] font-semibold text-primary-ink">Size Guide<i class="ph-bold ph-arrow-right" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+
+                                        <!-- Men -->
+                                        <div id="aw1-shop-men" class="tabs-panel grid grid-cols-[minmax(0,1.5fr)_repeat(4,minmax(0,1fr))_minmax(0,1.4fr)] gap-8 [align-items:start]" data-aw-pane="men">
+                                            <div class="grid grid-cols-2 gap-2.5" role="group" aria-label="Men's activities">
+                                                <a href="demo-activewear-store-1-activities.html?for=men#train" class="custom-act"><img src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><span>Train</span></a>
+                                                <a href="demo-activewear-store-1-activities.html?for=men#run" class="custom-act"><img src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><span>Run</span></a>
+                                                <a href="demo-activewear-store-1-activities.html?for=men#yoga" class="custom-act"><img src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><span>Yoga</span></a>
+                                                <a href="demo-activewear-store-1-activities.html?for=men#recovery" class="custom-act"><img src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><span>Recovery</span></a>
+                                            </div>
+                                            <div class="megamenu-col">
+                                                <div class="megamenu-col-title">Tops</div>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=tees" class="megamenu-item">Training Tees</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=tanks" class="megamenu-item">Tanks</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=long-sleeves" class="megamenu-item">Long Sleeves</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=quarter-zips" class="megamenu-item">Quarter-Zips</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=outer-layers" class="megamenu-item">Outer Layers</a>
+                                            </div>
+                                            <div class="megamenu-col">
+                                                <div class="megamenu-col-title">Bottoms</div>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=joggers" class="megamenu-item">Joggers</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=tights" class="megamenu-item">Tights</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=sweatpants" class="megamenu-item">Sweatpants</a>
+                                                <a href="demo-activewear-store-1-product.html" class="megamenu-item">Flow Jogger</a>
+                                            </div>
+                                            <div class="megamenu-col">
+                                                <div class="megamenu-col-title">Shorts</div>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=shorts&amp;inseam=5" class="megamenu-item">5-Inch Inseam<span class="custom-level" data-level="1" aria-hidden="true"><i class="bg-primary"></i><i class="h-[70%]"></i><i class="h-full"></i></span></a>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=shorts&amp;inseam=7" class="megamenu-item">7-Inch Inseam<span class="custom-level" data-level="2" aria-hidden="true"><i class="bg-primary"></i><i class="h-[70%] bg-primary"></i><i class="h-full"></i></span></a>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=shorts&amp;inseam=9" class="megamenu-item">9-Inch Inseam<span class="custom-level" data-level="3" aria-hidden="true"><i class="bg-primary"></i><i class="h-[70%] bg-primary"></i><i class="h-full bg-primary"></i></span></a>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=shorts" class="megamenu-item">All Shorts</a>
+                                            </div>
+                                            <div class="megamenu-col">
+                                                <div class="megamenu-col-title">Accessories</div>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=bags" class="megamenu-item">Gym Bags</a>
+                                                <a href="demo-activewear-store-1-shop.html?cat=bottles" class="megamenu-item">Bottles</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=caps" class="megamenu-item">Caps</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=socks" class="megamenu-item">Socks</a>
+                                                <a href="demo-activewear-store-1-shop.html?cat=recovery" class="megamenu-item">Recovery Tools</a>
+                                            </div>
+                                            <div class="megamenu-col megamenu-col--cta custom-fit relative gap-0 self-stretch pt-5.5 pb-5 px-5.5 overflow-hidden text-text">
+                                                <span class="custom-fit-thumb absolute top-4.5 right-4.5 grid place-items-center size-21 p-2 bg-surface"><img class="w-auto max-w-17 max-h-17" src="../assets/media/placeholder/1000x714.svg" alt="" width="1000" height="714" loading="lazy" decoding="async"></span>
+                                                <p class="max-w-[calc(100%_-_6rem)] font-heading text-[1.625rem] italic font-bold leading-[1.05]">Find Your Fit</p>
+                                                <p class="max-w-[calc(100%_-_6rem)] mt-1.5 mb-5.5 text-[0.875rem] leading-[1.4] text-soft">Shorts by inseam and liner.</p>
+                                                <div class="custom-fit-group">
+                                                    <span class="w-full text-[0.8125rem] font-semibold text-soft">Inseam</span>
+                                                    <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=shorts&amp;inseam=5">5″</a>
+                                                    <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=shorts&amp;inseam=7">7″</a>
+                                                    <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=shorts&amp;inseam=9">9″</a>
+                                                </div>
+                                                <div class="custom-fit-group">
+                                                    <span class="w-full text-[0.8125rem] font-semibold text-soft">Liner</span>
+                                                    <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=shorts&amp;liner=yes">Lined</a>
+                                                    <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=shorts&amp;liner=no">Unlined</a>
+                                                </div>
+                                                <a href="demo-activewear-store-1-size-guide.html" class="custom-fit-link inline-flex items-center gap-1.5 self-start mt-2 text-[0.9375rem] font-semibold text-primary-ink">Size Guide<i class="ph-bold ph-arrow-right" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- Activities - the five activities as photo tiles with a line each, and the Run Club card. Edit: the tiles, the lines, the card -->
+                        <li class="nav-megamenu custom-mega custom-mega--acts">
+                            <button class="nav-link">
+                                Activities
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="megamenu-panel" data-lenis-prevent>
+                                <div class="megamenu-inner container">
+                                    <div class="megamenu-col custom-act-row grid grid-cols-5 gap-3.5">
+                                        <div class="megamenu-col-title">Shop by Activity</div>
+                                        <div class="custom-act-card relative grid gap-0.5"><img class="w-full aspect-[4/5] mb-2.5 object-cover" src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><a href="demo-activewear-store-1-activities.html#train" class="megamenu-item">Train</a>
+                                            <p>Strength, HIIT and lifting days</p>
+                                        </div>
+                                        <div class="custom-act-card relative grid gap-0.5"><img class="w-full aspect-[4/5] mb-2.5 object-cover" src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><a href="demo-activewear-store-1-activities.html#run" class="megamenu-item">Run</a>
+                                            <p>Road, track and long-run kit</p>
+                                        </div>
+                                        <div class="custom-act-card relative grid gap-0.5"><img class="w-full aspect-[4/5] mb-2.5 object-cover" src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><a href="demo-activewear-store-1-activities.html#yoga" class="megamenu-item">Yoga</a>
+                                            <p>Soft, second-skin layers</p>
+                                        </div>
+                                        <div class="custom-act-card relative grid gap-0.5"><img class="w-full aspect-[4/5] mb-2.5 object-cover" src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><a href="demo-activewear-store-1-activities.html#studio" class="megamenu-item">Studio</a>
+                                            <p>Pilates, barre and spin</p>
+                                        </div>
+                                        <div class="custom-act-card relative grid gap-0.5"><img class="w-full aspect-[4/5] mb-2.5 object-cover" src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><a href="demo-activewear-store-1-activities.html#recovery" class="megamenu-item">Recovery</a>
+                                            <p>Rest-day layers and tools</p>
+                                        </div>
+                                    </div>
+                                    <div class="megamenu-col megamenu-col--cta custom-club gap-0 p-6.5">
+                                        <span class="custom-club-icon grid place-items-center size-11 mb-4.5 text-[1.375rem] text-on-primary bg-primary" aria-hidden="true"><i class="ph-bold ph-person-simple-run"></i></span>
+                                        <p class="font-heading text-[1.875rem] italic font-bold leading-[1] text-white">Framo Run Club</p>
+                                        <p class="mt-2 mb-3 text-[0.9375rem] font-semibold text-(--custom-light)">Saturdays, 8 AM · Mission Bay</p>
+                                        <p class="custom-club-text mb-6 text-[0.9375rem] leading-[1.5]">3K, 5K and 10K loops, every pace welcome. Free, with coffee after.</p>
+                                        <div class="mt-auto flex flex-wrap items-center gap-x-5 gap-y-3">
+                                            <a href="demo-activewear-store-1-run-club.html" class="btn btn-primary">Join Run Club</a>
+                                            <a href="demo-activewear-store-1-about.html" class="custom-club-link text-[0.9375rem] font-semibold">About Us</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="demo-activewear-store-1-shop.html?sort=bestsellers" class="nav-link">Bestsellers</a>
+                        </li>
+                        <li>
+                            <a href="demo-activewear-store-1-run-club.html" class="nav-link">Run Club</a>
+                        </li>
+                        <li>
+                            <a href="demo-activewear-store-1-blog.html" class="nav-link">Blog</a>
+                        </li>
+
+                    </ul>
+
+                    <!-- Right-side actions -->
+                    <div class="nav-actions">
+
+                        <!-- Meta group - display:contents by default; header-stacked turns it into its own row. -->
+                        <div class="nav-meta">
+
+                            <button class="nav-search-toggle" data-panel-toggle="search" aria-expanded="false" aria-controls="header-search" aria-label="Open search">
+                                <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+                            </button>
+
+                        </div><!-- /.nav-meta -->
+
+                        <!--html: the Women | Men switch for tablets (the bar's own sits in the menu, which folds below 1200px), account, wishlist and the cart (opens the mini cart; the count comes from Alpine.store('cart')). Edit: the links, the wishlist count -->
+                        <div class="shop-actions gap-0" x-data>
+                            <div class="tabs tabs-capsule custom-seg custom-seg--bar w-auto me-3">
+                                <div class="tabs-nav" role="group" aria-label="Shop for">
+                                    <button type="button" class="tab-btn is-active" data-aw-show="women" aria-pressed="true">Women</button>
+                                    <button type="button" class="tab-btn" data-aw-show="men" aria-pressed="false">Men</button>
+                                </div>
+                            </div>
+                            <a href="demo-activewear-store-1-account.html" class="shop-action shop-action--account text-[1.5rem] max-sm:hidden" aria-label="My account"><i class="ph ph-user" aria-hidden="true"></i></a>
+                            <a href="demo-activewear-store-1-account.html#wishlist" class="shop-action shop-action--wishlist text-[1.5rem] max-sm:hidden" aria-label="Wishlist, 4 items"><i class="ph ph-heart" aria-hidden="true"></i><span class="shop-action-count">4</span></a>
+                            <button type="button" class="shop-action shop-action--cart text-[1.5rem]" data-panel-toggle="cart" aria-expanded="false" aria-controls="mini-cart" :aria-label="'Open cart, ' + $store.cart.count + ' items'" aria-label="Open cart, 3 items">
+                                <i class="ph ph-handbag" aria-hidden="true"></i>
+                                <span class="shop-action-count" x-text="$store.cart.count" x-show="$store.cart.count">3</span>
+                            </button>
+                        </div>
+
+                        <!-- Menu toggle - mobile hamburger below 1024px; also the close button on header-overlay-menu / header-side-drawer -->
+                        <button class="hamburger" data-toggle aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation menu">
+                            <i class="ph ph-list text-xl nav-toggle-open" aria-hidden="true"></i>
+                            <i class="ph ph-x text-xl nav-toggle-close" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Navigation panel - links are auto-generated by initMobileSync() in main.js -->
+                <!-- data-lenis-prevent: opts this scroll container out of Lenis smooth scrolling -->
+                <div id="mobile-nav" class="mobile-nav" data-mobile-nav data-lenis-prevent role="dialog" aria-modal="true" aria-label="Site navigation">
+
+                    <!-- Menu column - the scroll container -->
+                    <div class="nav-panel-menu">
+
+                        <!-- JS target: desktop nav items are injected here -->
+                        <div data-mobile-links></div>
+
+                        <!-- Mobile-only items: add or remove <a> elements here freely -->
+                        <!-- <a href="#" class="mobile-link" data-mobile-only>Exclusive Item</a> -->
+
+                        <!-- Edit: the buttons, the line -->
+                        <div class="nav-panel-cta grid gap-3 mt-6">
+                            <div class="tabs tabs-capsule custom-seg w-auto [justify-self:center]">
+                                <div class="tabs-nav" role="group" aria-label="Shop for">
+                                    <button type="button" class="tab-btn is-active py-2 px-6 text-[1.125rem]" data-aw-show="women" aria-pressed="true">Women</button>
+                                    <button type="button" class="tab-btn py-2 px-6 text-[1.125rem]" data-aw-show="men" aria-pressed="false">Men</button>
+                                </div>
+                            </div>
+                            <a href="demo-activewear-store-1-shop.html?sort=new" class="btn btn-primary btn-lg justify-center">Shop New</a>
+                            <a href="demo-activewear-store-1-run-club.html" class="btn btn-outline btn-lg justify-center"><i class="ph ph-person-simple-run" aria-hidden="true"></i>Join Run Club</a>
+                            <nav class="custom-panel-links grid grid-cols-4 gap-2" aria-label="Your account and the store">
+                                <a href="demo-activewear-store-1-account.html"><i class="ph ph-user text-[1.375rem]" aria-hidden="true"></i>Account</a>
+                                <a href="demo-activewear-store-1-account.html#wishlist"><i class="ph ph-heart text-[1.375rem]" aria-hidden="true"></i>Wishlist</a>
+                                <a href="demo-activewear-store-1-account.html#orders"><i class="ph ph-package text-[1.375rem]" aria-hidden="true"></i>Orders</a>
+                                <a href="demo-activewear-store-1-about.html"><i class="ph ph-storefront text-[1.375rem]" aria-hidden="true"></i>About Us</a>
+                            </nav>
+                            <p class="m-0 text-center text-base text-soft">Free shipping over $60 · 30-day returns</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </nav>
+
+            <!-- Edit: the placeholder, the chips, the products -->
+            <div id="header-search" class="site-search" data-panel="search" role="dialog" aria-modal="false" aria-label="Search">
+                <div class="site-search-inner" data-lenis-prevent>
+                    <div class="site-search-body container">
+
+                        <button class="site-panel-close" data-panel-close aria-label="Close search">
+                            <i class="ph ph-x" aria-hidden="true"></i>
+                        </button>
+
+                        <h2 class="site-search-title">What are you training for?</h2>
+
+                        <form class="site-search-form" role="search" method="get" action="demo-activewear-store-1-shop.html">
+                            <input type="hidden" name="post_type" value="product">
+                            <label class="sr-only" for="site-search-input">Search activewear</label>
+                            <input id="site-search-input" type="search" name="s" class="form-input form-input-underline site-search-input" placeholder="Search leggings, sports bras, shorts…" autocomplete="off" />
+                            <button type="submit" class="site-search-submit" aria-label="Search">
+                                <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+                            </button>
+                        </form>
+
+                        <div class="site-search-suggest">
+                            <span class="site-search-suggest-label">Popular</span>
+                            <a href="demo-activewear-store-1-product.html" class="site-search-tag">Sculpt Leggings</a>
+                            <a href="demo-activewear-store-1-shop.html?cat=shorts" class="site-search-tag">Run Shorts</a>
+                            <a href="demo-activewear-store-1-shop.html?cat=bras&amp;support=high" class="site-search-tag">High Support Bras</a>
+                            <a href="demo-activewear-store-1-activities.html#yoga" class="site-search-tag">Yoga</a>
+                            <a href="demo-activewear-store-1-size-guide.html" class="site-search-tag">Size Guide</a>
+                        </div>
+
+                        <div class="max-w-200 mt-9 mr-auto ml-auto pt-7 border-t border-t-(--color-border-soft)">
+                            <p class="mb-4 font-heading text-[1.25rem] italic font-bold">Trending now</p>
+                            <div class="grid grid-cols-[repeat(auto-fit,minmax(14.5rem,1fr))] gap-3">
+                                <a href="demo-activewear-store-1-product.html" class="custom-trend"><span class="custom-trend-img"><img class="size-full object-cover" src="../assets/media/placeholder/1000x1000.svg" alt="" width="1000" height="1000" loading="lazy" decoding="async"></span><span class="custom-trend-info grid min-w-0"><b class="overflow-hidden text-[0.9375rem] font-semibold whitespace-nowrap">Sculpt Leggings</b><small class="text-[0.875rem] text-muted">Framo Active</small></span><span class="custom-trend-price">$88</span></a>
+                                <a href="demo-activewear-store-1-product.html" class="custom-trend"><span class="custom-trend-img"><img class="size-full object-cover" src="../assets/media/placeholder/1000x1000.svg" alt="" width="1000" height="1000" loading="lazy" decoding="async"></span><span class="custom-trend-info grid min-w-0"><b class="overflow-hidden text-[0.9375rem] font-semibold whitespace-nowrap">Pace Run Shorts</b><small class="text-[0.875rem] text-muted">Tidal</small></span><span class="custom-trend-price">$54</span></a>
+                                <a href="demo-activewear-store-1-product.html" class="custom-trend"><span class="custom-trend-img"><img class="size-full object-cover" src="../assets/media/placeholder/1000x1000.svg" alt="" width="1000" height="1000" loading="lazy" decoding="async"></span><span class="custom-trend-info grid min-w-0"><b class="overflow-hidden text-[0.9375rem] font-semibold whitespace-nowrap">Lift Bra</b><small class="text-[0.875rem] text-muted">Kinetic</small></span><span class="custom-trend-price">$58</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--html. Lines, totals and the meter run on cartPage() in main.js; a card added on the page bumps $store.cart.extra / extraTotal on top of the lines (demo JS). "miniCartEmpty": "yes" on the header include drops the lines (the Cart page shows the empty state). Edit: the lines (name, meta, price, image), the threshold, the links -->
+            <div id="mini-cart" class="mini-cart" data-panel="cart" data-panel-modal role="dialog" aria-modal="true" aria-labelledby="mini-cart-title">
+                <div class="mini-cart-panel" x-data="cartPage({ threshold: 60 })" x-effect="$store.cart.count = itemCount + ($store.cart.extra ?? 0)" @change="sync($event)" data-lenis-prevent>
+
+                    <div class="mini-cart-head">
+                        <h2 id="mini-cart-title" class="mini-cart-title">Your cart <span class="mini-cart-count not-italic" x-text="itemCount + (itemCount === 1 ? ' item' : ' items')">3 items</span></h2>
+                        <button type="button" class="modal-close" data-panel-close aria-label="Close cart"><i class="ph ph-x" aria-hidden="true"></i></button>
+                    </div>
+
+                    <div class="mini-cart-body" x-show="!empty">
+                        <div class="shipping-meter is-complete" :class="{ 'is-complete': freeShipping }" :style="'--p:' + progress + '%'" style="--p: 100%">
+                            <p class="flex items-center gap-3">
+                                <i class="ph text-xl" :class="freeShipping ? 'ph-seal-check text-[var(--color-success)]' : 'ph-truck color-primary'" aria-hidden="true"></i>
+                                <span x-show="!freeShipping" x-cloak>Add <strong x-text="money(remaining)">$0.00</strong> more for <strong>free shipping</strong></span>
+                                <span x-show="freeShipping"><strong>Free shipping</strong> is on us</span>
+                            </p>
+                            <div class="shipping-meter-track">
+                                <div class="shipping-meter-fill"></div>
+                            </div>
+                        </div>
+
+                        <ul class="mini-cart-list">
+                        </ul>
+
+                        <p class="mini-cart-undo" x-show="undoLine" x-cloak><span x-text="(undoLine?.name ?? '') + ' removed.'"></span> <button type="button" @click="undo()">Undo</button></p>
+                    </div>
+
+                    <div class="mini-cart-empty" x-show="empty" x-cloak>
+                        <span class="mx-auto grid size-16 place-items-center rounded-full bg-soft text-3xl"><i class="ph ph-handbag" aria-hidden="true"></i></span>
+                        <p class="mt-5 text-lg font-semibold">Your cart is empty</p>
+                        <p class="mt-1 text-soft">Nothing in the bag yet — start with the bestsellers.</p>
+                        <a href="demo-activewear-store-1-shop.html" class="btn btn-dark btn-pill mt-6">Shop Bestsellers</a>
+                    </div>
+
+                    <div class="mini-cart-foot" x-show="!empty">
+                        <p class="mini-cart-subtotal"><span>Subtotal</span> <strong class="tabular-nums" x-text="money(subtotal + ($store.cart.extraTotal ?? 0))">$200.00</strong></p>
+                        <p class="mini-cart-note"><i class="ph ph-lock-simple" aria-hidden="true"></i> 30-day sweat-test returns</p>
+                        <div class="mini-cart-buttons">
+                            <a href="demo-activewear-store-1-cart.html" class="btn btn-outline-dark btn-pill">View Cart</a>
+                            <a href="demo-activewear-store-1-checkout.html" class="btn btn-dark btn-pill">Checkout <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+
+        <main id="main">
+            <!-- ORDER COMPLETE - the template thank-you page: the steps, the check, the overview strip (number with copy, date, total, payment, email), the lines and totals, the addresses, what happens next (template status timeline), the Run Club code card, then the add-ons. Edit: the customer, the order, the dates, the code -->
+            <section class="custom-ph pb-10 text-center" aria-labelledby="aw1-page-title">
+                <div class="container">
+                    <nav class="shop-steps" aria-label="Checkout progress">
+                        <ol class="stepper">
+                            <li class="stepper-item is-complete">
+                                <a href="demo-activewear-store-1-cart.html" class="stepper-link">
+                                    <span class="stepper-marker"><i class="ph-bold ph-check" aria-hidden="true"></i><span class="sr-only">Done:</span></span>
+                                    <span class="stepper-label">Shopping cart</span>
+                                </a>
+                            </li>
+                            <li class="stepper-item is-complete">
+                                <a href="demo-activewear-store-1-checkout.html" class="stepper-link">
+                                    <span class="stepper-marker"><i class="ph-bold ph-check" aria-hidden="true"></i><span class="sr-only">Done:</span></span>
+                                    <span class="stepper-label">Checkout</span>
+                                </a>
+                            </li>
+                            <li class="stepper-item active">
+                                <a href="demo-activewear-store-1-order-complete.html" class="stepper-link" aria-current="step">
+                                    <span class="stepper-marker">3</span>
+                                    <span class="stepper-label">Order complete</span>
+                                </a>
+                            </li>
+                        </ol>
+                    </nav>
+                    <div class="success-check mt-12" role="img" aria-label="Order confirmed">
+                        <svg viewBox="0 0 88 88" aria-hidden="true">
+                            <circle cx="44" cy="44" r="41" pathLength="1" />
+                            <path d="M28 45.5 39.5 57 61 33" pathLength="1" />
+                        </svg>
+                    </div>
+                    <h1 id="aw1-page-title" class="custom-ph-title mt-8">Thank you, Ellie</h1>
+                    <p class="custom-ph-lead mx-auto">Your order is in and already on the packing table at Harbor Lane. A receipt is on its way to <strong class="font-semibold text-[var(--color-text)]">ellie@example.com</strong>.</p>
+                    <div class="mt-8 flex flex-wrap justify-center gap-3">
+                        <a href="demo-activewear-store-1-account.html#orders" class="btn btn-dark"><i class="ph ph-package" aria-hidden="true"></i>Track Your Order</a>
+                        <a href="demo-activewear-store-1-shop.html" class="btn btn-outline">Keep Shopping</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section pt-0" aria-label="Your order">
+                <div class="container">
+                    <ul class="order-overview woocommerce-order-overview" data-anim="fade-up">
+                        <li class="order">
+                            <span class="order-overview-label">Order number</span>
+                            <strong class="flex items-center gap-2" x-data="{ copied: false }">#NA-48217
+                                <button type="button" class="grid size-7 place-items-center rounded-full text-muted transition-colors hover:bg-soft hover:text-[var(--color-text)]" @click="navigator.clipboard?.writeText('NA-48217'); copied = true; setTimeout(() => copied = false, 1600)" :aria-label="copied ? 'Copied' : 'Copy order number'" aria-label="Copy order number">
+                                    <i class="ph" :class="copied ? 'ph-check text-[var(--color-success)]' : 'ph-copy'" aria-hidden="true"></i>
+                                </button>
+                            </strong>
+                        </li>
+                        <li class="date"><span class="order-overview-label">Date</span><strong>October 14, 2027</strong></li>
+                        <li class="total"><span class="order-overview-label">Total</span><strong>$180.00</strong></li>
+                        <li class="method"><span class="order-overview-label">Payment</span><strong>Visa ending 4242</strong></li>
+                        <li class="email"><span class="order-overview-label">Email</span><strong>ellie@example.com</strong></li>
+                    </ul>
+
+                    <div class="mt-6 grid gap-6 lg:grid-cols-12">
+                        <div class="custom-panel min-w-0 lg:col-span-7">
+                            <section class="woocommerce-order-details" aria-labelledby="order-details-title">
+                                <h2 id="order-details-title" class="custom-h3">Order details</h2>
+                                <ul class="order-lines mt-6" data-anim-stagger="80">
+                                    <li class="order-line" data-anim="fade-up">
+                                        <a href="demo-activewear-store-1-product.html" class="order-line-thumb"><img src="../assets/media/placeholder/1000x1000.svg" alt="Graphite high-rise 7/8 leggings" width="1000" height="1000" loading="lazy"><span class="order-line-qty">1</span></a>
+                                        <div><a href="demo-activewear-store-1-product.html" class="order-line-name">Sculpt Leggings</a>
+                                            <p class="shop-meta">Graphite · S · Regular</p>
+                                        </div>
+                                        <span class="order-line-price">$88.00</span>
+                                    </li>
+                                    <li class="order-line" data-anim="fade-up">
+                                        <a href="demo-activewear-store-1-product.html" class="order-line-thumb"><img src="../assets/media/placeholder/1000x1000.svg" alt="Slate blue lined running shorts" width="1000" height="1000" loading="lazy"><span class="order-line-qty">1</span></a>
+                                        <div><a href="demo-activewear-store-1-product.html" class="order-line-name">Pace Run Shorts</a>
+                                            <p class="shop-meta">Slate · 3-inch · M</p>
+                                        </div>
+                                        <span class="order-line-price">$54.00</span>
+                                    </li>
+                                    <li class="order-line" data-anim="fade-up">
+                                        <a href="demo-activewear-store-1-product.html" class="order-line-thumb"><img src="../assets/media/placeholder/1000x1000.svg" alt="Coral racerback medium-support sports bra" width="1000" height="1000" loading="lazy"><span class="order-line-qty">1</span></a>
+                                        <div><a href="demo-activewear-store-1-product.html" class="order-line-name">Lift Bra</a>
+                                            <p class="shop-meta">Coral · Medium Support · S</p>
+                                        </div>
+                                        <span class="order-line-price">$58.00</span>
+                                    </li>
+                                </ul>
+                                <div class="mt-2">
+                                    <div class="totals-row"><span>Subtotal</span><span class="font-semibold">$200.00</span></div>
+                                    <div class="totals-row"><span class="flex items-center gap-2">Discount <span class="badge badge-xs bg-[var(--color-success-bg)] text-[var(--color-success)]">WELCOME10</span></span><span class="font-semibold text-[var(--color-success)]">−$20.00</span></div>
+                                    <div class="totals-row"><span>Shipping</span><span class="font-semibold">Free <span class="shop-meta inline font-normal">via Standard</span></span></div>
+                                    <div class="totals-row totals-row--total"><span>Total</span><span>$180.00</span></div>
+                                </div>
+                            </section>
+
+                            <section class="woocommerce-customer-details mt-10 grid gap-4 sm:grid-cols-2" aria-label="Addresses">
+                                <div class="shop-panel">
+                                    <h3 class="flex items-center gap-2 text-lg"><i class="ph ph-receipt text-xl color-primary" aria-hidden="true"></i>Billing address</h3>
+                                    <address class="mt-4 not-italic text-soft">Ellie Cartwright<br>412 Garnet Avenue, Apt 3<br>San Diego, CA 92109<br>United States</address>
+                                </div>
+                                <div class="shop-panel">
+                                    <h3 class="flex items-center gap-2 text-lg"><i class="ph ph-map-pin text-xl color-primary" aria-hidden="true"></i>Shipping address</h3>
+                                    <address class="mt-4 not-italic text-soft">Ellie Cartwright<br>412 Garnet Avenue, Apt 3<br>San Diego, CA 92109<br>(619) 555-0172</address>
+                                </div>
+                            </section>
+                        </div>
+
+                        <aside class="grid content-start gap-6 lg:col-span-5" aria-label="What happens next">
+                            <div class="custom-panel">
+                                <div class="flex items-center justify-between gap-4">
+                                    <h2 class="custom-h3">What happens next</h2>
+                                    <span class="badge badge-sm badge-fade-primary">Est. Tue, Oct 19</span>
+                                </div>
+                                <ol class="timeline timeline--sm timeline--status mt-6">
+                                    <li class="timeline-item is-done">
+                                        <div class="timeline-item-marker"><span class="timeline-item-dot"></span><span class="timeline-item-line"></span></div>
+                                        <div class="timeline-item-content"><span class="timeline-item-date">Today, 10:24 AM</span>
+                                            <p class="timeline-item-title">Order confirmed</p>
+                                            <p class="timeline-item-text">Payment received; your receipt is in your inbox.</p>
+                                        </div>
+                                    </li>
+                                    <li class="timeline-item is-current">
+                                        <div class="timeline-item-marker"><span class="timeline-item-dot"></span><span class="timeline-item-line"></span></div>
+                                        <div class="timeline-item-content"><span class="timeline-item-date">Today, by 2 PM</span>
+                                            <p class="timeline-item-title">Packed at Harbor Lane</p>
+                                            <p class="timeline-item-text">Every pair squat-checked, folded into a recycled mailer.</p>
+                                        </div>
+                                    </li>
+                                    <li class="timeline-item">
+                                        <div class="timeline-item-marker"><span class="timeline-item-dot"></span><span class="timeline-item-line"></span></div>
+                                        <div class="timeline-item-content"><span class="timeline-item-date">Fri, Oct 15</span>
+                                            <p class="timeline-item-title">On its way</p>
+                                            <p class="timeline-item-text">A tracking link lands the moment it leaves.</p>
+                                        </div>
+                                    </li>
+                                    <li class="timeline-item">
+                                        <div class="timeline-item-marker"><span class="timeline-item-dot"></span><span class="timeline-item-line"></span></div>
+                                        <div class="timeline-item-content"><span class="timeline-item-date">Tue, Oct 19</span>
+                                            <p class="timeline-item-title">Delivered</p>
+                                            <p class="timeline-item-text">Then the 30-day sweat test starts.</p>
+                                        </div>
+                                    </li>
+                                </ol>
+                                <div class="mt-6 flex flex-wrap gap-2.5 border-t border-default pt-5">
+                                    <a href="#" class="btn btn-outline btn-sm"><i class="ph ph-file-arrow-down" aria-hidden="true"></i>Invoice (PDF)</a>
+                                    <a href="demo-activewear-store-1-account.html#orders" class="btn btn-outline btn-sm"><i class="ph ph-user" aria-hidden="true"></i>View in My Account</a>
+                                </div>
+                            </div>
+
+                            <div class="custom-panel custom-panel--dark text-(--color-on-dark) bg-(--color-dark)" x-data="{ copied: false }">
+                                <p class="custom-label text-(--custom-light)">Framo Run Club</p>
+                                <p class="custom-h3 text-white">Join us Saturday: 15% off your next order</p>
+                                <p class="mt-2 mb-0 text-[oklch(1_0_0/0.78)]">Free 3K, 5K and 10K runs from Harbor Lane at 8 AM. Members save with this code all year.</p>
+                                <div class="mt-5 flex items-center justify-between gap-3 rounded-pill border border-dashed border-white/30 py-1.5 pr-1.5 pl-5">
+                                    <span class="font-semibold tracking-[0.12em]">RUNCLUB15</span>
+                                    <button type="button" class="btn btn-white btn-sm" @click="navigator.clipboard?.writeText('RUNCLUB15'); copied = true; setTimeout(() => copied = false, 1600)">
+                                        <i class="ph" :class="copied ? 'ph-check' : 'ph-copy'" aria-hidden="true"></i><span x-text="copied ? 'Copied' : 'Copy Code'">Copy Code</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <p class="shop-meta flex items-start gap-2.5 px-1"><i class="ph ph-chat-circle-dots mt-0.5 text-lg" aria-hidden="true"></i><span>Need to change a size? Reply to your receipt or call <a href="tel:+16195550148" class="font-medium text-[var(--color-text)] hover:color-primary">(619) 555-0148</a> before 2 PM.</span></p>
+                        </aside>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Edit: ADD-ONS - small things that finish an order (Cart, Order Complete): the head and four Soft Tile cards; per card the include's title, line, photo, price -->
+            <section class="section pt-0" aria-labelledby="aw1-addons-title">
+                <div class="container">
+                    <div class="custom-panel">
+                        <div class="custom-head">
+                            <div>
+                                <p class="custom-label">Picked to Go With It</p>
+                                <h2 id="aw1-addons-title" class="custom-h2">Finish the kit</h2>
+                            </div>
+                            <a href="demo-activewear-store-1-shop.html?cat=accessories" class="custom-more">All Accessories<i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                        </div>
+                        <ul class="products custom-grid" style="--cols: 4">
+                            <li class="product-card product-card--tile custom-card" data-product data-product_id="aw1-701" data-cat="accessories" data-price="32" data-colours="silver" data-sizes="one" data-brand="framo-active" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-06-01" data-pop="70" data-anim="fade-up" data-anim-delay="0">
+                                <div class="product-card-media">
+                                    <a href="demo-activewear-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                        <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Brushed steel insulated water bottle with a grey loop cap" width="600" height="600" loading="lazy" decoding="async">
+                                        <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                    </a>
+                                    <div class="product-card-actions">
+
+                                        <button type="button" name="add-to-cart" value="aw1-701" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Daybreak Bottle to cart">
+                                            <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                        </button>
+
+                                        <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Daybreak Bottle to wishlist">
+                                            <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Daybreak Bottle">
+                                            <i class="ph ph-eye" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="product-card-body">
+
+                                    <div class="product-card-meta">
+                                        <span class="product-card-cat">Framo Active · 24 oz</span>
+                                    </div>
+
+                                    <h3 class="product-card-title"><a href="demo-activewear-store-1-product.html">Daybreak Bottle</a></h3>
+                                    <p class="product-card-excerpt"></p>
+                                    <p class="product-price">
+
+                                        <span>$32</span>
+
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="product-card product-card--tile custom-card" data-product data-product_id="aw1-702" data-cat="accessories" data-price="24" data-colours="white" data-sizes="one" data-brand="kinetic" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-06-01" data-pop="70" data-anim="fade-up" data-anim-delay="80">
+                                <div class="product-card-media">
+                                    <a href="demo-activewear-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                        <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="White cushioned crew athletic socks" width="600" height="600" loading="lazy" decoding="async">
+                                        <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                    </a>
+                                    <div class="product-card-actions">
+
+                                        <button type="button" name="add-to-cart" value="aw1-702" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Cushion Crew Socks to cart">
+                                            <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                        </button>
+
+                                        <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Cushion Crew Socks to wishlist">
+                                            <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Cushion Crew Socks">
+                                            <i class="ph ph-eye" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="product-card-body">
+
+                                    <div class="product-card-meta">
+                                        <span class="product-card-cat">Kinetic · 3 pairs</span>
+                                    </div>
+
+                                    <h3 class="product-card-title"><a href="demo-activewear-store-1-product.html">Cushion Crew Socks</a></h3>
+                                    <p class="product-card-excerpt"></p>
+                                    <p class="product-price">
+
+                                        <span>$24</span>
+
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="product-card product-card--tile custom-card" data-product data-product_id="aw1-703" data-cat="accessories" data-price="32" data-colours="black" data-sizes="one" data-brand="tidal" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-06-01" data-pop="70" data-anim="fade-up" data-anim-delay="160">
+                                <div class="product-card-media">
+                                    <a href="demo-activewear-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                        <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Black lightweight running cap with a curved brim" width="600" height="600" loading="lazy" decoding="async">
+                                        <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                    </a>
+                                    <div class="product-card-actions">
+
+                                        <button type="button" name="add-to-cart" value="aw1-703" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Draft Run Cap to cart">
+                                            <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                        </button>
+
+                                        <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Draft Run Cap to wishlist">
+                                            <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Draft Run Cap">
+                                            <i class="ph ph-eye" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="product-card-body">
+
+                                    <div class="product-card-meta">
+                                        <span class="product-card-cat">Tidal · Featherweight</span>
+                                    </div>
+
+                                    <h3 class="product-card-title"><a href="demo-activewear-store-1-product.html">Draft Run Cap</a></h3>
+                                    <p class="product-card-excerpt"></p>
+                                    <p class="product-price">
+
+                                        <span>$32</span>
+
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="product-card product-card--tile custom-card" data-product data-product_id="aw1-704" data-cat="accessories" data-price="42" data-colours="graphite" data-sizes="one" data-brand="kinetic" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-06-01" data-pop="70" data-anim="fade-up" data-anim-delay="240">
+                                <div class="product-card-media">
+                                    <a href="demo-activewear-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                        <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Graphite textured foam roller" width="600" height="600" loading="lazy" decoding="async">
+                                        <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                    </a>
+                                    <div class="product-card-actions">
+
+                                        <button type="button" name="add-to-cart" value="aw1-704" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Reset Foam Roller to cart">
+                                            <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                        </button>
+
+                                        <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Reset Foam Roller to wishlist">
+                                            <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Reset Foam Roller">
+                                            <i class="ph ph-eye" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="product-card-body">
+
+                                    <div class="product-card-meta">
+                                        <span class="product-card-cat">Kinetic · 33 cm</span>
+                                    </div>
+
+                                    <h3 class="product-card-title"><a href="demo-activewear-store-1-product.html">Reset Foam Roller</a></h3>
+                                    <p class="product-card-excerpt"></p>
+                                    <p class="product-price">
+
+                                        <span>$42</span>
+
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Quick view - one dialog per page, filled by initQuickView() from the card that opened it -->
+        <dialog id="quick-view" class="modal modal--xl" data-anim="zoom" aria-labelledby="qv-title">
+            <div class="modal-dialog">
+                <div class="modal-content relative">
+                    <button class="modal-close absolute top-4 right-4 z-10" data-modal-close aria-label="Close"><i class="ph ph-x" aria-hidden="true"></i></button>
+                    <div class="grid md:grid-cols-2 overflow-y-auto" data-lenis-prevent>
+                        <div class="bg-muted aspect-[4/5] md:aspect-auto md:min-h-[34rem]">
+                            <img data-qv-img src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="" class="size-full object-cover" width="900" height="1100">
+                        </div>
+                        <div class="flex flex-col p-7 md:p-10">
+                            <span class="product-card-cat" data-qv-cat></span>
+                            <h2 id="qv-title" class="mt-3 text-2xl font-semibold tracking-[-0.025em] leading-tight" data-qv-title></h2>
+                            <div class="mt-3" data-qv-rating></div>
+                            <p class="product-price text-xl mt-5" data-qv-price></p>
+                            <p class="mt-4 text-soft leading-relaxed" data-qv-excerpt></p>
+                            <div class="mt-5 flex items-center gap-3 text-sm text-soft">Colours <span data-qv-colours></span></div>
+                            <form class="mt-8 flex flex-wrap items-center gap-3" x-data @submit.prevent>
+                                <div class="qty">
+                                    <button type="button" class="qty-btn" data-step="-1" aria-label="Decrease quantity"><i class="ph ph-minus" aria-hidden="true"></i></button>
+                                    <input type="number" class="qty-input" name="quantity" value="1" min="1" max="10" aria-label="Quantity">
+                                    <button type="button" class="qty-btn" data-step="1" aria-label="Increase quantity"><i class="ph ph-plus" aria-hidden="true"></i></button>
+                                </div>
+                                <button type="submit" class="btn btn-dark btn-pill btn-lg btn-atc flex-1 min-w-[12rem]" x-data="addToCart" @click="add()" :data-state="state">
+                                    <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i>Add to cart</span>
+                                    <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                    <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i>Added to cart</span>
+                                </button>
+                            </form>
+                            <a href="#" class="btn-link-arrow mt-auto pt-8 self-start font-semibold text-primary-ink" data-qv-link>View full details <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </dialog>
+
+        <!-- Activewear Store footer - Run Club + App: the newsletter (formValidate), the Run Club card (photo, day, routes) and the app card (neutral store chips), four link columns that fold on phones, then © / legal, socials and payment marks. Edit: the copy, the card links, the columns, the legal links, the socials -->
+        <footer class="site-footer site-footer--dark custom-footer pt-[clamp(3rem,5vw,4.5rem)]">
+            <div class="container">
+                <div class="grid grid-cols-[minmax(0,1.25fr)_repeat(2,minmax(0,1fr))] gap-(--custom-gap) pb-[clamp(2.5rem,4vw,3.5rem)] max-lg:grid-cols-2 max-md:grid-cols-1">
+                    <div class="py-2 pr-[clamp(0rem,3vw,3rem)] pl-0 max-lg:pt-0 max-lg:pb-4 max-lg:px-0 max-lg:col-span-full" data-anim="fade-up">
+                        <a href="demo-activewear-store-1.html" class="custom-footer-brand inline-flex text-white" aria-label="Framo Active, home"><!-- Activewear Store wordmark - set in type: a stride mark (two slanted bars in the primary) and FRAMO ACTIVE in condensed italic (header brand: "demo" slot). Edit: the two words -->
+                            <span class="custom-brand max-sm:text-[1.375rem]"><svg class="custom-brand-mark w-[1.25em] h-auto me-[0.12em]" viewBox="0 0 30 22" aria-hidden="true" focusable="false">
+                                    <path d="M9.5 0H17L7.5 22H0z" />
+                                    <path d="M22.5 0H30l-9.5 22H13z" />
+                                </svg><span>Framo</span> <b class="font-medium">Active</b></span></a>
+                        <h2 class="mt-8 text-[clamp(2rem,1.5rem_+_1.2vw,2.625rem)] leading-[1] text-white">Get the drop first</h2>
+                        <p class="max-w-120 mt-3 text-(--footer-body)">New styles, restocks and the next Run Club routes, every other Thursday. 10% off your first order.</p>
+                        <form class="mt-6 max-w-[30rem]" x-data="formValidate()" novalidate @submit.prevent="onSubmit($event)">
+                            <div class="footer-subscribe footer-subscribe--boxed footer-subscribe--label">
+                                <input id="aw1-news" name="email" type="email" placeholder="Your email address" aria-label="Email address" aria-describedby="aw1-news-msg" autocomplete="email" required @blur="check($event.target)" @input="check($event.target)">
+                                <button type="submit">Sign Up<i class="ph ph-arrow-right" aria-hidden="true"></i></button>
+                            </div>
+                            <span class="footer-subscribe-msg" id="aw1-news-msg">
+                                <span x-show="!errors.email &amp;&amp; !sent">No spam. Unsubscribe in one click.</span>
+                                <span class="footer-subscribe-msg--error" x-show="errors.email" x-text="errors.email" x-cloak></span>
+                                <span class="footer-subscribe-msg--ok" x-show="sent" x-cloak>You&rsquo;re in. Your 10% code is on its way.</span>
+                            </span>
+                        </form>
+                    </div>
+
+                    <a href="demo-activewear-store-1-run-club.html" class="custom-footer-card custom-footer-card--club relative flex flex-col p-7 overflow-hidden isolate rounded-(--custom-radius)" data-anim="fade-up" data-anim-delay="80">
+                        <img class="w-[calc(100%_+_3.5rem)] max-w-none h-38 -mt-7 mb-6 -mx-7 object-cover object-[50%_30%]" src="../assets/media/placeholder/2560x1097.svg" alt="" width="2560" height="1097" loading="lazy" decoding="async">
+                        <span class="grid gap-1.5">
+                            <span class="text-[0.875rem] font-semibold text-(--custom-light)">Framo Run Club</span>
+                            <span class="custom-footer-card-title mt-0.5 font-heading text-[1.75rem] font-bold leading-[1.05] text-white">Saturdays, 8&nbsp;AM</span>
+                            <span class="mt-1.5 text-[0.9375rem] leading-[1.5]">3K, 5K and 10K from the Harbor Lane store, every pace, coffee after.</span>
+                            <span class="custom-footer-card-go inline-flex items-center gap-2 mt-3 font-semibold text-white">Join Free<i class="ph ph-arrow-right" aria-hidden="true"></i></span>
+                        </span>
+                    </a>
+
+                    <div class="custom-footer-card relative flex flex-col p-7 overflow-hidden isolate no-underline rounded-(--custom-radius)" data-anim="fade-up" data-anim-delay="160">
+                        <span class="custom-footer-card-icon grid place-items-center size-12 mb-5 text-[1.5rem] text-on-primary bg-primary"><i class="ph ph-device-mobile" aria-hidden="true"></i></span>
+                        <span class="text-[0.875rem] font-semibold text-(--custom-light)">The Framo Active App</span>
+                        <h2 class="custom-footer-card-title mt-0.5 text-[1.75rem] font-bold leading-[1.05] text-white">Early drops, one tap away</h2>
+                        <p class="mt-1.5 text-[0.9375rem] leading-[1.5]">Track orders, shop members-only drops a day early and check in at Run Club.</p>
+                        <div class="flex flex-wrap gap-2.5 mt-auto pt-6">
+                            <a href="#" class="custom-footer-store"><i class="ph-fill ph-apple-logo text-[1.375rem]" aria-hidden="true"></i><span class="grid"><small class="text-[0.75rem] font-medium opacity-70">Download on the</small>App Store</span></a>
+                            <a href="#" class="custom-footer-store"><i class="ph-fill ph-google-play-logo text-[1.375rem]" aria-hidden="true"></i><span class="grid"><small class="text-[0.75rem] font-medium opacity-70">Get it on</small>Google Play</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="custom-footer-cols grid grid-cols-4 gap-y-10 gap-x-(--custom-gap) py-[clamp(2.5rem,4vw,3.5rem)] border-t border-t-(--footer-rule) max-lg:grid-cols-2 max-md:grid-cols-1 max-md:gap-0 max-md:border-t-0">
+                    <nav class="footer-acc" x-data="{ open: false }" :class="open ? 'is-open' : 'is-shut'" aria-labelledby="aw1-col-shop">
+                        <button type="button" class="footer-acc-toggle font-heading text-[1.25rem] italic" id="aw1-col-shop" @click="open = !open" :aria-expanded="open">Shop <i class="ph ph-plus footer-acc-caret" aria-hidden="true"></i></button>
+                        <div class="footer-acc-body">
+                            <ul class="footer-links">
+                                <li><a href="demo-activewear-store-1-shop.html?for=women">Women</a></li>
+                                <li><a href="demo-activewear-store-1-shop.html?for=men">Men</a></li>
+                                <li><a href="demo-activewear-store-1-shop.html?sort=new">New In</a></li>
+                                <li><a href="demo-activewear-store-1-shop.html?sort=popular">Bestsellers</a></li>
+                                <li><a href="demo-activewear-store-1-shop.html?cat=leggings">Leggings</a></li>
+                                <li><a href="demo-activewear-store-1-shop.html?cat=bras">Sports Bras</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                    <nav class="footer-acc" x-data="{ open: false }" :class="open ? 'is-open' : 'is-shut'" aria-labelledby="aw1-col-acts">
+                        <button type="button" class="footer-acc-toggle font-heading text-[1.25rem] italic" id="aw1-col-acts" @click="open = !open" :aria-expanded="open">Activities <i class="ph ph-plus footer-acc-caret" aria-hidden="true"></i></button>
+                        <div class="footer-acc-body">
+                            <ul class="footer-links">
+                                <li><a href="demo-activewear-store-1-activities.html#train">Train</a></li>
+                                <li><a href="demo-activewear-store-1-activities.html#run">Run</a></li>
+                                <li><a href="demo-activewear-store-1-activities.html#yoga">Yoga</a></li>
+                                <li><a href="demo-activewear-store-1-activities.html#studio">Studio</a></li>
+                                <li><a href="demo-activewear-store-1-activities.html#recovery">Recovery</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                    <nav class="footer-acc" x-data="{ open: false }" :class="open ? 'is-open' : 'is-shut'" aria-labelledby="aw1-col-help">
+                        <button type="button" class="footer-acc-toggle font-heading text-[1.25rem] italic" id="aw1-col-help" @click="open = !open" :aria-expanded="open">Help <i class="ph ph-plus footer-acc-caret" aria-hidden="true"></i></button>
+                        <div class="footer-acc-body">
+                            <ul class="footer-links">
+                                <li><a href="demo-activewear-store-1-size-guide.html">Size Guide</a></li>
+                                <li><a href="demo-activewear-store-1-account.html#orders">Track Order</a></li>
+                                <li><a href="demo-activewear-store-1-about.html#shipping">Shipping</a></li>
+                                <li><a href="demo-activewear-store-1-about.html#returns">30-Day Sweat Test</a></li>
+                                <li><a href="mailto:hello@framoactive.com">Email Us</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                    <nav class="footer-acc" x-data="{ open: false }" :class="open ? 'is-open' : 'is-shut'" aria-labelledby="aw1-col-co">
+                        <button type="button" class="footer-acc-toggle font-heading text-[1.25rem] italic" id="aw1-col-co" @click="open = !open" :aria-expanded="open">Framo Active <i class="ph ph-plus footer-acc-caret" aria-hidden="true"></i></button>
+                        <div class="footer-acc-body">
+                            <ul class="footer-links">
+                                <li><a href="demo-activewear-store-1-about.html">About Us</a></li>
+                                <li><a href="demo-activewear-store-1-run-club.html">Run Club</a></li>
+                                <li><a href="demo-activewear-store-1-blog.html">Blog</a></li>
+                                <li><a href="demo-activewear-store-1-about.html#store">Harbor Lane Store</a></li>
+                                <li><a href="demo-activewear-store-1-about.html#careers">Careers</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="container footer-shop-bar py-7">
+                    <div class="flex flex-wrap items-center gap-x-8 gap-y-3">
+                        <span>&copy; 2027 Framo Active, San Diego</span>
+                        <ul class="footer-nav" role="list">
+                            <li><a href="#">Privacy</a></li>
+                            <li><a href="#">Terms</a></li>
+                            <li><a href="#">Accessibility</a></li>
+                        </ul>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-x-8 gap-y-4">
+                        <ul class="social-list" role="list">
+                            <li><a href="#" aria-label="Instagram" data-social="instagram" class="social-link social-link--circle social-link--sm"><i class="ph ph-instagram-logo" aria-hidden="true"></i></a></li>
+                            <li><a href="#" aria-label="TikTok" data-social="tiktok" class="social-link social-link--circle social-link--sm"><i class="ph ph-tiktok-logo" aria-hidden="true"></i></a></li>
+                            <li><a href="#" aria-label="YouTube" data-social="youtube" class="social-link social-link--circle social-link--sm"><i class="ph ph-youtube-logo" aria-hidden="true"></i></a></li>
+                        </ul>
+                        <ul class="pay-marks" aria-label="Payment methods we accept">
+                            <li class="pay-mark pay-mark--visa"><span>VISA</span></li>
+                            <li class="pay-mark pay-mark--mc" aria-label="Mastercard"><span class="pay-mark-circles" aria-hidden="true"><i></i><i></i></span></li>
+                            <li class="pay-mark" aria-label="PayPal"><i class="ph-fill ph-paypal-logo" aria-hidden="true"></i></li>
+                            <li class="pay-mark" aria-label="Apple Pay"><i class="ph-fill ph-apple-logo" aria-hidden="true"></i><span>Pay</span></li>
+                            <li class="pay-mark" aria-label="Google Pay"><i class="ph-bold ph-google-logo" aria-hidden="true"></i><span>Pay</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Back to top button -->
+        <button data-back-top aria-label="Back to top" class="back-to-top fixed bottom-8 right-8 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer border-0 text-white bg-primary shadow-token-lg z-sticky">
+            <i class="ph ph-arrow-up"></i>
+        </button>
+
+        <script defer src="../assets/js/vendor.js"></script>
+        <script defer src="../assets/js/vendor-swiper.js"></script>
+        <script defer src="../assets/js/shop.js"></script>
+        <script defer src="../assets/js/main.js"></script>
+        <script defer src="../assets/js/demos/demo-activewear-store-1.js"></script>
+    </body>
+</html>

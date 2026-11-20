@@ -1,0 +1,85 @@
+/* ================================================================
+ *  demo-tech-blog-1.css — Framo theme for the Tech & Reviews demo
+ *
+ *  The colors, fonts and layout settings of the Tech & Reviews
+ *  demo (Framo Signal, tech news and gadget reviews).
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here). */
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* No dark scheme: this demo is dark by design (dark.css does not apply to it). */
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #6b4cff;   /* main color: electric violet, buttons, links and score rings; labels on it are white */
+    --color-secondary-base:  #0b0b10;   /* second color: near-black, the page ground and the footer */
+    --color-tertiary-base:   #16151f;   /* third color: graphite, the tiles on the ink */
+    --color-quaternary-base: #a29db8;   /* fourth color: lilac mist, for meta text on the ink */
+    --color-accent-base:     #3ddc97;   /* attention color: mint, for deal prices and live dots */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. */
+    --color-on-primary: #fff;   /* labels on the brand fill: white (a preset picks its own) */
+
+    --color-primary:       var(--color-primary-base);
+    --color-primary-hover: oklch(from var(--color-primary-base) calc(l - 0.06) c h);
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  The page is dark by design: the neutrals below are the dark ones,
+     *  tinted by the seeds, so a Style Switcher preset retints them too.
+     * ------------------------------------------------------------ */
+    --color-text:        oklch(from var(--color-quaternary-base) 0.96 calc(c * 0.25) h);   /* headings and body text: a soft white on the ink */
+    --color-text-soft:   oklch(from var(--color-quaternary-base) 0.8 calc(c * 0.8) h);   /* running text */
+    --color-text-muted:  var(--color-quaternary-base);   /* meta text */
+    --color-bg:          var(--color-secondary-base);   /* page background: the ink */
+    --color-bg-soft:     var(--color-tertiary-base);   /* a step up: the panels */
+    --color-surface:     oklch(from var(--color-tertiary-base) calc(l + 0.03) c h);   /* cards and menus raised above the ink */
+    --color-bg-muted:    oklch(from var(--color-tertiary-base) calc(l + 0.05) c h);   /* a quiet fill on the panels */
+    --color-border:      oklch(from var(--color-tertiary-base) calc(l + 0.1) c h);   /* lines and borders on the ink */
+    --color-border-soft: oklch(from var(--color-tertiary-base) calc(l + 0.06) c h);   /* the faintest rule */
+    --color-dark:        var(--color-secondary-base);   /* dark sections and dark buttons */
+    --color-primary-ink: var(--color-primary-base);   /* brand-coloured text on the ink */
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     *  Geist (crisp, slightly wide, engineered) sets the headlines and
+     *  the scores; Inter the text and the meta.
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Geist', 'Inter', system-ui, sans-serif;   /* headings and scores */
+
+    /* Headings and buttons */
+    --heading-weight:     600;
+    --heading-tracking:   -0.035em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        1.25;     /* corner rounding (20px tiles): 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 9999px;  /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1440px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 1.2;      /* space between sections: 0.75 compact · 1 · 1.25 spacious */
+}

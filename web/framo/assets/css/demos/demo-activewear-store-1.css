@@ -1,0 +1,2190 @@
+html[data-demo='activewear-store-1'] {
+    --topbar-h: 34px;
+    --navbar-h: 80px;
+    --header-h: 80px;
+}
+
+@media (width <= 1023px) {
+    html[data-demo='activewear-store-1'] {
+        --navbar-h: 66px;
+        --header-h: 66px;
+    }
+}
+
+html[data-demo='activewear-store-1'] .custom-feature-swiper {
+    position: absolute;
+    inset: 0;
+}
+
+html[data-demo='activewear-store-1'] .custom-ticker .swiper-slide {
+    align-items: center;
+    gap: 0.5rem;
+    display: flex;
+}
+
+@layer components {
+    html[data-demo='activewear-store-1'] {
+        --custom-radius: calc(1.25rem * var(--radius-scale));
+        --custom-gap: clamp(0.75rem, 1.1vw, 1rem);
+        --custom-shadow: 0 18px 40px -22px oklch(from var(--color-secondary-base) 0.2 c h / 0.28);
+        --custom-light: oklch(from var(--color-primary-base) max(l, 0.8) min(c, 0.14) h);
+    }
+
+    html[data-demo='activewear-store-1'] :is(h1, h2, h3, .mini-cart-title, .site-search-title) {
+        font-style: italic;
+    }
+
+    .custom-seg {
+        --tab-pad: 0.25rem;
+
+        & .tabs-nav {
+            background: var(--color-bg-soft);
+            box-shadow: inset 0 0 0 1px var(--color-border-soft);
+        }
+
+        & .tab-btn {
+            font-family: var(--font-heading);
+            color: var(--color-text-soft);
+            padding: 0.375rem 1rem;
+            font-size: 1.0625rem;
+            font-style: italic;
+            font-weight: 700;
+            line-height: 1.35;
+        }
+
+        & .tab-btn.is-active {
+            color: var(--color-on-dark);
+        }
+
+        & .tab-indicator,
+        & .tabs-nav:not(.has-indicator) .tab-btn.is-active {
+            background: var(--color-dark);
+            box-shadow: 0 4px 10px -4px oklch(from var(--color-secondary-base) 0.2 c h / 0.45);
+        }
+    }
+
+    html[data-demo='activewear-store-1'] .site-header.header-search .site-topbar {
+        background: var(--color-dark);
+        color: var(--color-on-dark);
+        border-bottom: 0;
+    }
+
+    html[data-demo='activewear-store-1'] .header-search .site-topbar-inner {
+        padding-inline: var(--container-x);
+        justify-content: space-between;
+        gap: 2rem;
+    }
+
+    .custom-ticker {
+        & .swiper {
+            height: 100%;
+        }
+
+        & .swiper-slide {
+            height: var(--topbar-h);
+            white-space: nowrap;
+            color: oklch(from var(--color-on-dark) l c h / 0.76);
+            font-size: 0.875rem;
+        }
+
+        & .swiper:not(.swiper-initialized) .swiper-slide + .swiper-slide {
+            display: none;
+        }
+
+        & strong {
+            color: var(--color-on-dark);
+        }
+
+        & a:hover strong {
+            text-underline-offset: 3px;
+            text-decoration: underline;
+        }
+    }
+
+    .custom-strip-links a {
+        color: oklch(from var(--color-on-dark) l c h / 0.72);
+        transition: color var(--duration-fast) var(--ease-out);
+
+        &:hover {
+            color: var(--color-on-dark);
+        }
+    }
+
+    html[data-demo='activewear-store-1'] .site-header {
+        --menu-surface: var(--color-surface);
+        --menu-shadow: var(--custom-shadow);
+        background: var(--color-surface);
+
+        & .navbar-inner {
+            grid-template-columns: auto minmax(0, 1fr) auto;
+            column-gap: 1.75rem;
+        }
+
+        & .brand {
+            color: var(--color-text);
+        }
+
+        & .nav-links {
+            gap: 0;
+        }
+
+        & .nav-links > li:last-child {
+            margin-inline-end: auto;
+        }
+
+        & .nav-link {
+            color: var(--color-text);
+            padding-inline: 0.8125rem;
+            font-size: 0.9375rem;
+            position: relative;
+
+            &:after {
+                content: '';
+                inset-inline: 0.8125rem;
+                background: var(--color-primary);
+                transform-origin: 0;
+                height: 2.5px;
+                transition: transform var(--duration-base) var(--ease-out);
+                border-radius: 2px;
+                position: absolute;
+                bottom: 0.0625rem;
+                transform: skewX(-24deg) scaleX(0);
+            }
+
+            &:hover,
+            &.active {
+                color: var(--color-text);
+            }
+
+            &:hover:after,
+            &.active:after {
+                transform: skewX(-24deg) scaleX(1);
+            }
+        }
+
+        & .nav-megamenu:is(:hover, :focus-within) > .nav-link:after {
+            transform: skewX(-24deg) scaleX(1);
+        }
+
+        & .nav-megamenu > .nav-link:after {
+            inset-inline-end: 1.75rem;
+        }
+
+        & .nav-search-toggle {
+            border-color: var(--color-border);
+        }
+    }
+
+    .custom-brand {
+        font-family: var(--font-heading);
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
+        color: var(--color-text);
+        align-items: center;
+        gap: 0.3em;
+        font-size: 1.625rem;
+        font-style: italic;
+        font-weight: 800;
+        line-height: 1;
+        display: inline-flex;
+
+        & b {
+            color: var(--color-text-soft);
+        }
+    }
+
+    .custom-brand-mark {
+        fill: var(--color-primary);
+    }
+
+    .custom-seg--bar {
+        display: none;
+    }
+
+    @media (640px <= width < 1200px) {
+        .custom-seg--bar {
+            display: block;
+        }
+    }
+
+    .custom-panel-links a {
+        color: var(--color-text);
+        background: var(--color-bg-soft);
+        border-radius: calc(var(--custom-radius) - 0.5rem);
+        transition:
+            color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out);
+        flex-direction: column;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.75rem 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: flex;
+
+        &:hover {
+            color: var(--color-on-dark);
+            background: var(--color-dark);
+        }
+    }
+
+    html[data-demo='activewear-store-1'] .custom-mega {
+        & .megamenu-inner {
+            padding-inline: var(--container-x);
+        }
+
+        & .megamenu-panel {
+            border-top-color: var(--color-border-soft);
+            border-bottom-left-radius: calc(var(--custom-radius) + 0.5rem);
+            border-bottom-right-radius: calc(var(--custom-radius) + 0.5rem);
+        }
+
+        & .megamenu-col-title {
+            font-family: var(--font-heading);
+            letter-spacing: 0;
+            text-transform: none;
+            color: var(--color-text);
+            padding-bottom: 0.625rem;
+            font-size: 1.1875rem;
+            font-style: italic;
+            font-weight: 700;
+        }
+    }
+
+    html[data-demo='activewear-store-1'] .custom-mega--shop .megamenu-inner {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.5rem;
+        padding-block: 1.75rem 2.25rem;
+        display: grid;
+    }
+
+    .custom-act {
+        aspect-ratio: 5 / 4;
+        border-radius: calc(var(--custom-radius) - 0.375rem);
+        color: #fff;
+        background: var(--color-bg-muted);
+        text-decoration: none;
+        display: block;
+        position: relative;
+        overflow: hidden;
+
+        & img {
+            object-fit: cover;
+            object-position: 50% 28%;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            inset: 0;
+        }
+
+        &:before {
+            content: '';
+            z-index: 1;
+            background: linear-gradient(
+                to top,
+                oklch(from var(--shop-scrim) l c h / 0.62),
+                transparent 58%
+            );
+            transition: background-color var(--duration-base) var(--ease-out);
+            position: absolute;
+            inset: 0;
+        }
+
+        & span {
+            z-index: 2;
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-style: italic;
+            font-weight: 700;
+            position: absolute;
+            bottom: 0.625rem;
+            left: 0.875rem;
+        }
+
+        &:hover:before {
+            background-color: oklch(from var(--color-primary-base) 0.35 c h / 0.3);
+        }
+
+        &:focus-visible {
+            outline-offset: 2px;
+        }
+    }
+
+    .custom-level {
+        align-items: flex-end;
+        gap: 2px;
+        height: 0.875rem;
+        margin-inline-start: auto;
+        display: inline-flex;
+
+        & i {
+            background: var(--color-border);
+            border-radius: 2px;
+            width: 4px;
+            height: 45%;
+        }
+    }
+
+    html[data-demo='activewear-store-1'] .custom-mega .megamenu-item:has(.custom-level) {
+        gap: 0.75rem;
+    }
+
+    html[data-demo='activewear-store-1'] .custom-fit {
+        border-radius: calc(var(--custom-radius) - 0.25rem);
+        background: var(--color-tertiary);
+    }
+
+    .custom-fit-thumb {
+        border-radius: calc(var(--custom-radius) - 0.625rem);
+    }
+
+    .custom-fit-group {
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.375rem;
+        margin-bottom: 0.75rem;
+        display: flex;
+
+        & a {
+            color: var(--color-text);
+            background: var(--color-surface);
+            border-radius: var(--radius-pill);
+            transition:
+                color var(--duration-fast) var(--ease-out),
+                background-color var(--duration-fast) var(--ease-out);
+            padding: 0.3125rem 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+
+            &:hover {
+                color: var(--color-on-dark);
+                background: var(--color-dark);
+            }
+        }
+    }
+
+    .custom-fit-link {
+        text-decoration: none;
+
+        & i {
+            transition: translate var(--duration-fast) var(--ease-out);
+        }
+
+        &:hover {
+            text-underline-offset: 3px;
+            text-decoration: underline;
+        }
+
+        &:hover i {
+            translate: 3px;
+        }
+    }
+
+    html[data-demo='activewear-store-1'] .custom-mega--acts .megamenu-inner {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 19rem);
+        gap: 2.5rem;
+        padding-block: 1.75rem 2.25rem;
+    }
+
+    html[data-demo='activewear-store-1'] .custom-act-row .megamenu-col-title {
+        grid-column: 1 / -1;
+        padding-inline: 0;
+    }
+
+    .custom-act-card {
+        & img {
+            border-radius: calc(var(--custom-radius) - 0.375rem);
+        }
+
+        & p {
+            color: var(--color-text-muted);
+            margin: 0;
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+    }
+
+    html[data-demo='activewear-store-1'] .custom-act-card .megamenu-item {
+        font-family: var(--font-heading);
+        color: var(--color-text);
+        background: none;
+        border-radius: 0;
+        justify-self: start;
+        padding: 0;
+        font-size: 1.3125rem;
+        font-style: italic;
+        font-weight: 700;
+
+        &:after {
+            content: '';
+            border-radius: calc(var(--custom-radius) - 0.375rem);
+            position: absolute;
+            inset: 0;
+        }
+
+        &:hover {
+            color: var(--color-primary-ink);
+            background: none;
+        }
+
+        &:focus-visible {
+            outline: none;
+        }
+
+        &:focus-visible:after {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 3px;
+        }
+    }
+
+    html[data-demo='activewear-store-1'] .custom-club {
+        border-radius: calc(var(--custom-radius) - 0.25rem);
+        background: var(--color-dark);
+        color: var(--color-on-dark);
+    }
+
+    .custom-club-icon {
+        border-radius: 50%;
+    }
+
+    .custom-club-text {
+        color: oklch(from var(--color-on-dark) l c h / 0.72);
+    }
+
+    .custom-club-link {
+        color: oklch(from var(--color-on-dark) l c h / 0.82);
+        text-underline-offset: 4px;
+        text-decoration: underline;
+        -webkit-text-decoration-color: oklch(from var(--color-on-dark) l c h / 0.35);
+        text-decoration-color: oklch(from var(--color-on-dark) l c h / 0.35);
+
+        &:hover {
+            color: #fff;
+            text-decoration-color: currentColor;
+        }
+    }
+
+    .custom-trend {
+        text-align: left;
+        color: var(--color-text);
+        background: var(--color-surface);
+        border: 1px solid var(--color-border-soft);
+        border-radius: calc(var(--custom-radius) - 0.25rem);
+        transition:
+            border-color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out);
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 0.875rem 0.5rem 0.5rem;
+        text-decoration: none;
+        display: flex;
+
+        &:hover {
+            border-color: var(--color-primary);
+        }
+    }
+
+    .custom-trend-img {
+        border-radius: calc(var(--custom-radius) - 0.75rem);
+        background: var(--product-bg);
+        flex: none;
+        width: 3.5rem;
+        height: 3.5rem;
+        overflow: hidden;
+    }
+
+    .custom-trend-info b {
+        text-overflow: ellipsis;
+    }
+
+    .custom-trend-price {
+        font-family: var(--font-heading);
+        margin-inline-start: auto;
+        font-size: 1.25rem;
+        font-style: italic;
+        font-weight: 700;
+    }
+
+    .custom-bento {
+        gap: var(--custom-gap);
+        height: clamp(31rem, calc(100svh - var(--header-h-rest, var(--header-h)) - 8.25rem), 47rem);
+        grid-template-rows: repeat(2, minmax(0, 1fr));
+        grid-template-columns: minmax(0, 1.62fr) minmax(0, 1fr);
+        display: grid;
+    }
+
+    .custom-feature {
+        background: var(--color-dark);
+
+        &:before {
+            content: '';
+            z-index: 1;
+            pointer-events: none;
+            background:
+                radial-gradient(
+                    ellipse 72% 62% at 0% 100%,
+                    oklch(from var(--shop-scrim) l c h / 0.58),
+                    transparent 72%
+                ),
+                linear-gradient(to top, oklch(from var(--shop-scrim) l c h / 0.5), transparent 52%);
+            position: absolute;
+            inset: 0;
+        }
+    }
+
+    .custom-slide {
+        background: var(--color-dark);
+
+        &:after {
+            content: '';
+            pointer-events: none;
+            background: linear-gradient(
+                to right,
+                oklch(from var(--shop-scrim) l c h / var(--shade, 0)),
+                transparent 62%
+            );
+            position: absolute;
+            inset: 0;
+        }
+    }
+
+    .custom-slide-img {
+        object-fit: cover;
+        object-position: var(--pos, 50% 50%);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        inset: 0;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .custom-slide.swiper-slide-active .custom-slide-img {
+            animation: custom-push 7.5s var(--ease-out) both;
+        }
+    }
+
+    @keyframes custom-push {
+        from {
+            scale: 1.07;
+        }
+
+        to {
+            scale: 1;
+        }
+    }
+
+    .custom-worn {
+        z-index: 2;
+        color: var(--color-text);
+        background: oklch(from var(--color-surface) l c h / 0.9);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+        border-radius: var(--radius-pill);
+        box-shadow: var(--custom-shadow);
+        transition:
+            color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out);
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.3125rem 0.3125rem 0.3125rem 1rem;
+        font-size: 0.875rem;
+        text-decoration: none;
+        display: inline-flex;
+        position: absolute;
+        top: clamp(1rem, 1.6vw, 1.5rem);
+        right: clamp(1rem, 1.6vw, 1.5rem);
+
+        & span {
+            color: var(--color-text-muted);
+            transition: color var(--duration-fast) var(--ease-out);
+        }
+
+        & em {
+            font-variant-numeric: tabular-nums;
+            color: var(--color-on-dark);
+            background: var(--color-dark);
+            border-radius: var(--radius-pill);
+            transition:
+                color var(--duration-fast) var(--ease-out),
+                background-color var(--duration-fast) var(--ease-out);
+            padding: 0.25rem 0.625rem;
+            font-style: normal;
+            font-weight: 700;
+        }
+
+        &:hover {
+            color: var(--color-on-dark);
+            background: var(--color-dark);
+        }
+
+        &:hover span {
+            color: oklch(from var(--color-on-dark) l c h / 0.66);
+        }
+
+        &:hover em {
+            color: var(--color-on-primary);
+            background: var(--color-primary);
+        }
+    }
+
+    .custom-feature-kicker {
+        color: oklch(100% 0 0 / 0.88);
+
+        &:before {
+            content: '';
+            background: var(--custom-light);
+            border-radius: 2px;
+            width: 1.375rem;
+            height: 3px;
+            transform: skewX(-24deg);
+        }
+    }
+
+    .custom-feature-title {
+        letter-spacing: -0.012em;
+        color: #fff;
+        text-shadow: 0 2px 28px oklch(from var(--shop-scrim) l c h / 0.35);
+        text-wrap: balance;
+        margin: 0.875rem 0 1.75rem;
+        font-size: clamp(2.75rem, 5.3vw, 5.5rem);
+        font-weight: 800;
+        line-height: 0.92;
+    }
+
+    .custom-feature-ctas {
+        & .btn-white {
+            color: var(--color-text);
+        }
+
+        & .btn-white:hover {
+            color: var(--color-on-dark);
+            background: var(--color-dark);
+            border-color: var(--color-dark);
+        }
+    }
+
+    .custom-feature-tabs.carousel-thumb-cards {
+        background: oklch(from var(--shop-scrim) l c h / 0.46);
+        -webkit-backdrop-filter: blur(14px);
+        backdrop-filter: blur(14px);
+        border: 1px solid oklch(100% 0 0 / 0.14);
+
+        & button {
+            font: inherit;
+            color: oklch(100% 0 0 / 0.72);
+            border-radius: var(--radius-pill);
+            cursor: pointer;
+            transition:
+                color var(--duration-fast) var(--ease-out),
+                background-color var(--duration-fast) var(--ease-out);
+            background: none;
+            border: 0;
+            align-items: baseline;
+            gap: 0.375rem;
+            padding: 0.5rem 0.9375rem 0.6875rem;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            display: inline-flex;
+            position: relative;
+
+            & i {
+                inset-inline: 0.9375rem;
+                opacity: 0;
+                height: 2px;
+                transition: opacity var(--duration-fast) var(--ease-out);
+                background: oklch(100% 0 0 / 0.2);
+                border-radius: 2px;
+                position: absolute;
+                bottom: 0.375rem;
+                overflow: hidden;
+
+                &:before {
+                    content: '';
+                    background: var(--custom-light);
+                    transform-origin: 0;
+                    scale: var(--fill, 1) 1;
+                    position: absolute;
+                    inset: 0;
+                }
+            }
+
+            &:hover {
+                color: #fff;
+                background: oklch(100% 0 0 / 0.12);
+            }
+
+            &.is-active {
+                color: #fff;
+            }
+
+            &.is-active i {
+                opacity: 1;
+            }
+
+            &:focus-visible {
+                outline-offset: -2px;
+                outline: 2px solid #fff;
+            }
+        }
+    }
+
+    .custom-arrow {
+        width: 2.875rem;
+        height: 2.875rem;
+        color: var(--color-text);
+        background: var(--color-surface);
+        cursor: pointer;
+        transition:
+            color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out);
+        border: 0;
+        border-radius: 50%;
+        place-items: center;
+        padding: 0;
+        font-size: 1.0625rem;
+        display: grid;
+
+        &:hover {
+            color: var(--color-on-primary);
+            background: var(--color-primary);
+        }
+
+        &:focus-visible {
+            outline-offset: 2px;
+            outline: 2px solid #fff;
+        }
+    }
+
+    .custom-tile-pane {
+        height: 100%;
+        color: var(--color-text);
+        text-decoration: none;
+        display: block;
+        position: relative;
+
+        &:focus-visible {
+            outline: 3px solid var(--color-primary);
+            outline-offset: -3px;
+            border-radius: var(--custom-radius);
+        }
+    }
+
+    .custom-tile-img {
+        object-fit: cover;
+        object-position: var(--pos, 50% 50%);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        inset: 0;
+    }
+
+    .custom-tile-tag {
+        color: var(--color-text);
+        background: var(--color-surface);
+        border-radius: var(--radius-pill);
+        align-items: center;
+        gap: 0.4375rem;
+        padding: 0.375rem 0.8125rem 0.375rem 0.6875rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        line-height: 1.2;
+        display: inline-flex;
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+
+        &:before {
+            content: '';
+            background: var(--color-primary);
+            border-radius: 50%;
+            width: 0.5rem;
+            height: 0.5rem;
+        }
+    }
+
+    .custom-tile-card {
+        background: var(--color-surface);
+        border-radius: calc(var(--custom-radius) - 0.5rem);
+        max-width: calc(100% - 1.5rem);
+        box-shadow: var(--custom-shadow);
+        align-items: center;
+        gap: 1.25rem;
+        padding: 0.75rem 0.75rem 0.75rem 1.125rem;
+        display: flex;
+        position: absolute;
+        bottom: 0.75rem;
+        left: 0.75rem;
+    }
+
+    .custom-tile-brand {
+        letter-spacing: 0.02em;
+        color: var(--color-text-muted);
+        font-size: 0.8125rem;
+        font-weight: 600;
+    }
+
+    .custom-tile-name {
+        font-family: var(--font-heading);
+        white-space: nowrap;
+        font-size: 1.375rem;
+        font-style: italic;
+        font-weight: 700;
+        line-height: 1.1;
+    }
+
+    .custom-tile-meta {
+        color: var(--color-text-soft);
+        white-space: nowrap;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        display: inline-flex;
+    }
+
+    .custom-tile-price {
+        font-family: var(--font-heading);
+        font-variant-numeric: tabular-nums;
+        margin-inline-start: auto;
+        font-size: 1.625rem;
+        font-style: italic;
+        font-weight: 700;
+    }
+
+    .custom-tile-go {
+        width: 2.75rem;
+        height: 2.75rem;
+        color: var(--color-on-dark);
+        background: var(--color-dark);
+        transition:
+            color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out);
+        border-radius: 50%;
+        flex: none;
+        place-items: center;
+        font-size: 1.0625rem;
+        display: grid;
+    }
+
+    .custom-tile-pane:hover .custom-tile-go {
+        color: var(--color-on-primary);
+        background: var(--color-primary);
+    }
+
+    .custom-chips {
+        scrollbar-width: none;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    @media (width < 1280px) {
+        .custom-tile-card {
+            gap: 1rem;
+        }
+    }
+
+    @media (width < 768px) {
+        .custom-tile-card {
+            gap: 0.5rem;
+            padding: 0.5rem 0.625rem;
+            bottom: 0.5rem;
+            left: 0.5rem;
+            right: 0.5rem;
+        }
+    }
+
+    @media (width < 640px) {
+        html[data-demo='activewear-store-1'] .site-header .nav-search-toggle {
+            border: 0;
+            width: 2.75rem;
+            height: 2.75rem;
+            font-size: 1.375rem;
+        }
+
+        .custom-ticker .swiper-slide {
+            justify-content: center;
+            font-size: 0.8125rem;
+        }
+    }
+
+    .custom-head {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 1.25rem 2.5rem;
+        margin-bottom: 2rem;
+        display: flex;
+    }
+
+    .custom-label {
+        color: var(--color-primary-ink);
+        align-items: center;
+        gap: 0.625rem;
+        margin: 0 0 0.625rem;
+        font-size: 0.9375rem;
+        font-weight: 600;
+        display: flex;
+
+        &:before {
+            content: '';
+            background: currentColor;
+            border-radius: 2px;
+            width: 1.25rem;
+            height: 3px;
+            transform: skewX(-24deg);
+        }
+    }
+
+    .custom-h2 {
+        letter-spacing: -0.01em;
+        text-wrap: balance;
+        margin: 0;
+        font-size: clamp(2rem, 1.45rem + 1.5vw, 2.875rem);
+        font-weight: 700;
+        line-height: 1;
+    }
+
+    .custom-lead {
+        max-width: 34rem;
+        color: var(--color-text-soft);
+        margin: 0.875rem 0 0;
+        font-size: 1.0625rem;
+    }
+
+    .custom-more {
+        color: var(--color-text);
+        white-space: nowrap;
+        align-items: center;
+        gap: 0.625rem;
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+
+        & i {
+            border: 1px solid var(--color-border);
+            width: 2.25rem;
+            height: 2.25rem;
+            transition:
+                color var(--duration-fast) var(--ease-out),
+                background-color var(--duration-fast) var(--ease-out),
+                border-color var(--duration-fast) var(--ease-out);
+            border-radius: 50%;
+            place-items: center;
+            font-size: 0.9375rem;
+            display: grid;
+        }
+
+        &:hover {
+            color: var(--color-text);
+        }
+
+        &:hover i {
+            color: var(--color-on-primary);
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+    }
+
+    .custom-panel {
+        border-radius: calc(var(--custom-radius) + 0.5rem);
+        background: var(--color-surface);
+        padding: clamp(1.5rem, 3.2vw, 3rem);
+    }
+
+    .custom-panel--dark .custom-more i {
+        border-color: oklch(100% 0 0 / 0.24);
+    }
+
+    .custom-panel--tint {
+        background: var(--color-tertiary);
+    }
+
+    .custom-seg--dark {
+        & .tabs-nav {
+            background: oklch(100% 0 0 / 0.08);
+            box-shadow: inset 0 0 0 1px oklch(100% 0 0 / 0.14);
+        }
+
+        & .tab-btn {
+            color: oklch(100% 0 0 / 0.7);
+        }
+
+        & .tab-btn:hover {
+            color: #fff;
+        }
+
+        & .tab-btn.is-active {
+            color: var(--color-text);
+        }
+
+        & .tab-indicator,
+        & .tabs-nav:not(.has-indicator) .tab-btn.is-active {
+            box-shadow: none;
+            background: #fff;
+        }
+    }
+
+    html[data-demo='activewear-store-1'] .custom-card {
+        & .product-card-cat {
+            letter-spacing: 0;
+            text-transform: none;
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        & .product-card-title {
+            font-family: var(--font-heading);
+            letter-spacing: 0;
+            font-size: 1.375rem;
+            font-style: italic;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        & .product-card-title a {
+            color: inherit;
+        }
+
+        & .product-price {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+    }
+
+    .custom-grid:has(> .custom-ranked) {
+        counter-reset: custom-rank;
+    }
+
+    html[data-demo='activewear-store-1'] .custom-ranked {
+        counter-increment: custom-rank;
+
+        & .product-card-media:after {
+            content: counter(custom-rank, decimal-leading-zero);
+            z-index: 1;
+            font-family: var(--font-heading);
+            color: oklch(from var(--color-secondary-base) 0.2 c h / 0.22);
+            pointer-events: none;
+            font-size: 1.75rem;
+            font-style: italic;
+            font-weight: 700;
+            line-height: 1;
+            position: absolute;
+            top: 1.125rem;
+            right: 1.25rem;
+        }
+
+        & .product-card-body {
+            padding-right: 3.75rem;
+        }
+    }
+
+    .custom-acts-row {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        margin: 0;
+        padding: 0;
+    }
+
+    .custom-act-tile {
+        aspect-ratio: 4 / 5;
+        isolation: isolate;
+        color: #fff;
+        border-radius: var(--custom-radius);
+        background: var(--color-bg-muted);
+        text-decoration: none;
+        display: block;
+        position: relative;
+        overflow: hidden;
+
+        & img {
+            z-index: -1;
+            object-fit: cover;
+            object-position: var(--pos, 50% 50%);
+            width: 100%;
+            height: 100%;
+            transition: scale 1.2s var(--ease-out);
+            position: absolute;
+            inset: 0;
+        }
+
+        &:before {
+            content: '';
+            z-index: -1;
+            background: linear-gradient(
+                to top,
+                oklch(from var(--shop-scrim) l c h / 0.66),
+                transparent 46%
+            );
+            position: absolute;
+            inset: 0;
+        }
+
+        &:hover {
+            color: #fff;
+        }
+
+        &:focus-visible {
+            outline: 3px solid var(--color-primary);
+            outline-offset: 3px;
+        }
+    }
+
+    @media (hover: hover) {
+        .custom-act-tile:hover img {
+            scale: 1.04;
+        }
+    }
+
+    .custom-act-num {
+        font-family: var(--font-heading);
+        text-shadow: 0 1px 12px oklch(from var(--shop-scrim) l c h / 0.4);
+        font-size: 1.125rem;
+        font-style: italic;
+        font-weight: 700;
+        position: absolute;
+        top: 1rem;
+        left: 1.125rem;
+    }
+
+    .custom-act-foot {
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 0.75rem;
+        display: flex;
+        position: absolute;
+        inset: auto 1rem 1rem 1.125rem;
+
+        & b {
+            font-family: var(--font-heading);
+            font-size: clamp(1.75rem, 1.2rem + 1vw, 2.25rem);
+            font-style: italic;
+            font-weight: 700;
+            line-height: 0.95;
+        }
+
+        & small {
+            color: oklch(100% 0 0 / 0.84);
+            font-size: 0.875rem;
+            line-height: 1.35;
+        }
+
+        & i {
+            width: 2.75rem;
+            height: 2.75rem;
+            color: var(--color-text);
+            transition:
+                color var(--duration-fast) var(--ease-out),
+                background-color var(--duration-fast) var(--ease-out);
+            background: #fff;
+            border-radius: 50%;
+            flex: none;
+            place-items: center;
+            font-size: 1.0625rem;
+            display: grid;
+        }
+    }
+
+    .custom-act-tile:hover .custom-act-foot i {
+        color: var(--color-on-primary);
+        background: var(--color-primary);
+    }
+
+    @media (width < 1200px) {
+        .custom-acts-row {
+            margin-inline: calc(var(--container-x) * -1);
+            padding-inline: var(--container-x);
+            scroll-snap-type: x mandatory;
+            scroll-padding-inline: var(--container-x);
+            scrollbar-width: none;
+            grid-template-columns: none;
+            grid-auto-columns: minmax(14rem, 38%);
+            grid-auto-flow: column;
+            overflow-x: auto;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+            & > li {
+                scroll-snap-align: start;
+            }
+        }
+    }
+
+    .custom-fabric-tag {
+        color: var(--color-text-soft);
+        background: var(--color-surface);
+        border-radius: var(--radius-pill);
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 1rem 0.5rem 0.5rem;
+        font-size: 0.875rem;
+        display: flex;
+        position: absolute;
+        bottom: 1.25rem;
+        left: 1.25rem;
+    }
+
+    .custom-facts {
+        margin: 2rem 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        & li {
+            border-top: 1px solid oklch(from var(--color-secondary-base) 0.2 c h / 0.1);
+        }
+
+        & h3 {
+            margin: 0.125rem 0 0.25rem;
+            font-size: 1.375rem;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+    }
+
+    .custom-fact-icon {
+        width: 2.75rem;
+        height: 2.75rem;
+        color: var(--color-primary-ink);
+        background: var(--color-surface);
+        border-radius: 50%;
+        flex: none;
+        place-items: center;
+        font-size: 1.375rem;
+        display: grid;
+    }
+
+    .custom-fit-status a {
+        text-underline-offset: 3px;
+        text-decoration: underline;
+    }
+
+    html[data-demo='activewear-store-1'] .custom-fit-grid .product-card {
+        transition:
+            opacity var(--duration-base) var(--ease-out),
+            filter var(--duration-base) var(--ease-out);
+
+        &.is-dim {
+            opacity: 0.38;
+            filter: grayscale(0.6);
+        }
+
+        & .product-card-title {
+            font-size: 1.3125rem;
+        }
+    }
+
+    .custom-meet-photo {
+        border-radius: calc(var(--custom-radius) + 0.5rem);
+    }
+
+    .custom-meet-chip {
+        color: var(--color-text);
+        background: var(--color-surface);
+        border-radius: var(--radius-pill);
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem 0.5rem 0.75rem;
+        font-size: 0.9375rem;
+        font-weight: 600;
+        display: inline-flex;
+        position: absolute;
+        top: 1.25rem;
+        left: 1.25rem;
+    }
+
+    .custom-meet-card {
+        border-radius: calc(var(--custom-radius) + 0.5rem);
+
+        & .btn-white {
+            color: var(--color-text);
+        }
+
+        & .btn-white:hover {
+            color: var(--color-on-dark);
+            background: var(--color-dark);
+            border-color: var(--color-dark);
+        }
+    }
+
+    .custom-routes {
+        & li {
+            border-top: 1px solid oklch(100% 0 0 / 0.22);
+        }
+
+        & b {
+            min-width: 3.5rem;
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-style: italic;
+            font-weight: 700;
+            line-height: 1;
+        }
+    }
+
+    .custom-meet-link {
+        color: inherit;
+        text-underline-offset: 4px;
+        -webkit-text-decoration: underline oklch(100% 0 0 / 0.45);
+        text-decoration: underline oklch(100% 0 0 / 0.45);
+
+        &:hover {
+            color: inherit;
+            text-decoration-color: currentColor;
+        }
+    }
+
+    .custom-score-num {
+        font-family: var(--font-heading);
+        align-items: baseline;
+        gap: 0.5rem;
+        margin: 0 0 0.75rem;
+        font-size: 4rem;
+        font-style: italic;
+        font-weight: 700;
+        line-height: 0.9;
+        display: flex;
+    }
+
+    .custom-meter {
+        margin-top: 1.5rem;
+
+        & p {
+            color: var(--color-text-soft);
+            justify-content: space-between;
+            margin: 0 0 0.875rem;
+            font-size: 0.9375rem;
+            display: flex;
+        }
+    }
+
+    .custom-meter-track {
+        border-radius: var(--radius-pill);
+        background: var(--color-bg-soft);
+        height: 6px;
+        display: block;
+        position: relative;
+
+        &:before {
+            content: '';
+            border-radius: inherit;
+            background: oklch(from var(--color-primary-base) l c h / 0.22);
+            position: absolute;
+            inset: 0 35%;
+        }
+
+        & i {
+            top: 50%;
+            left: var(--custom-at, 50%);
+            border: 3px solid var(--color-surface);
+            background: var(--color-primary);
+            width: 1rem;
+            height: 1rem;
+            box-shadow: 0 2px 6px oklch(from var(--color-secondary-base) 0.2 c h / 0.25);
+            border-radius: 50%;
+            position: absolute;
+            translate: -50% -50%;
+        }
+    }
+
+    .custom-meter-ends {
+        color: var(--color-text-muted);
+        justify-content: space-between;
+        margin-top: 0.625rem;
+        font-size: 0.875rem;
+        display: flex;
+    }
+
+    .custom-score-foot {
+        color: var(--color-text-soft);
+        border-top: 1px solid var(--color-border-soft);
+        align-items: center;
+        gap: 0.625rem;
+        margin: 1.5rem 0 0;
+        padding-top: 1.25rem;
+        font-size: 0.9375rem;
+        display: flex;
+    }
+
+    .custom-review-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin: 0;
+        padding: 0;
+    }
+
+    .custom-review h3 {
+        margin: 1rem 0 0.5rem;
+        font-size: 1.375rem;
+        font-weight: 700;
+        line-height: 1.15;
+    }
+
+    .custom-review-item {
+        border-bottom: 1px solid var(--color-border-soft);
+        align-items: center;
+        gap: 0.875rem;
+        margin-bottom: 1.25rem;
+        padding-bottom: 1.25rem;
+        display: flex;
+
+        & img {
+            border-radius: calc(var(--custom-radius) - 0.75rem);
+        }
+
+        & p {
+            color: var(--color-text-muted);
+            margin: 0;
+            font-size: 0.875rem;
+            line-height: 1.4;
+            display: grid;
+        }
+    }
+
+    .custom-review-by {
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin: auto 0 0;
+        padding-top: 1.5rem;
+        font-size: 0.9375rem;
+        font-weight: 600;
+        display: flex;
+    }
+
+    .custom-review-fit {
+        color: var(--color-primary-ink);
+        background: var(--color-tertiary);
+        border-radius: var(--radius-pill);
+        flex: none;
+        padding: 0.3125rem 0.75rem;
+        font-size: 0.875rem;
+    }
+
+    .custom-post {
+        height: 100%;
+        color: var(--color-text);
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+        align-items: center;
+        gap: 1.5rem;
+        text-decoration: none;
+        display: grid;
+
+        &:hover {
+            color: var(--color-text);
+        }
+
+        &:hover .custom-post-title {
+            text-underline-offset: 4px;
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+        }
+
+        &:hover img {
+            scale: 1.04;
+        }
+
+        &:focus-visible {
+            outline: 3px solid var(--color-primary);
+            outline-offset: 4px;
+            border-radius: var(--custom-radius);
+        }
+    }
+
+    .custom-post--lead {
+        grid-template-columns: none;
+        align-content: start;
+        align-items: start;
+        gap: 1.5rem;
+    }
+
+    .custom-post-img {
+        aspect-ratio: 5 / 4;
+        border-radius: var(--custom-radius);
+        background: var(--color-bg-muted);
+        display: block;
+        overflow: hidden;
+
+        & img {
+            transition: scale 1.2s var(--ease-out);
+        }
+    }
+
+    .custom-post-title {
+        font-family: var(--font-heading);
+        text-wrap: balance;
+        font-size: clamp(1.375rem, 1.1rem + 0.6vw, 1.75rem);
+        font-style: italic;
+        font-weight: 700;
+        line-height: 1.08;
+    }
+
+    @media (width < 1280px) {
+        html[data-demo='activewear-store-1'] .custom-ranked {
+            & .product-card-cat {
+                display: none;
+            }
+
+            & .product-card-title {
+                font-size: 1.1875rem;
+            }
+
+            & .product-card-body {
+                padding-right: 2.75rem;
+            }
+
+            & .product-card-media:after {
+                font-size: 1.375rem;
+                top: 0.875rem;
+                right: 0.875rem;
+            }
+        }
+    }
+
+    @media (width < 1024px) {
+        .custom-review-list {
+            margin-inline: calc(var(--container-x) * -1);
+            padding-inline: var(--container-x);
+            scroll-snap-type: x mandatory;
+            scroll-padding-inline: var(--container-x);
+            scrollbar-width: none;
+            grid-template-columns: none;
+            grid-auto-columns: minmax(17rem, 46%);
+            grid-auto-flow: column;
+            overflow-x: auto;
+
+            & > li {
+                scroll-snap-align: start;
+            }
+        }
+    }
+
+    html[data-demo='activewear-store-1'] .custom-footer {
+        --footer-bg: var(--color-dark);
+    }
+
+    .custom-footer-brand .custom-brand {
+        color: #fff;
+    }
+
+    .custom-footer-brand .custom-brand b {
+        color: oklch(100% 0 0 / 0.7);
+    }
+
+    .custom-footer-card {
+        color: var(--footer-body);
+        background: oklch(100% 0 0 / 0.06);
+    }
+
+    .custom-footer-card--club {
+        color: var(--footer-body);
+
+        & img {
+            transition: scale 1.2s var(--ease-out);
+        }
+
+        &:hover {
+            color: var(--footer-body);
+        }
+
+        &:focus-visible {
+            outline: 3px solid var(--custom-light);
+            outline-offset: 3px;
+        }
+    }
+
+    @media (hover: hover) {
+        .custom-footer-card--club:hover img {
+            scale: 1.04;
+        }
+    }
+
+    .custom-footer-card-icon {
+        border-radius: 50%;
+    }
+
+    .custom-footer-card-title {
+        font-style: italic;
+    }
+
+    .custom-footer-card-go i {
+        transition: translate var(--duration-fast) var(--ease-out);
+    }
+
+    .custom-footer-card--club:hover .custom-footer-card-go i {
+        translate: 3px;
+    }
+
+    .custom-footer-store {
+        color: #fff;
+        border-radius: var(--radius-pill);
+        transition:
+            color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out),
+            border-color var(--duration-fast) var(--ease-out);
+        border: 1px solid oklch(100% 0 0 / 0.2);
+        align-items: center;
+        gap: 0.625rem;
+        padding: 0.5rem 1.125rem 0.5rem 0.875rem;
+        font-size: 0.9375rem;
+        font-weight: 600;
+        line-height: 1.15;
+        text-decoration: none;
+        display: inline-flex;
+
+        &:hover {
+            color: var(--color-dark);
+            background: #fff;
+            border-color: #fff;
+        }
+    }
+
+    @media (width < 768px) {
+        .custom-footer-cols {
+            --footer-acc-gap: 0px;
+        }
+    }
+
+    .custom-ph {
+        padding-block: clamp(1.5rem, 3vw, 2.75rem) 0;
+
+        & .shop-steps {
+            margin-top: 2rem;
+        }
+    }
+
+    .custom-ph-title {
+        letter-spacing: -0.012em;
+        text-wrap: balance;
+        margin: 0.5rem 0 0;
+        font-size: clamp(2.75rem, 2rem + 2.6vw, 4.75rem);
+        font-weight: 800;
+        line-height: 0.95;
+    }
+
+    .custom-ph-lead {
+        max-width: 40rem;
+        color: var(--color-text-soft);
+        margin: 1rem 0 0;
+        font-size: 1.125rem;
+    }
+
+    .custom-ph--compact .custom-ph-title {
+        margin-top: 0;
+    }
+
+    .custom-ph--compact .stepper {
+        justify-content: flex-start;
+    }
+
+    .custom-ph--photo {
+        padding-top: clamp(0.75rem, 1.3vw, 1.25rem);
+
+        & .custom-ph-inner {
+            isolation: isolate;
+            min-height: clamp(26rem, calc(78svh - var(--header-h-rest, var(--header-h))), 36rem);
+            border-radius: var(--custom-radius);
+            background: var(--color-dark);
+            align-items: flex-end;
+            padding: clamp(1.5rem, 4vw, 3.5rem);
+            display: flex;
+            position: relative;
+            overflow: hidden;
+
+            &:before {
+                content: '';
+                z-index: -1;
+                background:
+                    radial-gradient(
+                        ellipse 70% 75% at 0% 100%,
+                        oklch(from var(--shop-scrim) l c h / 0.62),
+                        transparent 72%
+                    ),
+                    linear-gradient(
+                        to right,
+                        oklch(from var(--shop-scrim) l c h / 0.5),
+                        transparent 65%
+                    ),
+                    linear-gradient(
+                        to top,
+                        oklch(from var(--shop-scrim) l c h / 0.42),
+                        transparent 55%
+                    );
+                position: absolute;
+                inset: 0;
+            }
+        }
+
+        & .custom-ph-body {
+            color: #fff;
+            max-width: 44rem;
+        }
+
+        & .custom-label {
+            color: #fff;
+        }
+
+        & .custom-label:before {
+            background: var(--custom-light);
+        }
+
+        & .custom-ph-title {
+            color: #fff;
+        }
+
+        & .custom-ph-lead {
+            color: oklch(100% 0 0 / 0.86);
+        }
+    }
+
+    .custom-shop-chips .cat-chip-img:has(> i) {
+        color: oklch(from var(--color-secondary-base) 0.2 c h);
+        place-items: center;
+        font-size: 1.25rem;
+        display: grid;
+    }
+
+    .custom-shop-bar {
+        background: oklch(from var(--color-bg) l c h / 0.92);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+    }
+
+    .custom-promo-tile {
+        grid-column: span 2 / -1;
+    }
+
+    .custom-promo {
+        isolation: isolate;
+        color: #fff;
+        border-radius: var(--custom-radius);
+        background: var(--color-dark);
+        height: 100%;
+        min-height: 22rem;
+        padding: clamp(1.5rem, 2.6vw, 2.5rem);
+        text-decoration: none;
+        display: flex;
+        position: relative;
+        overflow: hidden;
+
+        & img {
+            transition: scale 1.2s var(--ease-out);
+        }
+
+        &:before {
+            content: '';
+            z-index: -1;
+            background: linear-gradient(
+                to right,
+                oklch(from var(--shop-scrim) l c h / 0.72),
+                oklch(from var(--shop-scrim) l c h / 0.1) 70%
+            );
+            position: absolute;
+            inset: 0;
+        }
+
+        &:hover {
+            color: #fff;
+        }
+
+        &:hover img {
+            scale: 1.04;
+        }
+    }
+
+    .custom-promo-text {
+        color: oklch(100% 0 0 / 0.84);
+    }
+
+    .custom-empty-icon {
+        background: var(--color-tertiary);
+        border-radius: 50%;
+    }
+
+    @media (width < 1024px) {
+        .custom-promo-tile {
+            grid-column: 1 / -1;
+        }
+    }
+
+    @media (width < 768px) {
+        .custom-ph--photo .custom-ph-inner:before {
+            background: linear-gradient(
+                to top,
+                oklch(from var(--shop-scrim) l c h / 0.72),
+                oklch(from var(--shop-scrim) l c h / 0.3)
+            );
+        }
+
+        html[data-demo='activewear-store-1'] .custom-card.product-card--overlay {
+            & .product-card-cat {
+                display: none;
+            }
+
+            & .product-card-title {
+                font-size: 1.125rem;
+            }
+        }
+    }
+
+    .custom-banner {
+        &:after {
+            background: oklch(from var(--shop-scrim) l c h / 0.4);
+        }
+
+        & .custom-label {
+            color: var(--custom-light);
+        }
+
+        & .custom-ph-lead {
+            margin-inline: auto;
+        }
+    }
+
+    .custom-notes .custom-facts li:first-child {
+        border-top: 0;
+    }
+
+    .custom-gallery {
+        --gallery-ratio: 4 / 5;
+    }
+
+    .custom-product-title {
+        font-style: italic;
+    }
+
+    .custom-h3 {
+        font-family: var(--font-heading);
+        margin: 0;
+        font-size: 1.75rem;
+        font-style: italic;
+        font-weight: 700;
+        line-height: 1.05;
+    }
+
+    .custom-link-fit {
+        text-underline-offset: 4px;
+        text-decoration: underline;
+    }
+
+    .custom-perks {
+        background: var(--color-tertiary);
+    }
+
+    .custom-steps {
+        & li {
+            border-radius: var(--custom-radius);
+            background: var(--color-bg);
+            gap: 0.25rem;
+            padding: 1.25rem;
+            display: grid;
+        }
+
+        & b {
+            font-family: var(--font-heading);
+            color: var(--color-primary-ink);
+            font-size: 2.5rem;
+            font-style: italic;
+            font-weight: 800;
+            line-height: 1;
+        }
+    }
+
+    .custom-table {
+        border-collapse: collapse;
+
+        & :is(th, td) {
+            text-align: left;
+            border-bottom: 1px solid var(--color-border-soft);
+            padding: 0.875rem 1rem;
+        }
+
+        & tbody tr:hover {
+            background: var(--color-bg);
+        }
+    }
+
+    .custom-review-list--stack {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .custom-ship-head {
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 1rem;
+        margin: 1rem 0 0.375rem;
+        display: flex;
+    }
+
+    .custom-side-club:hover .custom-more i {
+        color: var(--color-on-primary);
+        background: var(--color-primary);
+        border-color: var(--color-primary);
+    }
+
+    .custom-finder-row {
+        border: 0;
+        gap: 0.625rem;
+        min-width: 0;
+        margin: 0;
+        padding: 0;
+        display: grid;
+    }
+
+    .custom-finder-label {
+        justify-content: space-between;
+        padding: 0;
+        font-size: 0.9375rem;
+        font-weight: 600;
+        display: flex;
+    }
+
+    .custom-finder-result {
+        background: var(--color-tertiary);
+    }
+
+    .custom-finder-panel,
+    .custom-faq {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        align-items: start;
+        gap: 2.5rem clamp(2.5rem, 6vw, 6rem);
+        display: grid;
+    }
+
+    .custom-desk {
+        background: var(--color-tertiary);
+
+        & img {
+            border-radius: 50%;
+        }
+    }
+
+    .custom-measure b {
+        font-family: var(--font-heading);
+        color: var(--color-primary-ink);
+        font-size: 2.25rem;
+        font-style: italic;
+        font-weight: 800;
+        line-height: 1;
+    }
+
+    .custom-lengths b {
+        font-family: var(--font-heading);
+        margin-top: 1rem;
+        font-size: 1.75rem;
+        font-style: italic;
+        font-weight: 800;
+        line-height: 1;
+    }
+
+    .custom-lengths-img img {
+        transition: scale 0.9s var(--ease-out);
+    }
+
+    .custom-lengths a:hover .custom-lengths-img img {
+        scale: 1.05;
+    }
+
+    .custom-support {
+        & li {
+            background: oklch(100% 0 0 / 0.06);
+        }
+
+        & .custom-level i {
+            background: oklch(100% 0 0 / 0.18);
+        }
+
+        & h3 {
+            color: #fff;
+            margin: 1.25rem 0 0.25rem;
+            font-size: 1.75rem;
+        }
+
+        & p {
+            color: oklch(100% 0 0 / 0.74);
+            margin: 0;
+        }
+    }
+
+    .custom-map-water {
+        fill: color-mix(in oklch, var(--color-tertiary) 70%, var(--color-quaternary) 12%);
+    }
+
+    .custom-map-path {
+        fill: none;
+        stroke: var(--color-border);
+        stroke-width: 3px;
+        stroke-dasharray: 2 8;
+        stroke-linecap: round;
+    }
+
+    .custom-map-route {
+        fill: none;
+        stroke: var(--color-border);
+        stroke-width: 4px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        transition:
+            stroke var(--duration-base) var(--ease-out),
+            stroke-width var(--duration-base) var(--ease-out);
+
+        &.is-on {
+            stroke: var(--color-primary);
+            stroke-width: 6px;
+        }
+    }
+
+    .custom-map-pin {
+        fill: var(--color-dark);
+        stroke: var(--color-surface);
+        stroke-width: 4px;
+    }
+
+    .custom-map-key i {
+        background: var(--color-dark);
+        border-radius: 50%;
+    }
+
+    .custom-map-key--water i {
+        background: color-mix(in oklch, var(--color-tertiary) 70%, var(--color-quaternary) 12%);
+    }
+
+    .custom-route-name {
+        font-family: var(--font-heading);
+        margin: 0;
+        font-size: 2rem;
+        font-style: italic;
+        font-weight: 800;
+        line-height: 1;
+    }
+
+    .custom-route-stats {
+        gap: var(--custom-gap);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin: 1.5rem 0;
+        display: grid;
+
+        & div {
+            background: var(--color-tertiary);
+        }
+    }
+
+    .custom-split-photo {
+        border-radius: calc(var(--custom-radius) + 0.5rem);
+    }
+
+    .custom-captain-by span {
+        color: oklch(100% 0 0 / 0.7);
+    }
+
+    .custom-perk-list span {
+        color: oklch(100% 0 0 / 0.74);
+    }
+
+    .custom-topics {
+        scrollbar-width: none;
+    }
+
+    .custom-post-grid {
+        margin: 0;
+    }
+
+    .custom-feature-post + .custom-post-grid {
+        margin-top: clamp(2rem, 3vw, 3rem);
+    }
+
+    .article-body h2 .custom-label {
+        font-family: var(--font-sans);
+        font-size: 0.9375rem;
+        font-style: normal;
+        line-height: 1.4;
+    }
+
+    .custom-process {
+        & b {
+            font-family: var(--font-heading);
+            color: oklch(from var(--color-secondary-base) 0.2 c h / 0.18);
+            font-size: 1.5rem;
+            font-style: italic;
+            font-weight: 800;
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+        }
+
+        & .custom-fact-icon {
+            background: var(--color-tertiary);
+        }
+    }
+
+    .custom-team {
+        --team-ratio: 4 / 5;
+
+        & .team-name {
+            font-style: italic;
+        }
+    }
+
+    .custom-store-facts {
+        & dt {
+            color: var(--custom-light);
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            display: flex;
+        }
+
+        & dd {
+            color: oklch(100% 0 0 / 0.8);
+        }
+    }
+
+    .custom-press {
+        & blockquote {
+            font-family: var(--font-heading);
+            margin: 0;
+            font-size: 1.5rem;
+            font-style: italic;
+            font-weight: 700;
+            line-height: 1.15;
+        }
+
+        & cite {
+            color: var(--color-primary-ink);
+            margin-top: 1rem;
+            font-style: normal;
+            font-weight: 600;
+            display: block;
+        }
+    }
+
+    .custom-policy {
+        scroll-margin-top: calc(var(--header-h) + 2rem);
+    }
+
+    .custom-roles {
+        & a {
+            color: var(--color-text);
+            border-radius: var(--custom-radius);
+            background: var(--color-bg);
+            transition:
+                background-color var(--duration-fast) var(--ease-out),
+                color var(--duration-fast) var(--ease-out);
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem 1.5rem;
+            text-decoration: none;
+            display: flex;
+        }
+
+        & a:hover {
+            color: var(--color-on-dark);
+            background: var(--color-dark);
+        }
+    }
+}

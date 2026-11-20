@@ -17,7 +17,7 @@ test('account continuation goes to the dashboard unless there is an incoming ide
   assert.equal(route.get('idea'), 'A café called Mango & Co. ☀');
   assert.equal(route.get('template'), 'blank');
   assert.equal(route.get('color'), 'sage');
-  // Retired sample starters from old links are dropped; every project starts blank.
+  // Retired sample starters from old links are dropped so the library can select a suitable design.
   const legacy = new URLSearchParams(D.accountDestination(new URLSearchParams({ idea: 'A shop', template: 'cafe' })).split('#')[1]);
   assert.deepEqual([...legacy.keys()], ['idea']);
 });

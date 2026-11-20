@@ -19,8 +19,8 @@ export default function Page() {
 <h1>{"Your next website."}<br />{"Built around your idea."}</h1>
 <p>{"Build with AI. Refine in your workspace."}<br />{"Keep your ideas, conversations and code together."}</p>
 <div className={"draft-illustration"} aria-hidden={"true"}>
-<div className={"browser-bar"}><span className={"browser-dots"}><i></i><i></i><i></i></span><span>{"kilnandco.example · sample site"}</span><svg className={"icon"}><use href={"#arrow"}></use></svg></div>
-<div className={"showcase-site sample-showcase"}><img src={"/samples/kiln-co.jpg"} width={"960"} height={"600"} alt={""} /></div>
+<div className={"browser-bar"}><span className={"browser-dots"}><i></i><i></i><i></i></span><span>{"Architecture Studio · template preview"}</span><svg className={"icon"}><use href={"#arrow"}></use></svg></div>
+<div className={"showcase-site sample-showcase"}><img src="/framo/shots/architecture-studio-1-wide.jpg" alt="The Architecture Studio template home page" width="1440" height="900" loading="lazy" decoding="async"/></div>
 </div>
 <div className={"brand-note"}><span className={"idea-icon"} aria-hidden={"true"}><svg className={"icon"}><use href={"#check"}></use></svg></span><div><span>{"Every detail is yours to shape."}</span><p>{"Chat, edit and preview in one workspace."}</p></div></div>
 </div>

@@ -1,0 +1,102 @@
+/* ================================================================
+ *  demo-spa-1.css — Framo theme for the Day Spa demo
+ *
+ *  The colors, fonts and layout settings of the Day Spa demo (Framo
+ *  Spa, day spa and thermal house in Sonoma, California): a coral for
+ *  the actions, a deep teal for the bands, the drawer and the footer,
+ *  blush for the page, stone for meta and sand for the steam lines and
+ *  the soft panels.
+ *  Starter values from the spec (Task 0); the foundation refines them.
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here).
+   Fraunces sets the headings (400 at its display optical size, with its
+   true italic for the marked word): a high-contrast serif with a closer
+   natural fit than a Garamond at large sizes. Inter sets the text, the
+   labels and the figures. */
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #e0866a;   /* main color: coral for buttons, links and focus; labels on it are white */
+    --color-secondary-base:  #0b3a40;   /* second color: deep teal for the bands and the footer; the dark scheme takes its hue */
+    --color-tertiary-base:   #f6ece6;   /* third color: blush, the page and soft fills */
+    --color-quaternary-base: #7f746e;   /* fourth color: stone, for meta and small marks */
+    --color-accent-base:     #e8d3b8;   /* attention color: sand, for steam lines and soft panels */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. */
+    /* Labels on the primary: white (the demo's choice), dark only on a very light primary */
+    --color-on-primary: oklch(from var(--color-primary-base) clamp(0.2, (0.8 - l) * 1000, 1) 0 0);
+    --color-primary-hover: oklch(from var(--color-primary-base) calc(l - 0.07) c h);   /* hover darkens, so the white label keeps its contrast */
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-text:      var(--color-secondary-base);   /* headings and body text: the deep teal ink (#0b3a40) */
+    --color-text-soft: oklch(from var(--color-secondary-base) 0.4341 calc(c * 0.621) calc(h - 2.2));   /* secondary text: the ink softened, never a cool grey (#3d5659) */
+    --color-text-muted: oklch(from var(--color-quaternary-base) 0.55 c h);   /* meta text: the stone (#7a6f69) */
+    --color-bg:        var(--color-tertiary-base);   /* page background: blush (#f6ece6) */
+    --color-bg-soft:   oklch(from var(--color-tertiary-base) 0.9209 calc(c * 1.323) calc(h + 0.6));   /* a step deeper: a deeper blush (#efe2da) */
+    --color-bg-muted:  oklch(from var(--color-tertiary-base) 0.8963 calc(c * 1.718) calc(h - 0.7));   /* hover fills (#ead9cf) */
+    --color-border:    oklch(from var(--color-tertiary-base) 0.8777 calc(c * 1.787) calc(h + 1.9));   /* lines and borders (#e4d3c8) */
+    --color-border-soft: oklch(from var(--color-tertiary-base) 0.9154 calc(c * 1.451) calc(h + 1.8));   /* the faintest rules (#eee0d7) */
+    --color-dark:      var(--color-secondary-base);   /* dark sections and dark buttons: the deep teal */
+    /* Brand-colored text on the blush: the coral deepened so a link or a label
+       reads (the coral itself is about 2.4:1 on the blush) */
+    --color-primary-ink: oklch(from var(--color-primary-base) min(l, 0.52) c h);
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Fraunces', Georgia, 'Times New Roman', serif;   /* headings */
+    --font-serif:   'Fraunces', Georgia, 'Times New Roman', serif;   /* italic accents */
+    --font-tertiary: 'Urbanist', system-ui, sans-serif;   /* display accents (unused by this demo) */
+
+    /* Stylesheets of the accent fonts, fetched only on pages that use them.
+       Change a family above and its URL here together. Set one to "" to
+       load nothing, e.g. when that font is a system font. */
+    --font-serif-src:    "";   /* Fraunces italic already comes with the @import above */
+    --font-tertiary-src: "https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800;900&display=swap";
+
+    /* Headings and buttons */
+    --heading-weight:     400;                     /* Fraunces regular: 300–600 are loaded */
+    --heading-tracking:   -0.01em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        1.5;      /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 9999px;   /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1280px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 1.3;    /* space between sections: 0.75 compact · 1 · 1.25 spacious */
+}

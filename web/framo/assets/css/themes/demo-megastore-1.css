@@ -1,0 +1,106 @@
+/* ================================================================
+ *  demo-megastore-1.css — Framo theme for the Megastore demo
+ *
+ *  The colors, fonts and layout settings of the Megastore
+ *  demo (Framo Mart, a multi-department store (appliances, TV & audio, computers, phones, home, toys, sports, grocery), 30 stores, pickup in 2 hours).
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here).
+   Inter for everything, with its optical-size axis: headings render as Inter Display
+   600 (the user's pick after the Home review, 2026-10-26: semibold Inter titles). */
+@import url("https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #2453c4;   /* main color: royal blue for the logo, the buttons, the cart, the department button and active states; labels on it are white */
+    --color-secondary-base:  #142038;   /* second color: navy ink for the text and the deal stickers; the dark scheme takes its hue */
+    --color-tertiary-base:   #e9edf3;   /* third color: mist for soft fills, promo grounds and the page tint */
+    --color-quaternary-base: #656b76;   /* fourth color: slate for meta */
+    --color-accent-base:     #e0a93b;   /* attention color: soft amber, for small marks only; labels on it stay black (Auto) */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. White labels on the primary (a preset picks its own); the amber accent
+       keeps its Auto label, black. */
+    --color-on-primary: #fff;
+
+    --color-primary:       var(--color-primary-base);
+    --color-primary-hover: oklch(from var(--color-primary-base) calc(l - 0.06) c h);
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-bg:          oklch(from var(--color-tertiary-base) 0.975 calc(c * 0.45) h);   /* page background: cool off-white (#f5f7fa) */
+    --color-bg-soft:     oklch(from var(--color-tertiary-base) 0.952 calc(c * 0.7) h);    /* a step deeper: fills and hover rows */
+    --color-bg-muted:    oklch(from var(--color-tertiary-base) 0.928 calc(c * 0.8) h);    /* placeholders */
+    --color-border:      oklch(from var(--color-tertiary-base) 0.885 calc(c * 0.8) h);    /* lines and borders */
+    --color-border-soft: oklch(from var(--color-tertiary-base) 0.925 calc(c * 0.7) h);    /* the faintest rules */
+    --color-text:        var(--color-secondary-base);   /* headings and body text */
+    --color-text-soft:   oklch(from var(--color-quaternary-base) 0.48 c h);   /* running text */
+    --color-text-muted:  oklch(from var(--color-quaternary-base) 0.5 c h);   /* meta text */
+    --color-dark:        var(--color-secondary-base);   /* dark sections and dark buttons */
+    /* Brand-colored text on the ground, held at or under 0.5 lightness so a
+       preset's lighter primary still reads at 4.5:1 */
+    --color-primary-ink: oklch(from var(--color-primary-base) min(l, 0.5) c h);
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Inter', system-ui, sans-serif;   /* headings (Inter Display through the opsz axis) */
+
+    /* Headings and buttons */
+    --heading-weight:     600;   /* Inter Display semibold */
+    --heading-tracking:   -0.025em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        1;     /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 0.5rem; /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1600px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 0.55;     /* space between sections: 0.55 ≈ 70px at 1440 (44px on a phone) · 0.75 · 1 spacious */
+}
+
+/* The 1600px container from 1280px up (the template steps it to 1280 there),
+   growing with the window to 1760px, so the bar and the hero never read as a
+   narrow column on a large screen */
+@layer utilities {
+    @media (width >= 80rem) {
+        :where(html[data-demo="megastore-1"]) .container { max-width: var(--container-max); }
+    }
+}
+
+@media (width >= 80rem) {
+    html[data-demo="megastore-1"] {
+        --container-max: clamp(1600px, 91.7vw, 1760px);
+        --container-width: var(--container-max);
+    }
+}
