@@ -2,6 +2,12 @@
 
 ## 22 November 2026
 
+### Remote template access for product backends
+- Added opt-in authenticated MCP HTTP access, short-lived scoped bearer tokens, client expiry, rotation/revocation and shared Redis rate limits. Isotris users do not need Draftmango accounts; its future backend authenticates as a separately provisioned product.
+- Added immutable authenticated package downloads with checksums, persistent storage and server-owned design validation. The local stdio contract and purchased template sources remain unchanged.
+- Added an isolated `template_access` migration, explicit enable flags, client management command and deployment/connection guide in `docs/remote-template-access.md`.
+- Verified 171 Node tests, 106 Django tests, migration completeness and the Next.js production build. No Isotris changes, real credentials or live deployment in this change. Priority remains the next reconciled production release.
+
 ### Shared template engine
 - The web builder, browser template picker and local MCP server now load one template engine and catalog. The duplicate Next.js catalog was removed.
 - New imports retain template/version metadata and design fingerprints. Personalization changes content fields and supported colours; layout, routing, classes, typography and vendor code are protected. Invalid pinned designs fail before a model request.

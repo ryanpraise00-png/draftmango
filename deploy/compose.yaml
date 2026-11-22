@@ -74,8 +74,10 @@ services:
       NODE_OPTIONS: --max-old-space-size=384
       DRAFTMANGO_PUBLIC_ORIGIN: https://draftmango.com
       DRAFTMANGO_BIND: 0.0.0.0
+      DRAFTMANGO_TEMPLATE_PACKAGES_DIR: /app/data/template-packages
       DJANGO_HOST: backend
       DJANGO_PORT: "4176"
+    volumes: ["template-packages:/app/data/template-packages"]
     ports: ["127.0.0.1:4180:4175"]
     networks:
       app:
@@ -148,6 +150,7 @@ networks:
   edge:
     name: draftmango-edge
 volumes:
+  template-packages:
   postgres:
   redis:
 secrets:

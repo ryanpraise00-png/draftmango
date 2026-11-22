@@ -20,11 +20,15 @@ that production has already been updated.
   storage is required before changing assets used by existing published sites.
 - Leave Isotris development alone while its owner is working on it. The current
   Isotris integration uses local stdio MCP. Hosting Draftmango's engine on the
-  VPS does not by itself enable remote MCP access for Isotris; authenticated
-  remote package delivery remains separate work.
+  VPS does not by itself connect Isotris. Include the opt-in remote MCP service,
+  the isolated `template_access` migration, and persistent `template-packages`
+  volume in this release. Follow [remote access setup](remote-template-access.md)
+  for both enable flags and backend-only client provisioning. Leave access
+  disabled until those steps are complete; do not put credentials in Isotris desktop.
 
-See [shared engine contract](shared-template-engine.md). The implementation
-passed 161 Node tests and the Next.js production build before this release note.
+See [shared engine contract](shared-template-engine.md). The remote-access release
+passed 171 Node tests, 106 Django tests, migration checks and the Next.js production
+build. These are local results, not proof of a production rollout.
 The older initial-installation sections below are historical setup guidance;
 check live configuration rather than assuming they describe today's deployment.
 

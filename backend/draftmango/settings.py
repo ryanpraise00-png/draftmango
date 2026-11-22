@@ -18,7 +18,7 @@ if not SECRET_KEY:
 DEBUG = False
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost'] + (['testserver'] if TESTING else [])
 ROOT_URLCONF = 'draftmango.urls'
-INSTALLED_APPS = ['django.contrib.auth', 'django.contrib.contenttypes', 'django.contrib.sessions', 'accounts']
+INSTALLED_APPS = ['django.contrib.auth', 'django.contrib.contenttypes', 'django.contrib.sessions', 'accounts', 'template_access']
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'draftmango.proxy.PrivateProxyMiddleware',
@@ -66,6 +66,9 @@ CSRF_COOKIE_SECURE = SESSION_COOKIE_SECURE
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 14
 BUILD_URL = os.environ.get('DRAFTMANGO_BUILD_URL', 'http://127.0.0.1:4178/build')
 BUILD_TOKEN = os.environ.get('DRAFTMANGO_BUILD_TOKEN', '')
+TEMPLATE_REMOTE_ENABLED = os.environ.get('DJANGO_TEMPLATE_REMOTE_ENABLED', '0') == '1'
+if TEMPLATE_REMOTE_ENABLED and not APP_ORIGIN.startswith('https://'):
+    raise ImproperlyConfigured('Remote template access requires an HTTPS DJANGO_APP_ORIGIN.')
 PUBLISHING_ENABLED = os.environ.get('DJANGO_PUBLISHING_ENABLED', '0') == '1'
 PUBLISHING_TOKEN = os.environ.get('DJANGO_PUBLISHING_TOKEN', '')
 PUBLISHING_BASE_DOMAIN = os.environ.get('DJANGO_PUBLISHING_BASE_DOMAIN', 'draftmango.com' if PRODUCTION else 'localhost')

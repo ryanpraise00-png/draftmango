@@ -1,7 +1,10 @@
 from django.urls import path
+from template_access import views as template_access
 from draftmango.health import health
 from accounts import views, workspace_views, billing_views, publishing, limits, google
 urlpatterns = [
+    path('api/template-access/token', template_access.token),
+    path('internal/template-access/authorize', template_access.authorize),
     path('healthz', health),
     path('api/publishing/sites', publishing.sites),
     path('internal/publishing/file', publishing.public_file),

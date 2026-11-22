@@ -1,3 +1,4 @@
+import {createTemplateRemote} from './template-remote.mjs';
 import {templateForPrompt} from './template-engine/index.mjs';
 import { publicOrigin as validateOrigin, requestBoundary } from './hosting.mjs';
 import { djangoSession, proxyDjango, sharedLimit } from './django.mjs';
@@ -25,8 +26,9 @@ async function readJSON(request, max = 2 * 1024 * 1024) {
   }
   try { return JSON.parse(Buffer.concat(chunks).toString('utf8')); } catch { throw new AIError(400, 'invalid_json', 'The request was not valid JSON.'); }
 }
-export function createServer({ root = fileURLToPath(new URL('../out/', import.meta.url)), configLoader = readConfig, modelCatalogLoader = readModelCatalog, fetchImpl = fetch, timeoutMs, heartbeatMs = 5000, cooldownMs = 1500, maxRequests = 20, domainConfigLoader = readDomainConfig, domainFetchImpl = fetch, domainTimeoutMs = 25000, domainMaxRequests = 30, accountSession = djangoSession, accountProxy = proxyDjango, publicOrigin = process.env.DRAFTMANGO_PUBLIC_ORIGIN || '', buildProject = buildRemote, limiter, trustedProxyIPs = (process.env.DRAFTMANGO_TRUSTED_PROXY_IPS || '').split(',').filter(Boolean) } = {}) {
+export function createServer({ root = fileURLToPath(new URL('../out/', import.meta.url)), configLoader = readConfig, modelCatalogLoader = readModelCatalog, fetchImpl = fetch, timeoutMs, heartbeatMs = 5000, cooldownMs = 1500, maxRequests = 20, domainConfigLoader = readDomainConfig, domainFetchImpl = fetch, domainTimeoutMs = 25000, domainMaxRequests = 30, accountSession = djangoSession, accountProxy = proxyDjango, publicOrigin = process.env.DRAFTMANGO_PUBLIC_ORIGIN || '', buildProject = buildRemote, limiter, templateRemoteOptions = {}, trustedProxyIPs = (process.env.DRAFTMANGO_TRUSTED_PROXY_IPS || '').split(',').filter(Boolean) } = {}) {
   publicOrigin = validateOrigin(publicOrigin);
+  const templateRemote = createTemplateRemote({...templateRemoteOptions, origin:publicOrigin});
   // One process locally: in-memory limits. Production may run several web
   // containers, so limits are held in Django's shared Redis cache instead.
   if (limiter === undefined) limiter = publicOrigin ? sharedLimit : null;
@@ -45,6 +47,8 @@ export function createServer({ root = fileURLToPath(new URL('../out/', import.me
       const expectedOrigin = requestBoundary(request, publicOrigin, trustedProxyIPs);
       const url = new URL(request.url, expectedOrigin);
       if (url.pathname === '/healthz' && request.method === 'GET') { json(response, 200, {status: 'ok'}); return; }
+      if (await templateRemote(request, response, url)) return;
+      if (url.pathname.startsWith('/internal/')) {json(response,404,{error:{code:'not_found',message:'Not found'}});return;}
       if (url.pathname.startsWith('/api/')) {
         const origin = request.headers.origin;
         // Google's redirect back is a cross-site navigation; Django checks its one-time state.
