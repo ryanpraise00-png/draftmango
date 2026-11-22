@@ -3,6 +3,31 @@
 Host: root@187.124.47.123 (srv1803759.hstgr.cloud), Ubuntu 24.04.
 Application domain: draftmango.com. www redirects to the apex after TLS setup.
 
+## Next deployment priority — shared template engine
+
+Requested by the owner on 22 November 2026. Include the shared template engine
+from `codex/shared-template-engine` (implementation commit `7b81ed1`) in the
+next Draftmango deployment. This is a queued release priority, not a record
+that production has already been updated.
+
+- Reconcile this branch with the actual running release and any production-only
+  changes before rollout. Retain the existing release and rollback information.
+- Deploy the Next.js output and Node gateway together: the template picker now
+  depends on authenticated `POST /api/templates/start`.
+- Verify authenticated template import, saved template/version metadata and
+  design-preserving personalization; verify unauthenticated access is rejected.
+- Keep the current template assets available. Durable versioned hosted asset
+  storage is required before changing assets used by existing published sites.
+- Leave Isotris development alone while its owner is working on it. The current
+  Isotris integration uses local stdio MCP. Hosting Draftmango's engine on the
+  VPS does not by itself enable remote MCP access for Isotris; authenticated
+  remote package delivery remains separate work.
+
+See [shared engine contract](shared-template-engine.md). The implementation
+passed 161 Node tests and the Next.js production build before this release note.
+The older initial-installation sections below are historical setup guidance;
+check live configuration rather than assuming they describe today's deployment.
+
 ## Layout
 ```
 /opt/draftmango/releases/<release>/ : immutable source for each release
