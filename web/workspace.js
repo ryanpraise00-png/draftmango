@@ -665,7 +665,10 @@
       publish:()=>globalThis.DraftmangoPublishing?.open()
     },!!aiJob||!!storeStates.get(project.id)?.busy,storeStates.get(project.id));
     if(globalThis.DraftmangoStoreBuilder?.supported(project)&&!storeStates.has(project.id))queueMicrotask(()=>loadStore());
-    const log=$('#conversation');if(root!==log.lastElementChild && !$('#agent-progress'))log.append(root);
+    const isQuestion=B.read(project.workspace?.builder)?.phase==='discovery';
+    root.classList.toggle('is-question',isQuestion);
+    if(isQuestion){const dock=$('#panel-build .composer-area');if(root.parentElement!==dock)dock.prepend(root);}
+    else{const log=$('#conversation');if(root.parentElement!==log||(root!==log.lastElementChild&&!$('#agent-progress')))log.append(root);}
   }
   function renderAgentProgress() {
     let pending=$('#agent-progress');

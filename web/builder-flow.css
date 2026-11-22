@@ -23,25 +23,40 @@
 html[data-reduce-motion=true] .send-button .send-icon,html[data-reduce-motion=true] .send-button .stop-icon{transition:none}
 @media(max-width:540px){.builder-prompt{margin-inline:14px}.builder-prompt-actions button{flex:1}}
 
-/* Question cards use native radios; choosing an answer never submits it. */
-.app-question{width:100%;box-sizing:border-box;padding:18px;border:1px solid var(--ws-line,#ddd);border-radius:12px;background:var(--ws-panel,#fff);color:var(--ws-ink,#202020)}
+/* Compact question tray, docked above the composer while the transcript scrolls. */
+.builder-prompt.is-question{margin:0 0 10px;flex-shrink:0;min-width:0}
+.app-question{display:flex;flex-direction:column;width:100%;box-sizing:border-box;max-height:min(430px,46dvh);padding:12px 10px 10px;border:1px solid var(--ws-line,#ddd);border-radius:16px;background:var(--ws-bg,#f8f6f2);color:var(--ws-ink,#202020);overflow:hidden}
+.app-question[hidden],.app-question-resume[hidden],.app-question-error[hidden]{display:none}
+.app-question-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 6px 8px;color:var(--ws-muted,#666);font-size:13px;flex-shrink:0}
+.app-question .app-question-close{display:grid;place-items:center;width:28px;height:28px;padding:0;border:0;border-radius:6px;background:none;color:var(--ws-muted,#666);font:inherit;font-size:20px;line-height:1;cursor:pointer}
+.app-question-close:hover{background:var(--ws-hover,#eee)}
+.app-question-body{min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:0 2px}
 .app-question fieldset{border:0;padding:0;margin:0;min-width:0}
-.app-question legend{width:100%;padding:0;font-size:16px;line-height:1.5;font-weight:600;overflow-wrap:anywhere}
-.app-question-hint,body.workspace-clone[data-screen] .app-question-hint{margin:8px 0 16px;color:var(--ws-muted,#666);font-size:13px;line-height:1.6}
-.app-choices{display:grid;gap:8px;min-width:0}
-.builder-answer,body.workspace-clone[data-screen] .app-question .builder-answer{display:flex;margin:0;align-items:flex-start;gap:11px;min-width:0;padding:12px;border:1px solid var(--ws-line,#ddd);border-radius:8px;cursor:pointer;text-align:left;font-size:15px;line-height:1.5}
-.builder-answer:hover:not(:has(:disabled)){border-color:var(--ws-muted,#666)}
-.builder-answer:has(input:checked){border-color:var(--ws-ink,#202020);box-shadow:inset 0 0 0 1px var(--ws-ink,#202020);background:var(--ws-hover,#f7f7f7)}
-.builder-answer input,body.workspace-clone[data-screen] .app-question .builder-answer input{appearance:auto;border:0;border-radius:0;background:none;box-shadow:none;flex:0 0 16px;width:16px;height:16px;margin:3px 0 0;padding:0;accent-color:var(--ws-ink,#202020)}
+.app-question legend{width:100%;box-sizing:border-box;padding:0 4px;margin:0 0 10px;font-size:14px;line-height:1.5;font-weight:600;overflow-wrap:anywhere}
+.app-choices{display:grid;gap:3px;min-width:0}
+.builder-answer,body.workspace-clone[data-screen] .app-question .builder-answer{position:relative;display:grid;grid-template-columns:20px minmax(0,1fr) 16px;align-items:center;gap:8px;min-width:0;min-height:36px;box-sizing:border-box;margin:0;padding:6px;border:0;border-radius:7px;background:none;cursor:pointer;text-align:left;font-size:14px;font-weight:500;line-height:1.5}
+.builder-answer:hover:not(:has(:disabled)),body.workspace-clone[data-screen] .app-question .builder-answer:hover:not(:has(:disabled)),.builder-answer:has(input:checked),body.workspace-clone[data-screen] .app-question .builder-answer:has(input:checked){background:var(--ws-hover,#eee)}
+.builder-answer:has(input:focus-visible){outline:2px solid var(--ws-accent,#ce3e08);outline-offset:-2px}
+.builder-answer input,body.workspace-clone[data-screen] .app-question .builder-answer input{position:absolute;width:1px;height:1px;padding:0;margin:0;border:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.app-answer-number{display:grid;place-items:center;box-sizing:border-box;width:20px;height:20px;border:1px solid var(--ws-line,#ddd);border-radius:4px;background:var(--ws-panel,#fff);color:var(--ws-muted,#666);font-size:12px;font-weight:400}
 .app-answer-label{display:block;min-width:0;overflow-wrap:anywhere}
-.app-answer-label small,body.workspace-clone[data-screen] .app-answer-label small{display:block;margin-top:3px;color:var(--ws-muted,#666);font-size:12px;font-weight:400}
-.app-custom-answer{margin-top:12px}
-.app-custom-answer[hidden],.app-question-error[hidden]{display:none}
-.app-custom-answer textarea,body.workspace-clone[data-screen] .app-custom-answer textarea{display:block;width:100%;box-sizing:border-box;resize:vertical;min-height:90px;padding:12px;border:1px solid var(--ws-line,#ddd);border-radius:8px;background:var(--ws-panel,#fff);color:inherit;font:inherit;font-size:16px;line-height:1.5}
-.app-question-actions{display:flex;justify-content:flex-end;margin-top:16px}
-.app-question-error{margin:12px 0 0;color:var(--ws-ink,#202020);font-size:14px}
+.app-answer-label small,body.workspace-clone[data-screen] .app-answer-label small{display:inline;color:var(--ws-muted,#666);font-size:12px;font-weight:400;line-height:inherit}
+.app-answer-arrow{visibility:hidden;color:var(--ws-accent,#ce3e08);font-size:17px;line-height:1}
+.builder-answer:has(input:checked) .app-answer-arrow,.builder-answer:hover .app-answer-arrow{visibility:visible}
+.app-question-footer{display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px;margin-top:12px;padding:0 4px;flex-shrink:0}
+.app-custom-answer{display:flex;align-items:flex-start;gap:7px;flex:1 1 160px;min-width:0}
+.app-custom-answer svg{width:15px;height:15px;margin-top:8px;flex-shrink:0;fill:none;stroke:var(--ws-muted,#666);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.app-custom-answer textarea,body.workspace-clone[data-screen] .app-custom-answer textarea{display:block;flex:1;width:100%;box-sizing:border-box;resize:none;height:32px;min-height:32px;max-height:96px;padding:5px 0;border:0;border-radius:0;background:transparent;color:inherit;font:inherit;font-size:14px;line-height:22px;box-shadow:none;scrollbar-width:thin}
+.app-custom-answer textarea::placeholder{color:var(--ws-muted,#666);opacity:1}
+.app-question-actions{display:flex;gap:6px;align-items:center;margin-left:auto}
+.app-question .app-question-skip,.app-question .app-question-send{min-height:30px;padding:4px 12px;border:1px solid var(--ws-line,#ddd);border-radius:999px;font:inherit;font-size:13px;line-height:20px;cursor:pointer}
+.app-question .app-question-skip{background:transparent;color:var(--ws-ink,#202020)}
+.app-question-error,body.workspace-clone[data-screen] .app-question-error{margin:8px 6px 0;color:var(--ws-ink,#202020);font-size:13px}
+.app-question-resume{padding:7px 12px;border:1px solid var(--ws-line,#ddd);border-radius:999px;background:var(--ws-bg,#f8f6f2);color:var(--ws-ink,#202020);font:inherit;font-size:13px;cursor:pointer}
 .app-question:has(:disabled) .builder-answer{cursor:wait}
 .app-question:has(:disabled) .app-answer-label{opacity:.6}
+@media(max-width:540px){.app-custom-answer textarea,body.workspace-clone[data-screen] .app-custom-answer textarea{font-size:16px}.app-question .app-question-skip,.app-question .app-question-send{min-height:36px}}
+@media(max-height:600px){.app-question{max-height:40dvh}.composer-area:has(.builder-prompt.is-question:not([hidden])){max-height:calc(100% - 40px);overflow:auto}}
 /* The plan: a short proposal; the full details stay folded away. */
 .app-proposal{display:grid;gap:8px}
 .app-run-head{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ws-ink)}

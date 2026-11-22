@@ -11,59 +11,70 @@
   function setControls(root,busy){
     root.hidden=!root.childElementCount||!!root.querySelector('.app-question[data-submitting=true],.app-question[data-answered=true]');
     root.querySelectorAll('button,input,textarea').forEach(el=>{
-      el.disabled=busy||el.closest('form')?.dataset.submitting==='true';
+      el.disabled=busy||el.dataset.unavailable==='true'||el.closest('form')?.dataset.submitting==='true';
     });
   }
 
   function question(root,q,answer){
     const id='builder-question-'+(++questionNumber);
     const form=node('form',null,'builder-questions app-question');form.setAttribute('aria-labelledby',id);
-    const group=node('fieldset');
-    const title=node('legend',q.title);title.id=id;
-    const hint=node('p','Select an option or write your own answer.','app-question-hint');hint.id=id+'-hint';
-    group.setAttribute('aria-describedby',hint.id);group.append(title,hint);
+    const head=node('div',null,'app-question-head');head.append(node('span','Question'));
+    const close=node('button','×','app-question-close');close.type='button';close.setAttribute('aria-label','Dismiss question');head.append(close);
+    const body=node('div',null,'app-question-body'),group=node('fieldset');
+    const title=node('legend',q.title);title.id=id;group.append(title);
     const choices=node('div',null,'app-choices');
-    const custom=node('div',null,'app-custom-answer');custom.hidden=true;
-    const field=node('textarea');field.rows=3;field.maxLength=2000;field.placeholder='Write your answer…';field.setAttribute('aria-label','Your answer: '+q.title);
-    field.oninput=()=>field.setCustomValidity('');custom.append(field);
-    const select=()=>{
-      const isCustom=other.checked;
-      custom.hidden=!isCustom;field.required=isCustom;field.setCustomValidity('');
-      if(isCustom)field.focus();
-    };
-    const option=(value,text,recommended=false)=>{
-      const row=node('label',null,'builder-answer');
-      const input=node('input');input.type='radio';input.name=id+'-answer';input.value=value;input.checked=recommended;
-      const copy=node('span',null,'app-answer-label');copy.append(node('span',text));
-      if(recommended)copy.append(node('small','Recommended'));
-      input.onchange=select;row.append(input,copy);choices.append(row);return input;
-    };
-    const order=[q.recommended,...q.options.map((_,i)=>i).filter(i=>i!==q.recommended)];
-    for(const i of order)option(String(i),q.options[i],i===q.recommended);
-    const other=option('custom','Something else');
-    group.append(choices,custom);
-    const error=node('p',null,'app-question-error');error.hidden=true;error.setAttribute('role','alert');
+    // Older saved questions (and occasionally providers) include an Other option. The free-text
+    // field already supplies that route; never show it as another suggested answer.
+    const fallback=/^(?:other(?:\s*\(.*\))?|something else|another option|custom(?: answer| response| option)?)\s*[.!…]*$/i;
+    const order=[q.recommended,...q.options.map((_,i)=>i).filter(i=>i!==q.recommended)].filter(i=>!fallback.test(q.options[i]));
+    let selected=order[0]??null;
+    const radios=[];
+    const footer=node('div',null,'app-question-footer');
+    const custom=node('div',null,'app-custom-answer');
+    const pencil=document.createElementNS('http://www.w3.org/2000/svg','svg');pencil.setAttribute('viewBox','0 0 24 24');pencil.setAttribute('aria-hidden','true');
+    const stroke=document.createElementNS('http://www.w3.org/2000/svg','path');stroke.setAttribute('d','m16 3 5 5-13 13H3v-5L16 3ZM14 5l5 5');pencil.append(stroke);
+    const field=node('textarea');field.rows=1;field.maxLength=2000;field.placeholder='Or write your own response';field.setAttribute('aria-label','Your answer: '+q.title);
+    custom.append(pencil,field);
     const actions=node('div',null,'app-question-actions');
-    const send=node('button','Submit answer','builder-primary');send.type='submit';actions.append(send);
-    form.append(group,error,actions);
-    form.onsubmit=async event=>{
-      event.preventDefault();
-      if(root.getAttribute('aria-busy')==='true'||form.dataset.submitting==='true')return;
-      const selected=form.querySelector('input:checked');
-      const value=selected?.value==='custom'?field.value.trim():q.options[Number(selected?.value)];
-      if(!value){field.setCustomValidity('Enter your answer.');field.reportValidity();return;}
-      error.hidden=true;form.dataset.submitting='true';form.setAttribute('aria-busy','true');setControls(root,true);
-      try{
-        const sent=await answer(q.title+'\n'+value);
-        if(sent!==false)form.dataset.answered='true';
-      }
-      catch{error.textContent='Your answer could not be sent. Please try again.';error.hidden=false;}
-      finally{
-        delete form.dataset.submitting;form.setAttribute('aria-busy','false');
-        if(form.parentElement===root)setControls(root,root.getAttribute('aria-busy')==='true');
+    const skip=node('button','Skip','app-question-skip');skip.type='button';
+    const send=node('button','Send','builder-primary app-question-send');send.type='submit';send.setAttribute('aria-label','Send answer');actions.append(skip,send);footer.append(custom,actions);
+    const error=node('p',null,'app-question-error');error.hidden=true;error.setAttribute('role','alert');
+    const sync=()=>{send.dataset.unavailable=String(selected===null&&!field.value.trim());setControls(root,root.getAttribute('aria-busy')==='true');};
+    const resize=()=>{field.style.height='auto';field.style.height=Math.min(field.scrollHeight,96)+'px';};
+    field.onfocus=()=>{selected=null;radios.forEach(input=>input.checked=false);sync();};
+    field.oninput=()=>{selected=null;radios.forEach(input=>input.checked=false);field.setCustomValidity('');resize();sync();};
+    field.onkeydown=event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing){event.preventDefault();if(!send.disabled)form.requestSubmit(send);}};
+    order.forEach((i,position)=>{
+      const row=node('label',null,'builder-answer');
+      const input=node('input');input.type='radio';input.name=id+'-answer';input.value=String(i);input.checked=i===selected;
+      const number=node('span',String(position+1),'app-answer-number');number.setAttribute('aria-hidden','true');
+      const copy=node('span',null,'app-answer-label');copy.append(node('span',q.options[i]));
+      if(i===q.recommended)copy.append(node('small',' (Recommended)'));
+      const arrow=node('span','→','app-answer-arrow');arrow.setAttribute('aria-hidden','true');
+      input.onchange=()=>{selected=i;field.value='';field.setCustomValidity('');field.style.height='';sync();};
+      row.append(input,number,copy,arrow);choices.append(row);radios.push(input);
+    });
+    group.append(choices);body.append(group);form.append(head,body,error,footer);
+    const resume=node('button','Answer question','app-question-resume');resume.type='button';resume.hidden=true;
+    close.onclick=()=>{form.hidden=true;resume.hidden=false;resume.focus();};
+    resume.onclick=()=>{form.hidden=false;resume.hidden=true;(radios.find(input=>input.checked)||field).focus();};
+    form.onkeydown=event=>{
+      if(event.key==='Escape'){event.preventDefault();close.click();}
+      else if(event.target.tagName!=='TEXTAREA'&&/^[1-4]$/.test(event.key)&&!event.ctrlKey&&!event.metaKey&&!event.altKey){
+        const radio=radios[Number(event.key)-1];if(radio){event.preventDefault();radio.click();radio.focus();}
       }
     };
-    root.append(form);
+    const submit=async value=>{
+      if(root.getAttribute('aria-busy')==='true'||form.dataset.submitting==='true')return;
+      if(!value){field.setCustomValidity('Choose an answer or write your own.');field.reportValidity();return;}
+      error.hidden=true;form.dataset.submitting='true';form.setAttribute('aria-busy','true');setControls(root,true);
+      try{const sent=await answer(q.title+'\n'+value);if(sent!==false)form.dataset.answered='true';}
+      catch{error.textContent='Your answer could not be sent. Please try again.';error.hidden=false;}
+      finally{delete form.dataset.submitting;form.setAttribute('aria-busy','false');if(form.parentElement===root)sync();}
+    };
+    form.onsubmit=event=>{event.preventDefault();submit(selected===null?field.value.trim():q.options[selected]);};
+    skip.onclick=()=>submit('Skip this question for now. Leave this detail unconfirmed.');
+    root.append(form,resume);sync();
   }
 
   function proposal(root,plan,{build,revise}){
