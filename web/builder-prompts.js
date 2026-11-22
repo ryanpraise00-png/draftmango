@@ -5,7 +5,6 @@
 (() => {
   const B=globalThis.DraftmangoBuilderFlow;
   const node=(tag,text,cls)=>{const n=document.createElement(tag);if(text)n.textContent=text;if(cls)n.className=cls;return n;};
-  const icon=name=>{const i=node('i');i.className='ph-bold ph-'+name;i.setAttribute('aria-hidden','true');return i;};
   const label=value=>value.replaceAll('-',' ').replace(/\b\w/g,c=>c.toUpperCase()).replace(/ (\d+)$/,'');
 
   function question(root,q,answer){
@@ -19,10 +18,10 @@
       button.onclick=()=>{if(root.getAttribute('aria-busy')!=='true')answer(q.title+'\n'+q.options[i]);};
       choices.append(button);
     }
-    const other=node('button','Something else','app-choice app-choice--other');other.type='button';other.prepend(icon('pencil-simple'));
+    const other=node('button','Something else','app-choice app-choice--other');other.type='button';
     const form=node('form',null,'app-other');form.hidden=true;
     const field=node('input');field.type='text';field.maxLength=2000;field.placeholder='Type your answer';field.setAttribute('aria-label','Your answer: '+q.title);
-    const send=node('button',null,'app-send');send.type='submit';send.setAttribute('aria-label','Send answer');send.append(icon('arrow-up'));
+    const send=node('button','Send','builder-primary app-send');send.type='submit';send.setAttribute('aria-label','Send answer');
     form.append(field,send);
     other.onclick=()=>{form.hidden=false;other.setAttribute('aria-expanded','true');field.focus();};
     form.onsubmit=event=>{
@@ -35,11 +34,10 @@
   }
 
   function proposal(root,plan,{build,revise}){
-    const card=node('section',null,'builder-plan custom-panel app-proposal');card.setAttribute('aria-label','Proposed plan');
+    const card=node('section',null,'builder-plan app-proposal');card.setAttribute('aria-label','Proposed plan');
     const head=node('div',null,'app-run-head');
-    const glyph=node('span',null,'custom-glyph custom-glyph--brand');glyph.append(icon('list-checks'));
-    const status=node('span','Waiting for you','custom-status custom-status--wait');
-    head.append(glyph,node('b','Proposed plan'),status);
+    const status=node('span','Waiting for you','app-proposal-status');
+    head.append(node('b','Proposed plan'),status);
     const pages=plan.pages.length;
     const meta=node('p',`${label(plan.templateId)} template · ${pages} page${pages===1?'':'s'}`,'app-proposal-meta');
     const chips=node('div',null,'app-pages');
@@ -53,8 +51,8 @@
       if(!items.length)continue;details.append(node('h5',name+' · '+items.length));const list=node('ul');items.forEach(text=>list.append(node('li',text)));details.append(list);
     }
     const actions=node('div',null,'app-plan-actions builder-prompt-actions');
-    const go=node('button','Build it','btn btn-primary app-btn-sm builder-primary');go.type='button';go.prepend(icon('hammer'));go.onclick=()=>build();
-    const change=node('button','Adjust','btn app-btn-sm btn-outline-light builder-secondary');change.type='button';change.onclick=()=>revise();
+    const go=node('button','Build it','builder-primary');go.type='button';go.onclick=()=>build();
+    const change=node('button','Adjust','builder-secondary');change.type='button';change.onclick=()=>revise();
     actions.append(go,change);
     card.append(head,node('h3',plan.name),node('p',plan.goal,'app-proposal-goal'),meta,chips,details,actions);root.append(card);
   }

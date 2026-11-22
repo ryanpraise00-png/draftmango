@@ -2,7 +2,7 @@
   'use strict';
   const M = globalThis.DraftmangoDomainModel, A = globalThis.DraftmangoAccounts;
   const e = globalThis.DraftmangoModel.escapeHtml;
-  const icon = name => globalThis.DraftmangoWorkspace.icon(name);
+  const icon = name => `<svg class="icon" aria-hidden="true"><use href="#${name}"/></svg>`;
   const money = cents => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(cents / 100);
   let root, library, dialog, opener, selected, result, searchController;
   let mode = 'search', searchVersion = 0;

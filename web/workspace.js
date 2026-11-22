@@ -79,7 +79,7 @@
   device = W.preferences.device === 'auto' ? 'responsive' : W.preferences.device;
   let openFiles = ['index.html'];
 
-  const icon = (name, className = 'icon') => globalThis.DraftmangoWorkspace.icon(name, className === 'icon' ? '' : className);
+  const icon = (name, className = 'icon') => `<svg class="${className}" aria-hidden="true"><use href="#${name}"/></svg>`;
   function announce(message) {
     const toast = $('#toast');
     toast.textContent = message;
@@ -143,7 +143,7 @@
     $('#project-sidebar').classList.remove('is-open');
     $('#navigation-scrim').hidden = true;
     $('.workspace-layout').inert = false;
-    $('#project-sidebar').inert = matchMedia('(max-width:1000px)').matches || $('.builder-shell').classList.contains('navigation-collapsed');
+    $('#project-sidebar').inert = matchMedia('(max-width:1000px)').matches;
     $('#toggle-navigation').setAttribute('aria-expanded', String(!matchMedia('(max-width:1000px)').matches && !$('.builder-shell').classList.contains('navigation-collapsed')));
   }
   $('#toggle-navigation').addEventListener('click', () => {
@@ -157,9 +157,7 @@
       if (open) $('#project-sidebar .ws-nav-close')?.focus();
     } else {
       const collapsed = $('.builder-shell').classList.toggle('navigation-collapsed');
-      $('#project-sidebar').inert = collapsed;
       $('#toggle-navigation').setAttribute('aria-expanded', String(!collapsed));
-      if (!collapsed) $('#project-sidebar .ws-nav-close')?.focus();
     }
     scheduleCanvasSize();
   });
@@ -194,7 +192,7 @@
       block.className = `message message-${message.role}`;
       const label = document.createElement('div');
       label.className = 'message-label';
-      label.innerHTML = message.role === 'user' ? 'You' : '<span class="custom-glyph custom-glyph--brand" aria-hidden="true"><i class="ph-bold ph-sparkle"></i></span>Draftmango';
+      label.innerHTML = message.role === 'user' ? 'You <span class="avatar">Y</span>' : `<span class="avatar">${icon('mango')}</span>Draftmango`;
       const content = document.createElement(message.role === 'assistant' ? 'div' : 'p');
       content.className = 'message-content';
       const messageText = message.initial ? 'Tell me what you want to build. I’ll help clarify the details, agree a plan with you, and adapt a design from the template library.' : message.text;

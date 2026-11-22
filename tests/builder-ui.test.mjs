@@ -79,7 +79,7 @@ test('browser: question rendering handles custom validation, disabled controls a
  await page.setContent('<main id="root"></main><button class="send-button" data-busy="true"><svg class="send-icon"></svg><span class="stop-icon"></span></button>');
  await page.addScriptTag({path:new URL('../web/builder-flow.js',import.meta.url).pathname.replace(/^\/([A-Z]:)/,'$1')});
  await page.addScriptTag({path:new URL('../web/builder-prompts.js',import.meta.url).pathname.replace(/^\/([A-Z]:)/,'$1')});
- await page.addStyleTag({path:new URL('../web/app-ui.css',import.meta.url).pathname.replace(/^\/([A-Z]:)/,'$1')});
+ await page.addStyleTag({path:new URL('../web/builder-flow.css',import.meta.url).pathname.replace(/^\/([A-Z]:)/,'$1')});
  await page.evaluate(q=>{globalThis.answers=[];globalThis.state={version:1,phase:'discovery',plan:null,checks:[],questions:[q]};globalThis.paint=busy=>DraftmangoBuilderPrompts.render(document.querySelector('#root'),state,{answer:v=>answers.push(v)},busy);paint(false);},question);
  await page.getByText('Something else',{exact:true}).click();
  await page.getByRole('textbox').fill('  ');await page.getByRole('button',{name:'Send answer'}).click();assert.equal(await page.evaluate(()=>answers.length),0);
