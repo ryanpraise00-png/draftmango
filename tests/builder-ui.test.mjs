@@ -63,19 +63,27 @@ test('browser: guided answers persist, confirmation gates building, and the send
  assert.ok(requests[1].prompt.includes('Everyday wear for adults in the UK'));
  assert.equal(await page.evaluate(()=>JSON.stringify(DraftmangoEditor.project.files)),original);
  await page.reload();await page.waitForSelector('.builder-plan');assert.equal(requests.length,2);
- await page.getByText('Details',{exact:true}).click();
+ await page.waitForFunction(()=>document.querySelector('#template-review-frame')?.getAttribute('src')==='/framo/previews/demo-fashion-store-1.html');
+ assert.equal(await page.locator('#builder-prompt').evaluate(el=>el.parentElement.classList.contains('composer-area')),true);
+ assert.equal(await page.locator('.app-proposal').evaluate(el=>el.getBoundingClientRect().height<280),true);
+ assert.equal(await page.locator('#template-review-frame').getAttribute('sandbox'),'allow-scripts');
+ assert.ok((await page.locator('#template-review-note').innerText()).includes('Sample content, not customised.'));
+ assert.equal(await page.evaluate(()=>JSON.stringify(DraftmangoEditor.project.files)),original);
+ await page.locator('.app-proposal').screenshot({path:path.join(tmpdir(),'draftmango-plan-card.png')});
+ await page.screenshot({path:path.join(tmpdir(),'draftmango-builder-plan-desktop.png')});
+ await page.getByText('Pages and details',{exact:true}).click();
  assert.ok(await page.getByText('Order history',{exact:true}).isVisible());
  await page.getByText('Store details to review',{exact:true}).click();
  assert.ok(await page.getByRole('heading',{name:'Cotton socks',exact:true}).isVisible());assert.ok((await page.locator('.app-proposal-details').innerText()).includes('£15.00'));
  assert.ok((await page.locator('.app-proposal-details').innerText()).includes('Stock: Needs your confirmation'));
  assert.equal(await page.locator('.builder-primary').evaluate(el=>getComputedStyle(el).color!==getComputedStyle(el).backgroundColor),true);
- await page.screenshot({path:path.join(tmpdir(),'draftmango-builder-plan-desktop.png')});
+ await page.getByText('Pages and details',{exact:true}).click();
  await page.setViewportSize({width:390,height:844});
  await page.waitForFunction(()=>document.querySelector('#project-sidebar').getBoundingClientRect().right<=1);
  await page.waitForFunction(()=>document.querySelector('#chat-form .send-button').getBoundingClientRect().right<=window.innerWidth);
  await page.screenshot({path:path.join(tmpdir(),'draftmango-builder-plan-mobile.png')});
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),true);
- await page.getByRole('button',{name:'Build it',exact:true}).click();
+ await page.getByRole('button',{name:'Build website',exact:true}).click();
  await page.waitForFunction(()=>DraftmangoEditor.busy&&document.querySelector('.agent-plan').textContent.includes('Content pass'));
  assert.equal(await page.locator('#chat-input').inputValue(),'');
  const stop=page.getByRole('button',{name:'Stop generation',exact:true});
@@ -85,8 +93,11 @@ test('browser: guided answers persist, confirmation gates building, and the send
  assert.equal(await page.getByRole('button',{name:'Send message',exact:true}).getAttribute('type'),'submit');
  assert.equal(await page.evaluate(()=>JSON.stringify(DraftmangoEditor.project.files)),original);
  releaseBuild?.();hold=false;
- await page.getByRole('button',{name:'Build it',exact:true}).click();
+ await page.getByRole('button',{name:'Build website',exact:true}).click();
  await page.waitForSelector('.builder-checklist',{timeout:60000});
+ await page.locator('button[data-mobile-view="preview"]').click();
+ assert.equal(await page.locator('#template-review-frame').isVisible(),false);assert.equal(await page.locator('#website-frame').isVisible(),true);
+ await page.getByRole('button',{name:'Back to conversation',exact:true}).click();
  await page.waitForFunction(()=>!DraftmangoEditor.busy);
  assert.ok((await page.locator('.builder-checklist').innerText()).includes('Connection needed'));
  assert.equal(await page.evaluate(()=>DraftmangoEditor.project.workspace.builder.phase),'built');
@@ -171,4 +182,44 @@ test('browser: long question cards fit small screens, filter fallback choices an
  await page.getByRole('textbox').fill('Our own answer');assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  await page.setViewportSize({width:320,height:500});
  assert.equal(await page.getByRole('button',{name:'Send answer'}).evaluate(el=>{const r=el.getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight;}),true);
+});
+
+
+test('browser: template review can retry, follows the selected design and never replaces edited source', {timeout:45000},async t=>{
+ const server=createServer({accountSession:async()=>null,configLoader:async()=>({provider:'anthropic',key:'',model:'claude-sonnet-5-5'}),modelCatalogLoader:async()=>({defaultId:'',models:[]})});
+ server.listen(0,'127.0.0.1');await once(server,'listening');t.after(()=>{server.closeAllConnections();server.close();});
+ const browser=await chromium.launch({headless:true});t.after(()=>browser.close());
+ const page=await browser.newPage({viewport:{width:1440,height:1000}});const base='http://127.0.0.1:'+server.address().port;let fail=true;
+ await page.route('**/*',route=>new URL(route.request().url()).hostname==='127.0.0.1'?route.continue():route.abort());
+ await page.route('**/template-catalog.json',route=>fail?route.fulfill({status:503,body:'Unavailable'}):route.continue());
+ await page.goto(base+'/workspace?preview');await page.waitForFunction(()=>!!globalThis.DraftmangoEditor);
+ const original=await page.evaluate(()=>JSON.stringify(DraftmangoEditor.project.files));
+ await page.evaluate(plan=>{DraftmangoEditor.project.workspace.builder={version:1,phase:'review',plan,questions:[],checks:[]};DraftmangoEditor.render();},plan);
+ await page.getByRole('button',{name:'Retry preview',exact:true}).waitFor();
+ assert.equal(await page.evaluate(()=>JSON.stringify(DraftmangoEditor.project.files)),original);
+ fail=false;await page.getByRole('button',{name:'Retry preview',exact:true}).click();
+ await page.frameLocator('#template-review-frame').locator('html[data-demo="fashion-store-1"]').waitFor();
+ assert.equal(await page.locator('#template-review-frame').evaluate(el=>el.contentDocument===null),true);
+ await page.evaluate(()=>{DraftmangoEditor.project.workspace.builder.plan.templateId='consulting-1';DraftmangoEditor.render();});
+ await page.frameLocator('#template-review-frame').locator('html[data-demo="consulting-1"]').waitFor();
+ assert.equal(await page.evaluate(()=>JSON.stringify(DraftmangoEditor.project.files)),original);
+ await page.evaluate(()=>DraftmangoEditor.setFiles({'index.html':'<!doctype html><html><body><h1>My saved source</h1></body></html>','styles.css':'','app.js':''}));
+ assert.equal(await page.locator('#template-review-note').isVisible(),false);
+ await page.frameLocator('#website-frame').getByRole('heading',{name:'My saved source'}).waitFor();
+ assert.equal(await page.locator('#template-review-frame').getAttribute('src'),null);
+});
+
+test('browser: a delayed catalog response cannot show a previously selected template', {timeout:30000},async t=>{
+ const server=createServer({accountSession:async()=>null,configLoader:async()=>({provider:'anthropic',key:'',model:'claude-sonnet-5-5'}),modelCatalogLoader:async()=>({defaultId:'',models:[]})});
+ server.listen(0,'127.0.0.1');await once(server,'listening');t.after(()=>{server.closeAllConnections();server.close();});
+ const browser=await chromium.launch({headless:true});t.after(()=>browser.close());
+ const page=await browser.newPage();let release;const wait=new Promise(resolve=>release=resolve);t.after(()=>release());
+ await page.route('**/*',route=>new URL(route.request().url()).hostname==='127.0.0.1'?route.continue():route.abort());
+ await page.route('**/template-catalog.json',async route=>{await wait;await route.continue();});
+ await page.goto('http://127.0.0.1:'+server.address().port+'/workspace?preview');await page.waitForFunction(()=>!!globalThis.DraftmangoEditor);
+ await page.evaluate(plan=>{DraftmangoEditor.project.workspace.builder={version:1,phase:'review',plan,questions:[],checks:[]};DraftmangoEditor.render();},plan);
+ await page.evaluate(()=>{DraftmangoEditor.project.workspace.builder.plan.templateId='consulting-1';DraftmangoEditor.render();});
+ release();await page.frameLocator('#template-review-frame').locator('html[data-demo="consulting-1"]').waitFor();
+ assert.ok((await page.locator('#template-review-note').innerText()).startsWith('Consulting template'));
+ assert.equal(await page.locator('#template-review-frame').getAttribute('src'),'/framo/previews/demo-consulting-1.html');
 });

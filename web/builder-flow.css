@@ -57,21 +57,27 @@ html[data-reduce-motion=true] .send-button .send-icon,html[data-reduce-motion=tr
 .app-question:has(:disabled) .app-answer-label{opacity:.6}
 @media(max-width:540px){.app-custom-answer textarea,body.workspace-clone[data-screen] .app-custom-answer textarea{font-size:16px}.app-question .app-question-skip,.app-question .app-question-send{min-height:36px}}
 @media(max-height:600px){.app-question{max-height:40dvh}.composer-area:has(.builder-prompt.is-question:not([hidden])){max-height:calc(100% - 40px);overflow:auto}}
-/* The plan: a short proposal; the full details stay folded away. */
-.app-proposal{display:grid;gap:8px}
-.app-run-head{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ws-ink)}
-.app-proposal-status{margin-left:auto;padding:2px 9px;border-radius:999px;background:color-mix(in oklch,var(--ws-accent) 14%,transparent);color:var(--ws-accent);font-size:12px;font-weight:600}
-.app-proposal-goal,.app-proposal-meta{margin:0;color:var(--ws-muted);font-size:14px}
-.app-proposal-meta{font-size:13px}
-.app-pages{display:flex;flex-wrap:wrap;gap:4px}
-.app-pages span{padding:2px 8px;border-radius:5px;background:var(--ws-hover);color:var(--ws-ink);font-size:12px}
-.app-pages .is-more{background:none;color:var(--ws-muted)}
-.app-proposal-details summary{cursor:pointer;width:fit-content;font-size:13px;font-weight:600;color:var(--ws-muted)}
-.app-proposal-details dl{display:grid;grid-template-columns:96px minmax(0,1fr);gap:6px 12px;margin:10px 0;font-size:13px}
-.app-proposal-details dt{color:var(--ws-muted)}
-.app-proposal-details dd{margin:0;color:var(--ws-ink)}
-.app-proposal-details h5{margin:12px 0 4px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ws-muted)}
+/* The approval tray shares the question card's spacing and stays above the composer. */
+.app-proposal{display:flex;flex-direction:column;gap:10px;max-height:min(430px,46dvh);box-sizing:border-box;padding:14px 16px 12px;border:1px solid var(--ws-line,#ddd);border-radius:16px;background:var(--ws-bg,#f8f6f2);overflow:hidden}
+.app-run-head{display:flex;align-items:center;font-size:13px;color:var(--ws-muted,#666);flex-shrink:0}
+.app-proposal-body{min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.app-proposal h3,body.workspace-clone[data-screen] .app-proposal h3{margin:0 0 5px;font-size:15px;line-height:1.5;font-weight:600}
+.app-proposal-meta,body.workspace-clone[data-screen] .app-proposal-meta{margin:0;color:var(--ws-muted,#666);font-size:13px;line-height:1.5}
+.app-proposal .app-store-scope,body.workspace-clone[data-screen] .app-proposal .app-store-scope{margin:8px 0 0;font-size:12px;line-height:1.5;color:var(--ws-muted,#666)}
+.app-proposal-details{border:0;margin:10px 0 0;padding:0}
+.app-proposal-details summary{cursor:pointer;width:fit-content;font-size:13px;font-weight:500;color:var(--ws-muted,#666)}
+.app-proposal-details dl{display:grid;grid-template-columns:80px minmax(0,1fr);gap:6px 10px;margin:12px 0;font-size:13px}
+.app-proposal-details dt{color:var(--ws-muted,#666)}
+.app-proposal-details dd{margin:0;color:var(--ws-ink,#202020);overflow-wrap:anywhere}
+.app-proposal-details h5{margin:12px 0 4px;font-size:13px;font-weight:600;color:var(--ws-ink,#202020)}
 .app-proposal-details ul{margin:0;padding-left:18px;font-size:13px}
-.app-plan-actions{display:flex;gap:8px;margin-top:6px}
+.app-plan-scope-note,body.workspace-clone[data-screen] .app-plan-scope-note{font-size:12px;line-height:1.6;color:var(--ws-muted,#666);margin:10px 0 0}
+.app-plan-actions{display:flex;justify-content:flex-end;gap:6px;margin:0;padding-top:2px;flex-shrink:0}
+.app-plan-actions button,body.workspace-clone[data-screen] .app-plan-actions button{min-height:32px;padding:4px 13px;border-radius:999px;font:inherit;font-size:13px;line-height:22px;flex:0 1 auto}
+.template-review-note{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0;padding:10px 16px;border-bottom:1px solid var(--ws-line,#ddd);background:var(--ws-bg,#f8f6f2);color:var(--ws-muted,#666);font-size:13px;line-height:1.5}
+.template-review-note span{min-width:0;overflow-wrap:anywhere}
+.template-review-note a{white-space:nowrap;text-decoration:underline;text-underline-offset:3px}
+#template-review-frame{display:block;border:0;transform-origin:top left;background:var(--ws-panel,#fff)}
+@media(max-height:600px){.app-proposal{max-height:40dvh}}
 
 .app-store-handoff ul{margin:12px 0;padding-left:18px;line-height:1.8}.app-store-handoff li span{color:var(--ws-muted)}.app-store-handoff .builder-prompt-actions{display:flex;gap:8px;flex-wrap:wrap}.app-store-handoff a{overflow-wrap:anywhere}.app-store-scope{font-size:13px;color:var(--ws-muted);line-height:1.6}

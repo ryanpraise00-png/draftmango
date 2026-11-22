@@ -2,7 +2,7 @@
 (() => {
  let catalogPromise;
  const read=async path=>{const r=await fetch(path);if(!r.ok)throw new Error('The template library is unavailable. Please try again.');return r.json()};
- const catalog=()=>catalogPromise ||= read('/template-catalog.json');
+ const catalog=()=>catalogPromise ||= read('/template-catalog.json').catch(error=>{catalogPromise=undefined;throw error;});
  function choose(items,prompt){
   if(!Array.isArray(items)||!items.length)throw new Error('The template library is unavailable.');
   const q=String(prompt||'').toLowerCase();

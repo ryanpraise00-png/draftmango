@@ -39,6 +39,11 @@
     return result;
   }
   const storeSupport=p=>p?.kind==='store'&&p.templateId==='fashion-store-1'&&(!p.store||p.store.fulfilment==='physical');
+  function pageName(value){
+    const name=value.trim().replace(/\s+/g,' '),key=name.toLowerCase();
+    const aliases={'homepage':'Home','home page':'Home','about us':'About','about page':'About','contact us':'Contact','contact page':'Contact','our services':'Services','service detail':'Service details','privacy policy':'Privacy','terms and conditions':'Terms','terms & conditions':'Terms','terms of service':'Terms'};
+    return aliases[key]||Object.values(required).flat().find(page=>page.toLowerCase()===key)||name;
+  }
   function plan(value){
     if(!value||typeof value!=='object'||!kinds.includes(value.kind))return null;
     const result={kind:value.kind};
@@ -50,7 +55,7 @@
     const store=storeBrief(value.store);if(store===false)return null;if(store)result.store=store;
     for(const key of ['pages','workflows','connections','assumptions']){
       if(!Array.isArray(value[key])||value[key].length>50||value[key].some(x=>!text(x,600)))return null;
-      result[key]=[...new Set(value[key].map(x=>x.trim()))];
+      result[key]=[...new Set(value[key].map(x=>key==='pages'?pageName(x):x.trim()))];
     }
     result.pages=[...new Set([...required[result.kind],...result.pages])];
     if(result.pages.length>40)return null;

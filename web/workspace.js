@@ -229,10 +229,11 @@
     wrap.style.height = `${availableHeight}px`;
     wrap.classList.toggle('is-mobile', device === 'mobile');
     wrap.classList.toggle('is-tablet', device === 'tablet');
-    const frame = $('#website-frame');
-    frame.style.width = `${target}px`;
-    frame.style.height = `${availableHeight / scale}px`;
-    frame.style.transform = scale === 1 ? 'none' : `scale(${scale})`;
+    for(const frame of $$('#website-frame,#template-review-frame')){
+      frame.style.width = `${target}px`;
+      frame.style.height = `${availableHeight / scale}px`;
+      frame.style.transform = scale === 1 ? 'none' : `scale(${scale})`;
+    }
     $('#frame-size').textContent = `${target} px · ${Math.round(scale * 100)}%${device === 'responsive' ? ' · Responsive' : zoom === 'fit' ? ' · Fit' : ''}`;
   }
   function scheduleCanvasSize() {
@@ -240,7 +241,61 @@
     resizeFrame = requestAnimationFrame(updateCanvasSize);
   }
   let storePreviewTrusted=false,storePreviewPort=null;
+  let reviewPreviewKey='',reviewPreviewSequence=0,reviewPreviewPromise=null;
+  function templateReview(){
+    const workflow=B.read(project.workspace?.builder);
+    // Reviewing a design must never cover up manually edited or already-built source.
+    return workflow?.phase==='review'&&!project.codeDraft&&Chat.requestMode(project,W.emptyFiles())==='create'?workflow.plan:null;
+  }
+  function clearTemplateReview(){
+    if(!reviewPreviewKey)return;
+    reviewPreviewKey='';reviewPreviewSequence++;reviewPreviewPromise=null;
+    const frame=$('#template-review-frame');if(frame){frame.onload=null;frame.hidden=true;frame.removeAttribute('src');}
+    $('#template-review-note').hidden=true;$('#website-frame').hidden=false;
+    $('#canvas-project-name').textContent=project.title;
+    $('#preview-status').textContent=compiledSignature?'Preview ready':'Loading preview';
+  }
+  function renderTemplateReview(plan,force){
+    const key=project.id+':'+plan.templateId;
+    if(key===reviewPreviewKey&&!force)return reviewPreviewPromise||Promise.resolve(true);
+    reviewPreviewKey=key;const sequence=++reviewPreviewSequence;
+    buildController?.abort();buildSequence++;buildPromise=null;
+    storePreviewTrusted=false;storePreviewPort?.close();storePreviewPort=null;previewToken='';
+    let note=$('#template-review-note'),frame=$('#template-review-frame');
+    if(!note){
+      note=document.createElement('div');note.id='template-review-note';note.className='template-review-note';note.setAttribute('role','status');
+      note.append(document.createElement('span'));
+      const retry=document.createElement('button');retry.type='button';retry.textContent='Retry preview';retry.className='text-button';retry.onclick=()=>renderPreview(true);note.append(retry);
+      $('#canvas-stage').before(note);
+      frame=document.createElement('iframe');frame.id='template-review-frame';frame.setAttribute('sandbox','allow-scripts');frame.referrerPolicy='no-referrer';$('#frame-wrap').append(frame);
+    }
+    note.hidden=false;note.firstElementChild.textContent='Loading the selected template preview…';note.lastElementChild.hidden=true;
+    frame.hidden=true;frame.onload=null;frame.removeAttribute('src');$('#website-frame').hidden=true;
+    $('#preview-status').textContent='Loading template preview';
+    reviewPreviewPromise=(async()=>{
+      try{
+        const catalog=await globalThis.DraftmangoTemplates.catalog();
+        if(sequence!==reviewPreviewSequence||key!==reviewPreviewKey)return false;
+        const template=catalog.find(item=>item.id===plan.templateId);
+        if(!template||!/^demo-[a-z0-9-]+\.html$/.test(template.file))throw new Error('Template preview unavailable');
+        note.firstElementChild.textContent=template.name+' template · Sample content, not customised.';
+        $('#canvas-project-name').textContent=template.name+' · Template preview';
+        frame.title=template.name+' template preview — sample content';
+        frame.onload=()=>{if(sequence===reviewPreviewSequence&&key===reviewPreviewKey)$('#preview-status').textContent='Template preview · Awaiting your approval';};
+        frame.src='/framo/previews/'+template.file;frame.hidden=false;scheduleCanvasSize();
+        return true;
+      }catch{
+        if(sequence!==reviewPreviewSequence||key!==reviewPreviewKey)return false;
+        note.firstElementChild.textContent='The selected template preview could not be loaded. Your draft is unchanged.';note.lastElementChild.hidden=false;
+        $('#preview-status').textContent='Template preview unavailable';return false;
+      }finally{if(sequence===reviewPreviewSequence)reviewPreviewPromise=null;}
+    })();
+    return reviewPreviewPromise;
+  }
   function renderPreview(force = false) {
+    const review=templateReview();
+    if(review){scheduleCanvasSize();return renderTemplateReview(review,force);}
+    clearTemplateReview();
     const signature = project.id + JSON.stringify(project.files || project.design);
     scheduleCanvasSize();
     if (signature===previewSignature && buildPromise) return buildPromise;
@@ -665,7 +720,7 @@
       publish:()=>globalThis.DraftmangoPublishing?.open()
     },!!aiJob||!!storeStates.get(project.id)?.busy,storeStates.get(project.id));
     if(globalThis.DraftmangoStoreBuilder?.supported(project)&&!storeStates.has(project.id))queueMicrotask(()=>loadStore());
-    const isQuestion=B.read(project.workspace?.builder)?.phase==='discovery';
+    const isQuestion=['discovery','review'].includes(B.read(project.workspace?.builder)?.phase);
     root.classList.toggle('is-question',isQuestion);
     if(isQuestion){const dock=$('#panel-build .composer-area');if(root.parentElement!==dock)dock.prepend(root);}
     else{const log=$('#conversation');if(root.parentElement!==log||(root!==log.lastElementChild&&!$('#agent-progress')))log.append(root);}
@@ -921,6 +976,12 @@
   new ResizeObserver(scheduleCanvasSize).observe($('#canvas-stage'));
 
   async function documentLink(download = false) {
+    const review=templateReview();
+    if(review){
+      if(download)announce('Approve and build your website before exporting it.');
+      else window.open('/templates/preview?template='+encodeURIComponent(review.templateId),'_blank','noopener');
+      return;
+    }
     const tab=download?null:window.open('about:blank','_blank');
     if(tab)tab.opener=null;
     applyCode(false);
@@ -934,11 +995,12 @@
     else { link.target = '_blank'; link.rel = 'noopener noreferrer'; }
     document.body.append(link);
     if(!download && tab)tab.location.href=url;else link.click();
+    if(download)announce('Your HTML download includes the images, too.');
     link.remove();
     setTimeout(() => URL.revokeObjectURL(url), 60000);
   }
   $('#open-preview').addEventListener('click', () => documentLink());
-  $('#export-site').addEventListener('click', () => { documentLink(true); announce('Your HTML download includes the images, too.'); });
+  $('#export-site').addEventListener('click', () => documentLink(true));
   $('#copy-code').addEventListener('click', async () => {
     try {
       if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
@@ -1006,7 +1068,7 @@
     updateMeta(patch){project.workspace={...project.workspace,...patch};save();window.dispatchEvent(new Event('draftmango:editor-render'));},
     syncMeta(){const latest=W.get(project.id);if(latest){project={...project,title:latest.title,workspace:latest.workspace};render();}},
     clearConsole(){consoleLines=[];renderConsole();},
-    stopPreview(){ storePreviewPort?.close();storePreviewPort=null;buildSequence++;buildController?.abort();buildPromise=null;compiledSignature='';previewToken='';$('#website-frame').srcdoc='';previewSignature='';$('#preview-status').textContent='Preview stopped';},
+    stopPreview(){ clearTemplateReview();storePreviewPort?.close();storePreviewPort=null;buildSequence++;buildController?.abort();buildPromise=null;compiledSignature='';previewToken='';$('#website-frame').srcdoc='';previewSignature='';$('#preview-status').textContent='Preview stopped';},
     exportHTML(){documentLink(true);}, openPreview(){documentLink();}, runRequest:requestChange,
     diagnostic: setDiagnostic, consoleLines:()=>consoleLines
   };

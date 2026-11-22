@@ -9,9 +9,9 @@
 
   let questionNumber=0;
   function setControls(root,busy){
-    root.hidden=!root.childElementCount||!!root.querySelector('.app-question[data-submitting=true],.app-question[data-answered=true]');
+    root.hidden=!root.childElementCount||!!root.querySelector('.app-question[data-submitting=true],.app-question[data-answered=true],.app-proposal[data-submitting=true],.app-proposal[data-answered=true]');
     root.querySelectorAll('button,input,textarea').forEach(el=>{
-      el.disabled=busy||el.dataset.unavailable==='true'||el.closest('form')?.dataset.submitting==='true';
+      el.disabled=busy||el.dataset.unavailable==='true'||el.closest('[data-submitting=true]')!==null;
     });
   }
 
@@ -79,25 +79,21 @@
 
   function proposal(root,plan,{build,revise}){
     const card=node('section',null,'builder-plan app-proposal');card.setAttribute('aria-label','Proposed plan');
-    const head=node('div',null,'app-run-head');
-    const status=node('span','Waiting for you','app-proposal-status');
-    head.append(node('b','Proposed plan'),status);
-    const pages=plan.pages.length;
-    const meta=node('p',`${label(plan.templateId)} template · ${pages} page${pages===1?'':'s'}`,'app-proposal-meta');
-    const chips=node('div',null,'app-pages');
-    plan.pages.slice(0,6).forEach(page=>chips.append(node('span',page)));
-    if(pages>6)chips.append(node('span','+'+(pages-6)+' more','is-more'));
-    const details=node('details',null,'builder-plan-section app-proposal-details');details.append(node('summary','Details'));
+    const head=node('div',null,'app-run-head');head.append(node('span','Review plan'));
+    const body=node('div',null,'app-proposal-body');
+    const meta=node('p',`${label(plan.templateId)} template`,'app-proposal-meta');
+    const details=node('details',null,'builder-plan-section app-proposal-details');details.append(node('summary','Pages and details'));
+    details.append(node('p','Planned pages are requirements for the build. Template pages and connected features are checked separately.','app-plan-scope-note'));
     const facts=node('dl');
     for(const [name,key] of [['Offering','offering'],['Audience','audience'],['Goal','goal'],['Region','region'],['Content','content'],['Brand','brand']])if(plan[key])facts.append(node('dt',name),node('dd',plan[key]));
     details.append(facts);
-    for(const [name,items] of [['Pages',plan.pages],['Journeys',plan.workflows],['Connections needed',plan.connections],['Assumptions',plan.assumptions]]){
+    for(const [name,items] of [['Planned pages',plan.pages],['Journeys',plan.workflows],['Connections needed',plan.connections],['Assumptions',plan.assumptions]]){
       if(!items.length)continue;details.append(node('h5',name+' · '+items.length));const list=node('ul');items.forEach(text=>list.append(node('li',text)));details.append(list);
     }
     let storeScope;
     if(plan.kind==='store'){
       const supported=B.storeSupport(plan),store=plan.store;
-      storeScope=node('p',supported?'Building prepares a draft store. Review products, policies and settings before publishing or accepting orders.':'The selected template will be preserved. Its requested store workflow needs a separate connection; building the design will not create a working checkout.','app-store-scope');
+      storeScope=node('p',supported?'Draft store · review setup before taking orders.':'Design only · this template’s store workflow needs a connection.','app-store-scope');
       const review=node('details',null,'builder-plan-section');review.append(node('summary','Store details to review'));
       const unknown='Needs your confirmation',facts=node('dl');
       const money=n=>n==null||!store?.currency?unknown:new Intl.NumberFormat(undefined,{style:'currency',currency:store.currency}).format(n/100);
@@ -108,10 +104,16 @@
       details.append(review);
     }
     const actions=node('div',null,'app-plan-actions builder-prompt-actions');
-    const go=node('button','Build it','builder-primary');go.type='button';go.onclick=()=>build();
+    const go=node('button','Build','builder-primary');go.type='button';go.setAttribute('aria-label','Build website');go.onclick=async()=>{
+      if(root.getAttribute('aria-busy')==='true'||card.dataset.submitting==='true')return;
+      card.dataset.submitting='true';setControls(root,true);
+      try{if(await build()!==false)card.dataset.answered='true';}
+      catch{error.textContent='The build could not start. Please try again.';error.hidden=false;}
+      finally{delete card.dataset.submitting;if(card.parentElement===root)setControls(root,root.getAttribute('aria-busy')==='true');}
+    };
     const change=node('button','Adjust','builder-secondary');change.type='button';change.onclick=()=>revise();
     actions.append(go,change);
-    card.append(head,node('h3',plan.name),node('p',plan.goal,'app-proposal-goal'),meta,chips);if(storeScope)card.append(storeScope);card.append(details,actions);root.append(card);
+    const error=node('p',null,'app-question-error');error.hidden=true;error.setAttribute('role','alert');body.append(node('h3',plan.name),meta);if(storeScope)body.append(storeScope);body.append(details);card.append(head,body,error,actions);root.append(card);
   }
 
   function checklist(root,checks){

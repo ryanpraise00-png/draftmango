@@ -118,3 +118,10 @@ test('a review reply refreshes stale source checks without changing files',async
  assert.ok(!result.builder.checks.some(x=>x.label==='Source changed'));
  assert.ok(result.builder.checks.some(x=>x.status==='needs-connection'));
 });
+
+
+test('planned pages merge common aliases without discarding distinct requested pages',()=>{
+ const p=B.plan({...plan(),kind:'services',pages:['homepage','About us','Our Services','Service detail','Contact us','Privacy policy','Terms and conditions','Case studies','Support']});
+ assert.deepEqual(p.pages,['Home','About','Services','Service details','Contact','Privacy','Terms','Case studies','Support']);
+ assert.deepEqual(B.plan(p).pages,p.pages);
+});
