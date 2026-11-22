@@ -37,13 +37,13 @@ test('browser: guided answers persist, confirmation gates building, and the send
  const original=await page.evaluate(()=>JSON.stringify(DraftmangoEditor.project.files));
  // Custom answers are available and survive progress rerenders without being auto-submitted.
  await page.getByText('Something else',{exact:true}).click();
- await page.getByRole('textbox',{name:'Custom answer: '+question.title}).fill('Everyday wear for adults in the UK');
- await page.getByRole('button',{name:'Continue',exact:true}).click();
+ await page.getByRole('textbox',{name:'Your answer: '+question.title}).fill('Everyday wear for adults in the UK');
+ await page.getByRole('button',{name:'Send answer',exact:true}).click();
  await page.waitForSelector('.builder-plan');assert.equal(requests.length,2);
  assert.ok(requests[1].prompt.includes('Everyday wear for adults in the UK'));
  assert.equal(await page.evaluate(()=>JSON.stringify(DraftmangoEditor.project.files)),original);
  await page.reload();await page.waitForSelector('.builder-plan');assert.equal(requests.length,2);
- await page.locator('.builder-plan-section').filter({has:page.locator('summary',{hasText:'Pages'})}).locator('summary').click();
+ await page.locator('.builder-plan-section summary',{hasText:'Details'}).click();
  assert.ok(await page.getByText('Order history',{exact:true}).isVisible());
  assert.equal(await page.locator('.builder-primary').evaluate(el=>getComputedStyle(el).color!==getComputedStyle(el).backgroundColor),true);
  await page.screenshot({path:path.join(tmpdir(),'draftmango-builder-plan-desktop.png')});
@@ -52,7 +52,7 @@ test('browser: guided answers persist, confirmation gates building, and the send
  await page.waitForFunction(()=>document.querySelector('#chat-form .send-button').getBoundingClientRect().right<=window.innerWidth);
  await page.screenshot({path:path.join(tmpdir(),'draftmango-builder-plan-mobile.png')});
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),true);
- await page.getByRole('button',{name:'Build this plan',exact:true}).click();
+ await page.getByRole('button',{name:'Build it',exact:true}).click();
  await page.waitForFunction(()=>DraftmangoEditor.busy&&document.querySelector('.agent-plan').textContent.includes('Content pass'));
  assert.equal(await page.locator('#chat-input').inputValue(),'');
  const stop=page.getByRole('button',{name:'Stop generation',exact:true});
@@ -62,7 +62,7 @@ test('browser: guided answers persist, confirmation gates building, and the send
  assert.equal(await page.getByRole('button',{name:'Send message',exact:true}).getAttribute('type'),'submit');
  assert.equal(await page.evaluate(()=>JSON.stringify(DraftmangoEditor.project.files)),original);
  releaseBuild?.();hold=false;
- await page.getByRole('button',{name:'Build this plan',exact:true}).click();
+ await page.getByRole('button',{name:'Build it',exact:true}).click();
  await page.waitForSelector('.builder-checklist',{timeout:60000});
  await page.waitForFunction(()=>!DraftmangoEditor.busy);
  assert.ok((await page.locator('.builder-checklist').innerText()).includes('Connection needed'));
@@ -79,12 +79,16 @@ test('browser: question rendering handles custom validation, disabled controls a
  await page.setContent('<main id="root"></main><button class="send-button" data-busy="true"><svg class="send-icon"></svg><span class="stop-icon"></span></button>');
  await page.addScriptTag({path:new URL('../web/builder-flow.js',import.meta.url).pathname.replace(/^\/([A-Z]:)/,'$1')});
  await page.addScriptTag({path:new URL('../web/builder-prompts.js',import.meta.url).pathname.replace(/^\/([A-Z]:)/,'$1')});
- await page.addStyleTag({path:new URL('../web/builder-flow.css',import.meta.url).pathname.replace(/^\/([A-Z]:)/,'$1')});
+ await page.addStyleTag({path:new URL('../web/app-ui.css',import.meta.url).pathname.replace(/^\/([A-Z]:)/,'$1')});
  await page.evaluate(q=>{globalThis.answers=[];globalThis.state={version:1,phase:'discovery',plan:null,checks:[],questions:[q]};globalThis.paint=busy=>DraftmangoBuilderPrompts.render(document.querySelector('#root'),state,{answer:v=>answers.push(v)},busy);paint(false);},question);
  await page.getByText('Something else',{exact:true}).click();
- await page.getByRole('textbox').fill('  ');await page.getByRole('button',{name:'Continue'}).click();assert.equal(await page.evaluate(()=>answers.length),0);
- await page.getByRole('textbox').fill('Socks for hikers');await page.evaluate(()=>paint(true));assert.equal(await page.getByRole('button',{name:'Continue'}).isDisabled(),true);
+ await page.getByRole('textbox').fill('  ');await page.getByRole('button',{name:'Send answer'}).click();assert.equal(await page.evaluate(()=>answers.length),0);
+ await page.getByRole('textbox').fill('Socks for hikers');await page.evaluate(()=>paint(true));assert.equal(await page.getByRole('button',{name:'Send answer'}).isDisabled(),true);
  await page.evaluate(()=>paint(false));assert.equal(await page.getByRole('textbox').inputValue(),'Socks for hikers');
- await page.getByRole('button',{name:'Continue'}).click();assert.ok((await page.evaluate(()=>answers[0])).includes('Socks for hikers'));
+ await page.getByRole('button',{name:'Send answer'}).click();assert.ok((await page.evaluate(()=>answers[0])).includes('Socks for hikers'));
+ // A suggested answer sends with one click; the recommended answer comes first.
+ await page.evaluate(()=>{document.querySelector('#root').dataset.signature='';answers.length=0;paint(false);});
+ assert.match(await page.locator('.app-choice').first().innerText(),/Everyday wear/);
+ await page.getByRole('button',{name:/Sports and running/}).click();assert.equal(await page.evaluate(()=>answers[0]),question.title+'\nSports and running');
  assert.equal(await page.locator('.stop-icon').evaluate(el=>getComputedStyle(el).transitionDuration),'0s');
 });

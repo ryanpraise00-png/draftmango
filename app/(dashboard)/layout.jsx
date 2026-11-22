@@ -1,3 +1,5 @@
 import DocumentLayout from "../../components/DocumentLayout";
+import {framoStyles} from "../../components/framo-styles";
 export const metadata = {"title": "Workspace | Draftmango", "description": ""};
-export default function Layout({children}) { return <DocumentLayout bodyProps={{"data-screen": "dashboard", "className": "workspace-clone"}} styles={["/dashboard.css", "/app-type.css", "/domains.css", "/accounts.css", "/application-ui.css", "/workspace-shell.css", "/framo-app.css", "/workspace-framo.css", "/stores.css"]}>{children}</DocumentLayout>; }
+// Framo's stylesheets, the app UI, then the domain and store screens' own layouts.
+export default function Layout({children}) { return <DocumentLayout bodyProps={{"className": "dm-app workspace-clone", "data-screen": "dashboard"}} styles={[...framoStyles, "/app-ui.css", "/domains.css", "/stores.css"]}>{children}</DocumentLayout>; }

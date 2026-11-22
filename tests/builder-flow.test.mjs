@@ -42,13 +42,22 @@ test('answers, saved questions, attachments and explicit template reach the next
 });
 
 test('ambiguous, malformed or template-switching plans are rejected without updates',async()=>{
- for(const output of [{message:'Ready',questions,plan:plan()},{message:'Ready',questions:[],plan:null},{message:'Ready',questions:[],plan:{...plan(),name:''}},{message:'Ready',questions:[],plan:{...plan(),templateId:'architecture-studio-1'}}]){
+ for(const output of [{message:'Ready',questions,plan:plan()},{message:'Ready',questions:[],plan:{...plan(),name:''}},{message:'Ready',questions:[],plan:{...plan(),templateId:'architecture-studio-1'}}]){
   await assert.rejects(gatherBrief({prompt:'Socks',templateId:'fashion-store-1',builder:B.initial()},async()=>output,noop),{code:'builder_brief'});
  }
  assert.throws(()=>validateInput({mode:'create',prompt:'Socks',builder:{phase:'review'}}),{code:'builder_brief'});
  assert.throws(()=>validateInput({mode:'create',prompt:'Socks',builder:B.initial(),builderAction:'deploy'}),{code:'builder_brief'});
  const edited=validateInput({mode:'edit',prompt:'Adjust this plan',files:{'index.html':'<h1>Socks</h1>','styles.css':'','app.js':''},builder:B.initial(),templateId:'fashion-store-1'});
  assert.equal(edited.templateId,'fashion-store-1');
+});
+
+test('a greeting gets a conversational reply with no questions or plan, and only one question is asked at a time',async()=>{
+ const hello=await gatherBrief({prompt:'hey',builder:B.initial()},async()=>({message:'Hi! Tell me about the website you have in mind.',questions:[],plan:null}),noop);
+ assert.equal(hello.action,'reply');assert.equal(hello.files,null);
+ assert.deepEqual(hello.builder,{version:1,phase:'discovery',questions:[],plan:null,checks:[]});
+ const two=[{id:'a',title:'Who is it for?',options:['Families','Professionals'],recommended:0},{id:'b',title:'Where are you based?',options:['UK','US'],recommended:0}];
+ const asked=await gatherBrief({prompt:'A site for my bakery',builder:B.initial()},async()=>({message:'Nice. One thing first.',questions:two,plan:null}),noop);
+ assert.equal(asked.builder.questions.length,1);assert.equal(asked.builder.questions[0].id,'a');
 });
 
 test('only an explicitly confirmed review can begin the complete template build',async()=>{
