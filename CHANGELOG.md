@@ -1,5 +1,14 @@
 # Draftmango changelog
 
+## 22 November 2026
+
+### Shared template engine
+- The web builder, browser template picker and local MCP server now load one template engine and catalog. The duplicate Next.js catalog was removed.
+- New imports retain template/version metadata and design fingerprints. Personalization changes content fields and supported colours; layout, routing, classes, typography and vendor code are protected. Invalid pinned designs fail before a model request.
+- Browser imports use the existing authenticated account request helper. Missing original demo media is reported explicitly.
+- The Isotris adapter was connected to the shared validator while retaining source review and Undo; further Isotris work is paused at the owner's request.
+- See `docs/shared-template-engine.md` for the contract and remaining remote-delivery/hosted-asset versioning work.
+
 ## 28 October 2026
 
 ### Sample sites replace the blank-site card

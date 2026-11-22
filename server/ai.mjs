@@ -1,3 +1,4 @@
+import {assertTemplateFiles} from './template-engine/design-policy.mjs';
 import {templateForPrompt} from './template-library.mjs';
 import {templateContentContext,applyTemplateEdits,templateEditSystem,templateEditSchema} from './template-edits.mjs';
 import '../web/project-format.js';
@@ -284,9 +285,14 @@ export async function generate(input, config, options = {}) {
   // Every new site comes from the library, including requests from older clients.
   // Existing hand-written/legacy projects remain editable without replacing their source.
   const template=input.mode==='create' ? await templateForPrompt(input.prompt,input.templateId) : null;
-  const base=template?.files || (input.files?.['TEMPLATE.md'] ? input.files : null);
+  const base=template?.files || ((input.files?.['TEMPLATE.md'] || input.files?.['template.lock.json']) ? input.files : null);
   if(base){
-    const identity=template || {id:base['TEMPLATE.md'].match(/Imported Framo design: ([a-z0-9-]+)/)?.[1]||'existing-template',name:base['TEMPLATE.md'].match(/^# (.+)/)?.[1]||'Your template'};
+    let manifest;
+    if(base['template.lock.json']) {
+      try {manifest=JSON.parse(base['template.lock.json']);} catch {throw new AIError(422,'template_design','The saved template identity is invalid. Restore the template lock before continuing.');}
+      assertTemplateFiles(manifest,base);
+    }
+    const identity=template || {id:(base['TEMPLATE.md']||'').match(/Imported Framo design: ([a-z0-9-]+)/)?.[1]||'existing-template',name:(base['TEMPLATE.md']||'').match(/^# (.+)/)?.[1]||'Your template'};
     const context=templateContentContext(base,input.prompt,{creating:!!template});
     onProgress({phase:'directing'});
     const {files,designBrief,...rest}=input;
@@ -296,9 +302,10 @@ export async function generate(input, config, options = {}) {
     record('template-personalization',started,result);
     options.signal?.throwIfAborted();
     const output=applyTemplateEdits(base,readProviderObject(result,config),context,input.prompt);
+    if(output.files && manifest) assertTemplateFiles(manifest,output.files);
     if(output.action==='update')onProgress({phase:'building',message:'I’ll apply the content changes to '+identity.name+' while keeping its design.'});
     onProgress({phase:'checking'});
-    return {...output,designBrief:output.action==='update'?input.designBrief||null:null,designProcess:{version:1,stages,templateId:identity.id},...publicConfig(config)};
+    return {...output,designBrief:output.action==='update'?input.designBrief||null:null,designProcess:{version:1,stages,templateId:identity.id,...(manifest?{templateVersion:manifest.template.version}:{})},...publicConfig(config)};
   }
   options.signal?.throwIfAborted();
   const started=Date.now();

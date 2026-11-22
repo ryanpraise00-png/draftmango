@@ -1,3 +1,4 @@
+import {validateTemplateFiles} from '../server/template-engine/design-policy.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -16,7 +17,7 @@ const response=value=>Response.json({stop_reason:'end_turn',usage:{input_tokens:
 
 test('all catalog designs expose editable content without executing template code',async()=>{
  const catalog=JSON.parse(await readFile(new URL('../web/template-catalog.json',import.meta.url)));
- for(const item of catalog){const t=await templateForPrompt('',item.id);const fields=indexTemplate(t.files);assert.ok(fields.some(f=>f.kind==='text'),item.id);assert.ok(fields.every(f=>/^src\/(pages|shared)\//.test(f.path)),item.id);}
+ for(const item of catalog){const t=await templateForPrompt('',item.id);const validation=validateTemplateFiles(JSON.parse(t.files['template.lock.json']),t.files);assert.equal(validation.valid,true,item.id+': '+JSON.stringify(validation.violations));assert.ok(globalThis.DraftmangoProject.valid(t.files),item.id+' package size');const fields=indexTemplate(t.files);assert.ok(fields.some(f=>f.kind==='text'),item.id);assert.ok(fields.every(f=>/^src\/(pages|shared)\//.test(f.path)),item.id);}
 });
 
 test('model can edit only supplied IDs; source, runtime, routing and arbitrary CSS are rejected atomically',()=>{

@@ -1,6 +1,6 @@
 /* Validated Framo catalog and React starters. No generated fallback designs. */
 (() => {
- let catalogPromise,runtimePromise;
+ let catalogPromise;
  const read=async path=>{const r=await fetch(path);if(!r.ok)throw new Error('The template library is unavailable. Please try again.');return r.json()};
  const catalog=()=>catalogPromise ||= read('/template-catalog.json');
  function choose(items,prompt){
@@ -13,13 +13,11 @@
   return items.map(t=>({t,score:words.reduce((n,w)=>n+(t.name.toLowerCase().includes(w)?4:t.categories.join(' ').toLowerCase().includes(w)?2:0),0)})).sort((a,b)=>b.score-a.score)[0].t;
  }
  async function load(id,prompt){
-  const items=await catalog();
-  const chosen=id&&id!=='auto'&&id!=='blank'?items.find(t=>t.id===id):choose(items,prompt);
-  if(!chosen)throw new Error('That template is no longer available. Choose a design from the library.');
-  const [source,runtime]=await Promise.all([read('/framo/starters/'+chosen.id+'.json'),runtimePromise ||= read('/framo/starters/runtime.json')]);
-  const files=globalThis.DraftmangoProject.scaffold({...source.files,...runtime},chosen.name);
-  if(!globalThis.DraftmangoProject.valid(files))throw new Error('This template could not be opened safely. Choose another design.');
-  return {...chosen,files};
+  const accounts=globalThis.DraftmangoAccounts;
+  if(!accounts?.request)throw new Error('Sign in to choose a template.');
+  const result=await accounts.request('/api/templates/start',{method:'POST',body:{brief:String(prompt||''),...(id && !['auto','blank'].includes(id)?{id}:{})}});
+  if(!globalThis.DraftmangoProject.valid(result.files)||!result.files['template.lock.json'])throw new Error('This template could not be opened safely. Choose another design.');
+  return result;
  }
  globalThis.DraftmangoTemplates={catalog,choose,load};
 })();

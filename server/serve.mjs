@@ -1,3 +1,4 @@
+import {templateForPrompt} from './template-engine/index.mjs';
 import { publicOrigin as validateOrigin, requestBoundary } from './hosting.mjs';
 import { djangoSession, proxyDjango, sharedLimit } from './django.mjs';
 import http from 'node:http';
@@ -51,6 +52,16 @@ export function createServer({ root = fileURLToPath(new URL('../out/', import.me
         if ((origin && origin !== expectedOrigin) || (request.headers['sec-fetch-site'] === 'cross-site' && !googleReturn)) throw new AIError(403, 'origin', 'Only the Draftmango workspace can use this API.');
         if (url.pathname.startsWith('/api/accounts/') || url.pathname === '/api/projects' || url.pathname.startsWith('/api/billing/') || url.pathname.startsWith('/api/publishing/')) {
           await accountProxy(request, response); return;
+        }
+        if (url.pathname === '/api/templates/start') {
+          if (request.method !== 'POST') throw new AIError(405,'method','Use POST to start from a template.');
+          if (origin !== expectedOrigin || !/^application\/json(?:;|$)/i.test(request.headers['content-type']||'')) throw new AIError(403,'origin','Choose a template from the Draftmango workspace.');
+          await accountSession(request);
+          const body=await readJSON(request,20000);
+          if (!body || Array.isArray(body) || typeof body.brief !== 'string' || body.brief.length>16000 || Object.keys(body).some(k=>!['id','brief'].includes(k)) || (body.id!==undefined && (typeof body.id!=='string' || !/^[a-z][a-z0-9-]{0,70}$/.test(body.id)))) throw new AIError(400,'invalid_template','Choose a valid template and a brief under 16,000 characters.');
+          try {json(response,200,await templateForPrompt(body.brief,body.id));}
+          catch(error) {if(error.code==='template_unavailable')throw new AIError(422,error.code,error.message);throw error;}
+          return;
         }
         if (url.pathname === '/api/build') {
           if(request.method!=='POST')throw new AIError(405,'method','Use POST for builds.');
@@ -143,6 +154,7 @@ export function createServer({ root = fileURLToPath(new URL('../out/', import.me
           if (streaming) { send({type:'result', result}); response.end(); }
           else json(response, 200, result);
         } catch (error) {
+          if(['template_design','template_edit','template_unavailable'].includes(error.code)) error=new AIError(422,error.code,error.message);
           if(error instanceof BuildError)error=new AIError(error.status,error.code,error.message+' Your draft is unchanged.');
           if (timedOut) error = new AIError(504, 'timeout', 'The AI did not finish within the generation time limit. Your draft is unchanged. You can try again.');
           if (timedOut || !controller.signal.aborted) {

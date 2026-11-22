@@ -1,6 +1,6 @@
 "use client";
 import {useState} from "react";
-import catalog from "./template-catalog.json";
+import catalog from "../web/template-catalog.json";
 export function templateStart(t){return '/auth#'+new URLSearchParams({mode:'signup',template:t.id,idea:`Build my website using the ${t.name} template. Preserve its layout, typography and design; help me personalise the content.`});}
 // Card images are screenshots of each template home page (web/framo/shots/cards, regenerate with scripts/template-shots.mjs).
 function Card({t}){return <article className="dm-template-card"><a className="dm-template-image" href={'/templates/preview?template='+t.id} aria-label={'Preview '+t.name}><img src={"/framo/shots/cards/"+t.id+".jpg"} alt="" width="720" height="500" loading="lazy" decoding="async"/></a><div className="dm-template-info"><div><h3>{t.name}</h3><p>{t.categories.slice(0,2).join(' / ')}</p></div><span>{t.pages} pages</span></div><div className="dm-template-actions"><a href={'/templates/preview?template='+t.id}>Preview design</a><a href={templateStart(t)}>Use template</a></div></article>;}

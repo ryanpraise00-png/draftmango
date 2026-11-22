@@ -1,6 +1,6 @@
 "use client";
 import {useEffect,useState} from "react";
-import catalog from "./template-catalog.json";
+import catalog from "../web/template-catalog.json";
 import {templateStart} from "./TemplateLibrary";
 export default function TemplatePreview(){
  const [template,setTemplate]=useState(null),[loaded,setLoaded]=useState(false),[mobile,setMobile]=useState(false);

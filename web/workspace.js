@@ -58,11 +58,12 @@
       notice.append(message,retry,link);document.body.append(notice);return;
     }
     next.files=selectedTemplate.files;next.history[0].files=structuredClone(next.files);
-    next.workspace={...next.workspace,templateId:selectedTemplate.id,templateName:selectedTemplate.name};
+    next.workspace={...next.workspace,templateId:selectedTemplate.id,templateName:selectedTemplate.name,templateVersion:selectedTemplate.version};
     next.creationPreferences = ['Use the '+selectedTemplate.name+' Framo template. Preserve its design and page layouts.'];
     const explicitlyChosen=starting.has('template') && !['blank','auto'].includes(starting.get('template'));
     next.ai = { state: explicitlyChosen ? 'ready' : 'pending' };
     next.messages = [{role:'assistant',text:explicitlyChosen ? selectedTemplate.name+' is ready to edit. Tell me about your business and what you want to personalise. The template includes demonstration content; forms and checkout will need connecting.' : 'I’ve selected '+selectedTemplate.name+' as the starting point for your website. I’ll adapt the content while keeping its design.',initial:false}];
+    if(selectedTemplate.missingAssets?.length) next.messages.push({role:'assistant',text:'Some original demo images are unavailable. Those images will need replacing before publishing.',initial:false});
     if (M.palettes[starting.get('color')]) {
       next.design.theme = starting.get('color');
       next.history[0].design.theme = next.design.theme;
