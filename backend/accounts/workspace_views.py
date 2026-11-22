@@ -130,7 +130,11 @@ def delete_account(request):
                 raise APIError(409, 'billing_active', 'Cancel your subscription and any pending checkout in Billing before deleting your account. Scheduled cancellation must finish first.')
         for item, _ in sessions_for(user):
             item.delete()
-        user.delete()
+        from django.db.models.deletion import ProtectedError
+        try:
+            user.delete()
+        except ProtectedError:
+            raise APIError(409, 'store_records', 'Your account has store order records. Contact support to arrange store closure and data retention before deleting the account.')
     logout(request)
     return JsonResponse({'deleted': True})
 

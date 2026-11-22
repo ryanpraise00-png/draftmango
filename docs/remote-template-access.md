@@ -1,6 +1,6 @@
 # Remote template access for product backends
 
-Status: implemented in Draftmango, disabled by default, queued for the next deployment. No production client has been provisioned. Isotris has not been changed by this work. Its existing local stdio connection remains available until its backend integration is implemented.
+Status: deployed on 22 November 2026 in release `20261122-guided-f5c864f`, with both remote-access flags disabled. No production client has been provisioned. Isotris has not been changed by this work. Its existing local stdio connection remains available until its backend integration is implemented.
 
 Isotris users keep their Isotris login. The future Isotris backend authenticates to Draftmango using a product-specific credential, obtains a short-lived access token, and calls the shared library. Neither the product secret nor the access token belongs in a desktop build, browser, model prompt, project export, Git repository or analytics event. Isotris must authorize its own users and enforce their entitlements before forwarding operations. This service authenticates products, not individual Isotris users.
 
@@ -80,7 +80,7 @@ Design validation preserves the existing layout, typography, CSS, routing and ru
 
 ## Deployment and storage
 
-Before enabling, reconcile the branch with the actual running release. Production currently has additional Bisuk changes; do not overwrite them with an older release snapshot. This work does not authorize deploying unrelated local changes.
+The 22 November release reconciled and preserved the production Bisuk account routes, models, migrations and portal routing. Before a later release, repeat the running-release comparison rather than assuming production has remained unchanged. Remote activation still requires explicit backend-client provisioning.
 
 - Deploy Node and Django together and apply `template_access` migrations.
 - Keep `DRAFTMANGO_BUILD_TOKEN` configured identically on both private services.

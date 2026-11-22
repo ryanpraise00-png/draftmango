@@ -1,5 +1,6 @@
 // Static-site gateway. No filesystem access, customer-code execution or account proxy.
 import http from 'node:http';
+import {proxyStore} from './store-proxy.mjs';
 import {pathToFileURL} from 'node:url';
 
 export function publicRequest(request, baseDomain) {
@@ -21,6 +22,11 @@ export function createPublisher({token=process.env.DJANGO_PUBLISHING_TOKEN||'',b
     const headers={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin','Origin-Agent-Cluster':'?1','X-Frame-Options':'SAMEORIGIN','Content-Security-Policy':"frame-ancestors 'self'; object-src 'none'; base-uri 'self'; worker-src 'none'",'Permissions-Policy':'camera=(), microphone=(), geolocation=(), payment=()'};
     const fail=(status,message='Website not found')=>{if(!res.headersSent){res.writeHead(status,{...headers,'Content-Type':'text/plain; charset=utf-8'});res.end(req.method==='HEAD'?'':message);}else res.destroy();};
     if(req.url==='/healthz' && req.headers.host==='localhost' && req.method==='GET'){res.writeHead(200,{'Content-Type':'text/plain'});res.end('ok');return;}
+    if(req.url.startsWith('/api/store/')){
+      if(active>=24){fail(503,'Please try again shortly');return;}
+      active++;let released=false;const release=()=>{if(!released){released=true;active--;}};res.on('close',release);res.on('finish',release);
+      proxyStore(req,res,{token,baseDomain,backendHost,backendPort,canonicalHost,production,trustedProxyIPs:(process.env.DRAFTMANGO_TRUSTED_PROXY_IPS||'').split(',').filter(Boolean)});return;
+    }
     const target=publicRequest(req,baseDomain);
     if(target.error){fail(target.error);return;}
     if(active>=24){fail(503,'Please try again shortly');return;}

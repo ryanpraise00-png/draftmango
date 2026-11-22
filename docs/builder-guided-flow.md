@@ -1,7 +1,8 @@
 # Guided website builder
 
-Status: local implementation, 22 November 2026. This change does not deploy the
-site, provision generated-site backends, or modify Isotris.
+Status: deployed on 22 November 2026 in release `20261122-guided-f5c864f`.
+The following store workflow is implemented separately; see [managed stores](stores.md).
+Isotris is unchanged.
 
 ## Conversation and build flow
 
@@ -36,41 +37,25 @@ compatible with the existing template-only creation contract. The new web
 workspace explicitly sends its saved `builder` state and `builderAction` to
 `POST /api/ai/generate`.
 
-## What is not complete yet
+## Completion boundaries
 
-The current engine personalises supplied templates. It cannot yet add missing
-page implementations or wire template controls to a managed customer backend.
-The checklist exposes those gaps; it does not repair them automatically or
-certify an entire user journey. A successful React compile is not a successful
-checkout, account creation or submission test.
+The deployed guided-builder release personalises supplied templates and reports
+missing routes and connections. The next store release adds a reviewed Fashion
+Store 1 adapter with managed customers, inventory, checkout, orders and owner
+screens. See [managed stores](stores.md) for its activation requirements and
+validation. Other template families still report missing workflows; they are
+never silently redesigned or replaced.
 
-Full-site completion requires the following next implementation, with the
-architecture chosen by the product owner:
+Customer services are tenant-scoped and separate from Draftmango platform
+accounts. Store-owner payment connections are separate from subscription billing.
+The publisher exposes an allowlisted customer API only on the published tenant;
+preview iframes never inherit customer sessions. The builder cannot bypass design
+fingerprints or invent operational code.
 
-- **Draftmango-managed accounts and data per generated site.** Customer identities
-  and sessions must be isolated by the immutable published-site ID and separate
-  from the owner's Draftmango account. Resolve the tenant from the verified host
-  or authenticated preview session; never accept a browser's arbitrary tenant ID.
-- **Site-owner payment provider connections.** Store each connection on the owning
-  site with server-only credentials. Platform subscription billing credentials
-  must never process customer orders. Use provider-hosted/tokenised checkout;
-  do not submit the purchased template's raw card fields to Draftmango.
-- **Trusted workflow adapters and page extensions.** Supply account, reset,
-  catalogue/cart/order, enquiry and booking behaviour through reviewed application
-  code. Reuse template components and extend the design policy explicitly; do
-  not let a model bypass the lock or invent a replacement design.
-- **Preview and hosting access.** The current publisher serves static GET/HEAD
-  assets. It needs an explicit tenant API boundary, origin/session protection and
-  preview isolation before customer records or mutations can work. Template
-  form markup and client-side validation are not backend integrations.
-- **Verification before readiness.** Exercise navigation, empty/error states,
-  signup/verification/login/reset, persisted data and the selected primary
-  conversion. Test payments in the owner's provider test environment. Mark a
-  journey verified only after its checks pass against the saved release.
-
-Work on that backend is separate from Draftmango's own existing account and
-billing services. These dependencies must remain visible until implemented and
-connected; generated sites must not claim production readiness beforehand.
+A successful compile and recognised routes do not certify a live shop. Real
+catalogue data, shipping, policies, publishing and the owner's payment onboarding
+remain visible setup requirements. Test the owner's payment environment and
+journeys against the published release before calling it ready for customers.
 
 ## Validation
 
@@ -86,3 +71,11 @@ Playwright Chromium. Full template builds now use multiple provider calls;
 measure real latency and token cost before launch. They remain subject to the
 existing per-account/site limits and request deadline. There is no resumable
 background job yet, so an interrupted build restarts from its saved plan.
+
+## First managed store implementation
+
+Confirmed Fashion Store 1 builds now attach a trusted, versioned React store
+adapter after content personalisation. The completion report recognises its
+account, cart, checkout, order and policy routes while retaining a setup gate for
+real catalogue data, policies, publishing and owner payments. Other templates
+are not redesigned or silently switched. See [stores](stores.md).

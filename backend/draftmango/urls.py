@@ -1,9 +1,13 @@
 from django.urls import path
+from stores import views as stores
 from template_access import views as template_access
 from draftmango.health import health
 from accounts import views, workspace_views, billing_views, publishing, limits, google
 from accounts import bisuk_testing
 urlpatterns = [
+    path('api/stores', stores.management),
+    path('api/stores/webhook', stores.webhook),
+    path('internal/store/<str:action>', stores.customer_api),
     path('api/bisuk-testing/screenshots', bisuk_testing.upload_screenshot),
     path('api/bisuk-testing/screenshots/<uuid:image_id>', bisuk_testing.screenshot),
     path('api/bisuk-testing/program', bisuk_testing.program),

@@ -66,9 +66,10 @@ test('confirmed build covers every template content field, preserves design and 
  },e=>events.push(e));
  assert.equal(seen.size,fields.length);assert.ok(result.designProcess.contentPasses>1);
  assert.equal(validateTemplateFiles(JSON.parse(original.files['template.lock.json']),result.files).valid,true);
- assert.ok(result.builder.checks.some(c=>c.status==='needs-connection'));assert.ok(result.builder.checks.some(c=>c.label==='Terms'&&c.status==='needs-attention'));
+ assert.ok(result.builder.checks.some(c=>c.status==='needs-connection'));assert.ok(result.builder.checks.some(c=>c.label==='Terms'&&c.status==='passed'));
  assert.doesNotMatch(result.message,/ready to publish|fully functional/i);assert.ok(events.some(e=>e.phase==='verifying'));
  assert.notDeepEqual(result.files,original.files);
+ assert.ok(result.files['src/storefront.jsx']);assert.ok(result.builder.checks.some(c=>c.label==='Store setup'&&c.status==='needs-connection'));
 });
 
 test('cancellation after a completed batch never changes the cached library or returns partial files',async()=>{

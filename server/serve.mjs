@@ -1,3 +1,4 @@
+import {attachStorefront} from './storefront/index.mjs';
 import {createTemplateRemote} from './template-remote.mjs';
 import {templateForPrompt} from './template-engine/index.mjs';
 import { publicOrigin as validateOrigin, requestBoundary } from './hosting.mjs';
@@ -54,8 +55,15 @@ export function createServer({ root = fileURLToPath(new URL('../out/', import.me
         // Google's redirect back is a cross-site navigation; Django checks its one-time state.
         const googleReturn = request.method === 'GET' && url.pathname === '/api/accounts/google/callback';
         if ((origin && origin !== expectedOrigin) || (request.headers['sec-fetch-site'] === 'cross-site' && !googleReturn)) throw new AIError(403, 'origin', 'Only the Draftmango workspace can use this API.');
-        if (url.pathname.startsWith('/api/bisuk-testing/') || url.pathname.startsWith('/api/accounts/') || url.pathname === '/api/projects' || url.pathname.startsWith('/api/billing/') || url.pathname.startsWith('/api/publishing/')) {
+        if (url.pathname.startsWith('/api/bisuk-testing/') || url.pathname.startsWith('/api/accounts/') || url.pathname === '/api/projects' || url.pathname.startsWith('/api/billing/') || url.pathname.startsWith('/api/publishing/') || url.pathname==='/api/stores' || url.pathname==='/api/stores/webhook') {
           await accountProxy(request, response); return;
+        }
+        if (url.pathname === '/api/templates/store') {
+          if(request.method!=='POST')throw new AIError(405,'method','Use POST.');
+          if(origin!==expectedOrigin || !/^application\/json(?:;|$)/i.test(request.headers['content-type']||''))throw new AIError(403,'origin','Enable stores from the workspace.');
+          await accountSession(request);
+          const input=await readJSON(request,6*1024*1024);
+          json(response,200,{files:await attachStorefront(input.files)});return;
         }
         if (url.pathname === '/api/templates/start') {
           if (request.method !== 'POST') throw new AIError(405,'method','Use POST to start from a template.');

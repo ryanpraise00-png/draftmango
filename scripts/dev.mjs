@@ -23,8 +23,10 @@ const migration = spawnSync(python, ['manage.py', 'migrate', '--noinput'], { cwd
 if (migration.status !== 0) process.exit(1);
 const port = Number(process.env.PORT || 4175), djangoPort = Number(process.env.DJANGO_PORT || 4176);
 const child = spawn(python, ['manage.py', 'runserver', `127.0.0.1:${djangoPort}`, '--noreload'], { cwd: root, env:backendEnv, stdio: ['ignore', 'inherit', 'inherit'], windowsHide: true });
+const storeWorker=spawn(python,['manage.py','process_store_orders','--loop'],{cwd:root,env:backendEnv,stdio:['ignore','inherit','inherit'],windowsHide:true});
 let exiting = false, server, publisher;
-const stop = code => { if (exiting) return; exiting = true; for(const service of [server,publisher,builder]){service?.closeAllConnections();service?.close();} child.kill(); process.exitCode = code; };
+const stop = code => { if (exiting) return; exiting = true; for(const service of [server,publisher,builder]){service?.closeAllConnections();service?.close();} child.kill(); storeWorker.kill(); process.exitCode = code; };
+storeWorker.on('error',()=>console.error('The store order worker could not start.'));
 builder.on('error',()=>{console.error('The React build port is unavailable.');stop(1);});
 child.on('error', () => { console.error('Django could not start.'); stop(1); });
 child.on('exit', code => { if (!exiting) stop(code || 1); });

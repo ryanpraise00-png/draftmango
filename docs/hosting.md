@@ -3,17 +3,21 @@
 Host: root@187.124.47.123 (srv1803759.hstgr.cloud), Ubuntu 24.04.
 Application domain: draftmango.com. www redirects to the apex after TLS setup.
 
-## Next deployment priority — shared engine and secure remote access
+## Deployed — shared engine, remote-access infrastructure and guided builder
 
-Priority 1 for the next Draftmango deployment, updated at the owner's request
-on 22 November 2026. Release both changes from `codex/shared-template-engine`:
+Released on 22 November 2026 from `codex/builder-guided-flow`, including:
 
 - `7b81ed1`: shared template engine, catalog and design-preserving imports.
 - `7141648`: authenticated remote MCP, backend client credentials and versioned
   template package delivery.
 
-Status: queued; implementation is pushed, but production has not been updated
-by this work. Isotris itself remains outside this deployment's scope.
+Status: live. Release directory and images: `20261122-guided-f5c864f`.
+Source includes `f5c864f` plus backend ownership fix `c1a2175`, both pushed.
+Web, backend, builder and publisher are healthy; public pages/assets and the
+existing testing portal were verified. Database backup and rollback metadata
+were saved privately before migration. The `template-packages` volume exists.
+Both remote-access flags remain disabled; no Isotris client was provisioned.
+Isotris code was not changed. See [release record](releases/2026-11-22.md).
 
 ### Release order
 
@@ -54,22 +58,23 @@ build. These are local results, not proof of a production rollout.
 The older initial-installation sections below are historical setup guidance;
 check live configuration rather than assuming they describe today's deployment.
 
-## Following change — guided builder conversation
+## Included in that release — guided builder conversation
 
 `codex/builder-guided-flow` builds on the shared-engine branch and adds saved
 requirements, suggested/custom answers, an explicit plan confirmation, complete
 template-content passes, visible progress, a composer stop control and a source
 completion checklist. See [the builder implementation and remaining work](builder-guided-flow.md).
-It is not a replacement for Priority 1 above, and has not been deployed.
+It was deployed together with the shared engine and reconciled production account changes.
 
-Reconcile this branch into the release after the shared-engine changes. Validate
+For future releases, preserve the shared-engine changes and validate
 new and existing conversations on desktop/mobile, stop/retry and reload. The
 combined Node/browser suite passed 182 tests; the final affected builder checks
 passed 12 tests after the last refinements, and the Next.js build passed. These
-tests use mocked AI responses. Real-model latency/cost calibration, managed
-generated-site accounts/data, site-owner payment connections and automatic
-missing-page/workflow implementation remain separate work before claiming a
-fully functional generated site.
+tests use mocked AI responses. Real-model latency/cost calibration remains open.
+The next release implements the first managed store workflow, including customer
+accounts/data, owner payment connections and reviewed page extensions; see
+[managed stores](stores.md). It still requires payment onboarding and published
+journey verification before a store can accept real customers.
 
 ## Layout
 ```

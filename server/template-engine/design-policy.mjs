@@ -1,3 +1,4 @@
+import {hasStoreCapability,storeMarker,storeSource,storeImport,appImport} from '../storefront/capability.mjs';
 import {createHash} from 'node:crypto';
 import {indexTemplate} from './personalization.mjs';
 
@@ -61,9 +62,14 @@ export function validateTemplateFiles(manifest, files, {partial = false} = {}) {
   validateManifest(manifest);
   if (!files || typeof files !== 'object' || Array.isArray(files) || Object.keys(files).length > 600) fail('Invalid template file proposal.');
   const violations = [];
+  const store = hasStoreCapability(files,manifest);
   for (const [name,source] of Object.entries(files)) {
     if (name === lockFile) {
       if (source !== JSON.stringify(manifest,null,2)+'\n') violations.push({path:name,reason:'Template identity and design policy are protected.'});
+      continue;
+    }
+    if (name===storeMarker || name===storeSource) {
+      if (!store) violations.push({path:name,reason:'The store capability must match the trusted adapter exactly.'});
       continue;
     }
     const expected = manifest.sources[name];
@@ -72,7 +78,7 @@ export function validateTemplateFiles(manifest, files, {partial = false} = {}) {
       continue;
     }
     try {
-      if (designFingerprint(name,source) !== expected.design) violations.push({path:name,reason:'Preserve the template layout, classes, routing and runtime; edit content fields only.'});
+      if (designFingerprint(name,store&&name==='src/main.jsx'?source.replace(storeImport,appImport):source) !== expected.design) violations.push({path:name,reason:'Preserve the template layout, classes, routing and runtime; edit content fields only.'});
       // Avoid active URLs in editable src/href fields. Internal routing is
       // already protected because anchor links are not mutable content fields.
       if (typeof source === 'string' && textPath.test(name)) {

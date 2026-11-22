@@ -1,4 +1,6 @@
 import '../web/builder-flow.js';
+import {attachStorefront} from './storefront/index.mjs';
+import {hasStoreCapability} from './storefront/capability.mjs';
 import {searchTemplates,templateDetails} from './template-engine/index.mjs';
 import {parse} from '@babel/parser';
 import path from 'node:path';
@@ -71,7 +73,13 @@ export async function buildPlan(input,invoke,onProgress,signal){
   }
   assertTemplateFiles(manifest,files);
   onProgress({phase:'verifying',message:'I’m checking the page routes, placeholder links, required pages and service dependencies against your plan.'});
-  const checks=inspectSite(files,plan);
+  let checks;
+  if(plan.kind==='store' && template.id==='fashion-store-1'){
+    onProgress({phase:'building',message:'I’m connecting the template’s store pages to the managed store workflow.'});
+    files=await attachStorefront(files);
+
+  }
+  checks=inspectSite(files,plan);
   if(!changed)checks.unshift({status:'needs-attention',label:'Content review',detail:'The model applied no content changes. Review the template’s existing content against your business details before using it.'});
   return {action:'update',title:plan.name,files,designBrief:null,message:describeChecks(checks),builder:{version:1,phase:'built',questions:[],plan,checks},designProcess:{version:1,templateId:template.id,templateVersion:template.version,contentPasses:processed}};
 }
@@ -79,6 +87,17 @@ export async function buildPlan(input,invoke,onProgress,signal){
 function visit(node,fn){if(!node||typeof node!=='object')return;if(Array.isArray(node)){node.forEach(x=>visit(x,fn));return;}if(!node.type)return;fn(node);for(const [key,value]of Object.entries(node))if(!['loc','start','end','extra'].includes(key))visit(value,fn);}
 const literal=v=>v?.type==='StringLiteral'?v.value:v?.type==='JSXExpressionContainer'&&v.expression?.type==='StringLiteral'?v.expression.value:null;
 export function inspectSite(files,plan){
+  let manifest;try{manifest=JSON.parse(files['template.lock.json']);}catch{}
+  if(manifest && hasStoreCapability(files,manifest)){
+    assertTemplateFiles(manifest,files);
+    const supported=new Set([...B.required.store,'About','Articles','Wishlist','Contact us']);
+    return [
+      {status:'passed',label:'Template design',detail:'Original page components and styles are preserved. The versioned store adapter supplies the managed workflow.'},
+      ...plan.pages.map(name=>({status:supported.has(name)?'passed':'needs-attention',label:name,detail:supported.has(name)?'A matching route is included in the tested store adapter.':'This additional requirement still needs a supported page.'})),
+      {status:'needs-connection',label:'Store setup',detail:'Open Stores in your dashboard to enable this project, add real products, save shipping and policies, publish, and connect your payment account.'},
+      {status:'needs-attention',label:'Business content and launch check',detail:'Review the remaining template copy and imagery. Check your own products, shipping, customer emails and payment connection before opening checkout.'}
+    ];
+  }
   const routes=new Map([...String(files['src/App.jsx']||'').matchAll(/"([a-z0-9-]+)"\s*:\s*(Page\d+)/g)].map(m=>[m[1],'src/pages/'+m[2]+'.jsx']));
   const shared=Object.keys(files).filter(p=>p.startsWith('src/shared/'));
   const documents=new Map(),issues=[];

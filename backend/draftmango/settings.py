@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parents[2]
 if (BASE_DIR / '.env').exists():
     for line in (BASE_DIR / '.env').read_text(encoding='utf-8-sig').splitlines():
         name, separator, value = line.partition('=')
-        if separator and name.strip().startswith(('DJANGO_', 'EMAIL_', 'STRIPE_', 'BILLING_', 'DRAFTMANGO_BUILD_')):
+        if separator and name.strip().startswith(('DJANGO_', 'EMAIL_', 'STRIPE_', 'BILLING_', 'DRAFTMANGO_BUILD_', 'STORE_')):
             os.environ.setdefault(name.strip(), value.strip().strip('\"\''))
 TESTING = 'test' in sys.argv
 PRODUCTION = os.environ.get('DJANGO_ENV') == 'production'
@@ -18,7 +18,7 @@ if not SECRET_KEY:
 DEBUG = False
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost'] + (['testserver'] if TESTING else [])
 ROOT_URLCONF = 'draftmango.urls'
-INSTALLED_APPS = ['django.contrib.auth', 'django.contrib.contenttypes', 'django.contrib.sessions', 'accounts', 'template_access']
+INSTALLED_APPS = ['django.contrib.auth', 'django.contrib.contenttypes', 'django.contrib.sessions', 'accounts', 'template_access', 'stores']
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'draftmango.proxy.PrivateProxyMiddleware',
@@ -128,3 +128,9 @@ STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET', '')
 STRIPE_PORTAL_CONFIGURATION_ID = os.environ.get('STRIPE_PORTAL_CONFIGURATION_ID', '')
 STRIPE_AUTOMATIC_TAX = os.environ.get('STRIPE_AUTOMATIC_TAX', '0') == '1'
 STRIPE_PRICES = {plan + ':' + cadence: os.environ.get('STRIPE_PRICE_' + plan.upper() + '_' + cadence.upper(), '') for plan in ('basic', 'pro') for cadence in ('monthly', 'yearly')}
+
+# Customer stores have isolated accounts and a separate Connect integration.
+STORES_ENABLED = os.environ.get('DJANGO_STORES_ENABLED', '0' if PRODUCTION else '1') == '1'
+STORE_STRIPE_MODE = os.environ.get('STORE_STRIPE_MODE', 'test')
+STORE_STRIPE_KEY = os.environ.get('STORE_STRIPE_KEY', '')
+STORE_STRIPE_WEBHOOK_SECRET = os.environ.get('STORE_STRIPE_WEBHOOK_SECRET', '')

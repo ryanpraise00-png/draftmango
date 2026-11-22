@@ -91,6 +91,22 @@ services:
       interval: 20s
       timeout: 8s
       retries: 5
+  store-worker:
+    <<: *common
+    image: draftmango-backend:${DRAFTMANGO_RELEASE:-initial}
+    command: ["python", "manage.py", "process_store_orders", "--loop"]
+    profiles: [stores]
+    env_file: [/opt/draftmango/shared/backend.env, /opt/draftmango/shared/build.env]
+    mem_limit: 256m
+    cpus: 0.5
+    pids_limit: 50
+    read_only: true
+    cap_drop: [ALL]
+    tmpfs: ["/tmp:size=32m,mode=1777", "/app/data:size=16m,uid=10001,gid=10001,mode=700"]
+    networks: [app, data]
+    depends_on:
+      backend: {condition: service_healthy}
+      cache: {condition: service_healthy}
   publisher:
     <<: *common
     image: draftmango-web:${DRAFTMANGO_RELEASE:-initial}
