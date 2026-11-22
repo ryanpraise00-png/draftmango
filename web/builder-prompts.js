@@ -1,36 +1,69 @@
 /* The builder's suggestions in the chat. Native controls only; no model-supplied HTML is rendered.
-   One question at a time: each suggested answer is a button that sends at once (the recommended one
-   first), and "Something else" opens a field for the user's own answer. A plan is a short proposal
+   One question card at a time: selecting a suggested answer never sends it. The user submits their
+   choice or writes their own answer before continuing. A plan is a short proposal
    the user approves with one button; its full details stay folded away. */
 (() => {
   const B=globalThis.DraftmangoBuilderFlow;
   const node=(tag,text,cls)=>{const n=document.createElement(tag);if(text)n.textContent=text;if(cls)n.className=cls;return n;};
   const label=value=>value.replaceAll('-',' ').replace(/\b\w/g,c=>c.toUpperCase()).replace(/ (\d+)$/,'');
 
+  let questionNumber=0;
+  function setControls(root,busy){
+    root.hidden=!root.childElementCount||!!root.querySelector('.app-question[data-submitting=true],.app-question[data-answered=true]');
+    root.querySelectorAll('button,input,textarea').forEach(el=>{
+      el.disabled=busy||el.closest('form')?.dataset.submitting==='true';
+    });
+  }
+
   function question(root,q,answer){
-    const box=node('section',null,'builder-questions app-question');box.setAttribute('aria-label','Question');
-    const title=node('h4',q.title);title.id='builder-question-title';box.append(title);
-    const choices=node('div',null,'app-choices');choices.setAttribute('role','group');choices.setAttribute('aria-labelledby',title.id);
-    const order=[q.recommended,...q.options.map((_,i)=>i).filter(i=>i!==q.recommended)];
-    for(const i of order){
-      const button=node('button',q.options[i],'app-choice');button.type='button';
-      if(i===q.recommended){button.classList.add('is-recommended');button.append(node('small','Recommended'));}
-      button.onclick=()=>{if(root.getAttribute('aria-busy')!=='true')answer(q.title+'\n'+q.options[i]);};
-      choices.append(button);
-    }
-    const other=node('button','Something else','app-choice app-choice--other');other.type='button';
-    const form=node('form',null,'app-other');form.hidden=true;
-    const field=node('input');field.type='text';field.maxLength=2000;field.placeholder='Type your answer';field.setAttribute('aria-label','Your answer: '+q.title);
-    const send=node('button','Send','builder-primary app-send');send.type='submit';send.setAttribute('aria-label','Send answer');
-    form.append(field,send);
-    other.onclick=()=>{form.hidden=false;other.setAttribute('aria-expanded','true');field.focus();};
-    form.onsubmit=event=>{
-      event.preventDefault();if(root.getAttribute('aria-busy')==='true')return;
-      const value=field.value.trim();
-      if(!value){field.setCustomValidity('Enter your answer.');field.reportValidity();field.oninput=()=>field.setCustomValidity('');return;}
-      answer(q.title+'\n'+value);
+    const id='builder-question-'+(++questionNumber);
+    const form=node('form',null,'builder-questions app-question');form.setAttribute('aria-labelledby',id);
+    const group=node('fieldset');
+    const title=node('legend',q.title);title.id=id;
+    const hint=node('p','Select an option or write your own answer.','app-question-hint');hint.id=id+'-hint';
+    group.setAttribute('aria-describedby',hint.id);group.append(title,hint);
+    const choices=node('div',null,'app-choices');
+    const custom=node('div',null,'app-custom-answer');custom.hidden=true;
+    const field=node('textarea');field.rows=3;field.maxLength=2000;field.placeholder='Write your answer…';field.setAttribute('aria-label','Your answer: '+q.title);
+    field.oninput=()=>field.setCustomValidity('');custom.append(field);
+    const select=()=>{
+      const isCustom=other.checked;
+      custom.hidden=!isCustom;field.required=isCustom;field.setCustomValidity('');
+      if(isCustom)field.focus();
     };
-    choices.append(other);box.append(choices,form);root.append(box);
+    const option=(value,text,recommended=false)=>{
+      const row=node('label',null,'builder-answer');
+      const input=node('input');input.type='radio';input.name=id+'-answer';input.value=value;input.checked=recommended;
+      const copy=node('span',null,'app-answer-label');copy.append(node('span',text));
+      if(recommended)copy.append(node('small','Recommended'));
+      input.onchange=select;row.append(input,copy);choices.append(row);return input;
+    };
+    const order=[q.recommended,...q.options.map((_,i)=>i).filter(i=>i!==q.recommended)];
+    for(const i of order)option(String(i),q.options[i],i===q.recommended);
+    const other=option('custom','Something else');
+    group.append(choices,custom);
+    const error=node('p',null,'app-question-error');error.hidden=true;error.setAttribute('role','alert');
+    const actions=node('div',null,'app-question-actions');
+    const send=node('button','Submit answer','builder-primary');send.type='submit';actions.append(send);
+    form.append(group,error,actions);
+    form.onsubmit=async event=>{
+      event.preventDefault();
+      if(root.getAttribute('aria-busy')==='true'||form.dataset.submitting==='true')return;
+      const selected=form.querySelector('input:checked');
+      const value=selected?.value==='custom'?field.value.trim():q.options[Number(selected?.value)];
+      if(!value){field.setCustomValidity('Enter your answer.');field.reportValidity();return;}
+      error.hidden=true;form.dataset.submitting='true';form.setAttribute('aria-busy','true');setControls(root,true);
+      try{
+        const sent=await answer(q.title+'\n'+value);
+        if(sent!==false)form.dataset.answered='true';
+      }
+      catch{error.textContent='Your answer could not be sent. Please try again.';error.hidden=false;}
+      finally{
+        delete form.dataset.submitting;form.setAttribute('aria-busy','false');
+        if(form.parentElement===root)setControls(root,root.getAttribute('aria-busy')==='true');
+      }
+    };
+    root.append(form);
   }
 
   function proposal(root,plan,{build,revise}){
@@ -94,13 +127,13 @@
     const data=B.read(state);
     if(!data){root.replaceChildren();root.hidden=true;return;}
     const signature=JSON.stringify([data,storeState]);
-    if(root.dataset.signature===signature){root.querySelectorAll('button,input,textarea').forEach(el=>el.disabled=busy);root.setAttribute('aria-busy',String(busy));return;}
+    if(root.dataset.signature===signature){setControls(root,busy);root.setAttribute('aria-busy',String(busy));return;}
     root.dataset.signature=signature;root.replaceChildren();root.setAttribute('aria-busy',String(busy));
     if(data.phase==='discovery'&&data.questions.length)question(root,data.questions[0],answer);
     else if(data.phase==='review')proposal(root,data.plan,{build,revise});
     else if(data.phase==='built'){checklist(root,data.checks);if(B.storeSupport(data.plan))handoff(root,storeState,actions);}
     root.hidden=!root.childElementCount;
-    root.querySelectorAll('button,input,textarea').forEach(el=>el.disabled=busy);
+    setControls(root,busy);
   }
   globalThis.DraftmangoBuilderPrompts=Object.freeze({render});
 })();

@@ -718,7 +718,7 @@
   }
   async function requestChange(request, { mode, retry = false, builderAction = 'respond' } = {}) {
     const text = request.trim();
-    if (!text || aiJob) return;
+    if (!text || aiJob) return false;
     applyCode(false);
     mode = mode || Chat.requestMode(project,W.emptyFiles());
     if(project.files?.['TEMPLATE.md']) mode='edit';
@@ -758,7 +758,7 @@
       });
       const result = await globalThis.DraftmangoAI.readResponse(response, event => {
         resetIdle();
-        if (aiJob !== job) return;
+        if (aiJob !== job) return false;
         if (event.type === 'start' && Number.isFinite(event.timeoutSeconds) && event.timeoutSeconds > 0 && event.timeoutSeconds <= 1800) armDeadline(event.timeoutSeconds);
         if (event.type === 'progress') {
           job.phase = Object.hasOwn(Chat.labels,event.phase) ? event.phase : job.phase;
@@ -769,7 +769,7 @@
           renderAI();
         }
       });
-      if (aiJob !== job || project.id !== job.projectId) return;
+      if (aiJob !== job || project.id !== job.projectId) return false;
       // Another tab or an intervening edit must never be overwritten by a late reply.
       let latest;
       try { latest = M.readStore(localStorage.getItem(storageKey))?.projects.find(item => item.id === project.id); } catch { /* Current session remains usable. */ }
@@ -794,13 +794,15 @@
       lastAIRequest = null;
       save(); render();
       if(result.action === 'update')announce('Your website is updated. The previous draft is in History.');
+      return true;
     } catch (error) {
-      if (aiJob !== job) return;
+      if (aiJob !== job) return false;
       if (error.code === 'missing_key' || error.code === 'invalid_key') aiStatus = {...aiStatus, configured:false};
       aiFeedback = {
         text: connectionLost ? 'The connection to the local server was interrupted. Your draft is unchanged. Try again.' : clientTimedOut ? 'The AI did not finish within the generation time limit. Your draft is unchanged. You can try again.' : error.name === 'AbortError' ? 'Generation stopped. Your website is unchanged.' : error.message || 'Could not connect. Please try again.',
         state: 'error', retry: true
       };
+      return false;
     } finally {
       clearTimeout(timer);
       clearTimeout(idleTimer);

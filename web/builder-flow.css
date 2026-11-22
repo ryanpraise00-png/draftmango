@@ -1,13 +1,6 @@
 .builder-prompt{margin:0 20px 24px;color:var(--ws-ink,#202020);font-size:14px;line-height:1.6}
 .builder-prompt:empty{display:none}
 .builder-prompt-title,.builder-plan h3{font-size:16px;font-weight:600;margin:0 0 20px}
-.builder-questions fieldset{border:0;padding:0;margin:0 0 24px;min-width:0}
-.builder-questions legend{font-weight:500;margin-bottom:10px;padding:0}
-.builder-answer{display:flex;align-items:flex-start;gap:10px;border:1px solid var(--ws-line,#ddd);border-radius:9px;padding:11px 13px;margin:7px 0;cursor:pointer;background:var(--ws-panel,#fff)}
-.builder-answer:has(input:checked){border-color:var(--ws-ink,#202020);box-shadow:inset 0 0 0 1px var(--ws-ink,#202020)}
-.builder-answer input{margin-top:5px;accent-color:var(--ws-ink,#202020);flex-shrink:0}
-.builder-answer small{display:block;color:var(--ws-muted,#666);font-size:12px}
-.builder-questions textarea{width:100%;box-sizing:border-box;resize:vertical;min-height:80px;padding:12px;border:1px solid var(--ws-line,#ddd);border-radius:8px;background:var(--ws-panel,#fff);color:inherit;font:inherit}
 .builder-primary,.builder-secondary{border:1px solid var(--ws-ink,#202020);border-radius:8px;padding:10px 16px;font:inherit;font-weight:500;cursor:pointer}
 .builder-primary,body.workspace-clone[data-screen] .builder-prompt .builder-primary{background:var(--ws-accent,#ce3e08);border-color:var(--ws-accent,#ce3e08);color:#fff}
 .builder-secondary{background:transparent;color:inherit;border-color:var(--ws-line,#ddd)}
@@ -30,18 +23,25 @@
 html[data-reduce-motion=true] .send-button .send-icon,html[data-reduce-motion=true] .send-button .stop-icon{transition:none}
 @media(max-width:540px){.builder-prompt{margin-inline:14px}.builder-prompt-actions button{flex:1}}
 
-/* One question at a time: suggested answers send in one click; the recommended one comes first. */
-.app-question{display:grid;gap:12px;padding:16px;border:1px solid var(--ws-line);border-radius:12px;background:var(--ws-panel)}
-.app-question h4{margin:0;font-size:15px;font-weight:600;color:var(--ws-ink)}
-.app-choices{display:flex;flex-wrap:wrap;gap:6px}
-.app-choice{display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border:1px solid var(--ws-line);border-radius:999px;background:var(--ws-panel);color:var(--ws-ink);font-size:13px;font-weight:500;cursor:pointer}
-.app-choice:hover:not(:disabled){border-color:var(--ws-accent)}
-.app-choice.is-recommended{border-color:var(--ws-accent)}
-.app-choice small{padding:1px 6px;border-radius:4px;background:var(--ws-accent);color:#fff;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
-.app-choice--other{color:var(--ws-muted);border-style:dashed}
-.app-other{display:flex;gap:8px}
-.app-other input{flex:1;min-width:0;padding:8px 12px;border:1px solid var(--ws-line);border-radius:999px;background:var(--ws-panel);color:var(--ws-ink);font:inherit;font-size:14px}
-.app-other .app-send{border-radius:999px}
+/* Question cards use native radios; choosing an answer never submits it. */
+.app-question{width:100%;box-sizing:border-box;padding:18px;border:1px solid var(--ws-line,#ddd);border-radius:12px;background:var(--ws-panel,#fff);color:var(--ws-ink,#202020)}
+.app-question fieldset{border:0;padding:0;margin:0;min-width:0}
+.app-question legend{width:100%;padding:0;font-size:16px;line-height:1.5;font-weight:600;overflow-wrap:anywhere}
+.app-question-hint,body.workspace-clone[data-screen] .app-question-hint{margin:8px 0 16px;color:var(--ws-muted,#666);font-size:13px;line-height:1.6}
+.app-choices{display:grid;gap:8px;min-width:0}
+.builder-answer,body.workspace-clone[data-screen] .app-question .builder-answer{display:flex;margin:0;align-items:flex-start;gap:11px;min-width:0;padding:12px;border:1px solid var(--ws-line,#ddd);border-radius:8px;cursor:pointer;text-align:left;font-size:15px;line-height:1.5}
+.builder-answer:hover:not(:has(:disabled)){border-color:var(--ws-muted,#666)}
+.builder-answer:has(input:checked){border-color:var(--ws-ink,#202020);box-shadow:inset 0 0 0 1px var(--ws-ink,#202020);background:var(--ws-hover,#f7f7f7)}
+.builder-answer input,body.workspace-clone[data-screen] .app-question .builder-answer input{appearance:auto;border:0;border-radius:0;background:none;box-shadow:none;flex:0 0 16px;width:16px;height:16px;margin:3px 0 0;padding:0;accent-color:var(--ws-ink,#202020)}
+.app-answer-label{display:block;min-width:0;overflow-wrap:anywhere}
+.app-answer-label small,body.workspace-clone[data-screen] .app-answer-label small{display:block;margin-top:3px;color:var(--ws-muted,#666);font-size:12px;font-weight:400}
+.app-custom-answer{margin-top:12px}
+.app-custom-answer[hidden],.app-question-error[hidden]{display:none}
+.app-custom-answer textarea,body.workspace-clone[data-screen] .app-custom-answer textarea{display:block;width:100%;box-sizing:border-box;resize:vertical;min-height:90px;padding:12px;border:1px solid var(--ws-line,#ddd);border-radius:8px;background:var(--ws-panel,#fff);color:inherit;font:inherit;font-size:16px;line-height:1.5}
+.app-question-actions{display:flex;justify-content:flex-end;margin-top:16px}
+.app-question-error{margin:12px 0 0;color:var(--ws-ink,#202020);font-size:14px}
+.app-question:has(:disabled) .builder-answer{cursor:wait}
+.app-question:has(:disabled) .app-answer-label{opacity:.6}
 /* The plan: a short proposal; the full details stay folded away. */
 .app-proposal{display:grid;gap:8px}
 .app-run-head{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ws-ink)}
@@ -58,9 +58,5 @@ html[data-reduce-motion=true] .send-button .send-icon,html[data-reduce-motion=tr
 .app-proposal-details h5{margin:12px 0 4px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ws-muted)}
 .app-proposal-details ul{margin:0;padding-left:18px;font-size:13px}
 .app-plan-actions{display:flex;gap:8px;margin-top:6px}
-.builder-prompt .app-choice{max-width:100%;flex-wrap:wrap;text-align:left}
-.builder-prompt .app-choice small{display:inline-block;margin:0;padding:0 6px;border:1px solid var(--ws-accent);border-radius:4px;background:none;color:var(--ws-accent);line-height:1.5}
-.builder-prompt .app-question{width:100%;box-sizing:border-box}
-.builder-prompt .app-choices{min-width:0}
 
 .app-store-handoff ul{margin:12px 0;padding-left:18px;line-height:1.8}.app-store-handoff li span{color:var(--ws-muted)}.app-store-handoff .builder-prompt-actions{display:flex;gap:8px;flex-wrap:wrap}.app-store-handoff a{overflow-wrap:anywhere}.app-store-scope{font-size:13px;color:var(--ws-muted);line-height:1.6}
