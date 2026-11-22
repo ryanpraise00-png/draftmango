@@ -70,6 +70,11 @@ subdomain. Preview iframes do not receive customer sessions or payment access.
   an SMTP timeout after acceptance can cause a repeated receipt. Order records
   prevent accidental account hard-deletion; support must arrange closure/retention.
 
+## Deferred payment providers
+
+Stripe remains the first store payment provider. Additional providers are deferred
+and are not a current builder priority. Store owners complete their own onboarding.
+
 ## Activation checklist
 
 1. Deploy this source, build the web/backend images and apply the `stores` migrations.
@@ -121,3 +126,13 @@ projects remain editable. Do not overwrite version 1 after it has been released.
 Provider references: [Connect direct charges](https://docs.stripe.com/connect/direct-charges),
 [account links](https://docs.stripe.com/api/account_links/create), and
 [checkout fulfilment](https://docs.stripe.com/checkout/fulfillment).
+
+## Confirmed builder plans and preview
+
+See [builder handoff](builder-guided-flow.md#builder-to-store-handoff-implemented-awaiting-deployment).
+Apply migration `stores.0003_store_builder_setup` with the next store deployment.
+It records missing settings and pending product briefs; these are owner-only.
+Existing stores keep an empty setup record and are never reseeded by a new build.
+The browser can retry a failed preparation after account sync, without publishing
+or duplicating products. The editor preview includes hidden draft products; the
+published catalogue continues to show only active products.

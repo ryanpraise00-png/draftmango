@@ -79,6 +79,6 @@ export default function Page() {
 <div id={"toast"} className={"toast"} role={"status"} hidden={true}></div>
 <noscript><div className={"noscript"}>{"This workspace needs JavaScript to preview and edit your draft. "}<a href={"/"}>{"Return to the homepage."}</a></div></noscript>
 
-<PageControllers scripts={["/project-format.js", "/templates-model.js", "/conversation.js", "/builder-flow.js", "/builder-prompts.js", "/workspace-assets.js", "/workspace-model.js", "/workspace-code.js", "/workspace-files.js", "/dashboard-model.js", "/workspace-ai.js", "/account-store.js", "/accounts.js", "/workspace-common.js", "/workspace.js", "/publishing.js", "/workspace-extra.js"]} />
+<PageControllers scripts={["/project-format.js", "/templates-model.js", "/conversation.js", "/builder-flow.js", "/builder-prompts.js", "/workspace-assets.js", "/workspace-model.js", "/workspace-code.js", "/workspace-files.js", "/dashboard-model.js", "/workspace-ai.js", "/account-store.js", "/accounts.js", "/workspace-common.js", "/store-builder.js", "/workspace.js", "/publishing.js", "/workspace-extra.js"]} />
 </>;
 }

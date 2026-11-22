@@ -6,14 +6,13 @@ Isotris is unchanged.
 
 ## Conversation and build flow
 
-1. A new workspace starts a requirements conversation. The model can ask up to
-   three missing decisions at a time, each with suggested choices and a custom
+1. A new workspace starts a requirements conversation. The model asks one missing decision at a time, with suggested choices and a custom
    answer. Detailed requests may go straight to review. Submitted answers stay
    in the conversation; the active questions and plan are stored with the
    account's project.
 2. The review identifies the offering, audience, goal, region, content, brand,
    selected library template, pages, user journeys, dependencies and assumptions.
-   The user can revise it or select **Build this plan**. Required page sets are
+   The user can revise it or select **Build it**. Required page sets are
    added by application code, including store account, cart, checkout, order
    confirmation and order-history requirements.
 3. A confirmed build loads the same shared template package used by the library.
@@ -79,3 +78,36 @@ adapter after content personalisation. The completion report recognises its
 account, cart, checkout, order and policy routes while retaining a setup gate for
 real catalogue data, policies, publishing and owner payments. Other templates
 are not redesigned or silently switched. See [stores](stores.md).
+
+## Builder-to-store handoff (implemented; awaiting deployment)
+
+Store plans now carry structured, reviewable business, delivery and product facts.
+Unknown values remain unknown: missing prices and stock are not invented, and
+missing shipping/tax are not treated as confirmed zero. The current managed
+workflow is physical goods on Fashion Store 1. Other selected designs and digital
+goods keep their template and receive an explicit unsupported-workflow notice.
+
+After a confirmed build is saved and synced, the browser prepares a draft store
+against that exact project version. Django reads the saved plan, creates hidden
+products with known prices and stock, and retains incomplete products for owner
+review. Retrying never replaces an existing catalogue or settings. Currency must
+be confirmed before products can be saved. No publication, account onboarding or
+checkout activation occurs automatically.
+
+The completed conversation links to products, settings and publishing, with live
+setup status. Returning from owner management refreshes the preview catalogue.
+The v2 adapter receives only catalogue display data from its parent editor; the
+gateway validates the canonical template and exact reviewed adapter before allowing
+this data bridge. A per-preview nonce and document-bound message port prevent
+a later iframe navigation from receiving catalogue data. Manually modified source can compile but does not receive draft
+catalogue data. The opaque iframe remains isolated and gets no account session, customer records or
+payment credentials. Bag totals are a local preview, with unconfirmed shipping
+and tax left blank. Accounts, enquiries and payments use the published store.
+The immutable v1 adapter remains accepted for existing saved projects.
+
+`tests/store-builder.test.mjs` covers facts, sync/version/account guards, catalogue
+filtering and v1 compatibility. `stores.test_setup` covers atomic preparation,
+retry behaviour, ownership, unknown facts and stale product reviews. The real
+Django/publisher/Chromium test also covers draft creation, owner product review,
+and an opaque preview with a working bag and no customer API calls. Provider and
+mail fixtures remain isolated. Isotris and Bisuk are untouched.

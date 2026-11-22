@@ -9,6 +9,7 @@ import {validateTemplateFiles} from '../server/template-engine/design-policy.mjs
 import '../web/builder-flow.js';
 const B=globalThis.DraftmangoBuilderFlow;
 const plan=B.plan({kind:'store',name:'Everyday Socks',audience:'Adults in the UK',goal:'Sell comfortable socks',offering:'Cotton socks',region:'United Kingdom',content:'Owner will supply products and prices',brand:'Preserve the fashion template',templateId:'fashion-store-1',pages:[],workflows:['Choose a product and complete checkout'],connections:[],assumptions:['Guest checkout is available']});
+plan.store=B.storeBrief({fulfilment:'physical',currency:'gbp',country:'GB',supportEmail:null,shippingCountries:['GB'],shippingAmount:null,taxBasisPoints:null,products:[{name:'Cotton socks',variants:[{label:'Medium',price:1500,stock:null}]}]});
 const question={id:'audience',title:'Who are your socks for?',options:['Everyday wear','Sports and running'],recommended:0};
 const provider=value=>Response.json({stop_reason:'end_turn',content:[{type:'text',text:JSON.stringify(value)}]});
 
@@ -43,8 +44,11 @@ test('browser: guided answers persist, confirmation gates building, and the send
  assert.ok(requests[1].prompt.includes('Everyday wear for adults in the UK'));
  assert.equal(await page.evaluate(()=>JSON.stringify(DraftmangoEditor.project.files)),original);
  await page.reload();await page.waitForSelector('.builder-plan');assert.equal(requests.length,2);
- await page.locator('.builder-plan-section summary',{hasText:'Details'}).click();
+ await page.getByText('Details',{exact:true}).click();
  assert.ok(await page.getByText('Order history',{exact:true}).isVisible());
+ await page.getByText('Store details to review',{exact:true}).click();
+ assert.ok(await page.getByRole('heading',{name:'Cotton socks',exact:true}).isVisible());assert.ok((await page.locator('.app-proposal-details').innerText()).includes('£15.00'));
+ assert.ok((await page.locator('.app-proposal-details').innerText()).includes('Stock: Needs your confirmation'));
  assert.equal(await page.locator('.builder-primary').evaluate(el=>getComputedStyle(el).color!==getComputedStyle(el).backgroundColor),true);
  await page.screenshot({path:path.join(tmpdir(),'draftmango-builder-plan-desktop.png')});
  await page.setViewportSize({width:390,height:844});
@@ -67,6 +71,7 @@ test('browser: guided answers persist, confirmation gates building, and the send
  await page.waitForFunction(()=>!DraftmangoEditor.busy);
  assert.ok((await page.locator('.builder-checklist').innerText()).includes('Connection needed'));
  assert.equal(await page.evaluate(()=>DraftmangoEditor.project.workspace.builder.phase),'built');
+ await page.getByRole('region',{name:'Store handoff'}).getByText('Sign in to prepare and manage this store.',{exact:true}).waitFor();
  const savedFiles=await page.evaluate(()=>DraftmangoEditor.project.files);assert.equal(validateTemplateFiles(JSON.parse(savedFiles['template.lock.json']),savedFiles).valid,true);
  await page.reload();await page.waitForSelector('.builder-checklist');
  assert.ok(await page.evaluate(()=>DraftmangoEditor.project.messages.at(-1).activity.updates.length>1));

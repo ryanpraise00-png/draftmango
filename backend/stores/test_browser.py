@@ -28,10 +28,19 @@ class StoreBrowserTest(LiveServerTestCase):
     order=Order.objects.get(checkout_id='cs_test_browser')
     return {'id':order.checkout_id,'metadata':{'order':str(order.pk),'store':str(store.pk)},'payment_status':'paid','status':'complete','payment_intent':'pi_browser','currency':order.currency,'amount_total':order.total,'livemode':False}
    raise AssertionError('Unexpected provider fixture request: '+route)
-  payload={'port':self.server_thread.port,'owner':str(user.pk),'cookie':owner.cookies[settings.SESSION_COOKIE_NAME].value,'csrf':csrf,'csrfCookie':owner.cookies[settings.CSRF_COOKIE_NAME].value,'cookieName':settings.SESSION_COOKIE_NAME,'csrfName':settings.CSRF_COOKIE_NAME,'projectId':p.project_id,'variantId':str(variant.pk),'productId':str(product.pk)}
+  plan={'kind':'store','name':'Brief socks','audience':'Adults','offering':'Socks','goal':'Sell cotton socks','region':'UK','brand':'Keep the fashion template','content':'Supplied products','templateId':'fashion-store-1','pages':[],'workflows':[],'connections':[],'assumptions':[],
+   'store':{'fulfilment':'physical','currency':'gbp','country':'GB','supportEmail':'help@example.test','shippingCountries':['GB'],'shippingAmount':400,'taxBasisPoints':0,'products':[
+    {'name':'Brief cotton socks','description':'Supplied cotton socks.','image':'https://draftmango.com/assets/coffee.jpg','category':'Socks','variants':[{'label':'Medium','sku':'BRIEF-M','price':1500,'stock':10}]},
+    {'name':'Brief wool socks','description':'Supplied wool socks.','image':'','category':'Socks','variants':[{'label':'Large','sku':'BRIEF-L','price':None,'stock':None}]}]}}
+  prepared=Project.objects.create(owner=user,project_id='brief-store',document={'title':'Brief socks','workspace':{'builder':{'phase':'built','plan':plan}},'files':{'template.lock.json':json.dumps({'template':{'id':'fashion-store-1'}}),'storefront.json':json.dumps({'adapter':'fashion-store-v2','template':'fashion-store-1'})}})
+  payload={'builderPlan':plan,'builderId':prepared.project_id,'port':self.server_thread.port,'owner':str(user.pk),'cookie':owner.cookies[settings.SESSION_COOKIE_NAME].value,'csrf':csrf,'csrfCookie':owner.cookies[settings.CSRF_COOKIE_NAME].value,'cookieName':settings.SESSION_COOKIE_NAME,'csrfName':settings.CSRF_COOKIE_NAME,'projectId':p.project_id,'variantId':str(variant.pk),'productId':str(product.pk)}
   with patch('stores.payments.request',side_effect=provider):
    result=subprocess.run(['node','tests/store-browser.mjs'],cwd=settings.BASE_DIR,input=json.dumps(payload),text=True,capture_output=True,timeout=120,env={**os.environ,'DJANGO_PORT':str(self.server_thread.port),'DJANGO_HOST':'127.0.0.1'})
   self.assertEqual(result.returncode,0,result.stdout+'\n'+result.stderr)
   order=Order.objects.get();self.assertEqual(order.status,'paid');self.assertEqual(order.fulfilment,'fulfilled');self.assertEqual(order.total,3600)
   variant.refresh_from_db();self.assertEqual(variant.stock,7)
+  prepared_store=Store.objects.get(project=prepared)
+  self.assertFalse(prepared_store.accepting_orders);self.assertEqual(prepared_store.products.count(),2)
+  self.assertEqual(prepared_store.builder_setup['pendingProducts'],[])
+  self.assertFalse(prepared_store.products.filter(active=True).exists())
   self.assertEqual(store.enquiries.count(),1);self.assertEqual(len(mail.outbox),1)

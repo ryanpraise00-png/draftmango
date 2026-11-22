@@ -13,7 +13,7 @@ from accounts.workspace_views import owner
 from accounts.publishing import project_for, deleted
 from accounts.models import PublishedSite
 from .models import Store, Product, Variant, Customer, CustomerToken, Order, PaymentEvent, Enquiry
-from . import services as S, payments
+from . import services as S, payments, setup
 
 
 def enabled():
@@ -42,7 +42,9 @@ def management(request):
         if not s:
             return JsonResponse({'store': None})
         section = request.GET.get('section', 'overview')
-        result = {'store': S.store_json(s)}
+        result = {'store': S.store_json(s), 'setup': s.builder_setup, 'readiness': setup.readiness(s)}
+        if section == 'preview':
+            return JsonResponse({'store': S.store_json(s), 'products': [S.product_json(p) for p in s.products.prefetch_related('variants').order_by('name')[:500]], 'customer': None, 'preview': True, 'missingSettings': s.builder_setup.get('missingSettings', [])})
         try:
             offset = max(0, min(100000, int(request.GET.get('offset', 0))))
         except ValueError:
@@ -70,6 +72,11 @@ def management(request):
         return JsonResponse(result)
     data = body(request, 100000)
     action = data.get('action')
+    if action == 'prepare':
+        throttle(request, 'store-prepare', str(user.pk), limit=20, seconds=300)
+        project = project_for(user, data.get('projectId'))
+        s, created = setup.prepare(user, project, data.get('expectedVersion'))
+        return JsonResponse({'store': S.store_json(s), 'setup': s.builder_setup, 'readiness': setup.readiness(s), 'created': created})
     if action == 'enable':
         project = project_for(user, data.get('projectId'))
         try:
@@ -109,7 +116,10 @@ def management(request):
             accepting = values.get('acceptingOrders', s.accepting_orders)
             if type(accepting) is not bool:
                 raise APIError(400, 'settings', 'Choose whether to accept orders.')
+            remaining = [k for k in s.builder_setup.get('missingSettings', []) if k not in values]
+            s.builder_setup = {**s.builder_setup, 'missingSettings': remaining}
             if accepting:
+                if remaining: raise APIError(409, 'store_incomplete', 'Confirm the missing business, currency, shipping and tax settings before opening checkout.')
                 S.origin(s)
                 if not payments.configured() or not s.charges_enabled or s.payment_mode != settings.STORE_STRIPE_MODE or any(len(v) < 20 for v in s.policies.values()) or not s.products.filter(active=True).exists():
                     raise APIError(409, 'store_incomplete', 'Before opening: connect payments, publish the site, add an active product, and complete all four policies.')
@@ -117,7 +127,9 @@ def management(request):
         return JsonResponse({'store': S.store_json(s)})
     if action == 'product':
         with transaction.atomic():
-            Store.objects.select_for_update().get(pk=s.pk)
+            s = Store.objects.select_for_update().get(pk=s.pk)
+            if 'currency' in s.builder_setup.get('missingSettings', []):
+                raise APIError(409, 'store_currency', 'Confirm the store currency in Settings before saving products.')
             values = data.get('product', {})
             if not isinstance(values, dict):
                 raise APIError(400, 'product', 'Enter a product.')
@@ -165,12 +177,22 @@ def management(request):
                     if p.variants.filter(sku=value['sku']).exists():
                         raise APIError(409, 'sku', 'This SKU already belongs to an archived option. Use a new SKU.')
                     Variant.objects.create(product=p, **value)
+            if data.get('briefProduct') is not None:
+                index = S.number(data['briefProduct'], 19)
+                current = Store.objects.get(pk=s.pk)
+                pending = current.builder_setup.get('pendingProducts', [])
+                if index >= len(pending) or pending[index].get('briefId') != data.get('briefId'):
+                    raise APIError(409, 'store_brief', 'The product brief changed. Reopen it before saving.')
+                current.builder_setup = {**current.builder_setup, 'pendingProducts': pending[:index] + pending[index + 1:]}
+                current.save(update_fields=['builder_setup'])
         return JsonResponse({'product': S.product_json(p)})
     if action in ('connect', 'payment-status'):
         if not payments.configured():
             raise APIError(503, 'store_payments_setup', 'Stripe Connect needs to be configured for store-owner payments. Draftmango subscription billing is separate.')
         if s.payment_mode != settings.STORE_STRIPE_MODE and s.stripe_account:
             raise APIError(409, 'payment_mode', 'This connection belongs to another payment mode. Ask support to migrate the store connection.')
+        if action == 'connect' and any(k in s.builder_setup.get('missingSettings', []) for k in ('country', 'supportEmail')):
+            raise APIError(409, 'store_settings', 'Confirm your business country and support email in store settings first.')
         if not s.stripe_account:
             if action != 'connect':
                 return JsonResponse({'store': S.store_json(s)})

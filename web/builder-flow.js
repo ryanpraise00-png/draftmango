@@ -11,6 +11,34 @@
     other:['Home','About','Contact','Privacy']
   };
   const text=(v,max)=>typeof v==='string'&&v.length<=max?v.trim():null;
+  const currencies=['usd','gbp','eur','cad','aud'];
+  function storeBrief(value){
+    if(value==null)return null;
+    if(typeof value!=='object'||Array.isArray(value))return false;
+    const nullable=(v,max)=>v==null?null:(text(v,max)??false),integer=(v,max,min=0)=>v==null?null:Number.isInteger(v)&&v>=min&&v<=max?v:false;
+    const result={fulfilment:value.fulfilment??null,currency:value.currency??null,country:value.country??null,
+      supportEmail:nullable(value.supportEmail,254),shippingAmount:integer(value.shippingAmount,100000),taxBasisPoints:integer(value.taxBasisPoints,10000),shippingCountries:value.shippingCountries??[],products:[]};
+    if(![null,'physical','digital','other'].includes(result.fulfilment)||!(result.currency===null||currencies.includes(result.currency))||!(result.country===null||(typeof result.country==='string'&&/^[A-Z]{2}$/.test(result.country)))||result.supportEmail===false||result.shippingAmount===false||result.taxBasisPoints===false)return false;
+    if(result.supportEmail!==null&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(result.supportEmail))return false;
+    if(!Array.isArray(result.shippingCountries)||result.shippingCountries.length>100||result.shippingCountries.some(c=>typeof c!=='string'||!/^[A-Z]{2}$/.test(c)))return false;
+    result.shippingCountries=[...new Set(result.shippingCountries)];
+    if(!Array.isArray(value.products)||value.products.length>20)return false;
+    for(const p of value.products){
+      if(!p||!text(p.name,160)||!Array.isArray(p.variants)||p.variants.length>20)return false;
+      const product={name:p.name.trim(),description:text(p.description??'',8000),category:text(p.category??'',80),image:text(p.image??'',2000),variants:[]};
+      if(Object.values(product).some(v=>v===null))return false;
+      if(product.image){try{const u=new URL(product.image);if(u.protocol!=='https:'||u.username||u.password||u.port)return false;}catch{return false;}}
+      for(const v of p.variants){
+        if(!v||!text(v.label,100)||text(v.sku??'',80)===null)return false;
+        const price=integer(v.price,10000000,50),stock=integer(v.stock,1000000);
+        if(price===false||stock===false)return false;
+        product.variants.push({label:v.label.trim(),sku:(v.sku||'').trim(),price,stock});
+      }
+      result.products.push(product);
+    }
+    return result;
+  }
+  const storeSupport=p=>p?.kind==='store'&&p.templateId==='fashion-store-1'&&(!p.store||p.store.fulfilment==='physical');
   function plan(value){
     if(!value||typeof value!=='object'||!kinds.includes(value.kind))return null;
     const result={kind:value.kind};
@@ -19,6 +47,7 @@
     }
     if(!/^[a-z][a-z0-9-]{0,70}$/.test(value.templateId||''))return null;
     result.templateId=value.templateId;
+    const store=storeBrief(value.store);if(store===false)return null;if(store)result.store=store;
     for(const key of ['pages','workflows','connections','assumptions']){
       if(!Array.isArray(value[key])||value[key].length>50||value[key].some(x=>!text(x,600)))return null;
       result[key]=[...new Set(value[key].map(x=>x.trim()))];
@@ -47,6 +76,6 @@
     return {version:1,phase:value.phase,questions:q,plan:p,checks};
   }
   const initial=()=>({version:1,phase:'discovery',questions:[],plan:null,checks:[]});
-  function summary(p){return [p.name,p.offering,'Audience: '+p.audience,'Goal: '+p.goal,'Region: '+p.region,'Brand: '+p.brand,'Content: '+p.content,'Pages: '+p.pages.join(', '),'Workflows: '+p.workflows.join('; '),'Connections: '+p.connections.join('; '),'Assumptions agreed with the user: '+p.assumptions.join('; ')].join('\n');}
-  globalThis.DraftmangoBuilderFlow=Object.freeze({kinds,required,plan,questions,read,initial,summary});
+  function summary(p){return [p.name,p.offering,'Audience: '+p.audience,'Goal: '+p.goal,'Region: '+p.region,'Brand: '+p.brand,'Content: '+p.content,'Pages: '+p.pages.join(', '),'Workflows: '+p.workflows.join('; '),'Connections: '+p.connections.join('; '),'Assumptions agreed with the user: '+p.assumptions.join('; '),...(p.store?['Confirmed store facts (null means not supplied): '+JSON.stringify(p.store)]:[])].join('\n');}
+  globalThis.DraftmangoBuilderFlow=Object.freeze({kinds,required,currencies,storeBrief,storeSupport,plan,questions,read,initial,summary});
 })();

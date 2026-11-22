@@ -1,4 +1,4 @@
-import {attachStorefront} from './storefront/index.mjs';
+import {attachStorefront,canPreviewStore} from './storefront/index.mjs';
 import {createTemplateRemote} from './template-remote.mjs';
 import {templateForPrompt} from './template-engine/index.mjs';
 import { publicOrigin as validateOrigin, requestBoundary } from './hosting.mjs';
@@ -81,7 +81,7 @@ export function createServer({ root = fileURLToPath(new URL('../out/', import.me
           const identity=await accountSession(request);
           if(limiter){
             await limiter(request,{action:'acquire',kind:'build',hold:60});
-            try {const input=await readJSON(request,6*1024*1024);json(response,200,await buildProject(input.files));}
+            try {const input=await readJSON(request,6*1024*1024);json(response,200,{...await buildProject(input.files),storePreview:await canPreviewStore(input.files)});}
             finally {limiter(request,{action:'release',kind:'build'}).catch(()=>{});}
             return;
           }
@@ -89,7 +89,7 @@ export function createServer({ root = fileURLToPath(new URL('../out/', import.me
           traffic.builds=(traffic.builds||[]).filter(at=>now-at<60000);
           if(traffic.buildBusy || traffic.builds.length>=30)throw new AIError(429,'build_busy','Wait a moment before rebuilding.');
           traffic.builds.push(now);traffic.buildBusy=true;
-          try {const input=await readJSON(request,6*1024*1024);json(response,200,await buildProject(input.files));}
+          try {const input=await readJSON(request,6*1024*1024);json(response,200,{...await buildProject(input.files),storePreview:await canPreviewStore(input.files)});}
           finally {traffic.buildBusy=false;}
           return;
         }

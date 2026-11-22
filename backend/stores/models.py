@@ -18,6 +18,7 @@ class Store(models.Model):
     stripe_account = models.CharField(max_length=100, blank=True)
     payment_mode = models.CharField(max_length=8, default='test')
     charges_enabled = models.BooleanField(default=False)
+    builder_setup = models.JSONField(default=dict)
     created_at = models.DateTimeField(auto_now_add=True)
 
 

@@ -25,7 +25,7 @@ const origin='http://browser-store.localhost:'+publisher.address().port;
 const gateway=createServer({root:path.resolve('web')}),handler=gateway.listeners('request')[0];gateway.removeAllListeners('request');
 gateway.on('request',(req,res)=>{
  if(req.url==='/owner-fixture'){
-  res.writeHead(200,{'Content-Type':'text/html'});res.end('<!doctype html><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/dashboard.css"><link rel="stylesheet" href="/app-type.css"><link rel="stylesheet" href="/workspace-shell.css"><link rel="stylesheet" href="/framo-app.css"><link rel="stylesheet" href="/workspace-framo.css"><link rel="stylesheet" href="/stores.css"><body class="workspace-clone"><main id="main"></main><div id="toast" hidden></div><script src="/project-format.js"></script><script src="/workspace-model.js"></script><script src="/workspace-common.js"></script><script src="/stores.js"></script>');return;
+  res.writeHead(200,{'Content-Type':'text/html'});res.end('<!doctype html><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/dashboard.css"><link rel="stylesheet" href="/app-type.css"><link rel="stylesheet" href="/workspace-shell.css"><link rel="stylesheet" href="/framo-app.css"><link rel="stylesheet" href="/workspace-framo.css"><link rel="stylesheet" href="/stores.css"><body class="workspace-clone"><main id="main"></main><div id="toast" hidden></div><script src="/project-format.js"></script><script src="/workspace-model.js"></script><script src="/workspace-common.js"></script><script src="/builder-flow.js"></script><script src="/builder-prompts.js"></script><script src="/store-builder.js"></script><script src="/stores.js"></script>');return;
  }handler(req,res);
 });gateway.listen(0,'127.0.0.1');await once(gateway,'listening');const ownerOrigin='http://127.0.0.1:'+gateway.address().port;
 const browser=await chromium.launch({headless:true});
@@ -64,10 +64,13 @@ try{
  await page.goto(origin+'/#page=store-contact');await page.getByLabel('Email',{exact:true}).fill('buyer@example.test');await page.getByLabel('Message',{exact:true}).fill('Please check my delivery.');await page.getByRole('button',{name:'Send message'}).click();await page.getByText('Thank you. Your message has been received.').waitFor();
  const owner=await browser.newContext({viewport:{width:1440,height:1000}});await owner.addCookies([{name:fixture.cookieName,value:fixture.cookie,url:ownerOrigin,httpOnly:true,sameSite:'Lax'},{name:fixture.csrfName,value:fixture.csrfCookie,url:ownerOrigin,httpOnly:true,sameSite:'Lax'}]);
  const doc=globalThis.DraftmangoModel.commitFiles(globalThis.DraftmangoModel.createProject('Studio store'),files);doc.id=fixture.projectId;doc.title='Studio store';doc.workspace={kind:'project'};
- await owner.addInitScript(({fixture,doc})=>{
-  localStorage.setItem('store-test-projects',JSON.stringify({schema:1,projects:[doc],activeId:doc.id}));
-  window.DraftmangoAccounts={key:()=> 'store-test-projects',user:{id:fixture.owner},request:async(url,{method='GET',body}={})=>{const r=await fetch(url,{method,headers:{'X-Draftmango-Account':fixture.owner,'X-CSRFToken':fixture.csrf,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{})});const x=await r.json();if(!r.ok)throw Error(x.error?.message||'Failed');return x;}};
- },{fixture,doc});
+ const briefDoc={...doc,id:fixture.builderId,title:'Brief socks',workspace:{kind:'project',builder:{version:1,phase:'built',plan:fixture.builderPlan,checks:[],questions:[]}}};
+ await owner.addInitScript(({fixture,doc,briefDoc})=>{
+  if(window!==window.top)return;
+  localStorage.setItem('store-test-projects',JSON.stringify({schema:1,projects:[doc,briefDoc],activeId:doc.id,cloud:{[briefDoc.id]:{seq:1,version:1,dirty:false}}}));
+  window.DraftmangoAccounts={key:()=> 'store-test-projects',sync:async()=>{},user:{id:fixture.owner},request:async(url,{method='GET',body}={})=>{const r=await fetch(url,{method,headers:{'X-Draftmango-Account':fixture.owner,'X-CSRFToken':fixture.csrf,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{})});const x=await r.json();if(!r.ok)throw Error(x.error?.message||'Failed');return x;}};
+ },{fixture,doc,briefDoc});
+ await owner.route('**/*',async route=>{const u=new URL(route.request().url());if(u.hostname==='127.0.0.1')return route.continue();if(u.hostname==='draftmango.com'&&(u.pathname.startsWith('/framo/assets/')||u.pathname==='/assets/coffee.jpg')){try{return await route.fulfill({path:path.resolve('web',u.pathname.slice(1))});}catch{}}return route.abort();});
  const admin=await owner.newPage();admin.on('pageerror',e=>errors.push(e.message));await admin.goto(ownerOrigin+'/owner-fixture');
  async function screen(section){await admin.evaluate(({id,section})=>DraftmangoStores.render(document.querySelector('#main'),id,section),{id:fixture.projectId,section});}
  await screen('overview');await admin.getByRole('heading',{name:'Your store is open'}).waitFor();await admin.screenshot({path:path.join(screenshots,'owner-overview-desktop.png')});
@@ -77,6 +80,33 @@ try{
  await screen('messages');await admin.getByRole('button',{name:'Resolve',exact:true}).click();await admin.getByRole('cell',{name:'Resolved',exact:true}).waitFor();
  await screen('settings');await admin.getByLabel('Store name',{exact:true}).fill('Studio store updated');await admin.getByRole('button',{name:'Save settings',exact:true}).click();await admin.getByRole('heading',{name:'Studio store updated',exact:true}).waitFor();
  await admin.setViewportSize({width:390,height:844});assert.equal(await admin.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);await admin.screenshot({path:path.join(screenshots,'owner-settings-mobile.png'),fullPage:true});
+ // Connect a confirmed build to real Django draft-store APIs, then review missing facts.
+ await admin.setViewportSize({width:1440,height:1000});
+ const prepared=await admin.evaluate(p=>DraftmangoStoreBuilder.prepare(p),briefDoc);
+ assert.equal(prepared.created,true);assert.equal(prepared.store.acceptingOrders,false);assert.equal(prepared.readiness.draftProducts,1);assert.equal(prepared.readiness.pendingProducts,1);
+ const retry=await admin.evaluate(p=>DraftmangoStoreBuilder.prepare(p),briefDoc);assert.equal(retry.created,false);
+ await admin.evaluate(p=>DraftmangoStores.render(document.querySelector('#main'),p.id,'products'),briefDoc);
+ await admin.getByRole('button',{name:'Review product',exact:true}).click();
+ assert.equal(await admin.getByLabel('Price (GBP)',{exact:true}).inputValue(),'');assert.equal(await admin.getByLabel('Available stock',{exact:true}).inputValue(),'');
+ await admin.getByLabel('Price (GBP)',{exact:true}).fill('18');await admin.getByLabel('Available stock',{exact:true}).fill('7');
+ await admin.getByRole('button',{name:'Save product',exact:true}).click();await admin.getByRole('cell',{name:'Brief wool socks',exact:true}).waitFor();
+ assert.equal(await admin.getByRole('button',{name:'Review product',exact:true}).count(),0);
+ await admin.screenshot({path:path.join(screenshots,'builder-owner-products.png')});
+ // Read-only parent catalogue crosses an opaque iframe; customer APIs never do.
+ const apiRequests=[];admin.on('request',req=>{if(new URL(req.url()).pathname.startsWith('/api/store/'))apiRequests.push(req.url());});
+ await admin.evaluate(async({doc,html})=>{
+  const catalogue=await DraftmangoStoreBuilder.catalogue(doc);
+  const iframe=document.createElement('iframe');iframe.id='store-preview';iframe.setAttribute('sandbox','allow-scripts');iframe.style='width:100%;height:900px;border:0';
+  window.addEventListener('message',e=>{if(e.source===iframe.contentWindow&&e.data?.type==='draftmango:store-preview-ready')e.ports[0].postMessage({type:'draftmango:store-preview',catalogue,page:'shop'});});
+  document.querySelector('#main').style='padding:0;max-width:none;width:100%;margin:0';document.querySelector('#main').replaceChildren(iframe);iframe.srcdoc=html;
+ },{doc:briefDoc,html:compiled.html.replace('<head>','<head><meta http-equiv="Content-Security-Policy" content="connect-src \'none\'; form-action \'none\'">')});
+ const preview=admin.frameLocator('#store-preview');await preview.getByRole('link',{name:'Brief cotton socks',exact:true}).first().waitFor();
+ await admin.screenshot({path:path.join(screenshots,'builder-store-preview-desktop.png')});
+ await preview.getByRole('link',{name:'Brief cotton socks',exact:true}).first().click();await preview.getByRole('button',{name:'Add to Bag',exact:true}).click();await preview.getByRole('link',{name:'View bag',exact:true}).click();
+ await preview.getByRole('spinbutton',{name:'Quantity of Brief cotton socks'}).waitFor();await preview.getByText('£19.00',{exact:true}).waitFor();
+ await preview.getByRole('link',{name:'Proceed to checkout',exact:true}).click();assert.equal(await preview.getByRole('button',{name:'Continue to payment',exact:true}).isDisabled(),true);
+ assert.equal(apiRequests.length,0);
+ await admin.setViewportSize({width:390,height:844});assert.equal(await admin.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);await admin.screenshot({path:path.join(screenshots,'builder-store-preview-mobile.png')});
  assert.deepEqual(errors,[]);console.log('Store and owner browser workflow passed; screenshots: '+screenshots);
 }catch(error){console.error(error);console.error('Browser errors:',errors);process.exitCode=1;}
 finally{await browser.close();publisher.closeAllConnections();publisher.close();gateway.closeAllConnections();gateway.close();}

@@ -13,3 +13,10 @@ export async function attachStorefront(files){
  assertTemplateFiles(canonical,result);
  return result;
 }
+
+// Only the reviewed template runtime may receive draft catalogue data from the editor.
+// A compiled but manually modified project still previews, without this capability.
+export async function canPreviewStore(files){
+ if(files?.[storeMarker]!==storeDescriptor||files?.[storeSource]!==storeRuntime)return false;
+ try{await attachStorefront(files);return true;}catch{return false;}
+}

@@ -10,16 +10,23 @@ import {assertTemplateFiles} from './template-engine/design-policy.mjs';
 import {templateEditSystem,templateEditSchema} from './template-edits.mjs';
 const B=globalThis.DraftmangoBuilderFlow;
 const string={type:'string'};
+const optional=type=>({type:[type,'null']});
+export const storeBriefSchema={type:'object',additionalProperties:false,properties:{
+ fulfilment:{type:['string','null'],enum:['physical','digital','other',null]},currency:{type:['string','null'],enum:[...B.currencies,null]},country:optional('string'),supportEmail:optional('string'),shippingCountries:{type:'array',items:string},shippingAmount:optional('integer'),taxBasisPoints:optional('integer'),
+ products:{type:'array',items:{type:'object',additionalProperties:false,properties:{name:string,description:string,category:string,image:string,variants:{type:'array',items:{type:'object',additionalProperties:false,properties:{label:string,sku:string,price:optional('integer'),stock:optional('integer')},required:['label','sku','price','stock']}}},required:['name','description','category','image','variants']}}
+},required:['fulfilment','currency','country','supportEmail','shippingCountries','shippingAmount','taxBasisPoints','products']};
 export const briefSchema={type:'object',additionalProperties:false,properties:{
   message:string,
   questions:{type:'array',items:{type:'object',additionalProperties:false,properties:{id:string,title:string,options:{type:'array',items:string},recommended:{type:'integer'}},required:['id','title','options','recommended']}},
-  plan:{anyOf:[{type:'null'},{type:'object',additionalProperties:false,properties:{kind:{type:'string',enum:B.kinds},...Object.fromEntries(['name','audience','goal','offering','region','content','brand','templateId'].map(k=>[k,string])),...Object.fromEntries(['pages','workflows','connections','assumptions'].map(k=>[k,{type:'array',items:string}]))},required:['kind','name','audience','goal','offering','region','content','brand','templateId','pages','workflows','connections','assumptions']}]}
+  plan:{anyOf:[{type:'null'},{type:'object',additionalProperties:false,properties:{store:{anyOf:[{type:'null'},storeBriefSchema]},kind:{type:'string',enum:B.kinds},...Object.fromEntries(['name','audience','goal','offering','region','content','brand','templateId'].map(k=>[k,string])),...Object.fromEntries(['pages','workflows','connections','assumptions'].map(k=>[k,{type:'array',items:string}]))},required:['kind','name','audience','goal','offering','region','content','brand','templateId','pages','workflows','connections','assumptions','store']}]}
 },required:['message','questions','plan']};
 export const briefSystem=[
   'You are Draftmango’s website-building collaborator. Talk like a thoughtful product partner: brief, warm and direct. You are gathering and planning; you have not edited files or connected services.',
   'Match the user’s intent. A greeting, thanks, small talk or a general question (for example "hey", "hi there", "what can you do?") is NOT a request to build: reply in one or two friendly sentences, say what you can help with and invite them to describe their website. Return no questions and no plan. Start gathering requirements only once the user describes a website, a business or something they want built.',
   'Gather one decision at a time, the way a collaborator suggests the next step. Ask exactly ONE question per turn: the most important decision still missing. Give two to four short suggested answers (a few words each, never full sentences), put your recommended answer first and set recommended to 0. The interface adds a "Something else" answer automatically, so never include one. Keep the message to one short sentence of context and never repeat the question or its answers in it. Use prior answers, attachments and project context, skip anything already answered, and never run a long intake questionnaire. When the user delegates a choice, make it and say so in one clause.',
   'As soon as the essentials are clear (what is offered, who it is for and what visitors should do), propose the plan instead of asking more: return the plan and no questions. A detailed first request can go straight to a plan. Write the message as a one or two sentence proposal, for example: "I’ll build Halden Studio on the Architecture Studio template: seven pages built around booking a first site visit. Shall I go ahead?" Do not list pages, workflows, connections or assumptions in the message; the interface shows them. The user must confirm the plan before building. Record your assumptions in the plan for review.',
+  'For a store, collect actionable facts in plan.store: physical versus digital goods, currency, business country, delivery countries, contact email, shipping charge, tax rate and any supplied products/options/prices/stock/photos. Ask one useful question at a time. Ask about product type and an ambiguous currency before proposing a store plan. Do not repeat facts already supplied. The user may defer operational details; preserve unknowns as null or empty arrays, never invent prices or inventory or silently assume free shipping or zero tax. Money is integer minor units (for example GBP 12.50 is 1250); taxBasisPoints is percentage times 100. Include only supplied facts; all of them will be displayed for approval. Use store:null for non-stores. A store plan is a setup draft, never permission to publish or take payments.',
+  'Only Fashion Store 1 currently has the managed physical-goods store workflow. The supplied library capabilities say which workflow exists. If no template was selected, recommend it for a working physical store. If the user selected another design or needs digital delivery, retain their choice and clearly explain the missing workflow before build confirmation. Never promise an unsupported provider, delivery integration or missing page works.',
   'Do not invent products, prices, credentials, testimonials, locations or policy facts; record missing content as a dependency. Label choices you made on the user’s behalf as assumptions.',
   'Infer the full set of pages and end-to-end workflows for the business, not just a homepage. A store needs browsing/filtering, product selection, a persistent cart, account creation/sign-in/reset, checkout, confirmation, order history and shipping/returns information. Include account and transaction error states, responsive navigation and relevant policy pages. Restaurant bookings, service enquiries and SaaS onboarding have different needs.',
   'Use a supplied designer-made library template and preserve its layout/typography/styles. Respect an explicitly selected template. If it lacks a needed page, record the requirement instead of pretending it exists. You cannot invent a new template id.',
@@ -31,7 +38,9 @@ export async function gatherBrief(input, invoke, onProgress){
   onProgress({phase:'discovering',message:'I’m reading your message.'});
   const candidates=await searchTemplates([input.projectContext,input.prompt,input.builder?.plan?.offering].filter(Boolean).join('\n'),5);
   if(input.templateId&&!candidates.some(x=>x.id===input.templateId))candidates.unshift(await templateDetails(input.templateId));
-  const request={...input,files:undefined,designBrief:undefined,libraryCandidates:candidates,selectedTemplateId:input.templateId||null};
+  if(!candidates.some(x=>x.id==='fashion-store-1'))candidates.push(await templateDetails('fashion-store-1'));
+  const capabilities={managedStore:{templateIds:['fashion-store-1'],fulfilment:['physical'],paymentProviders:['stripe'],requiresOwnerSetup:true}};
+  const request={...input,capabilities,files:undefined,designBrief:undefined,libraryCandidates:candidates,selectedTemplateId:input.templateId||null};
   const output=await invoke(request,briefSystem,briefSchema,'draftmango_builder_brief');
   // One decision at a time: a reply carries one question, a plan, or neither (plain conversation).
   const asked=B.questions(output?.questions),questions=asked&&asked.slice(0,1),plan=output?.plan?B.plan(output.plan):null;
@@ -77,7 +86,7 @@ export async function buildPlan(input,invoke,onProgress,signal){
   assertTemplateFiles(manifest,files);
   onProgress({phase:'verifying',message:'I’m checking the page routes, placeholder links, required pages and service dependencies against your plan.'});
   let checks;
-  if(plan.kind==='store' && template.id==='fashion-store-1'){
+  if(B.storeSupport(plan)){
     onProgress({phase:'building',message:'I’m connecting the template’s store pages to the managed store workflow.'});
     files=await attachStorefront(files);
 
@@ -91,13 +100,13 @@ function visit(node,fn){if(!node||typeof node!=='object')return;if(Array.isArray
 const literal=v=>v?.type==='StringLiteral'?v.value:v?.type==='JSXExpressionContainer'&&v.expression?.type==='StringLiteral'?v.expression.value:null;
 export function inspectSite(files,plan){
   let manifest;try{manifest=JSON.parse(files['template.lock.json']);}catch{}
-  if(manifest && hasStoreCapability(files,manifest)){
+  if(manifest && hasStoreCapability(files,manifest)&&B.storeSupport(plan)){
     assertTemplateFiles(manifest,files);
     const supported=new Set([...B.required.store,'About','Articles','Wishlist','Contact us']);
     return [
       {status:'passed',label:'Template design',detail:'Original page components and styles are preserved. The versioned store adapter supplies the managed workflow.'},
       ...plan.pages.map(name=>({status:supported.has(name)?'passed':'needs-attention',label:name,detail:supported.has(name)?'A matching route is included in the tested store adapter.':'This additional requirement still needs a supported page.'})),
-      {status:'needs-connection',label:'Store setup',detail:'Open Stores in your dashboard to enable this project, add real products, save shipping and policies, publish, and connect your payment account.'},
+      {status:'needs-connection',label:'Store setup',detail:'The confirmed brief can prepare a draft store. Review products, complete shipping and policies, publish, and connect your payment account before opening checkout.'},
       {status:'needs-attention',label:'Business content and launch check',detail:'Review the remaining template copy and imagery. Check your own products, shipping, customer emails and payment connection before opening checkout.'}
     ];
   }

@@ -50,11 +50,24 @@
     for(const [name,items] of [['Pages',plan.pages],['Journeys',plan.workflows],['Connections needed',plan.connections],['Assumptions',plan.assumptions]]){
       if(!items.length)continue;details.append(node('h5',name+' · '+items.length));const list=node('ul');items.forEach(text=>list.append(node('li',text)));details.append(list);
     }
+    let storeScope;
+    if(plan.kind==='store'){
+      const supported=B.storeSupport(plan),store=plan.store;
+      storeScope=node('p',supported?'Building prepares a draft store. Review products, policies and settings before publishing or accepting orders.':'The selected template will be preserved. Its requested store workflow needs a separate connection; building the design will not create a working checkout.','app-store-scope');
+      const review=node('details',null,'builder-plan-section');review.append(node('summary','Store details to review'));
+      const unknown='Needs your confirmation',facts=node('dl');
+      const money=n=>n==null||!store?.currency?unknown:new Intl.NumberFormat(undefined,{style:'currency',currency:store.currency}).format(n/100);
+      for(const [label,value]of [['Products',store?.fulfilment],['Currency',store?.currency?.toUpperCase()],['Business country',store?.country],['Support email',store?.supportEmail],['Delivery countries',store?.shippingCountries?.join(', ')],['Flat shipping',money(store?.shippingAmount)],['Tax rate',store?.taxBasisPoints==null?null:store.taxBasisPoints/100+'%']])facts.append(node('dt',label),node('dd',value||unknown));
+      review.append(facts);
+      for(const p of store?.products||[]){review.append(node('h5',p.name));if(p.description)review.append(node('p',p.description));if(p.category)review.append(node('p','Category: '+p.category));if(p.image){const image=node('a','Supplied product photo');image.href=p.image;image.target='_blank';image.rel='noopener noreferrer';review.append(image);}const list=node('ul');for(const v of p.variants)list.append(node('li',v.label+(v.sku?' · SKU: '+v.sku:'')+' · '+money(v.price)+' · Stock: '+(v.stock??unknown)));if(!p.variants.length)list.append(node('li','Options, prices and stock need review.'));review.append(list);}
+      if(!store?.products?.length)review.append(node('p','Add your products in store management. No products, prices or stock will be invented.'));
+      details.append(review);
+    }
     const actions=node('div',null,'app-plan-actions builder-prompt-actions');
     const go=node('button','Build it','builder-primary');go.type='button';go.onclick=()=>build();
     const change=node('button','Adjust','builder-secondary');change.type='button';change.onclick=()=>revise();
     actions.append(go,change);
-    card.append(head,node('h3',plan.name),node('p',plan.goal,'app-proposal-goal'),meta,chips,details,actions);root.append(card);
+    card.append(head,node('h3',plan.name),node('p',plan.goal,'app-proposal-goal'),meta,chips);if(storeScope)card.append(storeScope);card.append(details,actions);root.append(card);
   }
 
   function checklist(root,checks){
@@ -66,15 +79,26 @@
     root.append(details);
   }
 
-  function render(root,state,{answer,build,revise},busy=false){
+  function handoff(root,value,actions){
+    const card=node('section',null,'builder-plan app-store-handoff');card.setAttribute('aria-label','Store handoff');
+    card.append(node('h3',value?.store?'Your draft store':'Prepare your store'));
+    card.append(node('p',value?.message||(value?.store?'Your template and store are connected. Review these steps before opening for orders.':'The website is built. Prepare its draft store to carry your confirmed details into store management.')));
+    if(value?.readiness){const list=node('ul');for(const step of value.readiness.steps){const row=node('li');row.append(node('span',step.complete?'Complete · ':'To do · '));const link=node(step.section==='publish'?'button':'a',step.label);if(step.section==='publish'){link.type='button';link.className='text-button';link.onclick=actions.publish;}else link.href='/dashboard#store/'+encodeURIComponent(value.store.projectId)+'/'+step.section;row.append(link);list.append(row);}card.append(list);}
+    const buttons=node('div',null,'builder-prompt-actions');
+    if(value?.store){const manage=node('a','Manage store','builder-primary');manage.href='/dashboard#store/'+encodeURIComponent(value.store.projectId)+'/overview';buttons.append(manage);const preview=node('button','Preview shop','builder-secondary');preview.type='button';preview.onclick=actions.preview;buttons.append(preview);}
+    else if(!value?.busy){const prepare=node('button','Prepare draft store','builder-primary');prepare.type='button';prepare.onclick=actions.prepare;buttons.append(prepare);}
+    card.append(buttons);root.append(card);
+  }
+  function render(root,state,actions,busy=false,storeState=null){
+    const {answer,build,revise}=actions;
     const data=B.read(state);
     if(!data){root.replaceChildren();root.hidden=true;return;}
-    const signature=JSON.stringify(data);
+    const signature=JSON.stringify([data,storeState]);
     if(root.dataset.signature===signature){root.querySelectorAll('button,input,textarea').forEach(el=>el.disabled=busy);root.setAttribute('aria-busy',String(busy));return;}
     root.dataset.signature=signature;root.replaceChildren();root.setAttribute('aria-busy',String(busy));
     if(data.phase==='discovery'&&data.questions.length)question(root,data.questions[0],answer);
     else if(data.phase==='review')proposal(root,data.plan,{build,revise});
-    else if(data.phase==='built')checklist(root,data.checks);
+    else if(data.phase==='built'){checklist(root,data.checks);if(B.storeSupport(data.plan))handoff(root,storeState,actions);}
     root.hidden=!root.childElementCount;
     root.querySelectorAll('button,input,textarea').forEach(el=>el.disabled=busy);
   }

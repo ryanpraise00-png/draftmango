@@ -239,6 +239,7 @@
     cancelAnimationFrame(resizeFrame);
     resizeFrame = requestAnimationFrame(updateCanvasSize);
   }
+  let storePreviewTrusted=false,storePreviewPort=null;
   function renderPreview(force = false) {
     const signature = project.id + JSON.stringify(project.files || project.design);
     scheduleCanvasSize();
@@ -255,16 +256,16 @@
     buildPromise=(async()=>{
       await Promise.resolve();
       try {
-        let html;
+        let html,trusted=false;
         if(P.isReact(files)) {
           const response=await fetch('/api/build',{method:'POST',headers:{'Content-Type':'application/json',...await A.headers()},body:JSON.stringify({files}),signal});
           const result=await response.json();
           if(!response.ok)throw new Error(result.error?.message || 'The React build failed.');
-          html=result.html;
+          html=result.html;trusted=result.storePreview===true;
         } else html=C.buildDocument(files,globalThis.DraftmangoImages);
         if(sequence!==buildSequence || signal.aborted)return false;
-        previewHtml=html;compiledSignature=signature;
-        previewToken=crypto.randomUUID();consoleLines=[];renderConsole();
+        previewHtml=html;compiledSignature=signature;storePreviewTrusted=trusted;
+        storePreviewPort?.close();storePreviewPort=null;previewToken=crypto.randomUUID();consoleLines=[];renderConsole();
         $('#website-frame').srcdoc=previewDocument(html,previewToken);
         $('#website-frame').title=`${title} website preview`;
         return true;
@@ -290,7 +291,7 @@
     // iframe still forbids parent access, connections, forms and remote scripts.
     const templateRuntime=!!project.files?.['src/framo/vendor.txt'];
     const policy = `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data: https: ${localAssets?location.origin:''}; style-src 'unsafe-inline' data: https: ${localAssets?location.origin:''}; font-src data: https: ${localAssets?location.origin:''}; script-src 'unsafe-inline' data: ${templateRuntime?"'unsafe-eval'":''}; connect-src 'none'; object-src 'none'; frame-src 'none'; form-action 'none'; base-uri 'none'">`;
-    const bridge = `<script>(()=>{const token=${JSON.stringify(token)};const send=(level,text)=>parent.postMessage({draftmango:token,level,text:String(text).slice(0,2000)},'*');for(const level of ['log','info','warn','error']){const original=console[level];console[level]=(...args)=>{send(level,args.map(value=>{try{return typeof value==='string'?value:JSON.stringify(value)}catch{return String(value)}}).join(' '));original.apply(console,args)}}addEventListener('error',event=>send('error',event.message+' (line '+event.lineno+')'));addEventListener('unhandledrejection',event=>send('error',event.reason?.message||event.reason));addEventListener('load',()=>send('ready','Preview ready'));document.addEventListener('click',event=>{const link=event.target.closest('a[href^="#"]');if(link&&!link.hash.startsWith('#page=')){event.preventDefault();const target=document.getElementById(decodeURIComponent(link.hash.slice(1)));target?.scrollIntoView({behavior:'smooth'})}})})()<\/script>`;
+    const bridge = `<script>(()=>{const token=${JSON.stringify(token)};window.__draftmangoPreviewNonce=token;const send=(level,text)=>parent.postMessage({draftmango:token,level,text:String(text).slice(0,2000)},'*');for(const level of ['log','info','warn','error']){const original=console[level];console[level]=(...args)=>{send(level,args.map(value=>{try{return typeof value==='string'?value:JSON.stringify(value)}catch{return String(value)}}).join(' '));original.apply(console,args)}}addEventListener('error',event=>send('error',event.message+' (line '+event.lineno+')'));addEventListener('unhandledrejection',event=>send('error',event.reason?.message||event.reason));addEventListener('load',()=>send('ready','Preview ready'));document.addEventListener('click',event=>{const link=event.target.closest('a[href^="#"]');if(link&&!link.hash.startsWith('#page=')){event.preventDefault();const target=document.getElementById(decodeURIComponent(link.hash.slice(1)));target?.scrollIntoView({behavior:'smooth'})}})})()<\/script>`;
     const start = policy + bridge;
     return /<head\b[^>]*>/i.test(html) ? html.replace(/<head\b[^>]*>/i, match => match + start) : start + html;
   }
@@ -308,7 +309,9 @@
     $('#console-count').textContent = consoleLines.length;
   }
   window.addEventListener('message', event => {
-    if (event.source !== $('#website-frame').contentWindow || event.data?.draftmango !== previewToken) return;
+    if (event.source !== $('#website-frame').contentWindow) return;
+    if(event.data?.type==='draftmango:store-preview-ready'){if(event.data.draftmango!==previewToken||!storePreviewTrusted||!event.ports[0])return;storePreviewPort?.close();storePreviewPort=event.ports[0];sendStorePreview(storeNavigation);storeNavigation='';return;}
+    if(event.data?.draftmango !== previewToken) return;
     if (event.data.level === 'ready') { $('#preview-status').innerHTML = '<i></i>Preview ready'; return; }
     if (!['log', 'info', 'warn', 'error'].includes(event.data.level) || typeof event.data.text !== 'string') return;
     consoleLines.push({ level: event.data.level, text: event.data.text.slice(0, 2000) });
@@ -627,6 +630,28 @@
     $('#ai-key-variable').textContent = aiStatus?.keyVariable || 'OPENAI_API_KEY';
     $('#ai-model-variable').textContent = aiStatus?.modelVariable || 'OPENAI_MODEL';
   }
+  const storeStates=new Map(),storeLoads=new Map();
+  let storeNavigation='';
+  window.addEventListener('draftmango:session-ended',()=>{storeStates.clear();storeNavigation='';storePreviewPort?.close();storePreviewPort=null;});
+  async function sendStorePreview(page=''){
+    const captured=project,token=previewToken,port=storePreviewPort,account=A.user?.id;
+    if(!port||!storePreviewTrusted||compiledSignature!==captured.id+JSON.stringify(captured.files||captured.design)||!globalThis.DraftmangoStoreBuilder?.supported(captured)||A.preview)return;
+    try{const catalogue=await globalThis.DraftmangoStoreBuilder.catalogue(captured);
+      if(project.id===captured.id&&previewToken===token&&A.user?.id===account&&storePreviewPort===port&&catalogue)port.postMessage({type:'draftmango:store-preview',catalogue,page});
+    }catch{/* Owner handoff reports unavailable store services; the preview remains isolated. */}
+  }
+  async function loadStore(prepare=false){
+    const captured=project,id=captured.id,helper=globalThis.DraftmangoStoreBuilder;
+    if(!helper?.supported(captured)||storeLoads.has(id))return;
+    const task={},account=A.user?.id;storeLoads.set(id,task);
+    storeStates.set(id,{busy:true,message:prepare?'Saving the confirmed build and preparing your draft catalogue…':'Checking your store setup…'});renderBuilderPrompt();
+    try{const value=await (prepare?helper.prepare(captured):helper.status(captured));
+      if(A.user?.id!==account)return;
+      storeStates.set(id,value);if(project.id===id)sendStorePreview();
+    }catch(error){storeStates.set(id,{message:error.message});}
+    finally{storeLoads.delete(id);if(project.id===id)renderBuilderPrompt();}
+  }
+  window.addEventListener('focus',()=>{if(!aiJob&&globalThis.DraftmangoStoreBuilder?.supported(project))loadStore();});
   function renderBuilderPrompt(){
     let root=$('#builder-prompt');
     if(!root){root=document.createElement('div');root.id='builder-prompt';root.className='builder-prompt';$('#conversation').append(root);}
@@ -634,8 +659,12 @@
     globalThis.DraftmangoBuilderPrompts.render(root,project.workspace?.builder,{
       answer:text=>requestChange(text),
       build:()=>requestChange('Build the website using this agreed plan.',{mode:'create',builderAction:'build'}),
-      revise:()=>{$('#chat-input').value='Change the plan: ';$('#chat-input').focus();}
-    },!!aiJob);
+      revise:()=>{$('#chat-input').value='Change the plan: ';$('#chat-input').focus();},
+      prepare:()=>loadStore(true),
+      preview:()=>{storeNavigation='shop';document.querySelector('[data-view="preview"]').click();setMobileView('preview');sendStorePreview('shop');},
+      publish:()=>globalThis.DraftmangoPublishing?.open()
+    },!!aiJob||!!storeStates.get(project.id)?.busy,storeStates.get(project.id));
+    if(globalThis.DraftmangoStoreBuilder?.supported(project)&&!storeStates.has(project.id))queueMicrotask(()=>loadStore());
     const log=$('#conversation');if(root!==log.lastElementChild && !$('#agent-progress'))log.append(root);
   }
   function renderAgentProgress() {
@@ -776,6 +805,12 @@
       clearTimeout(timer);
       clearTimeout(idleTimer);
       if (aiJob === job) { aiJob = null; render(); renderAI(); }
+      if(job.complete&&builderAction==='build'&&project.id===job.projectId&&globalThis.DraftmangoStoreBuilder?.supported(project)){
+        // Finish the generation job first: stopping a build never hides a committed store mutation.
+        const deadline=Date.now()+20000;
+        const wait=()=>project.id!==job.projectId||Date.now()>deadline?undefined:storeLoads.has(job.projectId)?setTimeout(wait,100):loadStore(true);
+        wait();
+      }
     }
   }
 
@@ -966,7 +1001,7 @@
     updateMeta(patch){project.workspace={...project.workspace,...patch};save();window.dispatchEvent(new Event('draftmango:editor-render'));},
     syncMeta(){const latest=W.get(project.id);if(latest){project={...project,title:latest.title,workspace:latest.workspace};render();}},
     clearConsole(){consoleLines=[];renderConsole();},
-    stopPreview(){ buildSequence++;buildController?.abort();buildPromise=null;compiledSignature='';previewToken='';$('#website-frame').srcdoc='';previewSignature='';$('#preview-status').textContent='Preview stopped';},
+    stopPreview(){ storePreviewPort?.close();storePreviewPort=null;buildSequence++;buildController?.abort();buildPromise=null;compiledSignature='';previewToken='';$('#website-frame').srcdoc='';previewSignature='';$('#preview-status').textContent='Preview stopped';},
     exportHTML(){documentLink(true);}, openPreview(){documentLink();}, runRequest:requestChange,
     diagnostic: setDiagnostic, consoleLines:()=>consoleLines
   };
