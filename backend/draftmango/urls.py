@@ -2,7 +2,14 @@ from django.urls import path
 from template_access import views as template_access
 from draftmango.health import health
 from accounts import views, workspace_views, billing_views, publishing, limits, google
+from accounts import bisuk_testing
 urlpatterns = [
+    path('api/bisuk-testing/screenshots', bisuk_testing.upload_screenshot),
+    path('api/bisuk-testing/screenshots/<uuid:image_id>', bisuk_testing.screenshot),
+    path('api/bisuk-testing/program', bisuk_testing.program),
+    path('api/bisuk-testing/report', bisuk_testing.report),
+    path('api/bisuk-testing/admin', bisuk_testing.admin),
+    path('api/bisuk-testing/export', bisuk_testing.export),
     path('api/template-access/token', template_access.token),
     path('internal/template-access/authorize', template_access.authorize),
     path('healthz', health),

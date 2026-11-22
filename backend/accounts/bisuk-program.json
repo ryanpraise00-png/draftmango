@@ -1,0 +1,216 @@
+{
+  "id": "bisuk-20261120",
+  "version": "1.0",
+  "applicationVersion": "DraftMango 0.5.0 / BISUK integration 20261120 / portal 1.0",
+  "targetModel": "BISUK Core 1.0 — Qwen/Qwen3.8-27B-FP8",
+  "modelRevision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+  "scope": "Browser-only frontend evaluation. Use fictional data. Real payments, emails, reservations, authentication and external services are out of scope. Publishing is a separate optional check.",
+  "stages": [
+    {
+      "id": "generation",
+      "name": "Initial generation",
+      "minutes": 15,
+      "instruction": "Submit the brief with the design direction and requirements. Record the exact prompt and first complete result."
+    },
+    {
+      "id": "interaction",
+      "name": "Functionality and interaction",
+      "minutes": 15,
+      "instruction": "Exercise every acceptance check. Record working behavior as well as failures. Use keyboard navigation."
+    },
+    {
+      "id": "modification",
+      "name": "Modification and instruction following",
+      "minutes": 10,
+      "instruction": "Submit the assigned modification. Check that unrelated content, layout and working state are preserved."
+    },
+    {
+      "id": "debugging",
+      "name": "Debugging and edge cases",
+      "minutes": 10,
+      "instruction": "Try the assigned edge cases. Report a reproducible failure, ask for one focused fix, and retest. If none fails, record that clearly; do not invent a bug."
+    },
+    {
+      "id": "evaluation",
+      "name": "Final evaluation and submission",
+      "minutes": 10,
+      "instruction": "Inspect 375px and 1440px layouts, score the result, attach evidence links, and submit. Check browser refresh recovery before final submission."
+    }
+  ],
+  "designRubric": [
+    "Typography has a clear hierarchy and readable body text",
+    "Spacing, alignment and colors are consistent across views",
+    "Layout and wording fit the assigned business rather than generic filler",
+    "At least two concrete choices distinguish this design from the starter template",
+    "Keyboard focus, labels, contrast and mobile overflow are checked"
+  ],
+  "ratings": {
+    "1": "Unusable or consistently fails",
+    "2": "Major corrections required",
+    "3": "Partly meets the brief",
+    "4": "Meets the brief with minor issues",
+    "5": "Meets the brief consistently; supported by concrete examples"
+  },
+  "assignments": [
+    {
+      "testerId": "T01",
+      "id": "storefront",
+      "title": "Mango Market",
+      "brief": "Build a compact homewares storefront for Lagos shoppers using eight seeded products.",
+      "style": "Warm editorial retail: cream, terracotta, large product names and a restrained product grid.",
+      "features": [
+        "Filter by category and search product names",
+        "Add items, change quantities and remove items in a cart",
+        "Show accurate subtotal and a clearly labeled checkout simulation"
+      ],
+      "checks": [
+        "A category filter hides unrelated products",
+        "Adding an item twice produces quantity 2 and the correct total",
+        "Removing the last item shows an empty-cart state",
+        "Checkout never claims a real payment was processed"
+      ],
+      "modify": "Add a sale-only filter and a visible Reset filters control. Preserve cart contents and existing styling.",
+      "debug": "Search for a nonexistent product, clear the search, then remove the last cart item. Report and ask the model to fix one observed failure. If none fails, ask it to verify those cases without claiming tests it did not run."
+    },
+    {
+      "testerId": "T02",
+      "id": "saas",
+      "title": "Pulse Operations",
+      "brief": "Build a small operations dashboard with 12 seeded support tickets, team summaries and a ticket detail panel.",
+      "style": "Calm indigo workspace, compact tables, clear hierarchy and useful empty states.",
+      "features": [
+        "Filter tickets by status and search title",
+        "Open a ticket detail view and change its status locally",
+        "Update visible counts when a ticket changes"
+      ],
+      "checks": [
+        "Status filters and search work together",
+        "Ticket details match the selected row",
+        "Changing status changes the count and filtered list",
+        "Navigation shows distinct relevant content"
+      ],
+      "modify": "Add an overdue-only filter and a Reset filters control. Preserve ticket status changes.",
+      "debug": "Apply a search with no results, then reset and change a ticket while its old status is selected. Report and request a focused fix if behavior is inconsistent."
+    },
+    {
+      "testerId": "T03",
+      "id": "restaurant",
+      "title": "Table Eight",
+      "brief": "Build a restaurant ordering demo with eight dishes across three categories and a local order basket.",
+      "style": "Contemporary restaurant menu: warm paper, dark type, green accents and readable prices.",
+      "features": [
+        "Filter menu categories and dietary preferences",
+        "Add dishes and update basket quantities",
+        "Show an order summary and a clearly labeled simulated confirmation"
+      ],
+      "checks": [
+        "Dietary filter excludes unsuitable dishes",
+        "Basket total equals quantity times unit price",
+        "Removing all dishes leaves a usable empty state",
+        "Confirmation states that no order has been sent"
+      ],
+      "modify": "Add a vegetarian-only quick filter and Reset filters control. Preserve the basket.",
+      "debug": "Combine dietary and category filters to get no results; reduce quantities to zero. Ask for a targeted correction to a reproducible problem."
+    },
+    {
+      "testerId": "T04",
+      "id": "hotel",
+      "title": "Harbor Stay",
+      "brief": "Build a hotel reservation demo with six seeded room types, guest counts and date inputs.",
+      "style": "Quiet hospitality: sand and navy, generous spacing, clear room comparisons.",
+      "features": [
+        "Filter by guest capacity and room type",
+        "Select check-in and check-out dates with validation",
+        "Show room details and a clearly labeled reservation summary"
+      ],
+      "checks": [
+        "Check-out before check-in is rejected with a useful message",
+        "Capacity filters exclude undersized rooms",
+        "The summary reflects the selected room and dates",
+        "No real reservation or payment is claimed"
+      ],
+      "modify": "Add a breakfast-included filter and Reset filters control. Preserve valid selected dates.",
+      "debug": "Choose invalid dates and a guest count above every room capacity. Record what happens, then request a focused fix for one failure."
+    },
+    {
+      "testerId": "T05",
+      "id": "learning",
+      "title": "Skillpath",
+      "brief": "Build a learner dashboard with six seeded courses and one three-question quiz.",
+      "style": "Friendly learning workspace: light backgrounds, teal accents and concise progress indicators.",
+      "features": [
+        "Search courses and filter by completion status",
+        "Open a course and mark a lesson complete locally",
+        "Submit a three-question quiz and show score and feedback"
+      ],
+      "checks": [
+        "Completing a lesson updates course progress",
+        "Course filters reflect changed progress",
+        "Quiz score matches the submitted answers",
+        "Resetting a quiz clears the previous score"
+      ],
+      "modify": "Add an in-progress quick filter and Reset filters control. Preserve completed lessons.",
+      "debug": "Submit an unanswered quiz, answer it, then reset and retry. Report and request a correction for an observed scoring or state issue."
+    },
+    {
+      "testerId": "T06",
+      "id": "events",
+      "title": "City Sessions",
+      "brief": "Build an event ticketing demo with eight seeded events and ticket quantities.",
+      "style": "Expressive event guide: bold headings, dark ink, one vivid accent and practical information density.",
+      "features": [
+        "Search events and filter by category",
+        "Open event details and select ticket quantity",
+        "Show totals and a clearly labeled booking simulation"
+      ],
+      "checks": [
+        "Filters and search combine correctly",
+        "Quantity limits prevent negative or excessive tickets",
+        "Totals reflect the selected ticket count",
+        "Booking confirmation says it is a demo"
+      ],
+      "modify": "Add a free-events-only filter and Reset filters control. Preserve a current ticket selection.",
+      "debug": "Search with no matches and try zero or excessive ticket quantities. Ask for a fix to one reproducible validation problem."
+    },
+    {
+      "testerId": "T07",
+      "id": "jobs",
+      "title": "Workline",
+      "brief": "Build a job marketplace demo with eight seeded roles and a local application form.",
+      "style": "Clear recruitment board: neutral palette, strong role titles and legible location and salary metadata.",
+      "features": [
+        "Search job titles and filter remote/on-site roles",
+        "Open job details and save or unsave a role locally",
+        "Validate a demo application form and show a simulated confirmation"
+      ],
+      "checks": [
+        "Remote filter removes on-site roles",
+        "Saved state remains consistent between list and detail",
+        "Blank required fields and invalid email are rejected",
+        "Confirmation never claims an application was sent"
+      ],
+      "modify": "Add a saved-only filter and Reset filters control. Preserve saved roles.",
+      "debug": "Submit a blank application, then an invalid email and then valid demo data. Record and request a fix for an observed validation failure."
+    },
+    {
+      "testerId": "T08",
+      "id": "finance",
+      "title": "Ledger View",
+      "brief": "Build a personal spending dashboard with 12 seeded transactions and a locally drawn category chart. Use fictional data.",
+      "style": "Trustworthy financial interface: restrained blue, clear numbers, aligned tables and accessible chart labels.",
+      "features": [
+        "Filter transactions by category and search description",
+        "Show totals that update with the visible data",
+        "Open transaction details and switch between chart and table views"
+      ],
+      "checks": [
+        "Category totals match the seeded transactions",
+        "Search and filters combine correctly",
+        "Chart has an equivalent readable table or labels",
+        "Empty results show zero and no misleading chart values"
+      ],
+      "modify": "Add an expenses-only filter and Reset filters control. Preserve the selected view.",
+      "debug": "Filter to no transactions and check totals, then reset and compare chart values with the table. Ask for a focused fix if they disagree."
+    }
+  ]
+}

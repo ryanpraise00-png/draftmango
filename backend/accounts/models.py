@@ -98,3 +98,35 @@ class PublishedRelease(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     class Meta:
         constraints = [models.UniqueConstraint(fields=['site', 'number'], name='site_release_number_unique')]
+
+class BisukReport(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    program = models.CharField(max_length=40)
+    tester_id = models.CharField(max_length=8)
+    task_id = models.CharField(max_length=40)
+    version = models.PositiveIntegerField(default=1)
+    payload = models.JSONField(default=dict)
+    submitted_at = models.DateTimeField(null=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    email_status = models.CharField(max_length=16, default='draft')
+    email_attempts = models.PositiveIntegerField(default=0)
+    email_error = models.CharField(max_length=200, blank=True)
+    email_lease_until = models.DateTimeField(null=True)
+    email_sent_at = models.DateTimeField(null=True)
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['program','owner'],name='bisuk_program_owner_unique'),
+            models.UniqueConstraint(fields=['program','tester_id'],name='bisuk_program_tester_unique'),
+        ]
+
+
+class BisukScreenshot(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    report = models.ForeignKey(BisukReport, on_delete=models.CASCADE, related_name='screenshots')
+    content = models.BinaryField()
+    content_type = models.CharField(max_length=30)
+    byte_size = models.PositiveIntegerField()
+    width = models.PositiveIntegerField()
+    height = models.PositiveIntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)

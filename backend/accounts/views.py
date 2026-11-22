@@ -59,9 +59,12 @@ def body(request, limit=16384):
     except (ValueError, UnicodeError):
         raise APIError(400, 'invalid_json', 'This request could not be read.')
 
-def throttle(request, action, identity='', limit=15, seconds=300):
+def throttle(request, action, identity='', limit=15, seconds=300, network_limit=None):
     # Production uses a shared Redis cache across all Gunicorn workers.
-    for target in [request.META.get('REMOTE_ADDR', ''), identity.lower()] if identity else [request.META.get('REMOTE_ADDR', '')]:
+    targets = [(request.META.get('REMOTE_ADDR', ''), network_limit if network_limit is not None else limit)]
+    if identity:
+        targets.append((identity.lower(), limit))
+    for target, target_limit in targets:
         key = 'auth:' + hashlib.sha256((action + ':' + target).encode()).hexdigest()
         if cache.add(key, 1, seconds):
             continue
@@ -70,7 +73,7 @@ def throttle(request, action, identity='', limit=15, seconds=300):
         except ValueError:
             cache.set(key, 1, seconds)
             count = 1
-        if count > limit:
+        if count > target_limit:
             raise APIError(429, 'rate_limit', 'Please wait a little before trying again.')
 
 def address(data):
@@ -146,7 +149,7 @@ def signup(request):
     if not settings.REGISTRATION_OPEN:
         raise APIError(503, 'registration_closed', 'Signups will open soon. Please check back later.')
     data = body(request); email = address(data)
-    throttle(request, 'signup', email, limit=8, seconds=3600)
+    throttle(request, 'signup', email, limit=8, seconds=3600, network_limit=64)
     candidate = User(email=email); secret = password(data, candidate)
     try:
         with transaction.atomic():
@@ -167,7 +170,7 @@ def signup(request):
 @api(['POST'])
 def signin(request):
     data = body(request); email = address(data)
-    throttle(request, 'login', email)
+    throttle(request, 'login', email, network_limit=90)
     secret = password(data, validate=False)
     user = authenticate(request, email=email, password=secret)
     if user is None:
@@ -221,7 +224,7 @@ def reset_confirm(request):
 
 @api(['POST'])
 def verify(request):
-    throttle(request, 'verify', limit=15)
+    throttle(request, 'verify', limit=64)
     user = token_user(body(request), verification_token)
     if not User.objects.filter(pk=user.pk, email_verified=False, password=user.password).update(is_active=True, email_verified=True):
         raise APIError(400, 'expired_link', 'This link has already been used. Sign in to continue.')
@@ -229,7 +232,7 @@ def verify(request):
 
 @api(['POST'])
 def resend_verification(request):
-    data = body(request); email = address(data); throttle(request, 'resend', email, limit=5, seconds=3600)
+    data = body(request); email = address(data); throttle(request, 'resend', email, limit=5, seconds=3600, network_limit=64)
     user = User.objects.filter(email=email, is_active=False, email_verified=False).first()
     if user:
         send_link(user, 'verify', verification_token, email_intent(data))

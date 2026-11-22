@@ -66,6 +66,8 @@ CSRF_COOKIE_SECURE = SESSION_COOKIE_SECURE
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 14
 BUILD_URL = os.environ.get('DRAFTMANGO_BUILD_URL', 'http://127.0.0.1:4178/build')
 BUILD_TOKEN = os.environ.get('DRAFTMANGO_BUILD_TOKEN', '')
+BISUK_TESTING_RECIPIENT = os.environ.get('BISUK_TESTING_RECIPIENT', '')
+BISUK_TESTING_ADMIN_EMAILS = os.environ.get('BISUK_TESTING_ADMIN_EMAILS', '')
 TEMPLATE_REMOTE_ENABLED = os.environ.get('DJANGO_TEMPLATE_REMOTE_ENABLED', '0') == '1'
 if TEMPLATE_REMOTE_ENABLED and not APP_ORIGIN.startswith('https://'):
     raise ImproperlyConfigured('Remote template access requires an HTTPS DJANGO_APP_ORIGIN.')
