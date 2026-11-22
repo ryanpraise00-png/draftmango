@@ -3,7 +3,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PYTHONPATH=/app/backend
 WORKDIR /app
 COPY requirements*.txt ./
 RUN pip install --no-cache-dir -r requirements-production.txt && useradd --uid 10001 --create-home app && mkdir /app/data && chown app:app /app/data
-COPY backend ./backend
+COPY --chown=app:app backend ./backend
 COPY web/assets/coffee.jpg web/assets/ceramics.jpg ./web/assets/
 COPY manage.py ./
 COPY deploy/gunicorn.conf.py ./deploy/gunicorn.conf.py
