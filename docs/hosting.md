@@ -3,31 +3,53 @@
 Host: root@187.124.47.123 (srv1803759.hstgr.cloud), Ubuntu 24.04.
 Application domain: draftmango.com. www redirects to the apex after TLS setup.
 
-## Next deployment priority — shared template engine
+## Next deployment priority — shared engine and secure remote access
 
-Requested by the owner on 22 November 2026. Include the shared template engine
-from `codex/shared-template-engine` (implementation commit `7b81ed1`) in the
-next Draftmango deployment. This is a queued release priority, not a record
-that production has already been updated.
+Priority 1 for the next Draftmango deployment, updated at the owner's request
+on 22 November 2026. Release both changes from `codex/shared-template-engine`:
 
-- Reconcile this branch with the actual running release and any production-only
-  changes before rollout. Retain the existing release and rollback information.
-- Deploy the Next.js output and Node gateway together: the template picker now
-  depends on authenticated `POST /api/templates/start`.
-- Verify authenticated template import, saved template/version metadata and
-  design-preserving personalization; verify unauthenticated access is rejected.
-- Keep the current template assets available. Durable versioned hosted asset
-  storage is required before changing assets used by existing published sites.
-- Leave Isotris development alone while its owner is working on it. The current
-  Isotris integration uses local stdio MCP. Hosting Draftmango's engine on the
-  VPS does not by itself connect Isotris. Include the opt-in remote MCP service,
-  the isolated `template_access` migration, and persistent `template-packages`
-  volume in this release. Follow [remote access setup](remote-template-access.md)
-  for both enable flags and backend-only client provisioning. Leave access
-  disabled until those steps are complete; do not put credentials in Isotris desktop.
+- `7b81ed1`: shared template engine, catalog and design-preserving imports.
+- `7141648`: authenticated remote MCP, backend client credentials and versioned
+  template package delivery.
 
-See [shared engine contract](shared-template-engine.md). The remote-access release
-passed 171 Node tests, 106 Django tests, migration checks and the Next.js production
+Status: queued; implementation is pushed, but production has not been updated
+by this work. Isotris itself remains outside this deployment's scope.
+
+### Release order
+
+1. Reconcile the branch with the actual running release, including any
+   production-only Bisuk changes. Preserve the current release identifiers,
+   configuration and rollback information before rollout.
+2. Deploy the Next.js output, Node gateway and Django backend together. Apply
+   the isolated `template_access` migration and mount the private persistent
+   `template-packages` volume at `/app/data/template-packages`. Preserve that
+   volume across releases and include it in private backups.
+3. Verify the canonical HTTPS origins and matching internal
+   `DRAFTMANGO_BUILD_TOKEN` on Node and Django. Stage both remote-access flags
+   disabled. Follow [remote access setup](remote-template-access.md) for the
+   activation checks and backend-only credential provisioning when Isotris's
+   backend is ready. The activation flags are `DJANGO_TEMPLATE_REMOTE_ENABLED`
+   on Django and `DRAFTMANGO_TEMPLATE_REMOTE_ENABLED` on the web gateway.
+4. Verify the existing authenticated browser import, saved template/version
+   metadata and design-preserving personalization. At remote activation, check
+   unauthorized and insufficient-scope rejection, token expiry/revocation,
+   package checksums, pinned-version downloads, accepted content edits and
+   rejected layout changes. Record the deployed release and activation status.
+
+### Boundaries to retain
+
+- Leave Isotris code and its current local stdio integration alone. A future
+  Isotris backend will authenticate as a product; its users do not need separate
+  Draftmango accounts. Never ship service credentials in the desktop app.
+- Keep the current hosted template assets available. Immutable remote packages
+  do not version existing preview/publishing asset URLs; durable hosted-asset
+  storage is still required before changing those URLs' underlying assets.
+- Do not overwrite or evict previously exported package versions during rollout
+  or rollback. Preserve the purchased template sources and their designs.
+
+See the [shared engine contract](shared-template-engine.md) and
+[remote access setup](remote-template-access.md). The implementation passed
+171 Node tests, 106 Django tests, migration checks and the Next.js production
 build. These are local results, not proof of a production rollout.
 The older initial-installation sections below are historical setup guidance;
 check live configuration rather than assuming they describe today's deployment.
