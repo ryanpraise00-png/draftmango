@@ -1,3 +1,4 @@
+import {gatherBrief,buildPlan,inspectSite} from './builder-flow.mjs';
 import {assertTemplateFiles} from './template-engine/design-policy.mjs';
 import {templateForPrompt} from './template-library.mjs';
 import {templateContentContext,applyTemplateEdits,templateEditSystem,templateEditSchema} from './template-edits.mjs';
@@ -87,6 +88,9 @@ export function validateInput(value) {
   if (value?.modelId != null && (typeof value.modelId !== 'string' || !/^(?:openai|anthropic|xai):[a-z0-9.-]{1,100}$/.test(value.modelId))) throw new AIError(400, 'invalid_model', 'Choose a model from the workspace selector.');
   if (!value || !['create', 'edit'].includes(value.mode) || typeof value.prompt !== 'string' || !value.prompt.trim() || value.prompt.length > 12000 || (value.mode === 'edit' ? !validFiles(value.files) : value.files != null && !validFiles(value.files))) throw new AIError(400, 'invalid_request', 'Include a request, and the current project files when editing. Keep the request under 12,000 characters and each file under 500,000 characters.');
   if(value.templateId != null && (typeof value.templateId !== 'string' || !/^[a-z][a-z0-9-]{0,70}$/.test(value.templateId))) throw new AIError(400,'invalid_template','Choose a template from the library.');
+  const builder=value.builder == null ? null : globalThis.DraftmangoBuilderFlow.read(value.builder);
+  if(value.builder != null && !builder)throw new AIError(400,'builder_brief','The saved website plan is invalid. Reopen the conversation.');
+  if(value.builderAction != null && !['respond','build','revise'].includes(value.builderAction))throw new AIError(400,'builder_brief','Choose a valid planning action.');
   const history = Array.isArray(value.history) ? value.history.slice(-40) : [];
   if (history.some(item => !item || !['user', 'assistant'].includes(item.role) || typeof item.text !== 'string' || item.text.length > 12000)) throw new AIError(400, 'invalid_request', 'The conversation context is invalid. Reload the workspace and try again.');
   if (history.reduce((total,item)=>total+item.text.length,0)>96000) throw new AIError(400,'invalid_request','The conversation is too long for one request.');
@@ -112,7 +116,7 @@ export function validateInput(value) {
   });
   const projectContext = value.projectContext ?? '';
   if (typeof projectContext !== 'string' || projectContext.length > 16000) throw new AIError(400, 'context', 'Project context is too long.');
-  return { ...(value.modelId ? {modelId:value.modelId} : {}), mode: value.mode, framework: value.mode === 'edit' ? (Project.isReact(value.files) ? 'react' : 'html') : 'react', ...(value.interaction === 'conversation' ? {interaction:'conversation'} : {}), prompt: value.prompt.trim(), ...(value.mode === 'edit' ? {files:{...value.files}, designBrief} : {creationPreferences,...(value.templateId ? {templateId:value.templateId} : {})}), history: history.map(({role, text}) => ({role, text})), ...(checked.length ? {references:checked} : {}), ...(projectContext ? {projectContext} : {}) };
+  return { ...(builder ? {builder,builderAction:value.builderAction||'respond'} : {}), ...(value.modelId ? {modelId:value.modelId} : {}), mode: value.mode, framework: value.mode === 'edit' ? (Project.isReact(value.files) ? 'react' : 'html') : 'react', ...(value.interaction === 'conversation' ? {interaction:'conversation'} : {}), prompt: value.prompt.trim(), ...(value.templateId ? {templateId:value.templateId} : {}), ...(value.mode === 'edit' ? {files:{...value.files}, designBrief} : {creationPreferences}), history: history.map(({role, text}) => ({role, text})), ...(checked.length ? {references:checked} : {}), ...(projectContext ? {projectContext} : {}) };
 }
 export function modelContent(input, provider) {
   const {references = [], modelId, ...context} = input;
@@ -282,6 +286,15 @@ export async function generate(input, config, options = {}) {
   input = validateInput(input);
   const onProgress = options.onProgress || (() => {}), stages=[];
   const record=(stage,started,result)=>stages.push({stage,elapsedMs:Date.now()-started,inputTokens:result?.usage?.input_tokens??null,outputTokens:result?.usage?.output_tokens??null});
+  if(input.builder && (input.builder.phase!=='built' || input.builderAction==='revise')) {
+    const invoke=async(request,systemPrompt,outputSchema,schemaName)=>{
+      const started=Date.now();
+      const result=await requestModel(request,config,{...options,systemPrompt,outputSchema,schemaName});
+      record(schemaName,started,result);options.signal?.throwIfAborted();return readProviderObject(result,config);
+    };
+    const result=input.builderAction==='build' ? await buildPlan(input,invoke,onProgress,options.signal) : await gatherBrief(input,invoke,onProgress);
+    return {...result,designProcess:{...result.designProcess,version:1,stages},...publicConfig(config)};
+  }
   // Every new site comes from the library, including requests from older clients.
   // Existing hand-written/legacy projects remain editable without replacing their source.
   const template=input.mode==='create' ? await templateForPrompt(input.prompt,input.templateId) : null;
@@ -305,7 +318,7 @@ export async function generate(input, config, options = {}) {
     if(output.files && manifest) assertTemplateFiles(manifest,output.files);
     if(output.action==='update')onProgress({phase:'building',message:'I’ll apply the content changes to '+identity.name+' while keeping its design.'});
     onProgress({phase:'checking'});
-    return {...output,designBrief:output.action==='update'?input.designBrief||null:null,designProcess:{version:1,stages,templateId:identity.id,...(manifest?{templateVersion:manifest.template.version}:{})},...publicConfig(config)};
+    return {...output,...(input.builder?.plan ? {builder:{...input.builder,checks:inspectSite(output.files||base,input.builder.plan)}} : {}),designBrief:output.action==='update'?input.designBrief||null:null,designProcess:{version:1,stages,templateId:identity.id,...(manifest?{templateVersion:manifest.template.version}:{})},...publicConfig(config)};
   }
   options.signal?.throwIfAborted();
   const started=Date.now();

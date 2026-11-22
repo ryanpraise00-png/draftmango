@@ -9,6 +9,7 @@
   const P = globalThis.DraftmangoProject;
   let buildController, buildPromise, buildSequence=0, compiledSignature='';
   const Chat = globalThis.DraftmangoConversation;
+  const B = globalThis.DraftmangoBuilderFlow;
   const $ = (selector) => document.querySelector(selector);
   const $$ = (selector) => [...document.querySelectorAll(selector)];
   const storageKey = A.key('projects');
@@ -48,22 +49,12 @@
   }
   if (initialIdea) {
     const next = M.createProject(initialIdea, 'blank');
-    let selectedTemplate;
-    try { selectedTemplate = await globalThis.DraftmangoTemplates.load(starting.get('template'), initialIdea); }
-    catch (error) {
-      const notice = document.createElement('div'); notice.setAttribute('role','alert'); notice.className='ws-template-error';
-      const message=document.createElement('p');message.textContent=error.message;
-      const retry=document.createElement('button');retry.textContent='Try again';retry.onclick=()=>location.reload();
-      const link=document.createElement('a');link.href='/templates';link.textContent='Choose another template';
-      notice.append(message,retry,link);document.body.append(notice);return;
-    }
-    next.files=selectedTemplate.files;next.history[0].files=structuredClone(next.files);
-    next.workspace={...next.workspace,templateId:selectedTemplate.id,templateName:selectedTemplate.name,templateVersion:selectedTemplate.version};
-    next.creationPreferences = ['Use the '+selectedTemplate.name+' Framo template. Preserve its design and page layouts.'];
-    const explicitlyChosen=starting.has('template') && !['blank','auto'].includes(starting.get('template'));
-    next.ai = { state: explicitlyChosen ? 'ready' : 'pending' };
-    next.messages = [{role:'assistant',text:explicitlyChosen ? selectedTemplate.name+' is ready to edit. Tell me about your business and what you want to personalise. The template includes demonstration content; forms and checkout will need connecting.' : 'I’ve selected '+selectedTemplate.name+' as the starting point for your website. I’ll adapt the content while keeping its design.',initial:false}];
-    if(selectedTemplate.missingAssets?.length) next.messages.push({role:'assistant',text:'Some original demo images are unavailable. Those images will need replacing before publishing.',initial:false});
+    const selectedTemplateId = starting.get('template');
+    next.files=W.emptyFiles();next.history[0].files=structuredClone(next.files);
+    next.workspace={...next.workspace,builder:B.initial(),...(selectedTemplateId && !['blank','auto'].includes(selectedTemplateId)?{templateId:selectedTemplateId}:{})};
+    next.ai={state:'pending'};
+    next.creationPreferences=[];
+    next.messages=[{role:'user',text:initialIdea}];
     if (M.palettes[starting.get('color')]) {
       next.design.theme = starting.get('color');
       next.history[0].design.theme = next.design.theme;
@@ -77,10 +68,11 @@
   }
   if (!library) {
     const first = M.createProject('', 'blank');
-    first.files=P.scaffold({},first.title);first.history[0].files=structuredClone(first.files);
+    first.files=W.emptyFiles();first.history[0].files=structuredClone(first.files);first.workspace={...first.workspace,builder:B.initial()};
     library = { schema: 1, activeId: first.id, projects: [first] };
   }
   let project = library.projects.find(p => p.id === library.activeId) || library.projects[0];
+  if(!project.workspace?.builder && project.ai?.state==='pending' && !project.files?.['template.lock.json'])project.workspace={...project.workspace,builder:B.initial()};
   const parentProject = W.get(project.workspace?.parentId);
   if (parentProject && !project.codeDraft && parentProject.files && JSON.stringify(parentProject.files) !== JSON.stringify(project.files)) project = M.commitFiles(project, parentProject.files, 'Loaded current project source', parentProject.designBrief);
   let sharedSource = JSON.stringify(parentProject?.files || project.files);
@@ -203,7 +195,7 @@
       label.innerHTML = message.role === 'user' ? 'You <span class="avatar">Y</span>' : `<span class="avatar">${icon('mango')}</span>Draftmango`;
       const content = document.createElement(message.role === 'assistant' ? 'div' : 'p');
       content.className = 'message-content';
-      const messageText = message.initial ? 'Tell me what you want to build. I’ll start with a suitable design from the template library.' : message.text;
+      const messageText = message.initial ? 'Tell me what you want to build. I’ll help clarify the details, agree a plan with you, and adapt a design from the template library.' : message.text;
       if (message.role === 'assistant') Chat.render(content,messageText); else content.textContent=messageText;
       block.append(label);
       const activity=Chat.renderActivity(message.activity);if(activity)block.append(activity);
@@ -603,18 +595,22 @@
   let lastAIRequest = null;
   let aiFeedback = { text: '', state: '', retry: false };
   function fileRevision(item) {
-    return JSON.stringify([item.design, item.files || null, item.codeDraft || null, item.designBrief || null, item.cursor]);
+    return JSON.stringify([item.design, item.files || null, item.codeDraft || null, item.designBrief || null, item.cursor, item.workspace?.builder || null]);
   }
   function renderAI() {
     const busy = !!aiJob;
     $('#ai-feedback').hidden = busy || !aiFeedback.text;
-    renderAgentProgress();
     $('#ai-feedback').dataset.state = aiFeedback.state;
     $('#ai-message').textContent = aiFeedback.text;
-    $('#cancel-ai').hidden = !busy;
+    const sendButton=$('#chat-form .send-button');
+    sendButton.disabled=false;sendButton.type=busy?'button':'submit';sendButton.dataset.busy=String(busy);
+    sendButton.setAttribute('aria-label',busy?'Stop generation':'Send message');
+    sendButton.onclick=event=>{if(aiJob){event.preventDefault();stopAI();}};
+    renderBuilderPrompt();
+    renderAgentProgress();
     $('#retry-ai').hidden = busy || !aiFeedback.retry;
     $('#generate-site').hidden = busy || project.ai?.state !== 'pending' || aiFeedback.retry || project.messages.at(-1)?.role === 'assistant';
-    $('#chat-form button[type=submit]').disabled = busy;
+
     $('#chat-form').setAttribute('aria-busy', String(busy));
     $$('[data-request]').forEach(button => { button.disabled = busy; });
     $('#source-input').readOnly = busy;
@@ -625,11 +621,22 @@
     $('#redo').disabled = busy || !!project.codeDraft || project.cursor >= project.history.length - 1;
     const picker = $('#ai-model-select'); if (picker?.options.length && picker.options[0].value) picker.disabled = busy;
     const name = aiStatus?.name || 'AI';
-    $('#ai-connection').textContent = aiStatus?.configured ? name + ' · Ready' : aiStatus ? 'Set up ' + name : 'AI · Connection';
+    $('#ai-connection').textContent = aiStatus?.configured ? name + (busy?' · Working':' · Ready') : aiStatus ? 'Set up ' + name : 'AI · Connection';
     $$('[data-ai-name]').forEach(element => { element.textContent = name; });
     $$('[data-ai-service]').forEach(element => { element.textContent = aiStatus?.service || 'your configured provider'; });
     $('#ai-key-variable').textContent = aiStatus?.keyVariable || 'OPENAI_API_KEY';
     $('#ai-model-variable').textContent = aiStatus?.modelVariable || 'OPENAI_MODEL';
+  }
+  function renderBuilderPrompt(){
+    let root=$('#builder-prompt');
+    if(!root){root=document.createElement('div');root.id='builder-prompt';root.className='builder-prompt';$('#conversation').append(root);}
+    if(root.dataset.project!==project.id){delete root.dataset.signature;root.dataset.project=project.id;}
+    globalThis.DraftmangoBuilderPrompts.render(root,project.workspace?.builder,{
+      answer:text=>requestChange(text),
+      build:()=>requestChange('Build the website using this agreed plan.',{mode:'create',builderAction:'build'}),
+      revise:()=>{$('#chat-input').value='Change the plan: ';$('#chat-input').focus();}
+    },!!aiJob);
+    const log=$('#conversation');if(root!==log.lastElementChild && !$('#agent-progress'))log.append(root);
   }
   function renderAgentProgress() {
     let pending=$('#agent-progress');
@@ -637,9 +644,11 @@
     const log=$('#conversation'),atBottom=log.scrollHeight-log.scrollTop-log.clientHeight<90;
     if(!pending){
       pending=document.createElement('div');pending.id='agent-progress';pending.className='message message-assistant agent-progress';
-      pending.innerHTML='<div class="agent-plan message-content"></div><div class="agent-live"><span class="agent-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="agent-phase" role="status" aria-live="polite"></span><span class="agent-time" aria-hidden="true"></span><button type="button" class="agent-stop">Stop</button></div>';
-      pending.querySelector('button').onclick=()=>stopAI();log.append(pending);
+      pending.innerHTML='<div class="agent-plan message-content"></div><div class="agent-live"><span class="agent-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="agent-phase" role="status" aria-live="polite"></span><span class="agent-time" aria-hidden="true"></span></div>';
+      const updates=document.createElement('ul');updates.className='agent-updates';pending.prepend(updates);log.append(pending);
     }
+    const updates=pending.querySelector('.agent-updates');
+    if(updates.dataset.count!==String(aiJob.updates.length)){updates.replaceChildren();for(const text of aiJob.updates.slice(0,-1).slice(-4)){const li=document.createElement('li');li.textContent=text;updates.append(li);}updates.dataset.count=String(aiJob.updates.length);}
     const plan=pending.querySelector('.agent-plan');
     if(plan.dataset.text!==aiJob.plan){Chat.render(plan,aiJob.plan);plan.dataset.text=aiJob.plan;}
     plan.hidden=!aiJob.plan;
@@ -678,20 +687,23 @@
     };
     renderAI();
   }
-  async function requestChange(request, { mode, retry = false } = {}) {
+  async function requestChange(request, { mode, retry = false, builderAction = 'respond' } = {}) {
     const text = request.trim();
     if (!text || aiJob) return;
     applyCode(false);
     mode = mode || Chat.requestMode(project,W.emptyFiles());
     if(project.files?.['TEMPLATE.md']) mode='edit';
     if (!retry && !(project.messages.at(-1)?.role === 'user' && project.messages.at(-1)?.text === text)) addMessage('user', text);
-    lastAIRequest = { text, mode };
-    const job = { controller: new AbortController(), projectId: project.id, revision: fileRevision(project), startedAt:Date.now(), phase:'connecting', phases:['connecting'], plan:'', elapsedSeconds:0 };
+    const workflow=B.read(project.workspace?.builder) || (mode==='create'?B.initial():null);
+    lastAIRequest = { text, mode, builderAction };
+    const job = { controller: new AbortController(), projectId: project.id, revision: fileRevision(project), startedAt:Date.now(), phase:'connecting', phases:['connecting'], plan:'', updates:[], elapsedSeconds:0 };
     aiJob = job;
     aiFeedback = { text:'Thinking…', state:'busy', retry:false };
     const parentContext = W.get(project.workspace?.parentId);
     const payload = {
       mode, interaction:'conversation', prompt: project.files?.['TEMPLATE.md'] ? text+'\n\nPreserve the supplied Framo design, page routing and shared styles. Personalise the existing React pages; do not replace them with a new generic design.' : text,
+      ...(workflow ? {builder:workflow,builderAction} : {}),
+      ...(project.workspace?.templateId ? {templateId:project.workspace.templateId} : {}),
       ...(selectedModel() ? {modelId:selectedModel()} : {}),
       references: project.workspace?.attachments || [],
       projectContext: [project.prompt ? 'Original brief: '+project.prompt : '', parentContext?.workspace?.brief, parentContext?.workspace?.instructions, project.workspace?.notes].filter(Boolean).join('\n\n').slice(0,12000),
@@ -722,7 +734,7 @@
         if (event.type === 'progress') {
           job.phase = Object.hasOwn(Chat.labels,event.phase) ? event.phase : job.phase;
           if (!job.phases.includes(job.phase)) job.phases.push(job.phase);
-          if (typeof event.message === 'string') job.plan=event.message.slice(0,3000);
+          if (typeof event.message === 'string') {job.plan=event.message.slice(0,3000);if(job.updates.at(-1)!==job.plan)job.updates.push(job.plan);}
           job.elapsedSeconds=Math.max(0,Math.floor(event.elapsedSeconds||0));
           aiFeedback = {text:Chat.labels[job.phase]+'…', state:'busy', retry:false};
           renderAI();
@@ -736,13 +748,16 @@
         if (latest) { project = latest; conversationProject = ''; }
         throw new Error('This draft changed while the AI was working. Your newer edits are kept. Try again to use the latest files.');
       }
+      const nextBuilder=result.builder?B.read(result.builder):null;
+      if(result.builder&&!nextBuilder)throw new Error('The website plan could not be read. Your draft is unchanged.');
       if (result.action === 'update' && M.readFiles(result.files)) {
-        project = M.commitFiles(project, {...(project.files || {}), ...result.files}, (mode === 'create' ? 'Created with ' : 'Edited with ') + (result.name || 'AI'), result.designBrief || project.designBrief);
+        project = M.commitFiles(project, {...(builderAction==='build'?{}:project.files || {}), ...result.files}, (mode === 'create' ? 'Created with ' : 'Edited with ') + (result.name || 'AI'), result.designBrief || project.designBrief);
         if (mode === 'create' && result.title) project = { ...project, title: result.title.slice(0,60) };
         project = { ...project, ai: { state: 'ready' } };
       } else if (result.action !== 'reply') { throw new Error('The AI returned invalid files. Your current draft is unchanged.'); }
+      if(nextBuilder){project.workspace={...project.workspace,builder:nextBuilder,...(result.designProcess?.templateId?{templateId:result.designProcess.templateId,templateVersion:result.designProcess.templateVersion}:{})};}
       job.complete=true;
-      addMessage('assistant', result.message, { changed: result.action === 'update', activity:{durationMs:Date.now()-job.startedAt,phases:job.phases,plan:job.plan} });
+      addMessage('assistant', result.message, { changed: result.action === 'update', activity:{durationMs:Date.now()-job.startedAt,phases:job.phases,plan:job.plan,updates:job.updates.slice(-20)} });
       W.recordActivity('ai', project.id); if (W.preferences.sound) W.chime();
       project.workspace = {...project.workspace, queuedPrompt:''};
       aiStatus = { configured: true, provider:result.provider, name:result.name, service:result.service, keyVariable:result.keyVariable, modelVariable:result.modelVariable, model:result.model, timeoutSeconds:result.timeoutSeconds };
@@ -763,8 +778,8 @@
       if (aiJob === job) { aiJob = null; render(); renderAI(); }
     }
   }
-  $('#cancel-ai').addEventListener('click', () => stopAI());
-  $('#retry-ai').addEventListener('click', () => { if (lastAIRequest) requestChange(lastAIRequest.text, {mode: lastAIRequest.mode, retry:true}); });
+
+  $('#retry-ai').addEventListener('click', () => { if (lastAIRequest) requestChange(lastAIRequest.text, {mode: lastAIRequest.mode, builderAction:lastAIRequest.builderAction, retry:true}); });
   $('#generate-site').addEventListener('click', () => requestChange(project.prompt, {mode:'create'}));
   $('#ai-connection').addEventListener('click', () => { $('#ai-dialog').showModal(); checkAI(); });
   $('#check-ai').addEventListener('click', checkAI);
@@ -776,6 +791,7 @@
   $('#canvas-design-shortcut').addEventListener('click', () => { setPanel('design'); setMobileView('editor'); });
   $('#chat-form').addEventListener('submit', event => {
     event.preventDefault();
+    if(aiJob){stopAI();return;}
     const input = $('#chat-input');
     if (!input.value.trim()) { input.setCustomValidity('Write a message to continue.'); input.reportValidity(); return; }
     requestChange(input.value);
@@ -786,7 +802,7 @@
     event.target.style.height = `${Math.min(120, Math.max(49, event.target.scrollHeight))}px`;
   });
   $('#chat-input').addEventListener('keydown', event => {
-    if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) { event.preventDefault(); $('#chat-form').requestSubmit(); }
+    if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) { event.preventDefault(); if(!aiJob)$('#chat-form').requestSubmit(); }
   });
   $$('[data-request]').forEach(button => button.addEventListener('click', () => requestChange(button.dataset.request)));
 

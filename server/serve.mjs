@@ -153,12 +153,12 @@ export function createServer({ root = fileURLToPath(new URL('../out/', import.me
             signal:controller.signal, fetchImpl,
             onProgress:update => { phase = update.phase; if (streaming) { if (typeof update.message === 'string') send({type:'progress',phase,message:update.message.slice(0,3000),elapsedSeconds:Math.floor((Date.now()-now)/1000)}); else progress(); } }
           });
-          if(result.action==='update' && globalThis.DraftmangoProject.isReact(result.files)) {phase='checking';if(streaming)progress();await buildProject(result.files);}
+          if(result.action==='update' && globalThis.DraftmangoProject.isReact(result.files)) {phase='checking';if(streaming)send({type:'progress',phase,message:'I’m compiling the React site to check for code and import errors.',elapsedSeconds:Math.floor((Date.now()-now)/1000)});await buildProject(result.files);if(result.builder)result.builder.checks.push({status:'passed',label:'React compilation',detail:'The saved source compiled successfully. This does not verify live service connections.'});}
           if (controller.signal.aborted) throw new Error('Aborted');
           if (streaming) { send({type:'result', result}); response.end(); }
           else json(response, 200, result);
         } catch (error) {
-          if(['template_design','template_edit','template_unavailable'].includes(error.code)) error=new AIError(422,error.code,error.message);
+          if(['template_design','template_edit','template_unavailable','builder_brief'].includes(error.code)) error=new AIError(422,error.code,error.message);
           if(error instanceof BuildError)error=new AIError(error.status,error.code,error.message+' Your draft is unchanged.');
           if (timedOut) error = new AIError(504, 'timeout', 'The AI did not finish within the generation time limit. Your draft is unchanged. You can try again.');
           if (timedOut || !controller.signal.aborted) {

@@ -54,6 +54,23 @@ build. These are local results, not proof of a production rollout.
 The older initial-installation sections below are historical setup guidance;
 check live configuration rather than assuming they describe today's deployment.
 
+## Following change — guided builder conversation
+
+`codex/builder-guided-flow` builds on the shared-engine branch and adds saved
+requirements, suggested/custom answers, an explicit plan confirmation, complete
+template-content passes, visible progress, a composer stop control and a source
+completion checklist. See [the builder implementation and remaining work](builder-guided-flow.md).
+It is not a replacement for Priority 1 above, and has not been deployed.
+
+Reconcile this branch into the release after the shared-engine changes. Validate
+new and existing conversations on desktop/mobile, stop/retry and reload. The
+combined Node/browser suite passed 182 tests; the final affected builder checks
+passed 12 tests after the last refinements, and the Next.js build passed. These
+tests use mocked AI responses. Real-model latency/cost calibration, managed
+generated-site accounts/data, site-owner payment connections and automatic
+missing-page/workflow implementation remain separate work before claiming a
+fully functional generated site.
+
 ## Layout
 ```
 /opt/draftmango/releases/<release>/ : immutable source for each release

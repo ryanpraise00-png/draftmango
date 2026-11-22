@@ -90,6 +90,10 @@
     if (entries.length > 100 || entries.some(([name, content]) => !/^[a-zA-Z0-9_@() .\/-]+$/.test(name) || name.startsWith('/') || name.split('/').some(part => !part || part === '.' || part === '..' || part.startsWith('.')) || typeof content !== 'string' || content.length > 500000)) return null;
     return Object.fromEntries(entries);
   }
+  function staleBuilder(project){
+    const builder=project.workspace?.builder;
+    return builder?.phase==='built'?{workspace:{...project.workspace,builder:{...builder,checks:[{status:'needs-attention',label:'Source changed',detail:'These files changed after the previous checks. Ask the builder to review the current site before relying on that checklist.'}]}}}:{};
+  }
   function commitFiles(project, candidate, label = 'Updated website code', direction = project.designBrief) {
     const files = readFiles(candidate);
     if (!files) throw new Error('Use valid React or HTML source files of up to 500,000 characters each.');
@@ -97,7 +101,7 @@
     if (JSON.stringify(files) === JSON.stringify(project.files) && JSON.stringify(designBrief) === JSON.stringify(project.designBrief || null)) return { ...project, codeDraft: null };
     const history = project.history.slice(0, project.cursor + 1);
     history.push({ id: id(), label: text(label, 'Updated website code', 100), at: timestamp(), design: clone(project.design), files: clone(files), designBrief });
-    return { ...project, files, designBrief, codeDraft: null, history, cursor: history.length - 1, updatedAt: timestamp() };
+    return { ...project, ...staleBuilder(project), files, designBrief, codeDraft: null, history, cursor: history.length - 1, updatedAt: timestamp() };
   }
   function resetCode(project) {
     if (!project.files && !project.codeDraft) return project;
@@ -109,7 +113,7 @@
 
   function restore(project, index) {
     if (!Number.isInteger(index) || index < 0 || index >= project.history.length) return project;
-    return { ...project, cursor: index, design: clone(project.history[index].design), files: readFiles(project.history[index].files), designBrief: readDesignBrief(project.history[index].designBrief), codeDraft: null, updatedAt: timestamp() };
+    return { ...project, ...staleBuilder(project), cursor: index, design: clone(project.history[index].design), files: readFiles(project.history[index].files), designBrief: readDesignBrief(project.history[index].designBrief), codeDraft: null, updatedAt: timestamp() };
   }
 
   function applyRequest(current, request) {
@@ -150,8 +154,8 @@
 
   function readActivity(value) {
     if (!value || !Number.isFinite(value.durationMs) || value.durationMs < 0 || !Array.isArray(value.phases)) return null;
-    const phases = value.phases.filter(phase => ['connecting','directing','building','planning','writing','checking'].includes(phase));
-    return {durationMs:Math.min(value.durationMs,86400000),phases:[...new Set(phases)].slice(0,8),plan:typeof value.plan === 'string' ? value.plan.slice(0,3000) : ''};
+    const phases = value.phases.filter(phase => ['connecting','discovering','selecting','verifying','directing','building','planning','writing','checking'].includes(phase));
+    return {...(Array.isArray(value.updates)?{updates:value.updates.filter(x=>typeof x==='string').slice(-20).map(x=>x.slice(0,3000))}:{}),durationMs:Math.min(value.durationMs,86400000),phases:[...new Set(phases)].slice(0,8),plan:typeof value.plan === 'string' ? value.plan.slice(0,3000) : ''};
   }
   function readStore(serialized) {
     try {

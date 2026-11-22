@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const labels={connecting:'Thinking',directing:'Planning the website',building:'Building the website',planning:'Thinking',writing:'Working on your request',checking:'Finishing the response'};
+  const labels={discovering:'Understanding your brief',selecting:'Preparing the agreed design',verifying:'Checking the site workflow',connecting:'Thinking',directing:'Planning the website',building:'Building the website',planning:'Thinking',writing:'Working on your request',checking:'Finishing the response'};
   const seconds=duration=>Math.max(1,Math.round(duration/1000));
   function requestMode(project,emptyFiles){
     const files=project.codeDraft||project.files;
@@ -21,7 +21,7 @@
   }
   function activity(value){
     if(!value||!Number.isFinite(value.durationMs)||value.durationMs<0||!Array.isArray(value.phases))return null;
-    return {durationMs:Math.min(value.durationMs,86400000),phases:[...new Set(value.phases.filter(p=>Object.hasOwn(labels,p)))].slice(0,8),plan:typeof value.plan==='string'?value.plan.slice(0,3000):''};
+    return {...(Array.isArray(value.updates)?{updates:value.updates.filter(x=>typeof x==='string').slice(-20).map(x=>x.slice(0,3000))}:{}),durationMs:Math.min(value.durationMs,86400000),phases:[...new Set(value.phases.filter(p=>Object.hasOwn(labels,p)))].slice(0,8),plan:typeof value.plan==='string'?value.plan.slice(0,3000):''};
   }
   function inline(parent,text){
     const token=/\*\*([^*\n]+)\*\*|`([^`\n]+)`|\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g;let last=0;
@@ -50,9 +50,9 @@
     const data=activity(value);if(!data)return null;
     const details=document.createElement('details');details.className='message-activity';
     const summary=document.createElement('summary');summary.textContent='Worked for '+duration(data.durationMs);details.append(summary);
-    if(data.plan){const plan=document.createElement('p');plan.textContent=data.plan;details.append(plan);}
+    if(data.plan&&!data.updates?.length){const plan=document.createElement('p');plan.textContent=data.plan;details.append(plan);}
     const list=document.createElement('ul');
-    for(const label of [...new Set(data.phases.map(p=>labels[p]))]){const item=document.createElement('li');item.textContent=label;list.append(item);}
+    for(const label of data.updates?.length?data.updates:[...new Set(data.phases.map(p=>labels[p]))]){const item=document.createElement('li');item.textContent=label;list.append(item);}
     details.append(list);return details;
   }
   globalThis.DraftmangoConversation=Object.freeze({requestMode,history,activity,render,renderActivity,duration,labels});
