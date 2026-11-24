@@ -80,8 +80,6 @@ body.workspace-clone[data-screen] .diagnostic-content .console-line[data-level=w
 body.workspace-clone[data-screen] .ws-app:has(> main.ws-home){background:radial-gradient(ellipse 50% 42% at 8% 0%,color-mix(in oklch,var(--ws-orange) 13%,transparent),transparent 70%),url('/framo/contours.svg') no-repeat right -6rem top -3rem/min(80rem,150%) auto}
 :root[data-theme=dark] body.workspace-clone[data-screen] .ws-app:has(> main.ws-home){background:radial-gradient(ellipse 50% 42% at 8% 0%,color-mix(in oklch,var(--ws-orange) 12%,transparent),transparent 70%)}
 body.workspace-clone[data-screen] .ws-create h1{font-weight:700;letter-spacing:-.045em}
-body.workspace-clone[data-screen] .ws-template-entry{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid var(--ws-line);border-radius:999px;background:var(--ws-panel);text-decoration:none;font-weight:600;color:var(--ws-ink)}
-body.workspace-clone[data-screen] .ws-template-entry:hover{border-color:color-mix(in oklch,var(--ws-orange) 45%,var(--ws-line))}
 body.workspace-clone[data-screen] .ws-section-heading h2{letter-spacing:-.03em}
 body.workspace-clone[data-screen] .ws-record-row{border-radius:12px}
 
@@ -102,8 +100,6 @@ body.workspace-clone[data-screen=dashboard] .ws-home .ws-model-select:hover{back
 body.workspace-clone[data-screen=dashboard] .ws-home .ws-send{width:42px;height:42px;flex:0 0 42px;border-radius:50%;box-shadow:none}
 body.workspace-clone[data-screen=dashboard] .ws-home .ws-send:disabled{background:var(--ws-bg);color:var(--ws-muted)}
 body.workspace-clone[data-screen=dashboard] .ws-home .keyboard-hint{margin-top:14px;color:color-mix(in srgb,var(--ws-muted) 80%,var(--ws-ink));font-size:13px;line-height:1.6;font-weight:400}
-body.workspace-clone[data-screen=dashboard] .ws-home .ws-template-entry{border-color:transparent;background:transparent;font-weight:500;padding:9px 14px;margin-top:12px;color:var(--ws-muted)}
-body.workspace-clone[data-screen=dashboard] .ws-home .ws-template-entry:hover{background:var(--ws-side);color:var(--ws-ink)}
 body.workspace-clone[data-screen=dashboard] .ws-home .ws-recent-projects{margin-top:48px}
 body.workspace-clone[data-screen=dashboard] .ws-home .ws-section-heading{margin-bottom:16px}
 body.workspace-clone[data-screen=dashboard] .ws-home .ws-record-list{border-radius:20px;border-color:color-mix(in oklch,var(--ws-line) 72%,var(--ws-panel));box-shadow:0 2px 8px -5px #16120f12}
@@ -131,6 +127,13 @@ body.workspace-clone[data-screen=dashboard] .ws-mobile-header .icon-button{borde
  body.workspace-clone[data-screen=dashboard] .ws-home .ws-model-select{padding-left:12px;font-size:13px}
 }
 @media(prefers-reduced-motion:reduce){body.workspace-clone[data-screen=dashboard] .ws-home :is(.ws-composer,.text-button){transition:none}}
+
+/* An empty workspace keeps the whole prompt group centered beneath account notices. */
+body.workspace-clone[data-screen=dashboard] .ws-app:has(>main.ws-home.is-empty){display:flex;flex-direction:column;min-height:100dvh}
+body.workspace-clone[data-screen=dashboard] .ws-app:has(>main.ws-home.is-empty)>:is(.ws-mobile-header,.account-notice){flex-shrink:0}
+body.workspace-clone[data-screen=dashboard] .ws-home.is-empty{flex:1;display:flex;flex-direction:column;justify-content:center;margin:0 auto;padding:48px 0!important}
+body.workspace-clone[data-screen=dashboard] .ws-home.is-empty .ws-create{width:100%}
+body.workspace-clone[data-screen=dashboard] .ws-recent-projects[hidden]{display:none}
 
 /* Device sizes above the preview: the same segmented control as Preview / Code / Split */
 body.workspace-clone[data-screen] .device-picker{background:var(--ws-side);border-color:transparent;border-radius:calc(var(--ws-radius) + 2px)}
