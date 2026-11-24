@@ -707,6 +707,8 @@
     const name = aiStatus?.name || 'AI';
     $$('[data-ai-name]').forEach(element => { element.textContent = name; });
     $$('[data-ai-service]').forEach(element => { element.textContent = aiStatus?.service || 'your configured provider'; });
+    $('#ai-connection-provider').textContent = aiStatus?.service || 'Not available';
+    $('#ai-connection-model').textContent = aiStatus?.model || 'Not available';
     $('#ai-key-variable').textContent = aiStatus?.keyVariable || 'OPENAI_API_KEY';
     $('#ai-model-variable').textContent = aiStatus?.modelVariable || 'OPENAI_MODEL';
   }
@@ -773,19 +775,34 @@
   let connectionCheck = 0;
   async function checkAI() {
     const check = ++connectionCheck;
+    const dialog = $('#ai-dialog'), button = $('#check-ai'), state = $('#ai-connection-state');
+    dialog.dataset.connection = 'checking';
+    button.disabled = true;
+    button.textContent = 'Checking…';
+    state.textContent = 'Checking configuration';
+    $('#ai-setup-status').textContent = 'Checking the selected provider and model…';
     try {
       const response = await fetch('/api/ai/status' + (selectedModel() ? '?model=' + encodeURIComponent(selectedModel()) : ''), { cache: 'no-store', signal: AbortSignal.timeout(8000) });
       if (!response.ok) throw new Error('Setup unavailable');
       const status = await response.json();
       if (check !== connectionCheck) return;
       aiStatus = status;
+      dialog.dataset.connection = aiStatus.configured ? 'configured' : 'missing';
+      state.textContent = aiStatus.configured ? 'Configuration found' : 'Setup required';
       $('#ai-setup-status').textContent = aiStatus.configured
-        ? 'A local API key is configured. Model: ' + aiStatus.model + '. The next generation will verify access.'
-        : 'Add your API key to start generating.';
+        ? 'An API key is configured. Your next generation will verify access to this model.'
+        : 'No API key is configured for this provider. See Connection details for setup.';
     } catch {
       if (check !== connectionCheck) return;
       aiStatus = null;
-      $('#ai-setup-status').textContent = 'Start Draftmango with npm run dev, then open http://127.0.0.1:4175. AI generation needs the local server.';
+      dialog.dataset.connection = 'unavailable';
+      state.textContent = 'Unable to check';
+      $('#ai-setup-status').textContent = 'The connection status is unavailable. Check that the Draftmango server is running, then try again.';
+    } finally {
+      if (check === connectionCheck) {
+        button.disabled = false;
+        button.textContent = 'Check connection';
+      }
     }
     renderAI();
     return aiStatus;
