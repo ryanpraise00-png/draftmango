@@ -698,7 +698,7 @@
     $('#ai-feedback').dataset.state = aiFeedback.state;
     $('#ai-message').textContent = aiFeedback.text;
     const sendButton=$('#chat-form .send-button');
-    sendButton.disabled=false;sendButton.type=busy?'button':'submit';sendButton.dataset.busy=String(busy);
+    sendButton.disabled=!busy&&!$('#chat-input').value.trim();sendButton.type=busy?'button':'submit';sendButton.dataset.busy=String(busy);
     sendButton.setAttribute('aria-label',busy?'Stop generation':'Send message');
     sendButton.onclick=event=>{if(aiJob){event.preventDefault();stopAI();}};
     renderBuilderPrompt();
@@ -751,7 +751,7 @@
     globalThis.DraftmangoBuilderPrompts.render(root,project.workspace?.builder,{
       answer:text=>requestChange(text),
       build:()=>requestChange('Build the website using this agreed plan.',{mode:'create',builderAction:'build'}),
-      revise:()=>{$('#chat-input').value='Change the plan: ';$('#chat-input').focus();},
+      revise:()=>{$('#chat-input').value='Change the plan: ';$('#chat-input').dispatchEvent(new Event('input',{bubbles:true}));$('#chat-input').focus();},
       prepare:()=>loadStore(true),
       preview:()=>{storeNavigation='shop';document.querySelector('[data-view="preview"]').click();setMobileView('preview');sendStorePreview('shop');},
       publish:()=>globalThis.DraftmangoPublishing?.open()
@@ -930,8 +930,10 @@
   });
   $('#chat-input').addEventListener('input', event => {
     event.target.setCustomValidity('');
-    event.target.style.height = 'auto';
-    event.target.style.height = `${Math.min(120, Math.max(49, event.target.scrollHeight))}px`;
+    const field=event.target,style=getComputedStyle(field);
+    field.style.height = 'auto';
+    field.style.height = `${Math.min(parseFloat(style.maxHeight)||280, Math.max(parseFloat(style.minHeight)||88, field.scrollHeight))}px`;
+    $('#chat-form .send-button').disabled=!aiJob&&!field.value.trim();
   });
   $('#chat-input').addEventListener('keydown', event => {
     if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) { event.preventDefault(); if(!aiJob)$('#chat-form').requestSubmit(); }

@@ -1,0 +1,36 @@
+/* The dashboard composer, adapted to the builder's resizable conversation panel. */
+body.workspace-clone[data-screen=builder] .composer-area{padding:14px 12px 10px;border-top:0;background:var(--ws-panel)}
+body.workspace-clone[data-screen=builder] .composer{container:workspace-composer / inline-size;padding:14px;border:1px solid color-mix(in oklch,var(--ws-line) 72%,var(--ws-panel));border-radius:22px;background:var(--ws-panel);box-shadow:0 3px 12px -6px #16120f0a,0 12px 32px -24px #16120f24;transition:border-color .2s,box-shadow .2s}
+body.workspace-clone[data-screen=builder] .composer:focus-within{border-color:color-mix(in oklch,var(--ws-accent) 45%,var(--ws-line));box-shadow:0 0 0 3px color-mix(in oklch,var(--ws-accent) 7%,transparent)}
+body.workspace-clone[data-screen=builder] .composer textarea{display:block;width:100%;height:104px;min-height:88px;max-height:240px;padding:4px 6px 12px;border:0;border-radius:0;outline:none;background:transparent;box-shadow:none;color:var(--ws-ink);font:inherit;font-size:16px;line-height:1.65;resize:none;overflow-y:auto;scrollbar-width:thin}
+body.workspace-clone[data-screen=builder] .composer textarea::placeholder{color:var(--ws-muted);opacity:1}
+body.workspace-clone[data-screen=builder] .composer-bottom{display:grid;grid-template-columns:42px minmax(0,1fr);gap:6px;margin:0;padding-top:8px;align-items:center}
+body.workspace-clone[data-screen=builder] .ws-composer-actions{display:flex;width:auto;min-width:0;align-items:center;justify-content:flex-end;flex-wrap:nowrap;gap:6px}
+body.workspace-clone[data-screen=builder] .composer-bottom .text-button{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 12px;gap:7px;border:0;border-radius:999px;background:transparent;color:var(--ws-muted);transition:background .15s,color .15s}
+body.workspace-clone[data-screen=builder] .composer-bottom .text-button:hover{background:var(--ws-bg);color:var(--ws-ink);text-decoration:none}
+body.workspace-clone[data-screen=builder] .composer #chat-attach{width:42px;height:42px;padding:0;background:var(--ws-bg)}
+body.workspace-clone[data-screen=builder] #chat-attach>span{display:none}
+body.workspace-clone[data-screen=builder] #chat-attach>.icon{width:20px;height:20px}
+body.workspace-clone[data-screen=builder] .composer #prompt-mic{width:42px;height:42px;min-width:42px;flex:0 0 42px;justify-content:center;padding:0}
+body.workspace-clone[data-screen=builder] .composer .ws-model-picker{flex:0 1 180px;min-width:0;max-width:210px}
+body.workspace-clone[data-screen=builder] .composer .ws-model-select{appearance:none;-webkit-appearance:none;flex:1;width:100%;min-width:0;max-width:none;height:42px;min-height:42px;padding:8px 38px 8px 12px;border:1px solid transparent;border-radius:999px;background:var(--ws-bg);font-size:13px;color:var(--ws-ink)}
+body.workspace-clone[data-screen=builder] .composer .ws-model-select:hover,body.workspace-clone[data-screen=builder] .composer .ws-model-select[aria-expanded=true]{background:var(--ws-side)}
+body.workspace-clone[data-screen=builder] .composer .send-button{display:grid;place-items:center;width:42px;height:42px;min-width:42px;flex:0 0 42px;padding:0;border:0;border-radius:50%;box-shadow:none}
+body.workspace-clone[data-screen=builder] .composer .send-button:disabled{background:var(--ws-bg);color:var(--ws-muted);opacity:1;cursor:default}
+body.workspace-clone[data-screen=builder] .composer .ws-voice-visual{height:42px;flex:0 1 180px;max-width:210px}
+body.workspace-clone[data-screen=builder] .composer #prompt-mic.is-listening{background:color-mix(in oklch,var(--ws-orange) 12%,var(--ws-panel));color:var(--ws-accent)}
+body.workspace-clone[data-screen=builder] .prototype-caption{display:flex;flex-direction:column;align-items:center;gap:4px;margin:12px 0 0;font-size:13px;line-height:1.6;color:color-mix(in srgb,var(--ws-muted) 80%,var(--ws-ink))}
+body.workspace-clone[data-screen=builder] .prototype-caption .keyboard-hint{margin:0;font:inherit;color:inherit;text-wrap:balance}
+body.workspace-clone[data-screen=builder] .prototype-caption #ai-connection{padding:2px 8px;border:0;border-radius:999px;background:transparent;color:var(--ws-muted);font:inherit;font-size:12px;line-height:1.6;box-shadow:none}
+body.workspace-clone[data-screen=builder] .prototype-caption #ai-connection::before{display:none}
+body.workspace-clone[data-screen=builder] .prototype-caption #ai-connection:hover{background:var(--ws-bg);color:var(--ws-ink)}
+body.workspace-clone[data-screen=builder] .generate-site{justify-content:center;min-height:42px;padding:9px 16px;margin-bottom:10px;border:1px solid var(--ws-line);border-radius:999px;background:var(--ws-panel);color:var(--ws-ink);box-shadow:none;font-size:14px;font-weight:500}
+body.workspace-clone[data-screen=builder] .generate-site:hover{background:var(--ws-bg);border-color:var(--ws-line)}
+/* Size the toolbar by the conversation width, including when the panel is dragged. */
+@container workspace-composer (min-width:500px){
+ body.workspace-clone[data-screen=builder] .composer-bottom{grid-template-columns:auto minmax(0,1fr);gap:12px;padding-top:12px}
+ body.workspace-clone[data-screen=builder] .ws-composer-actions{gap:8px}
+ body.workspace-clone[data-screen=builder] .composer #chat-attach{width:auto;padding:0 12px;background:transparent}
+ body.workspace-clone[data-screen=builder] #chat-attach>span{display:inline}
+}
+@media(prefers-reduced-motion:reduce){body.workspace-clone[data-screen=builder] .composer,body.workspace-clone[data-screen=builder] .composer-bottom .text-button{transition:none}}
