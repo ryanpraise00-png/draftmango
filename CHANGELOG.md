@@ -2,6 +2,13 @@
 
 ## 24 November 2026
 
+### Mobile workspace control review (not deployed)
+- Kept preview/save status messages readable on separate rows beside larger Undo/Redo controls. Diagnostic tabs and actions wrap instead of shrinking.
+- Enlarged mobile preview, file explorer, file-close and source toolbar controls while retaining the white surfaces and rounded design. Source metadata can wrap on narrow panes.
+- Made short empty-preview panels scrollable, keeping the conversation action reachable in Split view, and retained a rounded, non-shrinking action for pending edits.
+- Gave the Publish address input its own full row on phones, with the domain suffix beneath it inside the same rounded field.
+- Checked Preview, Code, Split, diagnostics and publishing layouts at 320, 360, 390, 430, 760 and 1280 px; reviewed composer, attachment, project, account, navigation, history, guide, save and credit dialogs at phone width. Publishing used isolated sample data with writes disabled. Production build passed. Prepared locally for review; not deployed.
+
 ### Mobile canvas Run button
 - Prevented Run and the adjacent action buttons from shrinking inside the mobile toolbar. The action group wraps below the view tabs when the row is too narrow, retaining the white, rounded controls and full Run label/padding.
 - Browser checks at 320, 360, 390, 430, 760 and 1280 px confirmed that Run and the action group fit without page overflow. Deployed as `20261124-mobile-2a8ca2a`; all four services are healthy and public route/asset checks passed. See [release record](docs/releases/2026-11-24-mobile-canvas.md).
