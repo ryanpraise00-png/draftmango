@@ -3,7 +3,15 @@
 Host: root@187.124.47.123 (srv1803759.hstgr.cloud), Ubuntu 24.04.
 Application domain: draftmango.com. www redirects to the apex after TLS setup.
 
-## Current release — Sculpted logo
+## Current release — mobile canvas toolbar
+
+Live release: `20261124-mobile-2a8ca2a`, source `2a8ca2a`, deployed on
+24 November 2026 from `codex/builder-guided-flow`. Run retains its padding on
+phones and the action group wraps when needed. All four application services
+are healthy; public routes and asset checksums passed. Production flags remain
+unchanged. See the [mobile canvas release record](releases/2026-11-24-mobile-canvas.md).
+
+## Previous release — Sculpted logo
 
 Live release: `20261124-logo-bdc612f`, source `bdc612f`, deployed on
 24 November 2026 from `codex/builder-guided-flow`. The site now uses the approved
