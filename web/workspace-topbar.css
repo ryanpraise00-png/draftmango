@@ -293,3 +293,32 @@ body.workspace-clone[data-screen=builder] .ws-guide-dialog :is(button,summary):f
 }
 @media(prefers-reduced-motion:reduce){body.workspace-clone[data-screen=builder] .ws-guide-dialog :is(summary,summary::after){transition:none}}
 @media(forced-colors:active){body.workspace-clone[data-screen=builder] .ws-guide-dialog :is(button,summary):focus-visible{outline-color:Highlight}}
+
+/* Rename the current workspace chat or project without changing dashboard dialogs. */
+body.workspace-clone[data-screen=builder] dialog.ws-dialog.ws-rename-dialog{
+  box-sizing:border-box;width:min(440px,calc(100vw - 32px));max-height:calc(100dvh - 40px);padding:0;
+  border:1px solid var(--ws-line);border-radius:24px;background:var(--ws-panel);color:var(--ws-ink);
+  box-shadow:0 8px 24px -16px #16120f30,0 28px 80px -24px #16120f40;
+  overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--ws-line) transparent;
+}
+body.workspace-clone[data-screen=builder] .ws-rename-dialog header{padding:22px 24px 20px;gap:16px}
+body.workspace-clone[data-screen=builder] .ws-rename-dialog header .icon-button{box-shadow:none}
+body.workspace-clone[data-screen=builder] .ws-rename-dialog header .icon-button:hover{background:color-mix(in srgb,var(--ws-ink) 4%,var(--ws-panel));color:var(--ws-ink)}
+body.workspace-clone[data-screen=builder] .ws-rename-dialog .dialog-body{padding:0 24px}
+body.workspace-clone[data-screen=builder] .ws-rename-dialog label{color:var(--ws-ink)}
+body.workspace-clone[data-screen=builder] .ws-rename-dialog input:focus{outline:none;border-color:var(--ws-orange);box-shadow:0 0 0 3px color-mix(in srgb,var(--ws-orange) 12%,transparent)}
+body.workspace-clone[data-screen=builder] .ws-rename-dialog footer{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:10px;margin:0;padding:24px;border:0;background:transparent}
+body.workspace-clone[data-screen=builder] .ws-rename-dialog footer .button{background:var(--ws-panel);color:var(--ws-ink)}
+body.workspace-clone[data-screen=builder] .ws-rename-dialog footer .button:hover{background:color-mix(in srgb,var(--ws-ink) 3%,var(--ws-panel))}
+body.workspace-clone[data-screen=builder] .ws-rename-dialog footer .button.primary{background:var(--ws-orange);border-color:var(--ws-orange);color:#fff}
+body.workspace-clone[data-screen=builder] .ws-rename-dialog footer .button.primary:hover{background:color-mix(in srgb,var(--ws-orange) 90%,#000);border-color:var(--ws-orange)}
+body.workspace-clone[data-screen=builder] .ws-rename-dialog button:focus-visible{outline:2px solid var(--ws-orange);outline-offset:3px}
+body.workspace-clone[data-screen=builder] .ws-rename-dialog .dialog-error:not([hidden]){margin:16px 24px 0;padding:12px 14px;border-radius:14px;background:color-mix(in srgb,var(--ws-danger) 7%,var(--ws-panel));color:var(--ws-danger);font-size:13px;line-height:1.6}
+@media(max-width:480px){
+  body.workspace-clone[data-screen=builder] dialog.ws-dialog.ws-rename-dialog{width:calc(100vw - 24px);max-height:calc(100dvh - 24px);border-radius:22px}
+  body.workspace-clone[data-screen=builder] .ws-rename-dialog header{padding:18px 20px}
+  body.workspace-clone[data-screen=builder] .ws-rename-dialog .dialog-body{padding:0 20px}
+  body.workspace-clone[data-screen=builder] .ws-rename-dialog footer{padding:20px}
+  body.workspace-clone[data-screen=builder] .ws-rename-dialog .dialog-error:not([hidden]){margin-inline:20px}
+}
+@media(forced-colors:active){body.workspace-clone[data-screen=builder] .ws-rename-dialog :is(input:focus,button:focus-visible){outline:2px solid Highlight;outline-offset:3px}}
