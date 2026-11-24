@@ -1,4 +1,5 @@
 import {cp, mkdir, readdir, rm} from 'node:fs/promises';
+import './brand-assets.mjs';
 const root = new URL('../', import.meta.url);
 // public/ is generated from web/ on every build, so removed files never linger.
 await rm(new URL('public/', root), {recursive:true, force:true});

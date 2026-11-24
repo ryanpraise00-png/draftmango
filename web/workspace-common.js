@@ -193,7 +193,7 @@
     document.body.dataset.sidebarCollapsed=String(state.collapsed);
     root.innerHTML=`
       <div class="ws-sidebar-header">
-        <a href="/dashboard#home" class="brand ws-sidebar-brand" aria-label="Draftmango workspace" title="Draftmango workspace"><svg class="brand-mark" aria-hidden="true"><use href="#mango"/></svg><span class="ws-brand-label">draftmango.</span></a>
+        <a href="/dashboard#home" class="brand ws-sidebar-brand" aria-label="Draftmango workspace" title="Draftmango workspace"><svg class="dm-logo-mark" viewBox="8 0 52 64" width="26" height="32" aria-hidden="true" focusable="false"><use href="#draftmango-mark"/></svg><span class="ws-brand-label dm-wordmark">draftmango.</span></a>
         <button type="button" class="icon-button ws-sidebar-collapse" aria-label="${state.collapsed?'Expand':'Collapse'} sidebar" title="${state.collapsed?'Expand':'Collapse'} sidebar" aria-expanded="${!state.collapsed}">${icon(state.collapsed?'sidebarExpand':'sidebarCollapse')}</button>
         <button type="button" class="icon-button ws-nav-close" aria-label="Close navigation">${icon('close')}</button>
       </div>

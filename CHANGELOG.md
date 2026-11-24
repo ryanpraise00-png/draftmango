@@ -2,6 +2,11 @@
 
 ## 24 November 2026
 
+### Sculpted mango identity
+- Replaced the illustrated mango with the approved orange Sculpted vector mark and black wordmark across public pages, authentication, dashboard and workspace; the dark footer uses the white lockup.
+- Added matching transparent favicon and downloadable orange, black and white SVGs, generated from one shared definition. Homepage colours and interface controls are unchanged.
+- Production build and shared-brand route/asset checks passed; desktop, collapsed-navigation and dark-footer visuals reviewed. Prepared locally for review; not deployed.
+
 ### Homepage composer simplification
 - The homepage now shows only the prompt field and send button. Model selection, microphone and attachments remain in the dashboard and workspace.
 - Removed the unused homepage menu/voice controllers and popup styles. Long prompts still carry through sign-in, and the white rounded design remains.

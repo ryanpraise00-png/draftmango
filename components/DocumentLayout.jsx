@@ -1,12 +1,15 @@
+import {BrandSymbol} from "./BrandMark";
+
 export default function DocumentLayout({children, styles, bodyProps}) {
   return <html lang="en" data-demo="automation-1" suppressHydrationWarning>
     <head>
       <meta name="theme-color" content="#fafafa" />
       <meta name="referrer" content="same-origin" />
-      <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+      <link rel="icon" href="/assets/favicon.svg?v=sculpted-1" type="image/svg+xml" />
       <link rel="preload" href="/assets/inter.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       {styles.map(href => <link key={href} rel="stylesheet" href={href} />)}
+      <link rel="stylesheet" href="/brand.css" />
     </head>
-    <body {...bodyProps}>{children}</body>
+    <body {...bodyProps}><BrandSymbol />{children}</body>
   </html>;
 }

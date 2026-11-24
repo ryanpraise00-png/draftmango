@@ -1,5 +1,7 @@
 // Draftmango's public header, built from the Framo SaaS Automation navbar.
 // Framo's main.js runs the menus, the mobile panel and the hide-on-scroll reveal.
+import BrandMark from "./BrandMark";
+
 const build = [
   ["Template library", "/templates", "ph-squares-four", "var(--color-primary)", "100 designer-made websites to start from."],
   ["AI conversation", "/#how-it-works", "ph-sparkle", "#7a5cf0", "Describe a change, then review the result."],
@@ -29,8 +31,8 @@ function Service([label, href, icon, colour, caption]) {
 
 export function Brand({className = ""}) {
   return <a href="/" className={"brand dm-brand " + className} aria-label="Draftmango home">
-    <img src="/assets/favicon.svg" alt="" width="24" height="28" />
-    <span>draftmango.</span>
+    <BrandMark />
+    <span className="dm-wordmark">draftmango.</span>
   </a>;
 }
 

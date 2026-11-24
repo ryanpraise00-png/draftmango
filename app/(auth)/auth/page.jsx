@@ -1,10 +1,10 @@
+import BrandMark from "../../../components/BrandMark";
 import PageControllers from "../../../components/PageControllers";
 
 export default function Page() {
   return <>
 
 <svg className={"symbols"} xmlns={"http://www.w3.org/2000/svg"} aria-hidden={"true"}>
-<symbol id={"mango"} viewBox={"0 0 44 48"}><path d={"M25 10C12 8 4 19 5 31c1 10 11 15 20 12 9-3 13-13 11-22-1-5-5-9-11-11Z"} fill={"currentColor"}></path><path d={"M25 12C25 4 31 1 39 3c-1 7-6 11-14 9Z"} fill={"#303c2b"}></path><path d={"M27 13c-2-4-5-7-9-8"} fill={"none"} stroke={"#303c2b"} strokeWidth={"2.4"} strokeLinecap={"round"}></path><path d={"M11 30c0-6 3-11 7-13"} fill={"none"} stroke={"#fff9e9"} strokeWidth={"2.5"} strokeLinecap={"round"}></path></symbol>
 <symbol id={"arrow"} viewBox={"0 0 24 24"}><path d={"M5 12h14m-6-6 6 6-6 6"}></path></symbol>
 <symbol id={"eye"} viewBox={"0 0 24 24"}><path d={"M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"}></path><circle cx={"12"} cy={"12"} r={"3"}></circle></symbol>
 <symbol id={"eye-off"} viewBox={"0 0 24 24"}><path d={"m3 3 18 18M10.6 5.1C17.7 4 22 12 22 12a19 19 0 0 1-3.1 3.9M6.2 6.3A22 22 0 0 0 2 12s3.5 7 10 7a11 11 0 0 0 5.4-1.5M10 10a3 3 0 0 0 4 4"}></path></symbol>
@@ -13,7 +13,7 @@ export default function Page() {
 <a className={"skip-link"} href={"#account"}>{"Skip to sign in"}</a>
 <div className={"auth-layout"}>
 <aside className={"welcome-panel"} aria-label={"Welcome to Draftmango"}>
-<a className={"brand"} href={"/"} aria-label={"Draftmango home"}><svg className={"brand-mark"} aria-hidden={"true"}><use href={"#mango"}></use></svg><span>{"draftmango"}<span className={"brand-period"}>{"."}</span></span></a>
+<a className={"brand"} href={"/"} aria-label={"Draftmango home"}><BrandMark /><span className="dm-wordmark">draftmango.</span></a>
 <div className={"welcome-content"}>
 <span className={"eyebrow"}>{"YOUR NEXT PROJECT STARTS HERE"}</span>
 <h1>{"Your next website."}<br />{"Built around your idea."}</h1>

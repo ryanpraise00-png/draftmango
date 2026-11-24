@@ -4,7 +4,6 @@ export default function Page() {
   return <>
 
 <svg className={"symbols"} aria-hidden={"true"} xmlns={"http://www.w3.org/2000/svg"}>
-<symbol id={"mango"} viewBox={"0 0 44 48"}><path d={"M25 10C12 8 4 19 5 31c1 10 11 15 20 12 9-3 13-13 11-22-1-5-5-9-11-11Z"} fill={"currentColor"}></path><path d={"M25 12C25 4 31 1 39 3c-1 7-6 11-14 9Z"} fill={"#45543a"}></path><path d={"M27 13c-2-4-5-7-9-8"} fill={"none"} stroke={"#45543a"} strokeWidth={"2.4"} strokeLinecap={"round"}></path><path d={"M11 30c0-6 3-11 7-13"} fill={"none"} stroke={"#fff9e9"} strokeWidth={"2.5"} strokeLinecap={"round"}></path></symbol>
 <symbol id={"spark"} viewBox={"0 0 24 24"}><path d={"m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5L12 3Z"}></path></symbol>
 <symbol id={"arrow-up"} viewBox={"0 0 24 24"}><path d={"M6 18 18 6M6 6h12v12"}></path></symbol>
 <symbol id={"arrow"} viewBox={"0 0 24 24"}><path d={"M5 12h14m-6-6 6 6-6 6"}></path></symbol>
