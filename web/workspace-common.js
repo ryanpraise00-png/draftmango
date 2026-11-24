@@ -130,7 +130,16 @@
     save(p);recordActivity('project',p.id);return p;
   }
   const href = p => '/workspace#'+new URLSearchParams({project:p.id});
-  function newProject(source){dialog(source?'Save as a project':'Start a new project',`<p>${source?'Keep this chat and its files in a named project. You can start more chats in the same project.':'Set up your project first. Nothing builds until you open it and send a request.'}</p>${field('Project name','new-project-name',source?.title||'','text','required maxlength="60"')}<label for="new-project-brief">Project brief <span class="muted">(optional)</span></label><textarea id="new-project-brief" rows="4" maxlength="3000" placeholder="What are you building, and who is it for?">${e(source?.prompt||'')}</textarea>`,{label:source?'Create project':'Create and open project',submit:d=>{const name=d.querySelector('#new-project-name').value.trim();if(!name)throw new Error('Enter a project name.');let p=create('project',name,d.querySelector('#new-project-brief').value.trim());if(source){p=save({...p,files:source.files,codeDraft:source.codeDraft,history:structuredClone(source.history),cursor:source.cursor,design:source.design,designBrief:source.designBrief});update(source.id,{workspace:{parentId:p.id}});}location.href='/dashboard#project/'+p.id;}});}
+  function newProject(source){
+    const workspaceSave=!!source&&document.body.dataset.screen==='builder';
+    const d=dialog(workspaceSave?'Save as project':source?'Save as a project':'Start a new project',`<p>${source?'Keep this chat and its files in a named project. You can start more chats in the same project.':'Set up your project first. Nothing builds until you open it and send a request.'}</p>${field('Project name','new-project-name',source?.title||'','text','required maxlength="60"')}<label for="new-project-brief">Project brief <span class="muted">(optional)</span></label><textarea id="new-project-brief" rows="4" maxlength="3000" placeholder="What are you building, and who is it for?">${e(source?.prompt||'')}</textarea>`,{label:workspaceSave?'Save project':source?'Create project':'Create and open project',submit:d=>{const name=d.querySelector('#new-project-name').value.trim();if(!name)throw new Error('Enter a project name.');let p=create('project',name,d.querySelector('#new-project-brief').value.trim());if(source){p=save({...p,files:source.files,codeDraft:source.codeDraft,history:structuredClone(source.history),cursor:source.cursor,design:source.design,designBrief:source.designBrief});update(source.id,{workspace:{parentId:p.id}});}location.href='/dashboard#project/'+p.id;}});
+    if(workspaceSave){
+      d.classList.add('ws-save-project-dialog');
+      d.querySelector('h2').id='save-project-title';d.setAttribute('aria-labelledby','save-project-title');
+      d.querySelector('.dialog-body>p').id='save-project-intro';d.setAttribute('aria-describedby','save-project-intro');
+      const input=d.querySelector('#new-project-name');input.focus({preventScroll:true});input.select();
+    }
+  }
   function rename(record){
     const d=dialog(isChat(record)?'Rename chat':'Rename project',field('Name','record-name',record.title,'text','required maxlength="60"'),{submit:d=>{const title=d.querySelector('#record-name').value.trim();if(!title)throw new Error('Enter a name.');update(record.id,{title});toast('Name saved.');}});
     d.classList.add('ws-rename-dialog');
