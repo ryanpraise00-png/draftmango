@@ -21,5 +21,15 @@
       ...files
     };
   }
-  globalThis.DraftmangoProject = Object.freeze({required,safePath,isReact,valid,scaffold});
+  // Recognize only our unchanged scaffold. A saved title or ready flag must not
+  // expose the old starter screen, and customer edits must never be covered.
+  function isStarter(files) {
+    if (!files || typeof files !== 'object') return false;
+    const starter = scaffold();
+    const normalize = (name, content) => typeof content !== 'string' ? null :
+      (name === 'index.html' ? content.replace(/<title>[^<]*<\/title>/, '<title></title>') : content).replace(/\r\n/g, '\n');
+    return Object.keys(files).length === Object.keys(starter).length &&
+      Object.entries(starter).every(([name, content]) => normalize(name, files[name]) === normalize(name, content));
+  }
+  globalThis.DraftmangoProject = Object.freeze({required,safePath,isReact,valid,scaffold,isStarter});
 })();

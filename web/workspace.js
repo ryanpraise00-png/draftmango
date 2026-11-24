@@ -345,7 +345,7 @@
     if(review){showPreviewPlaceholder();scheduleCanvasSize();return renderTemplateReview(review,force);}
     clearTemplateReview();
     // Cover only the untouched starter, never customer code or a selected template.
-    const empty = !project.codeDraft && (project.files ? Chat.requestMode(project,W.emptyFiles()) === 'create' : project.design?.kind === 'blank');
+    const empty = !project.codeDraft && (project.files ? P.isStarter(project.files) : project.design?.kind === 'blank');
     showPreviewPlaceholder(empty ? 'empty' : '');
     const signature = project.id + JSON.stringify(project.files || project.design);
     scheduleCanvasSize();

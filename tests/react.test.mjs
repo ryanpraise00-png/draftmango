@@ -71,3 +71,15 @@ test('framework routes serve Next output; old bookmarks redirect preserving the 
   for(const route of ['','auth','dashboard','workspace','pricings','about','help','legal']){const response=await fetch(base+'/'+route);assert.equal(response.status,200);assert.match(await response.text(),/_next\/static/);}
   const old=await fetch(base+'/auth.html?next=workspace',{redirect:'manual'});assert.equal(old.status,308);assert.equal(old.headers.get('location'),'/auth?next=workspace');
 });
+
+test('starter preview detection tolerates a saved title but never hides edited source or extra files',()=>{
+  const files=P.scaffold({},'Saved project');
+  assert.equal(P.isStarter(files),true);
+  assert.equal(P.isStarter(Object.fromEntries(Object.entries(files).map(([k,v])=>[k,v.replace(/\n/g,'\r\n')]))),true);
+  for(const name of ['src/App.jsx','src/styles.css','src/main.jsx','index.html','package.json']){
+    assert.equal(P.isStarter({...files,[name]:files[name]+'<!-- customer edit -->'}),false,name);
+  }
+  assert.equal(P.isStarter({...files,'notes.md':'Keep this'}),false);
+  assert.equal(P.isStarter({'src/App.jsx':files['src/App.jsx']}),false);
+  assert.equal(P.isStarter(null),false);
+});

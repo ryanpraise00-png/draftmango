@@ -20,28 +20,15 @@
   function field(label,id,value='',type='text',extra=''){return `<label for="${id}">${label}</label><input id="${id}" type="${type}" value="${e(value)}" ${extra}>`;}
   function dialog(title,content,{submit,label='Save',wide=false,danger=false}={}){
     closeMenu(); const d=document.createElement('dialog');d.className='ws-dialog'+(wide?' wide':'');d.innerHTML=`<form><header><h2>${e(title)}</h2><button type="button" class="icon-button" aria-label="Close dialog" data-dismiss>${icon('close')}</button></header><div class="dialog-body">${content}</div><p class="dialog-error" role="alert" hidden></p>${submit?`<footer><button type="button" class="button" data-dismiss>Cancel</button><button type="submit" class="button primary">${e(label)}</button></footer>`:''}</form>`;
-    // Share rounded dialogs across the dashboard screens already refreshed.
-    if(document.body.dataset.screen==='dashboard'&&document.querySelector('#main.ws-home,#main.ws-collection-page')){
-      d.classList.add('ws-home-dialog');
-      if(document.querySelector('#main.store-owner'))d.classList.add('store-owner-dialog');
-      if(document.querySelector('#main.ws-settings-page'))d.classList.add('ws-settings-dialog');
-      const titleId='workspace-dialog-title-'+(++dialogSequence);
-      d.querySelector('h2').id=titleId;d.setAttribute('aria-labelledby',titleId);
-      if(danger){
-        d.classList.add('is-danger');
-        const body=d.querySelector('.dialog-body');body.id=titleId+'-description';d.setAttribute('aria-describedby',body.id);
-        d.querySelector('footer [data-dismiss]')?.setAttribute('autofocus','');
-      }
-    }
-    if(document.body.dataset.screen==='builder'){
-      d.classList.add('ws-workspace-dialog');
-      const titleId='workspace-dialog-title-'+(++dialogSequence);
-      d.querySelector('h2').id=titleId;d.setAttribute('aria-labelledby',titleId);
-      if(danger){
-        d.classList.add('is-danger');
-        const body=d.querySelector('.dialog-body');body.id=titleId+'-description';d.setAttribute('aria-describedby',body.id);
-        d.querySelector('footer [data-dismiss]')?.setAttribute('autofocus','');
-      }
+    // Shared semantics and styling apply to every route, including project details.
+    if(document.querySelector('#main.store-owner'))d.classList.add('store-owner-dialog');
+    if(document.querySelector('#main.ws-settings-page'))d.classList.add('ws-settings-dialog');
+    const titleId='workspace-dialog-title-'+(++dialogSequence);
+    d.querySelector('h2').id=titleId;d.setAttribute('aria-labelledby',titleId);
+    if(danger){
+      d.classList.add('is-danger');
+      const body=d.querySelector('.dialog-body');body.id=titleId+'-description';d.setAttribute('aria-describedby',body.id);
+      d.querySelector('footer [data-dismiss]')?.setAttribute('autofocus','');
     }
     document.body.append(d);d.querySelectorAll('[data-dismiss]').forEach(b=>b.onclick=()=>d.close());d.addEventListener('close',()=>d.remove());d.addEventListener('click',event=>{if(event.target===d){const r=d.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)d.close();}});
     d.querySelector('form').onsubmit=async event=>{event.preventDefault();if(!submit)return;const b=d.querySelector('[type=submit]');b.disabled=true;try{await submit(d);if(d.open)d.close();}catch(error){const p=d.querySelector('.dialog-error');p.hidden=false;p.textContent=error.message;}finally{b.disabled=false;}};d.showModal();return d;
