@@ -220,6 +220,6 @@ test('browser: a delayed catalog response cannot show a previously selected temp
  await page.evaluate(plan=>{DraftmangoEditor.project.workspace.builder={version:1,phase:'review',plan,questions:[],checks:[]};DraftmangoEditor.render();},plan);
  await page.evaluate(()=>{DraftmangoEditor.project.workspace.builder.plan.templateId='consulting-1';DraftmangoEditor.render();});
  release();await page.frameLocator('#template-review-frame').locator('html[data-demo="consulting-1"]').waitFor();
- assert.ok((await page.locator('#template-review-note').innerText()).startsWith('Consulting template'));
+ assert.ok((await page.locator('#template-review-note').innerText()).startsWith('Consulting · Sample content'));
  assert.equal(await page.locator('#template-review-frame').getAttribute('src'),'/framo/previews/demo-consulting-1.html');
 });

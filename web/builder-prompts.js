@@ -81,9 +81,9 @@
     const card=node('section',null,'builder-plan app-proposal');card.setAttribute('aria-label','Proposed plan');
     const head=node('div',null,'app-run-head');head.append(node('span','Review plan'));
     const body=node('div',null,'app-proposal-body');
-    const meta=node('p',`${label(plan.templateId)} template`,'app-proposal-meta');
+    const meta=node('p',`Proposed design · ${label(plan.templateId)}`,'app-proposal-meta');
     const details=node('details',null,'builder-plan-section app-proposal-details');details.append(node('summary','Pages and details'));
-    details.append(node('p','Planned pages are requirements for the build. Template pages and connected features are checked separately.','app-plan-scope-note'));
+    details.append(node('p','Planned pages are requirements for the build. Existing pages and connected features are checked separately.','app-plan-scope-note'));
     const facts=node('dl');
     for(const [name,key] of [['Offering','offering'],['Audience','audience'],['Goal','goal'],['Region','region'],['Content','content'],['Brand','brand']])if(plan[key])facts.append(node('dt',name),node('dd',plan[key]));
     details.append(facts);
@@ -93,7 +93,7 @@
     let storeScope;
     if(plan.kind==='store'){
       const supported=B.storeSupport(plan),store=plan.store;
-      storeScope=node('p',supported?'Draft store · review setup before taking orders.':'Design only · this template’s store workflow needs a connection.','app-store-scope');
+      storeScope=node('p',supported?'Draft store · review setup before taking orders.':'Design only · this design’s store workflow needs a connection.','app-store-scope');
       const review=node('details',null,'builder-plan-section');review.append(node('summary','Store details to review'));
       const unknown='Needs your confirmation',facts=node('dl');
       const money=n=>n==null||!store?.currency?unknown:new Intl.NumberFormat(undefined,{style:'currency',currency:store.currency}).format(n/100);
@@ -128,7 +128,7 @@
   function handoff(root,value,actions){
     const card=node('section',null,'builder-plan app-store-handoff');card.setAttribute('aria-label','Store handoff');
     card.append(node('h3',value?.store?'Your draft store':'Prepare your store'));
-    card.append(node('p',value?.message||(value?.store?'Your template and store are connected. Review these steps before opening for orders.':'The website is built. Prepare its draft store to carry your confirmed details into store management.')));
+    card.append(node('p',value?.message||(value?.store?'Your website and store are connected. Review these steps before opening for orders.':'The website is built. Prepare its draft store to carry your confirmed details into store management.')));
     if(value?.readiness){const list=node('ul');for(const step of value.readiness.steps){const row=node('li');row.append(node('span',step.complete?'Complete · ':'To do · '));const link=node(step.section==='publish'?'button':'a',step.label);if(step.section==='publish'){link.type='button';link.className='text-button';link.onclick=actions.publish;}else link.href='/dashboard#store/'+encodeURIComponent(value.store.projectId)+'/'+step.section;row.append(link);list.append(row);}card.append(list);}
     const buttons=node('div',null,'builder-prompt-actions');
     if(value?.store){const manage=node('a','Manage store','builder-primary');manage.href='/dashboard#store/'+encodeURIComponent(value.store.projectId)+'/overview';buttons.append(manage);const preview=node('button','Preview shop','builder-secondary');preview.type='button';preview.onclick=actions.preview;buttons.append(preview);}

@@ -232,7 +232,7 @@
       label.innerHTML = message.role === 'user' ? 'You <span class="avatar">Y</span>' : `<span class="avatar">${icon('mango')}</span>Draftmango`;
       const content = document.createElement(message.role === 'assistant' ? 'div' : 'p');
       content.className = 'message-content';
-      const messageText = message.initial ? 'Tell me what you want to build. I’ll help clarify the details, agree a plan with you, and adapt a design from the template library.' : message.text;
+      const messageText = message.initial ? 'Tell me what you want to build. I’ll help clarify the details, agree a plan with you, and bring your website to life.' : message.text;
       if (message.role === 'assistant') Chat.render(content,messageText); else content.textContent=messageText;
       block.append(label);
       const activity=Chat.renderActivity(message.activity);if(activity)block.append(activity);
@@ -306,25 +306,25 @@
       $('#canvas-stage').before(note);
       frame=document.createElement('iframe');frame.id='template-review-frame';frame.setAttribute('sandbox','allow-scripts');frame.referrerPolicy='no-referrer';$('#frame-wrap').append(frame);
     }
-    note.hidden=false;note.firstElementChild.textContent='Loading the selected template preview…';note.lastElementChild.hidden=true;
+    note.hidden=false;note.firstElementChild.textContent='Loading the proposed design…';note.lastElementChild.hidden=true;
     frame.hidden=true;frame.onload=null;frame.removeAttribute('src');$('#website-frame').hidden=true;
-    $('#preview-status').textContent='Loading template preview';
+    $('#preview-status').textContent='Loading design preview';
     reviewPreviewPromise=(async()=>{
       try{
         const catalog=await globalThis.DraftmangoTemplates.catalog();
         if(sequence!==reviewPreviewSequence||key!==reviewPreviewKey)return false;
         const template=catalog.find(item=>item.id===plan.templateId);
-        if(!template||!/^demo-[a-z0-9-]+\.html$/.test(template.file))throw new Error('Template preview unavailable');
-        note.firstElementChild.textContent=template.name+' template · Sample content, not customised.';
-        $('#canvas-project-name').textContent=template.name+' · Template preview';
-        frame.title=template.name+' template preview — sample content';
-        frame.onload=()=>{if(sequence===reviewPreviewSequence&&key===reviewPreviewKey)$('#preview-status').textContent='Template preview · Awaiting your approval';};
+        if(!template||!/^demo-[a-z0-9-]+\.html$/.test(template.file))throw new Error('Design preview unavailable');
+        note.firstElementChild.textContent=template.name+' · Sample content, not customised.';
+        $('#canvas-project-name').textContent=template.name+' · Design preview';
+        frame.title=template.name+' design preview — sample content';
+        frame.onload=()=>{if(sequence===reviewPreviewSequence&&key===reviewPreviewKey)$('#preview-status').textContent='Design preview · Awaiting your approval';};
         frame.src='/framo/previews/'+template.file;frame.hidden=false;scheduleCanvasSize();
         return true;
       }catch{
         if(sequence!==reviewPreviewSequence||key!==reviewPreviewKey)return false;
-        note.firstElementChild.textContent='The selected template preview could not be loaded. Your draft is unchanged.';note.lastElementChild.hidden=false;
-        $('#preview-status').textContent='Template preview unavailable';return false;
+        note.firstElementChild.textContent='The proposed design could not be loaded. Your draft is unchanged.';note.lastElementChild.hidden=false;
+        $('#preview-status').textContent='Design preview unavailable';return false;
       }finally{if(sequence===reviewPreviewSequence)reviewPreviewPromise=null;}
     })();
     return reviewPreviewPromise;
@@ -995,7 +995,17 @@
     const review=templateReview();
     if(review){
       if(download)announce('Approve and build your website before exporting it.');
-      else window.open('/templates/preview?template='+encodeURIComponent(review.templateId),'_blank','noopener');
+      else {
+        const preview=window.open('about:blank','_blank');
+        if(preview)preview.opener=null;
+        if(!await renderTemplateReview(review)){preview?.close();announce('The design preview is unavailable. Try refreshing it.');return;}
+        const source=$('#template-review-frame')?.getAttribute('src');
+        if(!source||!/^\/framo\/previews\/demo-[a-z0-9-]+\.html$/.test(source)){preview?.close();return;}
+        const content=`<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>Design preview | Draftmango</title><style>html,body,iframe{margin:0;width:100%;height:100%;border:0;display:block}</style></head><body><iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="Proposed website design" src="${location.origin}${source}"></iframe></body></html>`;
+        const url=URL.createObjectURL(new Blob([content],{type:'text/html;charset=utf-8'}));
+        if(preview)preview.location.href=url;
+        setTimeout(()=>URL.revokeObjectURL(url),60000);
+      }
       return;
     }
     const tab=download?null:window.open('about:blank','_blank');

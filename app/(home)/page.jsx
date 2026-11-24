@@ -33,7 +33,7 @@ function Hero() {
             <circle pathLength="1" cx="231" cy="22" r="4.5" />
           </svg></span>
         </h1>
-        <p className="max-w-144 mt-[clamp(2rem,1.6rem_+_1.4vw,2.75rem)] mb-0 mx-0 text-[clamp(1.125rem,1.05rem_+_0.3vw,1.25rem)] leading-[1.55] text-soft text-pretty" data-anim="fade-up" data-anim-delay="220">Start with a beautifully crafted design. Describe your business, work with AI, and edit every detail until it feels like you.</p>
+        <p className="max-w-144 mt-[clamp(2rem,1.6rem_+_1.4vw,2.75rem)] mb-0 mx-0 text-[clamp(1.125rem,1.05rem_+_0.3vw,1.25rem)] leading-[1.55] text-soft text-pretty" data-anim="fade-up" data-anim-delay="220">Describe your business, work through your ideas with AI, and shape a website that feels like you.</p>
         <div className="dm-hero-composer" data-anim="fade-up" data-anim-delay="320"><IdeaComposer /></div>
       </div>
 
@@ -42,7 +42,7 @@ function Hero() {
         <div className="custom-panel custom-hero-stage overflow-hidden" data-flow="" role="img" aria-label="A Draftmango project at work: you send a request, Draftmango reads your design and drafts the changes, then either asks you to review them or saves a new version.">
           <div className="custom-flow-bar" aria-hidden="true">
             <Glyph icon="ph-browser" size="24" className="custom-flow-mark" />
-            <span className="custom-flow-name"><b>Halden Studio</b><span>Architecture Studio template</span></span>
+            <span className="custom-flow-name"><b>Halden Studio</b><span>Architecture studio website</span></span>
             <span className="custom-status custom-status--ok custom-flow-live">Draft</span>
             <span className="custom-flow-runs inline-flex items-baseline gap-2 ml-auto max-md:ml-0 text-(--custom-on-dark-meta) max-md:w-full">Versions saved <b className="min-w-[4.5ch] text-[0.9375rem] font-semibold text-(--custom-on-dark) text-end" data-flow-count="">11</b></span>
           </div>
@@ -61,7 +61,7 @@ function Hero() {
                 </li>
                 <li className="custom-node is-ok" data-flow-node="2" style={{"--x": 208, "--y": 54}}>
                   <Glyph icon="ph-squares-four" colour="#0f9488" />
-                  <span className="grid gap-[0.1875rem] min-w-0"><b className="custom-node-title">Read the design</b><span className="custom-node-meta">Your template</span></span>
+                  <span className="grid gap-[0.1875rem] min-w-0"><b className="custom-node-title">Read the design</b><span className="custom-node-meta">Your website</span></span>
                   <span className="custom-status custom-status--ok custom-node-state" data-flow-state="">Read</span>
                 </li>
                 <li className="custom-node is-ok" data-flow-node="3" style={{"--x": 416, "--y": 54}}>
@@ -99,7 +99,7 @@ function Hero() {
                 <span className="custom-status custom-status--ok w-fit">1 added today</span>
               </div>
               <dl className="grid m-0 text-[0.875rem] md:max-xl:grid-cols-3 md:max-xl:gap-x-6">
-                {[["Template", "Architecture Studio"], ["Credits used", "214"], ["Last saved", "2 min ago"]].map(([k, v]) =>
+                {[["Project", "Halden Studio"], ["Credits used", "214"], ["Last saved", "2 min ago"]].map(([k, v]) =>
                   <div key={k} className="flex items-baseline justify-between gap-4 py-2.5"><dt className="text-(--custom-on-dark-meta)">{k}</dt><dd className="m-0 font-semibold text-(--custom-on-dark)">{v}</dd></div>)}
               </dl>
             </div>
@@ -121,56 +121,6 @@ function Kinds() {
       <ul className="marquee gap-[clamp(3rem,2rem_+_3vw,5.5rem)] m-0 p-0 list-none" data-speed="38">
         {kinds.map(([icon, name]) => <li key={name} className="custom-logos-mark"><i className={"ph-bold " + icon} aria-hidden="true"></i>{name}</li>)}
       </ul>
-    </div>
-  </section>;
-}
-
-/* ---------- Three templates, as tabs (the template's "teams" tabs) ---------- */
-const showcase = [
-  {id: "architecture-studio-1", tab: "Portfolio", icon: "ph-buildings", name: "Architecture Studio", pages: 10, pos: "50% 0%", colour: "#c5a47e",
-    alt: "The home page of the Architecture Studio template: a large studio name above a photograph of a white house with a pool",
-    line: "A calm, editorial portfolio for studios that let their work speak.", steps: [["ph-squares-four", "Choose the design", "Template library"], ["ph-images", "Add your projects", "Draftmango"], ["ph-globe-simple", "Publish", "Your domain"]]},
-  {id: "restaurant-1", tab: "Restaurant", icon: "ph-fork-knife", name: "Restaurant", pages: 10, pos: "50% 50%", colour: "#9e2a33",
-    alt: "The home page of the Restaurant template: a warm dining room with pendant lights and the line Seasonal cooking, quietly done",
-    line: "Menus, opening hours and a dining room that sets the mood before anyone books.", steps: [["ph-squares-four", "Choose the design", "Template library"], ["ph-list-bullets", "Add your menu", "Draftmango"], ["ph-globe-simple", "Publish", "Your domain"]]},
-  {id: "fashion-store-1", tab: "Shop", icon: "ph-bag", name: "Fashion Store", pages: 11, pos: "50% 50%", colour: "#171717",
-    alt: "The home page of the Fashion Store template: a rail of linen clothes with a product card and the line Light layers, long days",
-    line: "Collections, lookbooks and product pages designed for a boutique.", steps: [["ph-squares-four", "Choose the design", "Template library"], ["ph-tag", "Add your products", "Draftmango"], ["ph-globe-simple", "Publish", "Your domain"]]},
-];
-function Showcase() {
-  return <section id="au-teams" className="custom-section custom-section--surface custom-teams" aria-labelledby="au-teams-title">
-    <div className="container">
-      <div className="custom-head custom-head--row">
-        <h2 id="au-teams-title" className="custom-title" data-anim="fade-up">Every website starts somewhere. <span className={muted}>Start with a great design.</span></h2>
-        <p className="custom-lead" data-anim="fade-up" data-anim-delay="120">Three of our 100 templates. Each one is a complete, responsive website, ready for your words and photos.</p>
-      </div>
-    </div>
-    <div className="tabs tabs-divided custom-teams-tabs" x-data="tablist()">
-      <div className="tabs-nav" data-lenis-prevent-touch="">
-        <div className="container px-0" role="tablist" aria-label="Templates" x-bind="list">
-          {showcase.map((t, i) => <button key={t.id} type="button" className={"tab-btn" + (i ? "" : " is-active")} role="tab" id={"dm-show-t" + i} aria-controls={"dm-show-p" + i} aria-selected={i ? "false" : "true"} tabIndex={i ? -1 : undefined} x-bind="tab"><i className={"ph " + t.icon} aria-hidden="true"></i>{t.tab}</button>)}
-        </div>
-      </div>
-      <div className="tabs-panels pt-[clamp(2.5rem,1.5rem_+_3vw,4.5rem)] pb-0">
-        <div className="container">
-          {showcase.map((t, i) => <div key={t.id} className={"tabs-panel custom-teams-panel" + (i ? "" : " is-active")} role="tabpanel" id={"dm-show-p" + i} aria-labelledby={"dm-show-t" + i} x-bind="panel">
-            <figure className="custom-teams-photo" style={{"--custom-teams-pos": t.pos}}>
-              <img src={"/framo/shots/" + t.id + "-tall.jpg"} alt={t.alt} width="1200" height="1500" loading="lazy" decoding="async" />
-              <figcaption className="custom-teams-toast"><Glyph icon={t.icon} size="24" colour={t.colour} /><span><b>{t.name}</b><span>{t.pages} pages · {t.tab}</span></span></figcaption>
-            </figure>
-            <div className="custom-teams-body">
-              <h3 className="custom-teams-line">{t.line}</h3>
-              <ol className="custom-panel custom-teams-flow" aria-label="Steps">
-                {t.steps.map(([icon, title, meta], n) => <Node key={title} icon={icon} colour={n === 1 ? undefined : n ? "#2f6fe4" : "#5b5bd6"} brand={n === 1} title={title} meta={meta} ai={n === 1} />)}
-              </ol>
-              <div className="custom-teams-foot">
-                <p className="custom-teams-saved"><span className="custom-figure">{t.pages}<span className="ml-1 text-[0.55em] font-medium tracking-[-0.02em] opacity-60">pages</span></span><span>designed, responsive and ready to edit</span></p>
-                <a href={"/templates/preview?template=" + t.id} className="custom-link">Preview {t.name} <i className="ph ph-arrow-right" aria-hidden="true"></i></a>
-              </div>
-            </div>
-          </div>)}
-        </div>
-      </div>
     </div>
   </section>;
 }
@@ -209,7 +159,7 @@ function Assistant() {
           </ol>
         </article>
         <article className={pad + " custom-agents-approve relative flex items-end overflow-hidden rounded-(--custom-radius-card)"} data-anim="fade-up" data-anim-delay="120" aria-labelledby="au-agents-approve">
-          <img className="absolute inset-0 w-full h-full object-cover object-[62%_40%]" src="/framo/shots/architecture-studio-1-tall.jpg" alt="The Halden Studio website in progress, built from the Architecture Studio template" width="1200" height="1500" loading="lazy" decoding="async" />
+          <img className="absolute inset-0 w-full h-full object-cover object-[62%_40%]" src="/framo/shots/architecture-studio-1-tall.jpg" alt="The Halden Studio website in progress" width="1200" height="1500" loading="lazy" decoding="async" />
           <div className="custom-agents-card" data-agent-approval="">
             <p className="custom-agents-card-from"><Glyph icon="ph-sparkle" size="24" brand />Draftmango asks</p>
             <h3 id="au-agents-approve" className="custom-agents-card-title">Publish the new Services page?</h3>
@@ -267,7 +217,7 @@ function Assistant() {
 
 /* ---------- The workspace (the template's integrations wall) ---------- */
 const wall = [
-  [["ph-squares-four", "#2f6fe4", "Templates", "100 designs"], ["ph-devices", "#0f9488", "Responsive", "Every screen"], ["ph-chat-circle-text", "#7a5cf0", "Conversation", "AI"], ["ph-eye", "#d9467a", "Live preview", "Desktop & mobile"]],
+  [["ph-squares-four", "#2f6fe4", "Planning", "Your brief"], ["ph-devices", "#0f9488", "Responsive", "Every screen"], ["ph-chat-circle-text", "#7a5cf0", "Conversation", "AI"], ["ph-eye", "#d9467a", "Live preview", "Desktop & mobile"]],
   [["ph-brackets-curly", "#5b5bd6", "Code editor", "React source"], ["ph-columns", "#0e7490", "Split view", "Code + preview"], ["ph-clock-counter-clockwise", "#e08a1e", "History", "Every version"], ["ph-download-simple", "#475569", "Export", "Your source"]],
   [["ph-globe-simple", "#c2410c", "Your domain", "Connect"], ["ph-magnifying-glass", "#7c5cd6", "Domain search", "Buy a name"], ["ph-rocket-launch", "#1f8a5b", "Publishing", "Go live"], ["ph-google-logo", "#be185d", "Google sign-in", "Accounts"]],
   [["ph-lightning", "#2f6fe4", "AI credits", "Monthly"], ["ph-image", "#a16207", "Your images", "Assets"], ["ph-text-aa", "#0f9488", "Typography", "Designer type"], ["ph-sparkle", null, "Draftmango", "Built in"]],
@@ -288,14 +238,11 @@ function Workspace() {
         <p className="eyebrow" data-anim="fade-up">The workspace</p>
         <h2 id="au-integrations-title" className="custom-title m-0" data-anim="fade-up" data-anim-delay="80">Everything a website needs. <span className={muted}>One workspace.</span></h2>
         <p className="custom-lead" data-anim="fade-up" data-anim-delay="160">Pages, previews, code, domains and history in one place, so nothing gets lost between tools.</p>
-        <a href="/templates" className="custom-integrations-search flex items-center gap-3.5 w-[min(100%,28rem)] mt-3 py-4 px-5 text-[1.0625rem] bg-surface rounded-lg" data-anim="fade-up" data-anim-delay="240">
+        <a href="/#idea" className="custom-integrations-search flex items-center gap-3.5 w-[min(100%,28rem)] mt-3 py-4 px-5 text-[1.0625rem] bg-surface rounded-lg" data-anim="fade-up" data-anim-delay="240">
           <i className="ph ph-magnifying-glass text-[1.25rem] text-text" aria-hidden="true"></i>
-          <span>Search 100 templates</span>
+          <span>Describe your website</span>
           <i className="ph ph-arrow-right custom-integrations-search-go ml-auto" aria-hidden="true"></i>
         </a>
-        <ul className="custom-integrations-chips flex flex-wrap gap-2 m-0 p-0 list-none" data-anim="fade-up" data-anim-delay="300" aria-label="Popular kinds of website">
-          {["Portfolio", "Food & Hospitality", "Shop", "Business", "Health & Beauty"].map(c => <li key={c}><a href="/templates">{c}</a></li>)}
-        </ul>
       </div>
     </div>
   </section>;
@@ -331,7 +278,7 @@ function Build() {
       </div>
       <div className="custom-build-stage">
         <figure className="custom-build-photo w-[min(72%,24rem)] my-0 mr-0 ml-auto">
-          <img className="block w-full aspect-[4/5] object-cover object-[40%_50%] rounded-(--custom-radius-photo)" src="/framo/shots/restaurant-1-tall.jpg" alt="The Restaurant template's home page: a warm dining room and the line Seasonal cooking, quietly done" width="1200" height="1500" loading="lazy" decoding="async" />
+          <img className="block w-full aspect-[4/5] object-cover object-[40%_50%] rounded-(--custom-radius-photo)" src="/framo/shots/restaurant-1-tall.jpg" alt="A restaurant website with a warm dining room and the line Seasonal cooking, quietly done" width="1200" height="1500" loading="lazy" decoding="async" />
         </figure>
         <div className="custom-panel custom-build-card w-[min(100%,40rem)] mt-[clamp(-18rem,-40vw,-8rem)] overflow-hidden tabs tabs-segmented" x-data="tablist()" data-anim="fade-up" data-anim-delay="120">
           <div className="custom-build-bar flex flex-wrap items-center justify-between gap-3 py-3.5 pr-4 pl-5">
@@ -447,56 +394,20 @@ function History() {
 
 /* ---------- Numbers ---------- */
 function Numbers() {
-  const items = [["100", "", "", "designer-made templates"], ["1150", "", "", "pages across the library"], ["500", "", "", "AI credits to try, free"], ["0", "$", "", "to start your first site"]];
+  const items = [["500", "", "", "AI credits to try, free"], ["0", "$", "", "to start your first site"]];
   return <section id="au-metrics" className="custom-section custom-metrics" aria-labelledby="au-metrics-title">
     <div className="container">
       <div className="custom-panel custom-metrics-panel isolate overflow-clip p-[clamp(2rem,1rem_+_3.4vw,4.5rem)]" data-anim="fade-up">
         <div className="glow-field" aria-hidden="true"><div className="glow custom-metrics-glow -bottom-72 left-[30%]"></div></div>
         <h2 id="au-metrics-title" className="custom-metrics-title mt-0 mb-[clamp(2.5rem,1.5rem_+_2.4vw,4rem)] mx-0 text-[1.25rem] tracking-[-0.02em] text-(--custom-on-dark)">Draftmango <span className="font-medium text-(--custom-on-dark-meta)">in numbers</span></h2>
-        <dl className="custom-metrics-list relative grid grid-cols-2 min-[1200px]:grid-cols-4 gap-y-12 gap-x-8 m-0">
+        <dl className="custom-metrics-list relative grid grid-cols-2 gap-y-12 gap-x-8 m-0">
           {items.map(([value, prefix, suffix, label]) => <div key={label} className="counter custom-metrics-item">
             <dt className="counter-label">{label}</dt>
             <dd className="custom-figure"><span className="counter-number" data-counter={value} data-prefix={prefix || undefined} data-suffix={suffix || undefined}>{prefix}{Number(value).toLocaleString("en-GB")}{suffix}</span></dd>
           </div>)}
         </dl>
-        <p className="custom-small text-[0.9375rem] leading-[1.5] text-(--custom-meta) mt-[clamp(2.5rem,1.5rem_+_2vw,3.5rem)]">Template library as of November 2026. Free plan credits are a one-time allowance for trying Draftmango.</p>
+        <p className="custom-small text-[0.9375rem] leading-[1.5] text-(--custom-meta) mt-[clamp(2.5rem,1.5rem_+_2vw,3.5rem)]">Free plan credits are a one-time allowance for trying Draftmango.</p>
       </div>
-    </div>
-  </section>;
-}
-
-/* ---------- Template gallery ---------- */
-const gallery = [
-  ["architecture-studio-1", "portfolio", "Architecture Studio", "Large project photography in a calm, editorial grid.", 10, "#c5a47e", "ph-buildings", "ph-images"],
-  ["restaurant-1", "food", "Restaurant", "Menus, opening hours and a dining room that sets the mood.", 10, "#9e2a33", "ph-fork-knife", "ph-calendar-check"],
-  ["fashion-store-1", "shop", "Fashion Store", "Collections, lookbooks and product pages for a boutique.", 11, "#171717", "ph-t-shirt", "ph-bag"],
-  ["consulting-1", "business", "Consulting", "Services, case studies and a clear way to get in touch.", 12, "#0d58d8", "ph-briefcase", "ph-chart-line-up"],
-  ["cafe-1", "food", "Café & Bakery", "Opening hours, a warm menu and your story up front.", 12, "#d8952a", "ph-coffee", "ph-bread"],
-  ["photographer-1", "portfolio", "Photographer", "Full-bleed galleries for editorial and travel work.", 8, "#d2f23a", "ph-camera", "ph-aperture"],
-];
-function Gallery() {
-  return <section id="au-templates" className="custom-section custom-templates" aria-labelledby="au-templates-title">
-    <div className="container">
-      <div className="custom-head custom-head--center">
-        <h2 id="au-templates-title" className="custom-title" data-anim="fade-up">Start from <em className="not-italic text-primary-ink">100</em> designs.</h2>
-        <p className="custom-lead" data-anim="fade-up" data-anim-delay="100">Pick one, describe your business and make it yours. Every design is complete and responsive from the start.</p>
-      </div>
-      <div className="custom-templates-block" data-gallery-filter="">
-        <div className="gallery-filters custom-templates-filters sm:justify-center" data-lenis-prevent-touch="" data-anim="fade-up">
-          {[["all", "All"], ["portfolio", "Portfolio"], ["food", "Food & Hospitality"], ["shop", "Shop"], ["business", "Business"]].map(([key, label], i) => <button key={key} type="button" className={"gallery-filter" + (i ? "" : " is-active")} data-filter={key}>{label}</button>)}
-        </div>
-        <ul className="custom-templates-grid grid gap-5 m-0 p-0 list-none" data-gallery-grid="">
-          {gallery.map(([id, category, name, line, pages, colour, a, b]) => <li key={id} className="gallery-item" data-category={category}>
-            <a href={"/templates/preview?template=" + id} className="custom-templates-card">
-              <span className="custom-templates-stack" aria-hidden="true"><Glyph icon={a} colour={colour} size="44" /><Glyph icon={b} brand size="44" /></span>
-              <h3 className="m-0 text-[1.3125rem] leading-[1.25] tracking-[-0.025em]">{name}</h3>
-              <p className="m-0 leading-[1.5]">{line}</p>
-              <span className="custom-templates-meta">{pages} pages · Preview <i className="ph ph-arrow-right" aria-hidden="true"></i></span>
-            </a>
-          </li>)}
-        </ul>
-      </div>
-      <p className="mt-[clamp(2.5rem,1.5rem_+_2vw,3.5rem)] mb-0 mx-0 text-center"><a href="/templates" className="btn btn-ghost btn-lg custom-btn-ghost">Browse all templates <i className="ph ph-arrow-right" aria-hidden="true"></i></a></p>
     </div>
   </section>;
 }
@@ -606,13 +517,11 @@ export default function Page() {
     <main id="main">
       <Hero />
       <Kinds />
-      <Showcase />
       <Assistant />
       <Workspace />
       <Build />
       <History />
       <Numbers />
-      <Gallery />
       <Ownership />
       <Pricing />
     </main>

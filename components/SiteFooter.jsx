@@ -2,13 +2,12 @@
 import {Brand} from "./SiteHeader";
 
 const news = [
-  ["2026-11-20", "Nov 2026", "100 designer-made templates", "/templates"],
+  ["2026-11-24", "24 Nov", "More room to build on mobile", "/help#workspace"],
   ["2026-10-28", "28 Oct", "Sign in with Google", "/auth#mode=login"],
   ["2026-10-26", "26 Oct", "Version history for every project", "/help#data"],
 ];
 const columns = [
-  ["Templates", [["All templates", "/templates"], ["Architecture Studio", "/templates/preview?template=architecture-studio-1"], ["Restaurant", "/templates/preview?template=restaurant-1"], ["Fashion Store", "/templates/preview?template=fashion-store-1"]]],
-  ["Product", [["Website builder", "/#idea"], ["Templates", "/templates"], ["How it works", "/#how-it-works"], ["Pricing", "/pricings"]]],
+  ["Product", [["Website builder", "/#idea"], ["How it works", "/#how-it-works"], ["Pricing", "/pricings"]]],
   ["Resources", [["Help centre", "/help"], ["Using the workspace", "/help#workspace"], ["Domains & publishing", "/help#domains"], ["Plans & billing", "/help#billing"]]],
   ["Company", [["About Draftmango", "/about"], ["Contact", "/help#support"], ["Terms of service", "/legal#terms"], ["Privacy", "/legal#privacy"], ["Cookies & storage", "/legal#cookies"]]],
 ];
@@ -26,7 +25,7 @@ export default function SiteFooter() {
             <a href="/#idea" className="btn btn-primary btn-lg">Start free</a>
           </div>
         </div>
-        <div className="grid grid-cols-2 lg:grid-cols-[minmax(0,1.8fr)_repeat(4,minmax(0,1fr))] gap-y-12 gap-x-8">
+        <div className="grid grid-cols-2 lg:grid-cols-[minmax(0,1.8fr)_repeat(3,minmax(0,1fr))] gap-y-12 gap-x-8">
           <div className="col-span-full lg:col-[auto] lg:pr-12" data-anim="fade-up">
             <h3 className="footer-col-title">What's new</h3>
             <ol className="custom-footer-releases grid gap-0 m-0 p-0 list-none">

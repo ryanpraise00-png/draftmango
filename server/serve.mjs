@@ -67,7 +67,7 @@ export function createServer({ root = fileURLToPath(new URL('../out/', import.me
         }
         if (url.pathname === '/api/templates/start') {
           if (request.method !== 'POST') throw new AIError(405,'method','Use POST to start from a template.');
-          if (origin !== expectedOrigin || !/^application\/json(?:;|$)/i.test(request.headers['content-type']||'')) throw new AIError(403,'origin','Choose a template from the Draftmango workspace.');
+          if (origin !== expectedOrigin || !/^application\/json(?:;|$)/i.test(request.headers['content-type']||'')) throw new AIError(403,'origin','Start your website from the Draftmango workspace.');
           await accountSession(request);
           const body=await readJSON(request,20000);
           if (!body || Array.isArray(body) || typeof body.brief !== 'string' || body.brief.length>16000 || Object.keys(body).some(k=>!['id','brief'].includes(k)) || (body.id!==undefined && (typeof body.id!=='string' || !/^[a-z][a-z0-9-]{0,70}$/.test(body.id)))) throw new AIError(400,'invalid_template','Choose a valid template and a brief under 16,000 characters.');
@@ -185,7 +185,12 @@ export function createServer({ root = fileURLToPath(new URL('../out/', import.me
       if (['/pricings/', '/pricing', '/pricing/'].includes(pathname)) {
         response.writeHead(308, { Location: '/pricings' + url.search, 'Cache-Control': 'no-store' }); response.end(); return;
       }
-      const pages=['auth','dashboard','workspace','about','help','legal','pricings','templates','templates/preview'];
+      // Retired public catalogue URLs return to the brief, without exposing a picker.
+      // The internal template APIs and hosted design assets remain available to the builder.
+      if (/^\/templates(?:[/.]|$)/.test(pathname)) {
+        response.writeHead(307, { Location: '/#idea', 'Cache-Control': 'no-store' }); response.end(); return;
+      }
+      const pages=['auth','dashboard','workspace','about','help','legal','pricings'];
       const legacy=pathname.match(/^\/(index|auth|dashboard|workspace|about|help|legal|pricings)\.html$/);
       if(legacy) {response.writeHead(308,{Location:(legacy[1]==='index'?'/':'/'+legacy[1])+url.search,'Cache-Control':'no-store'});response.end();return;}
       const publicPath = pathname==='/' ? '/index.html' : pages.includes(pathname.slice(1)) ? pathname+'.html' : pathname;

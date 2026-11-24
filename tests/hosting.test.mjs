@@ -128,3 +128,20 @@ test('isolated template previews can load public icon fonts without exposing API
  const api=await get('/api/accounts/session');assert.equal(api.status,403);assert.equal(api.headers['access-control-allow-origin'],undefined);
  const page=await get('/');assert.equal(page.headers['access-control-allow-origin'],undefined);
 });
+
+test('retired library URLs return to the brief while builder design assets remain available', async t => {
+  const server = createServer();
+  server.listen(0, '127.0.0.1'); await once(server, 'listening');
+  t.after(() => { server.closeAllConnections(); server.close(); });
+  const origin = 'http://127.0.0.1:' + server.address().port;
+  for (const path of ['/templates', '/templates/', '/templates.html', '/templates/preview?template=cafe-1', '/templates/preview.html', '/templates/preview/']) {
+    for (const method of ['GET', 'HEAD']) {
+      const response = await fetch(origin + path, {method, redirect:'manual'});
+      assert.equal(response.status, 307, method + ' ' + path);
+      assert.equal(response.headers.get('location'), '/#idea');
+    }
+  }
+  for (const path of ['/templates-model.js', '/template-catalog.json', '/framo/previews/demo-cafe-1.html']) {
+    assert.equal((await fetch(origin + path, {redirect:'manual'})).status, 200, path);
+  }
+});

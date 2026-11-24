@@ -3,7 +3,7 @@
 import BrandMark from "./BrandMark";
 
 const build = [
-  ["Template library", "/templates", "ph-squares-four", "var(--color-primary)", "100 designer-made websites to start from."],
+  ["Website planning", "/#how-it-works", "ph-squares-four", "var(--color-primary)", "Turn your idea into a clear plan with AI."],
   ["AI conversation", "/#how-it-works", "ph-sparkle", "#7a5cf0", "Describe a change, then review the result."],
   ["Code editor", "/help#workspace", "ph-brackets-curly", "#0f9488", "Edit your site's React source directly."],
   ["Preview modes", "/help#workspace", "ph-devices", "#2f6fe4", "Check every page on desktop and mobile."],
@@ -56,13 +56,13 @@ export default function SiteHeader({current = "/"}) {
                   <div className="megamenu-col-title">Launch</div>
                   {launch.map(Service)}
                 </div>
-                <a href="/templates" className="custom-menu-promo flex flex-col gap-1.5 p-5 text-(--custom-on-dark-soft) bg-(--custom-ink) rounded-xl">
+                <a href="/#idea" className="custom-menu-promo flex flex-col gap-1.5 p-5 text-(--custom-on-dark-soft) bg-(--custom-ink) rounded-xl">
                   <span className="custom-menu-promo-art dm-menu-promo-art relative block flex-1 min-h-28 mb-5 rounded-lg overflow-hidden" aria-hidden="true">
                     <img src="/framo/shots/architecture-studio-1-wide.jpg" alt="" width="1440" height="900" loading="lazy" decoding="async" />
                   </span>
-                  <span className="font-heading text-[1.25rem] font-bold tracking-[-0.03em] text-(--custom-on-dark)">100 templates</span>
-                  <span className="text-[0.9375rem] leading-[1.45]">Studios, restaurants, shops and more.</span>
-                  <span className="custom-menu-promo-link inline-flex items-center gap-1.5 pt-3.5 text-[0.9375rem] font-semibold text-(--custom-on-dark)">Browse templates <i className="ph ph-arrow-right" aria-hidden="true"></i></span>
+                  <span className="font-heading text-[1.25rem] font-bold tracking-[-0.03em] text-(--custom-on-dark)">Your next website</span>
+                  <span className="text-[0.9375rem] leading-[1.45]">Describe what you have in mind. We’ll work through it together.</span>
+                  <span className="custom-menu-promo-link inline-flex items-center gap-1.5 pt-3.5 text-[0.9375rem] font-semibold text-(--custom-on-dark)">Start with your idea <i className="ph ph-arrow-right" aria-hidden="true"></i></span>
                 </a>
                 <div className="megamenu-col megamenu-foot">
                   <p className="megamenu-foot-note">Design, conversation and code in one workspace.</p>
@@ -71,7 +71,6 @@ export default function SiteHeader({current = "/"}) {
               </div>
             </div>
           </li>
-          <li>{link("/templates", "Templates")}</li>
           <li>{link("/pricings", "Pricing")}</li>
           <li className="nav-cascade">
             <button className="nav-link">Help <i className="ph ph-caret-down transition-transform duration-200"></i></button>

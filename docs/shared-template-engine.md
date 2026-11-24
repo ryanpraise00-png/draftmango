@@ -7,7 +7,7 @@ Draftmango and Isotris use `server/template-engine/` and the same `web/template-
 - Draftmango's browser calls authenticated `POST /api/templates/start` with `{brief, id?}`. The server chooses and loads a library template; the browser no longer assembles starter JSON itself. An unknown explicit id is an error, never a generated-layout fallback.
 - `server/template-library.mjs` is a compatibility export of the engine. The AI generation path uses the engine's content-field editor from `server/template-edits.mjs`.
 - `server/template-mcp.mjs` is a thin local stdio transport over the same engine. Isotris starts it from user settings. No separate template catalog or importer is maintained in Isotris.
-- Both public Next.js template components import the authoritative catalog from `web/`; the redundant components copy has been removed.
+- The catalogue is internal to the builder and MCP engine. Public gallery and template-selection pages are removed; old `/templates` URLs redirect to the homepage brief. The plan’s proposed design still renders in an isolated preview, without library navigation.
 
 ## Design preservation
 

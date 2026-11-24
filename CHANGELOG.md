@@ -2,6 +2,12 @@
 
 ## 24 November 2026
 
+### Template library hidden from the interface
+- Removed public template navigation, homepage showcases, gallery/category links, library statistics and the standalone catalogue/selection pages. Start buttons lead to the homepage brief. Previous `/templates` addresses redirect there too.
+- Kept the internal catalogue, template packages, shared engine and MCP integration intact. Plan approval still shows the proposed design inside an isolated preview; opening it separately no longer loads a catalogue page.
+- Updated related authentication, plan and store wording without changing their workflows or the purchased template sources.
+- Validation: production build and 28 focused hosting, template-engine and builder-flow tests passed. Desktop/mobile navigation, retired-route redirects and the workspace proposed-design preview were reviewed locally. Not deployed; ready for review.
+
 ### Mobile workspace controls
 - Kept preview/save status messages readable on separate rows beside larger Undo/Redo controls. Diagnostic tabs and actions wrap instead of shrinking.
 - Enlarged mobile preview, file explorer, file-close and source toolbar controls while retaining the white surfaces and rounded design. Source metadata can wrap on narrow panes.
