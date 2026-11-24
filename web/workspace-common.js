@@ -7,7 +7,7 @@
   Object.assign(paths,{edit:'m14 4 6 6M4 20l5-1L21 7l-5-5L4 14v6Z',pin:'m16 3 5 5-4 1-4 4v4l-2 2-6-6 2-2h4l4-4 1-4ZM2 22l6-6',archive:'M3 3h18v5H3ZM5 8v13h14V8M10 12h4'});
   const icon = name => name==='more'?'<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.7" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.7" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.7" fill="currentColor" stroke="none"/></svg>':`<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${paths[name] || paths.file}"/></svg>`;
   const defaults = {theme:'light',sound:true,fontSize:14,indent:2,wordWrap:false,lineNumbers:true,reduceMotion:false,device:'responsive',buildLevel:'standard',autoRefresh:true,starter:'auto',color:'auto'};
-  let prefs = {...defaults}, profile, activities=[], toastTimer, activeMenu, activeMenuCleanup;
+  let prefs = {...defaults}, profile, activities=[], toastTimer, activeMenu, activeMenuCleanup, dialogSequence=0;
   function library(){return M.readStore(localStorage.getItem(A.key('projects'))) || {schema:1,activeId:'',projects:[]};}
   const meta = record => record?.workspace || {};
   const isChat = record => meta(record).kind === 'chat';
@@ -18,8 +18,19 @@
   function toast(message){let node=$('#toast');if(!node){node=document.createElement('div');node.id='toast';node.className='toast';node.setAttribute('role','status');document.body.append(node);}node.textContent=message;node.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>node.hidden=true,5000);}
   function button(text,action,cls='button'){return `<button type="button" class="${cls}" data-action="${action}">${text}</button>`;}
   function field(label,id,value='',type='text',extra=''){return `<label for="${id}">${label}</label><input id="${id}" type="${type}" value="${e(value)}" ${extra}>`;}
-  function dialog(title,content,{submit,label='Save',wide=false}={}){
+  function dialog(title,content,{submit,label='Save',wide=false,danger=false}={}){
     closeMenu(); const d=document.createElement('dialog');d.className='ws-dialog'+(wide?' wide':'');d.innerHTML=`<form><header><h2>${e(title)}</h2><button type="button" class="icon-button" aria-label="Close dialog" data-dismiss>${icon('close')}</button></header><div class="dialog-body">${content}</div><p class="dialog-error" role="alert" hidden></p>${submit?`<footer><button type="button" class="button" data-dismiss>Cancel</button><button type="submit" class="button primary">${e(label)}</button></footer>`:''}</form>`;
+    // Apply the new dialog treatment only when opened from the workspace home.
+    if(document.body.dataset.screen==='dashboard'&&document.querySelector('#main.ws-home')){
+      d.classList.add('ws-home-dialog');
+      const titleId='workspace-dialog-title-'+(++dialogSequence);
+      d.querySelector('h2').id=titleId;d.setAttribute('aria-labelledby',titleId);
+      if(danger){
+        d.classList.add('is-danger');
+        const body=d.querySelector('.dialog-body');body.id=titleId+'-description';d.setAttribute('aria-describedby',body.id);
+        d.querySelector('footer [data-dismiss]')?.setAttribute('autofocus','');
+      }
+    }
     document.body.append(d);d.querySelectorAll('[data-dismiss]').forEach(b=>b.onclick=()=>d.close());d.addEventListener('close',()=>d.remove());d.addEventListener('click',event=>{if(event.target===d){const r=d.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)d.close();}});
     d.querySelector('form').onsubmit=async event=>{event.preventDefault();if(!submit)return;const b=d.querySelector('[type=submit]');b.disabled=true;try{await submit(d);if(d.open)d.close();}catch(error){const p=d.querySelector('.dialog-error');p.hidden=false;p.textContent=error.message;}finally{b.disabled=false;}};d.showModal();return d;
   }
@@ -122,7 +133,7 @@
     const input=d.querySelector('#record-name');input.focus({preventScroll:true});input.select();
   }
   function move(record){dialog('Move chat',`<p>Choose the project this conversation belongs to.</p><label for="move-project">Project</label><select id="move-project"><option value="">Standalone chat</option>${records('project').map(p=>`<option value="${e(p.id)}" ${meta(record).parentId===p.id?'selected':''}>${e(p.title)}</option>`).join('')}</select>`,{label:'Move chat',submit:d=>{update(record.id,{workspace:{parentId:d.querySelector('#move-project').value}});toast('Chat moved.');}});}
-  function remove(record){dialog(`Delete ${isChat(record)?'chat':'project'}?`,`<p>Delete <strong>${e(record.title)}</strong>${isChat(record)?' and its conversation':' and its related chats'} from your workspace?</p><p>This removes it from your project library. Export a copy first if you need these files.</p>`,{label:'Delete',submit:()=>{for(const p of library().projects.filter(p=>p.id===record.id||meta(p).parentId===record.id))update(p.id,{workspace:{deleted:true}});if(globalThis.DraftmangoEditor?.project.id===record.id)location.href='/dashboard#chats';toast('Deleted from your workspace.');}});}
+  function remove(record){dialog(`Delete ${isChat(record)?'chat':'project'}?`,`<p>Delete <strong>${e(record.title)}</strong>${isChat(record)?' and its conversation':' and its related chats'} from your workspace?</p><p>This removes it from your project library. Export a copy first if you need these files.</p>`,{label:'Delete',danger:true,submit:()=>{for(const p of library().projects.filter(p=>p.id===record.id||meta(p).parentId===record.id))update(p.id,{workspace:{deleted:true}});if(globalThis.DraftmangoEditor?.project.id===record.id)location.href='/dashboard#chats';toast('Deleted from your workspace.');}});}
   function recordMenu(anchor,p){
     if(!p)return;
     menu(anchor,[
