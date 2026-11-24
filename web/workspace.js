@@ -227,6 +227,8 @@
     project.messages.slice(conversationCount).forEach((message) => {
       const block = document.createElement('div');
       block.className = `message message-${message.role}`;
+      block.setAttribute('role','group');
+      block.setAttribute('aria-label',message.role==='user'?'You':'Draftmango');
       const label = document.createElement('div');
       label.className = 'message-label';
       label.innerHTML = message.role === 'user' ? 'You <span class="avatar">Y</span>' : `<span class="avatar">${icon('mango')}</span>Draftmango`;
@@ -716,7 +718,6 @@
     $('#redo').disabled = busy || !!project.codeDraft || project.cursor >= project.history.length - 1;
     const picker = $('#ai-model-select'); if (picker?.options.length && picker.options[0].value) picker.disabled = busy;
     const name = aiStatus?.name || 'AI';
-    $('#ai-connection').textContent = aiStatus?.configured ? name + (busy?' · Working':' · Ready') : aiStatus ? 'Set up ' + name : 'AI · Connection';
     $$('[data-ai-name]').forEach(element => { element.textContent = name; });
     $$('[data-ai-service]').forEach(element => { element.textContent = aiStatus?.service || 'your configured provider'; });
     $('#ai-key-variable').textContent = aiStatus?.keyVariable || 'OPENAI_API_KEY';
@@ -913,7 +914,6 @@
 
   $('#retry-ai').addEventListener('click', () => { if (lastAIRequest) requestChange(lastAIRequest.text, {mode: lastAIRequest.mode, builderAction:lastAIRequest.builderAction, retry:true}); });
   $('#generate-site').addEventListener('click', () => requestChange(project.prompt, {mode:'create'}));
-  $('#ai-connection').addEventListener('click', () => { $('#ai-dialog').showModal(); checkAI(); });
   $('#check-ai').addEventListener('click', checkAI);
   window.addEventListener('pagehide', () => stopAI(true));
 
@@ -1101,6 +1101,7 @@
   globalThis.DraftmangoEditor = {
     get project(){return project;}, get files(){return workingFiles;}, get selectedFile(){return selectedFile;}, get busy(){return !!aiJob;},
     save, render, applyCode, setPanel, setMobileView, updateDevice, scheduleCanvasSize,
+    showAISetup(){ $('#ai-dialog').showModal(); checkAI(); },
     selectModel(modelId){if(aiJob)return;project.workspace={...project.workspace,build:{...project.workspace?.build,modelId}};aiStatus=null;save();render();checkAI();},
     selectFile(name){if(Object.hasOwn(workingFiles,name)){selectedFile=name;if(!openFiles.includes(name))openFiles.push(name);renderCode();}},
     setFiles(files,label='Updated source files'){if(aiJob)throw new Error('Wait for generation to finish before changing files.');project=M.commitFiles(project,files,label);save();render();},
