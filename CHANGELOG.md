@@ -2,6 +2,10 @@
 
 ## 24 November 2026
 
+### Homepage composer simplification
+- The homepage now shows only the prompt field and send button. Model selection, microphone and attachments remain in the dashboard and workspace.
+- Removed the unused homepage menu/voice controllers and popup styles. Long prompts still carry through sign-in, and the white rounded design remains.
+
 ### Homepage composer
 - Replaced the homepage idea box with the dashboard's white, rounded composer, shared model picker, attachment menu and voice waveform controls. Removed its template-browser shortcut and the hero's “Launch preview · 100 designer-made templates” badge.
 - Full prompts, model selections, project notes and attachments now carry through sign-in into the builder. Files and notes stay in browser storage during sign-in; verification links carry an expiring draft identifier, not file contents. Drafts are cleared after saving the project. Missing or expired browser context pauses the build for review rather than silently dropping attachments.
