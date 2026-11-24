@@ -59,20 +59,24 @@
     let entries = [], rows = [], openEvents, frame = 0, typed = '', typedAt = 0;
     const lifetime = new AbortController();
 
+    const composer = trigger.closest('.ws-composer,.composer') || trigger;
     function position() {
       if (!opened) return;
-      const rect = trigger.getBoundingClientRect(), viewport = window.visualViewport;
+      const rect = trigger.getBoundingClientRect(), anchor = composer.getBoundingClientRect(), viewport = window.visualViewport;
       const left = viewport?.offsetLeft || 0, top = viewport?.offsetTop || 0;
       const width = viewport?.width || innerWidth, height = viewport?.height || innerHeight;
-      const availableBelow = Math.max(0, top + height - rect.bottom - 20), availableAbove = Math.max(0, rect.top - top - 20);
+      const gap = 8, inset = 12, menuWidth = Math.min(304, width - inset * 2);
+      const availableBelow = Math.max(0, top + height - anchor.bottom - gap - inset);
+      const availableAbove = Math.max(0, anchor.top - top - gap - inset);
       if (rect.bottom < top || rect.top > top + height) { close(); return; }
-      const below = availableBelow >= Math.min(menu.scrollHeight, 330) || availableBelow >= availableAbove;
-      const limit = Math.min(380, below ? availableBelow : availableAbove);
-      menu.style.width = Math.min(304, width - 24) + 'px'; menu.style.maxHeight = limit + 'px';
-      menu.style.left = Math.max(left + 12, Math.min(rect.right - Math.min(304, width - 24), left + width - Math.min(304, width - 24) - 12)) + 'px';
-      menu.style.top = (below ? rect.bottom + 8 : rect.top - menu.getBoundingClientRect().height - 8) + 'px';
+      menu.style.width = menuWidth + 'px';
+      const naturalHeight = Math.min(380, menu.scrollHeight + menu.offsetHeight - menu.clientHeight);
+      const below = availableBelow >= naturalHeight || (availableAbove < naturalHeight && availableBelow >= availableAbove);
+      menu.style.maxHeight = Math.min(380, below ? availableBelow : availableAbove) + 'px';
+      menu.style.left = Math.max(left + inset, Math.min(rect.right - menuWidth, left + width - menuWidth - inset)) + 'px';
+      menu.style.top = (below ? anchor.bottom + gap : anchor.top - menu.getBoundingClientRect().height - gap) + 'px';
     }
-    function schedulePosition() { cancelAnimationFrame(frame); frame = requestAnimationFrame(position); }
+    function schedulePosition() { if (!opened) return; cancelAnimationFrame(frame); frame = requestAnimationFrame(position); }
     function highlight(index, scroll = true) {
       active = index;
       rows.forEach((row, i) => row.dataset.active = String(i === index));
@@ -181,9 +185,10 @@
         if (match >= 0) highlight(match);
       }
     };
+    const positionObserver = new ResizeObserver(schedulePosition); positionObserver.observe(composer); positionObserver.observe(trigger);
     const disabledObserver = new MutationObserver(updateTrigger); disabledObserver.observe(select, {attributes:true,attributeFilter:['disabled']});
     const removalObserver = new MutationObserver(() => { if (!element.isConnected) destroy(); }); removalObserver.observe(document.body, {childList:true,subtree:true});
-    function destroy() { if (disposed) return; disposed = true; close(); menu.remove(); disabledObserver.disconnect(); removalObserver.disconnect(); lifetime.abort(); }
+    function destroy() { if (disposed) return; disposed = true; close(); menu.remove(); positionObserver.disconnect(); disabledObserver.disconnect(); removalObserver.disconnect(); lifetime.abort(); }
     window.addEventListener('focus', refresh, {signal:lifetime.signal});
     sync(); refresh();
     return {select, element, sync, refresh, destroy};
