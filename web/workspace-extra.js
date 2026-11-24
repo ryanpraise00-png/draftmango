@@ -27,10 +27,40 @@
     const search=document.createElement('label');search.className='ws-content-search';search.innerHTML='<input type="checkbox" id="search-contents"> Search file contents';$('.file-search').after(search);search.querySelector('input').onchange=()=>$('#file-search').dispatchEvent(new Event('input'));
     $('.asset-note').innerHTML='<span id="source-file-count"></span><button class="icon-button" id="download-explorer" aria-label="Download source ZIP">'+icon('download')+'</button>';$('#download-explorer').onclick=exportZIP;
     const reference=makeButton('reference-file','Reference in chat','file','Reference in chat','text-button');$('.source-toolbar').insertBefore(reference,$('#copy-code'));reference.onclick=async()=>{try{const name=E.selectedFile;const attachments=await W.references([new File([E.files[name]],name,{type:'text/plain'})],(E.project.workspace?.attachments||[]).filter(r=>r.name!==name));E.updateMeta({attachments});}catch(error){W.toast(error.message);return;}const field=$('#chat-input');field.value+=(field.value?'\n':'')+'Please review '+E.selectedFile+'. ';E.setMobileView('editor');field.dispatchEvent(new Event('input',{bubbles:true}));field.focus();};
-    const diagnostics=$('.diagnostic-tabs');const checks=diagnostics.querySelector('[data-diagnostic=checks]');checks.innerHTML=icon('lock')+'Problems <span id="check-count">—</span>';const testsButton=makeButton('tests-tab','Tests','test','Tests','text-button');testsButton.setAttribute('aria-expanded','false');diagnostics.insertBefore(testsButton,$('#close-diagnostics'));const clear=makeButton('clear-output','Clear output','trash');diagnostics.append(clear);clear.onclick=()=>{E.clearConsole();tests=[];paintTests();};
-    const testOutput=document.createElement('div');testOutput.id='test-output';testOutput.hidden=true;$('#diagnostic-content').append(testOutput);testsButton.onclick=()=>{const isOpen=testsButton.getAttribute('aria-expanded')==='true';E.diagnostic('');$('#diagnostic-content').hidden=isOpen;$('#console-output').hidden=true;$('#check-output').hidden=true;testOutput.hidden=isOpen;testsButton.setAttribute('aria-expanded',String(!isOpen));$('#close-diagnostics').hidden=isOpen;paintTests();E.scheduleCanvasSize();};diagnostics.querySelectorAll('[data-diagnostic]').forEach(b=>b.addEventListener('click',()=>{testOutput.hidden=true;testsButton.setAttribute('aria-expanded','false');}));$('#close-diagnostics').addEventListener('click',()=>{testOutput.hidden=true;testsButton.setAttribute('aria-expanded','false');});
-    function paintTests(){testOutput.innerHTML=tests.length?tests.map(t=>`<div class="ws-test-result ${t.ok?'':'fail'}">${icon(t.ok?'check':'close')} ${e(t.name)}${t.error?`<p>${e(t.error)}</p>`:''}</div>`).join(''):`<p class="diagnostic-note">Run .test.js files with the Test button. Import { test, expect, assert } from "draftmango:test". Tests run in an isolated browser sandbox; no DOM or server processes.</p><button class="button" id="add-example-test">Add example test</button>`;testOutput.querySelector('#add-example-test')?.addEventListener('click',()=>{const name='example.test.js';if(Object.hasOwn(E.files,name)){E.selectFile(name);return;}E.setFiles({...E.files,[name]:'import { test, expect } from "draftmango:test";\n\ntest("two plus two", () => {\n  expect(2 + 2).toBe(4);\n});\n'},'Added example test');E.selectFile(name);$('.view-tabs [data-view=code]').click();W.toast('Example test added. Choose Test to run it.');});}
-    async function runTests(){if(testRunning)return;testRunning=true;test.disabled=true;try{E.save();if(testsButton.getAttribute('aria-expanded')!=='true')testsButton.click();testOutput.innerHTML='<p>Running tests…</p>';const names=Object.keys(E.files).filter(n=>/\.test\.[cm]?js$/.test(n));tests=names.length?await F.runTests(E.files):[];paintTests();if(names.length)W.recordActivity('test',E.project.id,tests.every(t=>t.ok));}catch(error){tests=[{name:'Tests could not run',ok:false,error:error.message}];paintTests();}finally{testRunning=false;test.disabled=false;}}
+    const diagnostics=$('.diagnostic-tabs');
+    const checks=diagnostics.querySelector('[data-diagnostic=checks]');
+    checks.innerHTML='<svg class="icon" aria-hidden="true"><use href="#info"/></svg>Problems <span id="check-count">—</span>';
+    const testsButton=makeButton('tests-tab','Tests','check','Tests','text-button');
+    testsButton.dataset.diagnostic='tests';testsButton.setAttribute('aria-expanded','false');testsButton.setAttribute('aria-controls','test-output');
+    diagnostics.insertBefore(testsButton,$('#close-diagnostics'));
+    const clear=makeButton('clear-output','Clear output','trash');diagnostics.insertBefore(clear,$('#close-diagnostics'));
+    clear.onclick=()=>{E.clearConsole();tests=[];paintTests();};
+    const testOutput=document.createElement('div');testOutput.id='test-output';testOutput.hidden=true;testOutput.setAttribute('role','region');testOutput.setAttribute('aria-label','Website tests');$('#diagnostic-content').append(testOutput);
+    testsButton.onclick=()=>E.diagnostic('tests');
+    window.addEventListener('draftmango:show-tests',paintTests);
+    const testFiles=()=>Object.keys(E.files).filter(name=>/\.test\.[cm]?js$/.test(name));
+    function paintTests(){
+      if(testRunning){testOutput.innerHTML='<div class="diagnostic-empty" role="status"><h3>Running your tests</h3><p>Results will appear here as soon as they finish.</p></div>';return;}
+      const count=testFiles().length,failed=tests.filter(result=>!result.ok).length;
+      testOutput.innerHTML=tests.length?
+        `<div class="diagnostic-summary"><h3>${failed?failed+(failed===1?' test needs attention':' tests need attention'):'All tests passed'}</h3><p>${tests.length-failed} of ${tests.length} passed.</p></div><div class="test-results">${tests.map(t=>`<div class="ws-test-result ${t.ok?'is-ok':'fail'}">${icon(t.ok?'check':'close')}<div><strong>${e(t.name)}</strong>${t.error?`<p>${e(t.error)}</p>`:''}</div><span class="test-result-label">${t.ok?'Passed':'Failed'}</span></div>`).join('')}</div><div class="diagnostic-actions"><button type="button" class="button" data-run-tests>Run again</button></div>`:
+        `<div class="diagnostic-empty"><h3>${count?'Ready to test':'No tests yet'}</h3><p>${count?count+(count===1?' test file is ready.':' test files are ready.')+' Run them to check your website.':'Add a small test to check how your website behaves.'}</p><div class="diagnostic-actions">${count?'<button type="button" class="button" data-run-tests>Run tests</button>':'<button type="button" class="button" id="add-example-test">Add example test</button>'}</div></div>`;
+      testOutput.querySelector('[data-run-tests]')?.addEventListener('click',runTests);
+      testOutput.querySelector('#add-example-test')?.addEventListener('click',()=>{
+        const name='example.test.js';if(Object.hasOwn(E.files,name)){E.selectFile(name);return;}
+        E.setFiles({...E.files,[name]:'import { test, expect } from "draftmango:test";\n\ntest("two plus two", () => {\n  expect(2 + 2).toBe(4);\n});\n'},'Added example test');
+        E.selectFile(name);$('.view-tabs [data-view=code]').click();paintTests();W.toast('Example test added. Open Tests and choose Run tests.');
+      });
+    }
+    async function runTests(){
+      if(testRunning)return;testRunning=true;test.disabled=true;clear.disabled=true;
+      try{
+        E.save();if(testsButton.getAttribute('aria-expanded')!=='true')testsButton.click();paintTests();
+        const names=testFiles();tests=names.length?await F.runTests(E.files):[];
+        if(names.length)W.recordActivity('test',E.project.id,tests.every(t=>t.ok));
+      }catch(error){tests=[{name:'Tests could not run',ok:false,error:error.message}];}
+      finally{testRunning=false;test.disabled=false;clear.disabled=false;paintTests();}
+    }
     const zoom=$('#zoom-select'),zoomButton=makeButton('preview-zoom','Preview zoom: 100%','chevron','100%','preview-zoom-button');
     zoom.hidden=true;$('.zoom-control').after(zoomButton);
     zoomButton.setAttribute('aria-haspopup','menu');zoomButton.setAttribute('aria-expanded','false');

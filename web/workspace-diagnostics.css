@@ -1,0 +1,67 @@
+/* Calm workspace diagnostics, with severity colours reserved for real results. */
+body.workspace-clone[data-screen=builder] .diagnostics{background:var(--ws-panel);color:var(--ws-ink);border-top:1px solid var(--ws-line)}
+body.workspace-clone[data-screen=builder] .diagnostic-tabs{display:flex;align-items:center;gap:4px;height:54px;min-height:54px;padding:8px 12px;border:0;background:var(--ws-panel);color:var(--ws-muted)}
+body.workspace-clone[data-screen=builder] .diagnostic-tabs>button{display:inline-flex;align-items:center;justify-content:center;gap:7px;align-self:center;min-height:36px;height:36px;padding:7px 12px;border:0;border-radius:999px;background:transparent;color:var(--ws-muted);font-size:14px;font-weight:450;line-height:1.4;white-space:nowrap;box-shadow:none}
+body.workspace-clone[data-screen=builder] .diagnostic-tabs>button:hover{color:var(--ws-ink);background:color-mix(in srgb,var(--ws-ink) 3%,var(--ws-panel))}
+body.workspace-clone[data-screen=builder] .diagnostic-tabs>button[aria-expanded=true]{background:color-mix(in srgb,var(--ws-ink) 5%,var(--ws-panel));color:var(--ws-ink);border:0}
+body.workspace-clone[data-screen=builder] .diagnostic-tabs>button .icon{width:16px;height:16px;flex-shrink:0;color:inherit}
+body.workspace-clone[data-screen=builder] .diagnostic-tabs>button>span{padding:0;border-radius:0;background:none;color:inherit;font-size:inherit}
+body.workspace-clone[data-screen=builder] .diagnostic-tabs :is(#console-count,#check-count){display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:color-mix(in srgb,var(--ws-ink) 5%,var(--ws-panel));color:var(--ws-muted);font-size:12px;font-variant-numeric:tabular-nums}
+body.workspace-clone[data-screen=builder] .diagnostic-tabs #check-count.has-issues{color:#8a510f;background:#fff3df}
+body.workspace-clone[data-screen=builder] .diagnostic-tabs .icon-button{width:34px;height:34px;min-height:34px;padding:0;flex:0 0 34px;border-radius:50%}
+body.workspace-clone[data-screen=builder] .diagnostic-tabs #clear-output{margin-left:auto}
+body.workspace-clone[data-screen=builder] .diagnostic-tabs #close-diagnostics{margin-left:0}
+body.workspace-clone[data-screen=builder] .diagnostics:has(.diagnostic-content[hidden]) #clear-output{display:none}
+body.workspace-clone[data-screen=builder] .diagnostic-tabs button:focus-visible{outline:2px solid var(--ws-accent);outline-offset:2px}
+body.workspace-clone[data-screen=builder] .diagnostic-content{height:220px;max-height:36dvh;min-height:110px;padding:16px;border-top:1px solid color-mix(in srgb,var(--ws-line) 65%,var(--ws-panel));background:var(--ws-panel);color:var(--ws-ink);font-size:14px;line-height:1.65;scrollbar-color:var(--ws-line) transparent}
+body.workspace-clone[data-screen=builder] .diagnostic-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:150px;padding:12px 20px;text-align:center}
+body.workspace-clone[data-screen=builder] :is(.diagnostic-empty,.diagnostic-summary) h3{margin:0;color:var(--ws-ink);font-size:15px;line-height:1.5;font-weight:550;letter-spacing:-.15px}
+body.workspace-clone[data-screen=builder] :is(.diagnostic-empty,.diagnostic-summary) p{max-width:440px;margin:7px 0 0;color:var(--ws-muted);font-size:14px;line-height:1.7}
+body.workspace-clone[data-screen=builder] .diagnostic-summary{margin-bottom:16px}
+body.workspace-clone[data-screen=builder] .diagnostic-actions{display:flex;align-items:center;gap:8px;margin-top:16px}
+body.workspace-clone[data-screen=builder] .diagnostic-actions .button{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:8px 16px;border:1px solid var(--ws-line);border-radius:999px;background:var(--ws-panel);color:var(--ws-ink);font-size:14px;font-weight:500;line-height:1.5;box-shadow:none}
+body.workspace-clone[data-screen=builder] .diagnostic-actions .button:hover{background:color-mix(in srgb,var(--ws-ink) 3%,var(--ws-panel))}
+body.workspace-clone[data-screen=builder] .diagnostic-actions .button:focus-visible{outline:2px solid var(--ws-accent);outline-offset:3px}
+body.workspace-clone[data-screen=builder] .console-line{display:flex;align-items:flex-start;gap:12px;padding:10px 12px;margin-bottom:6px;border:0;border-radius:12px;background:color-mix(in srgb,var(--ws-ink) 2%,var(--ws-panel));color:var(--ws-ink);font-size:13px;line-height:1.7;overflow-wrap:anywhere;white-space:normal}
+body.workspace-clone[data-screen=builder] .console-level{flex:0 0 54px;color:var(--ws-muted);font-family:Inter,system-ui,sans-serif;font-size:12px;font-weight:500}
+body.workspace-clone[data-screen=builder] .console-message{min-width:0;white-space:pre-wrap}
+body.workspace-clone[data-screen=builder] .console-line[data-level=error]{color:#a33728;background:#fff4f1}
+body.workspace-clone[data-screen=builder] .console-line[data-level=warn]{color:#8a510f;background:#fff8eb}
+body.workspace-clone[data-screen=builder] .console-line:is([data-level=error],[data-level=warn]) .console-level{color:inherit}
+body.workspace-clone[data-screen=builder] .check-row{display:flex;align-items:center;gap:10px;padding:10px 12px;margin-bottom:6px;border:1px solid color-mix(in srgb,var(--ws-line) 65%,var(--ws-panel));border-radius:12px;background:var(--ws-panel);color:var(--ws-ink);font-size:14px;line-height:1.5}
+body.workspace-clone[data-screen=builder] .check-row .icon{width:16px;height:16px;flex:0 0 16px}
+body.workspace-clone[data-screen=builder] .check-row.is-ok .icon{color:#39735a}
+body.workspace-clone[data-screen=builder] .check-row.is-warning{color:#8a510f;background:#fff8eb;border-color:#f1dfc0}
+body.workspace-clone[data-screen=builder] .check-row>span{min-width:0;overflow-wrap:anywhere}
+body.workspace-clone[data-screen=builder] .check-row small{margin-left:auto;padding-left:8px;max-width:45%;color:var(--ws-muted);font-size:12px;font-family:var(--mono);text-align:right;overflow-wrap:anywhere}
+body.workspace-clone[data-screen=builder] .ws-test-result{display:flex;align-items:flex-start;gap:10px;padding:12px;margin-bottom:7px;border:1px solid var(--ws-line);border-radius:14px;background:var(--ws-panel);color:var(--ws-ink);font-size:14px}
+body.workspace-clone[data-screen=builder] .ws-test-result>.icon{width:16px;height:16px;flex:0 0 16px;margin-top:3px;color:#39735a}
+body.workspace-clone[data-screen=builder] .ws-test-result>div{flex:1;min-width:0;overflow-wrap:anywhere}
+body.workspace-clone[data-screen=builder] .ws-test-result strong{font-size:14px;font-weight:500}
+body.workspace-clone[data-screen=builder] .ws-test-result p{margin:5px 0 0;font:13px/1.7 var(--mono);white-space:pre-wrap}
+body.workspace-clone[data-screen=builder] .test-result-label{padding:2px 8px;border-radius:999px;background:#f0f7f3;color:#39735a;font-size:12px;font-weight:500}
+body.workspace-clone[data-screen=builder] .ws-test-result.fail{border-color:#f0d8d2;background:#fff8f6}
+body.workspace-clone[data-screen=builder] .ws-test-result.fail :is(.icon,p,.test-result-label){color:#a33728}
+body.workspace-clone[data-screen=builder] .ws-test-result.fail .test-result-label{background:#fbece7}
+body.workspace-clone[data-screen=builder] .workbench-status{height:36px;min-height:36px;padding:0 16px;gap:10px;background:var(--ws-panel);color:var(--ws-muted);border-top:1px solid color-mix(in srgb,var(--ws-line) 65%,var(--ws-panel));font-size:12px}
+body.workspace-clone[data-screen=builder] .workbench-status :is(#preview-status,.save-status){font-size:12px;min-width:0;overflow:hidden;text-overflow:ellipsis}
+body.workspace-clone[data-screen=builder] .undo-actions .icon-button{width:28px;height:28px;padding:5px;border-radius:50%;color:var(--ws-muted)}
+body.workspace-clone[data-screen=builder] .undo-actions .icon-button:hover:not(:disabled){background:color-mix(in srgb,var(--ws-ink) 4%,var(--ws-panel));color:var(--ws-ink)}
+body.workspace-clone[data-screen=builder] .undo-actions .icon-button:disabled{opacity:.35}
+@media(max-width:760px){
+ body.workspace-clone[data-screen=builder] .diagnostic-tabs{gap:3px;padding:8px;height:52px;min-height:52px}
+ body.workspace-clone[data-screen=builder] .diagnostic-tabs>button{gap:5px;padding:7px 10px;font-size:13px}
+ body.workspace-clone[data-screen=builder] .diagnostic-tabs>button>.icon{display:none}
+ body.workspace-clone[data-screen=builder] .diagnostic-tabs>.icon-button>.icon{display:block}
+ body.workspace-clone[data-screen=builder] .diagnostic-tabs .icon-button{width:30px;flex-basis:30px;padding:0}
+ body.workspace-clone[data-screen=builder] .diagnostic-tabs :is(#console-count,#check-count){min-width:18px;height:18px;padding-inline:4px;font-size:12px}
+ body.workspace-clone[data-screen=builder] .diagnostic-content{padding:14px 12px;height:220px;max-height:38dvh}
+ body.workspace-clone[data-screen=builder] .diagnostic-empty{min-height:140px;padding:10px 12px}
+ body.workspace-clone[data-screen=builder] .workbench-status{padding-inline:12px;gap:8px}
+}
+@media(max-width:360px){body.workspace-clone[data-screen=builder] .diagnostic-tabs>button{padding-inline:7px}body.workspace-clone[data-screen=builder] .diagnostic-tabs :is(#console-count,#check-count){display:none}}
+
+body.workspace-clone[data-screen=builder] .diagnostic-tabs :is(#clear-output,#close-diagnostics){color:var(--ws-muted)}
+body.workspace-clone[data-screen=builder] .diagnostic-tabs :is(#clear-output,#close-diagnostics):hover{color:var(--ws-ink)}
+body.workspace-clone[data-screen=builder] .diagnostics:has([data-diagnostic=checks][aria-expanded=true]) #clear-output{display:none}
+body.workspace-clone[data-screen=builder] .diagnostics:has([data-diagnostic=checks][aria-expanded=true]) #close-diagnostics{margin-left:auto}

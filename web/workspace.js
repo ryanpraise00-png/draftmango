@@ -404,12 +404,14 @@
   function renderConsole() {
     const output = $('#console-output');
     output.replaceChildren();
-    if (!consoleLines.length) output.textContent = 'No console messages yet. Run your draft to see its output.';
+    if (!consoleLines.length) output.innerHTML = '<div class="diagnostic-empty"><h3>No console messages</h3><p>Messages from your website will appear here when you run the preview.</p></div>';
     consoleLines.forEach(entry => {
       const line = document.createElement('div');
       line.className = 'console-line';
       line.dataset.level = entry.level;
-      line.textContent = entry.text;
+      const level = document.createElement('span'); level.className = 'console-level'; level.textContent = {error:'Error',warn:'Warning',info:'Info',log:'Log'}[entry.level] || 'Log';
+      const message = document.createElement('span'); message.className = 'console-message'; message.textContent = entry.text;
+      line.append(level, message);
       output.append(line);
     });
     $('#console-count').textContent = consoleLines.length;
@@ -567,17 +569,22 @@
   });
   function renderChecks() {
     const output = $('#check-output');
-    output.innerHTML = '<p class="diagnostic-note">Basic source checks. Use Console for runtime errors and Preview to check the design.</p>';
     const results = C.checkFiles(workingFiles);
+    const warnings = results.filter(result => !result.ok).length;
+    const reactFiles = P.isReact(workingFiles);
+    const checkDescription = reactFiles ? 'Checks required React files. Run preview to check compilation.' : 'Checks for missing files, links and page structure. Runtime errors appear in Console.';
+    const reactLabels = { 'src/App.jsx': 'App component', 'src/main.jsx': 'Entry point', 'src/styles.css': 'Stylesheet' };
+    output.innerHTML = `<div class="diagnostic-summary"><h3>${warnings ? warnings + (warnings === 1 ? ' item needs attention' : ' items need attention') : 'Source checks passed'}</h3><p>${checkDescription}</p></div>`;
     results.forEach(result => {
       const row = document.createElement('div');
-      row.className = 'check-row' + (result.ok ? '' : ' is-warning');
+      row.className = 'check-row' + (result.ok ? ' is-ok' : ' is-warning');
       row.innerHTML = icon(result.ok ? 'check' : 'info');
-      const label = document.createElement('span'); label.textContent = result.label;
+      const label = document.createElement('span'); label.textContent = reactFiles && reactLabels[result.file] ? reactLabels[result.file] + (result.ok ? ' is present' : ' is missing') : result.label;
       const file = document.createElement('small'); file.textContent = result.file;
       row.append(label, file); output.append(row);
     });
-    $('#check-count').textContent = results.filter(r => r.ok).length + '/' + results.length;
+    $('#check-count').textContent = warnings;
+    $('#check-count').classList.toggle('has-issues', warnings > 0);
   }
   function setDiagnostic(next) {
     diagnostic = diagnostic === next ? '' : next;
@@ -585,12 +592,14 @@
     $('#close-diagnostics').hidden = !diagnostic;
     $('#console-output').hidden = diagnostic !== 'console';
     $('#check-output').hidden = diagnostic !== 'checks';
+    const testOutput = $('#test-output'); if (testOutput) testOutput.hidden = diagnostic !== 'tests';
     $$('[data-diagnostic]').forEach(button => button.setAttribute('aria-expanded', String(button.dataset.diagnostic === diagnostic)));
     if (diagnostic === 'checks') renderChecks();
+    if (diagnostic === 'tests') window.dispatchEvent(new Event('draftmango:show-tests'));
     scheduleCanvasSize();
   }
   $$('[data-diagnostic]').forEach(button => button.addEventListener('click', () => setDiagnostic(button.dataset.diagnostic)));
-  $('#close-diagnostics').addEventListener('click', () => setDiagnostic(''));
+  $('#close-diagnostics').addEventListener('click', () => { const active = $('[data-diagnostic][aria-expanded="true"]'); setDiagnostic(''); active?.focus({preventScroll:true}); });
   function renderHistory() {
     const list = $('#history-list');
     list.replaceChildren();
