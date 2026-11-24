@@ -4,7 +4,7 @@ import {useEffect, useState} from 'react';
 // Interop boundary while the established editor/account controllers are migrated
 // to hooks. Each route has a separate document layout, so navigation tears them down.
 const loaded = new Map();
-function load(src) {
+export function loadController(src) {
   if (!loaded.has(src)) loaded.set(src, new Promise((resolve, reject) => {
     const script = document.createElement('script');
     script.src = src;
@@ -20,7 +20,7 @@ export default function PageControllers({scripts}) {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      for (const src of JSON.parse(signature)) { if (cancelled) return; await load(src); }
+      for (const src of JSON.parse(signature)) { if (cancelled) return; await loadController(src); }
     })().catch(error => { if (!cancelled) setError(error.message); });
     return () => { cancelled = true; };
   }, [signature]);

@@ -44,7 +44,7 @@
   function showFeedback(text, error = false) { feedback.textContent = text; feedback.hidden = false; feedback.classList.toggle('is-error', error); feedback.focus({ preventScroll: true }); }
   function intent() {
     const safe = new URLSearchParams();
-    for (const key of ['idea', 'template', 'color', 'project', 'plan', 'billing']) if (params.has(key)) safe.set(key, params.get(key).slice(0, 1200));
+    for (const key of ['idea', 'template', 'color', 'project', 'plan', 'billing', 'draft']) if (params.has(key)) safe.set(key, params.get(key).slice(0, 1200));
     return safe;
   }
   function destination() {

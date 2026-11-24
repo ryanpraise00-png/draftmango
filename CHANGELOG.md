@@ -1,5 +1,13 @@
 # Draftmango changelog
 
+## 24 November 2026
+
+### Homepage composer
+- Replaced the homepage idea box with the dashboard's white, rounded composer, shared model picker, attachment menu and voice waveform controls. Removed its template-browser shortcut and the hero's “Launch preview · 100 designer-made templates” badge.
+- Full prompts, model selections, project notes and attachments now carry through sign-in into the builder. Files and notes stay in browser storage during sign-in; verification links carry an expiring draft identifier, not file contents. Drafts are cleared after saving the project. Missing or expired browser context pauses the build for review rather than silently dropping attachments.
+- Reused the workspace menu and popup styles, with responsive controls and no textarea resizing. The rest of the homepage and purchased template source are unchanged.
+- Validation: 48 focused browser-controller and workspace tests and 8 account/email tests passed, syntax checks and Next.js production build passed. Desktop/mobile visual review completed locally; this update is not deployed yet.
+
 ## 22 November 2026
 
 ### Remote template access for product backends

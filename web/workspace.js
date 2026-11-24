@@ -38,7 +38,9 @@
     if (preference.device !== 'auto') device = preference.device;
   } catch { /* Screen size remains the default when storage is unavailable. */ }
   const starting = new URLSearchParams(location.hash.slice(1));
-  const initialIdea = starting.get('idea');
+  const homeIntent = globalThis.DraftmangoComposerIntent?.read(starting.get('draft'),starting.get('idea'));
+  const initialIdea = homeIntent?.idea || starting.get('idea');
+  const missingHomeIntent = starting.has('draft') && !homeIntent;
   const requestedProject = A.remapped[starting.get('project')] || starting.get('project');
   if (!initialIdea && requestedProject) {
     const selected = D.selectProject(library, requestedProject);
@@ -51,9 +53,11 @@
     const selectedTemplateId = starting.get('template');
     next.files=W.emptyFiles();next.history[0].files=structuredClone(next.files);
     next.workspace={...next.workspace,builder:B.initial(),...(selectedTemplateId && !['blank','auto'].includes(selectedTemplateId)?{templateId:selectedTemplateId}:{})};
+    if(homeIntent)next.workspace={...next.workspace,kind:'chat',queuedPrompt:homeIntent.idea,attachments:homeIntent.references,notes:homeIntent.notes,build:{level:'standard',modelId:homeIntent.modelId}};
     next.ai={state:'pending'};
     next.creationPreferences=[];
     next.messages=[{role:'user',text:initialIdea}];
+    if(missingHomeIntent)next.messages.push({role:'assistant',text:'Your saved homepage context is unavailable in this browser or has expired. I have paused the build. Return to the browser where you started, or review the prompt below, reattach your files and notes, and choose your model before sending it again.'});
     library = library || { schema: 1, activeId: next.id, projects: [] };
     library.projects.push(next);
     library.activeId = next.id;
@@ -92,6 +96,7 @@
     const indicator = $('#save-status');
     try {
       A.saveLibrary(library, project.id);
+      if(homeIntent)globalThis.DraftmangoComposerIntent.remove(starting.get('draft'));
       const parent = W.get(project.workspace?.parentId);
       if (parent && project.files && sharedSource !== JSON.stringify(project.files)) {
         if (JSON.stringify(parent.files) === sharedSource) {
@@ -1089,10 +1094,11 @@
   new ResizeObserver(()=>{paintLineNumbers();syncCodeScroll();}).observe($('#source-scroll'));
   if(starting.get('view')) document.querySelector('.view-tabs [data-view="'+(['code','split'].includes(starting.get('view'))?starting.get('view'):'preview')+'"]').click();
   if(starting.get('file')) globalThis.DraftmangoEditor.selectFile(starting.get('file'));
+  if(missingHomeIntent){$('#chat-input').value=initialIdea||'';$('#chat-input').dispatchEvent(new Event('input',{bubbles:true}));}
   const queued = project.workspace?.queuedPrompt;
   const incomingProjectId = project.id;
   checkAI().then(status => {
-    if (!status?.configured || project.id !== incomingProjectId || aiJob || lastAIRequest) return;
+    if (missingHomeIntent || !status?.configured || project.id !== incomingProjectId || aiJob || lastAIRequest) return;
     if (queued) {project.workspace={...project.workspace,queuedPrompt:''};save();requestChange(queued);}
     else if (initialIdea && project.ai?.state === 'pending') requestChange(project.prompt, {mode:'create'});
   });

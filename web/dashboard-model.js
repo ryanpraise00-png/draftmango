@@ -14,17 +14,18 @@
       device: ['auto', 'desktop', 'tablet', 'mobile'].includes(value.device) ? value.device : 'auto'
     };
   }
-  function builderDestination(idea, template = 'auto', color = 'auto') {
+  function builderDestination(idea, template = 'auto', color = 'auto', draft = '') {
     const prompt = String(idea || '').trim().slice(0, 1200);
     if (!prompt) return '/dashboard';
     const params = new URLSearchParams({ idea: prompt });
     if (typeof template === 'string' && /^[a-z][a-z0-9-]{0,70}$/.test(template) && !['auto','cafe','portfolio','store','custom'].includes(template)) params.set('template', template);
     if (['warm', 'citrus', 'sage', 'rose', 'ink'].includes(color)) params.set('color', color);
+    if (typeof draft === 'string' && /^[a-f0-9-]{36}$/.test(draft)) params.set('draft',draft);
     return '/workspace#' + params.toString();
   }
   function accountDestination(params) {
     if (!params.get('project') && !params.get('idea') && ['basic','pro'].includes(params.get('plan'))) return '/dashboard#settings/billing';
-    return params.get('project') && !params.get('idea') ? projectDestination(params.get('project')) : builderDestination(params.get('idea'), params.get('template'), params.get('color'));
+    return params.get('project') && !params.get('idea') ? projectDestination(params.get('project')) : builderDestination(params.get('idea'), params.get('template'), params.get('color'), params.get('draft'));
   }
   function projectDestination(id) {
     return '/workspace#' + new URLSearchParams({ project: id }).toString();

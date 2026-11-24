@@ -26,10 +26,6 @@ function Hero() {
     <Contours className="custom-hero-contours" />
     <div className="container">
       <div className="grid justify-items-center max-w-240 mx-auto text-center">
-        <p className="custom-hero-chip inline-flex items-center gap-2.5 py-[0.4375rem] pr-4 pl-3 text-[0.9375rem] text-soft rounded-pill" data-anim="fade-up">
-          <span className="custom-hero-stars inline-flex gap-[0.0625rem] text-[0.875rem]" aria-hidden="true"><i className="ph-fill ph-sparkle"></i></span>
-          <span><strong className="font-semibold text-text">Launch preview</strong><span className="mx-2 text-(--custom-meta)" aria-hidden="true">·</span>100 designer-made templates</span>
-        </p>
         <h1 id="au-hero-title" className="m-0 text-[clamp(3rem,1.2rem_+_6.4vw,6rem)] font-bold leading-none tracking-[-0.045em] text-balance" data-anim="fade-up" data-anim-delay="100" data-anim-duration="1200">
           Your next website, <span className={muted}>made</span>{" "}
           <span className="custom-hero-word relative inline-block">yours.<svg className="custom-hero-underline absolute left-[0.04em] top-full w-[78%] h-auto mt-[-0.02em] overflow-visible svg-draw" data-anim="" viewBox="0 0 240 28" fill="none" aria-hidden="true">

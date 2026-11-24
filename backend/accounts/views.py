@@ -120,9 +120,11 @@ def email_intent(data):
     if not isinstance(supplied, dict):
         return {}
     result = {}
-    for key, limit in [('idea', 1200), ('project', 80), ('template', 71), ('color', 12), ('plan', 8), ('billing', 8)]:
+    for key, limit in [('idea', 1200), ('project', 80), ('template', 71), ('color', 12), ('plan', 8), ('billing', 8), ('draft', 36)]:
         value = supplied.get(key)
         if not isinstance(value, str) or not value.strip() or len(value) > limit:
+            continue
+        if key == 'draft' and not re.fullmatch(r'[a-f0-9-]{36}', value):
             continue
         if key == 'template' and not re.fullmatch(r'[a-z][a-z0-9-]{0,70}', value):
             continue

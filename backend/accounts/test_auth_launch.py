@@ -19,7 +19,7 @@ class LaunchAuthTests(TestCase):
     secret = helpers.AccountTests.secret
 
     def test_signup_email_preserves_only_internal_intent_and_prefills_login(self):
-        response = self.send(self.client, '/api/accounts/signup', {'email': 'OWNER@EXAMPLE.TEST', 'password': self.secret, 'intent': {'idea': 'My flower shop', 'template': 'cafe-1', 'plan': 'basic', 'billing': 'yearly', 'next': 'https://evil.test', 'token': 'evil'}})
+        response = self.send(self.client, '/api/accounts/signup', {'email': 'OWNER@EXAMPLE.TEST', 'password': self.secret, 'intent': {'idea': 'My flower shop', 'template': 'cafe-1', 'plan': 'basic', 'billing': 'yearly', 'draft': '12345678-1234-1234-1234-123456789012', 'references': 'private file contents', 'next': 'https://evil.test', 'token': 'evil'}})
         self.assertEqual(response.status_code, 201)
         data = self.link()
         self.assertEqual(data['idea'], 'My flower shop')
@@ -27,6 +27,8 @@ class LaunchAuthTests(TestCase):
         self.assertEqual(data['mode'], 'login')
         self.assertEqual(data['email'], 'owner@example.test')
         self.assertEqual(data['plan'], 'basic')
+        self.assertEqual(data['draft'], '12345678-1234-1234-1234-123456789012')
+        self.assertNotIn('private file contents', mail.outbox[-1].body)
         self.assertNotIn('next', data)
         self.assertNotEqual(data['token'], 'evil')
         self.assertIn('/auth#', mail.outbox[-1].body)
@@ -90,4 +92,4 @@ class LaunchAuthTests(TestCase):
 
     def test_email_intent_drops_invalid_and_oversized_values(self):
         self.assertEqual(email_intent({'intent': 'bad'}), {})
-        self.assertEqual(email_intent({'intent': {'template': '../../secrets', 'plan': 'enterprise', 'billing': 'daily', 'color': 'javascript:', 'idea': 'x'*1201, 'project': 42, 'next': '//evil'}}), {})
+        self.assertEqual(email_intent({'intent': {'template': '../../secrets', 'plan': 'enterprise', 'billing': 'daily', 'color': 'javascript:', 'idea': 'x'*1201, 'project': 42, 'next': '//evil', 'draft': '../../secrets'}}), {})

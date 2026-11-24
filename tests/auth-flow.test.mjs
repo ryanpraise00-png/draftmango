@@ -14,18 +14,18 @@ async function page(hash='',request=async()=>({}),options={}){
  return {$,events,calls,redirects,location,submit:()=>$('#auth-form').events.submit({preventDefault(){}}),click:s=>$(s).events.click()};
 }
 test('signup carries template intent and offers resend before signing in',async()=>{
- const p=await page('mode=signup&idea=Flowers&template=cafe-1',async()=>({confirmationRequired:true,emailDelivery:'smtp'}));
+ const p=await page('mode=signup&idea=Flowers&template=cafe-1&draft=12345678-1234-1234-1234-123456789012',async()=>({confirmationRequired:true,emailDelivery:'smtp'}));
  p.$('#email').value='owner@example.test';await p.submit();p.$('#password').value='Secret-phrase!29';await p.submit();
- assert.equal(p.calls[0].path,'/api/accounts/signup');assert.equal(p.calls[0].body.intent.template,'cafe-1');
+ assert.equal(p.calls[0].path,'/api/accounts/signup');assert.equal(p.calls[0].body.intent.template,'cafe-1');assert.equal(p.calls[0].body.intent.draft,'12345678-1234-1234-1234-123456789012');
  assert.match(p.$('#auth-feedback').textContent,/Check your inbox/);assert.match(p.location.hash,/mode=login/);assert.equal(p.$('#password').value,'');
  const resend=p.$('#auth-feedback').children.find(n=>n.textContent==='Resend confirmation email');assert.ok(resend);assert.equal(resend.disabled,false);
  await resend.onclick();assert.equal(p.calls[1].path,'/api/accounts/resend-verification');assert.equal(p.calls[1].body.intent.idea,'Flowers');
 });
 test('verification opened in a fresh tab retains destination, strips token, and prefills email',async()=>{
- const p=await page('flow=verify&uid=id&token=single-use&email=owner%40example.test&idea=Flowers&template=cafe-1',async()=>({verified:true}));
+ const p=await page('flow=verify&uid=id&token=single-use&email=owner%40example.test&idea=Flowers&template=cafe-1&draft=12345678-1234-1234-1234-123456789012',async()=>({verified:true}));
  assert.equal(p.calls[0].path,'/api/accounts/verify');assert.equal(p.calls[0].body.token,'single-use');assert.doesNotMatch(p.location.hash,/token=|uid=|flow=/);
  assert.equal(p.$('#email').value,'owner@example.test');await p.submit();p.$('#password').value='Secret-phrase!29';await p.submit();
- assert.match(p.redirects[0],/^\/workspace#idea=Flowers&template=cafe-1/);
+ assert.match(p.redirects[0],/^\/workspace#idea=Flowers&template=cafe-1&draft=12345678-1234-1234-1234-123456789012/);
 });
 test('password reset returns to login and preserves the billing destination',async()=>{
  const p=await page('flow=recovery&uid=id&token=reset-secret&email=owner%40example.test&plan=pro&billing=yearly',async()=>({updated:true}));

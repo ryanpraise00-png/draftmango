@@ -191,7 +191,7 @@
     function destroy() { if (disposed) return; disposed = true; close(); menu.remove(); positionObserver.disconnect(); disabledObserver.disconnect(); removalObserver.disconnect(); lifetime.abort(); }
     window.addEventListener('focus', refresh, {signal:lifetime.signal});
     sync(); refresh();
-    return {select, element, sync, refresh, destroy};
+    return {select, element, sync, refresh, close, destroy};
   }
 
   globalThis.DraftmangoAI = {readResponse, mountModelPicker};
