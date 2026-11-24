@@ -171,10 +171,25 @@ body.workspace-clone[data-screen] .ws-voice-button{display:inline-flex;align-ite
 body.workspace-clone[data-screen] .ws-voice-button .icon{width:19px;height:19px;pointer-events:none}
 body.workspace-clone[data-screen] .ws-voice-button:hover{background:var(--ws-bg);color:var(--ws-ink)}
 body.workspace-clone[data-screen] .ws-voice-button:focus-visible{outline:2px solid var(--ws-orange);outline-offset:3px}
-body.workspace-clone[data-screen] .ws-voice-button.is-listening{background:color-mix(in oklch,var(--ws-orange) 12%,var(--ws-panel));color:var(--ws-accent);box-shadow:0 0 0 3px color-mix(in oklch,var(--ws-orange) 10%,transparent);animation:voice-listening 1.6s ease-in-out infinite}
+body.workspace-clone[data-screen] .ws-voice-button.is-listening{background:color-mix(in oklch,var(--ws-orange) 12%,var(--ws-panel));color:var(--ws-accent);box-shadow:0 0 0 3px color-mix(in oklch,var(--ws-orange) 10%,transparent)}
 body.workspace-clone[data-screen] .ws-voice-button:disabled{opacity:.45;cursor:not-allowed}
 body.workspace-clone[data-screen] .ws-voice-status{font-size:12px;line-height:1.6;text-align:left;color:var(--ws-muted);margin:10px 6px 2px;max-width:100%;overflow-wrap:anywhere}
 body.workspace-clone[data-screen] .ws-voice-status[hidden]{display:none}
 body.workspace-clone[data-screen=dashboard] .ws-mobile-header-spacer{width:36px;flex:0 0 36px}
-@keyframes voice-listening{50%{box-shadow:0 0 0 5px color-mix(in oklch,var(--ws-orange) 5%,transparent)}}
 @media(prefers-reduced-motion:reduce){body.workspace-clone[data-screen] .ws-voice-button{animation:none;transition:none}}
+
+/* Recording takes the model pill's place, keeping the composer a consistent height. */
+body.workspace-clone[data-screen] .is-dictating .ws-model-picker,
+body.workspace-clone[data-screen=dashboard] .ws-home .is-dictating .ws-model-picker{display:none}
+body.workspace-clone[data-screen] .ws-voice-visual{display:flex;align-items:center;gap:12px;height:38px;flex:1;min-width:0;max-width:240px;padding:0 12px;border-radius:999px;background:var(--ws-bg);color:var(--ws-accent)}
+body.workspace-clone[data-screen=dashboard] .ws-home .ws-voice-visual{height:42px;flex:0 1 180px;max-width:210px}
+body.workspace-clone[data-screen] .ws-voice-visual[hidden]{display:none}
+body.workspace-clone[data-screen] .ws-voice-wave{height:26px;display:flex;align-items:center;justify-content:space-between;gap:3px;flex:1;min-width:0;overflow:hidden}
+body.workspace-clone[data-screen] .ws-voice-wave i{display:block;flex:1 1 3px;min-width:2px;max-width:3px;height:2px;border-radius:999px;background:currentColor;transition:height 75ms linear}
+body.workspace-clone[data-screen] .ws-voice-time{font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;letter-spacing:.01em;color:var(--ws-muted);flex-shrink:0}
+body.workspace-clone[data-screen] .ws-voice-visual.is-waiting{opacity:.55}
+body.workspace-clone[data-screen] .ws-voice-button.is-listening:disabled{opacity:.8;cursor:wait}
+body.workspace-clone[data-screen] .ws-voice-status:not(.is-visible){position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap}
+body.workspace-clone[data-screen] .ws-voice-spinner{animation:voice-spin .9s linear infinite}
+@keyframes voice-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){body.workspace-clone[data-screen] .ws-voice-spinner{animation:none}body.workspace-clone[data-screen] .ws-voice-wave i{transition:none}}

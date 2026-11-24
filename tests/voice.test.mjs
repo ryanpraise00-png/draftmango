@@ -4,17 +4,19 @@ import '../web/workspace-voice.js';
 
 class Element extends EventTarget {
   value = ''; maxLength = 12000; isConnected = true; disabled = false;
+  style = {};
   attrs = new Map(); classes = new Set(); children = [];
   classList = {
     add: name => this.classes.add(name),
     toggle: (name, enabled) => enabled ? this.classes.add(name) : this.classes.delete(name)
   };
   setAttribute(name, value) { this.attrs.set(name, value); }
-  append(child) { this.children.push(child); }
+  append(...children) { this.children.push(...children); }
+  before(child) { this.beforeElement = child; }
   remove() { this.isConnected = false; }
 }
 
-function setup(t, {initial = '', supported = true, length = 12000} = {}) {
+function setup(t, {initial = '', supported = true, length = 12000, AudioContext = null} = {}) {
   const win = new EventTarget();
   win.Event = Event; win.navigator = {language:'en-US'};
   const doc = new EventTarget();
@@ -36,10 +38,12 @@ function setup(t, {initial = '', supported = true, length = 12000} = {}) {
   let busy = false, project = 'first', inputEvents = 0, submitted = 0;
   field.addEventListener('input', () => inputEvents++);
   const voice = globalThis.DraftmangoVoice.mount({button, field, form,
-    Recognition:supported ? Recognition : null, disabled:() => busy, context:() => project});
+    Recognition:supported ? Recognition : null, AudioContext, disabled:() => busy, context:() => project});
   form.addEventListener('submit', () => submitted++);
   t.after(() => voice.dispose());
   return {field, button, form, win, doc, voice, instances,
+    get visual() { return button.beforeElement; },
+    get announcement() { return form.children[0]; },
     get status() { return form.children[0].textContent; },
     get inputEvents() { return inputEvents; }, get submitted() { return submitted; },
     click() { button.dispatchEvent(new Event('click')); },
@@ -145,4 +149,96 @@ test('stop times out safely if the speech service never emits an end event', t =
   assert.equal(r.aborts, 1);
   assert.equal(ui.button.attrs.get('aria-pressed'), 'false');
   assert.equal(ui.field.value, 'Keep the recognised words');
+});
+
+test('recording uses a waveform and stop icon with only accessible status text; errors remain visible', t => {
+  const ui = setup(t);
+  assert.equal(ui.visual.hidden, true);
+  ui.click(); ui.instances[0].onstart();
+  assert.equal(ui.visual.hidden, false);
+  assert.equal(ui.visual.attrs.get('aria-hidden'), 'true');
+  assert.match(ui.button.innerHTML, /width="12"/);
+  assert.match(ui.status, /Listening/);
+  assert.equal(ui.announcement.classes.has('is-visible'), false);
+  ui.instances[0].result('Warm café'); ui.instances[0].onend();
+  assert.equal(ui.visual.hidden, true);
+  assert.equal(ui.announcement.classes.has('is-visible'), false);
+  ui.click(); ui.instances[1].onerror({error:'not-allowed'});
+  assert.equal(ui.announcement.classes.has('is-visible'), true);
+});
+
+function audioFake() {
+  const track = {stops:0, stop() { this.stops++; }};
+  const stream = {getTracks:() => [track]};
+  const state = {level:128, contexts:[], requests:0};
+  class AudioContext {
+    closed = 0; disconnected = 0;
+    constructor() { state.contexts.push(this); }
+    createAnalyser() { return {getByteTimeDomainData:array => array.fill(state.level)}; }
+    createMediaStreamSource() { return {connect() {}, disconnect:() => this.disconnected++}; }
+    resume() { return Promise.resolve(); }
+    close() { this.closed++; return Promise.resolve(); }
+  }
+  return {track, stream, state, AudioContext};
+}
+
+test('waveform reflects sampled microphone levels and releases tracks immediately when stopped', async t => {
+  t.mock.timers.enable({apis:['setTimeout','setInterval']});
+  const audio = audioFake(), ui = setup(t, audio);
+  ui.win.navigator.mediaDevices = {getUserMedia:async () => { audio.state.requests++; return audio.stream; }};
+  assert.equal(audio.state.requests, 0);
+  ui.click(); const r = ui.instances[0]; r.onstart();
+  await new Promise(setImmediate);
+  const bars = ui.visual.children[0].children;
+  t.mock.timers.tick(80);
+  assert.equal(bars.at(-1).style.height, '2.0px');
+  audio.state.level = 145;
+  t.mock.timers.tick(80);
+  assert.ok(parseFloat(bars.at(-1).style.height) > 10);
+  assert.equal(audio.state.requests, 1);
+  ui.click();
+  assert.equal(audio.track.stops, 1);
+  assert.equal(audio.state.contexts[0].closed, 1);
+  assert.equal(ui.button.attrs.get('aria-label'), 'Finishing voice input');
+  const heights = bars.map(bar => bar.style.height);
+  t.mock.timers.tick(160);
+  assert.deepEqual(bars.map(bar => bar.style.height), heights);
+  r.result('A shop'); r.onend();
+  assert.equal(ui.field.value, 'A shop');
+  assert.equal(ui.visual.hidden, true);
+  assert.equal(ui.submitted, 0);
+});
+
+test('microphone permission resolving after cancellation releases the late track without starting audio', async t => {
+  const audio = audioFake(), ui = setup(t, audio);
+  let grant;
+  ui.win.navigator.mediaDevices = {getUserMedia:() => new Promise(resolve => { grant = resolve; })};
+  ui.click(); ui.instances[0].onstart(); ui.project('second');
+  grant(audio.stream); await new Promise(setImmediate);
+  assert.equal(audio.track.stops, 1);
+  assert.equal(audio.state.contexts.length, 0);
+  assert.equal(ui.visual.hidden, true);
+});
+
+test('an unavailable level meter does not interrupt speech recognition', async t => {
+  const audio = audioFake(), ui = setup(t, audio);
+  ui.win.navigator.mediaDevices = {getUserMedia:async () => { throw new Error('meter unavailable'); }};
+  ui.click(); const r = ui.instances[0]; r.onstart();
+  await new Promise(setImmediate);
+  assert.equal(ui.button.attrs.get('aria-label'), 'Stop voice input');
+  r.result('My typed prompt'); r.onend();
+  assert.equal(ui.field.value, 'My typed prompt');
+  assert.equal(ui.announcement.classes.has('is-visible'), false);
+});
+
+test('navigation, generation and disposal each release active waveform resources', async t => {
+  for (const change of [ui => ui.project('second'), ui => ui.busy(true), ui => ui.voice.dispose()]) {
+    const audio = audioFake(), ui = setup(t, audio);
+    ui.win.navigator.mediaDevices = {getUserMedia:async () => audio.stream};
+    ui.click(); ui.instances[0].onstart(); await new Promise(setImmediate);
+    change(ui);
+    assert.equal(audio.track.stops, 1);
+    assert.equal(audio.state.contexts[0].closed, 1);
+    assert.equal(audio.state.contexts[0].disconnected, 1);
+  }
 });
