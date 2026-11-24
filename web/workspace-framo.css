@@ -97,7 +97,10 @@ body.workspace-clone[data-screen=dashboard] .ws-home .ws-composer-tools .text-bu
 body.workspace-clone[data-screen=dashboard] .ws-home .ws-plus{width:20px;height:20px;border:0;border-radius:0}
 body.workspace-clone[data-screen=dashboard] .ws-home #build-settings{width:42px;flex:0 0 42px;justify-content:center;padding:0}
 body.workspace-clone[data-screen=dashboard] .ws-home #build-settings span{display:none}
-body.workspace-clone[data-screen=dashboard] .ws-home .ws-model-select{flex:0 1 auto;width:180px;max-width:210px;min-width:0;height:42px;padding:8px 28px 8px 14px;border:1px solid transparent;border-radius:999px;background-color:var(--ws-bg);font-size:13px;color:var(--ws-ink)}
+body.workspace-clone[data-screen=dashboard] .ws-home .ws-model-picker{position:relative;display:flex;flex:0 1 180px;max-width:210px;min-width:0}
+body.workspace-clone[data-screen=dashboard] .ws-home .ws-model-picker::after{content:"";position:absolute;right:16px;top:50%;width:7px;height:7px;border-right:1.5px solid var(--ws-muted);border-bottom:1.5px solid var(--ws-muted);transform:translateY(-70%) rotate(45deg);pointer-events:none}
+body.workspace-clone[data-screen=dashboard] .ws-home .ws-model-picker:has(select:disabled)::after{opacity:.5}
+body.workspace-clone[data-screen=dashboard] .ws-home .ws-model-select{appearance:none;-webkit-appearance:none;flex:1;width:100%;max-width:none;min-width:0;height:42px;padding:8px 38px 8px 14px;border:1px solid transparent;border-radius:999px;background:var(--ws-bg);font-size:13px;color:var(--ws-ink)}
 body.workspace-clone[data-screen=dashboard] .ws-home .ws-model-select:hover{background-color:var(--ws-side)}
 body.workspace-clone[data-screen=dashboard] .ws-home .ws-send{width:42px;height:42px;flex:0 0 42px;border-radius:50%;box-shadow:none}
 body.workspace-clone[data-screen=dashboard] .ws-home .ws-send:disabled{background:var(--ws-bg);color:var(--ws-muted)}
@@ -128,7 +131,7 @@ body.workspace-clone[data-screen=dashboard] .ws-mobile-header .icon-button{borde
  body.workspace-clone[data-screen=dashboard] .ws-home .ws-composer-tools>div{gap:6px}
  body.workspace-clone[data-screen=dashboard] .ws-home #add-context{width:42px;justify-content:center;padding:0;background:var(--ws-bg)}
  body.workspace-clone[data-screen=dashboard] .ws-home #add-context>span:last-child{display:none}
- body.workspace-clone[data-screen=dashboard] .ws-home .ws-model-select{flex:0 1 180px;padding-left:12px;font-size:13px}
+ body.workspace-clone[data-screen=dashboard] .ws-home .ws-model-select{padding-left:12px;font-size:13px}
 }
 @media(prefers-reduced-motion:reduce){body.workspace-clone[data-screen=dashboard] .ws-home :is(.ws-composer,.text-button){transition:none}}
 
@@ -137,3 +140,9 @@ body.workspace-clone[data-screen] .device-picker{background:var(--ws-side);borde
 body.workspace-clone[data-screen] .device-picker button{color:var(--ws-muted);border-radius:8px}
 body.workspace-clone[data-screen] .device-picker :is(button.is-active,button[aria-pressed=true]){background:var(--ws-panel);color:var(--ws-ink);box-shadow:var(--ws-shadow)}
 body.workspace-clone[data-screen] .device-picker :is(button.is-active,button[aria-pressed=true]) .icon{color:var(--ws-accent)}
+
+/* Retain the system dropdown indicator in high-contrast modes. */
+@media(forced-colors:active){
+ body.workspace-clone[data-screen=dashboard] .ws-home .ws-model-picker::after{display:none}
+ body.workspace-clone[data-screen=dashboard] .ws-home .ws-model-select{appearance:auto;-webkit-appearance:auto;padding-right:12px;border-color:ButtonText}
+}
