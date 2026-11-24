@@ -324,10 +324,29 @@
     })();
     return reviewPreviewPromise;
   }
+  function showPreviewPlaceholder(state = '') {
+    const empty = $('#preview-empty');
+    empty.hidden = !state;
+    empty.dataset.state = state;
+    $('#canvas-stage').classList.toggle('has-placeholder', !!state);
+    if (!state) return;
+    const paused = state === 'paused';
+    $('#preview-empty-title').textContent = paused ? 'Preview paused' : 'Your website will appear here';
+    $('#preview-empty-copy').textContent = paused ? 'Resume whenever you’re ready. Your work is saved.' : 'Start with an idea in the chat. We’ll bring it to life here.';
+    $('#preview-empty-action').textContent = paused ? 'Resume preview' : 'Describe your website';
+  }
+  $('#preview-empty-action').addEventListener('click', () => {
+    if ($('#preview-empty').dataset.state === 'paused') { renderPreview(true); return; }
+    setMobileView('editor');
+    $('#chat-input').focus();
+  });
   function renderPreview(force = false) {
     const review=templateReview();
-    if(review){scheduleCanvasSize();return renderTemplateReview(review,force);}
+    if(review){showPreviewPlaceholder();scheduleCanvasSize();return renderTemplateReview(review,force);}
     clearTemplateReview();
+    // Cover only the untouched starter, never customer code or a selected template.
+    const empty = !project.codeDraft && (project.files ? Chat.requestMode(project,W.emptyFiles()) === 'create' : project.design?.kind === 'blank');
+    showPreviewPlaceholder(empty ? 'empty' : '');
     const signature = project.id + JSON.stringify(project.files || project.design);
     scheduleCanvasSize();
     if (signature===previewSignature && buildPromise) return buildPromise;
@@ -906,6 +925,7 @@
       button.setAttribute('aria-pressed', String(active));
     });
     $('#zoom-select').value = '1';
+    $('#zoom-select').dispatchEvent(new Event('change'));
     $('#canvas-stage').scrollLeft = 0;
     scheduleCanvasSize();
   }
@@ -1009,7 +1029,7 @@
     updateMeta(patch){project.workspace={...project.workspace,...patch};save();window.dispatchEvent(new Event('draftmango:editor-render'));},
     syncMeta(){const latest=W.get(project.id);if(latest){project={...project,title:latest.title,workspace:latest.workspace};render();}},
     clearConsole(){consoleLines=[];renderConsole();},
-    stopPreview(){ clearTemplateReview();storePreviewPort?.close();storePreviewPort=null;buildSequence++;buildController?.abort();buildPromise=null;compiledSignature='';previewToken='';$('#website-frame').srcdoc='';previewSignature='';$('#preview-status').textContent='Preview stopped';},
+    stopPreview(){ clearTemplateReview();storePreviewPort?.close();storePreviewPort=null;buildSequence++;buildController?.abort();buildPromise=null;compiledSignature='';previewToken='';$('#website-frame').srcdoc='';previewSignature='';$('#preview-status').textContent='Preview paused';showPreviewPlaceholder('paused');},
     exportHTML(){documentLink(true);}, openPreview(){documentLink();}, runRequest:requestChange,
     diagnostic: setDiagnostic, consoleLines:()=>consoleLines
   };
