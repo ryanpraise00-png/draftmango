@@ -175,7 +175,8 @@
     sidebarLayout={...readSidebarLayout(),...changes};
     try{localStorage.setItem(A.key('preferences')+':sidebar-layout',JSON.stringify(sidebarLayout));}catch{/* Navigation also works when device storage is unavailable. */}
   }
-  function dashboardSidebar(root,current,activeId){
+  function sidebar(root,current='home',activeId=''){
+    if(!root)return;
     const state=readSidebarLayout(),chats=records('chat').slice(0,6);
     const selected=current==='project'?'projects':current==='store'?'stores':current;
     const name=profile?.name||A.user?.email||'Your account';
@@ -209,6 +210,7 @@
       button.title=collapsed?'Expand sidebar':'Collapse sidebar';
       button.innerHTML=icon(collapsed?'sidebarExpand':'sidebarCollapse');
       button.focus({preventScroll:true});
+      root.dispatchEvent(new CustomEvent('draftmango:sidebar-layout',{bubbles:true}));
     };
     const recents=root.querySelector('.ws-recents-toggle');
     if(recents)recents.onclick=()=>{
@@ -225,15 +227,6 @@
       {label:'Back to Draftmango',symbol:'external',separate:true,run:()=>navigate('/')},
       {label:'Sign out',symbol:'logout',separate:true,run:()=>A.signOut().catch(error=>toast(error.message))}
     ],{record:true,title:'Your account'});
-  }
-  function sidebar(root,current='home',activeId=''){
-    if(!root)return;
-    if(document.body.dataset.screen==='dashboard')return dashboardSidebar(root,current,activeId);
-    const nav=[['home','home','Workspace'],['chats','chat','Chats'],['new-project','plus','New project'],['projects','folder','Your projects'],['domains','globe','Domains'],['stores','folder','Stores'],['settings/profile','sliders','Settings']];
-    root.innerHTML=`<div class="ws-brand-row"><a href="/dashboard" class="brand" aria-label="Draftmango workspace"><svg class="brand-mark"><use href="#mango"/></svg><span>draftmango.</span></a><button class="icon-button ws-nav-close" aria-label="Close navigation">${icon('close')}</button></div><a class="button ws-new-chat" href="/dashboard#new">${icon('plus')}New chat</a><nav class="ws-nav" aria-label="Main navigation">${nav.map(([route,symbol,label])=>`<a href="/dashboard#${route}" ${current===route.split('/')[0]?'aria-current="page"':''}>${icon(symbol)}${label}</a>`).join('')}</nav><div class="ws-recents">${['chat','project'].map(kind=>`<section><h2>Recent ${kind}s</h2>${records(kind).slice(0,6).map(p=>`<div class="ws-recent ${p.id===activeId?'is-active':''}"><a href="${kind==='chat'?href(p):'/dashboard#project/'+p.id}" title="${e(p.title)}">${icon(kind==='chat'?'chat':'folder')}<span>${e(p.title)}</span></a><button class="icon-button" aria-haspopup="menu" aria-expanded="false" data-record-menu="${e(p.id)}" aria-label="Manage ${kind} ${e(p.title)}">${icon('more')}</button></div>`).join('')||`<p class="ws-empty-note">${kind==='chat'?'Your recent conversations appear here.':'Create a project to organise files and related chats.'}</p>`}</section>`).join('')}</div><div class="ws-sidebar-bottom"><div class="ws-bottom-links"><a href="/help">Help &amp; support ${icon('external')}</a><a href="/legal#privacy">Privacy</a></div><div class="ws-bottom-links"><a href="/">Back to Draftmango ${icon('external')}</a><button class="icon-button" data-theme-toggle aria-label="Switch to ${document.documentElement.dataset.theme==='dark'?'light':'dark'} mode">${icon(document.documentElement.dataset.theme==='dark'?'sun':'moon')}</button></div><a class="account-link" href="/dashboard#settings/profile"><span class="avatar">${e((profile?.name||A.user?.email||'D').slice(0,1).toUpperCase())}</span><span><strong>${e(profile?.name||A.user?.email||'Your account')}</strong><small>Account settings</small></span>${icon('sliders')}</a></div>`;
-    root.querySelector('[href$="#new-project"]').onclick=event=>{event.preventDefault();newProject();};root.querySelectorAll('[data-record-menu]').forEach(b=>b.onclick=()=>recordMenu(b,get(b.dataset.recordMenu)));
-    root.querySelector('[data-theme-toggle]').onclick=()=>savePrefs({theme:document.documentElement.dataset.theme==='dark'?'light':'dark'}).catch(error=>toast(error.message));
-    root.querySelector('.ws-nav-close').onclick=()=>{root.classList.remove('is-open');document.querySelectorAll('.sidebar-scrim,.navigation-scrim').forEach(n=>n.hidden=true);document.querySelector('.workspace-layout')?.removeAttribute('inert');if(root.classList.contains('project-sidebar')){root.inert=innerWidth<=1000;const toggle=document.querySelector('#toggle-navigation');toggle?.setAttribute('aria-expanded','false');toggle?.focus();}};
   }
   function applyPrefs(){const dark=prefs.theme==='dark'||(prefs.theme==='system'&&matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.dataset.theme=dark?'dark':'light';document.documentElement.dataset.reduceMotion=String(prefs.reduceMotion);document.documentElement.style.setProperty('--editor-font',prefs.fontSize+'px');document.documentElement.style.setProperty('--editor-indent',prefs.indent);document.documentElement.dataset.editorWrap=String(prefs.wordWrap);document.documentElement.dataset.lineNumbers=String(prefs.lineNumbers);window.dispatchEvent(new Event('draftmango:preferences'));}
   async function savePrefs(changes){const result=await A.request('/api/accounts/profile',{method:'PATCH',body:{preferences:changes}});prefs={...defaults,...result.preferences};profile=result.user;localStorage.setItem(A.key('preferences'),JSON.stringify({...prefs,name:profile.name}));applyPrefs();return prefs;}

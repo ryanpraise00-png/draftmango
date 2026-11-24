@@ -138,33 +138,70 @@
     save(); render(); renderAI();
     closeNavigation();
   }
-  function renderSidebar() { W.sidebar($('#project-sidebar'), W.isChat(project) ? 'chats' : 'projects', project.id); }
-  function closeNavigation() {
-    $('#project-sidebar').classList.remove('is-open');
+  const mobileNavigation = matchMedia('(max-width:1000px)');
+  const navigation = $('#project-sidebar'), navTrigger = $('#toggle-navigation');
+  function renderSidebar() {
+    W.sidebar(navigation, W.isChat(project) ? 'chats' : 'projects', project.id);
+    navigation.querySelector('.ws-nav-close').onclick = () => closeNavigation(true);
+    syncNavigation();
+  }
+  function syncNavigation() {
+    const open = navigation.classList.contains('is-open');
+    navigation.inert = mobileNavigation.matches && !open;
+    navTrigger.setAttribute('aria-expanded', String(mobileNavigation.matches ? open : document.body.dataset.sidebarCollapsed !== 'true'));
+    navTrigger.setAttribute('aria-label', mobileNavigation.matches ? 'Open workspace navigation' : 'Toggle sidebar');
+  }
+  function closeNavigation(restoreFocus = false) {
+    const wasOpen = navigation.classList.contains('is-open');
+    W.closeMenu();navigation.classList.remove('is-open');
+    navigation.removeAttribute('role');navigation.removeAttribute('aria-modal');
     $('#navigation-scrim').hidden = true;
     $('.workspace-layout').inert = false;
-    $('#project-sidebar').inert = matchMedia('(max-width:1000px)').matches;
-    $('#toggle-navigation').setAttribute('aria-expanded', String(!matchMedia('(max-width:1000px)').matches && !$('.builder-shell').classList.contains('navigation-collapsed')));
+    syncNavigation();
+    if(wasOpen && restoreFocus)navTrigger.focus({preventScroll:true});
   }
-  $('#toggle-navigation').addEventListener('click', () => {
-    if (matchMedia('(max-width:1000px)').matches) {
-      const open = !$('#project-sidebar').classList.contains('is-open');
-      $('#project-sidebar').classList.toggle('is-open', open);
-      $('#project-sidebar').inert = !open;
-      $('#navigation-scrim').hidden = !open;
-      $('#toggle-navigation').setAttribute('aria-expanded', String(open));
-      $('.workspace-layout').inert = open;
-      if (open) $('#project-sidebar .ws-nav-close')?.focus();
-    } else {
-      const collapsed = $('.builder-shell').classList.toggle('navigation-collapsed');
-      $('#toggle-navigation').setAttribute('aria-expanded', String(!collapsed));
-    }
+  navTrigger.addEventListener('click', () => {
+    if (mobileNavigation.matches) {
+      if(navigation.classList.contains('is-open')) { closeNavigation(true); return; }
+      navigation.inert = false;navigation.classList.add('is-open');
+      navigation.setAttribute('role','dialog');navigation.setAttribute('aria-modal','true');
+      $('#navigation-scrim').hidden = false;
+      $('.workspace-layout').inert = true;
+      syncNavigation();navigation.querySelector('.ws-nav-close')?.focus({preventScroll:true});
+    } else navigation.querySelector('.ws-sidebar-collapse')?.click();
     scheduleCanvasSize();
   });
-  $('#close-navigation').addEventListener('click', () => { closeNavigation(); $('#toggle-navigation').focus(); });
-  $('#navigation-scrim').addEventListener('click', closeNavigation);
-  document.addEventListener('keydown', event => { if (event.key === 'Escape') closeNavigation(); });
-  matchMedia('(max-width:1000px)').addEventListener('change', closeNavigation);
+  navigation.addEventListener('draftmango:sidebar-layout', () => { syncNavigation();scheduleCanvasSize(); });
+  navigation.addEventListener('draftmango:sidebar-navigate', () => closeNavigation());
+  navigation.addEventListener('click', event => {
+    const link=event.target.closest('a[href]');
+    if(!link || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey)return;
+    const url=new URL(link.href);
+    if(url.origin!==location.origin || url.pathname!==location.pathname)return;
+    const id=new URLSearchParams(url.hash.slice(1)).get('project');
+    if(!id || !library.projects.some(item=>item.id===id))return;
+    event.preventDefault();
+    const wasOpen=navigation.classList.contains('is-open');
+    if(id!==project.id)switchProject(id);
+    else closeNavigation();
+    if(wasOpen)navTrigger.focus({preventScroll:true});
+  });
+  $('#navigation-scrim').addEventListener('click', () => closeNavigation(true));
+  document.addEventListener('keydown', event => {
+    if(!mobileNavigation.matches || !navigation.classList.contains('is-open') || event.defaultPrevented || $('dialog[open]'))return;
+    if(event.key==='Escape'){event.preventDefault();closeNavigation(true);return;}
+    if(event.key!=='Tab' || $('.ws-menu[role="menu"]'))return;
+    const controls=[...navigation.querySelectorAll('a[href],button:not([disabled])')].filter(node=>node.getClientRects().length);
+    const first=controls[0],last=controls.at(-1);
+    if(event.shiftKey && document.activeElement===first){event.preventDefault();last?.focus();}
+    else if(!event.shiftKey && document.activeElement===last){event.preventDefault();first?.focus();}
+  });
+  mobileNavigation.addEventListener('change', () => {
+    const active=document.activeElement,wasOpen=navigation.classList.contains('is-open');closeNavigation();
+    if(mobileNavigation.matches && navigation.contains(active))navTrigger.focus({preventScroll:true});
+    else if(!mobileNavigation.matches && (wasOpen || active===navTrigger))navigation.querySelector('.ws-sidebar-collapse')?.focus({preventScroll:true});
+    scheduleCanvasSize();
+  });
   closeNavigation();
   function addMessage(role, text, extra = {}) {
     project = { ...project, messages: [...project.messages, { role, text, ...extra }] };
@@ -1049,7 +1086,7 @@
     announce('Project renamed.');
   });
   $('#project-name-input').addEventListener('input', event => event.target.setCustomValidity(''));
-  $('#help-button').addEventListener('click', () => $('#help-dialog').showModal());
+  $('#help-button')?.addEventListener('click', () => $('#help-dialog').showModal());
   $$('[data-close-dialog]').forEach(button => button.addEventListener('click', () => button.closest('dialog').close()));
   $$('dialog').forEach(dialog => dialog.addEventListener('click', event => {
     if (event.target !== dialog) return;
