@@ -36,3 +36,20 @@ test('nested local JS/CSS references are resolved without fetching project or pa
   const zip=new Uint8Array(await F.zip(files).arrayBuffer());
   assert.deepEqual([...zip.slice(0,4)],[80,75,3,4]);
 });
+
+test('credit ring never presents a plan allowance as a remaining balance', async () => {
+  await import('../web/workspace-credits.js');
+  const credits=globalThis.DraftmangoCredits;
+  for(const active of [false,true]){
+    const value=credits.details({entitlements:{plan:'basic',creditAllowance:1000,creditMeteringActive:active},plans:{basic:{name:'Basic'}}});
+    assert.equal(value.allowance,1000);
+    assert.equal(value.remaining,null);
+    assert.equal(value.tracking,active);
+    assert.equal(value.plan,'Basic');
+  }
+  for(const allowance of [undefined,null,-1,'500',Infinity]){
+    assert.equal(credits.details({entitlements:{creditAllowance:allowance}}).allowance,null);
+  }
+  assert.equal(credits.details(null).remaining,null);
+  assert.equal(credits.details({entitlements:{plan:'free',creditAllowance:500}}).trial,true);
+});

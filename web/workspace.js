@@ -17,7 +17,6 @@
   let library;
   let saveFailed = false;
   let toastTimer;
-  let currentPanel = 'build';
   let view = 'preview';
   let device = 'responsive';
   let previewHtml = '';
@@ -55,12 +54,6 @@
     next.ai={state:'pending'};
     next.creationPreferences=[];
     next.messages=[{role:'user',text:initialIdea}];
-    if (M.palettes[starting.get('color')]) {
-      next.design.theme = starting.get('color');
-      next.history[0].design.theme = next.design.theme;
-      const palette = M.palettes[starting.get('color')];
-      next.creationPreferences.push(`User-selected palette: ${palette.name}; background ${palette.paper}, text ${palette.ink}, accent ${palette.accent}.`);
-    }
     library = library || { schema: 1, activeId: next.id, projects: [] };
     library.projects.push(next);
     library.activeId = next.id;
@@ -495,8 +488,6 @@
     $('#run-preview').title = dirty ? 'Apply your code draft and update the preview · Ctrl/Cmd + S' : 'Run preview · Ctrl/Cmd + S';
     $('#undo').disabled = !dirty && project.cursor === 0;
     $('#redo').disabled = dirty || project.cursor >= project.history.length - 1;
-    $('#custom-code-note').hidden = !(project.files || dirty);
-    $('#design-fields').disabled = !!(project.files || dirty);
     if (diagnostic === 'checks') renderChecks();
   }
   function onCodeInput() {
@@ -550,13 +541,6 @@
   }
   $('#run-preview').addEventListener('click', () => applyCode());
   $('#run-pending').addEventListener('click', () => applyCode());
-  $('#reset-code').addEventListener('click', () => {
-    clearTimeout(codeSaveTimer);
-    if(P.isReact(project.files)){announce('Edit React components in Code or describe the change in chat.');return;}
-    project = M.resetCode(project);
-    save(); render();
-    announce('Back to visual design. Your code is kept in History.');
-  });
   window.addEventListener('pagehide', flushCodeDraft);
   window.addEventListener('beforeunload', event => {
     clearTimeout(codeSaveTimer); save();
@@ -588,57 +572,19 @@
   }
   $$('[data-diagnostic]').forEach(button => button.addEventListener('click', () => setDiagnostic(button.dataset.diagnostic)));
   $('#close-diagnostics').addEventListener('click', () => setDiagnostic(''));
-  function renderDesign() {
-    const d = project.design;
-    $('#template-select').value = d.kind;
-    $('#font-select').value = d.font;
-    $('#corners-select').value = d.corners;
-    $('#spacing-select').value = d.spacing;
-    $('#hero-size-select').value = d.heroSize;
-    $('#brand-input').value = d.brand;
-    $('#heading-input').value = d.heading;
-    $('#description-input').value = d.description;
-    $('#button-input').value = d.button;
-    for (const name of ['story','collection','contact']) $(`#section-${name}`).checked = d.sections[name];
-    $$('[data-palette]').forEach(button => {
-      const active = button.dataset.palette === d.theme;
-      button.classList.toggle('is-active', active);
-      button.setAttribute('aria-pressed', String(active));
-    });
-  }
-  function collectDesign() {
-    return {
-      ...project.design, font: $('#font-select').value, corners: $('#corners-select').value,
-      spacing: $('#spacing-select').value, heroSize: $('#hero-size-select').value,
-      brand: $('#brand-input').value, heading: $('#heading-input').value,
-      description: $('#description-input').value, button: $('#button-input').value,
-      sections: { story: $('#section-story').checked, collection: $('#section-collection').checked, contact: $('#section-contact').checked }
-    };
-  }
-  function commitDesign(design, label, notify = true) {
-    if(P.isReact(project.files)){announce('Edit the React styles in Code or describe your design change in chat.');renderDesign();return;}
-    const previous = project;
-    project = M.commit(project, design, label);
-    save();
-    render();
-    if (notify) announce(project === previous ? 'This draft is already up to date.' : label + '.');
-  }
   function renderHistory() {
     const list = $('#history-list');
     list.replaceChildren();
     [...project.history].reverse().forEach((entry, reversed) => {
       const index = project.history.length - 1 - reversed;
-      const palette = M.palettes[entry.design.theme];
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'history-entry' + (index === project.cursor ? ' is-active' : '');
       button.setAttribute('aria-label', `${index === project.cursor ? 'Current draft' : 'Restore draft'}: ${entry.label}`);
       button.setAttribute('aria-pressed', String(index === project.cursor));
       const swatch = document.createElement('span');
-      swatch.className = 'history-swatch';
-      swatch.style.setProperty('--history-paper', palette.paper);
-      swatch.style.setProperty('--history-accent', palette.accent);
-      swatch.style.setProperty('--history-ink', palette.ink);
+      swatch.className = 'history-index';
+      swatch.textContent = String(index + 1);
       swatch.setAttribute('aria-hidden', 'true');
       const words = document.createElement('div');
       const title = document.createElement('strong');
@@ -664,20 +610,10 @@
     document.title = `${project.title} | Draftmango`;
     $('#undo').disabled = project.cursor === 0;
     $('#redo').disabled = project.cursor >= project.history.length - 1;
-    $('.history-dot').hidden = project.history.length < 2;
-    renderConversation(); renderDesign(); renderHistory(); renderSidebar(); syncSource(); renderPreview(); renderAI();
+    renderConversation(); renderHistory(); renderSidebar(); syncSource(); renderPreview(); renderAI();
     window.dispatchEvent(new Event('draftmango:editor-render'));
   }
 
-  function setPanel(panel) {
-    currentPanel = panel;
-    for (const name of ['build','design','history']) $(`#panel-${name}`).hidden = name !== panel;
-    $$('[data-panel]').forEach(button => {
-      const active = button.dataset.panel === panel;
-      button.classList.toggle('is-active', active);
-      button.setAttribute('aria-pressed', String(active));
-    });
-  }
   function setMobileView(next) {
     $('.workspace-layout').dataset.mobileView = next;
     $$('[data-mobile-view]').filter(element => element.tagName === 'BUTTON').forEach(button => {
@@ -711,9 +647,7 @@
     $('#chat-form').setAttribute('aria-busy', String(busy));
     $$('[data-request]').forEach(button => { button.disabled = busy; });
     $('#source-input').readOnly = busy;
-    $('#design-fields').disabled = busy || !!(project.files || project.codeDraft);
     $('#history-list').inert = busy;
-    $('#reset-code').disabled = busy;
     $('#undo').disabled = busy || (!project.codeDraft && project.cursor === 0);
     $('#redo').disabled = busy || !!project.codeDraft || project.cursor >= project.history.length - 1;
     const picker = $('#ai-model-select'); if (picker?.options.length && picker.options[0].value) picker.disabled = busy;
@@ -918,9 +852,7 @@
   window.addEventListener('pagehide', () => stopAI(true));
 
 
-  $$('[data-panel]').forEach(button => button.addEventListener('click', () => setPanel(button.dataset.panel)));
   $$('button[data-mobile-view]').forEach(button => button.addEventListener('click', () => setMobileView(button.dataset.mobileView)));
-  $('#canvas-design-shortcut').addEventListener('click', () => { setPanel('design'); setMobileView('editor'); });
   $('#chat-form').addEventListener('submit', event => {
     event.preventDefault();
     if(aiJob){stopAI();return;}
@@ -939,38 +871,6 @@
     if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) { event.preventDefault(); if(!aiJob)$('#chat-form').requestSubmit(); }
   });
   $$('[data-request]').forEach(button => button.addEventListener('click', () => requestChange(button.dataset.request)));
-
-  Object.entries(M.palettes).forEach(([key, palette]) => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'palette-choice';
-    button.dataset.palette = key;
-    button.setAttribute('aria-label', `${palette.name} color palette`);
-    const chip = document.createElement('span');
-    chip.className = 'palette-chip';
-    chip.style.setProperty('--swatch-paper', palette.paper);
-    chip.style.setProperty('--swatch-accent', palette.accent);
-    chip.setAttribute('aria-hidden', 'true');
-    const name = document.createElement('span');
-    name.textContent = palette.name;
-    button.append(chip, name);
-    button.addEventListener('click', () => {
-      if (!$('#design-form').reportValidity()) return;
-      commitDesign({ ...collectDesign(), theme: key }, `Changed the palette to ${palette.name.toLowerCase()}`);
-    });
-    $('#palette-options').append(button);
-  });
-  $('#design-form').addEventListener('submit', event => {
-    event.preventDefault();
-    commitDesign(collectDesign(), 'Updated your design');
-  });
-  $('#template-select').addEventListener('change', event => {
-    commitDesign(M.sanitizeDesign({ kind: event.target.value }), `Tried the ${M.templates[event.target.value].title} starting point`);
-  });
-  const controlLabels = { 'brand-input': 'Updated the brand name', 'heading-input': 'Updated the headline', 'description-input': 'Updated the introduction', 'button-input': 'Updated the button text', 'font-select': 'Changed the heading style', 'corners-select': 'Changed the corners', 'spacing-select': 'Adjusted the spacing', 'hero-size-select': 'Adjusted the headline size', 'section-story': 'Updated the story section', 'section-collection': 'Updated the collection section', 'section-contact': 'Updated the contact section' };
-  Object.entries(controlLabels).forEach(([id, label]) => $('#' + id).addEventListener('change', () => {
-    if ($('#design-form').checkValidity()) commitDesign(collectDesign(), label, false);
-  }));
 
   function moveHistory(offset) {
     if (aiJob) return;
@@ -1100,8 +1000,9 @@
   save(); render(); updateDevice(device);
   globalThis.DraftmangoEditor = {
     get project(){return project;}, get files(){return workingFiles;}, get selectedFile(){return selectedFile;}, get busy(){return !!aiJob;},
-    save, render, applyCode, setPanel, setMobileView, updateDevice, scheduleCanvasSize,
+    save, render, applyCode, setMobileView, updateDevice, scheduleCanvasSize,
     showAISetup(){ $('#ai-dialog').showModal(); checkAI(); },
+    showHistory(){ renderHistory(); $('#history-dialog').showModal(); },
     selectModel(modelId){if(aiJob)return;project.workspace={...project.workspace,build:{...project.workspace?.build,modelId}};aiStatus=null;save();render();checkAI();},
     selectFile(name){if(Object.hasOwn(workingFiles,name)){selectedFile=name;if(!openFiles.includes(name))openFiles.push(name);renderCode();}},
     setFiles(files,label='Updated source files'){if(aiJob)throw new Error('Wait for generation to finish before changing files.');project=M.commitFiles(project,files,label);save();render();},
