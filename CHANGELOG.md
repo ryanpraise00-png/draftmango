@@ -5,7 +5,7 @@
 ### Sculpted mango identity
 - Replaced the illustrated mango with the approved orange Sculpted vector mark and black wordmark across public pages, authentication, dashboard and workspace; the dark footer uses the white lockup.
 - Added matching transparent favicon and downloadable orange, black and white SVGs, generated from one shared definition. Homepage colours and interface controls are unchanged.
-- Production build and shared-brand route/asset checks passed; desktop, collapsed-navigation and dark-footer visuals reviewed. Prepared locally for review; not deployed.
+- Production build and shared-brand route/asset checks passed; desktop, collapsed-navigation and dark-footer visuals reviewed. Deployed as `20261124-logo-bdc612f`; all four application services are healthy and live page/asset checks passed. See `docs/releases/2026-11-24-logo.md`.
 
 ### Homepage composer simplification
 - The homepage now shows only the prompt field and send button. Model selection, microphone and attachments remain in the dashboard and workspace.

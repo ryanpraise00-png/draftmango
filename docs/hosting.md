@@ -3,7 +3,16 @@
 Host: root@187.124.47.123 (srv1803759.hstgr.cloud), Ubuntu 24.04.
 Application domain: draftmango.com. www redirects to the apex after TLS setup.
 
-## Current release — homepage composer
+## Current release — Sculpted logo
+
+Live release: `20261124-logo-bdc612f`, source `bdc612f`, deployed on
+24 November 2026 from `codex/builder-guided-flow`. The site now uses the approved
+orange Sculpted mark and black wordmark, a white footer lockup and matching
+favicon. Web, backend, builder and publisher are healthy; public routes and
+asset checksums passed. Production flags remain unchanged.
+See the [logo release record](releases/2026-11-24-logo.md).
+
+## Previous release — homepage composer
 
 Live release: `20261124-home-f23630f`, source `f23630f`, deployed on
 24 November 2026 from `codex/builder-guided-flow`. The homepage has the white,

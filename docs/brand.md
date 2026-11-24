@@ -10,6 +10,6 @@ The approved identity is the **Sculpted mango in orange** with a **black lowerca
 
 `shared/brand.mjs` owns the paths and colour. `components/BrandMark.jsx` and the shared document symbol serve the site; `web/brand.css` provides the lockup styling. `scripts/brand-assets.mjs`, also run by the normal build, produces the standalone orange, black and white SVG marks under `web/assets/brand/` and the transparent SVG favicon. Keep the React and downloaded versions generated from that source.
 
-This branding change is prepared locally for review; it has not been deployed.
+Deployed on 24 November 2026 as `20261124-logo-bdc612f`. See [the release record](releases/2026-11-24-logo.md).
 
 Validation: production Next.js build passed; all nine branded routes contain exactly one shared symbol; all three SVG downloads return successfully. Visually checked the homepage, sign-in, dashboard, workspace, collapsed sidebar and reversed footer. The browser viewport override did not take effect, so a separate phone-width browser check remains to be done. The web container build includes the shared source and asset generator.
