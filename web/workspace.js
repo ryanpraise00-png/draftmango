@@ -443,25 +443,40 @@
     for (const [id, filter] of [['file-list', true], ['file-tabs', false]]) {
       const list = $('#' + id);
       list.replaceChildren();
-      (filter ? Object.keys(workingFiles).sort() : openFiles).filter(name => !filter || name.toLowerCase().includes(query) || ($('#search-contents')?.checked && workingFiles[name].toLowerCase().includes(query))).forEach(name => {
+      (filter ? Object.keys(workingFiles).sort() : openFiles).filter(name => Object.hasOwn(workingFiles,name) && (!filter || name.toLowerCase().includes(query) || ($('#search-contents')?.checked && workingFiles[name].toLowerCase().includes(query)))).forEach(name => {
         const button = document.createElement('button');
-        button.type = 'button';
-        button.dataset.file = name;
-        button.className = (name === selectedFile ? 'is-active' : '') + (project.codeDraft && project.codeDraft[name] !== (project.files || C.createFiles(project.design))[name] ? ' is-dirty' : '');
+        const dirty = project.codeDraft && project.codeDraft[name] !== (project.files || C.createFiles(project.design))[name];
+        button.type = 'button'; button.dataset.file = name;
+        button.className = (name === selectedFile ? 'is-active' : '') + (dirty ? ' is-dirty' : '');
         button.setAttribute('aria-pressed', String(name === selectedFile));
-        button.setAttribute('aria-label', `Open ${name}`);
-        button.innerHTML = `<span class="file-symbol" aria-hidden="true">${name.endsWith('.html') ? '&lt;&gt;' : name.endsWith('.css') ? '#' : 'JS'}</span>`;
-        button.append(document.createTextNode(name));
-        button.addEventListener('click', event => {
-          if (event.target.closest('[data-close-file]')) { openFiles = openFiles.filter(f => f !== name); if (selectedFile === name) selectedFile = openFiles.at(-1) || 'index.html'; if (!openFiles.includes(selectedFile)) openFiles.push(selectedFile); renderCode(); return; }
+        button.setAttribute('aria-label', `Open ${name}`); button.title = name;
+        const extension = name.split('.').at(-1).toLowerCase();
+        const symbol = {html:'<>',css:'#',js:'JS',mjs:'JS',cjs:'JS',jsx:'JSX',ts:'TS',tsx:'TSX',json:'{}',md:'MD',svg:'SVG',txt:'TXT'}[extension] || 'FILE';
+        const badge = document.createElement('span'); badge.className = 'file-symbol'; badge.setAttribute('aria-hidden','true'); badge.textContent = symbol;
+        const label = document.createElement('span'); label.className = 'file-name'; label.textContent = name.split('/').at(-1);
+        button.append(badge,label);
+        button.addEventListener('click', () => {
           selectedFile = name; if (!openFiles.includes(name)) openFiles.push(name); renderCode();
+          if (compactExplorer()) { closeFileExplorer(); $('#source-input').focus({preventScroll:true}); }
         });
-        if (!filter) { const close = document.createElement('span'); close.dataset.closeFile = name; close.className = 'ws-tab-close'; close.textContent = '×'; close.setAttribute('aria-label', 'Close ' + name); button.append(close); }
         button.addEventListener('contextmenu', event => { event.preventDefault(); window.dispatchEvent(new CustomEvent('draftmango:file-menu', {detail:{name,anchor:button}})); });
-        list.append(button);
+        if (filter) list.append(button);
+        else {
+          const tab = document.createElement('div'); tab.className = 'file-tab' + (name === selectedFile ? ' is-active' : '') + (dirty ? ' is-dirty' : '');
+          button.classList.add('file-tab-open');
+          const close = document.createElement('button'); close.type = 'button'; close.dataset.closeFile = name; close.className = 'ws-tab-close'; close.innerHTML = icon('close'); close.setAttribute('aria-label','Close ' + name); close.title = 'Close ' + name;
+          close.addEventListener('click', () => {
+            openFiles = openFiles.filter(f => f !== name);
+            if (selectedFile === name) selectedFile = openFiles.at(-1) || 'index.html';
+            if (!openFiles.includes(selectedFile)) openFiles.push(selectedFile);
+            renderCode(); $('#file-tabs .is-active .file-tab-open')?.focus({preventScroll:true});
+          });
+          tab.append(button,close); list.append(tab);
+        }
       });
     }
     $('#no-files').hidden = !!$('#file-list').children.length;
+    window.dispatchEvent(new Event('draftmango:files-render'));
   }
   function paintSource() {
     const input = $('#source-input');
@@ -487,7 +502,8 @@
     input.setAttribute('aria-label', `Edit ${selectedFile}`);
     input.scrollTop = 0; input.scrollLeft = 0;
     $('#source-path').textContent = selectedFile;
-    $('#editor-mode').textContent = selectedFile.endsWith('.jsx') ? 'React JSX' : selectedFile.endsWith('.tsx') ? 'React TSX' : selectedFile.endsWith('.html') ? 'HTML' : selectedFile.endsWith('.css') ? 'CSS' : 'JavaScript';
+    $('#source-path').title = selectedFile;
+    $('#editor-mode').textContent = {jsx:'React JSX',tsx:'React TSX',html:'HTML',css:'CSS',js:'JavaScript',mjs:'JavaScript',cjs:'JavaScript',ts:'TypeScript',json:'JSON',md:'Markdown',svg:'SVG',txt:'Plain text',csv:'CSV'}[selectedFile.split('.').at(-1).toLowerCase()] || 'Plain text';
     renderFileButtons(); paintSource();
   }
   function syncCodeScroll() {
@@ -541,17 +557,23 @@
     }
   });
   $('#file-search').addEventListener('input', renderFileButtons);
+  function compactExplorer() { return matchMedia('(max-width:760px)').matches || view === 'split'; }
+  function syncExplorerToggle() {
+    const code = $('#code-view'), open = compactExplorer() ? code.classList.contains('files-open') : !code.classList.contains('files-collapsed');
+    $('#toggle-files').setAttribute('aria-expanded',String(open));
+    $('#toggle-files').title = open ? 'Hide file explorer' : 'Show file explorer';
+  }
+  function closeFileExplorer() { $('#code-view').classList.remove('files-open'); syncExplorerToggle(); }
   $('#toggle-files').addEventListener('click', () => {
     const code = $('#code-view');
-    if (matchMedia('(max-width:760px)').matches) {
-      const open = code.classList.toggle('files-open');
-      code.classList.remove('files-collapsed');
-      $('#toggle-files').setAttribute('aria-expanded', String(open));
-    } else {
-      const closed = code.classList.toggle('files-collapsed');
-      $('#toggle-files').setAttribute('aria-expanded', String(!closed));
-    }
+    if (compactExplorer()) { code.classList.toggle('files-open'); code.classList.remove('files-collapsed'); }
+    else code.classList.toggle('files-collapsed');
+    syncExplorerToggle();
   });
+  $('#file-explorer-scrim').addEventListener('click',closeFileExplorer);
+  $('#code-view').addEventListener('keydown',event=>{if(event.key==='Escape' && compactExplorer() && $('#code-view').classList.contains('files-open')){closeFileExplorer();$('#toggle-files').focus();}});
+  matchMedia('(max-width:760px)').addEventListener('change',syncExplorerToggle);
+  syncExplorerToggle();
   function applyCode(run = true) {
     clearTimeout(codeSaveTimer);
     if (project.codeDraft) {
@@ -924,6 +946,7 @@
     $('#workbench').dataset.view = view;
     $('#canvas-view').hidden = view === 'code';
     $('#code-view').hidden = view === 'preview';
+    closeFileExplorer();
     scheduleCanvasSize();
   }));
   function updateDevice(next) {
