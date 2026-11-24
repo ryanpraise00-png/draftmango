@@ -24,6 +24,7 @@
     if(document.body.dataset.screen==='dashboard'&&document.querySelector('#main.ws-home,#main.ws-collection-page')){
       d.classList.add('ws-home-dialog');
       if(document.querySelector('#main.store-owner'))d.classList.add('store-owner-dialog');
+      if(document.querySelector('#main.ws-settings-page'))d.classList.add('ws-settings-dialog');
       const titleId='workspace-dialog-title-'+(++dialogSequence);
       d.querySelector('h2').id=titleId;d.setAttribute('aria-labelledby',titleId);
       if(danger){
