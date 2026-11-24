@@ -13,10 +13,47 @@
     const label=seconds<60?'just now':seconds<3600?relativeTime.format(-Math.floor(seconds/60),'minute'):seconds<86400?relativeTime.format(-Math.floor(seconds/3600),'hour'):seconds<604800?relativeTime.format(-Math.floor(seconds/86400),'day'):'on '+date(edited);
     return `<time datetime="${edited.toISOString()}" title="${e(edited.toLocaleString())}">Edited ${e(label)}</time>`;
   }
-  function closeNav(){sidebar.classList.remove('is-open');scrim.hidden=true;document.querySelector('#open-sidebar').setAttribute('aria-expanded','false');if(innerWidth<=760)sidebar.inert=true;}
-  document.querySelector('#open-sidebar').onclick=()=>{sidebar.inert=false;sidebar.classList.add('is-open');scrim.hidden=false;document.querySelector('#open-sidebar').setAttribute('aria-expanded','true');sidebar.querySelector('.ws-nav-close').focus();};scrim.onclick=closeNav;
-  document.addEventListener('keydown',event=>{if(event.key==='Escape')closeNav();});window.addEventListener('resize',()=>{if(innerWidth>760){sidebar.inert=false;closeNav();}else if(!sidebar.classList.contains('is-open'))sidebar.inert=true;});
-  function nav(){W.sidebar(sidebar,current);sidebar.querySelector('.ws-nav-close').onclick=closeNav;if(innerWidth<=760&&!sidebar.classList.contains('is-open'))sidebar.inert=true;}
+  const mobileNavigation=matchMedia('(max-width:760px)'),app=document.querySelector('.ws-app'),navTrigger=document.querySelector('#open-sidebar');
+  navTrigger.setAttribute('aria-controls','sidebar');
+  function closeNav(restoreFocus=false){
+    const wasOpen=sidebar.classList.contains('is-open');
+    W.closeMenu();sidebar.classList.remove('is-open');scrim.hidden=true;app.inert=false;
+    sidebar.removeAttribute('role');sidebar.removeAttribute('aria-modal');
+    navTrigger.setAttribute('aria-expanded','false');sidebar.inert=mobileNavigation.matches;
+    if(wasOpen&&restoreFocus)navTrigger.focus({preventScroll:true});
+  }
+  function openNav(){
+    if(!mobileNavigation.matches)return;
+    sidebar.inert=false;sidebar.classList.add('is-open');scrim.hidden=false;
+    sidebar.setAttribute('role','dialog');sidebar.setAttribute('aria-modal','true');
+    navTrigger.setAttribute('aria-expanded','true');app.inert=true;
+    sidebar.querySelector('.ws-nav-close').focus({preventScroll:true});
+  }
+  navTrigger.onclick=openNav;scrim.onclick=()=>closeNav(true);
+  document.addEventListener('keydown',event=>{
+    if(!mobileNavigation.matches||!sidebar.classList.contains('is-open')||event.defaultPrevented)return;
+    if(event.key==='Escape'){event.preventDefault();closeNav(true);return;}
+    if(event.key!=='Tab'||document.querySelector('.ws-menu[role="menu"]'))return;
+    const controls=[...sidebar.querySelectorAll('a[href],button:not([disabled])')].filter(node=>node.getClientRects().length);
+    const first=controls[0],last=controls.at(-1);
+    if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}
+    else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
+  });
+  mobileNavigation.addEventListener('change',()=>{
+    const active=document.activeElement,wasOpen=sidebar.classList.contains('is-open');closeNav();
+    if(mobileNavigation.matches&&sidebar.contains(active))navTrigger.focus({preventScroll:true});
+    else if(!mobileNavigation.matches&&(wasOpen||active===navTrigger))sidebar.querySelector('.ws-sidebar-collapse')?.focus({preventScroll:true});
+  });
+  sidebar.addEventListener('draftmango:sidebar-navigate',()=>{closeNav();main.focus({preventScroll:true});});
+  sidebar.addEventListener('click',event=>{
+    const link=event.target.closest('a[href]');if(!link||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
+    const url=new URL(link.href);
+    if(url.pathname===location.pathname&&url.hash===location.hash){event.preventDefault();route();}
+  });
+  function nav(){
+    W.sidebar(sidebar,current);sidebar.querySelector('.ws-nav-close').onclick=()=>closeNav(true);
+    if(mobileNavigation.matches&&!sidebar.classList.contains('is-open'))sidebar.inert=true;
+  }
   function header(title,copy,actions='',eyebrow=''){return `<header class="ws-page-header"><div>${eyebrow?`<p class="ws-eyebrow">${eyebrow}</p>`:''}<h1>${title}</h1><p>${copy}</p></div>${actions}</header>`;}
   function list(items,kind='project',{recent=false}={}){return `<div class="ws-record-list">${items.map(p=>`<article class="ws-record-row"><a class="ws-record-open" href="${kind==='chat'?W.href(p):'#project/'+p.id}">${icon(kind==='chat'?'chat':'folder')}<span><strong>${e(p.title)}${W.meta(p).pinned?' <span class="ws-badge">Pinned</span>':''}</strong><small>${recent?editedTime(p.updatedAt):`${kind==='chat'?(W.meta(p).parentId?e(W.get(W.meta(p).parentId)?.title||'Project'):'Standalone chat'):e(W.meta(p).brief?.slice(0,110)||'Private project')} · ${date(p.updatedAt)}`}</small></span></a><button class="icon-button" aria-haspopup="menu" aria-expanded="false" data-menu="${e(p.id)}" aria-label="Manage ${kind} ${e(p.title)}">${icon('more')}</button></article>`).join('')}</div>`;}
   function wireMenus(){main.querySelectorAll('[data-menu]').forEach(b=>b.onclick=()=>W.recordMenu(b,W.get(b.dataset.menu)));}
@@ -54,6 +91,6 @@
   }
   function cli(){main.className='ws-page';main.innerHTML=header('CLI tasks','Follow the work happening in your terminal and review its proposed changes.','<a class="button" href="#settings/cli">CLI devices</a>','LOCAL DEVELOPMENT')+`<div class="ws-cli-layout"><section class="settings-card"><h2>Recent tasks</h2><p>No local tasks yet.</p><p class="muted">CLI pairing is postponed. When it is available, your local tasks will appear here.</p></section><section class="ws-empty"><h2>Your terminal, connected.</h2><p>Select a task to see progress, questions, local checks, and proposed source changes.</p></section></div>`;}
   function device(){main.className='ws-page';main.innerHTML=`<section class="ws-device"><h1>Connect your terminal</h1><p>Signed in as ${e(A.user.email)}</p><p>Match this code with the terminal where you started device pairing.</p><form id="device-form">${W.field('Terminal code','terminal-code','','text','required maxlength="20" placeholder="XXXX-XXXX"')}<button class="button primary">Look up code</button><p id="device-status" role="status"></p></form><a href="#home" class="text-link">Back to workspace</a></section>`;main.querySelector('form').onsubmit=event=>{event.preventDefault();main.querySelector('#device-status').textContent='CLI device pairing is not available yet. No terminal has been authorized.';};}
-  function route(){voiceInput?.dispose();voiceInput=null;globalThis.DraftmangoStores?.dispose();globalThis.DraftmangoDomains?.dispose();W.closeMenu();const [page,arg,tab]=location.hash.slice(1).split('/');current=['projects','chats','project','settings','domains','stores','store','cli','device'].includes(page)?page:'home';nav();closeNav();document.title=({home:'Workspace',project:'Project',projects:'Your projects',chats:'Chats',settings:'Settings',domains:'Domains',stores:'Stores',store:'Store management',cli:'CLI tasks',device:'Connect terminal'})[current]+' | Draftmango';if(current==='home'){home();if(page==='new'){main.querySelector('#idea-input').value='';main.querySelector('#idea-input').dispatchEvent(new Event('input'));main.querySelector('#idea-input').focus();}if(page==='new-project')W.newProject();}else if(current==='projects')projects();else if(current==='chats')chats();else if(current==='project')project(arg,tab);else if(current==='settings'){main.className='ws-page';globalThis.DraftmangoSettings.render(main,arg);}else if(current==='domains'){main.className='ws-page';main.innerHTML='<section id="page-domains" class="domains-page"></section>';globalThis.DraftmangoDomains.mount({...W.library(),projects:W.records('project')});}else if(current==='stores'||current==='store')globalThis.DraftmangoStores.render(main,current==='store'?arg:undefined,tab);else if(current==='cli')cli();else device();window.scrollTo(0,0);}
+  function route(){const fromNavigation=sidebar.classList.contains('is-open')||sidebar.contains(document.activeElement);voiceInput?.dispose();voiceInput=null;globalThis.DraftmangoStores?.dispose();globalThis.DraftmangoDomains?.dispose();W.closeMenu();const [page,arg,tab]=location.hash.slice(1).split('/');current=['projects','chats','project','settings','domains','stores','store','cli','device'].includes(page)?page:'home';nav();closeNav();document.title=({home:'Workspace',project:'Project',projects:'Your projects',chats:'Chats',settings:'Settings',domains:'Domains',stores:'Stores',store:'Store management',cli:'CLI tasks',device:'Connect terminal'})[current]+' | Draftmango';if(current==='home'){home();if(page==='new'){main.querySelector('#idea-input').value='';main.querySelector('#idea-input').dispatchEvent(new Event('input'));main.querySelector('#idea-input').focus();}if(page==='new-project')W.newProject();}else if(current==='projects')projects();else if(current==='chats')chats();else if(current==='project')project(arg,tab);else if(current==='settings'){main.className='ws-page';globalThis.DraftmangoSettings.render(main,arg);}else if(current==='domains'){main.className='ws-page';main.innerHTML='<section id="page-domains" class="domains-page"></section>';globalThis.DraftmangoDomains.mount({...W.library(),projects:W.records('project')});}else if(current==='stores'||current==='store')globalThis.DraftmangoStores.render(main,current==='store'?arg:undefined,tab);else if(current==='cli')cli();else device();window.scrollTo(0,0);if(fromNavigation&&page!=='new'&&page!=='new-project')main.focus({preventScroll:true});}
   window.addEventListener('hashchange',route);window.addEventListener('draftmango:records',()=>{nav();if(current==='home')homeRecents();else if(current==='projects')projects();else if(current==='chats')chats();else if(current==='project'){const [,id,tab]=location.hash.slice(1).split('/');project(id,tab);}});window.addEventListener('storage',event=>{if(event.key===A.key('projects')){nav();if(current==='home')homeRecents();}});route();A.paint();
 })();
