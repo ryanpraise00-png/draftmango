@@ -4,6 +4,7 @@
   const A = globalThis.DraftmangoAccounts, M = globalThis.DraftmangoModel;
   const e = M.escapeHtml, $ = s => document.querySelector(s);
   const paths = {image:'M3 4h18v16H3ZM3 15l5-5 5 5 3-3 5 5M16 8h.01',notes:'M8 3H5v18h14V9M9 15l1-4L19 2l3 3-9 9-4 1Z',branch:'M6 3v13a3 3 0 1 0 0 6 3 3 0 0 0 0-6M6 3a2 2 0 1 0 0 4 2 2 0 0 0 0-4M18 3a2 2 0 1 0 0 4 2 2 0 0 0 0-4M18 7v3c0 3-12 1-12 6',chat:'M4 4h16v12H9l-5 4V4Z',folder:'M3 7V4h7l2 3h9v13H3Z',plus:'M12 4v16M4 12h16',close:'m6 6 12 12M6 18 18 6',arrow:'M5 12h14m-5-5 5 5-5 5',up:'M12 20V4m-6 6 6-6 6 6',menu:'M4 6h16M4 12h16M4 18h16',sliders:'M5 3v6m0 4v8M12 3v11m0 4v3m7-18v3m0 4v11M2 9h6m1 5h6m1-8h6',home:'M3 3h7v7H3ZM14 3h7v7h-7ZM3 14h7v7H3ZM14 14h7v7h-7Z',more:'M5 12h.01M12 12h.01M19 12h.01',moon:'M20 15A9 9 0 0 1 9 4a9 9 0 1 0 11 11Z',sun:'M12 2v2M12 20v2M2 12h2M20 12h2M5 5l2 2m10 10 2 2M5 19l2-2M17 7l2-2M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0',external:'M6 18 18 6M7 6h11v11',file:'M6 3h8l4 4v14H6ZM14 3v5h4',download:'M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4',upload:'M12 17V3m-5 5 5-5 5 5M4 17v4h16v-4',monitor:'M3 4h18v13H3ZM8 21h8M12 17v4',terminal:'m5 7 5 5-5 5m8 0h6',lock:'M5 10h14v11H5ZM8 10V7a4 4 0 0 1 8 0v3',user:'M8 7a4 4 0 1 0 8 0 4 4 0 0 0-8 0M4 21v-2a8 8 0 0 1 16 0v2',link:'m9 15 6-6M8 17l-1 1a4 4 0 0 1-6-6l5-5a4 4 0 0 1 6 0m1-1 1-1a4 4 0 0 1 6 6l-5 5a4 4 0 0 1-6 0',chart:'M4 3v18h17M9 17V9m5 8V5m5 12v-7',credit:'M3 5h18v14H3ZM3 9h18M7 15h3',database:'M3 6c0-5 18-5 18 0v12c0 5-18 5-18 0ZM3 6c0 5 18 5 18 0M3 12c0 5 18 5 18 0',check:'m5 12 4 4L19 6',search:'M16 16l5 5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0',history:'M3 3v6h6M3 9a9 9 0 1 1 1 10M12 7v5l3 2',play:'m7 4 14 8-14 8Z',test:'m9 3 3 3-8 12a2 2 0 0 0 3 3L19 9l3 3M8 14l5 5',save:'M4 3h14l3 3v15H3V3ZM7 3v6h10V3M7 21v-8h10v8',expand:'M3 9V3h6m6 0h6v6M3 15v6h6m6 0h6v-6',trash:'M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7',code:'m8 6-6 6 6 6m8-12 6 6-6 6M14 3l-4 18',globe:'M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0M3 12h18M12 3c-6 5-6 13 0 18 6-5 6-13 0-18',copy:'M8 8h13v13H8ZM16 8V3H3v13h5',sound:'M3 9h4l5-5v16l-5-5H3ZM16 8c3 2 3 6 0 8M19 5c5 4 5 10 0 14'};
+  Object.assign(paths,{edit:'m14 4 6 6M4 20l5-1L21 7l-5-5L4 14v6Z',pin:'m16 3 5 5-4 1-4 4v4l-2 2-6-6 2-2h4l4-4 1-4ZM2 22l6-6',archive:'M3 3h18v5H3ZM5 8v13h14V8M10 12h4'});
   const icon = name => name==='more'?'<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.7" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.7" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.7" fill="currentColor" stroke="none"/></svg>':`<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${paths[name] || paths.file}"/></svg>`;
   const defaults = {theme:'light',sound:true,fontSize:14,indent:2,wordWrap:false,lineNumbers:true,reduceMotion:false,device:'responsive',buildLevel:'standard',autoRefresh:true,starter:'auto',color:'auto'};
   let prefs = {...defaults}, profile, activities=[], toastTimer, activeMenu, activeMenuCleanup;
@@ -23,32 +24,37 @@
     d.querySelector('form').onsubmit=async event=>{event.preventDefault();if(!submit)return;const b=d.querySelector('[type=submit]');b.disabled=true;try{await submit(d);if(d.open)d.close();}catch(error){const p=d.querySelector('.dialog-error');p.hidden=false;p.textContent=error.message;}finally{b.disabled=false;}};d.showModal();return d;
   }
   function closeMenu(){activeMenuCleanup?.();activeMenuCleanup=null;activeMenu?.remove();activeMenu=null;}
-  function menu(anchor, items, {attachment=false}={}){
-    if(attachment && activeMenu?.attachmentAnchor===anchor){closeMenu();return;}
+  function menu(anchor, items, {attachment=false,record=false,title=""}={}){
+    const enhanced=attachment||record;
+    if(enhanced && activeMenu?.menuAnchor===anchor){closeMenu();return;}
     closeMenu();
     const node=document.createElement('div');
-    node.className='ws-menu'+(attachment?' ws-attachment-menu':'');
+    node.className='ws-menu'+(attachment?' ws-attachment-menu':record?' ws-record-menu':'');
     node.setAttribute('role','menu');
-    if(attachment){
-      node.id='attachment-menu';node.attachmentAnchor=anchor;
-      node.setAttribute('aria-label','Add context');
-      const heading=document.createElement('div');heading.className='ws-attachment-heading';
-      heading.setAttribute('role','presentation');heading.textContent='Add context';node.append(heading);
-      anchor.setAttribute('aria-expanded','true');anchor.setAttribute('aria-controls',node.id);
+    if(enhanced){
+      node.id=attachment?'attachment-menu':'record-actions-menu';node.menuAnchor=anchor;
+      const headingText=attachment?'Add context':title;
+      node.setAttribute('aria-label',headingText);
+      const heading=document.createElement('div');heading.className=attachment?'ws-attachment-heading':'ws-record-menu-heading';
+      heading.setAttribute('role','presentation');heading.textContent=headingText;node.append(heading);
+      anchor.setAttribute('aria-haspopup','menu');anchor.setAttribute('aria-expanded','true');anchor.setAttribute('aria-controls',node.id);
     }
     items.forEach(({label,description,symbol,run,danger=false,separate=false})=>{
       const b=document.createElement('button');b.type='button';b.setAttribute('role','menuitem');
       if(attachment){
         b.className='ws-attachment-option'+(separate?' is-separated':'');
         b.innerHTML=icon(symbol)+`<span class="ws-attachment-copy"><span class="ws-attachment-label">${e(label)}</span><span class="ws-attachment-description">${e(description)}</span></span>`;
+      }else if(record){
+        b.className='ws-record-menu-option'+(separate?' is-separated':'');
+        b.innerHTML=icon(symbol)+`<span>${e(label)}</span>`;
       }else b.textContent=label;
       if(danger)b.classList.add('danger');
       b.onclick=()=>{closeMenu();anchor.focus({preventScroll:true});run();};node.append(b);
     });
     document.body.append(node);activeMenu=node;
     const buttons=[...node.querySelectorAll('button')];
-    if(attachment){
-      const composer=anchor.closest('.ws-composer,.composer')||anchor;
+    if(enhanced){
+      const composer=attachment?(anchor.closest('.ws-composer,.composer')||anchor):anchor;
       let frame=0;
       function position(){
         if(activeMenu!==node)return;
@@ -57,13 +63,13 @@
         const left=viewport?.offsetLeft||0,top=viewport?.offsetTop||0;
         const width=viewport?.width||innerWidth,height=viewport?.height||innerHeight,gap=8,inset=12;
         if(trigger.bottom<top||trigger.top>top+height){closeMenu();return;}
-        const menuWidth=Math.min(320,width-inset*2);
+        const menuWidth=Math.min(attachment?320:248,width-inset*2);
         node.style.width=menuWidth+'px';
         const naturalHeight=Math.min(400,node.scrollHeight+node.offsetHeight-node.clientHeight);
         const belowSpace=Math.max(0,top+height-r.bottom-gap-inset),aboveSpace=Math.max(0,r.top-top-gap-inset);
         const below=belowSpace>=naturalHeight||(aboveSpace<naturalHeight&&belowSpace>=aboveSpace);
         node.style.maxHeight=Math.min(400,below?belowSpace:aboveSpace)+'px';
-        node.style.left=Math.max(left+inset,Math.min(r.left,left+width-menuWidth-inset))+'px';
+        node.style.left=Math.max(left+inset,Math.min(attachment?r.left:r.right-menuWidth,left+width-menuWidth-inset))+'px';
         node.style.top=(below?r.bottom+gap:r.top-node.getBoundingClientRect().height-gap)+'px';
       }
       const schedule=()=>{cancelAnimationFrame(frame);frame=requestAnimationFrame(position);};
@@ -91,14 +97,14 @@
         buttons[next]?.focus({preventScroll:true});buttons[next]?.scrollIntoView({block:'nearest'});
       }
       if(event.key==='Escape'){event.preventDefault();event.stopPropagation();closeMenu();anchor.focus({preventScroll:true});}
-      if(attachment&&event.key==='Tab'){
-        // Return to the trigger before native Tab continues through the composer.
+      if(enhanced&&event.key==='Tab'){
+        // Return to the trigger before native Tab continues through the page.
         anchor.focus({preventScroll:true});closeMenu();
       }
     };
   }
-  document.addEventListener('pointerdown',event=>{if(activeMenu&&!activeMenu.contains(event.target)&&!activeMenu.attachmentAnchor?.contains(event.target))closeMenu();});
-  window.addEventListener('resize',()=>{if(!activeMenu?.attachmentAnchor)closeMenu();});
+  document.addEventListener('pointerdown',event=>{if(activeMenu&&!activeMenu.contains(event.target)&&!activeMenu.menuAnchor?.contains(event.target))closeMenu();});
+  window.addEventListener('resize',()=>{if(!activeMenu?.menuAnchor)closeMenu();});
 
   const legacyEmptyFiles=()=>({'index.html':'<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n<title>Untitled project</title>\n<link rel="stylesheet" href="styles.css">\n</head>\n<body>\n<script src="app.js"></script>\n</body>\n</html>','styles.css':'','app.js':''});
   const emptyFiles=()=>globalThis.DraftmangoProject.scaffold();
@@ -112,11 +118,26 @@
   function rename(record){dialog(isChat(record)?'Rename chat':'Rename project',field('Name','record-name',record.title,'text','required maxlength="60"'),{submit:d=>{const title=d.querySelector('#record-name').value.trim();if(!title)throw new Error('Enter a name.');update(record.id,{title});toast('Name saved.');}});}
   function move(record){dialog('Move chat',`<p>Choose the project this conversation belongs to.</p><label for="move-project">Project</label><select id="move-project"><option value="">Standalone chat</option>${records('project').map(p=>`<option value="${e(p.id)}" ${meta(record).parentId===p.id?'selected':''}>${e(p.title)}</option>`).join('')}</select>`,{label:'Move chat',submit:d=>{update(record.id,{workspace:{parentId:d.querySelector('#move-project').value}});toast('Chat moved.');}});}
   function remove(record){dialog(`Delete ${isChat(record)?'chat':'project'}?`,`<p>Delete <strong>${e(record.title)}</strong>${isChat(record)?' and its conversation':' and its related chats'} from your workspace?</p><p>This removes it from your project library. Export a copy first if you need these files.</p>`,{label:'Delete',submit:()=>{for(const p of library().projects.filter(p=>p.id===record.id||meta(p).parentId===record.id))update(p.id,{workspace:{deleted:true}});if(globalThis.DraftmangoEditor?.project.id===record.id)location.href='/dashboard#chats';toast('Deleted from your workspace.');}});}
-  function recordMenu(anchor,p){menu(anchor,[{label:meta(p).pinned?'Unpin':'Pin',run:()=>update(p.id,{workspace:{pinned:!meta(p).pinned}})},{label:'Rename',run:()=>rename(p)},...(isChat(p)?[{label:'Move to project',run:()=>move(p)},{label:'Save as project',run:()=>newProject(p)}]:[{label:'Open in editor',run:()=>location.href=href(p)},{label:'Duplicate project',run:()=>{const copy=structuredClone(p);copy.id=crypto.randomUUID();copy.title=(p.title+' copy').slice(0,60);copy.createdAt=copy.updatedAt=new Date().toISOString();save(copy);toast('Project duplicated.');}}]),{label:meta(p).archived?'Restore from archive':'Archive',run:()=>update(p.id,{workspace:{archived:!meta(p).archived}})},{label:'Delete',danger:true,run:()=>remove(p)}]);}
+  function recordMenu(anchor,p){
+    if(!p)return;
+    menu(anchor,[
+      {label:meta(p).pinned?'Unpin':'Pin',symbol:'pin',run:()=>update(p.id,{workspace:{pinned:!meta(p).pinned}})},
+      {label:'Rename',symbol:'edit',run:()=>rename(p)},
+      ...(isChat(p)?[
+        {label:'Move to project',symbol:'folder',run:()=>move(p)},
+        {label:'Save as project',symbol:'save',run:()=>newProject(p)}
+      ]:[
+        {label:'Open in editor',symbol:'code',run:()=>location.href=href(p)},
+        {label:'Duplicate project',symbol:'copy',run:()=>{const copy=structuredClone(p);copy.id=crypto.randomUUID();copy.title=(p.title+' copy').slice(0,60);copy.createdAt=copy.updatedAt=new Date().toISOString();save(copy);toast('Project duplicated.');}}
+      ]),
+      {label:meta(p).archived?'Restore from archive':'Archive',symbol:'archive',separate:true,run:()=>update(p.id,{workspace:{archived:!meta(p).archived}})},
+      {label:'Delete',symbol:'trash',danger:true,run:()=>remove(p)}
+    ],{record:true,title:isChat(p)?'Chat actions':'Project actions'});
+  }
   function sidebar(root,current='home',activeId=''){
     if(!root)return;
     const nav=[['home','home','Workspace'],['chats','chat','Chats'],['new-project','plus','New project'],['projects','folder','Your projects'],['domains','globe','Domains'],['stores','folder','Stores'],['settings/profile','sliders','Settings']];
-    root.innerHTML=`<div class="ws-brand-row"><a href="/dashboard" class="brand" aria-label="Draftmango workspace"><svg class="brand-mark"><use href="#mango"/></svg><span>draftmango.</span></a><button class="icon-button ws-nav-close" aria-label="Close navigation">${icon('close')}</button></div><a class="button ws-new-chat" href="/dashboard#new">${icon('plus')}New chat</a><nav class="ws-nav" aria-label="Main navigation">${nav.map(([route,symbol,label])=>`<a href="/dashboard#${route}" ${current===route.split('/')[0]?'aria-current="page"':''}>${icon(symbol)}${label}</a>`).join('')}</nav><div class="ws-recents">${['chat','project'].map(kind=>`<section><h2>Recent ${kind}s</h2>${records(kind).slice(0,6).map(p=>`<div class="ws-recent ${p.id===activeId?'is-active':''}"><a href="${kind==='chat'?href(p):'/dashboard#project/'+p.id}" title="${e(p.title)}">${icon(kind==='chat'?'chat':'folder')}<span>${e(p.title)}</span></a><button class="icon-button" data-record-menu="${e(p.id)}" aria-label="Manage ${kind} ${e(p.title)}">${icon('more')}</button></div>`).join('')||`<p class="ws-empty-note">${kind==='chat'?'Your recent conversations appear here.':'Create a project to organise files and related chats.'}</p>`}</section>`).join('')}</div><div class="ws-sidebar-bottom"><div class="ws-bottom-links"><a href="/help">Help &amp; support ${icon('external')}</a><a href="/legal#privacy">Privacy</a></div><div class="ws-bottom-links"><a href="/">Back to Draftmango ${icon('external')}</a><button class="icon-button" data-theme-toggle aria-label="Switch to ${document.documentElement.dataset.theme==='dark'?'light':'dark'} mode">${icon(document.documentElement.dataset.theme==='dark'?'sun':'moon')}</button></div><a class="account-link" href="/dashboard#settings/profile"><span class="avatar">${e((profile?.name||A.user?.email||'D').slice(0,1).toUpperCase())}</span><span><strong>${e(profile?.name||A.user?.email||'Your account')}</strong><small>Account settings</small></span>${icon('sliders')}</a></div>`;
+    root.innerHTML=`<div class="ws-brand-row"><a href="/dashboard" class="brand" aria-label="Draftmango workspace"><svg class="brand-mark"><use href="#mango"/></svg><span>draftmango.</span></a><button class="icon-button ws-nav-close" aria-label="Close navigation">${icon('close')}</button></div><a class="button ws-new-chat" href="/dashboard#new">${icon('plus')}New chat</a><nav class="ws-nav" aria-label="Main navigation">${nav.map(([route,symbol,label])=>`<a href="/dashboard#${route}" ${current===route.split('/')[0]?'aria-current="page"':''}>${icon(symbol)}${label}</a>`).join('')}</nav><div class="ws-recents">${['chat','project'].map(kind=>`<section><h2>Recent ${kind}s</h2>${records(kind).slice(0,6).map(p=>`<div class="ws-recent ${p.id===activeId?'is-active':''}"><a href="${kind==='chat'?href(p):'/dashboard#project/'+p.id}" title="${e(p.title)}">${icon(kind==='chat'?'chat':'folder')}<span>${e(p.title)}</span></a><button class="icon-button" aria-haspopup="menu" aria-expanded="false" data-record-menu="${e(p.id)}" aria-label="Manage ${kind} ${e(p.title)}">${icon('more')}</button></div>`).join('')||`<p class="ws-empty-note">${kind==='chat'?'Your recent conversations appear here.':'Create a project to organise files and related chats.'}</p>`}</section>`).join('')}</div><div class="ws-sidebar-bottom"><div class="ws-bottom-links"><a href="/help">Help &amp; support ${icon('external')}</a><a href="/legal#privacy">Privacy</a></div><div class="ws-bottom-links"><a href="/">Back to Draftmango ${icon('external')}</a><button class="icon-button" data-theme-toggle aria-label="Switch to ${document.documentElement.dataset.theme==='dark'?'light':'dark'} mode">${icon(document.documentElement.dataset.theme==='dark'?'sun':'moon')}</button></div><a class="account-link" href="/dashboard#settings/profile"><span class="avatar">${e((profile?.name||A.user?.email||'D').slice(0,1).toUpperCase())}</span><span><strong>${e(profile?.name||A.user?.email||'Your account')}</strong><small>Account settings</small></span>${icon('sliders')}</a></div>`;
     root.querySelector('[href$="#new-project"]').onclick=event=>{event.preventDefault();newProject();};root.querySelectorAll('[data-record-menu]').forEach(b=>b.onclick=()=>recordMenu(b,get(b.dataset.recordMenu)));
     root.querySelector('[data-theme-toggle]').onclick=()=>savePrefs({theme:document.documentElement.dataset.theme==='dark'?'light':'dark'}).catch(error=>toast(error.message));
     root.querySelector('.ws-nav-close').onclick=()=>{root.classList.remove('is-open');document.querySelectorAll('.sidebar-scrim,.navigation-scrim').forEach(n=>n.hidden=true);document.querySelector('.workspace-layout')?.removeAttribute('inert');if(root.classList.contains('project-sidebar')){root.inert=innerWidth<=1000;const toggle=document.querySelector('#toggle-navigation');toggle?.setAttribute('aria-expanded','false');toggle?.focus();}};

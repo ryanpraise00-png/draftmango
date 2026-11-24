@@ -219,3 +219,19 @@ body.workspace-clone[data-screen] :is(#add-context,#chat-attach)[aria-expanded=t
 body.workspace-clone[data-screen] :is(.ws-composer,.composer) textarea{resize:none;overflow-y:auto}
 body.workspace-clone[data-screen] .keyboard-hint kbd{font:inherit;font-weight:500;background:none;border:0;border-radius:0;box-shadow:none;padding:0;color:inherit}
 body.workspace-clone[data-screen] .prototype-caption{font-size:13px;line-height:1.6;color:color-mix(in srgb,var(--ws-muted) 80%,var(--ws-ink))}
+
+/* Record actions share the model and attachment menus' warm, rounded surface. */
+body.workspace-clone[data-screen] .ws-record-menu{z-index:1200;box-sizing:border-box;min-width:0;max-width:calc(100vw - 24px);margin:0;padding:8px;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;border:1px solid var(--ws-line);border-radius:20px;background:color-mix(in oklch,var(--ws-panel) 94%,var(--ws-side));color:var(--ws-ink);box-shadow:0 6px 14px -10px #16120f30,0 20px 48px -18px #16120f35;font:400 14px/1.5 Inter,system-ui,sans-serif;text-align:left}
+body.workspace-clone[data-screen] .ws-record-menu-heading{padding:7px 10px 9px;font-size:13px;font-weight:600}
+body.workspace-clone[data-screen] .ws-record-menu-option{display:flex;align-items:center;gap:10px;min-height:44px;box-sizing:border-box;padding:9px 10px;border:1px solid transparent;border-radius:12px;color:var(--ws-ink);font:inherit;cursor:pointer;transition:background .12s}
+body.workspace-clone[data-screen] .ws-record-menu-option>.icon{width:18px;height:18px;flex:0 0 18px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;color:var(--ws-muted)}
+body.workspace-clone[data-screen] .ws-record-menu-option>span{min-width:0;overflow-wrap:anywhere}
+body.workspace-clone[data-screen] .ws-record-menu-option:hover,body.workspace-clone[data-screen] .ws-record-menu-option:focus{background:var(--ws-side);outline:none}
+body.workspace-clone[data-screen] .ws-record-menu-option:focus-visible{box-shadow:inset 0 0 0 1px color-mix(in oklch,var(--ws-accent) 45%,var(--ws-line))}
+body.workspace-clone[data-screen] .ws-record-menu-option.is-separated{margin-top:7px;position:relative}
+body.workspace-clone[data-screen] .ws-record-menu-option.is-separated::before{content:"";position:absolute;left:10px;right:10px;top:-5px;height:1px;background:color-mix(in oklch,var(--ws-line) 65%,transparent)}
+body.workspace-clone[data-screen] .ws-record-menu-option.danger,body.workspace-clone[data-screen] .ws-record-menu-option.danger>.icon{color:var(--ws-danger)}
+body.workspace-clone[data-screen] .ws-record-menu-option.danger:hover,body.workspace-clone[data-screen] .ws-record-menu-option.danger:focus{background:color-mix(in oklch,var(--ws-danger) 8%,var(--ws-panel))}
+body.workspace-clone[data-screen] :is([data-menu],[data-record-menu])[aria-expanded=true]{background:var(--ws-side);color:var(--ws-ink)}
+@media(prefers-reduced-motion:reduce){body.workspace-clone[data-screen] .ws-record-menu-option{transition:none}}
+@media(forced-colors:active){body.workspace-clone[data-screen] .ws-record-menu{border-color:ButtonText;background:Canvas;color:CanvasText}body.workspace-clone[data-screen] .ws-record-menu-option:focus-visible{outline:1px solid Highlight;outline-offset:-2px}}
