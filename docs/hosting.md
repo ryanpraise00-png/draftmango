@@ -3,7 +3,21 @@
 Host: root@187.124.47.123 (srv1803759.hstgr.cloud), Ubuntu 24.04.
 Application domain: draftmango.com. www redirects to the apex after TLS setup.
 
-## Deployed — shared engine, remote-access infrastructure and guided builder
+## Current release — white dashboard and workspace
+
+Live release: `20261124-white-3120a0d`, source `3120a0d`, deployed on
+24 November 2026 from `codex/builder-guided-flow`. The web, backend, builder and
+publisher are healthy; public page responses and deployed asset checksums were
+verified. The prior release and database backup are retained for rollback.
+See the [release record](releases/2026-11-24.md).
+
+Managed-store source and its three additive migrations are installed, but
+`DJANGO_STORES_ENABLED=0` keeps store services disabled pending activation.
+Store payments, the store worker and remote Isotris access were not enabled.
+The historical release and initial installation notes below describe earlier
+states; use the current release record when planning the next deployment.
+
+## Previous release — shared engine, remote-access infrastructure and guided builder
 
 Released on 22 November 2026 from `codex/builder-guided-flow`, including:
 
