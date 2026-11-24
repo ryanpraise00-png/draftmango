@@ -2,6 +2,10 @@
 
 ## 24 November 2026
 
+### Mobile canvas Run button
+- Prevented Run and the adjacent action buttons from shrinking inside the mobile toolbar. The action group wraps below the view tabs when the row is too narrow, retaining the white, rounded controls and full Run label/padding.
+- Browser checks at 320, 360, 390, 430, 760 and 1280 px confirmed that Run and the action group fit without page overflow. Prepared locally for review; not deployed.
+
 ### Sculpted mango identity
 - Replaced the illustrated mango with the approved orange Sculpted vector mark and black wordmark across public pages, authentication, dashboard and workspace; the dark footer uses the white lockup.
 - Added matching transparent favicon and downloadable orange, black and white SVGs, generated from one shared definition. Homepage colours and interface controls are unchanged.
