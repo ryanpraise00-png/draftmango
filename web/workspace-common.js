@@ -20,8 +20,8 @@
   function field(label,id,value='',type='text',extra=''){return `<label for="${id}">${label}</label><input id="${id}" type="${type}" value="${e(value)}" ${extra}>`;}
   function dialog(title,content,{submit,label='Save',wide=false,danger=false}={}){
     closeMenu(); const d=document.createElement('dialog');d.className='ws-dialog'+(wide?' wide':'');d.innerHTML=`<form><header><h2>${e(title)}</h2><button type="button" class="icon-button" aria-label="Close dialog" data-dismiss>${icon('close')}</button></header><div class="dialog-body">${content}</div><p class="dialog-error" role="alert" hidden></p>${submit?`<footer><button type="button" class="button" data-dismiss>Cancel</button><button type="submit" class="button primary">${e(label)}</button></footer>`:''}</form>`;
-    // Apply the new dialog treatment only when opened from the workspace home.
-    if(document.body.dataset.screen==='dashboard'&&document.querySelector('#main.ws-home')){
+    // Share rounded dialogs across the dashboard screens already refreshed.
+    if(document.body.dataset.screen==='dashboard'&&document.querySelector('#main.ws-home,#main.ws-projects-page')){
       d.classList.add('ws-home-dialog');
       const titleId='workspace-dialog-title-'+(++dialogSequence);
       d.querySelector('h2').id=titleId;d.setAttribute('aria-labelledby',titleId);
@@ -50,14 +50,16 @@
       heading.setAttribute('role','presentation');heading.textContent=headingText;node.append(heading);
       anchor.setAttribute('aria-haspopup','menu');anchor.setAttribute('aria-expanded','true');anchor.setAttribute('aria-controls',node.id);
     }
-    items.forEach(({label,description,symbol,run,danger=false,separate=false})=>{
-      const b=document.createElement('button');b.type='button';b.setAttribute('role','menuitem');
+    items.forEach(({label,description,symbol,run,checked,danger=false,separate=false})=>{
+      const b=document.createElement('button'),selection=typeof checked==='boolean';b.type='button';b.setAttribute('role',selection?'menuitemradio':'menuitem');
+      if(selection)b.setAttribute('aria-checked',String(checked));
       if(attachment){
         b.className='ws-attachment-option'+(separate?' is-separated':'');
         b.innerHTML=icon(symbol)+`<span class="ws-attachment-copy"><span class="ws-attachment-label">${e(label)}</span><span class="ws-attachment-description">${e(description)}</span></span>`;
       }else if(record){
         b.className='ws-record-menu-option'+(separate?' is-separated':'');
-        b.innerHTML=icon(symbol)+`<span>${e(label)}</span>`;
+        b.innerHTML=(selection?'':icon(symbol))+`<span>${e(label)}</span>`;
+        if(selection){b.classList.add('ws-menu-selection');b.innerHTML+=`<span class="ws-menu-check" aria-hidden="true">${checked?icon('check'):''}</span>`;}
       }else b.textContent=label;
       if(danger)b.classList.add('danger');
       b.onclick=()=>{closeMenu();anchor.focus({preventScroll:true});run();};node.append(b);
@@ -99,7 +101,7 @@
       node.style.left=Math.max(8,Math.min(r.left,innerWidth-node.offsetWidth-8))+'px';
       node.style.top=Math.max(8,Math.min(r.bottom+5,innerHeight-node.offsetHeight-8))+'px';
     }
-    buttons[0]?.focus({preventScroll:true});
+    (buttons.find(button=>button.getAttribute('aria-checked')==='true')||buttons[0])?.focus({preventScroll:true});
     node.onkeydown=event=>{
       const i=buttons.indexOf(document.activeElement);
       if(['ArrowUp','ArrowDown','Home','End'].includes(event.key)){
