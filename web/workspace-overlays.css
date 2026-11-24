@@ -1,0 +1,108 @@
+/* Shared workspace overlays. Screen scoping leaves dashboard and public pages unchanged.
+   Load before the dedicated popup styles so their approved layouts remain in control. */
+body.workspace-clone[data-screen=builder] .ws-menu,
+body.workspace-clone[data-screen=builder] .ws-model-menu{
+  box-sizing:border-box;min-width:0;max-width:calc(100vw - 24px);margin:0;padding:8px;
+  border:1px solid var(--ws-line);border-radius:20px;background:var(--ws-panel);color:var(--ws-ink);
+  box-shadow:0 6px 16px -10px #16120f20,0 18px 44px -16px #16120f26;
+  font:400 14px/1.5 Inter,system-ui,sans-serif;text-align:left;
+  overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--ws-line) transparent;
+}
+body.workspace-clone[data-screen=builder] :is(.ws-record-menu-heading,.ws-attachment-heading,.ws-model-menu-heading){
+  padding:8px 12px 10px;color:var(--ws-muted);font-size:13px;font-weight:500;line-height:1.5;
+  white-space:normal;overflow-wrap:anywhere;
+}
+body.workspace-clone[data-screen=builder] .ws-menu .ws-record-menu-option{
+  display:flex;align-items:center;gap:11px;width:100%;min-height:42px;margin:0;padding:10px 12px;
+  border:1px solid transparent;border-radius:12px;background:transparent;color:var(--ws-ink);
+  font:inherit;text-align:left;box-shadow:none;
+}
+body.workspace-clone[data-screen=builder] .ws-record-menu-option>.icon{flex:0 0 18px;width:18px;height:18px;color:var(--ws-muted);stroke-width:1.6}
+body.workspace-clone[data-screen=builder] .ws-record-menu-option>span{min-width:0;white-space:normal;overflow-wrap:anywhere}
+body.workspace-clone[data-screen=builder] :is(.ws-record-menu-option,.ws-attachment-option,.ws-model-option):is(:hover,:focus){outline:none;background:color-mix(in srgb,var(--ws-ink) 4%,var(--ws-panel))}
+body.workspace-clone[data-screen=builder] :is(.ws-record-menu-option,.ws-attachment-option,.ws-model-option):focus-visible{box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ws-orange) 50%,var(--ws-line))}
+body.workspace-clone[data-screen=builder] .ws-record-menu-option.is-separated{position:relative;margin-top:9px}
+body.workspace-clone[data-screen=builder] .ws-record-menu-option.is-separated::before{left:12px;right:12px;top:-6px;background:color-mix(in srgb,var(--ws-line) 70%,var(--ws-panel))}
+body.workspace-clone[data-screen=builder] .ws-menu .ws-record-menu-option.danger{color:var(--ws-danger)}
+body.workspace-clone[data-screen=builder] .ws-record-menu-option.danger>.icon{color:inherit}
+body.workspace-clone[data-screen=builder] .ws-record-menu-option.danger:is(:hover,:focus){background:color-mix(in srgb,var(--ws-danger) 6%,var(--ws-panel))}
+body.workspace-clone[data-screen=builder] .ws-attachment-option{padding-inline:12px}
+body.workspace-clone[data-screen=builder] .ws-model-option[aria-selected=true]{background:color-mix(in srgb,var(--ws-ink) 3%,var(--ws-panel))}
+body.workspace-clone[data-screen=builder] .ws-model-option[data-active=true]{background:color-mix(in srgb,var(--ws-ink) 5%,var(--ws-panel))}
+
+body.workspace-clone[data-screen=builder] dialog.ws-dialog{
+  box-sizing:border-box;width:min(510px,calc(100vw - 32px));max-height:calc(100dvh - 32px);padding:0;
+  border:1px solid var(--ws-line);border-radius:24px;background:var(--ws-panel);color:var(--ws-ink);
+  box-shadow:0 8px 24px -16px #16120f30,0 28px 80px -24px #16120f40;
+  font:400 15px/1.65 Inter,system-ui,sans-serif;overflow:auto;overscroll-behavior:contain;
+  scrollbar-width:thin;scrollbar-color:var(--ws-line) transparent;
+}
+body.workspace-clone[data-screen=builder] dialog.ws-dialog.wide{width:min(720px,calc(100vw - 32px))}
+body.workspace-clone[data-screen=builder] .ws-dialog::backdrop{background:#16120f55;backdrop-filter:none}
+body.workspace-clone[data-screen=builder] .ws-dialog :where(form){margin:0}
+body.workspace-clone[data-screen=builder] .ws-dialog :is(header,.dialog-heading){display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0;padding:22px 24px 12px}
+body.workspace-clone[data-screen=builder] .ws-dialog h2{margin:0;font-size:22px;font-weight:600;line-height:1.4;letter-spacing:-.035em;overflow-wrap:anywhere}
+body.workspace-clone[data-screen=builder] .ws-dialog :where(.icon-button){display:grid;place-items:center;flex:0 0 36px;width:36px;height:36px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--ws-muted);box-shadow:none}
+body.workspace-clone[data-screen=builder] .ws-dialog :where(.icon-button:hover){background:color-mix(in srgb,var(--ws-ink) 4%,var(--ws-panel));color:var(--ws-ink)}
+body.workspace-clone[data-screen=builder] .ws-dialog :where(.dialog-body){padding:0 24px 24px;overflow-wrap:anywhere}
+body.workspace-clone[data-screen=builder] .ws-dialog :is(p){margin:0 0 16px;font-size:15px;line-height:1.65;color:var(--ws-muted)}
+body.workspace-clone[data-screen=builder] .ws-dialog :is(p:last-child){margin-bottom:0}
+body.workspace-clone[data-screen=builder] .ws-dialog :is(strong){font-weight:500;color:var(--ws-ink)}
+body.workspace-clone[data-screen=builder] .ws-dialog :is(label){display:block;margin:18px 0 8px;color:var(--ws-ink);font-size:14px;font-weight:500;line-height:1.5}
+body.workspace-clone[data-screen=builder] .ws-dialog :is(label:first-child){margin-top:4px}
+body.workspace-clone[data-screen=builder] .ws-dialog :is(input,select,textarea):where(:not([type=checkbox]):not([type=radio])){
+  box-sizing:border-box;width:100%;min-width:0;min-height:48px;height:auto;margin:0;padding:12px 14px;
+  border:1px solid var(--ws-line);border-radius:14px;background:var(--ws-panel);color:var(--ws-ink);
+  font:400 15px/1.5 Inter,system-ui,sans-serif;box-shadow:none;resize:none;
+}
+body.workspace-clone[data-screen=builder] .ws-dialog :where(input::placeholder,textarea::placeholder){color:var(--ws-muted);opacity:.8}
+body.workspace-clone[data-screen=builder] .ws-dialog :is(select){
+  appearance:none;padding-right:42px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23716c66' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 15px center;
+}
+body.workspace-clone[data-screen=builder] .ws-dialog :is(input,select,textarea):focus{outline:none;border-color:color-mix(in srgb,var(--ws-orange) 65%,var(--ws-line));box-shadow:0 0 0 3px color-mix(in srgb,var(--ws-orange) 10%,transparent)}
+body.workspace-clone[data-screen=builder] .ws-dialog :where(footer){display:flex;justify-content:flex-end;flex-wrap:wrap;gap:8px;margin:0;padding:0 24px 24px;border:0;background:transparent}
+body.workspace-clone[data-screen=builder] .ws-dialog :where(.dialog-body footer){padding:20px 0 0}
+body.workspace-clone[data-screen=builder] .ws-dialog .button{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;width:auto;min-height:44px;height:auto;margin:0;padding:10px 20px;
+  border:1px solid var(--ws-line);border-radius:999px;background:var(--ws-panel);color:var(--ws-ink);
+  font:500 14px/1.5 Inter,system-ui,sans-serif;text-decoration:none;box-shadow:none;
+}
+body.workspace-clone[data-screen=builder] .ws-dialog .button:hover{background:color-mix(in srgb,var(--ws-ink) 3%,var(--ws-panel))}
+body.workspace-clone[data-screen=builder] .ws-dialog .button.primary{background:var(--ws-orange);border-color:var(--ws-orange);color:#fff}
+body.workspace-clone[data-screen=builder] .ws-dialog .button.primary:hover{background:color-mix(in srgb,var(--ws-orange) 90%,#000);border-color:transparent}
+body.workspace-clone[data-screen=builder] .ws-dialog .button:disabled{opacity:.5;cursor:wait}
+body.workspace-clone[data-screen=builder] .ws-dialog :where(button,a):focus-visible{outline:2px solid var(--ws-orange);outline-offset:3px}
+body.workspace-clone[data-screen=builder] .ws-dialog.is-danger :where(footer) .button.primary{background:var(--ws-danger);border-color:var(--ws-danger);color:#fff}
+body.workspace-clone[data-screen=builder] .ws-dialog.is-danger :where(footer) .button.primary:hover{background:color-mix(in srgb,var(--ws-danger) 90%,#000)}
+body.workspace-clone[data-screen=builder] .ws-dialog .dialog-error{margin:0 24px 20px;padding:12px 14px;border:1px solid color-mix(in srgb,var(--ws-danger) 20%,var(--ws-line));border-radius:14px;background:color-mix(in srgb,var(--ws-danger) 4%,var(--ws-panel));color:var(--ws-danger);font-size:14px}
+body.workspace-clone[data-screen=builder] .ws-dialog :where(.ws-action-row){display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 0}
+body.workspace-clone[data-screen=builder] .ws-dialog :where(.ws-callout,.ws-inset){padding:16px;border:1px solid var(--ws-line);border-radius:16px;background:color-mix(in srgb,var(--ws-ink) 2%,var(--ws-panel));font-size:14px;line-height:1.65}
+body.workspace-clone[data-screen=builder] .ws-dialog :where(.ws-inline-field){display:flex;gap:8px;align-items:center;margin:0;min-width:0}
+body.workspace-clone[data-screen=builder] .ws-dialog :where(.ws-inline-field input){flex:1}
+body.workspace-clone[data-screen=builder] .ws-dialog :where(.ws-record-list){border:0;border-radius:0;background:transparent;display:grid;gap:6px;max-height:40dvh;overflow:auto;padding:3px;scrollbar-width:thin;overscroll-behavior:contain}
+body.workspace-clone[data-screen=builder] .ws-dialog :where(.ws-file-row){display:flex;align-items:center;gap:12px;min-height:52px;margin:0;padding:12px 14px;border:1px solid var(--ws-line);border-radius:14px;background:var(--ws-panel);color:var(--ws-ink);font-size:14px;line-height:1.5;text-decoration:none}
+body.workspace-clone[data-screen=builder] .ws-dialog :where(.ws-file-row:hover){background:color-mix(in srgb,var(--ws-ink) 3%,var(--ws-panel))}
+body.workspace-clone[data-screen=builder] .ws-dialog :where(.ws-file-row>.icon){width:18px;height:18px;flex:none;color:var(--ws-muted)}
+body.workspace-clone[data-screen=builder] .ws-dialog :where(.ws-file-row strong){min-width:0;overflow-wrap:anywhere}
+body.workspace-clone[data-screen=builder] .ws-dialog :where(.ws-empty){padding:28px 16px;border:1px solid var(--ws-line);border-radius:16px;background:var(--ws-panel);text-align:center}
+body.workspace-clone[data-screen=builder] .ws-dialog :is(input,textarea,select)+p{margin-top:8px;font-size:14px}
+@media(max-width:600px){
+  body.workspace-clone[data-screen=builder] dialog.ws-dialog{width:calc(100vw - 24px);max-height:calc(100dvh - 24px);border-radius:22px}
+  body.workspace-clone[data-screen=builder] .ws-dialog :is(header,.dialog-heading){padding:18px 20px 12px}
+  body.workspace-clone[data-screen=builder] .ws-dialog h2{font-size:21px}
+  body.workspace-clone[data-screen=builder] .ws-dialog :where(.dialog-body){padding:0 20px 20px}
+  body.workspace-clone[data-screen=builder] .ws-dialog :where(footer){padding:0 20px 20px}
+  body.workspace-clone[data-screen=builder] .ws-dialog :where(.dialog-body footer){padding:20px 0 0}
+  body.workspace-clone[data-screen=builder] .ws-dialog .dialog-error{margin-inline:20px}
+  body.workspace-clone[data-screen=builder] .ws-dialog :is(input,select,textarea):where(:not([type=checkbox]):not([type=radio])){font-size:16px}
+  body.workspace-clone[data-screen=builder] .ws-dialog :where(.ws-inline-field){flex-wrap:wrap}
+  body.workspace-clone[data-screen=builder] .ws-dialog :where(.ws-inline-field input){flex-basis:100%}
+}
+@media(forced-colors:active){
+  body.workspace-clone[data-screen=builder] :is(.ws-menu,.ws-model-menu,dialog.ws-dialog){border-color:ButtonText;background:Canvas;color:CanvasText}
+  body.workspace-clone[data-screen=builder] :is(.ws-menu,.ws-model-menu) button:focus-visible{outline:1px solid Highlight;outline-offset:-2px}
+  body.workspace-clone[data-screen=builder] .ws-dialog :where(button,a):focus-visible{outline-color:Highlight}
+  body.workspace-clone[data-screen=builder] .ws-dialog :is(select){appearance:auto;background-image:none}
+}

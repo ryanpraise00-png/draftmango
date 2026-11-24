@@ -33,6 +33,16 @@
         d.querySelector('footer [data-dismiss]')?.setAttribute('autofocus','');
       }
     }
+    if(document.body.dataset.screen==='builder'){
+      d.classList.add('ws-workspace-dialog');
+      const titleId='workspace-dialog-title-'+(++dialogSequence);
+      d.querySelector('h2').id=titleId;d.setAttribute('aria-labelledby',titleId);
+      if(danger){
+        d.classList.add('is-danger');
+        const body=d.querySelector('.dialog-body');body.id=titleId+'-description';d.setAttribute('aria-describedby',body.id);
+        d.querySelector('footer [data-dismiss]')?.setAttribute('autofocus','');
+      }
+    }
     document.body.append(d);d.querySelectorAll('[data-dismiss]').forEach(b=>b.onclick=()=>d.close());d.addEventListener('close',()=>d.remove());d.addEventListener('click',event=>{if(event.target===d){const r=d.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)d.close();}});
     d.querySelector('form').onsubmit=async event=>{event.preventDefault();if(!submit)return;const b=d.querySelector('[type=submit]');b.disabled=true;try{await submit(d);if(d.open)d.close();}catch(error){const p=d.querySelector('.dialog-error');p.hidden=false;p.textContent=error.message;}finally{b.disabled=false;}};d.showModal();return d;
   }
