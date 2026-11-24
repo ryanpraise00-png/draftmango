@@ -21,19 +21,53 @@ body.workspace-clone[data-screen=builder] :is(.project-heading,.preview-toolbar)
 body.workspace-clone[data-screen=builder] .mobile-switch{min-height:50px;height:50px;padding:7px 16px;background:var(--ws-panel);border-bottom:1px solid color-mix(in srgb,var(--ws-line) 65%,var(--ws-panel))}
 body.workspace-clone[data-screen=builder] .mobile-switch button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:34px;padding:6px 12px;border:0;border-radius:999px;background:transparent;color:var(--ws-muted);font-size:13px}
 body.workspace-clone[data-screen=builder] .mobile-switch button.is-active{background:color-mix(in srgb,var(--ws-ink) 4%,var(--ws-panel));color:var(--ws-ink)}
-body.workspace-clone[data-screen=builder] .ws-history-dialog{width:min(520px,calc(100vw - 32px));max-height:80dvh;padding:24px;border:1px solid var(--ws-line);border-radius:24px;background:var(--ws-panel);color:var(--ws-ink);box-shadow:0 20px 70px #16120f24}
-body.workspace-clone[data-screen=builder] .ws-history-dialog .dialog-heading{align-items:center;margin-bottom:12px}
-body.workspace-clone[data-screen=builder] .ws-history-dialog h2{font-size:21px;margin:0}
-body.workspace-clone[data-screen=builder] .ws-history-dialog .icon-button{border-radius:50%}
-body.workspace-clone[data-screen=builder] .ws-history-dialog .dialog-intro{margin:0 0 20px;font-size:14px;line-height:1.7;color:var(--ws-muted)}
-body.workspace-clone[data-screen=builder] .ws-history-dialog .history-list{display:grid;gap:8px;padding:0}
-body.workspace-clone[data-screen=builder] .ws-history-dialog .history-entry{display:flex;align-items:center;width:100%;min-width:0;padding:12px;gap:12px;border:1px solid var(--ws-line);border-radius:16px;background:var(--ws-panel);color:var(--ws-ink);text-align:left}
-body.workspace-clone[data-screen=builder] .ws-history-dialog .history-entry:is(:hover,.is-active){background:color-mix(in srgb,var(--ws-ink) 3%,var(--ws-panel))}
-body.workspace-clone[data-screen=builder] .ws-history-dialog .history-index{display:grid;place-items:center;flex:0 0 32px;width:32px;height:32px;border:1px solid var(--ws-line);border-radius:50%;font-size:12px;color:var(--ws-muted)}
+/* Saved versions share the white, rounded workspace dialog treatment. */
+body.workspace-clone[data-screen=builder] dialog.ws-history-dialog{
+  box-sizing:border-box;width:min(560px,calc(100vw - 32px));max-height:calc(100dvh - 40px);padding:0;
+  border:1px solid var(--ws-line);border-radius:24px;background:var(--ws-panel);color:var(--ws-ink);
+  box-shadow:0 8px 24px -16px #16120f30,0 28px 80px -24px #16120f40;
+  overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--ws-line) transparent;
+}
+body.workspace-clone[data-screen=builder] .ws-history-dialog::backdrop{background:#16120f55;backdrop-filter:none}
+body.workspace-clone[data-screen=builder] .ws-history-dialog .dialog-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0;padding:22px 24px 12px}
+body.workspace-clone[data-screen=builder] .ws-history-dialog h2{margin:0;font-size:22px;font-weight:600;line-height:1.4;letter-spacing:-.035em}
+body.workspace-clone[data-screen=builder] .ws-history-dialog .icon-button{display:grid;place-items:center;flex:0 0 36px;width:36px;height:36px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--ws-muted);box-shadow:none}
+body.workspace-clone[data-screen=builder] .ws-history-dialog .icon-button:hover{background:color-mix(in srgb,var(--ws-ink) 4%,var(--ws-panel));color:var(--ws-ink)}
+body.workspace-clone[data-screen=builder] .ws-history-dialog .history-body{padding:0 24px}
+body.workspace-clone[data-screen=builder] .ws-history-dialog .dialog-intro{margin:0 0 22px;font-size:15px;line-height:1.65;color:var(--ws-muted)}
+body.workspace-clone[data-screen=builder] .ws-history-dialog .history-list{display:grid;gap:10px;max-height:min(360px,45dvh);margin:0;padding:3px;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--ws-line) transparent}
+body.workspace-clone[data-screen=builder] .ws-history-dialog .history-entry{
+  display:flex;align-items:center;width:100%;min-width:0;min-height:80px;margin:0;padding:15px 14px;gap:12px;
+  border:1px solid var(--ws-line);border-radius:18px;background:var(--ws-panel);color:var(--ws-ink);text-align:left;box-shadow:none;
+  transition:background .15s,border-color .15s;
+}
+body.workspace-clone[data-screen=builder] .ws-history-dialog .history-entry:hover{background:color-mix(in srgb,var(--ws-ink) 3%,var(--ws-panel))}
+body.workspace-clone[data-screen=builder] .ws-history-dialog .history-entry.is-active{border-color:color-mix(in srgb,var(--ws-orange) 32%,var(--ws-line));background:var(--ws-panel)}
+body.workspace-clone[data-screen=builder] .ws-history-dialog .history-index{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border:0;border-radius:50%;background:color-mix(in srgb,var(--ws-ink) 4%,var(--ws-panel));font-size:13px;font-weight:500;color:var(--ws-muted)}
 body.workspace-clone[data-screen=builder] .ws-history-dialog .history-entry>div{flex:1;min-width:0;overflow-wrap:anywhere}
-body.workspace-clone[data-screen=builder] .ws-history-dialog .history-entry strong{display:block;font-size:14px;font-weight:500}
-body.workspace-clone[data-screen=builder] .ws-history-dialog .history-entry small{display:block;margin-top:3px;font-size:12px;color:var(--ws-muted)}
-body.workspace-clone[data-screen=builder] .ws-history-dialog .history-note{margin:18px 0 0;padding:0;border:0;background:none;color:var(--ws-muted);font-size:12px;line-height:1.7}
+body.workspace-clone[data-screen=builder] .ws-history-dialog .history-entry strong{display:block;font-size:16px;line-height:1.5;font-weight:500}
+body.workspace-clone[data-screen=builder] .ws-history-dialog .history-entry small{display:block;margin-top:4px;font-size:13px;line-height:1.6;color:var(--ws-muted)}
+body.workspace-clone[data-screen=builder] .ws-history-dialog .history-state{flex:none;padding:4px 9px;border-radius:999px;color:var(--ws-muted);font-size:13px;font-weight:500;line-height:1.5}
+body.workspace-clone[data-screen=builder] .ws-history-dialog .is-active .history-state{background:color-mix(in srgb,var(--ws-orange) 10%,var(--ws-panel));color:var(--ws-accent)}
+body.workspace-clone[data-screen=builder] .ws-history-dialog .history-footer{display:grid;justify-items:end;gap:18px;margin:0;padding:20px 24px 24px;border:0;background:transparent}
+body.workspace-clone[data-screen=builder] .ws-history-dialog .history-note{display:block;justify-self:stretch;margin:0;padding:0;border:0;background:none;color:var(--ws-muted);font-size:13px;line-height:1.65}
+body.workspace-clone[data-screen=builder] .ws-history-dialog .history-done{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:80px;margin:0;padding:10px 20px;border:1px solid var(--ws-line);border-radius:999px;background:var(--ws-panel);color:var(--ws-ink);font:500 14px/1.5 Inter,system-ui,sans-serif;box-shadow:none}
+body.workspace-clone[data-screen=builder] .ws-history-dialog .history-done:hover{background:color-mix(in srgb,var(--ws-ink) 3%,var(--ws-panel))}
+body.workspace-clone[data-screen=builder] .ws-history-dialog button:focus-visible{outline:2px solid var(--ws-orange);outline-offset:2px}
+@media(max-width:480px){
+  body.workspace-clone[data-screen=builder] dialog.ws-history-dialog{width:calc(100vw - 24px);max-height:calc(100dvh - 24px);border-radius:22px}
+  body.workspace-clone[data-screen=builder] .ws-history-dialog .dialog-heading{padding:18px 20px 12px}
+  body.workspace-clone[data-screen=builder] .ws-history-dialog .history-body{padding:0 20px}
+  body.workspace-clone[data-screen=builder] .ws-history-dialog .history-entry{display:grid;grid-template-columns:28px minmax(0,1fr);gap:8px 10px;padding:14px}
+  body.workspace-clone[data-screen=builder] .ws-history-dialog .history-index{width:28px;height:28px;align-self:start;margin-top:2px}
+  body.workspace-clone[data-screen=builder] .ws-history-dialog .history-state{grid-column:2;justify-self:start;padding:3px 9px}
+  body.workspace-clone[data-screen=builder] .ws-history-dialog .history-footer{padding:18px 20px 20px}
+}
+@media(prefers-reduced-motion:reduce){body.workspace-clone[data-screen=builder] .ws-history-dialog .history-entry{transition:none}}
+@media(forced-colors:active){
+  body.workspace-clone[data-screen=builder] .ws-history-dialog .history-entry.is-active{border:2px solid Highlight}
+  body.workspace-clone[data-screen=builder] .ws-history-dialog button:focus-visible{outline-color:Highlight}
+}
 /* The ring has its own corner, leaving the model, microphone and send controls uncrowded. */
 body.workspace-clone[data-screen=builder] .composer{position:relative}
 body.workspace-clone[data-screen=builder] .composer textarea{padding-right:48px}
@@ -60,7 +94,6 @@ body.workspace-clone[data-screen=builder] .ws-credit-dialog .button{border-radiu
  body.workspace-clone[data-screen=builder] .preview-toolbar .view-tabs .icon{display:none}
  body.workspace-clone[data-screen=builder] .canvas-actions{flex:1;justify-content:flex-end}
  body.workspace-clone[data-screen=builder] .canvas-actions .button span{display:inline}
- body.workspace-clone[data-screen=builder] .ws-history-dialog{padding:20px}
 }
 
 /* The Publish-adjacent menu uses the same rounded controls as the workspace. */

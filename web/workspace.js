@@ -640,10 +640,13 @@
       const title = document.createElement('strong');
       title.textContent = entry.label;
       const caption = document.createElement('small');
-      caption.textContent = `Draft ${index + 1} · ${stamp(entry.at)}${index === project.cursor ? ' · Current' : ''}`;
+      caption.textContent = `Version ${index + 1} · ${calendarDate(entry.at)} · ${stamp(entry.at)}`;
       words.append(title, caption);
-      button.append(swatch, words);
-      if (index === project.cursor) button.insertAdjacentHTML('beforeend', icon('check'));
+      const state = document.createElement('span');
+      state.className = 'history-state';
+      state.textContent = index === project.cursor ? 'Current' : 'Restore';
+      state.setAttribute('aria-hidden', 'true');
+      button.append(swatch, words, state);
       button.addEventListener('click', () => {
         if (index === project.cursor) return;
         applyCode(false);
