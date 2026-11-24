@@ -26,7 +26,32 @@
       {label:'AI connection',symbol:'link',separate:true,run:()=>E.showAISetup()},
       {label:'Workspace guide',symbol:'file',run:()=>$('#help-dialog').showModal()}
     ],{editor:true,title:'Workspace actions'});
-    function localPanel(){const d=W.dialog('Run on my computer',`<p>Run your project locally and review changes before applying them.</p><div class="ws-inset"><h3>Download this project</h3><p>${globalThis.DraftmangoProject.isReact(E.files)?'Export the ZIP, extract it, then run npm install and npm run dev with Node.js 22.12 or later. Use npm run build for a production build.':'Export your source, extract the ZIP, and open index.html in your browser. JavaScript modules need a local web server.'}</p><button class="button" id="local-download">${icon('download')}Download source ZIP</button></div><h3>Connect Draftmango CLI <span class="ws-badge">Coming soon</span></h3><p>CLI pairing is postponed. No terminal has been authorized.</p><div class="ws-action-row"><a class="button" href="/dashboard#settings/cli">CLI devices</a><a class="button" href="/dashboard#cli">View local tasks</a></div>`);d.querySelector('#local-download').onclick=exportZIP;}
+    function localPanel(){
+      const react=globalThis.DraftmangoProject.isReact(E.files),commands='npm install\nnpm run dev';
+      const d=W.dialog('Run on my computer',`
+        <p class="local-intro" id="local-run-intro">Download a copy of your website and run it on your computer.</p>
+        <section class="local-download-card" aria-labelledby="local-download-title">
+          <h3 id="local-download-title">Download project files</h3>
+          <p>Your source files${react?', assets and project setup': ' and assets'} in one ZIP.</p>
+          <button type="button" class="button primary" id="local-download">${icon('download')}Download source ZIP</button>
+        </section>
+        <section class="local-setup" aria-labelledby="local-setup-title">
+          <h3 id="local-setup-title">Start it locally</h3>
+          ${react?`<p>Extract the ZIP, then open its folder in your terminal and run:</p>
+          <div class="local-command-block"><pre><code>${e(commands)}</code></pre><button type="button" class="icon-button" id="local-copy-commands" aria-label="Copy setup commands" title="Copy setup commands">${icon('copy')}</button></div>
+          <p class="local-setup-note">Requires Node.js 22.12 or later. Use <code>npm run build</code> to create a production build.</p>`:
+          '<p>Extract the ZIP, then open <code>index.html</code> in your browser.</p><p class="local-setup-note">If your website uses JavaScript modules, serve the folder with a local web server.</p>'}
+        </section>
+        <section class="local-cli" aria-labelledby="local-cli-title">
+          <div class="local-cli-heading"><h3 id="local-cli-title">Connect Draftmango CLI</h3><span class="local-coming-soon">Coming soon</span></div>
+          <p>Connect a terminal to your workspace. Device pairing isn’t available yet.</p>
+          <div class="local-cli-links"><a class="button" href="/dashboard#settings/cli">CLI devices</a><a class="button" href="/dashboard#cli">View local tasks</a></div>
+        </section>`);
+      d.classList.add('ws-local-dialog');
+      d.querySelector('h2').id='local-run-title';d.setAttribute('aria-labelledby','local-run-title');d.setAttribute('aria-describedby','local-run-intro');
+      d.querySelector('#local-download').onclick=exportZIP;
+      d.querySelector('#local-copy-commands')?.addEventListener('click',()=>W.copy(commands));
+    }
     function exportZIP(){try{const files=globalThis.DraftmangoProject.isReact(E.files)?globalThis.DraftmangoProject.scaffold(E.files,E.project.title):{...E.files};for(const folder of E.project.workspace?.folders||[])if(!Object.keys(files).some(n=>n.startsWith(folder+'/')))files[folder+'/README.txt']='';W.download(E.project.title.replace(/[^a-z0-9_-]+/gi,'-').toLowerCase()+'.zip',F.zip(files),'application/zip');W.toast('Source ZIP downloaded.');}catch(error){W.toast(error.message);}}
     function shareDialog(){const link=new URL('/workspace',location.href);link.hash=new URLSearchParams({project:E.project.id});const d=W.dialog('Share your project',`<p>This private link opens your saved work for your account only. Download your project to share its files. Use Publish to make your website publicly available.</p><label for="private-link">Private project link</label><div class="ws-inline-field"><input id="private-link" value="${e(link.href)}" readonly><button type="button" class="icon-button" id="copy-private-link" aria-label="Copy private project link">${icon('copy')}</button></div><div class="ws-action-row"><button type="button" class="button" id="share-preview">Open preview</button><button type="button" class="button primary" id="share-download">${icon('download')}Download source ZIP</button></div><p class="muted">Your exported ZIP contains all project source files.</p>`);d.querySelector('#copy-private-link').onclick=()=>W.copy(link.href);d.querySelector('#share-preview').onclick=()=>E.openPreview();d.querySelector('#share-download').onclick=exportZIP;}
     const bottom=$('.composer-bottom');bottom.querySelector('span')?.remove();
