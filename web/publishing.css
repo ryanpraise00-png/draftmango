@@ -1,1 +1,87 @@
-body.workspace-clone[data-screen] dialog.ws-dialog.publishing-dialog{width:min(620px,calc(100vw - 24px))}.publishing-dialog .dialog-body{display:block}.publishing-dialog h3{margin:0;font-size:16px}.publishing-address,.publishing-history,.publishing-options{border-top:1px solid var(--line,#e5e5e5);padding-top:20px;margin-top:22px}.publishing-heading{display:flex;justify-content:space-between;align-items:center;gap:12px}.publishing-url{overflow-wrap:anywhere}.publishing-url a{display:inline-flex;align-items:center;gap:6px}.publishing-slug{display:flex;align-items:center;gap:8px}.publishing-slug input{min-width:0;flex:1}.publishing-slug span{font-size:14px}body.workspace-clone[data-screen] .publishing-dialog label.publishing-consent{display:flex;align-items:flex-start;gap:10px;margin-top:20px;line-height:1.5}.publishing-consent input{width:18px!important;height:18px;min-height:18px!important;flex:none;margin:3px 0 0;accent-color:#222}.publishing-history ol{list-style:none;padding:0;margin:16px 0 0}.publishing-history li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-top:1px solid var(--line,#e5e5e5)}.publishing-history small{display:block;margin-top:5px;color:var(--muted,#666)}.publishing-notice{padding:12px 14px;background:var(--surface,#f5f5f5);border-radius:8px}.publishing-options summary{cursor:pointer}.publishing-dialog #publish-status:empty{display:none}@media(max-width:480px){.publishing-slug{flex-wrap:wrap}.publishing-slug input{flex-basis:100%}.publishing-history li{align-items:flex-start}.publishing-history small{font-size:12px}}
+/* Publishing follows the workspace's white surfaces and rounded controls. */
+body.workspace-clone[data-screen=builder] dialog.ws-dialog:is(.publishing-dialog,.publishing-confirm-dialog) {
+  box-sizing:border-box;width:min(560px,calc(100vw - 32px));max-height:calc(100dvh - 40px);
+  padding:0;border:1px solid var(--ws-line);border-radius:24px;background:var(--ws-panel);color:var(--ws-ink);
+  box-shadow:0 8px 24px -16px #16120f30,0 28px 80px -24px #16120f40;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--ws-line) transparent;
+}
+body.workspace-clone[data-screen=builder] dialog.ws-dialog.publishing-confirm-dialog{width:min(440px,calc(100vw - 32px))}
+body.workspace-clone[data-screen=builder] :is(.publishing-dialog,.publishing-confirm-dialog)::backdrop{background:#16120f55;backdrop-filter:none}
+body.workspace-clone[data-screen=builder] :is(.publishing-dialog,.publishing-confirm-dialog) header{padding:22px 24px 12px;gap:16px}
+body.workspace-clone[data-screen=builder] :is(.publishing-dialog,.publishing-confirm-dialog) h2{margin:0;font-size:22px;font-weight:600;line-height:1.4;letter-spacing:-.035em}
+body.workspace-clone[data-screen=builder] :is(.publishing-dialog,.publishing-confirm-dialog) header .icon-button{
+  display:grid;place-items:center;flex:0 0 36px;width:36px;height:36px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--ws-muted);box-shadow:none;
+}
+body.workspace-clone[data-screen=builder] :is(.publishing-dialog,.publishing-confirm-dialog) header .icon-button:hover{background:color-mix(in srgb,var(--ws-ink) 4%,var(--ws-panel));color:var(--ws-ink)}
+body.workspace-clone[data-screen=builder] :is(.publishing-dialog,.publishing-confirm-dialog) .dialog-body{display:block;padding:0 24px 24px}
+body.workspace-clone[data-screen=builder] :is(.publishing-dialog,.publishing-confirm-dialog) p{margin:0;font-size:14px;line-height:1.65;color:var(--ws-muted)}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-intro{margin:0 0 22px;font-size:15px;line-height:1.65}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-address{padding:18px;border:1px solid var(--ws-line);border-radius:18px;background:var(--ws-panel)}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-heading{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+body.workspace-clone[data-screen=builder] .publishing-dialog h3{margin:0;font-size:15px;font-weight:600;line-height:1.5;letter-spacing:-.015em}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-badge{display:inline-flex;align-items:center;flex:none;padding:3px 9px;border-radius:999px;background:color-mix(in srgb,var(--ws-ink) 5%,var(--ws-panel));color:var(--ws-muted);font-size:12px;font-weight:500;line-height:1.5;white-space:nowrap}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-badge.is-live{background:color-mix(in srgb,#16805c 9%,var(--ws-panel));color:#16805c}
+body.workspace-clone[data-screen=builder] .publishing-dialog label[for=site-slug]{display:block;margin:0 0 8px;font-size:13px;font-weight:500;line-height:1.5;color:var(--ws-muted)}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-slug{display:flex;align-items:center;gap:0;min-width:0;padding:0 14px;border:1px solid var(--ws-line);border-radius:13px;background:var(--ws-panel);transition:border-color .15s,box-shadow .15s}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-slug:focus-within{border-color:var(--ws-orange);box-shadow:0 0 0 3px color-mix(in srgb,var(--ws-orange) 12%,transparent)}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-slug input{flex:1;width:100%;min-width:0;height:46px;min-height:46px;padding:10px 8px 10px 0;margin:0;border:0;border-radius:0;background:transparent;color:var(--ws-ink);font:inherit;font-size:15px;outline:0;box-shadow:none}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-slug input::placeholder{color:var(--ws-muted);opacity:.8}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-slug span{flex:0 1 auto;max-width:55%;overflow-wrap:anywhere;font-size:14px;line-height:1.5;color:var(--ws-muted)}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-help{margin:10px 0 0;font-size:13px;line-height:1.6}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-plan{margin:16px 0 0;padding-top:12px;border-top:1px solid color-mix(in srgb,var(--ws-line) 65%,var(--ws-panel));font-size:13px}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-url{overflow-wrap:anywhere;color:var(--ws-ink);font-size:15px}
+body.workspace-clone[data-screen=builder] .publishing-dialog a{color:var(--ws-ink);text-underline-offset:3px}
+body.workspace-clone[data-screen=builder] .publishing-dialog a .icon{display:inline-block;vertical-align:middle;width:14px;height:14px;margin-left:3px}
+body.workspace-clone[data-screen=builder] .publishing-dialog label.publishing-consent{display:flex;align-items:flex-start;gap:12px;margin:22px 0 0;cursor:pointer;font-size:14px;line-height:1.6}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-consent input{appearance:auto;flex:none;width:18px!important;height:18px;min-height:18px!important;padding:0;margin:3px 0 0;accent-color:var(--ws-orange);box-shadow:none}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-consent strong{display:block;font-weight:500;color:var(--ws-ink)}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-consent span span{display:block;margin-top:3px;font-size:13px;color:var(--ws-muted)}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-privacy{margin:10px 0 20px 30px;font-size:13px;line-height:1.6}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-disclosure{margin-top:8px;border:1px solid color-mix(in srgb,var(--ws-line) 75%,var(--ws-panel));border-radius:14px;overflow:hidden}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-disclosure summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:46px;padding:11px 14px;list-style:none;cursor:pointer;font-size:14px;font-weight:500;line-height:1.6;color:var(--ws-ink)}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-disclosure summary::-webkit-details-marker{display:none}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-disclosure summary:hover{background:color-mix(in srgb,var(--ws-ink) 2%,var(--ws-panel))}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-disclosure summary>.icon{width:16px;height:16px;color:var(--ws-muted);transition:transform .15s}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-disclosure[open] summary>.icon{transform:rotate(180deg)}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-details-body{padding:2px 14px 16px}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-details-body h4{margin:16px 0 4px;font-size:14px;line-height:1.6;font-weight:500;letter-spacing:0}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-details-body h4:first-child{margin-top:4px}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-details-body p{font-size:13px}
+body.workspace-clone[data-screen=builder] .publishing-dialog #copy-editor-link{margin-top:10px;min-height:36px;font-size:13px;padding:7px 12px}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-count{display:inline-flex;justify-content:center;min-width:21px;margin-left:5px;padding:0 6px;border-radius:999px;background:color-mix(in srgb,var(--ws-ink) 5%,var(--ws-panel));font-size:12px;color:var(--ws-muted)}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-history ol{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:8px}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-history li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1px solid var(--ws-line);border-radius:12px}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-history li>div{min-width:0}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-history strong{display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:14px;font-weight:500}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-history small{display:block;margin-top:5px;font-size:12px;line-height:1.5;color:var(--ws-muted)}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-history .button{flex:none;min-height:34px;padding:6px 11px;font-size:12px}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:22px}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-actions>div{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px}
+body.workspace-clone[data-screen=builder] :is(.publishing-dialog,.publishing-confirm-dialog) .button{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:auto;min-height:42px;height:auto;padding:10px 17px;border:1px solid var(--ws-line);border-radius:999px;background:var(--ws-panel);color:var(--ws-ink);font:inherit;font-size:14px;font-weight:500;line-height:1.5;box-shadow:none}
+body.workspace-clone[data-screen=builder] :is(.publishing-dialog,.publishing-confirm-dialog) .button:hover{background:color-mix(in srgb,var(--ws-ink) 3%,var(--ws-panel))}
+body.workspace-clone[data-screen=builder] :is(.publishing-dialog,.publishing-confirm-dialog) .button.primary{background:var(--ws-orange);border-color:var(--ws-orange);color:#fff}
+body.workspace-clone[data-screen=builder] :is(.publishing-dialog,.publishing-confirm-dialog) .button.primary:hover{background:color-mix(in srgb,var(--ws-orange) 90%,#000)}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-unpublish{border-color:transparent;color:var(--ws-muted)}
+body.workspace-clone[data-screen=builder] .publishing-confirm-dialog.is-danger .button.primary{background:var(--ws-danger);border-color:var(--ws-danger)}
+body.workspace-clone[data-screen=builder] :is(.publishing-dialog,.publishing-confirm-dialog) :is(button,input,summary,a):focus-visible{outline:2px solid var(--ws-orange);outline-offset:3px}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-slug input:focus-visible{outline:0}
+body.workspace-clone[data-screen=builder] :is(.publishing-dialog,.publishing-confirm-dialog) button:disabled{opacity:.45;cursor:not-allowed}
+body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-notice{margin-bottom:18px;padding:12px 14px;border-radius:14px;background:color-mix(in srgb,var(--ws-ink) 4%,var(--ws-panel));font-size:13px}
+body.workspace-clone[data-screen=builder] :is(.publishing-dialog,.publishing-confirm-dialog) .dialog-error:not([hidden]){margin:16px 24px 20px;padding:12px 14px;border-radius:14px;background:color-mix(in srgb,var(--ws-danger) 7%,var(--ws-panel));color:var(--ws-danger);font-size:13px;line-height:1.6}
+body.workspace-clone[data-screen=builder] .publishing-dialog .dialog-body>.dialog-error:not([hidden]){margin:16px 0 0}
+body.workspace-clone[data-screen=builder] .publishing-dialog #publish-status:not(:empty){margin:16px 0 0;padding:12px 14px;border-radius:14px;background:color-mix(in srgb,var(--ws-ink) 4%,var(--ws-panel));font-size:13px}
+body.workspace-clone[data-screen=builder] .publishing-dialog #publish-status:empty{display:none}
+body.workspace-clone[data-screen=builder] .publishing-dialog #retry-publishing{margin-top:16px}
+body.workspace-clone[data-screen=builder] .publishing-confirm-dialog footer{gap:10px;padding:0 24px 24px;border:0}
+@media(max-width:480px){
+  body.workspace-clone[data-screen=builder] dialog.ws-dialog:is(.publishing-dialog,.publishing-confirm-dialog){width:calc(100vw - 24px);max-height:calc(100dvh - 24px);border-radius:22px}
+  body.workspace-clone[data-screen=builder] :is(.publishing-dialog,.publishing-confirm-dialog) header{padding:18px 20px 12px}
+  body.workspace-clone[data-screen=builder] :is(.publishing-dialog,.publishing-confirm-dialog) .dialog-body{padding:0 20px 20px}
+  body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-address{padding:15px}
+  body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-slug{padding-inline:12px}
+  body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-slug input{font-size:16px}
+  body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-slug span{font-size:13px}
+  body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-actions{flex-wrap:wrap;gap:8px}
+  body.workspace-clone[data-screen=builder] .publishing-dialog .publishing-actions:has(.publishing-unpublish)>div{width:100%;justify-content:space-between}
+  body.workspace-clone[data-screen=builder] .publishing-confirm-dialog footer{padding:0 20px 20px}
+}
+@media(prefers-reduced-motion:reduce){body.workspace-clone[data-screen=builder] .publishing-dialog :is(.publishing-slug,.publishing-disclosure summary>.icon){transition:none}}
