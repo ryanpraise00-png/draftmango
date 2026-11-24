@@ -3,15 +3,15 @@
   const A=globalThis.DraftmangoAccounts;if(!await A.protect())return;
   const W=globalThis.DraftmangoWorkspace,{e,icon}=W;await W.init();
   const main=document.querySelector('#main'),sidebar=document.querySelector('#sidebar'),scrim=document.querySelector('#sidebar-scrim');
-  let voiceInput=null,references=[],notes='',build={level:'standard',starter:W.preferences.starter,color:W.preferences.color},current='home',projectFilter='',projectSort='updated',projectScope='active';
+  let voiceInput=null,references=[],notes='',build={level:'standard',starter:W.preferences.starter,color:W.preferences.color},current='home',projectFilter='',projectSort='updated',projectScope='active',chatFilter='',chatScope='active';
   const date=value=>new Date(value).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});
   const relativeTime=new Intl.RelativeTimeFormat('en',{numeric:'always'});
-  function editedTime(value){
+  function editedTime(value,prefix='Edited'){
     const edited=new Date(value);
-    if(!Number.isFinite(edited.getTime()))return 'Edited recently';
+    if(!Number.isFinite(edited.getTime()))return prefix+' recently';
     const seconds=Math.max(0,Math.floor((Date.now()-edited.getTime())/1000));
     const label=seconds<60?'just now':seconds<3600?relativeTime.format(-Math.floor(seconds/60),'minute'):seconds<86400?relativeTime.format(-Math.floor(seconds/3600),'hour'):seconds<604800?relativeTime.format(-Math.floor(seconds/86400),'day'):'on '+date(edited);
-    return `<time datetime="${edited.toISOString()}" title="${e(edited.toLocaleString())}">Edited ${e(label)}</time>`;
+    return `<time datetime="${edited.toISOString()}" title="${e(edited.toLocaleString())}">${e(prefix)} ${e(label)}</time>`;
   }
   const mobileNavigation=matchMedia('(max-width:760px)'),app=document.querySelector('.ws-app'),navTrigger=document.querySelector('#open-sidebar');
   navTrigger.setAttribute('aria-controls','sidebar');
@@ -55,9 +55,18 @@
     if(mobileNavigation.matches&&!sidebar.classList.contains('is-open'))sidebar.inert=true;
   }
   function header(title,copy,actions='',eyebrow=''){return `<header class="ws-page-header"><div>${eyebrow?`<p class="ws-eyebrow">${eyebrow}</p>`:''}<h1>${title}</h1><p>${copy}</p></div>${actions}</header>`;}
-  function list(items,kind='project',{recent=false}={}){return `<div class="ws-record-list">${items.map(p=>`<article class="ws-record-row"><a class="ws-record-open" href="${kind==='chat'?W.href(p):'#project/'+p.id}">${icon(kind==='chat'?'chat':'folder')}<span><strong>${e(p.title)}${W.meta(p).pinned?' <span class="ws-badge">Pinned</span>':''}</strong><small>${recent?editedTime(p.updatedAt):`${kind==='chat'?(W.meta(p).parentId?e(W.get(W.meta(p).parentId)?.title||'Project'):'Standalone chat'):e(W.meta(p).brief?.slice(0,110)||'Private project')} · ${date(p.updatedAt)}`}</small></span></a><button class="icon-button" aria-haspopup="menu" aria-expanded="false" data-menu="${e(p.id)}" aria-label="Manage ${kind} ${e(p.title)}">${icon('more')}</button></article>`).join('')}</div>`;}
+  function list(items,kind='project',{recent=false,conversation=false}={}){
+    const details=p=>{
+      if(conversation){
+        const context=W.meta(p).parentId?W.get(W.meta(p).parentId)?.title||'Project':'Standalone chat';
+        return `<small class="ws-chat-meta"><span class="ws-chat-context" title="${e(context)}">${e(context)}</span><span class="ws-chat-meta-separator" aria-hidden="true">·</span>${editedTime(p.updatedAt,'Updated')}</small>`;
+      }
+      return `<small>${recent?editedTime(p.updatedAt):`${kind==='chat'?(W.meta(p).parentId?e(W.get(W.meta(p).parentId)?.title||'Project'):'Standalone chat'):e(W.meta(p).brief?.slice(0,110)||'Private project')} · ${date(p.updatedAt)}`}</small>`;
+    };
+    return `<div class="ws-record-list">${items.map(p=>`<article class="ws-record-row"><a class="ws-record-open" href="${kind==='chat'?W.href(p):'#project/'+p.id}">${icon(kind==='chat'?'chat':'folder')}<span><strong>${e(p.title)}${W.meta(p).pinned?' <span class="ws-badge">Pinned</span>':''}</strong>${details(p)}</span></a><button class="icon-button" aria-haspopup="menu" aria-expanded="false" data-menu="${e(p.id)}" aria-label="Manage ${kind} ${e(p.title)}">${icon('more')}</button></article>`).join('')}</div>`;
+  }
   function wireMenus(){main.querySelectorAll('[data-menu]').forEach(b=>b.onclick=()=>W.recordMenu(b,W.get(b.dataset.menu)));}
-  const empty=(title,copy,action='')=>`<div class="ws-empty">${icon('folder')}<h2>${title}</h2><p>${copy}</p>${action}</div>`;
+  const empty=(title,copy,action='',symbol='folder')=>`<div class="ws-empty">${icon(symbol)}<h2>${title}</h2><p>${copy}</p>${action}</div>`;
   function home(){
     main.className='ws-home';main.innerHTML=`<section class="ws-create"><h1>What would you like to build?</h1><p>From a first idea to your next release.</p><form id="idea-form" class="ws-composer"><label class="sr-only" for="idea-input">Describe what you would like to build</label><textarea id="idea-input" rows="3" maxlength="12000" placeholder="Describe a website, app, or feature you want to build…" required></textarea><div id="reference-chips" class="ws-reference-chips"></div><div class="ws-composer-tools"><button type="button" id="add-context" class="text-button" aria-haspopup="menu" aria-expanded="false" aria-label="Add files, images or GitHub" title="Attach files, images or project notes"><span class="ws-plus">${icon('plus')}</span><span>Attach context</span></button><div><button type="button" id="prompt-mic" class="text-button ws-voice-button" aria-label="Dictate prompt"></button><button type="submit" class="ws-send" aria-label="Send build request" disabled>${icon('up')}</button></div></div></form><p class="keyboard-hint"><kbd>Enter</kbd> to send <span aria-hidden="true">·</span> <kbd>Shift + Enter</kbd> for a new line</p></section><section class="ws-recent-projects" hidden><div class="ws-section-heading"><div><h2>Recent projects</h2></div><a class="text-link ws-view-all" href="#projects" aria-label="View all projects" hidden><span>View all</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 6 6 6-6 6"/></svg></a></div><div id="home-recents"></div></section>`;
     const field=main.querySelector('#idea-input'),form=main.querySelector('#idea-form');field.value=sessionStorage.getItem('draftmango-prompt:'+A.user.id)||'';const refresh=()=>{form.querySelector('[type=submit]').disabled=!field.value.trim();sessionStorage.setItem('draftmango-prompt:'+A.user.id,field.value);};refresh();field.oninput=refresh;field.onkeydown=event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing){event.preventDefault();if(field.value.trim())form.requestSubmit();}};
@@ -77,14 +86,40 @@
     root.innerHTML=hasProjects?list(items,'project',{recent:true}):'';
     wireMenus();
   }
-  function chats(){main.className='ws-page ws-chats-page';main.innerHTML=header('Chats','Conversations on their own, or within a project.','<a class="button" href="#new">'+icon('plus')+'New chat</a>')+`<div class="ws-collection-tools"><label class="ws-search">${icon('search')}<input type="search" id="chat-search" placeholder="Search chats" aria-label="Search chats"></label><select id="chat-scope" aria-label="Chat filter"><option value="active">All chats</option><option value="standalone">Standalone chats</option><option value="archived">Archived chats</option></select></div><div id="chat-list"></div>`;const paint=()=>{const query=main.querySelector('#chat-search').value.toLowerCase(),scope=main.querySelector('#chat-scope').value;const rows=W.records('chat',scope==='archived').filter(p=>p.title.toLowerCase().includes(query)&&(scope!=='standalone'||!W.meta(p).parentId));main.querySelector('#chat-list').innerHTML=rows.length?list(rows,'chat'):empty('No chats here yet','Start a new conversation or adjust your search.');wireMenus();};main.querySelector('#chat-search').oninput=paint;main.querySelector('#chat-scope').onchange=paint;paint();}
+  function chats(){
+    main.className='ws-page ws-chats-page ws-collection-page';
+    main.innerHTML=`<header class="ws-collection-header"><h1>Chats</h1><a class="button primary" href="#new">${icon('plus')}New chat</a></header>
+      <div class="ws-collection-controls ws-chat-controls"><label class="ws-collection-search">${icon('search')}<input type="search" id="chat-search" placeholder="Search chats" aria-label="Search chats" value="${e(chatFilter)}"></label></div>
+      <div class="ws-collection-list-heading"><div class="ws-collection-filters" role="group" aria-label="Filter chats">${[['active','All chats'],['standalone','Standalone'],['archived','Archived']].map(([scope,label])=>`<button type="button" data-chat-scope="${scope}" aria-pressed="${scope===chatScope}">${label}</button>`).join('')}</div><p id="chat-results-count" class="ws-collection-count" role="status" aria-live="polite" aria-atomic="true"></p></div>
+      <div id="chat-list"></div><p class="ws-collection-privacy">${icon('lock')}Private to your account</p>`;
+    const search=main.querySelector('#chat-search'),filters=[...main.querySelectorAll('[data-chat-scope]')];
+    filters.forEach(button=>button.onclick=()=>{W.closeMenu();chatScope=button.dataset.chatScope;paint();});
+    function paint(){
+      chatFilter=search.value;
+      const query=chatFilter.trim().toLowerCase();
+      const rows=W.records('chat',chatScope==='archived').filter(p=>p.title.toLowerCase().includes(query)&&(chatScope!=='standalone'||!W.meta(p).parentId));
+      filters.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.chatScope===chatScope)));
+      main.querySelector('#chat-results-count').textContent=rows.length+' chat'+(rows.length===1?'':'s');
+      let content;
+      if(rows.length)content=list(rows,'chat',{conversation:true});
+      else if(query)content=empty('No matching chats','Try another name or clear your search.','<button type="button" class="button" id="clear-chat-search">Clear search</button>','chat');
+      else if(chatScope==='standalone')content=empty('No standalone chats','Chats outside a project will appear here.','<button type="button" class="button" id="show-all-chats">View all chats</button>','chat');
+      else if(chatScope==='archived')content=empty('No archived chats','Conversations you archive will appear here.','<button type="button" class="button" id="show-all-chats">View all chats</button>','chat');
+      else content=empty('Start a conversation','Use New chat to describe what you would like to build.','','chat');
+      main.querySelector('#chat-list').innerHTML=content;
+      main.querySelector('#clear-chat-search')?.addEventListener('click',()=>{search.value='';paint();search.focus();});
+      main.querySelector('#show-all-chats')?.addEventListener('click',()=>{chatScope='active';paint();filters[0].focus();});
+      wireMenus();
+    }
+    search.oninput=()=>{W.closeMenu();paint();};paint();
+  }
   function projects(){
-    main.className='ws-page ws-projects-page';
+    main.className='ws-page ws-projects-page ws-collection-page';
     const sortOptions=[['updated','Recently updated'],['created','Recently created'],['name','Name A–Z']];
-    main.innerHTML=`<header class="ws-projects-header"><h1>Projects</h1><button type="button" class="button primary" id="create-project">${icon('plus')}New project</button></header>
-      <div class="ws-projects-tools"><label class="ws-projects-search">${icon('search')}<input type="search" id="project-search" placeholder="Search projects" aria-label="Search projects" value="${e(projectFilter)}"></label><button type="button" id="project-sort" class="ws-projects-sort" aria-haspopup="menu" aria-expanded="false"><span></span>${icon('chevronDown')}</button></div>
-      <div class="ws-projects-list-heading"><div class="ws-project-filters" role="group" aria-label="Filter projects">${[['active','All projects'],['pinned','Pinned'],['archived','Archived']].map(([scope,label])=>`<button type="button" data-project-scope="${scope}" aria-pressed="${scope===projectScope}">${label}</button>`).join('')}</div><p id="results-count" role="status" aria-live="polite" aria-atomic="true"></p></div>
-      <div id="all-projects"></div><p class="ws-projects-privacy">${icon('lock')}Private to your account</p>`;
+    main.innerHTML=`<header class="ws-collection-header"><h1>Projects</h1><button type="button" class="button primary" id="create-project">${icon('plus')}New project</button></header>
+      <div class="ws-collection-controls"><label class="ws-collection-search">${icon('search')}<input type="search" id="project-search" placeholder="Search projects" aria-label="Search projects" value="${e(projectFilter)}"></label><button type="button" id="project-sort" class="ws-collection-sort" aria-haspopup="menu" aria-expanded="false"><span></span>${icon('chevronDown')}</button></div>
+      <div class="ws-collection-list-heading"><div class="ws-collection-filters" role="group" aria-label="Filter projects">${[['active','All projects'],['pinned','Pinned'],['archived','Archived']].map(([scope,label])=>`<button type="button" data-project-scope="${scope}" aria-pressed="${scope===projectScope}">${label}</button>`).join('')}</div><p id="results-count" class="ws-collection-count" role="status" aria-live="polite" aria-atomic="true"></p></div>
+      <div id="all-projects"></div><p class="ws-collection-privacy">${icon('lock')}Private to your account</p>`;
     const search=main.querySelector('#project-search'),sort=main.querySelector('#project-sort'),filters=[...main.querySelectorAll('[data-project-scope]')];
     main.querySelector('#create-project').onclick=()=>W.newProject();
     sort.onclick=()=>W.menu(sort,sortOptions.map(([value,label])=>({label,checked:value===projectSort,run:()=>{projectSort=value;paint();}})),{record:true,title:'Sort projects'});

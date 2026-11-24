@@ -21,7 +21,7 @@
   function dialog(title,content,{submit,label='Save',wide=false,danger=false}={}){
     closeMenu(); const d=document.createElement('dialog');d.className='ws-dialog'+(wide?' wide':'');d.innerHTML=`<form><header><h2>${e(title)}</h2><button type="button" class="icon-button" aria-label="Close dialog" data-dismiss>${icon('close')}</button></header><div class="dialog-body">${content}</div><p class="dialog-error" role="alert" hidden></p>${submit?`<footer><button type="button" class="button" data-dismiss>Cancel</button><button type="submit" class="button primary">${e(label)}</button></footer>`:''}</form>`;
     // Share rounded dialogs across the dashboard screens already refreshed.
-    if(document.body.dataset.screen==='dashboard'&&document.querySelector('#main.ws-home,#main.ws-projects-page')){
+    if(document.body.dataset.screen==='dashboard'&&document.querySelector('#main.ws-home,#main.ws-collection-page')){
       d.classList.add('ws-home-dialog');
       const titleId='workspace-dialog-title-'+(++dialogSequence);
       d.querySelector('h2').id=titleId;d.setAttribute('aria-labelledby',titleId);
