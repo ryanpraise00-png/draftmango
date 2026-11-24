@@ -3,9 +3,18 @@
 Host: root@187.124.47.123 (srv1803759.hstgr.cloud), Ubuntu 24.04.
 Application domain: draftmango.com. www redirects to the apex after TLS setup.
 
-## Current release — white dashboard and workspace
+## Current release — homepage composer
 
-Live release: `20261124-white-3120a0d`, source `3120a0d`, deployed on
+Live release: `20261124-home-f23630f`, source `f23630f`, deployed on
+24 November 2026 from `codex/builder-guided-flow`. The homepage has the white,
+rounded prompt-and-send composer, the launch badge is removed, and the account
+handoff preserves long prompts. Web, backend, builder and publisher passed
+health checks; public routes/assets and the rendered homepage were verified.
+See the [homepage release record](releases/2026-11-24-homepage.md).
+
+## Previous release — white dashboard and workspace
+
+Previous release: `20261124-white-3120a0d`, source `3120a0d`, deployed on
 24 November 2026 from `codex/builder-guided-flow`. The web, backend, builder and
 publisher are healthy; public page responses and deployed asset checksums were
 verified. The prior release and database backup are retained for rollback.
