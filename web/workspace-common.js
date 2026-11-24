@@ -37,15 +37,15 @@
     d.querySelector('form').onsubmit=async event=>{event.preventDefault();if(!submit)return;const b=d.querySelector('[type=submit]');b.disabled=true;try{await submit(d);if(d.open)d.close();}catch(error){const p=d.querySelector('.dialog-error');p.hidden=false;p.textContent=error.message;}finally{b.disabled=false;}};d.showModal();return d;
   }
   function closeMenu(){activeMenuCleanup?.();activeMenuCleanup=null;activeMenu?.remove();activeMenu=null;}
-  function menu(anchor, items, {attachment=false,record=false,title=""}={}){
-    const enhanced=attachment||record;
+  function menu(anchor, items, {attachment=false,record=false,editor=false,title=""}={}){
+    const enhanced=attachment||record||editor;
     if(enhanced && activeMenu?.menuAnchor===anchor){closeMenu();return;}
     closeMenu();
     const node=document.createElement('div');
-    node.className='ws-menu'+(attachment?' ws-attachment-menu':record?' ws-record-menu':'');
+    node.className='ws-menu'+(attachment?' ws-attachment-menu':editor?' ws-record-menu ws-editor-menu':record?' ws-record-menu':'');
     node.setAttribute('role','menu');
     if(enhanced){
-      node.id=attachment?'attachment-menu':'record-actions-menu';node.menuAnchor=anchor;
+      node.id=attachment?'attachment-menu':editor?'editor-actions-menu':'record-actions-menu';node.menuAnchor=anchor;
       const headingText=attachment?'Add context':title;
       node.setAttribute('aria-label',headingText);
       const heading=document.createElement('div');heading.className=attachment?'ws-attachment-heading':'ws-record-menu-heading';
@@ -58,7 +58,7 @@
       if(attachment){
         b.className='ws-attachment-option'+(separate?' is-separated':'');
         b.innerHTML=icon(symbol)+`<span class="ws-attachment-copy"><span class="ws-attachment-label">${e(label)}</span><span class="ws-attachment-description">${e(description)}</span></span>`;
-      }else if(record){
+      }else if(record||editor){
         b.className='ws-record-menu-option'+(separate?' is-separated':'');
         b.innerHTML=(selection?'':icon(symbol))+`<span>${e(label)}</span>`;
         if(selection){b.classList.add('ws-menu-selection');b.innerHTML+=`<span class="ws-menu-check" aria-hidden="true">${checked?icon('check'):''}</span>`;}
@@ -78,12 +78,13 @@
         const left=viewport?.offsetLeft||0,top=viewport?.offsetTop||0;
         const width=viewport?.width||innerWidth,height=viewport?.height||innerHeight,gap=8,inset=12;
         if(trigger.bottom<top||trigger.top>top+height){closeMenu();return;}
-        const menuWidth=Math.min(attachment?320:248,width-inset*2);
+        const menuWidth=Math.min(attachment?320:editor?280:248,width-inset*2);
         node.style.width=menuWidth+'px';
-        const naturalHeight=Math.min(400,node.scrollHeight+node.offsetHeight-node.clientHeight);
+        const heightLimit=editor?560:400;
+        const naturalHeight=Math.min(heightLimit,node.scrollHeight+node.offsetHeight-node.clientHeight);
         const belowSpace=Math.max(0,top+height-r.bottom-gap-inset),aboveSpace=Math.max(0,r.top-top-gap-inset);
         const below=belowSpace>=naturalHeight||(aboveSpace<naturalHeight&&belowSpace>=aboveSpace);
-        node.style.maxHeight=Math.min(400,below?belowSpace:aboveSpace)+'px';
+        node.style.maxHeight=Math.min(heightLimit,below?belowSpace:aboveSpace)+'px';
         node.style.left=Math.max(left+inset,Math.min(attachment?r.left:r.right-menuWidth,left+width-menuWidth-inset))+'px';
         node.style.top=(below?r.bottom+gap:r.top-node.getBoundingClientRect().height-gap)+'px';
       }
