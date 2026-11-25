@@ -1,4 +1,4 @@
-"""Shared generation/build limits for every web container.
+"""Shared preview compilation limits for every web container.
 
 The Node gateway keeps limits in memory for local development. In production
 (DRAFTMANGO_PUBLIC_ORIGIN set) it asks this private endpoint instead, so the
@@ -15,14 +15,11 @@ from django.views.decorators.csrf import csrf_exempt
 
 # Per kind: window length (s), starts allowed per window, minimum seconds
 # between starts, and site-wide concurrent cap (0 = none). Each account may
-# run one generation and one build at a time.
+# run one preview compilation at a time.
 RULES = {
-    'generate': {'window': 600, 'starts': 20, 'cooldown': 2, 'global': 2},
     'build': {'window': 60, 'starts': 30, 'cooldown': 0, 'global': 0},
 }
 MESSAGES = {
-    ('generate', 'busy'): 'Another draft is being generated. Wait for it to finish or cancel it first.',
-    ('generate', 'limit'): 'Please wait a little before generating again.',
     ('build', 'busy'): 'Wait a moment before rebuilding.',
     ('build', 'limit'): 'Wait a moment before rebuilding.',
 }

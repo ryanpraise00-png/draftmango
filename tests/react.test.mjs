@@ -4,34 +4,9 @@ import {once} from 'node:events';
 import {compileProject} from '../server/compiler.mjs';
 import {createBuilder} from '../server/build-service.mjs';
 import {createServer} from '../server/serve.mjs';
-import {validateInput,generate,parseResult} from '../server/ai.mjs';
 import '../web/workspace-model.js';
 const P=globalThis.DraftmangoProject,M=globalThis.DraftmangoModel;
 export const counter=()=>P.scaffold({'src/App.jsx':"import {useState} from 'react';\nimport Label from './Label.jsx';\nexport default function App(){const [n,setN]=useState(0);return <main><Label/><button onClick={()=>setN(n+1)}>Count {n}</button></main>}", 'src/Label.jsx':"export default function Label(){return <h1>A React website</h1>}"},'React check');
-const config={provider:'openai',key:'test-only',model:'gpt-6-luna',maxTokens:12000};
-const wrapped=value=>({status:'completed',output:[{type:'message',role:'assistant',content:[{type:'output_text',text:JSON.stringify(value)}]}]});
-const output=files=>({action:'update',title:'React check',message:'Created a React website.',designBrief:null,files:Object.entries(files).map(([path,content])=>({path,content}))});
-test('new requests default to React, edits retain every file and existing HTML projects remain supported',()=>{
-  assert.equal(validateInput({mode:'create',prompt:'A shop'}).framework,'react');
-  const files=counter();const input=validateInput({mode:'edit',prompt:'Change title',files});
-  assert.equal(input.framework,'react');assert.deepEqual(input.files,files);
-  assert.equal(validateInput({mode:'edit',prompt:'Change title',files:{'index.html':'hello','styles.css':'','app.js':''}}).framework,'html');
-  assert.ok(M.readFiles(files));
-  const p=M.commitFiles(M.createProject('Counter'),files);assert.deepEqual(M.readStore(JSON.stringify({schema:1,activeId:p.id,projects:[p]})).projects[0].files,files);
-});
-test('React response validates duplicate paths, missing entries and traversal, and supplies runnable scaffold',()=>{
-  const files=counter();const out=output(Object.fromEntries(Object.entries(files).filter(([n])=>n.startsWith('src/'))));
-  const result=parseResult(wrapped(out),config,'react');assert.ok(JSON.parse(result.files['package.json']).dependencies.react);assert.ok(result.files['vite.config.js']);
-  for(const invalid of [{...out,files:[...out.files,out.files[0]]},{...out,files:out.files.slice(1)},{...out,files:[...out.files,{path:'../secret.js',content:'no'}]}])assert.throws(()=>parseResult(wrapped(invalid),config,'react'));
-  assert.equal(parseResult(wrapped({...out,action:'reply',files:[]}),config,'react').files,null);
-});
-test('model receives React component contract and strict array schema for edits',async()=>{
-  const files=counter();let request;
-  const result=await generate({mode:'edit',prompt:'Change title',files},config,{fetchImpl:async(url,options)=>{request=JSON.parse(options.body);return Response.json(wrapped(output(files)));}});
-  assert.equal(request.text.format.name,'draftmango_react_project');assert.equal(request.text.format.schema.properties.files.type,'array');
-  assert.match(request.input[0].content,/real React application/);assert.doesNotMatch(request.input[0].content,/ONLY three complete/);
-  assert.deepEqual(result.files,files);
-});
 test('compiler bundles JSX, hooks, nested components and CSS without a remote React dependency',async()=>{
   const result=await compileProject(counter());
   assert.deepEqual(Object.keys(result.files),['index.html','assets/site.css','assets/site.js']);
@@ -51,7 +26,7 @@ test('compilation does not execute source, package scripts or build config and r
   await assert.rejects(compileProject({...files,'src/App.jsx':'export default function ('}),/App.jsx/);
 });
 test('build API requires a session and same-origin POST; errors never replace saved source',async t=>{
-  let calls=0;const server=createServer({accountSession:async req=>{if(req.headers['x-test-user']!=='owner'){const {AIError}=await import('../server/ai.mjs');throw new AIError(401,'sign_in','Sign in');}return 'owner';},buildProject:async files=>{calls++;return compileProject(files);}});
+  let calls=0;const server=createServer({accountSession:async req=>{if(req.headers['x-test-user']!=='owner'){const {HttpError}=await import('../server/http-error.mjs');throw new HttpError(401,'sign_in','Sign in');}return 'owner';},buildProject:async files=>{calls++;return compileProject(files);}});
   server.listen(0,'127.0.0.1');await once(server,'listening');t.after(()=>{server.closeAllConnections();server.close();});
   const base='http://127.0.0.1:'+server.address().port;
   const post=(headers={},files=counter())=>fetch(base+'/api/build',{method:'POST',headers:{'content-type':'application/json',origin:base,...headers},body:JSON.stringify({files})});

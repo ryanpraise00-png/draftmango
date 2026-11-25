@@ -147,13 +147,10 @@ setup response and certificate challenge path for the new domain.
 Web: 512 MB, 1 CPU; backend: 512 MB, 1 CPU, 2 Gunicorn workers x 2 threads.
 PostgreSQL: 512 MB, 0.5 CPU; Redis: 128 MB, 0.25 CPU.
 Containers restart automatically and have bounded JSON logs.
-Generation limits are shared through Redis, so they hold across web replicas:
-one generation and one build per account at a time, 20 generation starts per
-10 minutes, 30 builds per minute, and at most 2 generations site-wide. The web
-gateway asks Django's private /internal/limits route, authenticated with
-DRAFTMANGO_BUILD_TOKEN from build.env; it is never proxied publicly. If the
-route is unavailable, generation is refused rather than run unlimited.
-Credit metering still needs implementation before paid public AI.
+Preview compilation limits are shared through Redis: one compilation per account
+at a time and 30 starts per minute. The web gateway asks Django’s private
+/internal/limits route using DRAFTMANGO_BUILD_TOKEN from build.env. If unavailable,
+compilation is refused. The AI generation engine and its limits are removed.
 
 ## Operations
 ```

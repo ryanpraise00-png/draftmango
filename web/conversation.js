@@ -9,16 +9,6 @@
     return untouched&&project.ai?.state!=='ready'?'create':'edit';
   }
   function duration(ms){const s=seconds(ms);return s<60?`${s}s`:`${Math.floor(s/60)}m ${s%60}s`;}
-  function history(messages,prompt){
-    const prior=messages.filter(m=>!m.initial&&!m.notice&&['user','assistant'].includes(m.role)).slice();
-    if(prior.at(-1)?.role==='user'&&prior.at(-1).text.trim()===prompt.trim())prior.pop();
-    let budget=96000;const selected=[];
-    for(const message of prior.slice(-40).reverse()){
-      const text=message.text.slice(0,message.role==='user'?12000:6000);
-      if(text.length>budget)break;budget-=text.length;selected.unshift({role:message.role,text});
-    }
-    return selected;
-  }
   function activity(value){
     if(!value||!Number.isFinite(value.durationMs)||value.durationMs<0||!Array.isArray(value.phases))return null;
     return {...(Array.isArray(value.updates)?{updates:value.updates.filter(x=>typeof x==='string').slice(-20).map(x=>x.slice(0,3000))}:{}),durationMs:Math.min(value.durationMs,86400000),phases:[...new Set(value.phases.filter(p=>Object.hasOwn(labels,p)))].slice(0,8),plan:typeof value.plan==='string'?value.plan.slice(0,3000):''};
@@ -55,5 +45,5 @@
     for(const label of data.updates?.length?data.updates:[...new Set(data.phases.map(p=>labels[p]))]){const item=document.createElement('li');item.textContent=label;list.append(item);}
     details.append(list);return details;
   }
-  globalThis.DraftmangoConversation=Object.freeze({requestMode,history,activity,render,renderActivity,duration,labels});
+  globalThis.DraftmangoConversation=Object.freeze({requestMode,activity,render,renderActivity,duration,labels});
 })();

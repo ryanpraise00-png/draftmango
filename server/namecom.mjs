@@ -1,10 +1,10 @@
 import { readFile } from 'node:fs/promises';
-import { AIError } from './ai.mjs';
+import { HttpError } from './http-error.mjs';
 import '../web/domains-model.js';
 
 const M = globalThis.DraftmangoDomainModel;
 const baseURL = 'https://api.dev.name.com/core/v1';
-export class DomainError extends AIError {}
+export class DomainError extends HttpError {}
 export async function readDomainConfig(envFile = new URL('../.env', import.meta.url), environment = process.env) {
   let source = '';
   try { source = await readFile(envFile, 'utf8'); } catch (error) { if (error.code !== 'ENOENT') throw new DomainError(503, 'domain_configuration', 'The domain environment file could not be read.'); }

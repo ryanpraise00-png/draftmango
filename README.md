@@ -1,8 +1,8 @@
 # Draftmango
 
-An AI-powered website builder. Describe a website; Draftmango plans a design
-direction, writes a React site, previews it, and lets you refine it by chat,
-visual controls or code, then publish it.
+A website workspace with a source editor, React preview, saved projects and
+publishing. The AI generation engine is removed; the workspace UI and shared
+template library remain. See [engine status](docs/ai-models.md).
 
 ## Quick start
 
@@ -16,8 +16,7 @@ npm run build
 npm run dev
 ```
 
-Open http://127.0.0.1:4175/. Copy `.env.example` to `.env` and add your AI key
-first (see [docs/ai-models.md](docs/ai-models.md)).
+Open http://127.0.0.1:4175/. Use `.env.example` for server configuration. No AI key is required.
 
 ## Project layout
 
@@ -25,10 +24,10 @@ first (see [docs/ai-models.md](docs/ai-models.md)).
 app/                 Next.js pages (JSX)
 components/          Shared React components
 web/                 Browser scripts, styles and assets for the pages
-server/              Node services: API gateway, AI pipeline, design review,
+server/              Node services: API gateway, shared template engine,
                      React compiler, Django bridge, publisher
 backend/             Django: accounts, projects, billing, publishing
-scripts/             npm commands: dev runner, setup, reset, benchmark
+scripts/             npm commands: dev runner, setup, reset
 tests/               Node tests and fixtures
 benchmarks/briefs/   Fixed briefs for the design benchmark
 deploy/              Docker, Compose, Nginx, certificates
@@ -48,14 +47,13 @@ reports), `out/`, `.next/`, `public/`, `node_modules/`, `.venv/`.
 | `npm test` | Node tests (build first) |
 | `npm run test:accounts` | Django tests |
 | `npm run reset:projects -- --email you@example.com` | Back up and replace an account's projects with one blank "Test" project |
-| `npm run benchmark:design` | Generate, screenshot, score and repair the benchmark site |
 
 ## Guides
 
 - [Architecture](docs/architecture.md): how the pieces fit, generated sites, limits
 - [Development](docs/development.md): running, testing, resetting, version control
-- [AI models](docs/ai-models.md): choosing GPT or Claude, keys
-- [Design engine](docs/design-engine.md): creative direction and the design benchmark
+- [Engine status](docs/ai-models.md): removal and retained workspace features
+- [Shared template engine](docs/shared-template-engine.md): library, design guards and MCP
 - [Accounts](docs/accounts.md): Django accounts, email, local data
 - [Billing setup](docs/billing.md) and [billing in production](docs/billing-deployment.md)
 - [Publishing](docs/publishing.md): public static sites

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { once } from 'node:events';
 import { createServer } from '../server/serve.mjs';
-import { AIError } from '../server/ai.mjs';
+import { HttpError } from '../server/http-error.mjs';
 import '../web/workspace-model.js';
 import '../web/account-store.js';
 const M = globalThis.DraftmangoModel, S = globalThis.DraftmangoAccountStore;
@@ -42,13 +42,13 @@ test('pending changes based on the current server version survive a pull', () =>
   S.merge(library, [{ id: p.id, document: p, version: 2 }]);
   assert.equal(library.projects[0].title, 'Not uploaded yet'); assert.equal(library.cloud[p.id].dirty, true);
 });
-test('AI and domain requests are rejected before provider access when the account session is missing', async t => {
+test('Compilation and domain requests are rejected before provider access when the account session is missing', async t => {
   let providerLoaded = false;
-  const server = createServer({ accountSession: async () => { throw new AIError(401, 'sign_in', 'Sign in first.'); }, configLoader: async () => { providerLoaded = true; }, domainConfigLoader: async () => { providerLoaded = true; } });
+  const server = createServer({ accountSession: async () => { throw new HttpError(401, 'sign_in', 'Sign in first.'); }, domainConfigLoader: async () => { providerLoaded = true; } });
   server.listen(0, '127.0.0.1'); await once(server, 'listening');
   t.after(() => { server.closeAllConnections(); server.close(); });
   const base = `http://127.0.0.1:${server.address().port}`;
-  for (const path of ['/api/ai/generate', '/api/domains/search']) {
+  for (const path of ['/api/build', '/api/domains/search']) {
     const response = await fetch(base + path, { method: 'POST', headers: { Origin: base, 'Content-Type': 'application/json' }, body: '{}' });
     assert.equal(response.status, 401);
   }

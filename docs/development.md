@@ -7,7 +7,6 @@ in place of `npm` if scripts are blocked.
 
 ```
 npm ci
-npx playwright install chromium   # once, for the design benchmark
 npm run setup:accounts
 npm run build
 npm run dev
@@ -43,15 +42,10 @@ deletes them and creates one blank project named Test (`--title` changes the
 name, `--yes` skips the confirmation). The browser drops its cached copies of
 deleted projects on the next dashboard load.
 
-## Design benchmark
+## AI engine
 
-```
-npm run benchmark:design
-```
-
-Generates the fixed brief in `benchmarks/briefs/`, screenshots and scores it,
-makes one safe repair and scores again. See
-[design-engine.md](design-engine.md#design-benchmark).
+AI generation is removed. No provider key is required. The workspace remains
+available for saved projects, manual editing, preview compilation and publishing.
 
 ## Version control
 
@@ -67,6 +61,6 @@ On `localhost` or `127.0.0.1` only, add `?preview` to the dashboard or workspace
 
 - Projects and preferences stay in that browser's storage. Nothing is sent to the account,
   project, billing or publishing APIs, which still require a real session.
-- Building the preview, AI generation and publishing need a signed-in account, so the
+- Compiling React previews and publishing need a signed-in account, so the
   canvas stays empty and the console says to sign in.
 - The switch lives in `web/accounts.js` and does nothing on any other host name.

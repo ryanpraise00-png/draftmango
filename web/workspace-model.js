@@ -25,14 +25,6 @@
 
   const briefFields = ['concept', 'audience', 'primaryAction', 'composition', 'typography', 'palette', 'imagery', 'motion'];
   const briefLists = ['sections', 'constraints'];
-  const designBriefSchema = {
-    type: 'object', additionalProperties: false,
-    properties: {
-      version: { type: 'integer', enum: [1] },
-      ...Object.fromEntries(briefFields.map(key => [key, { type: 'string' }])),
-      ...Object.fromEntries(briefLists.map(key => [key, { type: 'array', items: { type: 'string' } }]))
-    }, required: ['version', ...briefFields, ...briefLists]
-  };
   function readDesignBrief(value) {
     if (!value || typeof value !== 'object' || Array.isArray(value) || value.version !== 1) return null;
     if (briefFields.some(key => typeof value[key] !== 'string' || !value[key].trim() || value[key].length > 2000)) return null;
@@ -70,7 +62,7 @@
       design, history: [{ id: id(), label: 'First draft', at: now, design: clone(design) }], cursor: 0,
       messages: [
         { role: 'user', text: String(prompt).slice(0, 1200) || 'A new website.' },
-        { role: 'assistant', text: kind === 'blank' ? 'Your blank site is ready. Describe what you want to build and I’ll design it from scratch.' : `Here’s a starting point for ${title}. Let’s make it feel like you.`, initial: true }
+        { role: 'assistant', text: kind === 'blank' ? 'Your blank site is ready. Open Code view to edit its files. The AI builder has been removed.' : `Here’s a starting point for ${title}. Let’s make it feel like you.`, initial: true }
       ]
     };
   }
@@ -116,42 +108,6 @@
     return { ...project, ...staleBuilder(project), cursor: index, design: clone(project.history[index].design), files: readFiles(project.history[index].files), designBrief: readDesignBrief(project.history[index].designBrief), codeDraft: null, updatedAt: timestamp() };
   }
 
-  function applyRequest(current, request) {
-    const design = clone(sanitizeDesign(current));
-    const lower = request.toLowerCase();
-    const changes = [];
-    const change = (key, value, description) => { if (design[key] !== value) { design[key] = value; changes.push(description); } };
-    let recognized = false;
-    const themes = [ [/sage|green tones|make it green/, 'sage'], [/warm|earthy|sand/, 'warm'], [/mango|citrus|yellow|orange/, 'citrus'], [/rose|pink|peach/, 'rose'], [/dark|midnight|after hours/, 'ink'] ];
-    for (const [pattern, theme] of themes) if (pattern.test(lower)) { recognized = true; change('theme', theme, `Switched the palette to ${palettes[theme].name.toLowerCase()}`); break; }
-    if (/sans|bold(?:er)? (?:type|font)|modern (?:type|font)/.test(lower)) { recognized = true; change('font', 'sans', 'Used a bolder sans-serif heading'); }
-    else if (/serif|elegant (?:type|font)|editorial (?:type|font)/.test(lower)) { recognized = true; change('font', 'serif', 'Used editorial serif headings'); }
-    if (/round|softer corner/.test(lower)) { recognized = true; change('corners', 'soft', 'Softened the corners'); }
-    if (/sharp|square corner/.test(lower)) { recognized = true; change('corners', 'sharp', 'Made the corners crisp'); }
-    if (/(?:smaller|compact|shorter) (?:nav|header)|(?:nav|header).*smaller/.test(lower)) { recognized = true; change('headerSize', 'compact', 'Made the header smaller'); }
-    if (/larger header|normal header/.test(lower)) { recognized = true; change('headerSize', 'normal', 'Restored the roomier header'); }
-    if (/(?:bigger|larger) (?:heading|headline|type)|(?:heading|headline).*bigger/.test(lower)) { recognized = true; change('heroSize', 'large', 'Made the hero heading larger'); }
-    if (/(?:smaller|balanced) (?:heading|headline)|(?:heading|headline).*smaller/.test(lower)) { recognized = true; change('heroSize', 'balanced', 'Balanced the hero heading size'); }
-    if (/breathing room|more (?:space|spacing)|roomier/.test(lower)) { recognized = true; change('spacing', 'relaxed', 'Added more breathing room'); }
-    if (/less (?:space|spacing)|tighter|compact layout/.test(lower)) { recognized = true; change('spacing', 'compact', 'Tightened the section spacing'); }
-    for (const section of ['story', 'collection', 'contact']) {
-      const add = new RegExp('(?:add|show|include|bring back)\\s+(?:(?:a|the|our)\\s+)?' + section);
-      const remove = new RegExp('(?:remove|hide|delete)\\s+(?:(?:a|the|our)\\s+)?' + section);
-      if (add.test(lower) || remove.test(lower)) {
-        recognized = true;
-        const show = add.test(lower);
-        if (design.sections[section] !== show) { design.sections[section] = show; changes.push(`${show ? 'Added' : 'Hidden'} the ${section} section`); }
-      }
-    }
-    const replacement = request.match(/\b(?:change|set|make)\s+(?:the\s+)?(headline|heading|title|button(?: text)?|brand(?: name)?)\s+(?:to|say)\s+["“']?([\s\S]+)$/i);
-    if (replacement) {
-      recognized = true;
-      const key = /^button/i.test(replacement[1]) ? 'button' : /^brand/i.test(replacement[1]) ? 'brand' : 'heading';
-      change(key, replacement[2].replace(/["”']$/, '').trim(), `Updated the ${key === 'heading' ? 'headline' : key === 'button' ? 'button text' : 'brand name'}`);
-    }
-    return { recognized, design: sanitizeDesign(design), changes, summary: changes.length ? changes.join('. ') + '.' : recognized ? 'That’s already part of this draft. Try another direction, or open Design to fine-tune the details.' : 'Free-form AI editing is the next step. For now, try “make it sage,” “use a bold font,” “make the header smaller,” or “add a contact section.” You can also edit the copy and styling in Design.' };
-  }
-
   function readActivity(value) {
     if (!value || !Number.isFinite(value.durationMs) || value.durationMs < 0 || !Array.isArray(value.phases)) return null;
     const phases = value.phases.filter(phase => ['connecting','discovering','selecting','verifying','directing','building','planning','writing','checking'].includes(phase));
@@ -195,5 +151,5 @@
     </style></head><body id="top"><div class="wrap"><header class="nav"><a class="logo" href="#top">${e(d.brand)}<span aria-hidden="true">✳</span></a><nav class="nav-links" aria-label="Main navigation">${nav}</nav></header><main><section class="hero"><div><span class="eyebrow">${e(t.eyebrow)}</span><h1>${e(d.heading)}</h1><p class="intro">${e(d.description)}</p><a class="cta" href="${target}">${e(d.button)} <span aria-hidden="true">↗</span></a></div><div class="hero-art">${artwork}</div></section><div class="ticker"><span>A LITTLE PERSONALITY GOES A LONG WAY.</span><span aria-hidden="true">✳</span><span>GOOD THINGS START SMALL.</span></div>${d.sections.story ? `<section class="story" id="story"><div><span class="eyebrow">THE STORY SO FAR</span><h2>${e(t.story)}</h2></div><p>${e(t.storyCopy)}</p></section>` : ''}</main></div>${d.sections.collection ? `<section class="collection" id="collection"><div class="wrap"><span class="eyebrow">A FEW GOOD THINGS</span><h2 class="section-title">${e(t.collection)}</h2><div class="items">${t.labels.map((label,i)=>`<article class="item"><div class="item-art">${photoSafe ? `<img src="${photoSafe}" alt="${e(label)}" loading="lazy">` : `<span aria-hidden="true">${['✳','Aa','↗'][i]}</span>`}</div><h3>${e(label)}</h3><p>Thoughtfully made. A little out of the ordinary.</p></article>`).join('')}</div></div></section>` : ''}<div class="wrap">${d.sections.contact ? `<section class="contact" id="contact"><div><span class="eyebrow">THE NEXT CHAPTER</span><h2>Let’s make something good.</h2></div><a class="cta" href="#top">Get to know us <span aria-hidden="true">↗</span></a></section>` : ''}<footer class="footer"><strong>${e(d.brand)}</strong><span>A Draftmango starter · Customize the details before publishing.</span><a href="#top">Back to the top ↑</a></footer></div></body></html>`;
   }
 
-  globalThis.DraftmangoModel = Object.freeze({ templates, palettes, inferTemplate, sanitizeDesign, createProject, commit, commitFiles, resetCode, readFiles, readDesignBrief, designBriefSchema, restore, applyRequest, readStore, renderDocument, escapeHtml });
+  globalThis.DraftmangoModel = Object.freeze({ templates, palettes, inferTemplate, sanitizeDesign, createProject, commit, commitFiles, resetCode, readFiles, readDesignBrief, restore, readStore, renderDocument, escapeHtml });
 })();

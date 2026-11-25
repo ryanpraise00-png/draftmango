@@ -31,29 +31,6 @@ test('every new project starts from a blank site and carries the name into the p
   assert.doesNotMatch(html, /Slow Days|Studio North|Form &amp; Field|coffee|ceramics/i);
 });
 
-test('sample conversation changes update real design properties without mutating the previous draft', () => {
-  const before = M.createProject('', 'cafe').design;
-  const after = M.applyRequest(before, 'Try sage tones, use a bold font, make the header smaller, and add a contact section.');
-  assert.equal(after.recognized, true);
-  assert.equal(after.design.theme, 'sage');
-  assert.equal(after.design.font, 'sans');
-  assert.equal(after.design.headerSize, 'compact');
-  assert.equal(after.design.sections.contact, true);
-  assert.equal(before.theme, 'warm');
-  assert.equal(before.sections.contact, false);
-  assert.equal(after.changes.length, 4);
-});
-
-test('copy edits keep the requested wording and unsupported AI requests are explained honestly', () => {
-  const draft = M.createProject('', 'cafe');
-  const updated = M.applyRequest(draft.design, 'Change the headline to "A little joy, every day."');
-  assert.equal(updated.design.heading, 'A little joy, every day.');
-  const unsupported = M.applyRequest(draft.design, 'Connect Stripe and build an appointment scheduler');
-  assert.equal(unsupported.recognized, false);
-  assert.deepEqual(unsupported.design, draft.design);
-  assert.match(unsupported.summary, /AI editing is the next step/);
-});
-
 test('undo, redo, and a new direction keep the expected snapshots', () => {
   const first = M.createProject('', 'cafe');
   const second = M.commit(first, { ...first.design, theme: 'sage' }, 'Sage tones');
@@ -76,7 +53,7 @@ test('undo, redo, and a new direction keep the expected snapshots', () => {
 test('unchanged edits do not create extra history entries', () => {
   const draft = M.createProject('', 'cafe');
   assert.equal(M.commit(draft, structuredClone(draft.design), 'No change'), draft);
-  assert.equal(M.applyRequest(draft.design, 'Make it warmer').changes.length, 0);
+  assert.equal(M.applyRequest, undefined);
 });
 
 test('saved projects resume at the restored version, not the newest version', () => {
@@ -128,10 +105,10 @@ test('navigation remains valid for every section combination', () => {
   }
 });
 
-test('section visibility instructions change what is actually rendered', () => {
+test('saved legacy section visibility is preserved when rendering', () => {
   const draft = M.createProject('', 'cafe');
-  const edited = M.applyRequest(draft.design, 'Remove the story section and show the contact section');
-  const html = M.renderDocument(edited.design);
+  const design={...draft.design,sections:{...draft.design.sections,story:false,contact:true}};
+  const html = M.renderDocument(design);
   assert.doesNotMatch(html, /id="story"/);
   assert.match(html, /id="contact"/);
 });

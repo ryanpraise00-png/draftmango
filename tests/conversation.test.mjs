@@ -1,13 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {generate,validateInput,modelContent} from '../server/ai.mjs';
-import {conversationMessages} from '../server/conversation.mjs';
+import '../web/workspace-model.js';
 import '../web/conversation.js';
 const Chat=globalThis.DraftmangoConversation,M=globalThis.DraftmangoModel;
-const config={provider:'openai',key:'fake-test-key',model:'gpt-6-luna',maxTokens:12000};
-const brief={version:1,concept:'An editorial flower shop.',audience:'Local flower buyers.',primaryAction:'Browse bouquets.',composition:'A large bouquet beside a spare headline.',typography:'Expressive display type and clear labels.',palette:'Cream, green and pink.',imagery:'Inline botanical illustrations.',motion:'Subtle hover states.',sections:['Seasonal bouquets.','Delivery details.'],constraints:['Checkout is a demonstration.']};
 const files={'index.html':'<!doctype html><html><head><link rel="stylesheet" href="styles.css"></head><body><h1>Flowers</h1><script src="app.js" defer></script></body></html>','styles.css':'body{color:#123}','app.js':''};
-const response=value=>Response.json({status:'completed',output:[{type:'message',role:'assistant',content:[{type:'output_text',text:JSON.stringify(value)}]}]});
 test('follow-ups create from untouched starters but preserve existing and manually edited source',()=>{
  const empty={'index.html':'<html><body></body></html>','styles.css':'','app.js':''};
  assert.equal(Chat.requestMode({files:empty,ai:{state:'pending'}},empty),'create');
@@ -17,43 +13,6 @@ test('follow-ups create from untouched starters but preserve existing and manual
  assert.equal(Chat.requestMode({files:empty,codeDraft:files},empty),'edit');
  assert.equal(Chat.requestMode({files:{...empty,'notes.md':'Keep this'}},empty),'edit');
 });
-test('native conversational roles preserve follow-ups without duplicating the current request',()=>{
- const input=validateInput({mode:'create',framework:'html',interaction:'conversation',prompt:'Use the second one',history:[{role:'user',text:'Suggest two directions'},{role:'assistant',text:'1. A catalog.\n2. A botanical journal.'},{role:'user',text:'Use the second one'}]});
- const messages=conversationMessages(input,'openai',modelContent);
- assert.deepEqual(messages.map(m=>m.role),['user','user','assistant','user']);
- assert.equal(messages.at(-1).content,'Use the second one');assert.equal(messages.filter(m=>m.content==='Use the second one').length,1);
- assert.equal(JSON.parse(messages[0].content).history,undefined);
-});
-test('conversation context is bounded and excludes initial placeholders and the current turn',()=>{
- const history=Array.from({length:50},(_,i)=>({role:i%2?'assistant':'user',text:'Message '+i}));
- history.push({role:'assistant',text:'Starter shown',initial:true},{role:'user',text:'Build it'});
- const selected=Chat.history(history,'Build it');assert.equal(selected.length,40);assert.equal(selected.at(-1).text,'Message 49');assert.equal(selected[0].text,'Message 10');
- assert.throws(()=>validateInput({mode:'create',framework:'html',prompt:'hello',history:Array.from({length:40},()=>({role:'user',text:'a'.repeat(12000)}))}),/too long/);
-});
-test('a conversational answer does not emit a build plan or generate files',async()=>{
- const updates=[],requests=[];
- const result=await generate({mode:'create',framework:'html',interaction:'conversation',prompt:'Hello'},config,{onProgress:event=>updates.push(event),fetchImpl:async(_,options)=>{
-  requests.push(JSON.parse(options.body));return response({action:'reply',title:'',message:'Hi! What would you like to build?',edits:[],colours:[]});
- }});
- assert.equal(requests.length,1);assert.equal(result.action,'reply');assert.equal(result.files,null);assert.ok(!updates.some(e=>e.message));
- assert.equal(requests[0].input.at(-1).content,'Hello');
-});
-test('validated template operations announce application without exposing files or reasoning',async()=>{
- const events=[];
- const result=await generate({mode:'create',interaction:'conversation',prompt:'Rename framo studio to North Studio',templateId:'architecture-studio-1'},config,{onProgress:e=>events.push(e),fetchImpl:async(_,options)=>{
-  const body=JSON.parse(options.body),c=JSON.parse(body.input[1].content);
-  assert.ok(!events.some(e=>e.message));
-  return response({action:'update',title:'North Studio',message:'Renamed the studio.',edits:[{id:c.fields.find(f=>f.value==='framo studio').id,value:'North Studio',allMatching:true}],colours:[]});
- }});
- assert.equal(result.action,'update');assert.ok(events.some(e=>e.phase==='building'&&e.message.includes('keeping its design')));
- assert.ok(!JSON.stringify(events).includes('<html>'));assert.ok(!JSON.stringify(events).includes('fake-test-key'));
-});
-
-test('invalid source-writing responses never appear in chat as accepted template updates',async()=>{
- const events=[];await assert.rejects(generate({mode:'create',interaction:'conversation',prompt:'Build'},config,{onProgress:e=>events.push(e),fetchImpl:async()=>response({action:'update',title:'New',message:'Rebuilt',files})}));
- assert.ok(!events.some(e=>e.message));
-});
-
 test('message activity survives loading through the model without the chat renderer',()=>{
  const p=M.createProject('Flowers');p.messages=[{role:'assistant',text:'Ready',activity:{durationMs:34000,phases:['directing','building','bogus','building','checking'],plan:'A botanical storefront.'}}];
  const renderer=globalThis.DraftmangoConversation;delete globalThis.DraftmangoConversation;

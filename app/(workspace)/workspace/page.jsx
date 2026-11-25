@@ -70,15 +70,13 @@ export default function Page() {
   <footer className={"history-footer"}><p className={"history-note"} id={"history-note"}>Restoring a version keeps later versions available until you make a new change.</p><button type={"button"} className={"history-done"} data-close-dialog={true}>Done</button></footer>
 </dialog>
 <dialog id={"ai-dialog"} className={"ws-ai-dialog"} aria-labelledby={"ai-title"} aria-describedby={"ai-intro"}>
-  <div className={"dialog-heading"}><h2 id={"ai-title"}>AI connection</h2><button type={"button"} className={"icon-button"} data-close-dialog={true} aria-label={"Close AI connection"}><svg className={"icon"} aria-hidden={"true"}><use href={"#close"}></use></svg></button></div>
+  <div className={"dialog-heading"}><h2 id={"ai-title"}>Builder status</h2><button type={"button"} className={"icon-button"} data-close-dialog={true} aria-label={"Close builder status"}><svg className={"icon"} aria-hidden={"true"}><use href={"#close"}></use></svg></button></div>
   <div className={"ai-connection-body"}>
-    <p className={"dialog-intro"} id={"ai-intro"}>The provider and model used for this conversation.</p>
-    <dl className={"ai-connection-info"}><div><dt>Provider</dt><dd id={"ai-connection-provider"}>Checking…</dd></div><div><dt>Model</dt><dd id={"ai-connection-model"}>Checking…</dd></div></dl>
-    <div className={"ai-connection-status"} role={"status"} aria-live={"polite"} aria-atomic={"true"}><span id={"ai-connection-state"}>Checking configuration</span><p id={"ai-setup-status"}>Checking your AI connection…</p></div>
-    <p className={"ai-model-hint"}>Choose a different model from the prompt composer.</p>
-    <details className={"ai-connection-details"}><summary>Connection details</summary><div className={"ai-setup-copy"}><p>For server setup, add <code id={"ai-key-variable"}>OPENAI_API_KEY</code> to <code>.env</code> in the DraftMango project folder. Saving the key takes effect on the next request.</p><p><code id={"ai-model-variable"}>OPENAI_MODEL</code> sets the provider’s default model. The composer’s model selection applies to this conversation.</p><p>Generating sends your prompt, recent conversation and current website files to <span data-ai-service={true}>your selected provider</span>.</p></div></details>
+    <p className={"dialog-intro"} id={"ai-intro"}>The AI builder has been removed.</p>
+    <div className={"ai-connection-status"} role={"status"}><span>AI generation unavailable</span><p>Your saved projects, code editor, preview, version history and publishing tools remain available.</p></div>
+    <p className={"ai-model-hint"}>No AI requests are sent.</p>
   </div>
-  <footer className={"ai-connection-footer"}><button type={"button"} className={"ai-done"} data-close-dialog={true}>Done</button><button type={"button"} className={"ai-check"} id={"check-ai"}>Check connection</button></footer>
+  <footer className={"ai-connection-footer"}><button type={"button"} className={"ai-done"} data-close-dialog={true}>Done</button></footer>
 </dialog>
 <dialog id={"help-dialog"} className={"ws-guide-dialog"} aria-labelledby={"help-title"} aria-describedby={"help-intro"}>
   <div className={"dialog-heading"}><h2 id={"help-title"}>Workspace guide</h2><button type={"button"} className={"icon-button"} data-close-dialog={true} aria-label={"Close workspace guide"}><svg className={"icon"} aria-hidden={"true"}><use href={"#close"}></use></svg></button></div>
@@ -96,6 +94,6 @@ export default function Page() {
 <div id={"toast"} className={"toast"} role={"status"} hidden={true}></div>
 <noscript><div className={"noscript"}>{"This workspace needs JavaScript to preview and edit your draft. "}<a href={"/"}>{"Return to the homepage."}</a></div></noscript>
 
-<PageControllers scripts={["/composer-intent.js", "/project-format.js", "/templates-model.js", "/conversation.js", "/builder-flow.js", "/builder-prompts.js", "/workspace-assets.js", "/workspace-model.js", "/workspace-code.js", "/workspace-files.js", "/dashboard-model.js", "/workspace-ai.js", "/account-store.js", "/accounts.js", "/workspace-common.js", "/store-builder.js", "/workspace.js", "/publishing.js", "/workspace-voice.js", "/workspace-credits.js", "/workspace-extra.js"]} />
+<PageControllers scripts={["/composer-intent.js", "/project-format.js", "/templates-model.js", "/conversation.js", "/builder-flow.js", "/builder-prompts.js", "/workspace-assets.js", "/workspace-model.js", "/workspace-code.js", "/workspace-files.js", "/dashboard-model.js", "/composer-model.js", "/account-store.js", "/accounts.js", "/workspace-common.js", "/store-builder.js", "/workspace.js", "/publishing.js", "/workspace-voice.js", "/workspace-credits.js", "/workspace-extra.js"]} />
 </>;
 }

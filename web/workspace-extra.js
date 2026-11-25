@@ -23,7 +23,7 @@
       {label:'Export standalone HTML',symbol:'code',run:()=>E.exportHTML()},
       {label:$('.builder-shell').classList.contains('editor-expanded')?'Restore editor':'Expand editor',symbol:'expand',separate:true,run:()=>expand.click()},
       {label:'Version history',symbol:'history',run:()=>E.showHistory()},
-      {label:'AI connection',symbol:'link',separate:true,run:()=>E.showAISetup()},
+      {label:'Builder status',symbol:'link',separate:true,run:()=>E.showBuilderStatus()},
       {label:'Workspace guide',symbol:'file',run:()=>$('#help-dialog').showModal()}
     ],{editor:true,title:'Workspace actions'});
     function localPanel(){
@@ -144,7 +144,7 @@
     }
     const handle=document.createElement('div');handle.className='ws-panel-resize';handle.setAttribute('role','separator');handle.tabIndex=0;handle.setAttribute('aria-label','Resize conversation panel');handle.setAttribute('aria-orientation','vertical');$('.editor-panel').append(handle);let start;
     const resize=width=>{if(innerWidth<=760)return;const available=$('.workspace-layout').clientWidth;const next=Math.max(280,Math.min(560,available-320,width));$('.workspace-layout').style.gridTemplateColumns=next+'px minmax(0,1fr)';handle.setAttribute('aria-valuenow',String(next));E.scheduleCanvasSize();};handle.onpointerdown=event=>{start={x:event.clientX,width:$('.editor-panel').getBoundingClientRect().width};handle.setPointerCapture(event.pointerId);};handle.onpointermove=event=>{if(start)resize(start.width+event.clientX-start.x);};handle.onpointerup=()=>start=null;handle.onkeydown=event=>{if(['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();resize($('.editor-panel').getBoundingClientRect().width+(event.key==='ArrowRight'?20:-20));}};
-    const modelPicker = globalThis.DraftmangoAI.mountModelPicker(composerActions, {value:E.project.workspace?.build?.modelId || '', onChange:id=>E.selectModel(id), disabled:()=>E.busy});
+    const modelPicker = globalThis.DraftmangoComposerModel.mount(composerActions, {});
     composerActions.insertBefore(modelPicker.element, voiceButton);
     function paint(){voiceInput.sync();modelPicker.sync(E.project.workspace?.build?.modelId || '');saveAs.hidden=!W.isChat(E.project)||!!E.project.workspace?.parentId;paintReferences();paintFolders();$('#chat-options').setAttribute('aria-label','Manage '+(W.isChat(E.project)?'chat ':'project ')+E.project.title);}
     window.addEventListener('draftmango:editor-render',paint);window.addEventListener('draftmango:records',()=>E.syncMeta());window.addEventListener('draftmango:preferences',()=>{E.scheduleCanvasSize();});window.addEventListener('draftmango:files-render',paintFolders);paint();

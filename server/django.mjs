@@ -1,5 +1,5 @@
 import http from 'node:http';
-import { AIError } from './ai.mjs';
+import { HttpError } from './http-error.mjs';
 const port = () => Number(process.env.DJANGO_PORT || 4176);
 const hostname = () => process.env.DJANGO_HOST || '127.0.0.1';
 export function upstreamHeaders(request) {
@@ -26,9 +26,9 @@ export async function djangoSession(request) {
       upstream.on('timeout', () => upstream.destroy(new Error('Account service timeout')));
       upstream.on('error', reject);
     });
-  } catch { throw new AIError(503, 'accounts_unavailable', 'The account service is unavailable. Start Draftmango with npm run dev.'); }
-  if (!result.user?.id) throw new AIError(401, 'sign_in', 'Sign in to your Draftmango account to continue.');
-  if (request.headers['x-draftmango-account'] !== result.user.id) throw new AIError(401, 'session_changed', 'Your account changed. Reload this page before continuing.');
+  } catch { throw new HttpError(503, 'accounts_unavailable', 'The account service is unavailable. Start Draftmango with npm run dev.'); }
+  if (!result.user?.id) throw new HttpError(401, 'sign_in', 'Sign in to your Draftmango account to continue.');
+  if (request.headers['x-draftmango-account'] !== result.user.id) throw new HttpError(401, 'session_changed', 'Your account changed. Reload this page before continuing.');
   return result.user.id;
 }
 export function proxyDjango(request, response) {
@@ -62,11 +62,11 @@ export function proxyDjango(request, response) {
   });
 }
 
-// Shared generation/build limits held in Django's Redis cache (production).
+// Shared preview compilation limits held in Django's Redis cache (production).
 // The private token comes from build.env; this route is never proxied publicly.
 export function sharedLimit(request, body, token = process.env.DRAFTMANGO_BUILD_TOKEN || '') {
   return new Promise((resolve, reject) => {
-    if (token.length < 32) { reject(new AIError(503, 'limits_unavailable', 'Generation is not configured on this server yet.')); return; }
+    if (token.length < 32) { reject(new HttpError(503, 'limits_unavailable', 'Preview compilation is not configured on this server yet.')); return; }
     const payload = JSON.stringify(body);
     const base = upstreamHeaders({ ...request, headers: { host: request.headers.host, cookie: request.headers.cookie || '' } });
     const headers = { ...base, 'content-type': 'application/json', 'content-length': Buffer.byteLength(payload), 'x-draftmango-internal': token };
@@ -76,13 +76,13 @@ export function sharedLimit(request, body, token = process.env.DRAFTMANGO_BUILD_
       response.on('end', () => {
         let data = {}; try { data = JSON.parse(Buffer.concat(chunks).toString('utf8')); } catch { /* handled below */ }
         if (response.statusCode === 200) resolve(data);
-        else if (response.statusCode === 429 || response.statusCode === 401) reject(new AIError(response.statusCode, data.error?.code || 'busy', data.error?.message || 'Please wait a little before trying again.'));
-        else reject(new AIError(503, 'limits_unavailable', 'Generation limits are unavailable. Please try again shortly.'));
+        else if (response.statusCode === 429 || response.statusCode === 401) reject(new HttpError(response.statusCode, data.error?.code || 'busy', data.error?.message || 'Please wait a little before trying again.'));
+        else reject(new HttpError(503, 'limits_unavailable', 'Preview compilation limits are unavailable. Please try again shortly.'));
       });
-      response.on('error', () => reject(new AIError(503, 'limits_unavailable', 'Generation limits are unavailable. Please try again shortly.')));
+      response.on('error', () => reject(new HttpError(503, 'limits_unavailable', 'Preview compilation limits are unavailable. Please try again shortly.')));
     });
     upstream.on('timeout', () => upstream.destroy(new Error('Limit service timeout')));
-    upstream.on('error', () => reject(new AIError(503, 'limits_unavailable', 'Generation limits are unavailable. Please try again shortly.')));
+    upstream.on('error', () => reject(new HttpError(503, 'limits_unavailable', 'Preview compilation limits are unavailable. Please try again shortly.')));
     upstream.end(payload);
   });
 }

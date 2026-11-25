@@ -1,5 +1,15 @@
 # Draftmango changelog
 
+## 25 November 2026
+
+### AI engine removed; workspace retained
+- Removed provider clients and configuration, model catalog, planning/generation/streaming, design review, paid API/benchmark tools and the unused legacy prompt interpreter. Retired AI API routes return HTTP 410, including requests from older tabs.
+- Preserved the workspace interface, code editor, preview compiler, history, source import/export, publishing, managed stores, accounts, billing and domains. Shared template packages, deterministic content editing/design guards and MCP access remain intact; purchased assets and saved data were not modified.
+- Kept composers visible with disabled model/send controls and a clear status. Saved question and plan cards remain read-only; saved store handoff controls still work. Removed automatic generation on load and background provider checks from Settings.
+- Separated generic HTTP errors from the removed engine so accounts/domains/compilation continue working. Shared limits now accept only preview compilation.
+- Validation: production build and syntax checks passed; 145 non-browser tests and six Django limit tests passed before the final unused-helper cleanup, followed by 40 focused passing regression tests. The full retained suite includes compilation of all 100 library templates. Browser review checked inactive prompts, saved cards, Settings and manual source edits surviving reload. Browser preview compilation could not complete on the review port because the local account service was not running; compilation and gateway behaviour passed automated tests. Existing standalone Playwright UI tests were updated but not run in this pass.
+- Committed for review; not deployed. Existing private environment files and credentials were not read or changed.
+
 ## 24 November 2026
 
 ### Template library hidden from the interface

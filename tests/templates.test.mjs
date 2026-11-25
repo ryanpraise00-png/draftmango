@@ -1,4 +1,3 @@
-import {generate} from '../server/ai.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
@@ -38,34 +37,4 @@ test('all 100 imported React templates compile and retain their pages', {timeout
   }catch(error){failures.push(template.id+': '+error.message);}
  }
  assert.deepEqual(failures,[]);
-});
-
-
-
-test('Framo personalization changes content while retaining every page and runtime',async()=>{
- const starter=JSON.parse(await readFile(new URL('../web/framo/starters/architecture-studio-1.json',import.meta.url)));
- const files=P.scaffold({...starter.files,...runtime},starter.name);let received;
- const result=await generate({mode:'edit',prompt:'Rename framo studio to North Studio',files},{provider:'openai',key:'test',model:'gpt-6-luna',maxTokens:4096},{fetchImpl:async(_url,options)=>{
-  received=JSON.parse(options.body);const c=JSON.parse(received.input[1].content);const field=c.fields.find(f=>f.value==='framo studio');assert.ok(field);
-  return Response.json({status:'completed',output:[{type:'message',role:'assistant',content:[{type:'output_text',text:JSON.stringify({action:'update',title:'North Studio',message:'Renamed the studio.',edits:[{id:field.id,value:'North Studio',allMatching:true}],colours:[]})}]}]});
- }});
- assert.ok(result.files['src/pages/Page0.jsx'].includes('North Studio'));
- for(const [name,source] of Object.entries(files))if(!/^src\/(pages|shared)\//.test(name))assert.equal(result.files[name],source,name);
- assert.deepEqual(Object.keys(result.files),Object.keys(files));
- assert.ok(!JSON.stringify(received).includes(runtime['src/framo/vendor.txt']));
- assert.equal(JSON.parse(received.input[1].content).files,undefined);
-});
-
-test('new React creation loads the selected library template and accepts only content edits',async()=>{
- let requests=0;
- const result=await generate({mode:'create',framework:'react',prompt:'An architecture studio called North Studio',templateId:'architecture-studio-1'},{provider:'openai',key:'test',model:'gpt-6-luna',maxTokens:4096},{fetchImpl:async(_url,options)=>{
-  requests++;const body=JSON.parse(options.body),c=JSON.parse(body.input[1].content);
-  assert.equal(c.template.id,'architecture-studio-1');assert.equal(c.files,undefined);assert.equal(body.text.format.name,'draftmango_template_edits');
-  const field=c.fields.find(f=>f.value==='framo studio');
-  return Response.json({status:'completed',output:[{type:'message',role:'assistant',content:[{type:'output_text',text:JSON.stringify({action:'update',title:'North Studio',message:'Personalised the architecture template.',edits:[{id:field.id,value:'North Studio',allMatching:true}],colours:[]})}]}]});
- }});
- assert.equal(requests,1);assert.ok(result.files['src/framo/vendor.txt']);assert.ok(P.valid(result.files));
- assert.ok(result.files['src/pages/Page0.jsx'].includes('North Studio'));
- const original=JSON.parse(await readFile(new URL('../web/framo/starters/architecture-studio-1.json',import.meta.url)));
- for(const [name,source] of Object.entries(original.files))if(!/^src\/(pages|shared)\//.test(name))assert.equal(result.files[name],source,name);
 });

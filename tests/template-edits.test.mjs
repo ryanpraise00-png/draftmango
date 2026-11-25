@@ -3,8 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {templateForPrompt} from '../server/template-library.mjs';
-import {templateContentContext,indexTemplate,applyTemplateEdits} from '../server/template-edits.mjs';
-import {generate,validateInput} from '../server/ai.mjs';
+import {templateContentContext,indexTemplate,applyTemplateEdits} from '../server/template-engine/personalization.mjs';
 import {compileProject} from '../server/compiler.mjs';
 const template=await templateForPrompt('architecture');
 const files=template.files;
@@ -12,8 +11,6 @@ const context=templateContentContext(files,'Rename framo studio to North Studio'
 const brand=context.fields.find(f=>f.value==='framo studio');
 const update=(edits=[],colours=[])=>({action:'update',title:'North Studio',message:'Updated the template content.',edits,colours});
 const edit=(value='North Studio')=>({id:brand.id,value,allMatching:true});
-const config={provider:'anthropic',key:'test-key',model:'claude-sonnet-5-5',maxTokens:4096};
-const response=value=>Response.json({stop_reason:'end_turn',usage:{input_tokens:100,output_tokens:20},content:[{type:'text',text:JSON.stringify(value)}]});
 
 test('all catalog designs expose editable content without executing template code',async()=>{
  const catalog=JSON.parse(await readFile(new URL('../web/template-catalog.json',import.meta.url)));
@@ -73,34 +70,6 @@ test('brand colours use a fixed CSS block and retain earlier colour edits',()=>{
  assert.ok(second.files['src/styles.css'].includes('--color-text:#111111;'));
  assert.equal(second.files['src/styles.css'].split('/* Draftmango template colours */').length,2);
  for(const path of Object.keys(files))if(path!=='src/styles.css')assert.equal(second.files[path],files[path]);
-});
-
-test('old clients cannot bypass the React template path by asking for HTML',async()=>{
- assert.equal(validateInput({mode:'create',framework:'html',prompt:'Build a cafe'}).framework,'react');
- let calls=0;
- const result=await generate({mode:'create',framework:'html',prompt:'Build a cafe',templateId:'architecture-studio-1'},config,{fetchImpl:async(url,options)=>{
-  calls++;const body=JSON.parse(options.body),c=JSON.parse(body.messages[0].content);
-  assert.equal(url,'https://api.anthropic.com/v1/messages');assert.equal(body.output_config.format.schema.properties.files,undefined);
-  assert.equal(c.template.id,'architecture-studio-1');assert.equal(c.files,undefined);
-  return response(update([{id:c.fields.find(f=>f.value==='framo studio').id,value:'Cafe Studio',allMatching:true}]));
- }});
- assert.equal(calls,1);assert.ok(result.files['TEMPLATE.md']);assert.ok(!JSON.stringify(result).includes('test-key'));
-});
-
-test('unknown selected templates fail before any provider call; no generated fallback exists',async()=>{
- let calls=0;await assert.rejects(generate({mode:'create',prompt:'Build',templateId:'not-in-library'},config,{fetchImpl:async()=>{calls++;}}),{code:'template_unavailable'});assert.equal(calls,0);
-});
-
-test('greetings and structural requests can reply without writing files',async()=>{
- for(const prompt of ['Hello','Throw away the template and invent a new layout']){
-  const result=await generate({mode:'edit',prompt,files},config,{fetchImpl:async()=>response({action:'reply',title:'Studio',message:'We can personalise this template or choose another library layout.',edits:[],colours:[]})});
-  assert.equal(result.action,'reply');assert.equal(result.files,null);
- }
-});
-
-test('raw replacement-file responses and cancelled requests never become accepted drafts',async()=>{
- await assert.rejects(generate({mode:'edit',prompt:'Replace everything',files},config,{fetchImpl:async()=>response({action:'update',title:'New',message:'Replaced',files:[{path:'src/App.jsx',content:'new'}]})}),{code:'template_edit'});
- const controller=new AbortController();await assert.rejects(generate({mode:'edit',prompt:'Change title',files},config,{signal:controller.signal,fetchImpl:async()=>{controller.abort();return response(update([edit()]));}}),{name:'AbortError'});
 });
 
 test('follow-up requests include relevant existing pages rather than always sending the home page',()=>{

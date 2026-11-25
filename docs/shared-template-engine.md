@@ -5,19 +5,19 @@ Draftmango and Isotris use `server/template-engine/` and the same `web/template-
 ## Entry points
 
 - Draftmango's browser calls authenticated `POST /api/templates/start` with `{brief, id?}`. The server chooses and loads a library template; the browser no longer assembles starter JSON itself. An unknown explicit id is an error, never a generated-layout fallback.
-- `server/template-library.mjs` is a compatibility export of the engine. The AI generation path uses the engine's content-field editor from `server/template-edits.mjs`.
+- `server/template-library.mjs` is a compatibility export of the engine. The deterministic content-field editor is `server/template-engine/personalization.mjs`; the AI generation path has been removed.
 - `server/template-mcp.mjs` is a thin local stdio transport over the same engine. Isotris starts it from user settings. No separate template catalog or importer is maintained in Isotris.
 - The catalogue is internal to the builder and MCP engine. Public gallery and template-selection pages are removed; old `/templates` URLs redirect to the homepage brief. The plan’s proposed design still renders in an isolated preview, without library navigation.
 
 ## Design preservation
 
-`personalization.mjs` indexes literal copy and selected JSX attributes. Draftmango's model receives field IDs and values rather than an invitation to rewrite the component source. It can return content edits and three bounded colour overrides. Layout, classes, internal route/anchor links, runtime scripts, typography, sizing and all other source bytes stay intact.
+`personalization.mjs` indexes literal copy and selected JSX attributes. Callers supply field IDs and values rather than replacement component source. The editor accepts content edits and three bounded colour overrides, without calling a model. Layout, classes, internal route/anchor links, runtime scripts, typography, sizing and all other source bytes stay intact.
 
 `design-policy.mjs` fingerprints the source outside those editable fields. Its validator rejects new executable/design files, deleted protected files, arbitrary CSS, altered template identity, unsafe editable URLs and changed layout/runtime. It allows browser-tab titles and the fixed colour override block. This is deliberately strict: a whole-file formatter may change protected source and be rejected even if it looks similar.
 
-New projects include `template.lock.json`: the template id, content-derived version, policy version, source hashes, design fingerprints and vendor asset byte hashes. AI edits preserve that lock. Draftmango checks a pinned project's design before spending a model request and again before accepting the result. Legacy projects with `TEMPLATE.md` still use the strict content editor; they are not silently replaced with today's library version.
+New projects include `template.lock.json`: the template id, content-derived version, policy version, source hashes, design fingerprints and vendor asset byte hashes. Deterministic content edits preserve that lock and validate the design before and after applying changes. Legacy projects with `TEMPLATE.md` still use the strict content editor; they are not silently replaced with today's library version.
 
-The lock is provenance/design policy, not an authentication credential or a signature. Draftmango's editable project documents are user-controlled. Its actual AI capability boundary is the field-edit response contract; it never accepts a model-supplied replacement manifest or source files on the template path.
+The lock is provenance/design policy, not an authentication credential or a signature. Draftmango's editable project documents are user-controlled. The content-edit contract never accepts replacement manifests or source files.
 
 ## Isotris boundary
 
@@ -39,4 +39,4 @@ Authenticated remote MCP and durable package delivery are now implemented behind
 
 ## Validation
 
-`npm run check` and `npm test` include the shared engine and MCP protocol checks. The new tests cover equivalent web/MCP packages, asset checksums, repeated content edits, rejected layout/runtime/route changes, JSX injection, corrupt saved locks, authenticated browser imports, and no client-side fallback. Existing template tests compile every catalog design. All model responses in these tests are local stubs; they use no API key or paid model requests.
+`npm run check` and `npm test` include the shared engine and MCP protocol checks. The new tests cover equivalent web/MCP packages, asset checksums, repeated content edits, rejected layout/runtime/route changes, JSX injection, corrupt saved locks, authenticated browser imports, and no client-side fallback. Existing template tests compile every catalog design. These tests use no API key or model requests.

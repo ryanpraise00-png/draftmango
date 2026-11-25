@@ -7,7 +7,7 @@ import {templateForPrompt} from '../server/template-library.mjs';
 import {templateFiles,handle} from '../server/template-mcp.mjs';
 import {createManifest,validateTemplateFiles,designFingerprint,hash} from '../server/template-engine/design-policy.mjs';
 import {applyTemplateEdits,templateContentContext} from '../server/template-engine/personalization.mjs';
-import {generate,AIError} from '../server/ai.mjs';
+import {HttpError} from '../server/http-error.mjs';
 import {createServer} from '../server/serve.mjs';
 
 const hosted=await templateForPrompt('independent cafe','cafe-1');
@@ -75,12 +75,6 @@ test('JSX text edits remain text, while element and script injection fail the sa
   assert.equal(validateTemplateFiles(pinned,{[name]:original.replace('https://example.test/a.png','javascript:alert(1)')},{partial:true}).valid,false);
 });
 
-test('a damaged pinned project is rejected before spending a model request',async()=>{
-  let calls=0;
-  await assert.rejects(generate({mode:'edit',prompt:'Rename the cafe',files:{...hosted.files,'src/styles.css':'body{}'}},{provider:'openai',key:'test',model:'test'},{fetchImpl:async()=>{calls++;}}),{code:'template_design'});
-  assert.equal(calls,0);
-});
-
 test('MCP validation reports the same violations and rejects malformed arguments',async()=>{
   const request=(name,args)=>handle({jsonrpc:'2.0',id:1,method:'tools/call',params:{name,arguments:args}});
   const result=await request('validate_template_files',{manifest,files:{'src/App.jsx':'new layout'},partial:true});
@@ -92,7 +86,7 @@ test('MCP validation reports the same violations and rejects malformed arguments
 
 test('authenticated browser import returns the same pinned package; unknown ids have no fallback',async t=>{
   let authenticated=false;
-  const server=createServer({accountSession:async()=>{if(!authenticated)throw new AIError(401,'unauthorized','Sign in.');return 'owner';}});
+  const server=createServer({accountSession:async()=>{if(!authenticated)throw new HttpError(401,'unauthorized','Sign in.');return 'owner';}});
   server.listen(0,'127.0.0.1');await once(server,'listening');
   t.after(()=>{server.closeAllConnections();server.close();});
   const origin=`http://127.0.0.1:${server.address().port}`;

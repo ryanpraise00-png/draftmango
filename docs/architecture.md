@@ -11,9 +11,9 @@ Everything runs locally with `npm run dev`; production uses Docker (see
 | `app/` | Next.js pages (JSX), one route group per page: home, auth, dashboard, workspace, pricing, about, help, legal |
 | `components/` | Shared React pieces: `DocumentLayout.jsx`, and `PageControllers.jsx`, which loads the browser scripts for each page |
 | `web/` | Browser scripts, stylesheets and assets used by the pages (copied to `public/` by `npm run build`) |
-| `server/` | Node services: API gateway (`serve.mjs`), AI pipeline (`ai.mjs`, `conversation.mjs`, `design-coordinator.mjs`), design review (`design-review.mjs`), React compiler (`compiler.mjs`, `compiler-worker.mjs`, `build-service.mjs`), Django bridge (`django.mjs`), hosting checks (`hosting.mjs`), Name.com (`namecom.mjs`), public site server (`publisher.mjs`) |
+| `server/` | Node services: API gateway (`serve.mjs`), React compiler (`compiler.mjs`, `compiler-worker.mjs`, `build-service.mjs`), Django bridge (`django.mjs`), hosting checks (`hosting.mjs`), Name.com (`namecom.mjs`), public site server (`publisher.mjs`) |
 | `backend/` | Django: accounts, projects, billing, publishing and shared limits (`backend/accounts/`), settings and URLs (`backend/draftmango/`) |
-| `scripts/` | Command-line tools run through npm: dev runner, build preparation, account setup, Django tests, project reset, design benchmark |
+| `scripts/` | Command-line tools run through npm: dev runner, build preparation, account setup, Django tests, project reset |
 | `tests/` | Node tests (`npm test`) and test fixtures |
 | `benchmarks/briefs/` | Fixed briefs for the design benchmark |
 | `deploy/` | Dockerfiles, Compose, Nginx and certificate services |
@@ -36,12 +36,9 @@ independent document lifecycle.
 
 ## Generated websites
 
-New AI sites are React 19.3.1 projects (`src/App.jsx`, `src/main.jsx`,
-`src/styles.css` and components). Every edit sends the complete source tree;
-the model returns a strict list of path/content records. Paths, required files
-and the build are validated before an AI update replaces a draft. Older HTML
-projects keep their format and history. Every new project starts from a blank
-site; the retired sample templates remain only so older drafts still open.
+The AI engine is removed. Saved React and HTML projects retain their files and
+history. The source editor supports manual changes, import, export and previews.
+The internal shared template library and MCP services remain independent.
 
 Preview uses the authenticated same-origin `/api/build`. A private service
 compiles JSX with pinned esbuild, React and React DOM. Customer source, package

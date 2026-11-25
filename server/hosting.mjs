@@ -1,5 +1,5 @@
 import { isIP } from 'node:net';
-import { AIError } from './ai.mjs';
+import { HttpError } from './http-error.mjs';
 
 export function publicOrigin(value = '') {
   if (!value) return '';
@@ -13,7 +13,7 @@ export function publicOrigin(value = '') {
 export function requestBoundary(request, origin = '', trustedProxyIPs = []) {
   const host = request.headers.host;
   const allowed = origin ? [new URL(origin).host] : ['127.0.0.1:' + request.socket.localPort, 'localhost:' + request.socket.localPort];
-  if (!allowed.includes(host)) throw new AIError(403, 'origin', 'Open Draftmango using its configured address.');
+  if (!allowed.includes(host)) throw new HttpError(403, 'origin', 'Open Draftmango using its configured address.');
   const peer = (request.socket.remoteAddress || '').replace(/^::ffff:/, '');
   const forwarded = request.headers['x-real-ip'];
   request.draftmangoOrigin = origin || 'http://' + host;

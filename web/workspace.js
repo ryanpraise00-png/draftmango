@@ -52,12 +52,11 @@
     const next = M.createProject(initialIdea, 'blank');
     const selectedTemplateId = starting.get('template');
     next.files=W.emptyFiles();next.history[0].files=structuredClone(next.files);
-    next.workspace={...next.workspace,builder:B.initial(),...(selectedTemplateId && !['blank','auto'].includes(selectedTemplateId)?{templateId:selectedTemplateId}:{})};
-    if(homeIntent)next.workspace={...next.workspace,kind:'chat',queuedPrompt:homeIntent.idea,attachments:homeIntent.references,notes:homeIntent.notes,build:{level:'standard',modelId:homeIntent.modelId}};
-    next.ai={state:'pending'};
+    next.workspace={...next.workspace,...(selectedTemplateId && !['blank','auto'].includes(selectedTemplateId)?{templateId:selectedTemplateId}:{})};
+    if(homeIntent)next.workspace={...next.workspace,kind:'chat',draftPrompt:homeIntent.idea,attachments:homeIntent.references,notes:homeIntent.notes,build:{level:'standard',modelId:homeIntent.modelId}};
     next.creationPreferences=[];
     next.messages=[{role:'user',text:initialIdea}];
-    if(missingHomeIntent)next.messages.push({role:'assistant',text:'Your saved homepage context is unavailable in this browser or has expired. I have paused the build. Return to the browser where you started, or review the prompt below, reattach your files and notes, and choose your model before sending it again.'});
+    if(missingHomeIntent)next.messages.push({role:'assistant',text:'Your saved homepage context is unavailable in this browser or has expired. The AI builder has been removed. You can still use the code editor and saved projects.'});
     library = library || { schema: 1, activeId: next.id, projects: [] };
     library.projects.push(next);
     library.activeId = next.id;
@@ -65,11 +64,10 @@
   }
   if (!library) {
     const first = M.createProject('', 'blank');
-    first.files=W.emptyFiles();first.history[0].files=structuredClone(first.files);first.workspace={...first.workspace,builder:B.initial()};
+    first.files=W.emptyFiles();first.history[0].files=structuredClone(first.files);
     library = { schema: 1, activeId: first.id, projects: [first] };
   }
   let project = library.projects.find(p => p.id === library.activeId) || library.projects[0];
-  if(!project.workspace?.builder && project.ai?.state==='pending' && !project.files?.['template.lock.json'])project.workspace={...project.workspace,builder:B.initial()};
   const parentProject = W.get(project.workspace?.parentId);
   if (parentProject && !project.codeDraft && parentProject.files && JSON.stringify(parentProject.files) !== JSON.stringify(project.files)) project = M.commitFiles(project, parentProject.files, 'Loaded current project source', parentProject.designBrief);
   let sharedSource = JSON.stringify(parentProject?.files || project.files);
@@ -125,15 +123,12 @@
     save();
   }
   function switchProject(id) {
-    stopAI(true);
-    lastAIRequest = null;
-    aiFeedback = { text: '', state: '', retry: false };
     flushCodeDraft();
     const selected = library.projects.find(item => item.id === id);
     if (!selected) return;
     project = selected;
     $('#chat-input').value = '';
-    save(); render(); renderAI();
+    save(); render(); renderComposer();
     closeNavigation();
   }
   const mobileNavigation = matchMedia('(max-width:1000px)');
@@ -201,9 +196,6 @@
     scheduleCanvasSize();
   });
   closeNavigation();
-  function addMessage(role, text, extra = {}) {
-    project = { ...project, messages: [...project.messages, { role, text, ...extra }] };
-  }
   function stamp(value) {
     const date = new Date(value);
     return Number.isNaN(date.getTime()) ? 'Saved draft' : date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
@@ -232,7 +224,7 @@
       label.innerHTML = message.role === 'user' ? 'You <span class="avatar">Y</span>' : `<span class="avatar">${icon('mango')}</span>Draftmango`;
       const content = document.createElement(message.role === 'assistant' ? 'div' : 'p');
       content.className = 'message-content';
-      const messageText = message.initial ? 'Tell me what you want to build. I’ll help clarify the details, agree a plan with you, and bring your website to life.' : message.text;
+      const messageText = message.initial ? 'Your workspace is ready. The AI builder has been removed; your saved projects and code editor remain available.' : message.text;
       if (message.role === 'assistant') Chat.render(content,messageText); else content.textContent=messageText;
       block.append(label);
       const activity=Chat.renderActivity(message.activity);if(activity)block.append(activity);
@@ -337,13 +329,14 @@
     if (!state) return;
     const paused = state === 'paused';
     $('#preview-empty-title').textContent = paused ? 'Preview paused' : 'Your website will appear here';
-    $('#preview-empty-copy').textContent = paused ? 'Resume whenever you’re ready. Your work is saved.' : 'Start with an idea in the chat. We’ll bring it to life here.';
-    $('#preview-empty-action').textContent = paused ? 'Resume preview' : 'Describe your website';
+    $('#preview-empty-copy').textContent = paused ? 'Resume whenever you’re ready. Your work is saved.' : 'Add or edit source files in Code view, then run the preview.';
+    $('#preview-empty-action').textContent = paused ? 'Resume preview' : 'Open code editor';
   }
   $('#preview-empty-action').addEventListener('click', () => {
     if ($('#preview-empty').dataset.state === 'paused') { renderPreview(true); return; }
-    setMobileView('editor');
-    $('#chat-input').focus();
+    setMobileView('preview');
+    document.querySelector('[data-view="code"]').click();
+    $('#source-input').focus();
   });
   function renderPreview(force = false) {
     const review=templateReview();
@@ -668,7 +661,7 @@
     document.title = `${project.title} | Draftmango`;
     $('#undo').disabled = project.cursor === 0;
     $('#redo').disabled = project.cursor >= project.history.length - 1;
-    renderConversation(); renderHistory(); renderSidebar(); syncSource(); renderPreview(); renderAI();
+    renderConversation(); renderHistory(); renderSidebar(); syncSource(); renderPreview(); renderComposer();
     window.dispatchEvent(new Event('draftmango:editor-render'));
   }
 
@@ -681,41 +674,19 @@
     });
     scheduleCanvasSize();
   }
-  let aiJob = null;
-  let aiStatus = null;
-  let lastAIRequest = null;
-  let aiFeedback = { text: '', state: '', retry: false };
-  function fileRevision(item) {
-    return JSON.stringify([item.design, item.files || null, item.codeDraft || null, item.designBrief || null, item.cursor, item.workspace?.builder || null]);
-  }
-  function renderAI() {
-    const busy = !!aiJob;
-    $('#ai-feedback').hidden = busy || !aiFeedback.text;
-    $('#ai-feedback').dataset.state = aiFeedback.state;
-    $('#ai-message').textContent = aiFeedback.text;
-    const sendButton=$('#chat-form .send-button');
-    sendButton.disabled=!busy&&!$('#chat-input').value.trim();sendButton.type=busy?'button':'submit';sendButton.dataset.busy=String(busy);
-    sendButton.setAttribute('aria-label',busy?'Stop generation':'Send message');
-    sendButton.onclick=event=>{if(aiJob){event.preventDefault();stopAI();}};
+  const builderUnavailable='The AI builder has been removed. You can still edit files, run previews and manage saved projects.';
+  function showBuilderUnavailable(){ announce(builderUnavailable); }
+  function renderComposer(){
+    $('#ai-feedback').hidden=false;
+    $('#ai-message').textContent=builderUnavailable;
+    const sendButton=$('#chat-form .send-button');sendButton.disabled=true;sendButton.type='submit';
+    sendButton.dataset.busy='false';sendButton.setAttribute('aria-label','AI builder unavailable');
+    $('#retry-ai').hidden=true;$('#generate-site').hidden=true;
+    $('#chat-form').setAttribute('aria-busy','false');
+    $('#source-input').readOnly=false;$('#history-list').inert=false;
+    $('#undo').disabled=!project.codeDraft&&project.cursor===0;
+    $('#redo').disabled=!!project.codeDraft||project.cursor>=project.history.length-1;
     renderBuilderPrompt();
-    renderAgentProgress();
-    $('#retry-ai').hidden = busy || !aiFeedback.retry;
-    $('#generate-site').hidden = busy || project.ai?.state !== 'pending' || aiFeedback.retry || project.messages.at(-1)?.role === 'assistant';
-
-    $('#chat-form').setAttribute('aria-busy', String(busy));
-    $$('[data-request]').forEach(button => { button.disabled = busy; });
-    $('#source-input').readOnly = busy;
-    $('#history-list').inert = busy;
-    $('#undo').disabled = busy || (!project.codeDraft && project.cursor === 0);
-    $('#redo').disabled = busy || !!project.codeDraft || project.cursor >= project.history.length - 1;
-    const picker = $('#ai-model-select'); if (picker?.options.length && picker.options[0].value) picker.disabled = busy;
-    const name = aiStatus?.name || 'AI';
-    $$('[data-ai-name]').forEach(element => { element.textContent = name; });
-    $$('[data-ai-service]').forEach(element => { element.textContent = aiStatus?.service || 'your configured provider'; });
-    $('#ai-connection-provider').textContent = aiStatus?.service || 'Not available';
-    $('#ai-connection-model').textContent = aiStatus?.model || 'Not available';
-    $('#ai-key-variable').textContent = aiStatus?.keyVariable || 'OPENAI_API_KEY';
-    $('#ai-model-variable').textContent = aiStatus?.modelVariable || 'OPENAI_MODEL';
   }
   const storeStates=new Map(),storeLoads=new Map();
   let storeNavigation='';
@@ -738,217 +709,44 @@
     }catch(error){storeStates.set(id,{message:error.message});}
     finally{storeLoads.delete(id);if(project.id===id)renderBuilderPrompt();}
   }
-  window.addEventListener('focus',()=>{if(!aiJob&&globalThis.DraftmangoStoreBuilder?.supported(project))loadStore();});
+  window.addEventListener('focus',()=>{if(globalThis.DraftmangoStoreBuilder?.supported(project))loadStore();});
   function renderBuilderPrompt(){
     let root=$('#builder-prompt');
     if(!root){root=document.createElement('div');root.id='builder-prompt';root.className='builder-prompt';$('#conversation').append(root);}
     if(root.dataset.project!==project.id){delete root.dataset.signature;root.dataset.project=project.id;}
     globalThis.DraftmangoBuilderPrompts.render(root,project.workspace?.builder,{
-      answer:text=>requestChange(text),
-      build:()=>requestChange('Build the website using this agreed plan.',{mode:'create',builderAction:'build'}),
+      answer:showBuilderUnavailable,
+      build:showBuilderUnavailable,
       revise:()=>{$('#chat-input').value='Change the plan: ';$('#chat-input').dispatchEvent(new Event('input',{bubbles:true}));$('#chat-input').focus();},
       prepare:()=>loadStore(true),
       preview:()=>{storeNavigation='shop';document.querySelector('[data-view="preview"]').click();setMobileView('preview');sendStorePreview('shop');},
       publish:()=>globalThis.DraftmangoPublishing?.open()
-    },!!aiJob||!!storeStates.get(project.id)?.busy,storeStates.get(project.id));
+    },!!storeStates.get(project.id)?.busy,storeStates.get(project.id));
+    if(['discovery','review'].includes(B.read(project.workspace?.builder)?.phase)){
+      root.querySelectorAll('button,input,textarea,select').forEach(control=>{control.disabled=true;control.title='The AI builder has been removed';});
+      root.setAttribute('aria-busy','false');
+    }
     if(globalThis.DraftmangoStoreBuilder?.supported(project)&&!storeStates.has(project.id))queueMicrotask(()=>loadStore());
     const isQuestion=['discovery','review'].includes(B.read(project.workspace?.builder)?.phase);
     root.classList.toggle('is-question',isQuestion);
     if(isQuestion){const dock=$('#panel-build .composer-area');if(root.parentElement!==dock)dock.prepend(root);}
     else{const log=$('#conversation');if(root.parentElement!==log||(root!==log.lastElementChild&&!$('#agent-progress')))log.append(root);}
   }
-  function renderAgentProgress() {
-    let pending=$('#agent-progress');
-    if(!aiJob||aiJob.complete){pending?.remove();return;}
-    const log=$('#conversation'),atBottom=log.scrollHeight-log.scrollTop-log.clientHeight<90;
-    if(!pending){
-      pending=document.createElement('div');pending.id='agent-progress';pending.className='message message-assistant agent-progress';
-      pending.innerHTML='<div class="agent-plan message-content"></div><div class="agent-live"><span class="agent-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="agent-phase" role="status" aria-live="polite"></span><span class="agent-time" aria-hidden="true"></span></div>';
-      const updates=document.createElement('ul');updates.className='agent-updates';pending.prepend(updates);log.append(pending);
-    }
-    const updates=pending.querySelector('.agent-updates');
-    if(updates.dataset.count!==String(aiJob.updates.length)){updates.replaceChildren();for(const text of aiJob.updates.slice(0,-1).slice(-4)){const li=document.createElement('li');li.textContent=text;updates.append(li);}updates.dataset.count=String(aiJob.updates.length);}
-    const plan=pending.querySelector('.agent-plan');
-    if(plan.dataset.text!==aiJob.plan){Chat.render(plan,aiJob.plan);plan.dataset.text=aiJob.plan;}
-    plan.hidden=!aiJob.plan;
-    const label=aiJob.plan&&aiJob.phase==='planning'?'Building the website':Chat.labels[aiJob.phase];
-    const status=pending.querySelector('.agent-phase');if(status.textContent!==label)status.textContent=label;
-    pending.querySelector('.agent-time').textContent=aiJob.elapsedSeconds>=10?Chat.duration(aiJob.elapsedSeconds*1000):'';
-    if(atBottom)requestAnimationFrame(()=>{log.scrollTop=log.scrollHeight;});
-  }
-  const selectedModel = () => project.workspace?.build?.modelId || '';
-  let connectionCheck = 0;
-  async function checkAI() {
-    const check = ++connectionCheck;
-    const dialog = $('#ai-dialog'), button = $('#check-ai'), state = $('#ai-connection-state');
-    dialog.dataset.connection = 'checking';
-    button.disabled = true;
-    button.textContent = 'Checking…';
-    state.textContent = 'Checking configuration';
-    $('#ai-setup-status').textContent = 'Checking the selected provider and model…';
-    try {
-      const response = await fetch('/api/ai/status' + (selectedModel() ? '?model=' + encodeURIComponent(selectedModel()) : ''), { cache: 'no-store', signal: AbortSignal.timeout(8000) });
-      if (!response.ok) throw new Error('Setup unavailable');
-      const status = await response.json();
-      if (check !== connectionCheck) return;
-      aiStatus = status;
-      dialog.dataset.connection = aiStatus.configured ? 'configured' : 'missing';
-      state.textContent = aiStatus.configured ? 'Configuration found' : 'Setup required';
-      $('#ai-setup-status').textContent = aiStatus.configured
-        ? 'An API key is configured. Your next generation will verify access to this model.'
-        : 'No API key is configured for this provider. See Connection details for setup.';
-    } catch {
-      if (check !== connectionCheck) return;
-      aiStatus = null;
-      dialog.dataset.connection = 'unavailable';
-      state.textContent = 'Unable to check';
-      $('#ai-setup-status').textContent = 'The connection status is unavailable. Check that the Draftmango server is running, then try again.';
-    } finally {
-      if (check === connectionCheck) {
-        button.disabled = false;
-        button.textContent = 'Check connection';
-      }
-    }
-    renderAI();
-    return aiStatus;
-  }
-  function stopAI(silent = false) {
-    if (!aiJob) return;
-    aiJob.controller.abort();
-    aiJob = null;
-    aiFeedback = silent ? { text: '', state: '', retry: false } : {
-      text: 'Stopped. Your website is unchanged.', state: '', retry: true
-    };
-    renderAI();
-  }
-  async function requestChange(request, { mode, retry = false, builderAction = 'respond' } = {}) {
-    const text = request.trim();
-    if (!text || aiJob) return false;
-    applyCode(false);
-    mode = mode || Chat.requestMode(project,W.emptyFiles());
-    if(project.files?.['TEMPLATE.md']) mode='edit';
-    if (!retry && !(project.messages.at(-1)?.role === 'user' && project.messages.at(-1)?.text === text)) addMessage('user', text);
-    const workflow=B.read(project.workspace?.builder) || (mode==='create'?B.initial():null);
-    lastAIRequest = { text, mode, builderAction };
-    const job = { controller: new AbortController(), projectId: project.id, revision: fileRevision(project), startedAt:Date.now(), phase:'connecting', phases:['connecting'], plan:'', updates:[], elapsedSeconds:0 };
-    aiJob = job;
-    aiFeedback = { text:'Thinking…', state:'busy', retry:false };
-    const parentContext = W.get(project.workspace?.parentId);
-    const payload = {
-      mode, interaction:'conversation', prompt: project.files?.['TEMPLATE.md'] ? text+'\n\nPreserve the supplied Framo design, page routing and shared styles. Personalise the existing React pages; do not replace them with a new generic design.' : text,
-      ...(workflow ? {builder:workflow,builderAction} : {}),
-      ...(project.workspace?.templateId ? {templateId:project.workspace.templateId} : {}),
-      ...(selectedModel() ? {modelId:selectedModel()} : {}),
-      references: project.workspace?.attachments || [],
-      projectContext: [project.prompt ? 'Original brief: '+project.prompt : '', parentContext?.workspace?.brief, parentContext?.workspace?.instructions, project.workspace?.notes].filter(Boolean).join('\n\n').slice(0,12000),
-      ...(mode === 'edit' ? { files: structuredClone(project.files || C.createFiles(project.design)), designBrief: project.designBrief || null } : { creationPreferences: project.creationPreferences || [] }),
-      history: Chat.history(project.messages,text)
-    };
-    save(); render(); renderAI();
-    if (!retry) { $('#chat-input').value = ''; $('#chat-input').style.height = ''; }
-    let clientTimedOut = false, connectionLost = false, timer, idleTimer;
-    const armDeadline = seconds => {
-      clearTimeout(timer);
-      timer = setTimeout(() => { clientTimedOut = true; job.controller.abort(); }, (seconds + 30) * 1000);
-    };
-    const resetIdle = () => {
-      clearTimeout(idleTimer);
-      idleTimer = setTimeout(() => { connectionLost = true; job.controller.abort(); }, 90000);
-    };
-    armDeadline(aiStatus?.timeoutSeconds || 900);
-    resetIdle();
-    try {
-      const response = await fetch('/api/ai/generate', {
-        method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/x-ndjson', ...await A.headers() }, body: JSON.stringify(payload), signal: job.controller.signal
-      });
-      const result = await globalThis.DraftmangoAI.readResponse(response, event => {
-        resetIdle();
-        if (aiJob !== job) return false;
-        if (event.type === 'start' && Number.isFinite(event.timeoutSeconds) && event.timeoutSeconds > 0 && event.timeoutSeconds <= 1800) armDeadline(event.timeoutSeconds);
-        if (event.type === 'progress') {
-          job.phase = Object.hasOwn(Chat.labels,event.phase) ? event.phase : job.phase;
-          if (!job.phases.includes(job.phase)) job.phases.push(job.phase);
-          if (typeof event.message === 'string') {job.plan=event.message.slice(0,3000);if(job.updates.at(-1)!==job.plan)job.updates.push(job.plan);}
-          job.elapsedSeconds=Math.max(0,Math.floor(event.elapsedSeconds||0));
-          aiFeedback = {text:Chat.labels[job.phase]+'…', state:'busy', retry:false};
-          renderAI();
-        }
-      });
-      if (aiJob !== job || project.id !== job.projectId) return false;
-      // Another tab or an intervening edit must never be overwritten by a late reply.
-      let latest;
-      try { latest = M.readStore(localStorage.getItem(storageKey))?.projects.find(item => item.id === project.id); } catch { /* Current session remains usable. */ }
-      if (fileRevision(project) !== job.revision || (latest && fileRevision(latest) !== job.revision)) {
-        if (latest) { project = latest; conversationProject = ''; }
-        throw new Error('This draft changed while the AI was working. Your newer edits are kept. Try again to use the latest files.');
-      }
-      const nextBuilder=result.builder?B.read(result.builder):null;
-      if(result.builder&&!nextBuilder)throw new Error('The website plan could not be read. Your draft is unchanged.');
-      if (result.action === 'update' && M.readFiles(result.files)) {
-        project = M.commitFiles(project, {...(builderAction==='build'?{}:project.files || {}), ...result.files}, (mode === 'create' ? 'Created with ' : 'Edited with ') + (result.name || 'AI'), result.designBrief || project.designBrief);
-        if (mode === 'create' && result.title) project = { ...project, title: result.title.slice(0,60) };
-        project = { ...project, ai: { state: 'ready' } };
-      } else if (result.action !== 'reply') { throw new Error('The AI returned invalid files. Your current draft is unchanged.'); }
-      if(nextBuilder){project.workspace={...project.workspace,builder:nextBuilder,...(result.designProcess?.templateId?{templateId:result.designProcess.templateId,templateVersion:result.designProcess.templateVersion}:{})};}
-      job.complete=true;
-      addMessage('assistant', result.message, { changed: result.action === 'update', activity:{durationMs:Date.now()-job.startedAt,phases:job.phases,plan:job.plan,updates:job.updates.slice(-20)} });
-      W.recordActivity('ai', project.id); if (W.preferences.sound) W.chime();
-      project.workspace = {...project.workspace, queuedPrompt:''};
-      aiStatus = { configured: true, provider:result.provider, name:result.name, service:result.service, keyVariable:result.keyVariable, modelVariable:result.modelVariable, model:result.model, timeoutSeconds:result.timeoutSeconds };
-      aiFeedback = { text: '', state: '', retry: false };
-      lastAIRequest = null;
-      save(); render();
-      if(result.action === 'update')announce('Your website is updated. The previous draft is in History.');
-      return true;
-    } catch (error) {
-      if (aiJob !== job) return false;
-      if (error.code === 'missing_key' || error.code === 'invalid_key') aiStatus = {...aiStatus, configured:false};
-      aiFeedback = {
-        text: connectionLost ? 'The connection to the local server was interrupted. Your draft is unchanged. Try again.' : clientTimedOut ? 'The AI did not finish within the generation time limit. Your draft is unchanged. You can try again.' : error.name === 'AbortError' ? 'Generation stopped. Your website is unchanged.' : error.message || 'Could not connect. Please try again.',
-        state: 'error', retry: true
-      };
-      return false;
-    } finally {
-      clearTimeout(timer);
-      clearTimeout(idleTimer);
-      if (aiJob === job) { aiJob = null; render(); renderAI(); }
-      if(job.complete&&builderAction==='build'&&project.id===job.projectId&&globalThis.DraftmangoStoreBuilder?.supported(project)){
-        // Finish the generation job first: stopping a build never hides a committed store mutation.
-        const deadline=Date.now()+20000;
-        const wait=()=>project.id!==job.projectId||Date.now()>deadline?undefined:storeLoads.has(job.projectId)?setTimeout(wait,100):loadStore(true);
-        wait();
-      }
-    }
-  }
-
-  $('#retry-ai').addEventListener('click', () => { if (lastAIRequest) requestChange(lastAIRequest.text, {mode: lastAIRequest.mode, builderAction:lastAIRequest.builderAction, retry:true}); });
-  $('#generate-site').addEventListener('click', () => requestChange(project.prompt, {mode:'create'}));
-  $('#check-ai').addEventListener('click', checkAI);
-  window.addEventListener('pagehide', () => stopAI(true));
-
-
   $$('button[data-mobile-view]').forEach(button => button.addEventListener('click', () => setMobileView(button.dataset.mobileView)));
-  $('#chat-form').addEventListener('submit', event => {
-    event.preventDefault();
-    if(aiJob){stopAI();return;}
-    const input = $('#chat-input');
-    if (!input.value.trim()) { input.setCustomValidity('Write a message to continue.'); input.reportValidity(); return; }
-    requestChange(input.value);
-  });
+  $('#chat-form').addEventListener('submit', event => { event.preventDefault(); showBuilderUnavailable(); });
   $('#chat-input').addEventListener('input', event => {
     event.target.setCustomValidity('');
     const field=event.target,style=getComputedStyle(field);
     field.style.height = 'auto';
     field.style.height = `${Math.min(parseFloat(style.maxHeight)||280, Math.max(parseFloat(style.minHeight)||88, field.scrollHeight))}px`;
-    $('#chat-form .send-button').disabled=!aiJob&&!field.value.trim();
+    $('#chat-form .send-button').disabled=true;
   });
   $('#chat-input').addEventListener('keydown', event => {
-    if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) { event.preventDefault(); if(!aiJob)$('#chat-form').requestSubmit(); }
+    if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) { event.preventDefault(); showBuilderUnavailable(); }
   });
-  $$('[data-request]').forEach(button => button.addEventListener('click', () => requestChange(button.dataset.request)));
+  $$('[data-request]').forEach(button => { button.disabled=true; });
 
   function moveHistory(offset) {
-    if (aiJob) return;
     applyCode(false);
     const next = M.restore(project, project.cursor + offset);
     if (next === project) return;
@@ -961,7 +759,7 @@
     if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') { event.preventDefault(); applyCode(); return; }
     if (event.target.closest('input,textarea,select') || event.target.isContentEditable || $('dialog[open]')) return;
     if (event.ctrlKey || event.metaKey) {
-      if (!aiJob && event.key.toLowerCase() === 'z') { event.preventDefault(); moveHistory(event.shiftKey ? 1 : -1); }
+      if (event.key.toLowerCase() === 'z') { event.preventDefault(); moveHistory(event.shiftKey ? 1 : -1); }
       else if (event.key.toLowerCase() === 'y') { event.preventDefault(); moveHistory(1); }
     }
   });
@@ -1083,21 +881,20 @@
     if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
   }));
   window.addEventListener('draftmango:sync', () => { if (A.user && !saveFailed) { $('#save-status').textContent = A.message; $('#save-status').title = A.issue || A.message; } });
-  window.addEventListener('draftmango:session-ended', () => { stopAI(true); flushCodeDraft(); });
+  window.addEventListener('draftmango:session-ended', () => { flushCodeDraft(); });
   save(); render(); updateDevice(device);
   globalThis.DraftmangoEditor = {
-    get project(){return project;}, get files(){return workingFiles;}, get selectedFile(){return selectedFile;}, get busy(){return !!aiJob;},
+    get project(){return project;}, get files(){return workingFiles;}, get selectedFile(){return selectedFile;}, get busy(){return false;},
     save, render, applyCode, setMobileView, updateDevice, scheduleCanvasSize,
-    showAISetup(){ $('#ai-dialog').showModal(); checkAI(); },
+    showBuilderStatus(){ $('#ai-dialog').showModal(); },
     showHistory(){ renderHistory(); $('#history-dialog').showModal(); },
-    selectModel(modelId){if(aiJob)return;project.workspace={...project.workspace,build:{...project.workspace?.build,modelId}};aiStatus=null;save();render();checkAI();},
     selectFile(name){if(Object.hasOwn(workingFiles,name)){selectedFile=name;if(!openFiles.includes(name))openFiles.push(name);renderCode();}},
-    setFiles(files,label='Updated source files'){if(aiJob)throw new Error('Wait for generation to finish before changing files.');project=M.commitFiles(project,files,label);save();render();},
+    setFiles(files,label='Updated source files'){project=M.commitFiles(project,files,label);save();render();},
     updateMeta(patch){project.workspace={...project.workspace,...patch};save();window.dispatchEvent(new Event('draftmango:editor-render'));},
     syncMeta(){const latest=W.get(project.id);if(latest){project={...project,title:latest.title,workspace:latest.workspace};render();}},
     clearConsole(){consoleLines=[];renderConsole();},
     stopPreview(){ clearTemplateReview();storePreviewPort?.close();storePreviewPort=null;buildSequence++;buildController?.abort();buildPromise=null;compiledSignature='';previewToken='';$('#website-frame').srcdoc='';previewSignature='';$('#preview-status').textContent='Preview paused';showPreviewPlaceholder('paused');},
-    exportHTML(){documentLink(true);}, openPreview(){documentLink();}, runRequest:requestChange,
+    exportHTML(){documentLink(true);}, openPreview(){documentLink();},
     diagnostic: setDiagnostic, consoleLines:()=>consoleLines
   };
   window.dispatchEvent(new Event('draftmango:editor-ready'));
@@ -1105,11 +902,5 @@
   if(starting.get('view')) document.querySelector('.view-tabs [data-view="'+(['code','split'].includes(starting.get('view'))?starting.get('view'):'preview')+'"]').click();
   if(starting.get('file')) globalThis.DraftmangoEditor.selectFile(starting.get('file'));
   if(missingHomeIntent){$('#chat-input').value=initialIdea||'';$('#chat-input').dispatchEvent(new Event('input',{bubbles:true}));}
-  const queued = project.workspace?.queuedPrompt;
-  const incomingProjectId = project.id;
-  checkAI().then(status => {
-    if (missingHomeIntent || !status?.configured || project.id !== incomingProjectId || aiJob || lastAIRequest) return;
-    if (queued) {project.workspace={...project.workspace,queuedPrompt:''};save();requestChange(queued);}
-    else if (initialIdea && project.ai?.state === 'pending') requestChange(project.prompt, {mode:'create'});
-  });
+
 })();
