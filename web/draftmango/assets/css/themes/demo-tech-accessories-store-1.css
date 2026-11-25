@@ -1,0 +1,106 @@
+/* ================================================================
+ *  demo-tech-accessories-store-1.css — Draftmango theme for the Tech Accessories Store demo
+ *
+ *  The colors, fonts and layout settings of the Tech Accessories Store
+ *  demo (Draftmango Gear, phone and device accessories (cases, chargers, power banks, cables, audio, watch bands), Seattle).
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here).
+   Sora 600 for headings (font check: kept over Urbanist 700 and Space Grotesk 600 — the
+   cleanest geometric at the hero's huge sizes, techy without quirks), Inter for the body. */
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400..700&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #6b4cf6;   /* main color: violet for buttons, the cart dot and links; labels on it are white */
+    --color-secondary-base:  #121026;   /* second color: ink for the text and the strip; the dark scheme takes its hue */
+    --color-tertiary-base:   #ece8fe;   /* third color: lilac for soft fills and the stage */
+    --color-quaternary-base: #6a6780;   /* fourth color: grey violet for meta */
+    --color-accent-base:     #2fd3a0;   /* attention color: mint, for the compatibility check; labels on it stay black (Auto) */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. White labels on the primary (a preset picks its own); the mint accent keeps
+       its Auto label, black. */
+    --color-on-primary: #fff;
+
+    --color-primary:       var(--color-primary-base);
+    --color-primary-hover: oklch(from var(--color-primary-base) calc(l - 0.06) c h);
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-bg:          oklch(from var(--color-quaternary-base) 0.975 0.007 calc(h - 4));   /* page background: cool white (#f6f6fb) */
+    --color-bg-soft:     oklch(from var(--color-quaternary-base) 0.952 0.011 calc(h - 4));   /* a step deeper: fills and hover rows */
+    --color-bg-muted:    oklch(from var(--color-quaternary-base) 0.927 0.013 calc(h - 4));   /* placeholders */
+    --color-border:      oklch(from var(--color-quaternary-base) 0.892 0.015 calc(h - 4));   /* lines and borders */
+    --color-border-soft: oklch(from var(--color-quaternary-base) 0.927 0.011 calc(h - 4));   /* the faintest rules */
+    --color-text:        var(--color-secondary-base);   /* headings and body text */
+    --color-text-soft:   oklch(from var(--color-quaternary-base) 0.48 c h);   /* running text */
+    --color-text-muted:  oklch(from var(--color-quaternary-base) 0.5 c h);   /* meta text */
+    --color-dark:        var(--color-secondary-base);   /* dark sections and dark buttons */
+    /* Brand-colored text on the ground, held at or under 0.5 lightness so a
+       preset's lighter primary still reads at 4.5:1 */
+    --color-primary-ink: oklch(from var(--color-primary-base) min(l, 0.5) c h);
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Sora', system-ui, sans-serif;   /* headings */
+
+    /* Headings and buttons */
+    --heading-weight:     600;   /* Sora semibold: 400–700 is loaded */
+    --heading-tracking:   -0.03em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        1.5;   /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 9999px; /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1400px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 0.55;     /* space between sections: 0.55 ≈ 70px at 1440 (44px on a phone) · 0.75 · 1 spacious */
+}
+
+/* The 1400px container from 1280px up (the template steps it to 1280 there),
+   growing with the window to 1560px, so the bar and the hero never read as a
+   narrow column on a large screen */
+@layer utilities {
+    @media (width >= 80rem) {
+        :where(html[data-demo="tech-accessories-store-1"]) .container { max-width: var(--container-max); }
+    }
+}
+
+@media (width >= 80rem) {
+    html[data-demo="tech-accessories-store-1"] {
+        --container-max: clamp(1400px, 81.25vw, 1560px);
+        --container-width: var(--container-max);
+    }
+}

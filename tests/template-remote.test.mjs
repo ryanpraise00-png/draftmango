@@ -91,7 +91,7 @@ test('versioned authenticated download preserves package design and checksums',a
   assert.equal(downloaded.bytes.length,descriptor.bytes);assert.equal(downloaded.headers['cache-control'],'private, no-store');
   const bundle=JSON.parse(gunzipSync(downloaded.bytes));
   assert.equal(bundle.template.version,descriptor.template.version);
-  assert.ok(bundle.binaryFiles['public/framo/assets/fonts/flaticon_multipurpose.woff2'] || Object.keys(bundle.binaryFiles).some(x=>x.endsWith('.woff2')));
+  assert.ok(bundle.binaryFiles['public/draftmango/assets/fonts/flaticon_multipurpose.woff2'] || Object.keys(bundle.binaryFiles).some(x=>x.endsWith('.woff2')));
   assert.ok(bundle.files['template.lock.json']);
   for(const [name,text] of Object.entries(bundle.assetFiles))assert.equal(hash(text),bundle.manifest.assets[name].sha256);
   for(const [name,data] of Object.entries(bundle.binaryFiles))assert.equal(hash(Buffer.from(data,'base64')),bundle.manifest.assets[name].sha256);

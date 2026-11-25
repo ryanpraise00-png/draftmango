@@ -135,7 +135,15 @@ export function createServer({ root = fileURLToPath(new URL('../out/', import.me
       const pages=['auth','dashboard','workspace','about','help','legal','pricings'];
       const legacy=pathname.match(/^\/(index|auth|dashboard|workspace|about|help|legal|pricings)\.html$/);
       if(legacy) {response.writeHead(308,{Location:(legacy[1]==='index'?'/':'/'+legacy[1])+url.search,'Cache-Control':'no-store'});response.end();return;}
-      const publicPath = pathname==='/' ? '/index.html' : pages.includes(pathname.slice(1)) ? pathname+'.html' : pathname;
+      let publicPath = pathname==='/' ? '/index.html' : pages.includes(pathname.slice(1)) ? pathname+'.html' : pathname;
+      // Saved projects retain their exact pre-rebrand asset bytes and runtime names.
+      if (publicPath.startsWith('/framo/assets/')) {
+        publicPath = '/template-compat/v1/assets/' + publicPath.slice('/framo/assets/'.length);
+      } else if (publicPath.startsWith('/framo/')) {
+        response.writeHead(308, {Location:'/draftmango/' + publicPath.slice('/framo/'.length) + url.search, 'Cache-Control':'no-store'}); response.end(); return;
+      }
+      const oldStyles = {'/framo-app.css':'/draftmango-app.css','/framo-theme.css':'/draftmango-theme.css','/workspace-framo.css':'/workspace-draftmango.css'};
+      publicPath = oldStyles[publicPath] || publicPath;
       const resolvedRoot = await realpath(root);
       let file;
       try { file = await realpath(path.resolve(root, '.' + publicPath)); } catch { throw new HttpError(404, 'not_found', 'Not found'); }
@@ -143,7 +151,7 @@ export function createServer({ root = fileURLToPath(new URL('../out/', import.me
       if (relative.startsWith('..') || path.isAbsolute(relative)) throw new HttpError(403, 'forbidden', 'Forbidden');
       const data = await readFile(file);
       // Public template fonts are also loaded by opaque-origin preview frames and published sites.
-      const templateFont = publicPath.startsWith('/framo/assets/fonts/') && path.extname(file) === '.woff2';
+      const templateFont = ['/draftmango/assets/fonts/','/template-compat/v1/assets/fonts/'].some(prefix=>publicPath.startsWith(prefix)) && path.extname(file) === '.woff2';
       response.writeHead(200, { 'Content-Type': types[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', ...(templateFont ? {'Access-Control-Allow-Origin':'*'} : {}) });
       response.end(request.method === 'HEAD' ? undefined : data);
     } catch (error) {

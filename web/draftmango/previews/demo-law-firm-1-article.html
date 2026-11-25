@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en" data-demo="law-firm-1">
+    <head>
+        <meta charset="UTF-8">
+        <script async src="../assets/js/entrance.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>The New Merger Review Rules — Law Firm — Draftmango</title>
+        <link rel="icon" href="../assets/media/logo/favicon.ico" sizes="32x32">
+        <link rel="icon" href="../assets/media/logo/draftmango-mark.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="../assets/media/logo/apple-touch-icon.png">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="../assets/css/icons.css">
+        <link rel="stylesheet" href="../assets/css/app.css">
+        <link rel="stylesheet" href="../assets/css/vendor.css">
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..700;1,400..700&amp;family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" data-theme-fonts>
+        <link rel="stylesheet" href="../assets/css/demos/demo-law-firm-1.css">
+        <link rel="stylesheet" href="../assets/css/themes/demo-law-firm-1.css" data-theme-file>
+        <link rel="stylesheet" href="../assets/css/custom.css">
+    </head>
+    <body>
+
+        <header class="site-header header-search nav-style-underline" data-header>
+
+            <!-- Main navbar -->
+            <nav class="navbar" role="navigation" aria-label="Main navigation">
+                <div class="navbar-inner container">
+
+                    <!-- Brand -->
+                    <a href="demo-law-firm-1.html" class="brand">
+
+                        <img class="brand-logo" src="../assets/media/logo/draftmango-logo.svg" alt="Draftmango" width="120" height="32" style="--logo-tint: url(#logo-tint-header)">
+
+                        <svg class="brand-tint" aria-hidden="true" focusable="false">
+                            <filter id="logo-tint-header" color-interpolation-filters="sRGB">
+                                <feFlood flood-color="currentColor" />
+                                <feComposite in2="SourceAlpha" operator="in" />
+                            </filter>
+                        </svg>
+
+                    </a>
+
+                    <!-- Desktop navigation links -->
+                    <ul class="nav-links" role="list">
+
+                        <!-- Law Firm menu - the <li> items of . Inner pages (later): practices, practice, industries, people, lawyer, insights, article, about, pro-bono, careers, contact -->
+
+                        <li>
+                            <a href="demo-law-firm-1.html" class="nav-link">Home</a>
+                        </li>
+
+                        <!-- Practices mega panel - three tabs (Transactions, Disputes, Advisory), the practices of each with a one-line scope, and one insight card per tab. Edit: the tabs (numeral, title, caption), each practice row (link, scope), each insight (image, kind, title, link) -->
+                        <li class="nav-megamenu nav-megamenu--tabs custom-menu-practices">
+                            <button class="nav-link">
+                                Practices
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="megamenu-panel" data-lenis-prevent>
+                                <div class="megamenu-inner megamenu-inner--tabs container">
+                                    <!-- hover(): a short dwell before switching; go(): arrow keys move between the tabs, Tab goes on into the open panel -->
+                                    <div class="tabs tabs-vertical tabs-rich megamenu-tabs" x-data="{ tab: 'transactions', tabs: ['transactions', 'disputes', 'advisory'], t: null, hover(v) { clearTimeout(this.t); this.t = setTimeout(() => this.tab = v, 120) }, go(d) { clearTimeout(this.t); const n = this.tabs.length; this.tab = this.tabs[(this.tabs.indexOf(this.tab) + d + n) % n]; this.$refs[this.tab].focus() } }">
+
+                                        <div class="tabs-nav" role="tablist" aria-label="Practices" aria-orientation="vertical" @keydown.down.prevent="go(1)" @keydown.up.prevent="go(-1)">
+                                            <button type="button" class="tab-btn is-active" role="tab" id="lf-pr-tab-transactions" aria-controls="lf-pr-panel-transactions" x-ref="transactions" :class="{ 'is-active': tab === 'transactions' }" :aria-selected="tab === 'transactions'" :tabindex="tab === 'transactions' ? 0 : -1" @mouseenter="hover('transactions')" @mouseleave="clearTimeout(t)" @click="tab = 'transactions'">
+                                                <span class="tab-btn-icon custom-menu-numeral" aria-hidden="true">I</span>
+                                                <span class="tab-btn-title">Transactions</span>
+                                                <span class="tab-btn-caption">Deals, financings and real estate</span>
+                                            </button>
+                                            <button type="button" class="tab-btn" role="tab" id="lf-pr-tab-disputes" aria-controls="lf-pr-panel-disputes" x-ref="disputes" tabindex="-1" :class="{ 'is-active': tab === 'disputes' }" :aria-selected="tab === 'disputes'" :tabindex="tab === 'disputes' ? 0 : -1" @mouseenter="hover('disputes')" @mouseleave="clearTimeout(t)" @click="tab = 'disputes'">
+                                                <span class="tab-btn-icon custom-menu-numeral" aria-hidden="true">II</span>
+                                                <span class="tab-btn-title">Disputes</span>
+                                                <span class="tab-btn-caption">Trials, appeals and workouts</span>
+                                            </button>
+                                            <button type="button" class="tab-btn" role="tab" id="lf-pr-tab-advisory" aria-controls="lf-pr-panel-advisory" x-ref="advisory" tabindex="-1" :class="{ 'is-active': tab === 'advisory' }" :aria-selected="tab === 'advisory'" :tabindex="tab === 'advisory' ? 0 : -1" @mouseenter="hover('advisory')" @mouseleave="clearTimeout(t)" @click="tab = 'advisory'">
+                                                <span class="tab-btn-icon custom-menu-numeral" aria-hidden="true">III</span>
+                                                <span class="tab-btn-title">Advisory</span>
+                                                <span class="tab-btn-caption">IP, tax and regulation</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="tabs-panels">
+
+                                            <!-- Transactions -->
+                                            <div class="tabs-panel megamenu-tabpanel is-active" role="tabpanel" id="lf-pr-panel-transactions" aria-labelledby="lf-pr-tab-transactions" :class="{ 'is-active': tab === 'transactions' }">
+                                                <div class="megamenu-links">
+                                                    <div class="megamenu-col">
+                                                        <div class="custom-menu-practice">
+                                                            <a href="demo-law-firm-1-practice.html" class="megamenu-item">Corporate &amp; M&amp;A</a>
+                                                            <span class="text-[0.9375rem] leading-snug text-(--custom-meta)">Public and private deals, joint ventures, governance</span>
+                                                        </div>
+                                                        <div class="custom-menu-practice">
+                                                            <a href="demo-law-firm-1-practices.html#private-equity" class="megamenu-item">Private Equity</a>
+                                                            <span class="text-[0.9375rem] leading-snug text-(--custom-meta)">Fund formation, buyouts and exits</span>
+                                                        </div>
+                                                        <div class="custom-menu-practice">
+                                                            <a href="demo-law-firm-1-practices.html#banking-finance" class="megamenu-item">Banking &amp; Finance</a>
+                                                            <span class="text-[0.9375rem] leading-snug text-(--custom-meta)">Lenders and borrowers, leveraged and asset finance</span>
+                                                        </div>
+                                                        <div class="custom-menu-practice">
+                                                            <a href="demo-law-firm-1-practices.html#real-estate" class="megamenu-item">Real Estate</a>
+                                                            <span class="text-[0.9375rem] leading-snug text-(--custom-meta)">Acquisitions, development and leasing</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="megamenu-col megamenu-col--lead">
+                                                        <a href="demo-law-firm-1-practices.html" class="megamenu-item">All Ten Practices</a>
+                                                    </div>
+                                                </div>
+                                                <a href="demo-law-firm-1-article.html" class="megamenu-feature group relative grid grid-rows-[minmax(8rem,1fr)_auto] min-h-0 overflow-hidden no-underline rounded-sm bg-(--custom-deep)">
+                                                    <img src="../assets/media/placeholder/1200x675.svg" alt="" width="2880" height="1234" loading="lazy" decoding="async" class="w-full h-full min-h-0 object-cover transition-[scale] duration-700 group-hover:scale-[1.04]">
+                                                    <span class="grid gap-2 px-[1.375rem] pt-5 pb-[1.375rem]">
+                                                        <span class="text-xs font-semibold tracking-[0.14em] uppercase text-(--custom-key-on-deep)">Client Alert · Oct 2026</span>
+                                                        <span class="font-heading text-xl font-medium leading-snug text-balance text-(--custom-on-deep)">What the new merger review rules mean for mid-market deals</span>
+                                                        <span class="inline-flex items-center gap-1.5 mt-1 text-[0.9375rem] font-medium text-(--custom-on-deep-soft)">Read the Alert <i class="ph ph-arrow-right" aria-hidden="true"></i></span>
+                                                    </span>
+                                                </a>
+                                            </div>
+
+                                            <!-- Disputes -->
+                                            <div class="tabs-panel megamenu-tabpanel" role="tabpanel" id="lf-pr-panel-disputes" aria-labelledby="lf-pr-tab-disputes" :class="{ 'is-active': tab === 'disputes' }">
+                                                <div class="megamenu-links">
+                                                    <div class="megamenu-col">
+                                                        <div class="custom-menu-practice">
+                                                            <a href="demo-law-firm-1-practices.html#litigation" class="megamenu-item">Litigation &amp; Disputes</a>
+                                                            <span class="text-[0.9375rem] leading-snug text-(--custom-meta)">Commercial trials, appeals and arbitration</span>
+                                                        </div>
+                                                        <div class="custom-menu-practice">
+                                                            <a href="demo-law-firm-1-practices.html#restructuring" class="megamenu-item">Restructuring</a>
+                                                            <span class="text-[0.9375rem] leading-snug text-(--custom-meta)">Workouts, Chapter 11 and distressed sales</span>
+                                                        </div>
+                                                        <div class="custom-menu-practice">
+                                                            <a href="demo-law-firm-1-practices.html#employment" class="megamenu-item">Employment</a>
+                                                            <span class="text-[0.9375rem] leading-snug text-(--custom-meta)">Executive matters, investigations and class actions</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="megamenu-col megamenu-col--lead">
+                                                        <a href="demo-law-firm-1-practices.html" class="megamenu-item">All Ten Practices</a>
+                                                    </div>
+                                                </div>
+                                                <a href="demo-law-firm-1-article.html" class="megamenu-feature group relative grid grid-rows-[minmax(8rem,1fr)_auto] min-h-0 overflow-hidden no-underline rounded-sm bg-(--custom-deep)">
+                                                    <img src="../assets/media/placeholder/2000x1125.svg" alt="" width="2880" height="1234" loading="lazy" decoding="async" class="w-full h-full min-h-0 object-cover transition-[scale] duration-700 group-hover:scale-[1.04]">
+                                                    <span class="grid gap-2 px-[1.375rem] pt-5 pb-[1.375rem]">
+                                                        <span class="text-xs font-semibold tracking-[0.14em] uppercase text-(--custom-key-on-deep)">Briefing · Sep 2026</span>
+                                                        <span class="font-heading text-xl font-medium leading-snug text-balance text-(--custom-on-deep)">Forum clauses after this year's appellate rulings</span>
+                                                        <span class="inline-flex items-center gap-1.5 mt-1 text-[0.9375rem] font-medium text-(--custom-on-deep-soft)">Read the Briefing <i class="ph ph-arrow-right" aria-hidden="true"></i></span>
+                                                    </span>
+                                                </a>
+                                            </div>
+
+                                            <!-- Advisory -->
+                                            <div class="tabs-panel megamenu-tabpanel" role="tabpanel" id="lf-pr-panel-advisory" aria-labelledby="lf-pr-tab-advisory" :class="{ 'is-active': tab === 'advisory' }">
+                                                <div class="megamenu-links">
+                                                    <div class="megamenu-col">
+                                                        <div class="custom-menu-practice">
+                                                            <a href="demo-law-firm-1-practices.html#ip" class="megamenu-item">IP &amp; Technology</a>
+                                                            <span class="text-[0.9375rem] leading-snug text-(--custom-meta)">Patents, licensing, data and AI</span>
+                                                        </div>
+                                                        <div class="custom-menu-practice">
+                                                            <a href="demo-law-firm-1-practices.html#tax" class="megamenu-item">Tax</a>
+                                                            <span class="text-[0.9375rem] leading-snug text-(--custom-meta)">Deal structuring, planning and controversy</span>
+                                                        </div>
+                                                        <div class="custom-menu-practice">
+                                                            <a href="demo-law-firm-1-practices.html#regulatory" class="megamenu-item">Regulatory</a>
+                                                            <span class="text-[0.9375rem] leading-snug text-(--custom-meta)">Financial services, antitrust and trade</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="megamenu-col megamenu-col--lead">
+                                                        <a href="demo-law-firm-1-practices.html" class="megamenu-item">All Ten Practices</a>
+                                                    </div>
+                                                </div>
+                                                <a href="demo-law-firm-1-insights.html" class="megamenu-feature group relative grid grid-rows-[minmax(8rem,1fr)_auto] min-h-0 overflow-hidden no-underline rounded-sm bg-(--custom-deep)">
+                                                    <img src="../assets/media/placeholder/1200x675.svg" alt="" width="800" height="600" loading="lazy" decoding="async" class="w-full h-full min-h-0 object-cover transition-[scale] duration-700 group-hover:scale-[1.04]">
+                                                    <span class="grid gap-2 px-[1.375rem] pt-5 pb-[1.375rem]">
+                                                        <span class="text-xs font-semibold tracking-[0.14em] uppercase text-(--custom-key-on-deep)">Event · Nov 12, New York</span>
+                                                        <span class="font-heading text-xl font-medium leading-snug text-balance text-(--custom-on-deep)">Boardroom briefing: AI governance for directors</span>
+                                                        <span class="inline-flex items-center gap-1.5 mt-1 text-[0.9375rem] font-medium text-(--custom-on-deep-soft)">Reserve a Seat <i class="ph ph-arrow-right" aria-hidden="true"></i></span>
+                                                    </span>
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="demo-law-firm-1-industries.html" class="nav-link">Industries</a>
+                        </li>
+
+                        <li>
+                            <a href="demo-law-firm-1-people.html" class="nav-link">People</a>
+                        </li>
+
+                        <li>
+                            <a href="demo-law-firm-1-insights.html" class="nav-link active">Insights</a>
+                        </li>
+
+                        <!-- About cascade - the firm's pages. Edit: the items -->
+                        <li class="nav-cascade custom-menu-about">
+                            <button class="nav-link">
+                                About
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="cascade-panel">
+                                <a href="demo-law-firm-1-about.html" class="cascade-item">The Firm</a>
+                                <a href="demo-law-firm-1-pro-bono.html" class="cascade-item">Pro Bono</a>
+                                <a href="demo-law-firm-1-about.html#offices" class="cascade-item">Offices</a>
+                                <a href="demo-law-firm-1-careers.html" class="cascade-item">Careers</a>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="demo-law-firm-1-contact.html" class="nav-link">Contact</a>
+                        </li>
+
+                    </ul>
+
+                    <!-- Right-side actions -->
+                    <div class="nav-actions">
+
+                        <!-- Meta group - display:contents by default; header-stacked turns it into its own row. -->
+                        <div class="nav-meta">
+
+                            <button class="nav-search-toggle" data-panel-toggle="search" aria-expanded="false" aria-controls="header-search" aria-label="Open search">
+                                <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+                            </button>
+
+                        </div><!-- /.nav-meta -->
+
+                        <!-- Law Firm header actions - the menu panel carries _mobile-cta.html -->
+                        <a href="demo-law-firm-1-contact.html" class="btn btn-outline-dark custom-nav-action h-[2.875rem] px-[1.375rem] max-[479px]:hidden">Contact Us</a>
+
+                        <!-- Menu toggle - mobile hamburger below 1024px; also the close button on header-overlay-menu / header-side-drawer -->
+                        <button class="hamburger" data-toggle aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation menu">
+                            <i class="ph ph-list text-xl nav-toggle-open" aria-hidden="true"></i>
+                            <i class="ph ph-x text-xl nav-toggle-close" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Navigation panel - links are auto-generated by initMobileSync() in main.js -->
+                <!-- data-lenis-prevent: opts this scroll container out of Lenis smooth scrolling -->
+                <div id="mobile-nav" class="mobile-nav" data-mobile-nav data-lenis-prevent role="dialog" aria-modal="true" aria-label="Site navigation">
+
+                    <!-- Menu column - the scroll container -->
+                    <div class="nav-panel-menu">
+
+                        <!-- JS target: desktop nav items are injected here -->
+                        <div data-mobile-links></div>
+
+                        <!-- Mobile-only items: add or remove <a> elements here freely -->
+                        <!-- <a href="#" class="mobile-link" data-mobile-only>Exclusive Item</a> -->
+
+                        <!-- Law Firm menu panel CTA -->
+                        <div class="nav-panel-cta flex">
+                            <a href="demo-law-firm-1-contact.html" class="btn btn-primary">Contact Us</a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </nav>
+
+            <!--css .site-search). Edit: the title, the fields and their options, the featured partners -->
+            <div id="header-search" class="site-search custom-finder" data-panel="search" role="dialog" aria-modal="false" aria-labelledby="lf-finder-title">
+                <div class="site-search-inner" data-lenis-prevent>
+                    <div class="site-search-body container grid justify-items-center">
+
+                        <button class="site-panel-close" data-panel-close aria-label="Close Find a Lawyer">
+                            <i class="ph ph-x" aria-hidden="true"></i>
+                        </button>
+
+                        <p class="custom-section-mark mb-5"><span class="custom-section-mark-no">§</span>240 lawyers, four offices</p>
+                        <h2 id="lf-finder-title" class="site-search-title custom-finder-title mb-10 text-[clamp(2.25rem,1.4rem+3vw,4rem)] font-medium tracking-[-0.025em]">Find a <em>lawyer</em></h2>
+
+                        <form class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_0.8fr_auto] items-end gap-6 w-full max-w-[64rem] text-left" role="search" action="demo-law-firm-1-people.html" method="get">
+                            <div class="sm:col-span-2 lg:col-span-1">
+                                <label class="form-label" for="site-search-input">Name</label>
+                                <input id="site-search-input" type="search" name="q" class="form-input form-input-underline site-search-input" placeholder="Search by name…" autocomplete="off" />
+                            </div>
+                            <div>
+                                <label class="form-label" for="lf-finder-practice">Practice</label>
+                                <select id="lf-finder-practice" name="practice" class="form-select h-13">
+                                    <option value="">All Practices</option>
+                                    <option>Corporate &amp; M&amp;A</option>
+                                    <option>Private Equity</option>
+                                    <option>Banking &amp; Finance</option>
+                                    <option>Litigation &amp; Disputes</option>
+                                    <option>IP &amp; Technology</option>
+                                    <option>Employment</option>
+                                    <option>Real Estate</option>
+                                    <option>Tax</option>
+                                    <option>Restructuring</option>
+                                    <option>Regulatory</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label" for="lf-finder-office">Office</label>
+                                <select id="lf-finder-office" name="office" class="form-select h-13">
+                                    <option value="">All Offices</option>
+                                    <option>New York</option>
+                                    <option>Chicago</option>
+                                    <option>San Francisco</option>
+                                    <option>London</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-dark h-13 gap-2">
+                                <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+                                Search
+                            </button>
+                        </form>
+
+                        <div class="flex flex-wrap items-center justify-start sm:justify-center gap-3 mt-8 sm:mt-10">
+                            <span class="w-full sm:w-auto sm:me-2 text-left font-medium text-[0.9375rem] text-(--custom-meta)">Featured Partners</span>
+                            <a href="demo-law-firm-1-lawyer.html" class="custom-person transition-colors hover:bg-(--custom-tint)">
+                                <span class="custom-initials" aria-hidden="true">DP</span>
+                                <span class="grid text-left text-[0.9375rem] font-medium leading-tight">Daniel Price<small class="text-[0.8125rem] font-normal text-(--custom-meta)">Corporate &amp; M&amp;A</small></span>
+                            </a>
+                            <a href="demo-law-firm-1-lawyer.html" class="custom-person transition-colors hover:bg-(--custom-tint)">
+                                <span class="custom-initials" aria-hidden="true">OG</span>
+                                <span class="grid text-left text-[0.9375rem] font-medium leading-tight">Olivia Grant<small class="text-[0.8125rem] font-normal text-(--custom-meta)">Litigation &amp; Disputes</small></span>
+                            </a>
+                            <a href="demo-law-firm-1-lawyer.html" class="custom-person transition-colors hover:bg-(--custom-tint)">
+                                <span class="custom-initials" aria-hidden="true">JW</span>
+                                <span class="grid text-left text-[0.9375rem] font-medium leading-tight">James Whitaker<small class="text-[0.8125rem] font-normal text-(--custom-meta)">IP &amp; Technology</small></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+
+        <main>
+            <!-- Law Firm page header - the inner pages' opening on parchment: the crumb and a section mark on the hairline double rule, the title with its underlined key word, the lead, then (with phImg) a wide photo in the offset hairline frame. Params: phCrumb (this page); optional phTrail + phHref (a parent crumb); phMark (the mark's label); phTitle (wrap the key word in <em class='custom-key' data-anim data-anim-delay='500'>); optional phLead; optional phImg + phAlt + phPos (photo, alt, object-position) -->
+            <section id="lf-page-head" class="relative isolate overflow-clip pt-4 lg:pt-8 pb-[clamp(3.5rem,2rem+4vw,6rem)] custom-rule-bottom" aria-labelledby="lf-page-title">
+                <div class="glow-field" aria-hidden="true">
+                    <span class="glow top-[6%] -left-[26rem]" style="--glow-size: 36rem; --glow-opacity: 0.22; --glow-blur: 160px"></span>
+                </div>
+                <div class="container">
+                    <div class="custom-rule-bottom flex flex-wrap items-center justify-between gap-x-8 gap-y-2 pt-3.5 pb-4 sm:pb-5" data-anim="fade">
+                        <nav aria-label="Breadcrumb">
+                            <ol class="custom-crumbs">
+                                <li><a href="demo-law-firm-1.html">Home</a></li>
+                                <li><a href="demo-law-firm-1-insights.html">Insights</a></li>
+                                <li aria-current="page">Merger Review Rules</li>
+                            </ol>
+                        </nav>
+                        <p class="custom-section-mark"><span class="custom-section-mark-no">§</span>Client Alert · Oct 9, 2026</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-end gap-x-16 gap-y-6 pt-10 sm:pt-14 lg:pt-18">
+                        <h1 id="lf-page-title" class="m-0 max-w-[16ch] font-medium text-[clamp(2.75rem,1.5rem+4.6vw,5.5rem)] leading-[1.02] tracking-[-0.03em] text-balance" data-anim="fade-up" data-anim-duration="1100">The new merger review rules: what changes for <em class='custom-key' data-anim data-anim-delay='500'>mid-market</em> deals</h1>
+                        <p class="m-0 max-w-[32rem] pb-1.5 text-lg leading-relaxed text-soft text-pretty" data-anim="fade-up" data-anim-delay="150">The agencies have rewritten the premerger form and the review timetable. For deals between $120 million and $500 million, the filing now takes weeks, not days.</p>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ARTICLE - the authors strip and the cover; the reading column (template .article-body) beside a sticky aside with the key points; the disclaimer at the end. Edit: the authors, the cover (src, alt, caption), the text, the table, the key points, the disclaimer -->
+            <section id="lf-ar-body" class="pt-[clamp(2.5rem,1.5rem+3vw,4.5rem)] pb-[var(--section-space)]" aria-label="The alert">
+                <div class="container">
+                    <div class="flex flex-wrap items-center justify-between gap-x-8 gap-y-5 pb-8" data-anim="fade-up">
+                        <div class="flex flex-wrap items-center gap-3">
+                            <a href="demo-law-firm-1-lawyer.html" class="custom-person transition-colors hover:bg-(--custom-tint)"><img src="../assets/media/placeholder/1080x1440.svg" alt="" width="80" height="80" class="size-10 rounded-full object-cover object-[50%_20%]"><span class="grid text-[0.9375rem] font-medium leading-tight">Catherine Hale<small class="text-[0.8125rem] font-normal text-(--custom-meta)">Chair, Corporate &amp; M&amp;A</small></span></a>
+                            <a href="demo-law-firm-1-lawyer.html" class="custom-person transition-colors hover:bg-(--custom-tint)"><img src="../assets/media/placeholder/1080x1440.svg" alt="" width="80" height="80" class="size-10 rounded-full object-cover object-[50%_20%]"><span class="grid text-[0.9375rem] font-medium leading-tight">Daniel Price<small class="text-[0.8125rem] font-normal text-(--custom-meta)">Partner, Corporate &amp; M&amp;A</small></span></a>
+                        </div>
+                        <p class="m-0 text-[0.9375rem] text-(--custom-meta)">6 min read</p>
+                    </div>
+                    <figure class="m-0" data-anim="fade-up">
+                        <img src="../assets/media/placeholder/2400x1350.svg" alt="A fountain pen resting on a marked-up draft agreement beside a cup of coffee" width="800" height="600" class="w-full aspect-[4/3] md:aspect-[21/9] object-cover rounded-sm" fetchpriority="high">
+                        <figcaption class="mt-3.5 text-[0.9375rem] text-(--custom-meta)">The new form asks for deal documents most buyers have never had to file.</figcaption>
+                    </figure>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,46rem)_minmax(0,20rem)] justify-between gap-x-16 gap-y-12 mt-14 lg:mt-18">
+                        <aside class="lg:col-start-2 lg:row-start-1 lg:sticky lg:top-32 self-start custom-creds" aria-labelledby="lf-ar-points" data-anim="fade-up">
+                            <div>
+                                <h2 id="lf-ar-points" class="custom-section-mark"><span class="custom-section-mark-no">§</span>Key Points</h2>
+                            </div>
+                            <div>
+                                <p class="m-0">Filings now take <strong>4 to 6 weeks</strong> to prepare, up from about one.</p>
+                            </div>
+                            <div>
+                                <p class="m-0">Buyers must describe <strong>overlaps and supply links</strong>, not only revenue codes.</p>
+                            </div>
+                            <div>
+                                <p class="m-0">Build the filing into the <strong>signing timetable</strong>, and say who pays for it.</p>
+                            </div>
+                        </aside>
+
+                        <article class="article-body article-body--flush custom-prose">
+                            <p class="custom-lede">For most mid-market deals, the premerger filing used to be an afterthought: a short form, a fee and a thirty-day wait. That changed on September 1. The new rules ask for more about the buyer, the target and the reasons for the deal, and they ask for it before the clock starts.</p>
+                            <p>The waiting period itself is unchanged. What has changed is the work before it. In the first six weeks under the new form, the filings we prepared took between four and six weeks of drafting, against about one under the old one.</p>
+                            <h2>What the new form asks for</h2>
+                            <p>Three additions account for most of the extra time:</p>
+                            <ul>
+                                <li><strong>Overlap narratives.</strong> A written account of every product or service where the parties compete, with customers and rough shares.</li>
+                                <li><strong>Supply relationships.</strong> Where one party buys from or sells to the other, or to its competitors.</li>
+                                <li><strong>Deal documents.</strong> Board materials and drafts that discuss competition, prepared by officers and directors, not only final versions.</li>
+                            </ul>
+                            <h2>Who is affected</h2>
+                            <p>Every reportable deal files the new form. The burden falls hardest on buyers that have never filed before, and on sponsors whose portfolio companies overlap with the target.</p>
+                            <div class="custom-table-wrap">
+                                <table class="custom-table">
+                                    <caption>Filing work, old form and new (our matters, Sep 1 to Oct 8, 2026)</caption>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Deal size</th>
+                                            <th scope="col">Old form</th>
+                                            <th scope="col">New form</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">$120M–$250M</th>
+                                            <td>4–6 days</td>
+                                            <td>3–4 weeks</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">$250M–$500M</th>
+                                            <td>1 week</td>
+                                            <td>4–5 weeks</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Over $500M</th>
+                                            <td>1–2 weeks</td>
+                                            <td>5–6 weeks</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <blockquote class="custom-pull">
+                                <p>The filing is now a workstream, with an owner and a date, not a form someone fills in after signing.</p>
+                            </blockquote>
+                            <h2>What to do now</h2>
+                            <ol>
+                                <li>Start the overlap analysis when the letter of intent is signed, not when the purchase agreement is.</li>
+                                <li>Tell the deal team, and the board, that what they write about competitors may be filed.</li>
+                                <li>Set the filing deadline in the purchase agreement, and agree who bears the cost of the extra work.</li>
+                            </ol>
+                            <p>If you are planning a deal for the first half of 2027, we are glad to walk your team through the form before the process starts.</p>
+                            <p class="custom-disclaimer">This alert is for general information only and is not legal advice. Attorney Advertising. Prior results do not guarantee a similar outcome.</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RELATED - three insight cards on the tint. Edit: the title, each card -->
+            <section id="lf-ar-related" class="pb-[var(--section-space)]" aria-labelledby="lf-ar-related-title">
+                <div class="container">
+                    <div class="flex flex-wrap items-end justify-between gap-6 mb-12 custom-rule-top pt-14">
+                        <div class="grid gap-5">
+                            <p class="custom-section-mark" data-anim="fade-up"><span class="custom-section-mark-no">§ 02</span>Read Next</p>
+                            <h2 id="lf-ar-related-title" class="custom-title" data-anim="fade-up">More from the <em class="custom-key" data-anim data-anim-delay="500">practices.</em></h2>
+                        </div>
+                        <a href="demo-law-firm-1-insights.html" class="btn btn-link btn-link-dark btn-link-arrow btn-lg px-1" data-anim="fade-up"><span class="link-arrow" aria-hidden="true"></span>All Insights</a>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-x-6 gap-y-12">
+                        <!-- Law Firm insight card - a 3:2 photo, the kind and date, the serif title; a .gallery-item so a [data-gallery-filter] block can filter it by icCat. Params: icLink, icCat (alert | briefing | event), icImg, icAlt, icKind (e.g. "Client Alert · Oct 9, 2026"), icTitle -->
+                        <a href="demo-law-firm-1-article.html" class="gallery-item block img-frame-zoom no-underline text-text" data-category="briefing">
+                            <span class="img-frame rounded-sm aspect-[3/2]"><img src="../assets/media/placeholder/1200x800.svg" alt="Two lawyers going through a credit agreement at a desk" width="1200" height="800" loading="lazy"></span>
+                            <span class="custom-kicker mt-5 block">Briefing · Sep 24, 2026</span>
+                            <span class="block font-heading text-2xl font-medium leading-snug mt-2 text-balance">Private credit in 2027: terms lenders are asking for now</span>
+                        </a>
+                        <!-- Law Firm insight card - a 3:2 photo, the kind and date, the serif title; a .gallery-item so a [data-gallery-filter] block can filter it by icCat. Params: icLink, icCat (alert | briefing | event), icImg, icAlt, icKind (e.g. "Client Alert · Oct 9, 2026"), icTitle -->
+                        <a href="demo-law-firm-1-article.html" class="gallery-item block img-frame-zoom no-underline text-text" data-category="alert">
+                            <span class="img-frame rounded-sm aspect-[3/2]"><img src="../assets/media/placeholder/1200x800.svg" alt="A privacy lawyer and a product manager reviewing a checklist beside a laptop" width="1200" height="800" loading="lazy"></span>
+                            <span class="custom-kicker mt-5 block">Client Alert · Aug 28, 2026</span>
+                            <span class="block font-heading text-2xl font-medium leading-snug mt-2 text-balance">New state privacy laws: a checklist for product teams</span>
+                        </a>
+                        <!-- Law Firm insight card - a 3:2 photo, the kind and date, the serif title; a .gallery-item so a [data-gallery-filter] block can filter it by icCat. Params: icLink, icCat (alert | briefing | event), icImg, icAlt, icKind (e.g. "Client Alert · Oct 9, 2026"), icTitle -->
+                        <a href="demo-law-firm-1-article.html" class="gallery-item block img-frame-zoom no-underline text-text" data-category="briefing">
+                            <span class="img-frame rounded-sm aspect-[3/2]"><img src="../assets/media/placeholder/1200x800.svg" alt="A new stone apartment building with planted balconies over a courtyard" width="1200" height="800" loading="lazy"></span>
+                            <span class="custom-kicker mt-5 block">Briefing · Jul 30, 2026</span>
+                            <span class="block font-heading text-2xl font-medium leading-snug mt-2 text-balance">Ground leases are back: what tenants should negotiate</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Law Firm closing band - the tint ground under a double rule: the mark, the title with its key word, a line, Contact Us and Find a Lawyer (opens the header sheet), the notice. Edit: the mark, the title, the line, the actions, the notice -->
+            <section id="lf-cta" class="relative isolate overflow-clip bg-(--custom-tint) py-[clamp(4.5rem,3rem+5vw,8rem)]" aria-labelledby="lf-cta-title">
+                <span class="custom-cta-glyph max-lg:hidden" aria-hidden="true">§</span>
+                <div class="container grid lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:items-end gap-x-20 gap-y-10">
+                    <div class="grid gap-6">
+                        <p class="custom-section-mark" data-anim="fade-up"><span class="custom-section-mark-no">§</span>New Matters</p>
+                        <h2 id="lf-cta-title" class="custom-title max-w-[14ch]" data-anim="fade-up">Tell us what is <em class="custom-key" data-anim data-anim-delay="500">at stake.</em></h2>
+                    </div>
+                    <div class="grid gap-7" data-anim="fade-up" data-anim-delay="120">
+                        <p class="m-0 text-lg leading-relaxed text-soft max-w-[28rem]">A partner reads every new enquiry and replies within one business day, after a conflict check.</p>
+                        <div class="flex flex-wrap items-center gap-4">
+                            <a href="demo-law-firm-1-contact.html" class="btn btn-primary btn-lg">Contact Us</a>
+                            <button type="button" class="btn btn-outline-dark btn-lg gap-2.5" data-panel-toggle="search" aria-controls="header-search" aria-expanded="false"><i class="ph ph-magnifying-glass" aria-hidden="true"></i>Find a Lawyer</button>
+                        </div>
+                        <p class="m-0 text-[0.9375rem] text-(--custom-meta)">Contacting us does not create an attorney-client relationship.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Law Firm footer - the template footer-columns classes on the navy ink: brand + three link columns, the four offices under a double rule, the notice, the legal row. Edit: the line, the columns, each office (city, address, phone), the notice, the legal links -->
+        <footer class="site-footer site-footer--dark footer-columns custom-footer isolate">
+
+            <div class="footer-main">
+                <div class="container">
+
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-[1.6fr_1fr_1fr_1fr] gap-x-8 gap-y-12 pb-12 lg:pb-18">
+
+                        <!-- Brand -->
+                        <div class="col-span-2 md:col-span-3 lg:col-span-1 flex flex-col items-start gap-6" data-anim="fade-up">
+                            <a href="demo-law-firm-1.html" class="brand block">
+
+                                <img class="brand-logo" src="../assets/media/logo/draftmango-logo.svg" alt="Draftmango" width="120" height="32" style="--logo-tint: url(#logo-tint-footer)">
+
+                                <svg class="brand-tint" aria-hidden="true" focusable="false">
+                                    <filter id="logo-tint-footer" color-interpolation-filters="sRGB">
+                                        <feFlood flood-color="currentColor" />
+                                        <feComposite in2="SourceAlpha" operator="in" />
+                                    </filter>
+                                </svg>
+                            </a>
+                            <p class="max-w-[18ch] m-0 font-heading text-[clamp(1.625rem,1.3rem+1vw,2.125rem)] font-medium leading-tight tracking-[-0.015em] text-(--custom-on-deep)">Business law from four offices, <em class="text-(--custom-key-on-deep)">since 1961.</em></p>
+                            <ul class="social-list" role="list">
+                                <li>
+                                    <a href="#" aria-label="LinkedIn" data-social="linkedin" class="social-link social-link--circle social-link--outline">
+                                        <i class="ph ph-linkedin-logo"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" aria-label="X" data-social="x" class="social-link social-link--circle social-link--outline">
+                                        <i class="ph ph-x-logo"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" aria-label="YouTube" data-social="youtube" class="social-link social-link--circle social-link--outline">
+                                        <i class="ph ph-youtube-logo"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Practices -->
+                        <div data-anim="fade-up" data-anim-delay="80">
+                            <h2 class="footer-col-title custom-footer-title">Practices</h2>
+                            <ul class="footer-links footer-links--slide">
+                                <li><a href="demo-law-firm-1-practice.html">Corporate &amp; M&amp;A</a></li>
+                                <li><a href="demo-law-firm-1-practices.html#litigation">Litigation &amp; Disputes</a></li>
+                                <li><a href="demo-law-firm-1-practices.html#private-equity">Private Equity</a></li>
+                                <li><a href="demo-law-firm-1-practices.html#ip">IP &amp; Technology</a></li>
+                                <li><a href="demo-law-firm-1-practices.html">All Practices</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Firm -->
+                        <div data-anim="fade-up" data-anim-delay="160">
+                            <h2 class="footer-col-title custom-footer-title">The Firm</h2>
+                            <ul class="footer-links footer-links--slide">
+                                <li><a href="demo-law-firm-1-about.html">About</a></li>
+                                <li><a href="demo-law-firm-1-people.html">People</a></li>
+                                <li><a href="demo-law-firm-1-industries.html">Industries</a></li>
+                                <li><a href="demo-law-firm-1-pro-bono.html">Pro Bono</a></li>
+                                <li><a href="demo-law-firm-1-careers.html">Careers</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Insights -->
+                        <div data-anim="fade-up" data-anim-delay="240">
+                            <h2 class="footer-col-title custom-footer-title">Insights</h2>
+                            <ul class="footer-links footer-links--slide">
+                                <li><a href="demo-law-firm-1-insights.html">Client Alerts</a></li>
+                                <li><a href="demo-law-firm-1-insights.html">Briefings</a></li>
+                                <li><a href="demo-law-firm-1-insights.html">Events</a></li>
+                                <li><a href="demo-law-firm-1-contact.html">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Offices -->
+                    <ul class="custom-rule-top grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10 m-0 pt-10 pl-0 list-none" role="list">
+                        <li class="grid content-start gap-2.5 text-[0.9375rem] leading-relaxed" data-anim="fade-up">
+                            <h2 class="m-0 text-2xl tracking-[-0.01em] text-(--custom-on-deep)">New York</h2>
+                            <address class="not-italic">One Hudson Square, 32nd Floor<br>New York, NY 10013</address>
+                            <a href="tel:+12125550161" class="justify-self-start tabular-nums no-underline text-(--custom-on-deep) hover:underline underline-offset-4">+1 (212) 555-0161</a>
+                        </li>
+                        <li class="grid content-start gap-2.5 text-[0.9375rem] leading-relaxed" data-anim="fade-up" data-anim-delay="80">
+                            <h2 class="m-0 text-2xl tracking-[-0.01em] text-(--custom-on-deep)">Chicago</h2>
+                            <address class="not-italic">200 West Monroe Street, Suite 2400<br>Chicago, IL 60606</address>
+                            <a href="tel:+13125550144" class="justify-self-start tabular-nums no-underline text-(--custom-on-deep) hover:underline underline-offset-4">+1 (312) 555-0144</a>
+                        </li>
+                        <li class="grid content-start gap-2.5 text-[0.9375rem] leading-relaxed" data-anim="fade-up" data-anim-delay="160">
+                            <h2 class="m-0 text-2xl tracking-[-0.01em] text-(--custom-on-deep)">San Francisco</h2>
+                            <address class="not-italic">50 Fremont Street, 18th Floor<br>San Francisco, CA 94105</address>
+                            <a href="tel:+14155550127" class="justify-self-start tabular-nums no-underline text-(--custom-on-deep) hover:underline underline-offset-4">+1 (415) 555-0127</a>
+                        </li>
+                        <li class="grid content-start gap-2.5 text-[0.9375rem] leading-relaxed" data-anim="fade-up" data-anim-delay="240">
+                            <h2 class="m-0 text-2xl tracking-[-0.01em] text-(--custom-on-deep)">London</h2>
+                            <address class="not-italic">30 Old Broad Street<br>London EC2N 1HT</address>
+                            <a href="tel:+442079460193" class="justify-self-start tabular-nums no-underline text-(--custom-on-deep) hover:underline underline-offset-4">+44 20 7946 0193</a>
+                        </li>
+                    </ul>
+
+                    <p class="max-w-[60rem] mt-12 lg:mt-18 mb-0 text-[0.9375rem] leading-relaxed">Attorney Advertising. Prior results do not guarantee a similar outcome. Contacting us does not create an attorney-client relationship; please do not send confidential information until we have confirmed that we can act for you. Draftmango Law LLP is a limited liability partnership.</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="container footer-bottom-inner">
+                    <span>&copy; 2026 Draftmango Law LLP</span>
+                    <ul class="footer-nav" role="list">
+                        <li><a href="#">Attorney Advertising</a></li>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Disclaimer</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </footer>
+
+        <!-- Back to top button -->
+        <button data-back-top aria-label="Back to top" class="back-to-top fixed bottom-8 right-8 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer border-0 bg-primary shadow-token-lg z-sticky">
+            <i class="ph ph-arrow-up"></i>
+        </button>
+
+        <script defer src="../assets/js/vendor.js"></script>
+        <script defer src="../assets/js/main.js"></script>
+    </body>
+</html>

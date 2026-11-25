@@ -1,5 +1,5 @@
-// Draftmango's public header, built from the Framo SaaS Automation navbar.
-// Framo's main.js runs the menus, the mobile panel and the hide-on-scroll reveal.
+// Draftmango's public header, built from the Draftmango SaaS Automation navbar.
+// Draftmango's main.js runs the menus, the mobile panel and the hide-on-scroll reveal.
 import BrandMark from "./BrandMark";
 
 const build = [
@@ -58,7 +58,7 @@ export default function SiteHeader({current = "/"}) {
                 </div>
                 <a href="/#idea" className="custom-menu-promo flex flex-col gap-1.5 p-5 text-(--custom-on-dark-soft) bg-(--custom-ink) rounded-xl">
                   <span className="custom-menu-promo-art dm-menu-promo-art relative block flex-1 min-h-28 mb-5 rounded-lg overflow-hidden" aria-hidden="true">
-                    <img src="/framo/shots/architecture-studio-1-wide.jpg" alt="" width="1440" height="900" loading="lazy" decoding="async" />
+                    <img src="/draftmango/shots/architecture-studio-1-wide.jpg" alt="" width="1440" height="900" loading="lazy" decoding="async" />
                   </span>
                   <span className="font-heading text-[1.25rem] font-bold tracking-[-0.03em] text-(--custom-on-dark)">Your next website</span>
                   <span className="text-[0.9375rem] leading-[1.45]">Describe what you have in mind. We’ll work through it together.</span>

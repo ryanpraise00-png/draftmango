@@ -25,7 +25,7 @@ const origin='http://browser-store.localhost:'+publisher.address().port;
 const gateway=createServer({root:path.resolve('web')}),handler=gateway.listeners('request')[0];gateway.removeAllListeners('request');
 gateway.on('request',(req,res)=>{
  if(req.url==='/owner-fixture'){
-  res.writeHead(200,{'Content-Type':'text/html'});res.end('<!doctype html><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/dashboard.css"><link rel="stylesheet" href="/app-type.css"><link rel="stylesheet" href="/workspace-shell.css"><link rel="stylesheet" href="/workspace-framo.css"><link rel="stylesheet" href="/workspace-overlays.css"><link rel="stylesheet" href="/stores.css"><body class="workspace-clone"><main id="main"></main><div id="toast" hidden></div><script src="/project-format.js"></script><script src="/workspace-model.js"></script><script src="/workspace-common.js"></script><script src="/builder-flow.js"></script><script src="/builder-prompts.js"></script><script src="/store-builder.js"></script><script src="/stores.js"></script>');return;
+  res.writeHead(200,{'Content-Type':'text/html'});res.end('<!doctype html><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/dashboard.css"><link rel="stylesheet" href="/app-type.css"><link rel="stylesheet" href="/workspace-shell.css"><link rel="stylesheet" href="/workspace-draftmango.css"><link rel="stylesheet" href="/workspace-overlays.css"><link rel="stylesheet" href="/stores.css"><body class="workspace-clone"><main id="main"></main><div id="toast" hidden></div><script src="/project-format.js"></script><script src="/workspace-model.js"></script><script src="/workspace-common.js"></script><script src="/builder-flow.js"></script><script src="/builder-prompts.js"></script><script src="/store-builder.js"></script><script src="/stores.js"></script>');return;
  }handler(req,res);
 });gateway.listen(0,'127.0.0.1');await once(gateway,'listening');const ownerOrigin='http://127.0.0.1:'+gateway.address().port;
 const browser=await chromium.launch({headless:true});
@@ -36,7 +36,7 @@ try{
  await context.route('**/*',async route=>{
   const u=new URL(route.request().url());
   if(['127.0.0.1','browser-store.localhost'].includes(u.hostname))return route.continue();
-  if(u.hostname==='draftmango.com'&&(u.pathname.startsWith('/framo/assets/')||u.pathname==='/assets/coffee.jpg')){
+  if(u.hostname==='draftmango.com'&&(u.pathname.startsWith('/draftmango/assets/')||u.pathname==='/assets/coffee.jpg')){
    try{return await route.fulfill({path:path.resolve('web',u.pathname.slice(1))});}catch{return route.abort();}
   }
   if(u.hostname==='checkout.stripe.com')return route.fulfill({contentType:'text/html',body:'<h1>Isolated payment-provider fixture</h1>'});
@@ -70,7 +70,7 @@ try{
   localStorage.setItem('store-test-projects',JSON.stringify({schema:1,projects:[doc,briefDoc],activeId:doc.id,cloud:{[briefDoc.id]:{seq:1,version:1,dirty:false}}}));
   window.DraftmangoAccounts={key:()=> 'store-test-projects',sync:async()=>{},user:{id:fixture.owner},request:async(url,{method='GET',body}={})=>{const r=await fetch(url,{method,headers:{'X-Draftmango-Account':fixture.owner,'X-CSRFToken':fixture.csrf,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{})});const x=await r.json();if(!r.ok)throw Error(x.error?.message||'Failed');return x;}};
  },{fixture,doc,briefDoc});
- await owner.route('**/*',async route=>{const u=new URL(route.request().url());if(u.hostname==='127.0.0.1')return route.continue();if(u.hostname==='draftmango.com'&&(u.pathname.startsWith('/framo/assets/')||u.pathname==='/assets/coffee.jpg')){try{return await route.fulfill({path:path.resolve('web',u.pathname.slice(1))});}catch{}}return route.abort();});
+ await owner.route('**/*',async route=>{const u=new URL(route.request().url());if(u.hostname==='127.0.0.1')return route.continue();if(u.hostname==='draftmango.com'&&(u.pathname.startsWith('/draftmango/assets/')||u.pathname==='/assets/coffee.jpg')){try{return await route.fulfill({path:path.resolve('web',u.pathname.slice(1))});}catch{}}return route.abort();});
  const admin=await owner.newPage();admin.on('pageerror',e=>errors.push(e.message));await admin.goto(ownerOrigin+'/owner-fixture');
  async function screen(section){await admin.evaluate(({id,section})=>DraftmangoStores.render(document.querySelector('#main'),id,section),{id:fixture.projectId,section});}
  await screen('overview');await admin.getByRole('heading',{name:'Your store is open'}).waitFor();await admin.screenshot({path:path.join(screenshots,'owner-overview-desktop.png')});

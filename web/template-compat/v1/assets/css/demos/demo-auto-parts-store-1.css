@@ -1,0 +1,4273 @@
+html[data-demo='auto-parts-store-1']:root:has(.header-utility) {
+    --topbar-h: 36px;
+}
+
+html[data-demo='auto-parts-store-1']:root:has(.header-utility.scrolled) {
+    --header-h: var(--navbar-h);
+}
+
+@media (width >= 80rem) {
+    html[data-demo='auto-parts-store-1']:root:has(.header-utility) {
+        --navbar-h: 136px;
+    }
+}
+
+@layer components {
+    html[data-demo='auto-parts-store-1'] {
+        --custom-sky: color-mix(in oklab, var(--color-tertiary-base) 42%, var(--color-bg));
+        --custom-sky-strong: color-mix(in oklab, var(--color-tertiary-base) 78%, var(--color-bg));
+        --custom-navy: var(--color-secondary-base);
+        --custom-on-navy-accent: oklch(from var(--color-primary-base) max(l, 0.74) calc(c * 0.8) h);
+        --custom-shadow:
+            0 1px 2px color-mix(in oklab, var(--color-secondary-base) 6%, transparent),
+            0 22px 48px -20px color-mix(in oklab, var(--color-secondary-base) 26%, transparent);
+        --custom-control-h: 3.25rem;
+        --custom-control-radius: calc(var(--btn-radius-override, 0.5rem) + 0.25rem);
+        --custom-row-1: 84px;
+    }
+
+    html[data-demo='auto-parts-store-1'] :is(h1, h2, h3) {
+        font-stretch: 112%;
+    }
+
+    html[data-demo='auto-parts-store-1'] .header-utility .site-topbar {
+        background: var(--custom-navy);
+        color: oklch(100% 0 0 / 0.86);
+        border-bottom: 0;
+    }
+
+    html[data-demo='auto-parts-store-1'] .header-utility .site-topbar-inner.custom-strip {
+        padding-inline: var(--container-x);
+        justify-content: space-between;
+        gap: 1.5rem;
+        font-size: 0.875rem;
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-strip {
+        & .site-topbar-text {
+            color: oklch(100% 0 0 / 0.92);
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+            font-weight: 500;
+            display: flex;
+        }
+
+        & .custom-strip-sep {
+            border-radius: var(--radius-full);
+            background: oklch(100% 0 0 / 0.4);
+            width: 4px;
+            height: 4px;
+            margin-inline: 0.5rem;
+        }
+
+        & .site-topbar-aside {
+            gap: 1.75rem;
+            display: flex;
+        }
+
+        & .site-topbar-meta-item {
+            color: oklch(100% 0 0 / 0.84);
+            transition: color var(--duration-fast) var(--ease-out);
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            display: inline-flex;
+
+            &:hover {
+                color: #fff;
+            }
+
+            & strong {
+                color: #fff;
+                font-variant-numeric: tabular-nums;
+                font-weight: 600;
+            }
+        }
+
+        & i {
+            color: var(--custom-on-navy-accent);
+            font-size: 1rem;
+        }
+    }
+
+    @media (width <= 1279px) {
+        html[data-demo='auto-parts-store-1'] .custom-strip .custom-strip-desk {
+            display: none;
+        }
+    }
+
+    @media (width <= 767px) {
+        html[data-demo='auto-parts-store-1'] .custom-strip {
+            justify-content: center;
+
+            & :is(.custom-strip-sep, .custom-strip-extra, .site-topbar-aside) {
+                display: none;
+            }
+        }
+    }
+
+    html[data-demo='auto-parts-store-1'] .header-utility {
+        background: var(--color-bg);
+        border-bottom-color: var(--color-border);
+
+        & .navbar-inner {
+            padding-inline: var(--container-x);
+            column-gap: 1.5rem;
+        }
+
+        & .nav-actions {
+            align-items: center;
+            gap: 0.375rem;
+            min-width: 0;
+            display: flex;
+        }
+
+        & .nav-search-toggle {
+            flex: none;
+        }
+    }
+
+    html[data-demo='auto-parts-store-1'] .brand {
+        color: var(--color-primary);
+        align-items: center;
+        gap: 0.625rem;
+        display: inline-flex;
+    }
+
+    .custom-brand-plate {
+        height: 1.625rem;
+        font-family: var(--font-heading);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #fff;
+        background: var(--custom-navy);
+        border-radius: var(--radius-sm);
+        place-items: center;
+        padding: 0 0.5rem;
+        font-size: 0.8125rem;
+        font-weight: 700;
+        font-stretch: 112%;
+        line-height: 1;
+        display: inline-grid;
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-search {
+        height: var(--custom-control-h);
+        background: var(--color-bg);
+        border: 1.5px solid var(--color-border);
+        border-radius: var(--custom-control-radius);
+        padding: 0.25rem;
+        position: relative;
+
+        &:hover {
+            border-color: color-mix(in oklab, var(--color-primary-base) 35%, var(--color-border));
+        }
+
+        &:focus-within {
+            border-color: var(--color-primary);
+        }
+
+        & input[type='search'] {
+            padding-left: 2.625rem;
+            font-size: 1rem;
+        }
+    }
+
+    .custom-search-icon {
+        color: var(--color-text-muted);
+        pointer-events: none;
+        font-size: 1.25rem;
+        position: absolute;
+        top: 50%;
+        left: 1rem;
+        translate: 0 -50%;
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-search-submit {
+        width: auto;
+        color: var(--color-on-primary);
+        background: var(--color-primary);
+        border-radius: var(--btn-radius-override, 0.5rem);
+        padding-inline: 1.375rem;
+        font-size: 0.9375rem;
+        font-weight: 600;
+
+        &:hover {
+            color: var(--color-on-primary);
+            background: var(--color-primary-hover);
+        }
+    }
+
+    .custom-garage {
+        flex: none;
+        position: relative;
+    }
+
+    .custom-garage-chip {
+        height: var(--custom-control-h);
+        font: inherit;
+        color: var(--color-text);
+        text-align: left;
+        background: var(--color-bg);
+        border: 1.5px solid var(--color-border);
+        border-radius: var(--custom-control-radius);
+        cursor: pointer;
+        transition:
+            background-color var(--duration-fast) var(--ease-out),
+            border-color var(--duration-fast) var(--ease-out);
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.3125rem 0.875rem 0.3125rem 0.3125rem;
+        display: inline-flex;
+
+        &:hover,
+        &[aria-expanded='true'] {
+            background: var(--custom-sky);
+            border-color: color-mix(in oklab, var(--color-primary-base) 40%, var(--color-border));
+        }
+    }
+
+    .custom-garage-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        color: var(--color-primary-ink);
+        background: var(--custom-sky-strong);
+        border-radius: var(--btn-radius-override, 0.5rem);
+        place-items: center;
+        font-size: 1.5rem;
+        display: grid;
+        position: relative;
+    }
+
+    .custom-garage-tick {
+        color: var(--color-accent);
+        background: var(--color-bg);
+        border-radius: var(--radius-full);
+        font-size: 1rem;
+        position: absolute;
+        bottom: -0.3125rem;
+        right: -0.3125rem;
+    }
+
+    .custom-garage-text {
+        line-height: 1.2;
+        display: grid;
+
+        & small {
+            color: var(--color-text-muted);
+            font-size: 0.8125rem;
+            font-weight: 500;
+        }
+
+        & strong {
+            white-space: nowrap;
+            font-size: 0.9375rem;
+            font-weight: 700;
+        }
+    }
+
+    .custom-garage-caret {
+        color: var(--color-text-soft);
+        transition: rotate var(--duration-fast) var(--ease-out);
+        font-size: 0.875rem;
+
+        [aria-expanded='true'] > & {
+            rotate: 180deg;
+        }
+    }
+
+    .custom-garage-panel {
+        z-index: var(--z-dropdown);
+        background: var(--color-surface, #fff);
+        border: 1px solid var(--color-border-soft);
+        border-radius: var(--radius-lg);
+        width: 21.5rem;
+        box-shadow: var(--custom-shadow);
+        padding: 0.75rem;
+        position: absolute;
+        top: calc(100% + 0.625rem);
+        right: 0;
+    }
+
+    .custom-garage-title {
+        justify-content: space-between;
+        margin: 0;
+        padding: 0.375rem 0.625rem 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        display: flex;
+    }
+
+    .custom-garage-list {
+        gap: 0.25rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+    }
+
+    .custom-vehicle {
+        width: 100%;
+        font: inherit;
+        color: var(--color-text);
+        text-align: left;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition:
+            background-color var(--duration-fast) var(--ease-out),
+            border-color var(--duration-fast) var(--ease-out);
+        background: none;
+        border: 1px solid #0000;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 0.75rem 0.5rem 0.5rem;
+        display: flex;
+
+        & > span:not(.custom-vehicle-icon) {
+            flex: 1;
+            line-height: 1.3;
+            display: grid;
+        }
+
+        & strong {
+            font-size: 0.9375rem;
+            font-weight: 600;
+        }
+
+        & small {
+            color: var(--color-text-muted);
+            font-size: 0.8125rem;
+        }
+
+        &:hover {
+            background: var(--color-bg-soft);
+        }
+
+        &[aria-pressed='true'] {
+            background: var(--custom-sky);
+            border-color: color-mix(in oklab, var(--color-primary-base) 30%, transparent);
+        }
+    }
+
+    .custom-vehicle-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        color: var(--color-primary-ink);
+        background: var(--color-bg-soft);
+        border-radius: var(--radius-sm);
+        flex: none;
+        place-items: center;
+        font-size: 1.375rem;
+        display: grid;
+
+        [aria-pressed='true'] > & {
+            background: var(--color-bg);
+        }
+    }
+
+    .custom-vehicle-check {
+        color: var(--color-primary);
+        opacity: 0;
+        font-size: 1.25rem;
+
+        [aria-pressed='true'] > & {
+            opacity: 1;
+        }
+    }
+
+    .custom-garage-foot {
+        border-top: 1px solid var(--color-border-soft);
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 0.75rem;
+        padding: 0.75rem 0.25rem 0.25rem 0.625rem;
+        display: flex;
+    }
+
+    .custom-garage-manage {
+        color: var(--color-primary-ink);
+        font-size: 0.9375rem;
+        font-weight: 600;
+        text-decoration: none;
+
+        &:hover {
+            text-underline-offset: 3px;
+            text-decoration: underline;
+        }
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-actions {
+        gap: 0.25rem;
+
+        & .shop-action {
+            border-radius: var(--custom-control-radius);
+            min-width: 3rem;
+            height: 3rem;
+            font-size: 1.5rem;
+
+            &:hover,
+            &[aria-expanded='true'] {
+                color: var(--color-primary-ink);
+                background: var(--custom-sky);
+            }
+        }
+
+        & .shop-action-count {
+            top: 0.375rem;
+            left: 1.75rem;
+        }
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-actions .custom-cart {
+        height: var(--custom-control-h);
+        gap: 0.625rem;
+        padding: 0 1rem 0 0.75rem;
+
+        & .shop-action-count {
+            top: -0.375rem;
+            left: 0.875rem;
+        }
+    }
+
+    .custom-cart-icon {
+        font-size: 1.5rem;
+        display: grid;
+        position: relative;
+    }
+
+    .custom-cart-text {
+        text-align: left;
+        font-size: 1rem;
+        line-height: 1.2;
+        display: grid;
+
+        & small {
+            color: var(--color-text-muted);
+            font-size: 0.8125rem;
+            font-weight: 500;
+        }
+
+        & strong {
+            color: var(--color-text);
+            font-variant-numeric: tabular-nums;
+            font-weight: 700;
+        }
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-cart:hover .custom-cart-text :is(small, strong) {
+        color: var(--color-primary-ink);
+    }
+
+    html[data-demo='auto-parts-store-1'] .header-utility .nav-links .nav-link {
+        gap: 0.5rem;
+        font-weight: 500;
+
+        & > i:first-child {
+            color: var(--color-text-soft);
+            transition: color var(--duration-fast) var(--ease-out);
+            font-size: 1.25rem;
+        }
+    }
+
+    html[data-demo='auto-parts-store-1']
+        .header-utility
+        .nav-links
+        :is(.nav-link:is(:hover, .active), .nav-megamenu:is(:hover, :focus-within) > .nav-link) {
+        color: var(--color-primary-ink);
+
+        & > i:first-child {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    html[data-demo='auto-parts-store-1'] .header-utility .nav-links .nav-link.active {
+        font-weight: 600;
+    }
+
+    @media (width >= 64rem) {
+        html[data-demo='auto-parts-store-1'] .header-utility {
+            & .shop-search {
+                flex: auto;
+                max-width: 44rem;
+                margin-right: auto;
+            }
+
+            & .nav-search-toggle {
+                display: none;
+            }
+        }
+
+        html[data-demo='auto-parts-store-1']
+            .site-header.header-utility
+            .navbar
+            .navbar-inner
+            > .nav-actions {
+            justify-self: stretch;
+        }
+    }
+
+    @media (width >= 80rem) {
+        html[data-demo='auto-parts-store-1'] .header-utility {
+            & .navbar-inner {
+                grid-template-columns: auto minmax(0, 1fr);
+                grid-template-rows: var(--custom-row-1) calc(var(--navbar-h) - var(--custom-row-1));
+                column-gap: 3rem;
+            }
+
+            & .brand {
+                grid-area: 1 / 1;
+            }
+
+            & .nav-actions {
+                grid-area: 1 / 2;
+                gap: 0.5rem;
+            }
+
+            & .shop-search {
+                margin-right: 1rem;
+            }
+
+            & .nav-links {
+                grid-area: 2 / 1 / auto / -1;
+                justify-content: flex-start;
+                place-self: stretch stretch;
+                gap: 0.125rem;
+                margin-inline: -0.875rem;
+                padding-inline: 0;
+                position: relative;
+
+                &:before {
+                    content: '';
+                    border-top: 1px solid var(--color-border-soft);
+                    position: absolute;
+                    inset: 0 0.875rem auto;
+                }
+
+                & > li {
+                    align-items: stretch;
+                    display: flex;
+                }
+            }
+
+            & .nav-link {
+                padding-inline: 0.875rem;
+                position: relative;
+            }
+
+            & .nav-links > li > .nav-link.active:after {
+                content: '';
+                background: var(--color-primary);
+                border-radius: 2px 2px 0 0;
+                height: 2px;
+                position: absolute;
+                inset: auto 0.875rem -1px;
+            }
+
+            & .custom-nav-deals {
+                margin-left: auto;
+            }
+        }
+    }
+
+    @media (width <= 1279px) {
+        html[data-demo='auto-parts-store-1'] .custom-cart-text,
+        .custom-garage-text,
+        .custom-garage-caret {
+            display: none;
+        }
+
+        .custom-garage-chip {
+            padding: 0.25rem;
+        }
+
+        html[data-demo='auto-parts-store-1'] .custom-actions .custom-cart {
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            padding: 0;
+        }
+
+        html[data-demo='auto-parts-store-1'] .custom-actions .custom-cart .shop-action-count {
+            top: -0.375rem;
+            left: 0.875rem;
+        }
+    }
+
+    @media (width <= 1023px) {
+        html[data-demo='auto-parts-store-1'] .header-utility {
+            & .shop-search {
+                display: none;
+            }
+
+            & .nav-search-toggle {
+                margin-left: auto;
+            }
+
+            & .shop-action--account {
+                display: none;
+            }
+        }
+    }
+
+    @media (width <= 639px) {
+        html[data-demo='auto-parts-store-1'] .header-utility {
+            & .navbar-inner {
+                column-gap: 0.5rem;
+            }
+
+            & .nav-actions {
+                gap: 0.125rem;
+            }
+
+            & .nav-search-toggle {
+                border: 0;
+                width: 2.75rem;
+                height: 2.75rem;
+            }
+
+            & .shop-action--wishlist {
+                display: none;
+            }
+        }
+
+        .custom-garage-chip {
+            border-color: #0000;
+            height: 3rem;
+        }
+
+        .custom-garage-panel {
+            top: calc(var(--header-h) + 0.5rem);
+            width: auto;
+            position: fixed;
+            left: 1rem;
+            right: 1rem;
+        }
+
+        .custom-brand-plate {
+            display: none;
+        }
+    }
+
+    @media (width >= 80rem) {
+        html[data-demo='auto-parts-store-1'] .custom-mega {
+            & .megamenu-inner {
+                padding: 1.75rem var(--container-x) 2rem;
+            }
+
+            & .custom-diagram {
+                grid-template-columns: 17rem minmax(0, 1fr) 20rem;
+                gap: 0 2.5rem;
+            }
+
+            & .tabs-nav {
+                gap: 0.25rem;
+            }
+
+            & .megamenu-tabpanel {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            & .custom-fits {
+                grid-area: 1 / 3 / span 2;
+            }
+        }
+    }
+
+    .custom-mega-all {
+        color: var(--color-text);
+        border: 1px solid var(--menu-border, var(--color-border-soft));
+        border-radius: var(--radius-lg);
+        transition:
+            background-color var(--duration-fast) var(--ease-out),
+            color var(--duration-fast) var(--ease-out);
+        align-items: center;
+        gap: 0.875rem;
+        padding: 0.875rem 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: flex;
+
+        & > i:first-child {
+            color: var(--color-primary-ink);
+            font-size: 1.375rem;
+        }
+
+        & > i:last-child {
+            margin-left: auto;
+            font-size: 1.125rem;
+        }
+
+        & span {
+            line-height: 1.3;
+            display: grid;
+        }
+
+        & small {
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+            font-weight: 400;
+        }
+
+        &:hover {
+            color: var(--color-primary-ink);
+            background: var(--custom-sky);
+        }
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-mega .custom-parts {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        align-content: start;
+        gap: 0.75rem;
+        display: grid;
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-mega .custom-part {
+        color: var(--menu-strong, var(--color-text));
+        border: 1px solid var(--menu-border, var(--color-border-soft));
+        border-radius: var(--radius-lg);
+        transition:
+            background-color var(--duration-fast) var(--ease-out),
+            border-color var(--duration-fast) var(--ease-out),
+            color var(--duration-fast) var(--ease-out);
+        background: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 0.5rem 0.5rem 0.875rem;
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 1.25;
+        display: flex;
+
+        &:after {
+            content: attr(data-count);
+            color: var(--color-text-muted);
+            margin-top: 0.125rem;
+            padding-inline: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        &:hover {
+            color: var(--color-primary-ink);
+            background: var(--custom-sky);
+            border-color: color-mix(in oklab, var(--color-primary-base) 30%, transparent);
+        }
+    }
+
+    .custom-part-name {
+        padding: 0.75rem 0.5rem 0;
+    }
+
+    .custom-part-img {
+        aspect-ratio: 16 / 9;
+        background: var(--color-bg-soft);
+        border-radius: calc(var(--radius-lg) - 0.5rem);
+        place-items: center;
+        display: grid;
+        position: relative;
+
+        & img {
+            object-fit: contain;
+            width: 62%;
+            height: 84%;
+            position: absolute;
+            inset: 8% 19%;
+        }
+
+        .custom-part:hover & {
+            background: var(--color-bg);
+        }
+    }
+
+    .custom-part-img--all {
+        color: var(--color-primary-ink);
+        background: var(--custom-sky);
+        font-size: 1.75rem;
+    }
+
+    .custom-fits {
+        align-content: start;
+        gap: 0.75rem;
+        display: grid;
+    }
+
+    .custom-fits-card {
+        color: oklch(100% 0 0 / 0.84);
+        background:
+            radial-gradient(
+                120% 90% at 100% 0%,
+                color-mix(in oklab, var(--color-primary-base) 34%, transparent),
+                transparent 60%
+            ),
+            var(--custom-navy);
+        border-radius: var(--radius-lg);
+        gap: 0.5rem;
+        padding: 1.5rem;
+        display: grid;
+
+        & p {
+            margin: 0;
+        }
+
+        & .btn {
+            margin-top: 0.75rem;
+        }
+    }
+
+    .custom-fits-eyebrow {
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        display: inline-flex;
+
+        & i {
+            color: var(--custom-on-navy-accent);
+            font-size: 1.125rem;
+        }
+    }
+
+    .custom-fits-car {
+        font-family: var(--font-heading);
+        color: #fff;
+        font-size: 1.25rem;
+        font-weight: 700;
+        font-stretch: 112%;
+        line-height: 1.2;
+    }
+
+    .custom-fits-count {
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9375rem;
+        display: flex;
+
+        & i {
+            color: var(--color-accent);
+            font-size: 1.25rem;
+        }
+
+        & strong {
+            color: #fff;
+        }
+    }
+
+    .custom-fits-label {
+        color: var(--color-text-muted);
+        margin: 0.5rem 0 0;
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+
+    .custom-brands {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.5rem;
+        display: grid;
+    }
+
+    .custom-brand-mark {
+        height: 3rem;
+        color: var(--color-text);
+        white-space: nowrap;
+        border: 1px solid var(--menu-border, var(--color-border-soft));
+        border-radius: var(--radius-md);
+        transition:
+            background-color var(--duration-fast) var(--ease-out),
+            color var(--duration-fast) var(--ease-out);
+        justify-content: center;
+        align-items: center;
+        gap: 0.25rem;
+        padding-inline: 0.375rem;
+        text-decoration: none;
+        display: inline-flex;
+
+        &:hover {
+            color: var(--color-primary-ink);
+            background: var(--custom-sky);
+        }
+    }
+
+    .custom-brand-mark--stoppa {
+        font-family: var(--font-heading);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-size: 0.9375rem;
+        font-style: italic;
+        font-weight: 800;
+        font-stretch: 125%;
+    }
+
+    .custom-brand-mark--ampwell {
+        letter-spacing: -0.04em;
+        font-size: 1.0625rem;
+        font-weight: 800;
+
+        & i {
+            color: var(--color-accent-ink, var(--color-accent));
+            font-size: 0.9375rem;
+        }
+    }
+
+    .custom-brand-mark--brightbeam {
+        font-family: var(--font-heading);
+        letter-spacing: -0.01em;
+        font-size: 0.875rem;
+        font-weight: 600;
+        font-stretch: 100%;
+
+        & i {
+            font-size: 1rem;
+        }
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-cart-thumb {
+        background: var(--custom-sky);
+
+        & img {
+            object-fit: contain;
+            padding: 0.375rem;
+        }
+    }
+
+    .custom-hero {
+        padding-top: 1rem;
+        padding-bottom: 1.25rem;
+    }
+
+    .custom-stage {
+        isolation: isolate;
+        min-height: clamp(
+            32rem,
+            calc(100svh - var(--header-h-rest, var(--header-h)) - 10.75rem),
+            40rem
+        );
+        color: oklch(100% 0 0 / 0.84);
+        background:
+            radial-gradient(
+                48% 70% at 74% 40%,
+                color-mix(in oklab, var(--color-primary-base) 30%, transparent),
+                transparent 72%
+            ),
+            radial-gradient(
+                70% 50% at 70% 100%,
+                color-mix(in oklab, var(--color-primary-base) 12%, transparent),
+                transparent 70%
+            ),
+            var(--custom-navy);
+        border-radius: var(--radius-xl);
+        grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+        display: grid;
+        position: relative;
+        overflow: clip;
+    }
+
+    .custom-stage-copy {
+        z-index: 1;
+        flex-direction: column;
+        justify-content: center;
+        padding: clamp(2rem, 3.6vw, 3.5rem);
+        display: flex;
+        position: relative;
+    }
+
+    .custom-eyebrow {
+        color: oklch(100% 0 0 / 0.9);
+        border-radius: var(--radius-full);
+        background: oklch(100% 0 0 / 0.08);
+        align-self: flex-start;
+        align-items: center;
+        gap: 0.625rem;
+        padding: 0.375rem 0.875rem 0.375rem 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        display: inline-flex;
+    }
+
+    .custom-eyebrow-dot {
+        background: var(--color-accent);
+        border-radius: var(--radius-full);
+        width: 0.5rem;
+        height: 0.5rem;
+        box-shadow: 0 0 0 4px color-mix(in oklab, var(--color-accent) 24%, transparent);
+    }
+
+    .custom-hero-title {
+        letter-spacing: -0.03em;
+        font-size: clamp(2.75rem, 1.2rem + 3.6vw, 4.75rem);
+        font-weight: 700;
+        line-height: 1;
+    }
+
+    .custom-finder {
+        max-width: 46rem;
+        color: var(--color-text);
+        background: var(--color-surface, #fff);
+        border-radius: var(--radius-lg);
+        margin-top: clamp(1.75rem, 3vh, 2.5rem);
+        box-shadow: 0 30px 60px -30px #00000080;
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-finder-tabs {
+        border-bottom: 1px solid var(--color-border-soft);
+        gap: 0.25rem;
+        padding-inline: 0.75rem;
+
+        & .tab-btn {
+            border-bottom: 2px solid #0000;
+            gap: 0.5rem;
+            margin-bottom: -1px;
+            padding: 1rem 0.75rem 0.9375rem;
+            font-size: 0.9375rem;
+            font-weight: 600;
+
+            & i {
+                font-size: 1.25rem;
+            }
+
+            &.is-active {
+                border-bottom-color: var(--color-primary);
+            }
+        }
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-finder-panels {
+        margin-top: 0;
+    }
+
+    .custom-finder-fields {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.625rem;
+        padding: 1.25rem 1.25rem 0;
+        display: grid;
+    }
+
+    .custom-finder-fields--vin {
+        grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.6fr) minmax(0, 1.6fr);
+    }
+
+    .custom-finder-fields--part {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .custom-field {
+        margin: 0;
+        display: block;
+        position: relative;
+    }
+
+    .custom-field-label {
+        z-index: 1;
+        color: var(--color-text-muted);
+        pointer-events: none;
+        font-size: 0.75rem;
+        font-weight: 600;
+        line-height: 1;
+        position: absolute;
+        top: 0.5rem;
+        left: 0.9375rem;
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-field :is(.form-select, .form-input) {
+        width: 100%;
+        height: 3.625rem;
+        color: var(--color-text);
+        background-color: var(--color-bg-soft);
+        border: 1px solid var(--color-border-soft);
+        border-radius: var(--custom-control-radius);
+        padding: 1.25rem 2rem 0.375rem 0.875rem;
+        font-size: 0.9375rem;
+        font-weight: 500;
+
+        &:hover:not(:disabled) {
+            border-color: color-mix(in oklab, var(--color-primary-base) 40%, var(--color-border));
+        }
+
+        &:disabled {
+            color: var(--color-text-muted);
+            cursor: not-allowed;
+        }
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-field .form-input {
+        padding-right: 0.875rem;
+    }
+
+    .custom-finder-foot {
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.25rem 1.25rem;
+        display: flex;
+    }
+
+    .custom-finder-note {
+        color: var(--color-text-soft);
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9375rem;
+        display: inline-flex;
+
+        & i {
+            color: var(--color-accent);
+            font-size: 1.25rem;
+        }
+    }
+
+    .custom-product {
+        min-height: 22rem;
+        position: relative;
+    }
+
+    .custom-product-img {
+        object-fit: contain;
+        width: auto;
+        max-width: 92%;
+        height: 77%;
+        position: absolute;
+        bottom: 9%;
+        left: 56%;
+        translate: -50%;
+    }
+
+    .custom-product:before {
+        content: '';
+        pointer-events: none;
+        background: radial-gradient(50% 60% at 56% 30%, oklch(100% 0 0 / 0.07), #0000 70%);
+        height: 34%;
+        position: absolute;
+        inset: auto -10% 0;
+    }
+
+    .custom-product-floor {
+        background: radial-gradient(closest-side, #0000008c, #0000002e 55%, #0000);
+        width: 68%;
+        height: 9%;
+        position: absolute;
+        bottom: 6.5%;
+        left: 56%;
+        translate: -50%;
+    }
+
+    .custom-price-chip {
+        z-index: 1;
+        position: absolute;
+        top: 12%;
+        left: 4%;
+    }
+
+    .custom-price-link {
+        color: var(--color-text);
+        background: var(--color-surface, #fff);
+        border-radius: var(--radius-md);
+        align-items: center;
+        gap: 1rem;
+        padding: 0.625rem 0.625rem 0.625rem 1rem;
+        text-decoration: none;
+        display: flex;
+        box-shadow: 0 18px 40px -18px #0000008c;
+    }
+
+    .custom-price-text {
+        line-height: 1.3;
+        display: grid;
+    }
+
+    .custom-price-name {
+        font-size: 0.9375rem;
+        font-weight: 600;
+    }
+
+    .custom-price-meta {
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        display: inline-flex;
+
+        & i {
+            color: var(--color-accent);
+            font-size: 0.875rem;
+        }
+
+        & .text-muted {
+            font-weight: 500;
+        }
+    }
+
+    .custom-price-value {
+        font-family: var(--font-heading);
+        font-size: 1.375rem;
+        font-weight: 700;
+        font-stretch: 112%;
+        line-height: 1;
+        display: grid;
+
+        & small {
+            font-family: var(--font-sans);
+            color: var(--color-text-muted);
+            font-size: 0.75rem;
+            font-weight: 500;
+            font-stretch: 100%;
+        }
+    }
+
+    .custom-price-go {
+        width: 2.25rem;
+        height: 2.25rem;
+        color: var(--color-on-primary);
+        background: var(--color-primary);
+        border-radius: var(--btn-radius-override, 0.5rem);
+        transition: background-color var(--duration-fast) var(--ease-out);
+        place-items: center;
+        font-size: 1rem;
+        display: grid;
+
+        .custom-price-link:hover & {
+            background: var(--color-primary-hover);
+        }
+    }
+
+    .custom-price-link:hover .custom-price-name {
+        color: var(--color-primary-ink);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .custom-product-img {
+            animation: ap1-settle 1.1s var(--ease-out) 0.25s both;
+        }
+
+        .custom-product-floor {
+            animation: ap1-floor 1.1s var(--ease-out) 0.25s both;
+        }
+
+        .custom-price-chip {
+            animation: ap1-chip 0.6s var(--ease-out) 1.05s both;
+        }
+    }
+
+    @keyframes ap1-settle {
+        from {
+            opacity: 0;
+            translate: -50% 1.75rem;
+        }
+    }
+
+    @keyframes ap1-floor {
+        from {
+            opacity: 0;
+            scale: 0.6 1;
+        }
+    }
+
+    @keyframes ap1-chip {
+        from {
+            opacity: 0;
+            translate: 0 0.75rem;
+        }
+    }
+
+    .custom-quick {
+        margin-top: 1.25rem;
+    }
+
+    .custom-quick-list {
+        grid-template-columns: repeat(9, minmax(0, 1fr));
+        gap: 0.75rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+    }
+
+    .custom-quick-item {
+        color: var(--color-text);
+        border-radius: var(--radius-md);
+        transition: color var(--duration-fast) var(--ease-out);
+        flex-direction: column;
+        align-items: center;
+        gap: 0.625rem;
+        padding-block: 0.25rem;
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: flex;
+
+        &:hover {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    .custom-quick-disc {
+        aspect-ratio: 1;
+        background: var(--custom-sky);
+        border-radius: var(--radius-full);
+        width: 5.25rem;
+        transition: background-color var(--duration-fast) var(--ease-out);
+        place-items: center;
+        display: grid;
+
+        & img {
+            object-fit: contain;
+            width: 70%;
+            height: 70%;
+        }
+
+        .custom-quick-item:hover & {
+            background: var(--custom-sky-strong);
+        }
+    }
+
+    .custom-quick-disc--all {
+        color: var(--color-primary-ink);
+        background: var(--color-bg);
+        border: 1.5px solid var(--color-border);
+        font-size: 1.75rem;
+    }
+
+    @media (width <= 1279px) {
+        .custom-stage {
+            grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+        }
+
+        .custom-product-img {
+            height: 70%;
+            left: 50%;
+        }
+
+        .custom-product-floor {
+            left: 50%;
+        }
+
+        .custom-finder-tabs .tab-btn i {
+            display: none;
+        }
+
+        .custom-finder-fields {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .custom-finder-fields--part {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    @media (width <= 1023px) {
+        .custom-stage {
+            grid-template-columns: minmax(0, 1fr);
+            min-height: 0;
+        }
+
+        .custom-finder {
+            max-width: none;
+        }
+
+        .custom-product {
+            aspect-ratio: 16 / 10;
+            min-height: 0;
+        }
+
+        .custom-product-img {
+            height: 84%;
+            bottom: 8%;
+        }
+
+        .custom-price-chip {
+            top: 6%;
+            left: 1rem;
+        }
+
+        .custom-quick {
+            margin-inline: calc(var(--container-x) * -1);
+        }
+
+        .custom-quick-list {
+            padding-inline: var(--container-x);
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            gap: 0.5rem;
+            display: flex;
+            overflow-x: auto;
+
+            & > li {
+                scroll-snap-align: start;
+                flex: none;
+                width: 5.75rem;
+            }
+        }
+
+        .custom-quick-disc {
+            width: 4.75rem;
+        }
+    }
+
+    @media (width <= 639px) {
+        .custom-stage {
+            border-radius: var(--radius-lg);
+        }
+
+        .custom-stage-copy {
+            padding: 1.75rem 1.25rem 0.5rem;
+        }
+
+        .custom-hero-title {
+            font-size: clamp(2.25rem, 9.6vw, 2.75rem);
+        }
+
+        .custom-finder-tabs {
+            gap: 0;
+            padding-inline: 0.5rem;
+        }
+
+        .custom-finder-tabs .tab-btn {
+            padding-inline: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .custom-tab-by {
+            display: none;
+        }
+
+        .custom-finder-fields {
+            padding: 1rem 1rem 0;
+        }
+
+        .custom-finder-fields--vin {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 0.6fr);
+        }
+
+        .custom-finder-fields--vin > :last-child {
+            grid-column: 1 / -1;
+        }
+
+        .custom-finder-foot {
+            flex-direction: column-reverse;
+            align-items: stretch;
+            padding: 1rem;
+        }
+
+        .custom-finder-foot .btn {
+            justify-content: center;
+        }
+
+        .custom-finder-note {
+            justify-content: center;
+            font-size: 0.875rem;
+        }
+
+        .custom-product {
+            aspect-ratio: 1 / 0.8;
+        }
+
+        .custom-product-img {
+            height: 74%;
+        }
+
+        .custom-price-link {
+            gap: 0.75rem;
+            padding: 0.5rem 0.5rem 0.5rem 0.75rem;
+        }
+
+        .custom-price-meta {
+            display: none;
+        }
+    }
+
+    html[data-demo='auto-parts-store-1'] {
+        --product-bg: color-mix(in oklab, var(--color-tertiary-base) 24%, var(--color-bg-soft));
+        --custom-band: color-mix(in oklab, var(--color-tertiary-base) 30%, var(--color-bg));
+    }
+
+    .custom-after-hero {
+        padding-top: calc(var(--section-space) * 0.65);
+    }
+
+    .custom-head {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 1.25rem 2.5rem;
+        display: flex;
+    }
+
+    .custom-title {
+        letter-spacing: -0.03em;
+        font-size: clamp(1.75rem, 1.15rem + 1.35vw, 2.5rem);
+        font-weight: 700;
+        line-height: 1.06;
+    }
+
+    .custom-band {
+        background: var(--custom-band);
+    }
+
+    .custom-arrow-link {
+        color: var(--color-text);
+        white-space: nowrap;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+
+        & i {
+            color: var(--color-primary-ink);
+            transition: translate var(--duration-fast) var(--ease-out);
+            font-size: 1.125rem;
+        }
+
+        &:hover {
+            color: var(--color-primary-ink);
+        }
+
+        &:hover i {
+            translate: 0.1875rem;
+        }
+    }
+
+    .custom-arrow-link--light {
+        color: #fff;
+
+        & i,
+        &:hover {
+            color: var(--custom-on-navy-accent);
+        }
+    }
+
+    .custom-fit-chip {
+        color: var(--color-text-soft);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-pill);
+        transition: border-color var(--duration-fast) var(--ease-out);
+        align-items: center;
+        gap: 0.625rem;
+        padding: 0.375rem 0.375rem 0.375rem 0.875rem;
+        font-size: 0.9375rem;
+        text-decoration: none;
+        display: inline-flex;
+
+        & > i {
+            color: var(--color-accent);
+            font-size: 1.25rem;
+        }
+
+        & strong {
+            color: var(--color-text);
+            font-weight: 600;
+        }
+
+        &:hover {
+            color: var(--color-text-soft);
+            border-color: color-mix(in oklab, var(--color-primary-base) 40%, var(--color-border));
+        }
+    }
+
+    .custom-fit-change {
+        color: var(--color-primary-ink);
+        background: var(--custom-sky);
+        border-radius: var(--radius-pill);
+        padding: 0.3125rem 0.75rem;
+        font-weight: 600;
+    }
+
+    .custom-systems {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1.25rem;
+        margin-bottom: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+    }
+
+    .custom-system {
+        isolation: isolate;
+        background: var(--custom-sky);
+        border-radius: var(--radius-lg);
+        min-height: 13.75rem;
+        transition: background-color var(--duration-fast) var(--ease-out);
+        padding: 1.5rem 1.5rem 1.375rem;
+        position: relative;
+        overflow: clip;
+
+        &:hover {
+            background: var(--custom-sky-strong);
+        }
+    }
+
+    .custom-system-name {
+        letter-spacing: -0.02em;
+        max-width: 62%;
+        margin: 0;
+        font-size: 1.25rem;
+        line-height: 1.15;
+
+        & a {
+            color: var(--color-text);
+        }
+
+        & a:hover {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    .custom-system-count {
+        color: var(--color-text-muted);
+        margin: 0.375rem 0 0;
+        font-size: 0.9375rem;
+    }
+
+    .custom-system-links {
+        justify-items: start;
+        gap: 0.25rem;
+        margin: 1.125rem 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        & a {
+            color: var(--color-text-soft);
+            font-size: 0.9375rem;
+            font-weight: 500;
+        }
+
+        & a:hover {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    .custom-system-img {
+        z-index: -1;
+        pointer-events: none;
+        width: 48%;
+        height: auto;
+        position: absolute;
+        bottom: -6%;
+        right: -4%;
+    }
+
+    .custom-ends {
+        background: var(--color-bg);
+        border-radius: var(--radius-pill);
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5625rem 1rem;
+        font-size: 0.9375rem;
+        font-weight: 600;
+        display: inline-flex;
+
+        & i {
+            color: var(--color-primary-ink);
+            font-size: 1.25rem;
+        }
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-deals {
+        --product-bg: var(--color-bg);
+
+        & .product-countdown {
+            display: none;
+        }
+
+        & .swiper-slide {
+            height: auto;
+        }
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-tabs {
+        scrollbar-width: none;
+        max-width: 100%;
+        overflow-x: auto;
+
+        & .tab-btn {
+            flex: none;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+    }
+
+    .custom-best {
+        grid-template-columns: 17.5rem minmax(0, 1fr);
+        gap: 2.5rem;
+        display: grid;
+    }
+
+    .custom-fit-card {
+        background: var(--custom-sky);
+        border-radius: var(--radius-lg);
+        flex-direction: column;
+        padding: 1.75rem 1.75rem 1.5rem;
+        display: flex;
+    }
+
+    .custom-fit-icon {
+        aspect-ratio: 1;
+        width: 3.5rem;
+        color: var(--color-primary-ink);
+        background: var(--color-bg);
+        border-radius: var(--radius-full);
+        place-items: center;
+        font-size: 1.75rem;
+        display: grid;
+    }
+
+    .custom-fit-car {
+        font-family: var(--font-heading);
+        letter-spacing: -0.02em;
+        margin: 0.25rem 0 0;
+        font-size: 1.375rem;
+        font-weight: 700;
+        font-stretch: 112%;
+        line-height: 1.2;
+    }
+
+    .custom-fit-count {
+        align-items: center;
+        gap: 0.5rem;
+        margin: 0.75rem 0 0;
+        display: flex;
+
+        & i {
+            color: var(--color-accent);
+            font-size: 1.25rem;
+        }
+    }
+
+    .custom-fit-list {
+        color: var(--color-text-soft);
+        border-top: 1px solid color-mix(in oklab, var(--color-secondary-base) 10%, transparent);
+        gap: 0.5rem;
+        margin: 1.25rem 0 1.75rem;
+        padding: 1.25rem 0 0;
+        font-size: 0.9375rem;
+        list-style: none;
+        display: grid;
+
+        & li {
+            align-items: center;
+            gap: 0.5rem;
+            display: flex;
+        }
+
+        & i {
+            color: var(--color-primary-ink);
+            font-size: 1rem;
+        }
+    }
+
+    .custom-fit-switch {
+        color: var(--color-text-soft);
+        align-self: center;
+        margin-top: 0.875rem;
+        font-size: 0.9375rem;
+        font-weight: 600;
+
+        &:hover {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    .custom-install {
+        --pad: clamp(0.75rem, 0.4rem + 0.8vw, 1.125rem);
+        isolation: isolate;
+        padding: var(--pad);
+        color: oklch(100% 0 0 / 0.84);
+        background:
+            radial-gradient(
+                50% 80% at 100% 0%,
+                color-mix(in oklab, var(--color-primary-base) 26%, transparent),
+                transparent 72%
+            ),
+            var(--custom-navy);
+        border-radius: var(--radius-xl);
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+        gap: clamp(2rem, 1rem + 3.4vw, 4.5rem);
+        display: grid;
+        position: relative;
+        overflow: clip;
+    }
+
+    .custom-install-photo {
+        min-height: 26rem;
+        position: relative;
+
+        & img {
+            object-fit: cover;
+            border-radius: calc(var(--radius-xl) - var(--pad));
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            inset: 0;
+        }
+    }
+
+    .custom-bay-chip {
+        color: var(--color-text);
+        background: var(--color-surface, #fff);
+        border-radius: var(--radius-md);
+        align-items: center;
+        gap: 0.625rem;
+        padding: 0.625rem 1rem 0.625rem 0.75rem;
+        font-size: 0.9375rem;
+        display: inline-flex;
+        position: absolute;
+        bottom: 1rem;
+        left: 1rem;
+        box-shadow: 0 18px 40px -18px #0006;
+
+        & i {
+            color: var(--color-primary-ink);
+            font-size: 1.375rem;
+        }
+
+        & strong {
+            margin-left: 0.25rem;
+        }
+    }
+
+    .custom-install-copy {
+        flex-direction: column;
+        justify-content: center;
+        padding: clamp(1.5rem, 1rem + 2vw, 3.25rem) clamp(1rem, 0.5rem + 2.5vw, 3.5rem)
+            clamp(1.5rem, 1rem + 2vw, 3.25rem) 0;
+        display: flex;
+    }
+
+    .custom-install-lead {
+        color: oklch(100% 0 0 / 0.74);
+        max-width: 36rem;
+        font-size: 1.0625rem;
+    }
+
+    .custom-steps {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.75rem;
+        margin: 2.25rem 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        & li {
+            border-radius: var(--radius-md);
+            background: oklch(100% 0 0 / 0.06);
+            align-content: start;
+            gap: 0.25rem;
+            padding: 1.125rem 1.125rem 1.25rem;
+            display: grid;
+        }
+
+        & strong {
+            color: #fff;
+            margin-top: 0.75rem;
+            font-weight: 600;
+        }
+
+        & span:last-child {
+            color: oklch(100% 0 0 / 0.64);
+            font-size: 0.9375rem;
+        }
+    }
+
+    .custom-step-num {
+        aspect-ratio: 1;
+        width: 2rem;
+        font-family: var(--font-heading);
+        color: var(--custom-navy);
+        background: var(--custom-on-navy-accent);
+        border-radius: var(--radius-full);
+        place-items: center;
+        font-size: 0.9375rem;
+        font-weight: 700;
+        display: grid;
+    }
+
+    :is(.custom-install, .custom-footer) .btn-primary {
+        box-shadow: inset 0 0 0 1px oklch(100% 0 0 / 0.14);
+    }
+
+    .custom-makers {
+        background: var(--color-border-soft);
+        border: 1px solid var(--color-border-soft);
+        border-radius: var(--radius-lg);
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+        gap: 1px;
+        margin-bottom: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        overflow: hidden;
+    }
+
+    .custom-maker {
+        height: 7.5rem;
+        color: var(--color-text);
+        background: var(--color-bg);
+        transition: background-color var(--duration-fast) var(--ease-out);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        display: flex;
+
+        & > span {
+            white-space: nowrap;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 1.1875rem;
+            line-height: 1;
+            display: inline-flex;
+        }
+
+        & > span i {
+            font-size: 0.85em;
+        }
+
+        & small {
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+        }
+
+        &:hover {
+            color: var(--color-text);
+            background: var(--custom-sky);
+        }
+    }
+
+    .custom-wordmark--sifta {
+        letter-spacing: -0.06em;
+        font-weight: 800;
+    }
+
+    .custom-wordmark--torqline {
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
+        font-style: italic;
+        font-weight: 800;
+    }
+
+    .custom-wordmark--rideworx {
+        font-family: var(--font-heading);
+        letter-spacing: 0.08em;
+        font-weight: 600;
+        font-stretch: 125%;
+    }
+
+    .custom-wordmark--clearsweep {
+        letter-spacing: -0.04em;
+        font-weight: 500;
+    }
+
+    .custom-wordmark--forgehand {
+        font-family: var(--font-heading);
+        letter-spacing: 0.03em;
+        font-weight: 800;
+        font-stretch: 100%;
+    }
+
+    .custom-new-feature {
+        background: var(--custom-sky);
+        border-right: 1px solid var(--color-border);
+        border-bottom: 1px solid var(--color-border);
+        flex-direction: column;
+        padding: 1.75rem;
+        display: flex;
+    }
+
+    .custom-new-title {
+        letter-spacing: -0.025em;
+        margin: 0.75rem 0 0;
+        font-size: 1.5rem;
+        line-height: 1.12;
+    }
+
+    .custom-new-img {
+        object-fit: contain;
+        flex: 1 1 0;
+        width: 100%;
+        min-height: 12rem;
+        margin-block: 0.5rem 1rem;
+    }
+
+    @media (width >= 80rem) {
+        .custom-new-feature {
+            grid-row: span 2;
+        }
+    }
+
+    @media (64rem <= width < 80rem) {
+        html[data-demo='auto-parts-store-1'] .custom-new {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-promises {
+        gap: 2rem;
+        padding-block: clamp(2.5rem, 1.75rem + 2vw, 3.75rem);
+
+        & .usp-item {
+            text-align: left;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 1rem;
+            min-width: 0;
+        }
+
+        & .usp-item > div {
+            min-width: 0;
+        }
+
+        & .usp-title {
+            margin: 0.25rem 0 0;
+            font-size: 1.125rem;
+        }
+
+        & .usp-text {
+            max-width: 19rem;
+            margin-top: 0.375rem;
+            font-size: 1rem;
+        }
+    }
+
+    @media (width >= 64rem) {
+        html[data-demo='auto-parts-store-1'] .custom-promises .usp-item + .usp-item {
+            border-left: 1px solid color-mix(in oklab, var(--color-secondary-base) 10%, transparent);
+            padding-left: 2rem;
+        }
+    }
+
+    .custom-promise-icon {
+        aspect-ratio: 1;
+        width: 3.25rem;
+        color: var(--color-primary-ink);
+        background: var(--color-bg);
+        border-radius: var(--radius-full);
+        flex: none;
+        place-items: center;
+        font-size: 1.5rem;
+        display: grid;
+    }
+
+    .custom-guide {
+        color: var(--color-text);
+        text-decoration: none;
+        display: grid;
+
+        &:hover {
+            color: var(--color-text);
+        }
+
+        &:hover .custom-guide-title {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    .custom-guide-photo {
+        aspect-ratio: 3 / 2;
+        border-radius: var(--radius-lg);
+        display: block;
+        overflow: hidden;
+
+        & img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .custom-guide-meta {
+        color: var(--color-text-muted);
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1.25rem;
+        font-size: 0.9375rem;
+        font-weight: 500;
+        display: flex;
+    }
+
+    .custom-skill {
+        gap: 0.1875rem;
+        margin-right: 0.125rem;
+        display: inline-flex;
+
+        & i {
+            background: var(--color-border);
+            border-radius: 2px;
+            width: 0.375rem;
+            height: 0.875rem;
+        }
+
+        &[data-level='1'] i:first-child,
+        &[data-level='2'] i:nth-child(-n + 2) {
+            background: var(--color-primary);
+        }
+    }
+
+    .custom-guide-title {
+        font-family: var(--font-heading);
+        letter-spacing: -0.02em;
+        transition: color var(--duration-fast) var(--ease-out);
+        margin-top: 0.5rem;
+        font-size: 1.25rem;
+        font-weight: 700;
+        font-stretch: 112%;
+        line-height: 1.25;
+    }
+
+    .custom-guide-parts {
+        color: var(--color-text-soft);
+        margin-top: 0.5rem;
+        font-size: 0.9375rem;
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-footer .brand {
+        color: var(--custom-on-navy-accent);
+    }
+
+    .custom-footer .custom-brand-plate {
+        background: oklch(100% 0 0 / 0.12);
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-footer .footer-subscribe--boxed {
+        border-radius: var(--custom-control-radius);
+
+        & button {
+            border-radius: var(--btn-radius-override, 0.5rem);
+        }
+    }
+
+    .custom-footer-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.5rem;
+        margin-bottom: clamp(3rem, 2rem + 3vw, 4.5rem);
+        display: grid;
+    }
+
+    .custom-footer-card {
+        border-radius: var(--radius-xl);
+        background: oklch(100% 0 0 / 0.05);
+        border: 1px solid oklch(100% 0 0 / 0.09);
+        gap: 1.5rem;
+        padding: clamp(1.5rem, 1rem + 1.4vw, 2.25rem);
+        display: flex;
+    }
+
+    .custom-footer-icon {
+        width: 3.5rem;
+        height: 3.5rem;
+        color: var(--custom-navy);
+        background: var(--custom-on-navy-accent);
+        border-radius: var(--radius-full);
+        flex: none;
+        place-items: center;
+        font-size: 1.75rem;
+        display: grid;
+    }
+
+    .custom-footer-photo {
+        aspect-ratio: 1;
+        object-fit: cover;
+        border-radius: var(--radius-lg);
+        flex: none;
+        width: clamp(9rem, 6rem + 6vw, 13rem);
+    }
+
+    .custom-footer-kicker {
+        color: var(--custom-on-navy-accent);
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+
+    .custom-footer-head {
+        letter-spacing: -0.02em;
+        color: #fff;
+        margin: 0.375rem 0 0;
+        font-size: 1.5rem;
+        line-height: 1.15;
+    }
+
+    .custom-footer-facts {
+        color: var(--footer-body);
+        gap: 0.5rem;
+        margin: 0.875rem 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        & li {
+            align-items: flex-start;
+            gap: 0.625rem;
+            display: flex;
+        }
+
+        & i {
+            color: var(--custom-on-navy-accent);
+            margin-top: 0.25rem;
+            font-size: 1.125rem;
+        }
+
+        & a {
+            color: inherit;
+        }
+
+        & a:hover {
+            color: #fff;
+        }
+    }
+
+    @media (width <= 1439px) {
+        .custom-steps {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .custom-steps li {
+            grid-template-columns: auto minmax(0, 1fr);
+            column-gap: 0.875rem;
+            padding: 0.875rem 1rem;
+        }
+
+        .custom-steps li strong {
+            margin: 0;
+        }
+
+        .custom-steps .custom-step-num {
+            grid-row: span 2;
+        }
+
+        html[data-demo='auto-parts-store-1'] .custom-promises {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 2rem 2.5rem;
+        }
+
+        html[data-demo='auto-parts-store-1'] .custom-promises .usp-item + .usp-item {
+            border-left: 0;
+            padding-left: 0;
+        }
+    }
+
+    @media (width <= 1279px) {
+        .custom-systems {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .custom-new-feature {
+            grid-column: 1 / -1;
+            grid-template-columns: minmax(0, 1fr) 10rem;
+            column-gap: 1rem;
+            display: grid;
+        }
+
+        .custom-new-feature > :not(img) {
+            grid-column: 1;
+        }
+
+        .custom-new-img {
+            grid-area: 1 / 2 / span 4;
+            align-self: center;
+            height: auto;
+            min-height: 0;
+            margin: 0;
+        }
+
+        .custom-new-feature .btn {
+            justify-self: start;
+            margin-top: 1.25rem;
+        }
+
+        .custom-makers {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .custom-best {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .custom-fit-card {
+            grid-template-columns: auto minmax(0, 1fr) auto;
+            align-items: center;
+            column-gap: 1.25rem;
+            padding: 1.25rem 1.5rem;
+            display: grid;
+        }
+
+        .custom-fit-card > :is(p, ul) {
+            grid-column: 2;
+            margin: 0;
+        }
+
+        .custom-fit-card > .custom-fit-icon {
+            grid-row: 1 / span 3;
+        }
+
+        .custom-fit-card > :is(.custom-fit-list, .custom-fit-switch),
+        .custom-fit-card > p:first-of-type {
+            display: none;
+        }
+
+        .custom-fit-card > .btn {
+            grid-area: 1 / 3 / span 3;
+            margin: 0;
+        }
+    }
+
+    @media (width <= 1023px) {
+        .custom-install {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .custom-install-photo {
+            aspect-ratio: 16 / 10;
+            min-height: 0;
+        }
+
+        .custom-install-copy {
+            padding: 0.5rem clamp(0.75rem, 2vw, 1.5rem) 1.5rem;
+        }
+
+        .custom-footer-cards {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    @media (width <= 767px) {
+        .custom-fit-card {
+            grid-template-columns: auto minmax(0, 1fr);
+        }
+
+        .custom-fit-card > .btn {
+            grid-area: auto / 1 / auto / -1;
+            margin-top: 1rem;
+        }
+
+        .custom-footer-card--centre {
+            flex-direction: column;
+        }
+
+        .custom-footer-photo {
+            aspect-ratio: 16 / 9;
+            width: 100%;
+        }
+    }
+
+    @media (width <= 639px) {
+        .custom-systems {
+            gap: 0.75rem;
+        }
+
+        .custom-system {
+            min-height: 10.5rem;
+            padding: 1rem 1rem 0;
+        }
+
+        .custom-system-name {
+            max-width: none;
+            font-size: 1.0625rem;
+        }
+
+        .custom-system-links {
+            display: none;
+        }
+
+        .custom-system-img {
+            width: 56%;
+            bottom: -10%;
+            right: -8%;
+        }
+
+        .custom-makers {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .custom-maker {
+            height: 6rem;
+        }
+
+        .custom-new-feature {
+            grid-template-columns: minmax(0, 1fr) 7rem;
+            padding: 1.25rem;
+        }
+
+        .custom-footer-card {
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .custom-fit-chip {
+            flex-wrap: wrap;
+        }
+
+        html[data-demo='auto-parts-store-1'] .custom-promises {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 1.5rem;
+        }
+    }
+
+    .custom-ph {
+        padding-top: 1.75rem;
+    }
+
+    .custom-ph-inner {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 1.5rem 3rem;
+        display: flex;
+    }
+
+    .custom-ph-body {
+        flex-direction: column;
+        min-width: 0;
+        max-width: 46rem;
+        display: flex;
+    }
+
+    .custom-ph-title {
+        letter-spacing: -0.03em;
+        margin: 1.25rem 0 0;
+        font-size: clamp(2rem, 1.3rem + 1.8vw, 3rem);
+        font-weight: 700;
+        line-height: 1.04;
+    }
+
+    .custom-ph-lead {
+        color: var(--color-text-soft);
+        margin: 1rem 0 0;
+        font-size: 1.0625rem;
+        line-height: 1.6;
+    }
+
+    .custom-ph-fit {
+        flex-shrink: 0;
+    }
+
+    .custom-ph-steps {
+        margin-top: 2.5rem;
+    }
+
+    .custom-ph--stage .custom-ph-inner {
+        isolation: isolate;
+        min-height: clamp(
+            22rem,
+            calc(100svh - var(--header-h-rest, var(--header-h)) - 18rem),
+            28rem
+        );
+        color: oklch(100% 0 0 / 0.84);
+        background:
+            radial-gradient(
+                48% 70% at 78% 40%,
+                color-mix(in oklab, var(--color-primary-base) 26%, transparent),
+                transparent 72%
+            ),
+            var(--custom-navy);
+        border-radius: var(--radius-xl);
+        grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+        align-items: stretch;
+        gap: 0;
+        display: grid;
+        position: relative;
+        overflow: clip;
+    }
+
+    .custom-ph--stage {
+        padding-top: 1rem;
+    }
+
+    .custom-ph--stage .custom-ph-body {
+        justify-content: center;
+        max-width: none;
+        padding: clamp(2rem, 3.6vw, 3.5rem);
+    }
+
+    .custom-ph--stage .custom-ph-title {
+        color: #fff;
+        font-size: clamp(2.25rem, 1.3rem + 2.4vw, 3.5rem);
+    }
+
+    .custom-ph--stage .custom-ph-lead {
+        color: oklch(100% 0 0 / 0.78);
+        max-width: 34rem;
+    }
+
+    .custom-ph--stage .breadcrumb {
+        --breadcrumb-color: oklch(100% 0 0 / 0.66);
+        --breadcrumb-active: #fff;
+    }
+
+    .custom-ph--stage .breadcrumb :is(a, li) {
+        color: oklch(100% 0 0 / 0.66);
+    }
+
+    .custom-ph--stage .breadcrumb [aria-current],
+    .custom-ph--stage .breadcrumb a:hover {
+        color: #fff;
+    }
+
+    .custom-ph-photo {
+        border-radius: calc(var(--radius-xl) - 0.75rem);
+        margin: 0.75rem;
+        position: relative;
+        overflow: clip;
+
+        & img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            inset: 0;
+        }
+    }
+
+    .custom-ph-art {
+        place-items: center;
+        padding: 2rem;
+        display: grid;
+        position: relative;
+
+        & img {
+            z-index: 1;
+            object-fit: contain;
+            filter: drop-shadow(0 28px 24px oklch(0% 0 0 / 0.35));
+            width: auto;
+            max-width: 82%;
+            max-height: 22rem;
+            position: relative;
+        }
+
+        & .custom-product-floor {
+            height: 40%;
+            inset: auto 0 0;
+        }
+    }
+
+    @media (width <= 1023px) {
+        .custom-ph--stage .custom-ph-inner {
+            grid-template-columns: minmax(0, 1fr);
+            min-height: 0;
+        }
+
+        .custom-ph-photo {
+            aspect-ratio: 16 / 9;
+            margin-top: 0;
+        }
+
+        .custom-ph-art {
+            padding-top: 0;
+        }
+
+        .custom-ph-art img {
+            max-height: 15rem;
+        }
+    }
+
+    .custom-chips {
+        margin-top: 2rem;
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-chips .cat-chip {
+        border-radius: var(--custom-control-radius);
+
+        & .cat-chip-img {
+            background: var(--custom-sky);
+            border-radius: calc(var(--custom-control-radius) - 0.25rem);
+        }
+
+        & .cat-chip-img img {
+            object-fit: contain;
+            padding: 0.125rem;
+        }
+
+        & .cat-chip-img i {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    .custom-shop {
+        padding-block: 2rem calc(var(--section-space) * 0.9);
+    }
+
+    .custom-filter-fit {
+        background: var(--custom-sky);
+        border-radius: var(--radius-lg);
+        margin-bottom: 0.5rem;
+        padding: 0.875rem 1rem;
+
+        & .filter-option {
+            align-items: center;
+        }
+
+        & .filter-option-name {
+            line-height: 1.3;
+            display: grid;
+        }
+
+        & strong {
+            color: var(--color-text);
+            font-weight: 600;
+        }
+
+        & small {
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+        }
+    }
+
+    .custom-toolbar {
+        border-bottom: 1px solid var(--color-border-soft);
+        padding-bottom: 1.25rem;
+    }
+
+    .custom-empty {
+        text-align: center;
+        background: var(--custom-band);
+        border-radius: var(--radius-lg);
+        padding: 3.5rem 1.5rem;
+
+        & .custom-promise-icon {
+            margin-inline: auto;
+        }
+    }
+
+    html[data-demo='auto-parts-store-1'] .products--list .product-card--reveal {
+        border-bottom-color: var(--color-border-soft);
+        grid-template-columns: 11.5rem minmax(0, 1fr);
+        gap: 1.25rem 2rem;
+        padding-bottom: 1.5rem;
+
+        &:before {
+            display: none;
+        }
+
+        & .product-card-body {
+            grid-template-columns: minmax(0, 1fr) 12.5rem;
+            align-items: start;
+            gap: 0.375rem 2rem;
+            display: grid;
+        }
+
+        & .product-card-body > :not(.product-price, .product-card-cta) {
+            grid-column: 1;
+        }
+
+        & .product-card-excerpt {
+            max-width: 40rem;
+            color: var(--color-text-soft);
+            margin: 0.125rem 0 0;
+            font-size: 0.9375rem;
+        }
+
+        & .product-card-specs {
+            box-shadow: none;
+            clip-path: none;
+            opacity: 1;
+            visibility: visible;
+            background: none;
+            border: 0;
+            flex-wrap: wrap;
+            gap: 0.375rem 1.25rem;
+            margin-top: 0.375rem;
+            padding: 0;
+            font-size: 0.875rem;
+            display: flex;
+            position: static;
+            inset: auto;
+            translate: none;
+        }
+
+        & .product-price,
+        & .product-card-cta {
+            grid-column: 2;
+        }
+
+        & .product-price {
+            grid-row: 1 / span 2;
+            justify-content: flex-end;
+            align-self: end;
+            font-size: 1.25rem;
+        }
+
+        & .product-card-cta {
+            grid-row: 3 / span 3;
+            align-self: start;
+            margin-top: 0.5rem;
+        }
+    }
+
+    @media (width <= 767px) {
+        html[data-demo='auto-parts-store-1'] .products--list .product-card--reveal {
+            grid-template-columns: 7.5rem minmax(0, 1fr);
+            gap: 1rem;
+
+            & .product-card-body {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            & .product-card-body > * {
+                grid-area: auto / 1 !important;
+            }
+
+            & .product-price {
+                justify-content: flex-start;
+                font-size: 1.0625rem;
+            }
+
+            & .product-card-specs {
+                display: none;
+            }
+        }
+    }
+
+    @media (width <= 639px) {
+        html[data-demo='auto-parts-store-1']
+            .products--list
+            .product-card--reveal
+            .product-card-actions {
+            display: none;
+        }
+    }
+
+    .custom-cats {
+        padding-top: 2.5rem;
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-cat {
+        & .cat-card-media {
+            aspect-ratio: 5 / 4;
+            background: var(--custom-sky);
+            border-radius: var(--radius-lg);
+            transition: background-color var(--duration-fast) var(--ease-out);
+        }
+
+        & .cat-card-media img {
+            object-fit: contain;
+            padding: 12%;
+        }
+
+        & .cat-card-link:hover .cat-card-media {
+            background: var(--custom-sky-strong);
+        }
+
+        & .cat-card-link:hover .cat-card-media img {
+            scale: 1.04;
+        }
+
+        & .cat-card-link:hover .cat-card-title {
+            color: var(--color-primary-ink);
+        }
+
+        & .cat-card-title {
+            font-size: 1.1875rem;
+            font-weight: 700;
+        }
+
+        & .cat-card-meta {
+            font-size: 0.9375rem;
+        }
+    }
+
+    .custom-cat-links {
+        flex-wrap: wrap;
+        gap: 0.375rem;
+        margin: 0.875rem 0 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+
+        & a {
+            color: var(--color-text-soft);
+            border: 1px solid var(--color-border-soft);
+            border-radius: var(--radius-pill);
+            transition:
+                color var(--duration-fast) var(--ease-out),
+                border-color var(--duration-fast) var(--ease-out),
+                background-color var(--duration-fast) var(--ease-out);
+            padding: 0.25rem 0.625rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: inline-flex;
+        }
+
+        & a:hover {
+            color: var(--color-primary-ink);
+            background: var(--custom-sky);
+            border-color: #0000;
+        }
+    }
+
+    .custom-number {
+        background: var(--custom-band);
+        border-radius: var(--radius-xl);
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        align-items: center;
+        gap: 1.25rem 4rem;
+        padding: clamp(1.75rem, 3vw, 2.75rem);
+        display: grid;
+    }
+
+    .custom-number-form {
+        display: flex;
+    }
+
+    .custom-number-form input {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .custom-number-desk {
+        color: var(--color-text-soft);
+        grid-column: 2;
+        align-items: center;
+        gap: 0.625rem;
+        display: inline-flex;
+
+        & i {
+            color: var(--color-primary-ink);
+            font-size: 1.25rem;
+        }
+
+        & strong {
+            color: var(--color-text);
+            font-weight: 600;
+        }
+
+        &:hover strong {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    .custom-rail .product-card--reveal {
+        &:before,
+        & .product-card-specs {
+            display: none;
+        }
+
+        & .product-card-body {
+            flex: 1;
+        }
+
+        & .product-card-cta {
+            margin-top: auto;
+        }
+
+        & .product-price {
+            margin-bottom: 0.875rem;
+        }
+    }
+
+    @media (width <= 1023px) {
+        .custom-number {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .custom-number-desk {
+            grid-column: 1;
+        }
+    }
+
+    @media (width <= 639px) {
+        .custom-cat-links {
+            display: none;
+        }
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-gallery {
+        & .product-gallery-main,
+        & .product-gallery-thumbs button {
+            background: var(--product-bg);
+        }
+
+        & .swiper-slide img,
+        & .product-gallery-thumbs img {
+            object-fit: contain;
+        }
+
+        & .swiper-slide img {
+            padding: 6%;
+        }
+    }
+
+    .custom-fit-check {
+        background: var(--custom-sky);
+        border-radius: var(--radius-lg);
+        align-items: center;
+        gap: 0.875rem;
+        padding: 0.875rem 0.875rem 0.875rem 1rem;
+        display: flex;
+
+        & > i {
+            color: var(--color-accent);
+            font-size: 1.625rem;
+        }
+
+        & p {
+            flex: 1;
+            min-width: 0;
+            line-height: 1.35;
+            display: grid;
+        }
+
+        & strong {
+            color: var(--color-text);
+            font-weight: 600;
+        }
+
+        & span {
+            color: var(--color-text-soft);
+            font-size: 0.9375rem;
+        }
+
+        & .custom-fit-change {
+            background: var(--color-bg);
+        }
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-mini-thumb {
+        background: var(--product-bg);
+
+        & img {
+            object-fit: contain;
+            padding: 0.25rem;
+        }
+    }
+
+    .custom-pin {
+        width: 1.25rem;
+        height: 1.25rem;
+        color: var(--color-on-primary);
+        background: var(--color-primary);
+        border-radius: var(--radius-full);
+        place-items: center;
+        font-size: 0.75rem;
+        font-weight: 700;
+        display: grid;
+        position: absolute;
+        top: 0.25rem;
+        left: 0.25rem;
+    }
+
+    .custom-kit-total {
+        background: var(--custom-band);
+        border-radius: var(--radius-lg);
+        padding: 1.25rem;
+    }
+
+    .custom-wish {
+        width: 3.25rem;
+        color: var(--color-text);
+        border: 1.5px solid var(--color-border);
+        border-radius: var(--btn-radius-override, 0.5rem);
+        transition:
+            border-color var(--duration-fast) var(--ease-out),
+            color var(--duration-fast) var(--ease-out);
+        flex-shrink: 0;
+        place-items: center;
+        font-size: 1.25rem;
+        display: grid;
+
+        &:hover,
+        &[aria-pressed='true'] {
+            color: var(--color-primary-ink);
+            border-color: var(--color-primary);
+        }
+    }
+
+    .custom-perks {
+        gap: 1rem;
+        margin-bottom: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        & li {
+            align-items: center;
+            gap: 0.875rem;
+            display: flex;
+        }
+
+        & i {
+            width: 2.5rem;
+            height: 2.5rem;
+            color: var(--color-primary-ink);
+            background: var(--custom-sky);
+            border-radius: var(--radius-full);
+            flex-shrink: 0;
+            place-items: center;
+            font-size: 1.25rem;
+            display: grid;
+        }
+
+        & span {
+            color: var(--color-text-soft);
+            font-size: 0.9375rem;
+            line-height: 1.35;
+            display: grid;
+        }
+
+        & strong {
+            color: var(--color-text);
+            font-weight: 600;
+        }
+
+        & a {
+            color: var(--color-primary-ink);
+            font-weight: 600;
+        }
+    }
+
+    .custom-bar-thumb {
+        background: var(--product-bg);
+        border-radius: var(--radius-md);
+        padding: 0.125rem;
+    }
+
+    .custom-kit {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.5rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        & > li {
+            background: var(--color-bg);
+            border-radius: var(--radius-lg);
+            padding: 0.75rem 0.75rem 1.75rem;
+        }
+
+        & > li > :not(.custom-kit-img) {
+            margin-inline: 0.75rem;
+        }
+    }
+
+    .custom-kit-img {
+        aspect-ratio: 16 / 10;
+        background: var(--product-bg);
+        border-radius: calc(var(--radius-lg) - 0.5rem);
+        margin-bottom: 1.5rem;
+        display: block;
+        position: relative;
+
+        & img {
+            object-fit: contain;
+            width: 100%;
+            height: 100%;
+            padding: 6%;
+        }
+
+        & .custom-pin {
+            width: 1.75rem;
+            height: 1.75rem;
+            font-size: 0.875rem;
+            top: 0.75rem;
+            left: 0.75rem;
+        }
+    }
+
+    .custom-kit-name {
+        letter-spacing: -0.02em;
+        margin: 0 0 0.5rem;
+        font-size: 1.125rem;
+    }
+
+    .custom-spec-table {
+        border-top: 1px solid var(--color-border-soft);
+        margin: 0;
+        display: grid;
+
+        & > div {
+            border-bottom: 1px solid var(--color-border-soft);
+            grid-template-columns: 11rem minmax(0, 1fr);
+            gap: 1rem;
+            padding-block: 0.875rem;
+            display: grid;
+        }
+
+        & dt {
+            color: var(--color-text-soft);
+        }
+
+        & dd {
+            color: var(--color-text);
+            margin: 0;
+            font-weight: 600;
+        }
+    }
+
+    .custom-table-wrap {
+        border: 1px solid var(--color-border-soft);
+        border-radius: var(--radius-lg);
+        overflow-x: auto;
+    }
+
+    .custom-table {
+        border-collapse: collapse;
+        width: 100%;
+        min-width: 36rem;
+        font-size: 0.9375rem;
+
+        & th {
+            text-align: left;
+            color: var(--color-text-soft);
+            background: var(--custom-band);
+            padding: 0.875rem 1.25rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        & td {
+            color: var(--color-text-soft);
+            border-top: 1px solid var(--color-border-soft);
+            padding: 1rem 1.25rem;
+        }
+
+        & td strong {
+            color: var(--color-text);
+            font-weight: 600;
+        }
+
+        & .is-mine td {
+            background: color-mix(in oklab, var(--color-accent) 7%, var(--color-bg));
+        }
+    }
+
+    .custom-mine {
+        color: var(--color-on-accent, #000);
+        background: var(--color-accent);
+        border-radius: var(--radius-pill);
+        margin-left: 0.5rem;
+        padding: 0.125rem 0.5rem;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        display: inline-flex;
+    }
+
+    .custom-howto {
+        counter-reset: howto;
+        gap: 1.5rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        & li {
+            color: var(--color-text-soft);
+            counter-increment: howto;
+            gap: 0.25rem;
+            padding-left: 3.25rem;
+            display: grid;
+            position: relative;
+        }
+
+        & li:before {
+            content: counter(howto);
+            width: 2.25rem;
+            height: 2.25rem;
+            color: var(--color-primary-ink);
+            background: var(--custom-sky);
+            border-radius: var(--radius-full);
+            place-items: center;
+            font-weight: 700;
+            display: grid;
+            position: absolute;
+            top: -0.125rem;
+            left: 0;
+        }
+
+        & strong {
+            color: var(--color-text);
+            font-weight: 600;
+        }
+    }
+
+    .custom-skill-card {
+        border: 1px solid var(--color-border-soft);
+        border-radius: var(--radius-lg);
+        align-self: start;
+        padding: 1.75rem;
+    }
+
+    .custom-ship {
+        border: 1px solid var(--color-border-soft);
+        border-radius: var(--radius-lg);
+        padding: 1.5rem;
+
+        & > i {
+            color: var(--color-primary-ink);
+            font-size: 1.5rem;
+        }
+
+        & strong {
+            font-size: 0.9375rem;
+            font-weight: 600;
+        }
+    }
+
+    @media (width <= 767px) {
+        .custom-kit {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .custom-spec-table > div {
+            grid-template-columns: 9rem minmax(0, 1fr);
+        }
+    }
+
+    .custom-cart-page {
+        padding-block: 2.5rem calc(var(--section-space) * 0.9);
+    }
+
+    html[data-demo='auto-parts-store-1'] :is(.custom-cart-table .cart-thumb, .custom-order-thumb) {
+        background: var(--product-bg);
+
+        & img {
+            object-fit: contain;
+            padding: 0.25rem;
+        }
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-joined > .form-input {
+        border-radius: var(--btn-radius-override, 0.5rem) 0 0 var(--btn-radius-override, 0.5rem);
+    }
+
+    .custom-line-fit {
+        color: var(--color-text-soft);
+        align-items: center;
+        gap: 0.375rem;
+        display: flex;
+
+        & i {
+            color: var(--color-accent);
+            font-size: 1rem;
+        }
+    }
+
+    .custom-cart-fit {
+        color: var(--color-text-soft);
+        background: var(--custom-sky);
+        border-radius: var(--radius-lg);
+        gap: 0.75rem;
+        margin-top: 1.25rem;
+        padding: 1rem;
+        font-size: 0.9375rem;
+        display: flex;
+
+        & > i {
+            color: var(--color-primary-ink);
+            flex-shrink: 0;
+            font-size: 1.25rem;
+        }
+
+        & strong {
+            color: var(--color-text);
+            font-weight: 600;
+        }
+    }
+
+    .custom-done-fit {
+        color: oklch(100% 0 0 / 0.78);
+        background:
+            radial-gradient(
+                90% 80% at 100% 0%,
+                color-mix(in oklab, var(--color-primary-base) 30%, transparent),
+                transparent 65%
+            ),
+            var(--custom-navy);
+        border-radius: var(--radius-xl);
+        padding: 1.75rem;
+    }
+
+    .custom-add-car {
+        background: var(--custom-band);
+        border-radius: var(--radius-lg);
+        padding: 1.25rem;
+    }
+
+    .custom-add-car .custom-finder-fields {
+        padding: 0;
+    }
+
+    .custom-car {
+        border: 1px solid var(--color-border-soft);
+        border-radius: var(--radius-lg);
+        transition: border-color var(--duration-fast) var(--ease-out);
+        flex-direction: column;
+        gap: 1.25rem;
+        padding: 1.5rem;
+        display: flex;
+
+        &.is-main {
+            border-color: color-mix(in oklab, var(--color-primary-base) 55%, var(--color-border));
+            box-shadow: 0 0 0 1px
+                color-mix(in oklab, var(--color-primary-base) 55%, var(--color-border));
+        }
+    }
+
+    .custom-car-head {
+        align-items: flex-start;
+        gap: 0.875rem;
+        display: flex;
+    }
+
+    .custom-car-head .custom-mine {
+        flex-shrink: 0;
+        margin-left: auto;
+    }
+
+    .custom-car-icon {
+        width: 3rem;
+        height: 3rem;
+        color: var(--color-primary-ink);
+        background: var(--custom-sky);
+        border-radius: var(--radius-md);
+        flex-shrink: 0;
+        place-items: center;
+        font-size: 1.5rem;
+        display: grid;
+    }
+
+    .custom-car-name {
+        letter-spacing: -0.02em;
+        margin: 0 0 0.25rem;
+        font-size: 1.125rem;
+    }
+
+    .custom-car-notes {
+        border-top: 1px solid var(--color-border-soft);
+        gap: 0.5rem;
+        margin: 0;
+        padding: 1rem 0 0;
+        font-size: 0.9375rem;
+        list-style: none;
+        display: grid;
+
+        & li {
+            color: var(--color-text-soft);
+            align-items: center;
+            gap: 0.5rem;
+            display: flex;
+        }
+
+        & i {
+            color: var(--color-success);
+            font-size: 1.125rem;
+        }
+
+        & .ph-warning-circle {
+            color: var(--color-accent-ink, var(--color-warning));
+        }
+    }
+
+    .custom-car-foot {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.75rem;
+        margin-top: auto;
+        display: flex;
+    }
+
+    .custom-car-set {
+        color: var(--color-primary-ink);
+        font-size: 0.9375rem;
+        font-weight: 600;
+
+        &:hover {
+            text-underline-offset: 4px;
+            text-decoration: underline;
+        }
+    }
+
+    html[data-demo='auto-parts-store-1']
+        :is(.custom-stack img, .custom-wishlist .product-card-media) {
+        background: var(--product-bg);
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-stack img {
+        object-fit: contain;
+        padding: 0.125rem;
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-wishlist .product-card-img {
+        object-fit: contain;
+        padding: 8%;
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-wishlist .wishlist-card {
+        flex-direction: column;
+        display: flex;
+
+        & .product-card-body {
+            flex: 1;
+        }
+
+        & .product-card-buy {
+            margin-top: auto;
+        }
+    }
+
+    .custom-fbv {
+        padding-top: 1rem;
+    }
+
+    .custom-fbv-stage {
+        isolation: isolate;
+        color: oklch(100% 0 0 / 0.84);
+        background:
+            radial-gradient(
+                50% 70% at 82% 30%,
+                color-mix(in oklab, var(--color-primary-base) 30%, transparent),
+                transparent 72%
+            ),
+            var(--custom-navy);
+        border-radius: var(--radius-xl);
+        grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+        gap: 2rem;
+        padding: clamp(2rem, 3.6vw, 3.5rem);
+        display: grid;
+        position: relative;
+        overflow: clip;
+
+        & .breadcrumb :is(a, li) {
+            color: oklch(100% 0 0 / 0.66);
+        }
+
+        & .breadcrumb [aria-current],
+        & .breadcrumb a:hover {
+            color: #fff;
+        }
+
+        & .custom-ph-title {
+            color: #fff;
+            max-width: 18ch;
+            font-size: clamp(2.25rem, 1.3rem + 2.2vw, 3.25rem);
+        }
+
+        & .custom-ph-lead {
+            color: oklch(100% 0 0 / 0.78);
+            max-width: 36rem;
+        }
+
+        & .custom-finder {
+            max-width: 40rem;
+        }
+
+        & .btn.is-disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+    }
+
+    .custom-fbv-result {
+        align-content: end;
+        display: grid;
+    }
+
+    .custom-fbv-card {
+        border-radius: var(--radius-xl);
+        background: oklch(100% 0 0 / 0.06);
+        border: 1px solid oklch(100% 0 0 / 0.12);
+        gap: 0.75rem;
+        padding: 2rem;
+        display: grid;
+
+        &.is-found {
+            background: oklch(100% 0 0 / 0.1);
+        }
+    }
+
+    .custom-fbv-icon {
+        width: 3.5rem;
+        height: 3.5rem;
+        color: var(--custom-on-navy-accent);
+        border-radius: var(--radius-lg);
+        background: oklch(100% 0 0 / 0.08);
+        place-items: center;
+        margin-bottom: 0.5rem;
+        font-size: 1.75rem;
+        display: grid;
+
+        & .ph-seal-check {
+            color: var(--color-accent);
+        }
+    }
+
+    .custom-fbv-kicker {
+        color: var(--custom-on-navy-accent);
+        margin: 0;
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+
+    .custom-fbv-car {
+        font-family: var(--font-heading);
+        letter-spacing: -0.025em;
+        color: #fff;
+        margin: 0;
+        font-size: 1.75rem;
+        font-weight: 700;
+        font-stretch: 112%;
+        line-height: 1.15;
+    }
+
+    .custom-fbv-count {
+        margin: 0 0 0.75rem;
+        font-size: 1.0625rem;
+
+        & strong {
+            color: #fff;
+            font-weight: 700;
+        }
+    }
+
+    .custom-fbv-saved {
+        border-top: 1px solid oklch(100% 0 0 / 0.12);
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin: 1rem 0 0;
+        padding: 1.25rem 0 0;
+        list-style: none;
+        display: flex;
+
+        & li:first-child {
+            color: oklch(100% 0 0 / 0.66);
+            flex-basis: 100%;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        & button {
+            color: #fff;
+            border-radius: var(--radius-pill);
+            transition: background-color var(--duration-fast) var(--ease-out);
+            background: oklch(100% 0 0 / 0.08);
+            padding: 0.375rem 0.75rem;
+            font-size: 0.9375rem;
+        }
+
+        & button:hover {
+            background: oklch(100% 0 0 / 0.16);
+        }
+    }
+
+    .custom-fbv-head {
+        padding-top: calc(var(--section-space) * 0.9);
+    }
+
+    .custom-how {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.25rem;
+        margin-bottom: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        & li {
+            color: var(--color-text-soft);
+            background: var(--color-bg);
+            border-radius: var(--radius-lg);
+            align-content: start;
+            gap: 0.5rem;
+            padding: 1.75rem;
+            display: grid;
+        }
+
+        & strong {
+            color: var(--color-text);
+            margin-top: 0.75rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        & .custom-step-num {
+            color: var(--color-on-primary);
+            background: var(--color-primary);
+        }
+    }
+
+    @media (width <= 1023px) {
+        .custom-fbv-stage,
+        .custom-how {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    .custom-brand {
+        border: 1px solid var(--color-border-soft);
+        border-radius: var(--radius-lg);
+        scroll-margin-top: calc(var(--header-h) + 1.5rem);
+        flex-direction: column;
+        gap: 1.25rem;
+        padding: 1.75rem;
+        display: flex;
+
+        &:target {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 1px var(--color-primary);
+        }
+    }
+
+    .custom-brand-top {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.75rem;
+        display: flex;
+    }
+
+    .custom-brand-word > span {
+        color: var(--color-text);
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 1.625rem;
+        line-height: 1;
+        display: inline-flex;
+
+        & i {
+            font-size: 0.85em;
+        }
+    }
+
+    .custom-brand-spec {
+        color: var(--color-primary-ink);
+        background: var(--custom-sky);
+        border-radius: var(--radius-pill);
+        padding: 0.25rem 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+
+    .custom-brand-text {
+        max-width: 40rem;
+        color: var(--color-text-soft);
+        margin: 0;
+    }
+
+    .custom-brand-facts {
+        border-block: 1px solid var(--color-border-soft);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin: 0;
+        display: grid;
+
+        & > div {
+            gap: 0.125rem;
+            padding: 0.875rem 0;
+            display: grid;
+        }
+
+        & > div + div {
+            border-left: 1px solid var(--color-border-soft);
+            padding-left: 1rem;
+        }
+
+        & dt {
+            font-family: var(--font-heading);
+            color: var(--color-text);
+            font-size: 1.125rem;
+            font-weight: 700;
+        }
+
+        & dd {
+            color: var(--color-text-muted);
+            margin: 0;
+            font-size: 0.875rem;
+        }
+    }
+
+    .custom-brand-foot {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-top: auto;
+        display: flex;
+    }
+
+    .custom-brand-thumbs {
+        gap: 0.5rem;
+        display: flex;
+    }
+
+    .custom-brand-thumbs span {
+        aspect-ratio: 1;
+        background: var(--product-bg);
+        border-radius: var(--radius-md);
+        width: 4.5rem;
+        padding: 0.375rem;
+        display: grid;
+    }
+
+    .custom-brand-thumbs img {
+        object-fit: contain;
+        width: 100%;
+        height: 100%;
+    }
+
+    .custom-az {
+        background: var(--color-bg);
+        border-radius: var(--radius-xl);
+        grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+        gap: 1.75rem 1.5rem;
+        padding: clamp(1.5rem, 3vw, 2.5rem);
+        display: grid;
+
+        & ul {
+            gap: 0.375rem;
+            margin: 0.625rem 0 0;
+            padding: 0;
+            list-style: none;
+            display: grid;
+        }
+
+        & span {
+            color: var(--color-text-soft);
+        }
+
+        & a {
+            color: var(--color-primary-ink);
+            font-weight: 600;
+        }
+
+        & a:hover {
+            text-underline-offset: 4px;
+            text-decoration: underline;
+        }
+    }
+
+    .custom-az-letter {
+        border-bottom: 1px solid var(--color-border-soft);
+        margin: 0;
+        padding-bottom: 0.5rem;
+        font-size: 1.25rem;
+    }
+
+    @media (width <= 639px) {
+        .custom-brand {
+            padding: 1.25rem;
+        }
+
+        .custom-brand-facts > div + div {
+            padding-left: 0.625rem;
+        }
+
+        .custom-brand-thumbs span {
+            width: 3.5rem;
+        }
+    }
+
+    .custom-coupons-wrap {
+        padding-top: 1.25rem;
+    }
+
+    .custom-coupon {
+        background: var(--custom-band);
+        border-radius: var(--radius-lg);
+        grid-template-columns: auto minmax(0, 1fr);
+        align-items: center;
+        gap: 0.5rem 1rem;
+        padding: 1.25rem;
+        display: grid;
+    }
+
+    .custom-coupon-icon {
+        width: 3rem;
+        height: 3rem;
+        color: var(--color-primary-ink);
+        background: var(--color-bg);
+        border-radius: var(--radius-md);
+        place-items: center;
+        font-size: 1.375rem;
+        display: grid;
+    }
+
+    .custom-coupon-off {
+        font-family: var(--font-heading);
+        color: var(--color-text);
+        margin: 0;
+        font-size: 1.375rem;
+        font-weight: 700;
+        line-height: 1.1;
+    }
+
+    .custom-coupon-code {
+        letter-spacing: 0.08em;
+        color: var(--color-text);
+        background: var(--color-bg);
+        border: 1.5px dashed color-mix(in oklab, var(--color-primary-base) 45%, var(--color-border));
+        border-radius: var(--btn-radius-override, 0.5rem);
+        transition:
+            border-color var(--duration-fast) var(--ease-out),
+            color var(--duration-fast) var(--ease-out);
+        grid-column: 1 / -1;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.75rem;
+        margin-top: 0.5rem;
+        padding: 0.625rem 0.875rem;
+        font-weight: 700;
+        display: flex;
+
+        & i {
+            color: var(--color-primary-ink);
+            font-size: 1.125rem;
+        }
+
+        &:hover {
+            color: var(--color-primary-ink);
+            border-color: var(--color-primary);
+        }
+    }
+
+    .custom-deal-chips {
+        scrollbar-width: none;
+        gap: 0.5rem;
+        display: flex;
+        overflow-x: auto;
+
+        & .tag-pill {
+            cursor: pointer;
+            flex-shrink: 0;
+            gap: 0.375rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.9375rem;
+            font-weight: 500;
+        }
+
+        & .tag-pill small {
+            color: var(--color-text-muted);
+        }
+
+        & .tag-pill[aria-pressed='true'] {
+            color: var(--color-on-primary);
+            background: var(--color-primary);
+        }
+
+        & .tag-pill[aria-pressed='true'] small {
+            color: inherit;
+            opacity: 0.8;
+        }
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-deal-grid .product-countdown {
+        display: none;
+    }
+
+    .custom-kitband {
+        background: var(--custom-band);
+        border-radius: var(--radius-xl);
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        align-items: center;
+        gap: 2rem 4rem;
+        padding: clamp(1.5rem, 3vw, 2.5rem);
+        display: grid;
+
+        & .custom-fit-list {
+            margin-bottom: 0;
+        }
+    }
+
+    .custom-kitband-img {
+        aspect-ratio: 4 / 3;
+        background: var(--color-bg);
+        border-radius: var(--radius-lg);
+        place-items: center;
+        display: grid;
+        position: relative;
+        overflow: clip;
+
+        & img {
+            width: 78%;
+            height: auto;
+            position: relative;
+        }
+    }
+
+    @media (width <= 1023px) {
+        .custom-kitband {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    .custom-topics {
+        padding-top: 1.5rem;
+    }
+
+    .custom-faq-group {
+        scroll-margin-top: calc(var(--header-h) + 1.5rem);
+    }
+
+    .custom-faq-title {
+        letter-spacing: -0.02em;
+        align-items: center;
+        gap: 0.625rem;
+        margin: 0 0 0.5rem;
+        font-size: 1.25rem;
+        display: flex;
+
+        & i {
+            color: var(--color-primary-ink);
+            font-size: 1.375rem;
+        }
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-faq .accordion-trigger {
+        font-weight: 600;
+    }
+
+    .custom-guide-full {
+        background: var(--color-bg);
+        border-radius: var(--radius-xl);
+        scroll-margin-top: calc(var(--header-h) + 1.5rem);
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+        gap: 2.5rem;
+        padding: 0.75rem;
+        display: grid;
+    }
+
+    .custom-guide-full-photo {
+        border-radius: calc(var(--radius-xl) - 0.75rem);
+        overflow: clip;
+
+        & img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            min-height: 18rem;
+        }
+    }
+
+    .custom-guide-full-body {
+        padding: 1.5rem 1.5rem 1.5rem 0;
+    }
+
+    .custom-guide-full-title {
+        letter-spacing: -0.025em;
+        margin: 0.75rem 0 1.5rem;
+        font-size: 1.5rem;
+    }
+
+    .custom-howto--sm {
+        gap: 0.875rem;
+    }
+
+    .custom-howto--sm li:before {
+        width: 1.875rem;
+        height: 1.875rem;
+        font-size: 0.875rem;
+    }
+
+    .custom-howto--sm li {
+        padding-left: 2.75rem;
+    }
+
+    .custom-guide-full-label {
+        color: var(--color-text-muted);
+        margin: 1.75rem 0 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+
+    .custom-guide-parts-list {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+
+        & a {
+            color: var(--color-text);
+            border: 1px solid var(--color-border-soft);
+            border-radius: var(--radius-lg);
+            transition:
+                border-color var(--duration-fast) var(--ease-out),
+                color var(--duration-fast) var(--ease-out);
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.375rem 1rem 0.375rem 0.375rem;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            display: inline-flex;
+        }
+
+        & a:hover {
+            color: var(--color-primary-ink);
+            border-color: color-mix(in oklab, var(--color-primary-base) 45%, var(--color-border));
+        }
+
+        & span {
+            background: var(--product-bg);
+            border-radius: var(--radius-md);
+            width: 2.75rem;
+            height: 2.75rem;
+            padding: 0.25rem;
+            display: grid;
+        }
+
+        & img {
+            object-fit: contain;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .custom-desk-card {
+        color: oklch(100% 0 0 / 0.78);
+        background:
+            radial-gradient(
+                90% 80% at 100% 0%,
+                color-mix(in oklab, var(--color-primary-base) 30%, transparent),
+                transparent 65%
+            ),
+            var(--custom-navy);
+        border-radius: var(--radius-xl);
+        gap: 1.5rem;
+        padding: 2rem;
+        display: grid;
+    }
+
+    .custom-desk-list {
+        gap: 1.125rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        & li {
+            align-items: flex-start;
+            gap: 0.875rem;
+            display: flex;
+        }
+
+        & i {
+            width: 2.5rem;
+            height: 2.5rem;
+            color: var(--custom-on-navy-accent);
+            border-radius: var(--radius-md);
+            background: oklch(100% 0 0 / 0.08);
+            flex-shrink: 0;
+            place-items: center;
+            font-size: 1.25rem;
+            display: grid;
+        }
+
+        & span {
+            color: #fff;
+            display: grid;
+        }
+
+        & small {
+            color: oklch(100% 0 0 / 0.66);
+            font-size: 0.875rem;
+        }
+
+        & a {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        & a:hover {
+            color: var(--custom-on-navy-accent);
+        }
+    }
+
+    @media (width <= 1023px) {
+        .custom-guide-full {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 0;
+        }
+
+        .custom-guide-full-body {
+            padding: 1.5rem 0.75rem 0.75rem;
+        }
+    }
+
+    .custom-about-statement {
+        letter-spacing: -0.025em;
+        margin: 0;
+        font-size: clamp(1.5rem, 1.1rem + 1.1vw, 2.125rem);
+        font-weight: 600;
+        line-height: 1.25;
+    }
+
+    .custom-about-stats {
+        border-top: 1px solid var(--color-border-soft);
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        margin: 0;
+        display: grid;
+
+        & > div {
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 2rem 2rem 0 0;
+            display: flex;
+        }
+
+        & > div + div {
+            border-left: 1px solid var(--color-border-soft);
+            padding-left: 2rem;
+        }
+
+        & .stat-figure {
+            font-family: var(--font-heading);
+            font-size: clamp(2.25rem, 1.4rem + 2.2vw, 3.5rem);
+            font-stretch: 112%;
+        }
+
+        & dt {
+            color: var(--color-text-soft);
+        }
+    }
+
+    .custom-founders-photos .img-frame {
+        aspect-ratio: 3 / 4;
+    }
+
+    .custom-founders-photos .img-frame:last-child {
+        translate: 0 2.5rem;
+    }
+
+    .custom-founders-photos figcaption {
+        color: var(--color-text-soft);
+        background: var(--color-bg);
+        border-radius: var(--radius-md);
+        padding: 0.625rem 0.875rem;
+        font-size: 0.875rem;
+        line-height: 1.35;
+        display: grid;
+        position: absolute;
+        bottom: 0.75rem;
+        left: 0.75rem;
+
+        & strong {
+            color: var(--color-text);
+            font-size: 0.9375rem;
+            font-weight: 600;
+        }
+    }
+
+    .custom-founders-quote {
+        background: var(--color-bg);
+        border-radius: var(--radius-lg);
+        margin: 2rem 0 0;
+        padding: 1.5rem 1.75rem;
+
+        & p {
+            color: var(--color-text);
+            margin: 0;
+            font-size: 1.125rem;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        & cite {
+            color: var(--color-text-muted);
+            margin-top: 0.75rem;
+            font-size: 0.9375rem;
+            font-style: normal;
+            display: block;
+        }
+    }
+
+    .custom-years {
+        background: var(--custom-band);
+        border-radius: var(--radius-xl);
+        padding: clamp(1.5rem, 3vw, 2.5rem);
+    }
+
+    .custom-check-photos .img-frame {
+        aspect-ratio: 4 / 5;
+    }
+
+    .custom-check-photos .img-frame:last-child {
+        translate: 0 2.5rem;
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-team {
+        background: var(--color-bg);
+        border-radius: var(--radius-lg);
+        padding: 0.75rem 0.75rem 1.5rem;
+
+        & .team-card-media {
+            aspect-ratio: 3 / 4;
+            border-radius: calc(var(--radius-lg) - 0.5rem);
+        }
+
+        & .team-card-body {
+            padding: 1.25rem 0.75rem 0;
+        }
+
+        & .team-role {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    .custom-team-line {
+        color: var(--color-text-soft);
+        margin: 0.75rem 0 0;
+        font-size: 0.9375rem;
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-word {
+        border: 1px solid var(--color-border-soft);
+        border-radius: var(--radius-lg);
+    }
+
+    html[data-demo='auto-parts-store-1'] .custom-word .testimonial-rating {
+        color: var(--color-accent);
+    }
+
+    .custom-word-mark {
+        width: 2.75rem;
+        height: 2.75rem;
+        color: var(--color-primary-ink);
+        background: var(--custom-sky);
+        border-radius: var(--radius-full);
+        flex-shrink: 0;
+        place-items: center;
+        font-size: 1.25rem;
+        display: grid;
+    }
+
+    .custom-about-close {
+        padding-bottom: calc(var(--section-space) * 0.9);
+    }
+
+    @media (width <= 1023px) {
+        .custom-about-stats {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .custom-about-stats > div:nth-child(3) {
+            border-left: 0;
+            padding-left: 0;
+        }
+    }
+
+    @media (width <= 639px) {
+        .custom-about-stats > div {
+            padding: 1.5rem 1rem 0 0;
+        }
+
+        .custom-about-stats > div + div {
+            padding-left: 1rem;
+        }
+
+        html[data-demo='auto-parts-store-1'] .custom-team {
+            padding: 0.5rem 0.5rem 1rem;
+        }
+
+        html[data-demo='auto-parts-store-1'] .custom-team .team-card-body {
+            padding: 1rem 0.375rem 0;
+        }
+
+        .custom-team-line {
+            display: none;
+        }
+    }
+}
+
+html[data-demo='auto-parts-store-1'] .custom-rail .swiper-slide.product-card {
+    flex-direction: column;
+    height: auto;
+    display: flex;
+}

@@ -1,0 +1,86 @@
+/* ================================================================
+ *  demo-business-loans-1.css — Draftmango theme for the Business Loans demo
+ *
+ *  The colors, fonts and layout settings of the Business Loans
+ *  demo (Draftmango Funding, an online small-business lender (term loans, lines of credit, equipment financing, SBA 7(a), invoice financing), Atlanta, lending in all 50 states).
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here).
+   Inter Tight 700 for headings and figures, Inter for the body. Picked
+   2026-10-23 over Inter Display 700 and Geist 600: the tightest, sharpest
+   set, so the headline and the 84px tabular amount stay compact. */
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400..800&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #4df59a;   /* main color: neon mint for buttons, the amount tick and small highlights; labels on it are ink (the fluorescent exception, as gym-1) */
+    --color-secondary-base:  #0b0f0d;   /* second color: ink for the text, the hero and the dark bands; the dark scheme takes its hue */
+    --color-tertiary-base:   #171c19;   /* third color: graphite for the panels and cards on ink */
+    --color-quaternary-base: #6b736e;   /* fourth color: grey for meta */
+    --color-accent-base:     #8b6cff;   /* attention color: violet, for chips and chart dots only; labels on it are white */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. */
+    --color-on-primary: #0b0f0d;   /* labels on the neon fill: ink, near-black (white would be 1.4:1; a preset picks its own) */
+    --color-on-accent:  #fff;   /* labels on the violet chips: white (a preset picks its own) */
+
+    --color-primary:       var(--color-primary-base);
+    --color-primary-hover: oklch(from var(--color-primary-base) calc(l - 0.06) c h);
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good. (stage 1: the builder sets the grounds: ink hero under the header; white and mint mist #eefbf3 below in stage 2)
+     * ------------------------------------------------------------ */
+    --color-text:        var(--color-secondary-base);   /* headings and body text */
+    --color-text-soft:   oklch(from var(--color-quaternary-base) 0.48 c h);   /* running text */
+    --color-text-muted:  oklch(from var(--color-quaternary-base) 0.5 c h);   /* meta text */
+    --color-dark:        var(--color-secondary-base);   /* dark sections and dark buttons */
+    /* Brand-colored text on the ground, held at or under 0.5 lightness so a
+       preset's lighter primary still reads at 4.5:1 */
+    --color-primary-ink: oklch(from var(--color-primary-base) min(l, 0.5) c h);
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Inter Tight', 'Inter', system-ui, sans-serif;   /* headings and the amounts (tabular-nums) */
+
+    /* Headings and buttons */
+    --heading-weight:     700;   /* Inter Tight bold: 400–800 is loaded */
+    --heading-tracking:   -0.025em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        1;      /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 9999px;  /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1440px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 1.2;      /* space between sections: 0.75 compact · 1 · 1.25 spacious */
+}

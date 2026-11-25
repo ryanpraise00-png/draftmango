@@ -1,0 +1,132 @@
+/* ================================================================
+ *  demo-jewelry-store-2.css — Draftmango theme for the Fine Jewelry Store demo
+ *
+ *  The colors, fonts and layout settings of the Fine Jewelry Store
+ *  demo (Draftmango Atelier, a fine jewelry house (solid 14k / 18k gold, lab-grown diamonds and emeralds, engagement and everyday fine pieces)).
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here).
+   Inter for everything, with its optical-size axis: headings render as Inter Display
+   (the user's default, 2026-10-26; the stage-1 font check may name one alternative). */
+@import url("https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #94573f;   /* main color: sienna, the clay of the sunlit photography, for the strip, the buttons, the Bag pill once the bar is solid and the slide timer; labels on it are white */
+    --color-secondary-base:  #1b1612;   /* second color: warm near-black for the text; the dark scheme takes its hue */
+    --color-tertiary-base:   #f4eee6;   /* third color: warm sand ivory for the page tint and soft fills */
+    --color-quaternary-base: #776b62;   /* fourth color: warm grey for meta */
+    --color-accent-base:     #c6a46c;   /* attention color: champagne gold, for the cut-stone mark and small marks; labels on it stay black (Auto) */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. White labels on the primary (a preset picks its own); the champagne accent keeps its Auto label, black. */
+    --color-on-primary: #fff;
+
+    --color-primary:       var(--color-primary-base);
+    --color-primary-hover: oklch(from var(--color-primary-base) calc(l * 0.88 + 0.06) c h);   /* a near-black lifts, a mid tone barely moves */
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-bg:          oklch(from var(--color-tertiary-base) 0.975 calc(c * 0.45) h);   /* page background: warm ivory white */
+    --color-bg-soft:     oklch(from var(--color-tertiary-base) 0.952 calc(c * 0.7) h);    /* a step deeper: fills and hover rows */
+    --color-bg-muted:    oklch(from var(--color-tertiary-base) 0.928 calc(c * 0.8) h);    /* placeholders */
+    --color-border:      oklch(from var(--color-tertiary-base) 0.885 calc(c * 0.8) h);    /* lines and borders */
+    --color-border-soft: oklch(from var(--color-tertiary-base) 0.925 calc(c * 0.7) h);    /* the faintest rules */
+    --color-text:        var(--color-secondary-base);   /* headings and body text */
+    --color-text-soft:   oklch(from var(--color-quaternary-base) 0.48 c h);   /* running text */
+    --color-text-muted:  oklch(from var(--color-quaternary-base) 0.5 c h);   /* meta text */
+    --color-dark:        var(--color-secondary-base);   /* dark sections and dark buttons */
+    /* Brand-colored text on the ground, held at or under 0.5 lightness so a
+       preset's lighter primary still reads at 4.5:1 */
+    --color-primary-ink: oklch(from var(--color-primary-base) min(l, 0.5) c h);
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Inter', system-ui, sans-serif;   /* headings (Inter Display through the opsz axis) */
+
+    /* Headings and buttons */
+    --heading-weight:     400;   /* Inter Display regular for section titles; the hero headline sets its own (see the type option at the end): 300–800 is loaded */
+    --heading-tracking:   -0.03em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        0;     /* corner rounding: 0 square (the house look) · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 0px;   /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 2400px;   /* widest content column: the page runs full width with 60px gutters (see below) */
+    --section-y-scale: 0.6;   /* space between sections: 0.6 ≈ 77px at 1440 (48px on a phone) · 0.75 · 1 spacious */
+}
+
+/* Full width: the bar, the hero and the sections run edge to edge inside even
+   gutters (20px on phones, 40px on tablets, 60px from 1280px up) instead of a
+   centred column */
+@layer utilities {
+    :where(html[data-demo="jewelry-store-2"]) .container { max-width: var(--container-max); }
+}
+
+html[data-demo="jewelry-store-2"] {
+    --container-width: min(100vw, var(--container-max));
+
+    @media (width >= 48rem) { --container-x: 2.5rem; }
+    @media (width >= 80rem) { --container-x: 3.75rem; }
+}
+
+/* Hero headline + wordmark (the type option). A, the default: the headline
+   in Inter Display 300, the wordmark in spaced Inter capitals.
+   B: both in Instrument Serif, the body stays Inter. To switch, add
+   "&family=Instrument+Serif" to the @import URL at the top of this file and
+   take the block after this one out of its comment. */
+html[data-demo="jewelry-store-2"] {
+    --custom-display-font: var(--font-heading);
+    --custom-display-weight: 300;
+    --custom-display-tracking: -0.035em;
+    --custom-brand-font: var(--font-sans);
+    --custom-brand-size: 1.125rem;
+    --custom-brand-weight: 400;
+    --custom-brand-tracking: 0.32em;
+    --custom-brand-case: uppercase;
+}
+
+/* Option B — Instrument Serif:
+html[data-demo="jewelry-store-2"] {
+    --custom-display-font: 'Instrument Serif', serif;
+    --custom-display-weight: 400;
+    --custom-display-tracking: -0.015em;
+    --custom-display-scale: 1.2;
+    --custom-display-leading: 0.98;
+    --custom-brand-font: 'Instrument Serif', serif;
+    --custom-brand-size: 1.5rem;
+    --custom-brand-tracking: 0.16em;
+}
+*/

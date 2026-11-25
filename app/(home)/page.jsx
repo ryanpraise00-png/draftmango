@@ -1,10 +1,10 @@
-// Draftmango home page, built from the Framo SaaS Automation home page (demo-automation-1).
-// Markup and classes follow the template; Framo's scripts run it (see FramoRuntime).
+// Draftmango home page, built from the Draftmango SaaS Automation home page (demo-automation-1).
+// Markup and classes follow the template; Draftmango's scripts run it (see DraftmangoRuntime).
 import SiteHeader from "../../components/SiteHeader";
 import SiteFooter from "../../components/SiteFooter";
 import IdeaComposer from "../../components/IdeaComposer";
 import Contours from "../../components/Contours";
-import FramoRuntime from "../../components/FramoRuntime";
+import DraftmangoRuntime from "../../components/DraftmangoRuntime";
 
 const muted = "font-medium text-(--custom-meta)";
 const pad = "p-[clamp(1.25rem,0.9rem_+_1vw,1.75rem)]";
@@ -159,7 +159,7 @@ function Assistant() {
           </ol>
         </article>
         <article className={pad + " custom-agents-approve relative flex items-end overflow-hidden rounded-(--custom-radius-card)"} data-anim="fade-up" data-anim-delay="120" aria-labelledby="au-agents-approve">
-          <img className="absolute inset-0 w-full h-full object-cover object-[62%_40%]" src="/framo/shots/architecture-studio-1-tall.jpg" alt="The Halden Studio website in progress" width="1200" height="1500" loading="lazy" decoding="async" />
+          <img className="absolute inset-0 w-full h-full object-cover object-[62%_40%]" src="/draftmango/shots/architecture-studio-1-tall.jpg" alt="The Halden Studio website in progress" width="1200" height="1500" loading="lazy" decoding="async" />
           <div className="custom-agents-card" data-agent-approval="">
             <p className="custom-agents-card-from"><Glyph icon="ph-sparkle" size="24" brand />Draftmango asks</p>
             <h3 id="au-agents-approve" className="custom-agents-card-title">Publish the new Services page?</h3>
@@ -278,7 +278,7 @@ function Build() {
       </div>
       <div className="custom-build-stage">
         <figure className="custom-build-photo w-[min(72%,24rem)] my-0 mr-0 ml-auto">
-          <img className="block w-full aspect-[4/5] object-cover object-[40%_50%] rounded-(--custom-radius-photo)" src="/framo/shots/restaurant-1-tall.jpg" alt="A restaurant website with a warm dining room and the line Seasonal cooking, quietly done" width="1200" height="1500" loading="lazy" decoding="async" />
+          <img className="block w-full aspect-[4/5] object-cover object-[40%_50%] rounded-(--custom-radius-photo)" src="/draftmango/shots/restaurant-1-tall.jpg" alt="A restaurant website with a warm dining room and the line Seasonal cooking, quietly done" width="1200" height="1500" loading="lazy" decoding="async" />
         </figure>
         <div className="custom-panel custom-build-card w-[min(100%,40rem)] mt-[clamp(-18rem,-40vw,-8rem)] overflow-hidden tabs tabs-segmented" x-data="tablist()" data-anim="fade-up" data-anim-delay="120">
           <div className="custom-build-bar flex flex-wrap items-center justify-between gap-3 py-3.5 pr-4 pl-5">
@@ -527,6 +527,6 @@ export default function Page() {
     </main>
     <SiteFooter />
     <button data-back-top="" aria-label="Back to top" className="back-to-top fixed bottom-8 right-8 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer border-0 text-white bg-primary shadow-token-lg z-sticky"><i className="ph ph-arrow-up" aria-hidden="true"></i></button>
-    <FramoRuntime demo="/home-flow.js" />
+    <DraftmangoRuntime demo="/home-flow.js" />
   </>;
 }

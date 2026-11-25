@@ -1,6 +1,6 @@
 import SiteHeader from "../../../components/SiteHeader";
 import SiteFooter from "../../../components/SiteFooter";
-import FramoRuntime from "../../../components/FramoRuntime";
+import DraftmangoRuntime from "../../../components/DraftmangoRuntime";
 import PlanCards from '../../../components/PlanCards';
 import PageControllers from '../../../components/PageControllers';
 export default function Page(){return <><a className="skip-link" href="#main">Skip to content</a><SiteHeader current="/pricings"/><main id="main"><PlanCards/><section className="dm-domain-band"><div className="container"><h2>Your website.<br/>Your own address.</h2><div><p>Start on a Draftmango subdomain for free. Paid plans include custom-domain connection; the domain itself is a separate purchase with its own annual registration and renewal price.</p><a className="dm-text-link" href="/help#domains">About domains and publishing</a></div></div></section><section className="custom-section dm-faq"><div className="container dm-faq-grid"><div><p className="dm-eyebrow">THE DETAILS</p><h2 className="custom-title">Pricing questions,<br/><span className="dm-muted">answered.</span></h2></div><div>{[
@@ -8,4 +8,4 @@ export default function Page(){return <><a className="skip-link" href="#main">Sk
 ['Do annual plans include a year of credits at once?','No. Basic includes 1,000 credits per month and Pro includes 3,000, whether billing is monthly or yearly. Free includes a one-time welcome allowance of 500 credits.'],
 ['Is a custom domain included?','Custom-domain connection is included in Basic and Pro. Domain registration and renewal are separate charges, shown before you pay. Domain purchases are not live yet.'],
 ['Will choosing a plan charge me?','No. These are launch pricing previews. Plan selection carries your choice into sign-up. It does not create a subscription or take payment.'],
-['Can I publish a website now?','Static-site publishing is enabled for restricted account testing. Public access and custom-domain publishing are being prepared. See the Help centre for current availability.']].map(([q,a])=><details key={q}><summary>{q}</summary><p>{a}</p></details>)}</div></div></section></main><SiteFooter/><FramoRuntime/><PageControllers scripts={["/pricing-model.js"]}/></>;}
+['Can I publish a website now?','Static-site publishing is enabled for restricted account testing. Public access and custom-domain publishing are being prepared. See the Help centre for current availability.']].map(([q,a])=><details key={q}><summary>{q}</summary><p>{a}</p></details>)}</div></div></section></main><SiteFooter/><DraftmangoRuntime/><PageControllers scripts={["/pricing-model.js"]}/></>;}

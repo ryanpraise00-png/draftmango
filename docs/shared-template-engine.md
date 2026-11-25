@@ -29,7 +29,7 @@ The OpenCode fork is not available yet. It can use this MCP transport, but its h
 
 ## Packages and assets
 
-Draftmango keeps hosted asset URLs for its existing preview/publishing pipeline. Isotris exports local copies under `public/framo/assets/`, with source URLs rewritten deterministically. Their package identity is the same; the `assetMode` and exact source hashes describe the delivery difference. Site naming does not select a different library version.
+Draftmango keeps hosted asset URLs for its existing preview/publishing pipeline. Isotris exports local copies under `public/draftmango/assets/`, with source URLs rewritten deterministically. Their package identity is the same; the `assetMode` and exact source hashes describe the delivery difference. Site naming does not select a different library version.
 
 The source and exported local assets are pinned to their package version. Hosted asset URLs are still shared paths; durable, content-addressed hosted asset storage is a follow-up before changing assets across production library releases. A lock/hash alone cannot prevent a remote URL's bytes from changing. The engine does not upgrade existing project source during follow-up edits.
 

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en" data-demo="mortgage-1">
+    <head>
+        <meta charset="UTF-8">
+        <script async src="../assets/js/entrance.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Calculators — Mortgage Broker — Draftmango</title>
+        <link rel="icon" href="../assets/media/logo/favicon.ico" sizes="32x32">
+        <link rel="icon" href="../assets/media/logo/draftmango-mark.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="../assets/media/logo/apple-touch-icon.png">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="../assets/css/icons.css">
+        <link rel="stylesheet" href="../assets/css/app.css">
+        <link rel="stylesheet" href="../assets/css/vendor.css">
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400..800;1,400..800&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" data-theme-fonts>
+        <link rel="stylesheet" href="../assets/css/demos/demo-mortgage-1.css">
+        <link rel="stylesheet" href="../assets/css/themes/demo-mortgage-1.css" data-theme-file>
+        <link rel="stylesheet" href="../assets/css/custom.css">
+    </head>
+    <body>
+
+        <header class="site-header header-sidebar" data-header>
+
+            <!-- Main navbar -->
+            <nav class="navbar" role="navigation" aria-label="Main navigation">
+                <div class="navbar-inner">
+
+                    <!-- Brand -->
+                    <a href="demo-mortgage-1.html" class="brand">
+
+                        <img class="brand-logo" src="../assets/media/logo/draftmango-logo.svg" alt="Draftmango" width="120" height="32" style="--logo-tint: url(#logo-tint-header)">
+
+                        <svg class="brand-tint" aria-hidden="true" focusable="false">
+                            <filter id="logo-tint-header" color-interpolation-filters="sRGB">
+                                <feFlood flood-color="currentColor" />
+                                <feComposite in2="SourceAlpha" operator="in" />
+                            </filter>
+                        </svg>
+
+                    </a>
+
+                    <!-- Desktop navigation links -->
+                    <ul class="nav-links" role="list">
+
+                        <!-- Mortgage 1 menu - the <li> items of .js), Mortgages opens as its accordion sub-list. Edit: the links (the Mortgages sub-items after All Mortgages are anchors on the Mortgages page, First-Time Buyers has its own page) -->
+                        <li>
+                            <a href="demo-mortgage-1.html" class="nav-link">Home</a>
+                        </li>
+
+                        <li class="nav-cascade">
+                            <button class="nav-link">
+                                Mortgages
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="cascade-panel">
+                                <a href="demo-mortgage-1-mortgages.html" class="cascade-item">All Mortgages</a>
+                                <a href="demo-mortgage-1-mortgage.html" class="cascade-item">First-Time Buyers</a>
+                                <a href="demo-mortgage-1-mortgages.html#moving-home" class="cascade-item">Moving Home</a>
+                                <a href="demo-mortgage-1-mortgages.html#remortgage" class="cascade-item">Remortgage</a>
+                                <a href="demo-mortgage-1-mortgages.html#buy-to-let" class="cascade-item">Buy-to-Let</a>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="demo-mortgage-1-rates.html" class="nav-link">Today’s Rates</a>
+                        </li>
+
+                        <li>
+                            <a href="demo-mortgage-1-calculators.html" class="nav-link active">Calculators</a>
+                        </li>
+
+                        <li>
+                            <a href="demo-mortgage-1-how-it-works.html" class="nav-link">How It Works</a>
+                        </li>
+
+                        <li>
+                            <a href="demo-mortgage-1-reviews.html" class="nav-link">Reviews</a>
+                        </li>
+
+                        <li>
+                            <a href="demo-mortgage-1-guides.html" class="nav-link">Guides</a>
+                        </li>
+
+                        <li>
+                            <a href="demo-mortgage-1-about.html" class="nav-link">About</a>
+                        </li>
+
+                        <li>
+                            <a href="demo-mortgage-1-contact.html" class="nav-link">Contact</a>
+                        </li>
+
+                    </ul>
+
+                    <!-- Right-side actions -->
+                    <div class="nav-actions">
+
+                        <!-- Meta group - display:contents by default; header-stacked turns it into its own row. -->
+                        <div class="nav-meta">
+
+                        </div><!-- /.nav-meta -->
+
+                        <!-- Mortgage 1 header action - Book a Free Call in the bar below 1024px (the sidebar foot carries it above) -->
+                        <a href="demo-mortgage-1-contact.html" class="btn btn-primary custom-nav-action px-4.5 max-[30rem]:py-2 max-[30rem]:px-3.5 max-[30rem]:min-h-10 max-[30rem]:text-[0.9375rem]">Book a Free Call</a>
+
+                        <!-- Menu toggle - mobile hamburger below 1024px; also the close button on header-overlay-menu / header-side-drawer -->
+                        <button class="hamburger" data-toggle aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation menu">
+                            <i class="ph ph-list text-xl nav-toggle-open" aria-hidden="true"></i>
+                            <i class="ph ph-x text-xl nav-toggle-close" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Navigation panel - links are auto-generated by initMobileSync() in main.js -->
+                <!-- data-lenis-prevent: opts this scroll container out of Lenis smooth scrolling -->
+                <div id="mobile-nav" class="mobile-nav" data-mobile-nav data-lenis-prevent role="dialog" aria-modal="true" aria-label="Site navigation">
+
+                    <!-- Menu column - the scroll container -->
+                    <div class="nav-panel-menu">
+
+                        <!-- JS target: desktop nav items are injected here -->
+                        <div data-mobile-links></div>
+
+                        <!-- Mobile-only items: add or remove <a> elements here freely -->
+                        <!-- <a href="#" class="mobile-link" data-mobile-only>Exclusive Item</a> -->
+
+                        <!-- Mortgage 1 menu panel CTA - empty on purpose: Book a Free Call sits in the sidebar foot (_sidebar-foot.html), which the phone panel shows too -->
+
+                    </div>
+
+                    <!--css .sidebar-foot). Edit: the rate card (rate, APRC, date), the call action, the phone, the social links -->
+                    <div class="nav-panel-foot sidebar-foot">
+                        <div class="custom-side-rate relative isolate overflow-clip pt-4 pb-5.5 px-4.5 rounded-lg bg-(--custom-slab) text-(--custom-on-slab-soft)">
+                            <p class="text-[0.9375rem] font-medium text-(--custom-on-slab-soft)">5-year fix from</p>
+                            <p class="custom-side-rate-figure mt-0.5 font-heading text-[2.5rem] font-bold leading-[1] tracking-[-0.045em] lining-nums tabular-nums text-(--color-primary)">3.89<span class="ms-[0.04em] text-[0.5em] tracking-[0]">%</span></p>
+                            <p class="mt-2 text-[0.9375rem] leading-[1.4] text-(--custom-on-slab-soft)">APRC 4.6% · rates as at 30 Jun 2026</p>
+                            <svg class="custom-roofline custom-side-rate-roof" viewBox="0 0 1600 96" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+                                <path d="M0,95 L0,47 L45,23.4 L90,47 L90,49 L108,39.7 L108,27 L115,27 L115,36.1 L128.5,29.1 L167,49 L167,46 L181,30 L263,30 L277,46 L277,37 L296,37 L296,25 L303,25 L303,37 L356,37 L356,53 L381,39.9 L381,31 L388,31 L388,36.2 L401,29.4 L446,53 L446,48 L492.5,23.8 L539,48 L539,40 L556,31.2 L556,18 L563,18 L563,27.5 L572.5,22.6 L606,40 L606,40 L620,24 L679,24 L693,40 L693,41 L722,41 L722,29 L729,29 L729,41 L779,41 L779,39 L815.5,19.7 L852,39 L852,47 L890,27.1 L928,47 L928,43 L964,24.4 L1000,43 L1000,56 L1014,40 L1026,40 L1026,34 L1033,34 L1033,40 L1068,40 L1082,56 L1082,43 L1192,43 L1192,50 L1239.5,25.2 L1242,26.5 L1242,28 L1249,28 L1249,30.2 L1287,50 L1287,53 L1304,44.1 L1304,31 L1311,31 L1311,40.4 L1322.5,34.4 L1358,53 L1358,50 L1391,32.6 L1393,33.7 L1393,28 L1400,28 L1400,37.3 L1424,50 L1424,51 L1438,35 L1524,35 L1538,51 L1538,43 L1576,43 L1576,31 L1583,31 L1583,43 L1600,43 L1600,95 Z M90,47 V95 M167,49 V95 M277,46 V95 M356,43 V95 M446,53 V95 M539,48 V95 M606,40 V95 M693,40 V95 M779,47 V95 M852,39 V95 M928,47 V95 M1000,43 V95 M1082,56 V95 M1192,49 V95 M1287,50 V95 M1358,53 V95 M1424,50 V95 M1538,51 V95 M1600,49 V95 M16,95 V77 H26 V95 M47,81 h14 v10 h-14 Z M47,55 h14 v10 h-14 Z M14,55 h14 v10 h-14 Z M104,95 V77 H114 V95 M130,81 h14 v10 h-14 Z M130,57 h14 v10 h-14 Z M102,57 h14 v10 h-14 Z M187,95 V77 H197 V95 M224,81 h14 v10 h-14 Z M224,54 h14 v10 h-14 Z M185,54 h14 v10 h-14 Z M291,95 V77 H301 V95 M318,81 h14 v10 h-14 Z M318,51 h14 v10 h-14 Z M289,51 h14 v10 h-14 Z M372,95 V77 H382 V95 M403,81 h14 v10 h-14 Z M403,61 h14 v10 h-14 Z M370,61 h14 v10 h-14 Z M463,95 V77 H473 V95 M494,81 h14 v10 h-14 Z M494,56 h14 v10 h-14 Z M461,56 h14 v10 h-14 Z M551,95 V77 H561 V95 M574,81 h14 v10 h-14 Z M574,48 h14 v10 h-14 Z M549,48 h14 v10 h-14 Z M622,95 V77 H632 V95 M651,81 h14 v10 h-14 Z M651,48 h14 v10 h-14 Z M620,48 h14 v10 h-14 Z M708,95 V77 H718 V95 M738,81 h14 v10 h-14 Z M738,55 h14 v10 h-14 Z M706,55 h14 v10 h-14 Z M792,95 V77 H802 V95 M817,81 h14 v10 h-14 Z M817,47 h14 v10 h-14 Z M790,47 h14 v10 h-14 Z M866,95 V77 H876 V95 M892,81 h14 v10 h-14 Z M892,55 h14 v10 h-14 Z M864,55 h14 v10 h-14 Z M941,95 V77 H951 V95 M965,81 h14 v10 h-14 Z M965,51 h14 v10 h-14 Z M939,51 h14 v10 h-14 Z M1015,95 V77 H1025 V95 M1043,81 h14 v10 h-14 Z M1043,64 h14 v10 h-14 Z M1013,64 h14 v10 h-14 Z M1102,95 V77 H1112 V95 M1139,81 h14 v10 h-14 Z M1139,57 h14 v10 h-14 Z M1100,57 h14 v10 h-14 Z M1209,95 V77 H1219 V95 M1241,81 h14 v10 h-14 Z M1241,58 h14 v10 h-14 Z M1207,58 h14 v10 h-14 Z M1300,95 V77 H1310 V95 M1324,81 h14 v10 h-14 Z M1324,61 h14 v10 h-14 Z M1298,61 h14 v10 h-14 Z M1370,95 V77 H1380 V95 M1392,81 h14 v10 h-14 Z M1392,58 h14 v10 h-14 Z M1368,58 h14 v10 h-14 Z M1445,95 V77 H1455 V95 M1483,81 h14 v10 h-14 Z M1483,59 h14 v10 h-14 Z M1443,59 h14 v10 h-14 Z M1554,95 V77 H1564 V95 M1585,81 h14 v10 h-14 Z M1585,57 h14 v10 h-14 Z M1552,57 h14 v10 h-14 Z" />
+                            </svg>
+                        </div>
+                        <a href="demo-mortgage-1-contact.html" class="btn btn-primary w-full">Book a Free Call</a>
+                        <div class="sidebar-foot-bar">
+                            <a href="tel:+441614960520" class="custom-side-phone inline-flex whitespace-nowrap items-center gap-2 font-semibold tabular-nums"><i class="ph ph-phone text-(--custom-accent)" aria-hidden="true"></i>0161 496 0520</a>
+                            <ul class="social-list" role="list">
+                                <li>
+                                    <a href="#" aria-label="Instagram" data-social="instagram" class="social-link social-link--sm">
+                                        <i class="ph ph-instagram-logo"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" aria-label="Facebook" data-social="facebook" class="social-link social-link--sm">
+                                        <i class="ph ph-facebook-logo"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" aria-label="LinkedIn" data-social="linkedin" class="social-link social-link--sm">
+                                        <i class="ph ph-linkedin-logo"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+            </nav>
+
+        </header>
+
+        <main>
+            <!-- Mortgage 1 page header - the inner pages' opening on the warm white: crumbs, the two-tone title like the Home's, a lead and an optional chip / call row, then one of three frames. Params: phCrumb (this page); optional phTrail + phHref (a parent crumb); phTitle (the bold words) + optional phSoft (the softer second line); optional phChip (the pill above the title, HTML allowed); optional phLead; optional phCall "yes" (Book a Free Call + the phone); phFrame "gable" (phImg in the house frame beside the copy, optional phTag = the key chip's text), "wide" (phImg as a wide rounded photo under the copy) or none (the terrace street along the foot); phImg, phAlt, phPos (object-position) -->
+            <section id="mg-page-head" class="custom-section custom-ph custom-ph--plain relative isolate overflow-clip pt-[clamp(2rem,1rem_+_3vw,3.75rem)]" aria-labelledby="mg-page-title">
+                <div class="glow-field" aria-hidden="true">
+                    <div class="glow glow-soft -top-32 -right-48" style="--glow-opacity: .24"></div>
+                </div>
+
+                <svg class="custom-roofline custom-ph-roof" viewBox="0 0 1600 96" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+                    <path d="M0,95 L0,47 L45,23.4 L90,47 L90,49 L108,39.7 L108,27 L115,27 L115,36.1 L128.5,29.1 L167,49 L167,46 L181,30 L263,30 L277,46 L277,37 L296,37 L296,25 L303,25 L303,37 L356,37 L356,53 L381,39.9 L381,31 L388,31 L388,36.2 L401,29.4 L446,53 L446,48 L492.5,23.8 L539,48 L539,40 L556,31.2 L556,18 L563,18 L563,27.5 L572.5,22.6 L606,40 L606,40 L620,24 L679,24 L693,40 L693,41 L722,41 L722,29 L729,29 L729,41 L779,41 L779,39 L815.5,19.7 L852,39 L852,47 L890,27.1 L928,47 L928,43 L964,24.4 L1000,43 L1000,56 L1014,40 L1026,40 L1026,34 L1033,34 L1033,40 L1068,40 L1082,56 L1082,43 L1192,43 L1192,50 L1239.5,25.2 L1242,26.5 L1242,28 L1249,28 L1249,30.2 L1287,50 L1287,53 L1304,44.1 L1304,31 L1311,31 L1311,40.4 L1322.5,34.4 L1358,53 L1358,50 L1391,32.6 L1393,33.7 L1393,28 L1400,28 L1400,37.3 L1424,50 L1424,51 L1438,35 L1524,35 L1538,51 L1538,43 L1576,43 L1576,31 L1583,31 L1583,43 L1600,43 L1600,95 Z M90,47 V95 M167,49 V95 M277,46 V95 M356,43 V95 M446,53 V95 M539,48 V95 M606,40 V95 M693,40 V95 M779,47 V95 M852,39 V95 M928,47 V95 M1000,43 V95 M1082,56 V95 M1192,49 V95 M1287,50 V95 M1358,53 V95 M1424,50 V95 M1538,51 V95 M1600,49 V95 M16,95 V77 H26 V95 M47,81 h14 v10 h-14 Z M47,55 h14 v10 h-14 Z M14,55 h14 v10 h-14 Z M104,95 V77 H114 V95 M130,81 h14 v10 h-14 Z M130,57 h14 v10 h-14 Z M102,57 h14 v10 h-14 Z M187,95 V77 H197 V95 M224,81 h14 v10 h-14 Z M224,54 h14 v10 h-14 Z M185,54 h14 v10 h-14 Z M291,95 V77 H301 V95 M318,81 h14 v10 h-14 Z M318,51 h14 v10 h-14 Z M289,51 h14 v10 h-14 Z M372,95 V77 H382 V95 M403,81 h14 v10 h-14 Z M403,61 h14 v10 h-14 Z M370,61 h14 v10 h-14 Z M463,95 V77 H473 V95 M494,81 h14 v10 h-14 Z M494,56 h14 v10 h-14 Z M461,56 h14 v10 h-14 Z M551,95 V77 H561 V95 M574,81 h14 v10 h-14 Z M574,48 h14 v10 h-14 Z M549,48 h14 v10 h-14 Z M622,95 V77 H632 V95 M651,81 h14 v10 h-14 Z M651,48 h14 v10 h-14 Z M620,48 h14 v10 h-14 Z M708,95 V77 H718 V95 M738,81 h14 v10 h-14 Z M738,55 h14 v10 h-14 Z M706,55 h14 v10 h-14 Z M792,95 V77 H802 V95 M817,81 h14 v10 h-14 Z M817,47 h14 v10 h-14 Z M790,47 h14 v10 h-14 Z M866,95 V77 H876 V95 M892,81 h14 v10 h-14 Z M892,55 h14 v10 h-14 Z M864,55 h14 v10 h-14 Z M941,95 V77 H951 V95 M965,81 h14 v10 h-14 Z M965,51 h14 v10 h-14 Z M939,51 h14 v10 h-14 Z M1015,95 V77 H1025 V95 M1043,81 h14 v10 h-14 Z M1043,64 h14 v10 h-14 Z M1013,64 h14 v10 h-14 Z M1102,95 V77 H1112 V95 M1139,81 h14 v10 h-14 Z M1139,57 h14 v10 h-14 Z M1100,57 h14 v10 h-14 Z M1209,95 V77 H1219 V95 M1241,81 h14 v10 h-14 Z M1241,58 h14 v10 h-14 Z M1207,58 h14 v10 h-14 Z M1300,95 V77 H1310 V95 M1324,81 h14 v10 h-14 Z M1324,61 h14 v10 h-14 Z M1298,61 h14 v10 h-14 Z M1370,95 V77 H1380 V95 M1392,81 h14 v10 h-14 Z M1392,58 h14 v10 h-14 Z M1368,58 h14 v10 h-14 Z M1445,95 V77 H1455 V95 M1483,81 h14 v10 h-14 Z M1483,59 h14 v10 h-14 Z M1443,59 h14 v10 h-14 Z M1554,95 V77 H1564 V95 M1585,81 h14 v10 h-14 Z M1585,57 h14 v10 h-14 Z M1552,57 h14 v10 h-14 Z" />
+                </svg>
+
+                <div class="container @container">
+                    <div class="custom-ph-grid grid">
+                        <div>
+                            <nav class="custom-ph-crumb" aria-label="Breadcrumb" data-anim="fade-up">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="demo-mortgage-1.html">Home</a></li>
+                                    <li class="breadcrumb-item" aria-current="page">Calculators</li>
+                                </ol>
+                            </nav>
+
+                            <p class="custom-hero-chip custom-ph-chip mt-6" data-anim="fade-up" data-anim-delay="60"><span class="custom-hero-chip-dot size-2 rounded-full bg-(--custom-primary)" aria-hidden="true"></span>Illustrative figures · No credit check</p>
+
+                            <h1 id="mg-page-title" class="custom-ph-title" data-anim="fade-up" data-anim-delay="100" data-anim-duration="1100">Run the numbers, <span class="custom-ph-soft block font-medium">then run them past us.</span></h1>
+
+                            <p class="max-w-132 mt-[clamp(1.25rem,1rem_+_0.8vw,1.625rem)] font-heading text-[clamp(1.125rem,1.05rem_+_0.3vw,1.3125rem)] font-medium leading-[1.5] text-soft text-pretty" data-anim="fade-up" data-anim-delay="200">Three quick sums: what you could borrow, what you’d repay each month and the stamp duty on the price. Nothing is saved or shared.</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- BORROWING - the Home's calculator with its four intents (label, defaults on each intent; 4.5× income). Edit: the title, the lead, the intents, the ranges and default figures (keep value and the static output equal) -->
+            <section id="borrowing" class="custom-section custom-cl-borrow" aria-labelledby="mg-cl-borrow-title">
+                <div class="container custom-calc-split grid grid-cols-1 gap-0 xl:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] xl:gap-x-[clamp(3rem,5vw,5rem)] xl:items-center">
+                    <div class="custom-head" data-anim="fade-up">
+                        <span class="eyebrow">Borrowing</span>
+                        <h2 id="mg-cl-borrow-title" class="custom-title">How much could you borrow?</h2>
+                        <p class="custom-lead">Lenders usually start at four and a half times household income. Some go further for higher earners and certain professions.</p>
+                    </div>
+
+                    <div class="@container" data-anim="fade-up" data-anim-delay="120">
+                        <form class="mt-[clamp(1.75rem,1.25rem_+_1.5vw,2.5rem)]" x-data="{
+                            intent: 'first',
+                            intents: {
+                                first:  { income: 74750, deposit: 60000, depositLabel: 'Your deposit', priceLabel: 'Property up to' },
+                                moving: { income: 92000, deposit: 140000, depositLabel: 'Equity and savings', priceLabel: 'Next home up to' },
+                                remo:   { income: 68000, deposit: 120000, depositLabel: 'Equity in your home', priceLabel: 'Covers a home worth up to' },
+                                btl:    { income: 85000, deposit: 75000, depositLabel: 'Your deposit (25% min.)', priceLabel: 'Purchase price up to' }
+                            },
+                            income: 74750,
+                            deposit: 60000,
+                            pick(key) { this.intent = key; this.income = this.intents[key].income; this.deposit = this.intents[key].deposit },
+                            gbp(n) { return '£' + Math.round(n).toLocaleString('en-GB') },
+                            get borrow() { return Math.floor(this.income * 4.5 / 1000) * 1000 },
+                            get price() { return this.borrow + this.deposit }
+                        }" @submit.prevent>
+                            <fieldset class="custom-calc-intents flex-wrap gap-1.5 mb-3.5 border-0 border-none">
+                                <legend class="sr-only">What are you planning?</legend>
+                                <label class="option-pill"><input type="radio" name="mg-cl-intent" value="first" checked @change="pick('first')"><span class="w-full justify-center">Buying My First Home</span></label>
+                                <label class="option-pill"><input type="radio" name="mg-cl-intent" value="moving" @change="pick('moving')"><span class="w-full justify-center">Moving Home</span></label>
+                                <label class="option-pill"><input type="radio" name="mg-cl-intent" value="remo" @change="pick('remo')"><span class="w-full justify-center">Remortgaging</span></label>
+                                <label class="option-pill"><input type="radio" name="mg-cl-intent" value="btl" @change="pick('btl')"><span class="w-full justify-center">Buy-to-Let</span></label>
+                            </fieldset>
+                            <div class="custom-calc-card">
+                                <div class="custom-calc-inputs">
+                                    <div class="custom-calc-field">
+                                        <label class="text-[0.9375rem] font-medium text-soft" for="mg-cl-income">Household income</label>
+                                        <output for="mg-cl-income" x-text="gbp(income)">£74,750</output>
+                                        <input id="mg-cl-income" type="range" class="form-range col-span-full" min="20000" max="250000" step="250" value="74750" x-model.number="income">
+                                    </div>
+                                    <div class="custom-calc-field">
+                                        <label class="text-[0.9375rem] font-medium text-soft" for="mg-cl-deposit" x-text="intents[intent].depositLabel">Your deposit</label>
+                                        <output for="mg-cl-deposit" x-text="gbp(deposit)">£60,000</output>
+                                        <input id="mg-cl-deposit" type="range" class="form-range col-span-full" min="5000" max="300000" step="1000" value="60000" x-model.number="deposit">
+                                    </div>
+                                </div>
+                                <div class="custom-calc-result" aria-live="polite">
+                                    <p class="custom-calc-label text-[0.9375rem] font-medium">You could borrow up to</p>
+                                    <p class="custom-calc-figure" x-text="gbp(borrow)">£336,000</p>
+                                    <p class="custom-calc-price mt-1"><span x-text="intents[intent].priceLabel">Property up to</span> <strong class="font-bold tabular-nums text-text" x-text="gbp(price)">£396,000</strong></p>
+                                    <a href="demo-mortgage-1-contact.html" class="btn btn-primary w-full mt-4">Get a Decision in Principle</a>
+                                    <p class="custom-calc-note"><i class="ph ph-shield-check text-[1.0625rem]" aria-hidden="true"></i>No impact on your credit score</p>
+                                </div>
+                            </div>
+                            <p class="custom-small max-w-144 mt-4">Illustrative, at 4.5× income. <strong>Your home may be repossessed if you do not keep up repayments on your mortgage.</strong></p>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- REPAYMENTS - loan, rate and term with a repayment / interest-only switch (pay() is the standard annuity sum). Edit: the title, the lead, the ranges and default figures (keep value and the static output equal) -->
+            <section id="repayments" class="custom-section custom-cl-pay" aria-labelledby="mg-cl-pay-title">
+                <div class="container">
+                    <div class="custom-head" data-anim="fade-up">
+                        <span class="eyebrow">Repayments</span>
+                        <h2 id="mg-cl-pay-title" class="custom-title max-w-[20ch]">What would you pay each month?</h2>
+                    </div>
+                    <div class="custom-calcs-card md:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]" x-data="{
+                        loan: 250000, rate: 4.25, years: 25, mode: 'repay',
+                        gbp(n, d = 0) { return '£' + n.toLocaleString('en-GB', { minimumFractionDigits: d, maximumFractionDigits: d }) },
+                        get monthly() { const r = this.rate / 1200, n = this.years * 12; return this.mode === 'interest' ? this.loan * r : (r ? this.loan * r / (1 - (1 + r) ** -n) : this.loan / n) },
+                        get interest() { return this.mode === 'interest' ? this.monthly * this.years * 12 : this.monthly * this.years * 12 - this.loan }
+                    }" data-anim="fade-up" data-anim-delay="100">
+                        <div class="custom-calcs-inputs grid content-center gap-7 p-[clamp(1.25rem,1rem_+_1.5vw,2.5rem)]">
+                            <fieldset class="custom-filters">
+                                <legend class="sr-only">Mortgage type</legend>
+                                <label class="option-pill"><input type="radio" name="mg-cl-mode" value="repay" checked @change="mode = 'repay'"><span>Repayment</span></label>
+                                <label class="option-pill"><input type="radio" name="mg-cl-mode" value="interest" @change="mode = 'interest'"><span>Interest Only</span></label>
+                            </fieldset>
+                            <div class="custom-calc-field">
+                                <label class="text-[0.9375rem] font-medium text-soft" for="mg-cl-loan">Mortgage amount</label>
+                                <output for="mg-cl-loan" x-text="gbp(loan)">£250,000</output>
+                                <input id="mg-cl-loan" type="range" class="form-range col-span-full" min="50000" max="1000000" step="5000" value="250000" x-model.number="loan">
+                            </div>
+                            <div class="custom-calc-field">
+                                <label class="text-[0.9375rem] font-medium text-soft" for="mg-cl-rate">Interest rate</label>
+                                <output for="mg-cl-rate" x-text="rate.toFixed(2) + '%'">4.25%</output>
+                                <input id="mg-cl-rate" type="range" class="form-range col-span-full" min="1" max="9" step="0.05" value="4.25" x-model.number="rate">
+                            </div>
+                            <div class="custom-calc-field">
+                                <label class="text-[0.9375rem] font-medium text-soft" for="mg-cl-years">Term</label>
+                                <output for="mg-cl-years" x-text="years + ' years'">25 years</output>
+                                <input id="mg-cl-years" type="range" class="form-range col-span-full" min="5" max="40" step="1" value="25" x-model.number="years">
+                            </div>
+                        </div>
+                        <div class="custom-calcs-result" aria-live="polite">
+                            <p class="custom-calc-label text-[0.9375rem] font-medium">Your monthly payment</p>
+                            <p class="custom-calcs-figure" x-text="gbp(monthly, 2)">£1,354.35</p>
+                            <dl class="custom-calcs-meta">
+                                <div>
+                                    <dt class="text-[0.9375rem]">Total interest</dt>
+                                    <dd x-text="gbp(interest)">£156,304</dd>
+                                </div>
+                                <div>
+                                    <dt class="text-[0.9375rem]">Still owed at the end</dt>
+                                    <dd x-text="mode === 'interest' ? gbp(loan) : '£0'">£0</dd>
+                                </div>
+                            </dl>
+                            <a href="demo-mortgage-1-contact.html" class="btn btn-dark custom-calcs-cta mt-7">Talk It Through</a>
+                        </div>
+                    </div>
+                    <p class="custom-small max-w-192 mt-4">Illustrative: the rate is assumed fixed for the whole term. <strong>Your home may be repossessed if you do not keep up repayments on your mortgage.</strong></p>
+                </div>
+            </section>
+
+            <!-- STAMP DUTY - price and buyer type (sdlt(): England and Northern Ireland bands, first-time buyer relief to £500,000, a 5% surcharge on additional homes), the bands listed beside. Edit: the title, the bands in sdlt() and in the list, the range -->
+            <section id="stamp-duty" class="custom-section custom-cl-sdlt" aria-labelledby="mg-cl-sdlt-title">
+                <div class="container">
+                    <div class="custom-head" data-anim="fade-up">
+                        <span class="eyebrow">Stamp Duty</span>
+                        <h2 id="mg-cl-sdlt-title" class="custom-title max-w-[20ch]">What’s the tax on the price?</h2>
+                    </div>
+                    <div class="custom-calcs-card md:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]" x-data="{
+                        price: 350000, buyer: 'mover',
+                        gbp(n) { return '£' + Math.round(n).toLocaleString('en-GB') },
+                        get tax() {
+                            const p = this.price
+                            if (this.buyer === 'first' && p <= 500000) return Math.max(0, p - 300000) * 0.05
+                            const bands = [[125000, 0], [250000, 0.02], [925000, 0.05], [1500000, 0.1], [Infinity, 0.12]]
+                            let tax = 0, from = 0
+                            for (const [to, r] of bands) { if (p > from) tax += (Math.min(p, to) - from) * r; from = to }
+                            return tax + (this.buyer === 'extra' ? p * 0.05 : 0)
+                        }
+                    }" data-anim="fade-up" data-anim-delay="100">
+                        <div class="custom-calcs-inputs grid content-center gap-7 p-[clamp(1.25rem,1rem_+_1.5vw,2.5rem)]">
+                            <fieldset class="custom-filters">
+                                <legend class="sr-only">Buying as</legend>
+                                <label class="option-pill"><input type="radio" name="mg-cl-buyer" value="first" @change="buyer = 'first'"><span>First-Time Buyer</span></label>
+                                <label class="option-pill"><input type="radio" name="mg-cl-buyer" value="mover" checked @change="buyer = 'mover'"><span>Home Mover</span></label>
+                                <label class="option-pill"><input type="radio" name="mg-cl-buyer" value="extra" @change="buyer = 'extra'"><span>Additional Home</span></label>
+                            </fieldset>
+                            <div class="custom-calc-field">
+                                <label class="text-[0.9375rem] font-medium text-soft" for="mg-cl-price">Purchase price</label>
+                                <output for="mg-cl-price" x-text="gbp(price)">£350,000</output>
+                                <input id="mg-cl-price" type="range" class="form-range col-span-full" min="100000" max="1500000" step="5000" value="350000" x-model.number="price">
+                            </div>
+                            <dl class="custom-cl-bands grid">
+                                <div>
+                                    <dt class="text-soft">Up to £125,000</dt>
+                                    <dd class="font-semibold tabular-nums">0%</dd>
+                                </div>
+                                <div>
+                                    <dt class="text-soft">£125,001 – £250,000</dt>
+                                    <dd class="font-semibold tabular-nums">2%</dd>
+                                </div>
+                                <div>
+                                    <dt class="text-soft">£250,001 – £925,000</dt>
+                                    <dd class="font-semibold tabular-nums">5%</dd>
+                                </div>
+                                <div>
+                                    <dt class="text-soft">£925,001 – £1.5m</dt>
+                                    <dd class="font-semibold tabular-nums">10%</dd>
+                                </div>
+                                <div>
+                                    <dt class="text-soft">Above £1.5m</dt>
+                                    <dd class="font-semibold tabular-nums">12%</dd>
+                                </div>
+                            </dl>
+                        </div>
+                        <div class="custom-calcs-result" aria-live="polite">
+                            <p class="custom-calc-label text-[0.9375rem] font-medium">Stamp duty to pay</p>
+                            <p class="custom-calcs-figure" x-text="gbp(tax)">£7,500</p>
+                            <dl class="custom-calcs-meta">
+                                <div>
+                                    <dt class="text-[0.9375rem]">Effective rate</dt>
+                                    <dd x-text="(tax / price * 100).toFixed(1) + '%'">2.1%</dd>
+                                </div>
+                                <div>
+                                    <dt class="text-[0.9375rem]">Due within</dt>
+                                    <dd>14 days</dd>
+                                </div>
+                            </dl>
+                            <a href="demo-mortgage-1-contact.html" class="btn btn-dark custom-calcs-cta mt-7">Talk It Through</a>
+                        </div>
+                    </div>
+                    <p class="custom-small max-w-192 mt-4">Illustrative: England and Northern Ireland, 2026 rates. First-time buyers pay nothing up to £300,000 and 5% on the rest up to £500,000; additional homes pay 5% more on every band.</p>
+                </div>
+            </section>
+
+            <!-- NEXT STEP - an adviser at a table beside why the sums are a starting point. Edit: the photo (src, alt), the title, the text, the checks, the link -->
+            <section id="mg-cl-next" class="custom-section" aria-labelledby="mg-cl-next-title">
+                <div class="container">
+                    <div class="custom-split grid items-center">
+                        <figure class="custom-split-media" style="--custom-photo-pos: 45% 70%" data-anim="fade"><img src="../assets/media/placeholder/1400x1050.svg" alt="An adviser and a young couple going through the figures on a laptop at a long table" width="1400" height="1050" loading="lazy" decoding="async"></figure>
+                        <div class="max-w-128" data-anim="fade-up">
+                            <h2 id="mg-cl-next-title" class="custom-split-title">A calculator gives you a number. We give you a plan.</h2>
+                            <p class="custom-split-text">Lenders look at more than income: your outgoings, your credit file, the property itself. An adviser turns the sums above into a figure a lender will stand behind.</p>
+                            <ul class="custom-checks" role="list">
+                                <li>Your real borrowing range, across 90+ lenders</li>
+                                <li>Fees and costs added up before you offer</li>
+                                <li>No credit check until you say go</li>
+                            </ul>
+                            <a href="demo-mortgage-1-how-it-works.html" class="btn btn-primary mt-7">How It Works</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mortgage 1 book a call - the Home's lime panel as the inner pages' closing section. Params: optional bkTitle, bkLine (else the Home's words). Edit: the button, the phone, the hours, the avatars and who is free -->
+            <section id="mg-book" class="custom-section" aria-labelledby="mg-book-title">
+                <div class="container">
+                    <div class="custom-book-panel lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:[align-items:end] lg:gap-x-16" data-anim="fade-up">
+                        <svg class="custom-roofline custom-book-roof" viewBox="0 0 1600 96" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+                            <path d="M0,95 L0,47 L45,23.4 L90,47 L90,49 L108,39.7 L108,27 L115,27 L115,36.1 L128.5,29.1 L167,49 L167,46 L181,30 L263,30 L277,46 L277,37 L296,37 L296,25 L303,25 L303,37 L356,37 L356,53 L381,39.9 L381,31 L388,31 L388,36.2 L401,29.4 L446,53 L446,48 L492.5,23.8 L539,48 L539,40 L556,31.2 L556,18 L563,18 L563,27.5 L572.5,22.6 L606,40 L606,40 L620,24 L679,24 L693,40 L693,41 L722,41 L722,29 L729,29 L729,41 L779,41 L779,39 L815.5,19.7 L852,39 L852,47 L890,27.1 L928,47 L928,43 L964,24.4 L1000,43 L1000,56 L1014,40 L1026,40 L1026,34 L1033,34 L1033,40 L1068,40 L1082,56 L1082,43 L1192,43 L1192,50 L1239.5,25.2 L1242,26.5 L1242,28 L1249,28 L1249,30.2 L1287,50 L1287,53 L1304,44.1 L1304,31 L1311,31 L1311,40.4 L1322.5,34.4 L1358,53 L1358,50 L1391,32.6 L1393,33.7 L1393,28 L1400,28 L1400,37.3 L1424,50 L1424,51 L1438,35 L1524,35 L1538,51 L1538,43 L1576,43 L1576,31 L1583,31 L1583,43 L1600,43 L1600,95 Z M90,47 V95 M167,49 V95 M277,46 V95 M356,43 V95 M446,53 V95 M539,48 V95 M606,40 V95 M693,40 V95 M779,47 V95 M852,39 V95 M928,47 V95 M1000,43 V95 M1082,56 V95 M1192,49 V95 M1287,50 V95 M1358,53 V95 M1424,50 V95 M1538,51 V95 M1600,49 V95 M16,95 V77 H26 V95 M47,81 h14 v10 h-14 Z M47,55 h14 v10 h-14 Z M14,55 h14 v10 h-14 Z M104,95 V77 H114 V95 M130,81 h14 v10 h-14 Z M130,57 h14 v10 h-14 Z M102,57 h14 v10 h-14 Z M187,95 V77 H197 V95 M224,81 h14 v10 h-14 Z M224,54 h14 v10 h-14 Z M185,54 h14 v10 h-14 Z M291,95 V77 H301 V95 M318,81 h14 v10 h-14 Z M318,51 h14 v10 h-14 Z M289,51 h14 v10 h-14 Z M372,95 V77 H382 V95 M403,81 h14 v10 h-14 Z M403,61 h14 v10 h-14 Z M370,61 h14 v10 h-14 Z M463,95 V77 H473 V95 M494,81 h14 v10 h-14 Z M494,56 h14 v10 h-14 Z M461,56 h14 v10 h-14 Z M551,95 V77 H561 V95 M574,81 h14 v10 h-14 Z M574,48 h14 v10 h-14 Z M549,48 h14 v10 h-14 Z M622,95 V77 H632 V95 M651,81 h14 v10 h-14 Z M651,48 h14 v10 h-14 Z M620,48 h14 v10 h-14 Z M708,95 V77 H718 V95 M738,81 h14 v10 h-14 Z M738,55 h14 v10 h-14 Z M706,55 h14 v10 h-14 Z M792,95 V77 H802 V95 M817,81 h14 v10 h-14 Z M817,47 h14 v10 h-14 Z M790,47 h14 v10 h-14 Z M866,95 V77 H876 V95 M892,81 h14 v10 h-14 Z M892,55 h14 v10 h-14 Z M864,55 h14 v10 h-14 Z M941,95 V77 H951 V95 M965,81 h14 v10 h-14 Z M965,51 h14 v10 h-14 Z M939,51 h14 v10 h-14 Z M1015,95 V77 H1025 V95 M1043,81 h14 v10 h-14 Z M1043,64 h14 v10 h-14 Z M1013,64 h14 v10 h-14 Z M1102,95 V77 H1112 V95 M1139,81 h14 v10 h-14 Z M1139,57 h14 v10 h-14 Z M1100,57 h14 v10 h-14 Z M1209,95 V77 H1219 V95 M1241,81 h14 v10 h-14 Z M1241,58 h14 v10 h-14 Z M1207,58 h14 v10 h-14 Z M1300,95 V77 H1310 V95 M1324,81 h14 v10 h-14 Z M1324,61 h14 v10 h-14 Z M1298,61 h14 v10 h-14 Z M1370,95 V77 H1380 V95 M1392,81 h14 v10 h-14 Z M1392,58 h14 v10 h-14 Z M1368,58 h14 v10 h-14 Z M1445,95 V77 H1455 V95 M1483,81 h14 v10 h-14 Z M1483,59 h14 v10 h-14 Z M1443,59 h14 v10 h-14 Z M1554,95 V77 H1564 V95 M1585,81 h14 v10 h-14 Z M1585,57 h14 v10 h-14 Z M1552,57 h14 v10 h-14 Z" />
+                        </svg>
+                        <div>
+                            <h2 id="mg-book-title" class="text-[clamp(2.75rem,1.75rem_+_3.6vw,5rem)] font-bold leading-[1] tracking-[-0.045em] text-on-primary">Ready when you are.</h2>
+                            <p class="custom-book-line max-w-112 mt-5 font-heading text-[clamp(1.125rem,1.05rem_+_0.3vw,1.3125rem)] font-medium leading-[1.5]">A free, no-obligation call with a CeMAP-qualified adviser. Most calls take twenty minutes.</p>
+                        </div>
+                        <div class="grid justify-items-start gap-5">
+                            <p class="custom-book-team">
+                                <span class="custom-book-avatars flex" aria-hidden="true">
+                                    <img src="../assets/media/placeholder/800x1067.svg" alt="" width="800" height="1067" loading="lazy">
+                                    <img class="-ms-3" src="../assets/media/placeholder/800x1067.svg" alt="" width="800" height="1067" loading="lazy">
+                                    <img class="-ms-3" src="../assets/media/placeholder/800x1067.svg" alt="" width="800" height="1067" loading="lazy">
+                                </span>
+                                <span>Charlotte, Daniel and Sophie are free today</span>
+                            </p>
+                            <div class="flex flex-wrap items-center gap-y-4 gap-x-7">
+                                <a href="demo-mortgage-1-contact.html" class="btn btn-dark btn-lg">Book a Free Call</a>
+                                <a href="tel:+441614960520" class="custom-book-phone inline-flex items-center gap-2 font-heading text-[1.375rem] font-bold tracking-[-0.02em] tabular-nums text-inherit"><i class="ph-bold ph-phone" aria-hidden="true"></i>0161 496 0520</a>
+                            </div>
+                            <p class="text-[0.9375rem] font-medium">Mon–Fri 8am–8pm · Sat 9am–4pm</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Mortgage 1 footer - the template minimal footer on the forest ink: the terrace roofline across the top, the brand line and the call action, one link row, the regulatory block, the legal line. Edit: the line, the phone, the links, the regulatory text and representative example, the company details -->
+        <footer class="site-footer site-footer--dark footer-minimal custom-footer isolate">
+
+            <svg class="custom-roofline custom-footer-roof" viewBox="0 0 1600 96" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+                <path d="M0,95 L0,47 L45,23.4 L90,47 L90,49 L108,39.7 L108,27 L115,27 L115,36.1 L128.5,29.1 L167,49 L167,46 L181,30 L263,30 L277,46 L277,37 L296,37 L296,25 L303,25 L303,37 L356,37 L356,53 L381,39.9 L381,31 L388,31 L388,36.2 L401,29.4 L446,53 L446,48 L492.5,23.8 L539,48 L539,40 L556,31.2 L556,18 L563,18 L563,27.5 L572.5,22.6 L606,40 L606,40 L620,24 L679,24 L693,40 L693,41 L722,41 L722,29 L729,29 L729,41 L779,41 L779,39 L815.5,19.7 L852,39 L852,47 L890,27.1 L928,47 L928,43 L964,24.4 L1000,43 L1000,56 L1014,40 L1026,40 L1026,34 L1033,34 L1033,40 L1068,40 L1082,56 L1082,43 L1192,43 L1192,50 L1239.5,25.2 L1242,26.5 L1242,28 L1249,28 L1249,30.2 L1287,50 L1287,53 L1304,44.1 L1304,31 L1311,31 L1311,40.4 L1322.5,34.4 L1358,53 L1358,50 L1391,32.6 L1393,33.7 L1393,28 L1400,28 L1400,37.3 L1424,50 L1424,51 L1438,35 L1524,35 L1538,51 L1538,43 L1576,43 L1576,31 L1583,31 L1583,43 L1600,43 L1600,95 Z M90,47 V95 M167,49 V95 M277,46 V95 M356,43 V95 M446,53 V95 M539,48 V95 M606,40 V95 M693,40 V95 M779,47 V95 M852,39 V95 M928,47 V95 M1000,43 V95 M1082,56 V95 M1192,49 V95 M1287,50 V95 M1358,53 V95 M1424,50 V95 M1538,51 V95 M1600,49 V95 M16,95 V77 H26 V95 M47,81 h14 v10 h-14 Z M47,55 h14 v10 h-14 Z M14,55 h14 v10 h-14 Z M104,95 V77 H114 V95 M130,81 h14 v10 h-14 Z M130,57 h14 v10 h-14 Z M102,57 h14 v10 h-14 Z M187,95 V77 H197 V95 M224,81 h14 v10 h-14 Z M224,54 h14 v10 h-14 Z M185,54 h14 v10 h-14 Z M291,95 V77 H301 V95 M318,81 h14 v10 h-14 Z M318,51 h14 v10 h-14 Z M289,51 h14 v10 h-14 Z M372,95 V77 H382 V95 M403,81 h14 v10 h-14 Z M403,61 h14 v10 h-14 Z M370,61 h14 v10 h-14 Z M463,95 V77 H473 V95 M494,81 h14 v10 h-14 Z M494,56 h14 v10 h-14 Z M461,56 h14 v10 h-14 Z M551,95 V77 H561 V95 M574,81 h14 v10 h-14 Z M574,48 h14 v10 h-14 Z M549,48 h14 v10 h-14 Z M622,95 V77 H632 V95 M651,81 h14 v10 h-14 Z M651,48 h14 v10 h-14 Z M620,48 h14 v10 h-14 Z M708,95 V77 H718 V95 M738,81 h14 v10 h-14 Z M738,55 h14 v10 h-14 Z M706,55 h14 v10 h-14 Z M792,95 V77 H802 V95 M817,81 h14 v10 h-14 Z M817,47 h14 v10 h-14 Z M790,47 h14 v10 h-14 Z M866,95 V77 H876 V95 M892,81 h14 v10 h-14 Z M892,55 h14 v10 h-14 Z M864,55 h14 v10 h-14 Z M941,95 V77 H951 V95 M965,81 h14 v10 h-14 Z M965,51 h14 v10 h-14 Z M939,51 h14 v10 h-14 Z M1015,95 V77 H1025 V95 M1043,81 h14 v10 h-14 Z M1043,64 h14 v10 h-14 Z M1013,64 h14 v10 h-14 Z M1102,95 V77 H1112 V95 M1139,81 h14 v10 h-14 Z M1139,57 h14 v10 h-14 Z M1100,57 h14 v10 h-14 Z M1209,95 V77 H1219 V95 M1241,81 h14 v10 h-14 Z M1241,58 h14 v10 h-14 Z M1207,58 h14 v10 h-14 Z M1300,95 V77 H1310 V95 M1324,81 h14 v10 h-14 Z M1324,61 h14 v10 h-14 Z M1298,61 h14 v10 h-14 Z M1370,95 V77 H1380 V95 M1392,81 h14 v10 h-14 Z M1392,58 h14 v10 h-14 Z M1368,58 h14 v10 h-14 Z M1445,95 V77 H1455 V95 M1483,81 h14 v10 h-14 Z M1483,59 h14 v10 h-14 Z M1443,59 h14 v10 h-14 Z M1554,95 V77 H1564 V95 M1585,81 h14 v10 h-14 Z M1585,57 h14 v10 h-14 Z M1552,57 h14 v10 h-14 Z" />
+            </svg>
+
+            <div class="footer-main pt-[clamp(3.5rem,2.5rem_+_3vw,5.5rem)] pb-[clamp(2.5rem,2rem_+_2vw,3.5rem)]">
+                <div class="container">
+
+                    <div class="footer-minimal-row items-start gap-8 text-left md:items-end" data-anim="fade-up">
+                        <div>
+                            <a href="demo-mortgage-1.html" class="brand text-(--custom-on-slab)">
+
+                                <img class="brand-logo" src="../assets/media/logo/draftmango-logo.svg" alt="Draftmango" width="120" height="32" style="--logo-tint: url(#logo-tint-footer)">
+
+                                <svg class="brand-tint" aria-hidden="true" focusable="false">
+                                    <filter id="logo-tint-footer" color-interpolation-filters="sRGB">
+                                        <feFlood flood-color="currentColor" />
+                                        <feComposite in2="SourceAlpha" operator="in" />
+                                    </filter>
+                                </svg>
+                            </a>
+                            <p class="max-w-[22ch] mt-5 font-heading text-[clamp(1.5rem,1.2rem_+_1.1vw,2.125rem)] font-semibold leading-[1.15] tracking-[-0.025em] text-(--custom-on-slab) text-balance">Fee-free mortgage advice from people who pick up the phone.</p>
+                        </div>
+
+                        <div class="footer-detail footer-minimal-lead footer-minimal-lead--end custom-footer-call grid justify-items-start gap-1 md:justify-items-end">
+                            <span>Mon–Fri 8am–8pm · Sat 9am–4pm</span>
+                            <strong class="tabular-nums text-(--custom-on-slab)"><a href="tel:+441614960520">0161 496 0520</a></strong>
+                            <a href="demo-mortgage-1-contact.html" class="btn btn-primary btn-lg mt-4">Book a Free Call</a>
+                        </div>
+                    </div>
+
+                    <nav class="custom-footer-nav flex flex-wrap items-center justify-between gap-y-6 gap-x-8 mt-[clamp(2.5rem,2rem_+_2vw,3.5rem)] py-6" aria-label="Footer">
+                        <ul class="footer-nav gap-y-2 gap-x-7 font-medium" role="list">
+                            <li><a href="demo-mortgage-1-mortgages.html">Mortgages</a></li>
+                            <li><a href="demo-mortgage-1-rates.html">Rates</a></li>
+                            <li><a href="demo-mortgage-1-calculators.html">Calculators</a></li>
+                            <li><a href="demo-mortgage-1-guides.html">Guides</a></li>
+                            <li><a href="demo-mortgage-1-about.html">About</a></li>
+                            <li><a href="demo-mortgage-1-contact.html">Contact</a></li>
+                        </ul>
+                        <ul class="social-list gap-2" role="list">
+                            <li><a href="#" aria-label="Instagram" data-social="instagram" class="social-link social-link--circle social-link--outline"><i class="ph ph-instagram-logo"></i></a></li>
+                            <li><a href="#" aria-label="Facebook" data-social="facebook" class="social-link social-link--circle social-link--outline"><i class="ph ph-facebook-logo"></i></a></li>
+                            <li><a href="#" aria-label="LinkedIn" data-social="linkedin" class="social-link social-link--circle social-link--outline"><i class="ph ph-linkedin-logo"></i></a></li>
+                        </ul>
+                    </nav>
+
+                    <!-- Regulatory block - demo figures, illustrative -->
+                    <section class="custom-footer-legal-block mt-[clamp(2rem,1.5rem_+_2vw,3rem)] p-[clamp(1.25rem,1rem_+_1.2vw,2rem)] rounded-(--custom-radius-card) text-[0.9375rem] leading-[1.6] text-(--custom-on-slab-soft)" aria-labelledby="mg-footer-legal-title">
+                        <h2 id="mg-footer-legal-title" class="flex items-center gap-2 mb-4 text-[1.125rem] font-bold tracking-[-0.01em] text-(--custom-on-slab)"><i class="ph ph-info text-(--color-primary)" aria-hidden="true"></i>Important information</h2>
+                        <div class="grid gap-y-5 gap-x-12 min-[56.25rem]:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+                            <div class="grid gap-2.5">
+                                <p><strong class="font-semibold text-(--custom-on-slab)">Your home may be repossessed if you do not keep up repayments on your mortgage.</strong></p>
+                                <p>Think carefully before securing other debts against your home.</p>
+                                <p>Draftmango Mortgages Ltd is authorised and regulated by the Financial Conduct Authority (FRN 000000). Most buy-to-let mortgages are not regulated by the FCA.</p>
+                            </div>
+                            <div>
+                                <p class="mb-1.5 font-semibold text-(--custom-on-slab)">Representative example</p>
+                                <p>A mortgage of £200,000 over 25 years, initially on a fixed rate of 3.89% for 5 years and then the lender’s variable rate of 7.24% for the remaining 20 years, would require 60 monthly payments of £1,044.31 followed by 240 monthly payments of £1,393.66. The total amount payable would be £399,746 made up of the loan amount plus interest of £198,747 and a product fee of £999. The overall cost for comparison is 6.1% APRC representative.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="container footer-bottom-inner custom-footer-bottom gap-y-3 gap-x-8 text-[0.9375rem]">
+                    <span>&copy; 2026 Draftmango Mortgages Ltd · Registered in England and Wales, company no. 00000000 · Manchester</span>
+                    <ul class="footer-nav gap-6" role="list">
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Cookies</a></li>
+                        <li><a href="#">Complaints</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </footer>
+
+        <!-- Back to top button -->
+        <button data-back-top aria-label="Back to top" class="back-to-top fixed bottom-8 right-8 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer border-0 text-white bg-primary shadow-token-lg z-sticky">
+            <i class="ph ph-arrow-up"></i>
+        </button>
+
+        <script defer src="../assets/js/vendor.js"></script>
+        <script defer src="../assets/js/main.js"></script>
+    </body>
+</html>

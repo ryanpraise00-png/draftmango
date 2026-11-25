@@ -1,0 +1,89 @@
+/* ================================================================
+ *  demo-creative-studio-1.css — Draftmango theme for the Creative Studio demo
+ *
+ *  The colors, fonts and layout settings of the Creative Studio demo
+ *  (a cobalt for the actions and the one blue band, a periwinkle for
+ *  the panels, an ink for the footer, on a cool light ground). Its
+ *  pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Each page also preloads this URL in its <head>
+   (the <link data-theme-fonts> line) so the fonts arrive sooner: after
+   changing it here, replace it in the pages too, or delete that line.
+   Inter is loaded with its optical-size axis (opsz 14..32): large sizes
+   draw in its Display cut, tighter and sharper, with no second family. */
+@import url("https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #1f4ae0;   /* main color: cobalt for buttons, links and the blue band; labels on it are white */
+    --color-secondary-base:  #0d1226;   /* second color: the ink of the footer; the dark scheme takes its hue */
+    --color-tertiary-base:   #dfe4ff;   /* third color: periwinkle, for panels */
+    --color-quaternary-base: #8fb3ff;   /* fourth color: sky, on a collaborator's name pill and small marks */
+    --color-accent-base:     #ff7a59;   /* attention color: coral, on a collaborator's name pill and small marks */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. */
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-text:      var(--color-secondary-base);   /* headings and body text (#0d1226) */
+    --color-text-soft: oklch(from var(--color-secondary-base) 0.4574 calc(c * 1.05) calc(h + 1.5));   /* secondary text (#4f5670) */
+    --color-bg:        oklch(from var(--color-tertiary-base) 0.9765 calc(c * 0.146) calc(h - 2.4));   /* page background: a cool white (#f6f7fb) */
+    --color-bg-soft:   oklch(from var(--color-secondary-base) 0.953 calc(c * 0.365) calc(h + 2.5));   /* a step deeper, for alternate sections (#eceffa) */
+    --color-border:    oklch(from var(--color-secondary-base) 0.9105 calc(c * 0.44) calc(h + 0.9));   /* lines and borders (#dde1ee) */
+    --color-dark:      var(--color-secondary-base);   /* dark sections and dark buttons (#0d1226) */
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;                          /* body text */
+    --font-heading:  'Inter', system-ui, sans-serif;                          /* headings and figures: the same family, its Display cut at large sizes */
+    --font-serif:    'Instrument Serif', Georgia, 'Times New Roman', serif;   /* italic accents */
+    --font-tertiary: 'Urbanist', system-ui, sans-serif;                       /* display accents */
+
+    /* Stylesheets of the accent fonts, fetched only on pages that use them.
+       Change a family above and its URL here together. Set one to "" to
+       load nothing, e.g. when that font is a system font. */
+    --font-serif-src:    "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap";
+    --font-tertiary-src: "https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800;900&display=swap";
+
+    /* Headings and buttons */
+    --heading-weight:     500;                     /* 300–700: Inter loads the whole range above */
+    --heading-tracking:   -0.04em;                 /* or var(--tracking-tight), var(--tracking-normal) */
+    --btn-font-weight:    500;                     /* 500–600 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        0.5;      /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 0.5rem;   /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1440px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 1.25;     /* space between sections: 0.75 compact · 1 · 1.25 spacious */
+}

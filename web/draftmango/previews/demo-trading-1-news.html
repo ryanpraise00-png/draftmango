@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="en" data-demo="trading-1">
+    <head>
+        <meta charset="UTF-8">
+        <script async src="../assets/js/entrance.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>News & Analysis — Trading Platform — Draftmango</title>
+        <link rel="icon" href="../assets/media/logo/favicon.ico" sizes="32x32">
+        <link rel="icon" href="../assets/media/logo/draftmango-mark.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="../assets/media/logo/apple-touch-icon.png">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="../assets/css/icons.css">
+        <link rel="stylesheet" href="../assets/css/app.css">
+        <link rel="stylesheet" href="../assets/css/vendor.css">
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" data-theme-fonts>
+        <link rel="stylesheet" href="../assets/css/demos/demo-trading-1.css">
+        <link rel="stylesheet" href="../assets/css/themes/demo-trading-1.css" data-theme-file>
+        <link rel="stylesheet" href="../assets/css/custom.css">
+    </head>
+    <body>
+
+        <header class="site-header header-ticker header-menu-dark" data-header>
+
+            <!--css .site-topbar-marquee, .marquee-text): the list runs twice, the copy aria-hidden. Edit: the instruments, prices and deltas (fixed demo values) -->
+            <div class="site-topbar">
+                <div class="site-topbar-marquee marquee-wrap marquee-wrap--pause">
+                    <div class="marquee marquee-text">
+                        <span class="marquee-text__item">FTSE 100 <strong>8,342.15</strong> <span class="custom-delta--up">+0.42%</span></span>
+                        <span class="marquee-text__sep" aria-hidden="true"></span>
+                        <span class="marquee-text__item">S&amp;P 500 <strong>6,712.40</strong> <span class="custom-delta--up">+0.18%</span></span>
+                        <span class="marquee-text__sep" aria-hidden="true"></span>
+                        <span class="marquee-text__item">GBP/USD <strong>1.2734</strong> <span class="custom-delta--down">−0.06%</span></span>
+                        <span class="marquee-text__sep" aria-hidden="true"></span>
+                        <span class="marquee-text__item">Gold <strong>2,481.30</strong> <span class="custom-delta--up">+0.31%</span></span>
+                        <span class="marquee-text__sep" aria-hidden="true"></span>
+                        <span class="marquee-text__item">BTC <strong>61,240</strong> <span class="custom-delta--down">−1.12%</span></span>
+                        <span class="marquee-text__sep" aria-hidden="true"></span>
+                        <span class="marquee-text__item">Nasdaq <strong>21,904.66</strong> <span class="custom-delta--up">+0.55%</span></span>
+                        <span class="marquee-text__sep" aria-hidden="true"></span>
+                        <span class="marquee-text__item">Prices delayed · illustrative</span>
+                        <span class="marquee-text__sep" aria-hidden="true"></span>
+                        <span class="marquee-text__item" aria-hidden="true">FTSE 100 <strong>8,342.15</strong> <span class="custom-delta--up">+0.42%</span></span>
+                        <span class="marquee-text__sep" aria-hidden="true"></span>
+                        <span class="marquee-text__item" aria-hidden="true">S&amp;P 500 <strong>6,712.40</strong> <span class="custom-delta--up">+0.18%</span></span>
+                        <span class="marquee-text__sep" aria-hidden="true"></span>
+                        <span class="marquee-text__item" aria-hidden="true">GBP/USD <strong>1.2734</strong> <span class="custom-delta--down">−0.06%</span></span>
+                        <span class="marquee-text__sep" aria-hidden="true"></span>
+                        <span class="marquee-text__item" aria-hidden="true">Gold <strong>2,481.30</strong> <span class="custom-delta--up">+0.31%</span></span>
+                        <span class="marquee-text__sep" aria-hidden="true"></span>
+                        <span class="marquee-text__item" aria-hidden="true">BTC <strong>61,240</strong> <span class="custom-delta--down">−1.12%</span></span>
+                        <span class="marquee-text__sep" aria-hidden="true"></span>
+                        <span class="marquee-text__item" aria-hidden="true">Nasdaq <strong>21,904.66</strong> <span class="custom-delta--up">+0.55%</span></span>
+                        <span class="marquee-text__sep" aria-hidden="true"></span>
+                        <span class="marquee-text__item" aria-hidden="true">Prices delayed · illustrative</span>
+                        <span class="marquee-text__sep" aria-hidden="true"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main navbar -->
+            <nav class="navbar" role="navigation" aria-label="Main navigation">
+                <div class="navbar-inner container">
+
+                    <!-- Brand -->
+                    <a href="demo-trading-1.html" class="brand">
+
+                        <img class="brand-logo" src="../assets/media/logo/draftmango-logo.svg" alt="Draftmango" width="120" height="32" style="--logo-tint: url(#logo-tint-header)">
+
+                        <svg class="brand-tint" aria-hidden="true" focusable="false">
+                            <filter id="logo-tint-header" color-interpolation-filters="sRGB">
+                                <feFlood flood-color="currentColor" />
+                                <feComposite in2="SourceAlpha" operator="in" />
+                            </filter>
+                        </svg>
+
+                    </a>
+
+                    <!-- Desktop navigation links -->
+                    <ul class="nav-links" role="list">
+
+                        <!-- Trading 1 menu - the <li> items of . -->
+                        <li>
+                            <a href="demo-trading-1.html" class="nav-link">Home</a>
+                        </li>
+
+                        <!-- Invest - rich rows: an icon tile, the account and its allowance badge; each badge follows its link as a sibling, so the mobile panel lists the names alone. Edit: the accounts and allowances -->
+                        <li class="nav-cascade">
+                            <button class="nav-link">
+                                Invest
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="cascade-panel cascade-panel--rich custom-menu-invest grid min-w-104 p-2.5">
+                                <a href="demo-trading-1-isa.html" class="cascade-item cascade-item--rich">
+                                    <span class="cascade-item-icon"><i class="ph ph-umbrella-simple" aria-hidden="true"></i></span>
+                                    <span class="cascade-item-title">Stocks &amp; Shares ISA</span>
+                                </a>
+                                <span class="custom-menu-allowance">£20,000 a year</span>
+                                <a href="demo-trading-1-invest.html#sipp" class="cascade-item cascade-item--rich">
+                                    <span class="cascade-item-icon"><i class="ph ph-armchair" aria-hidden="true"></i></span>
+                                    <span class="cascade-item-title">SIPP</span>
+                                </a>
+                                <span class="custom-menu-allowance">25% tax relief</span>
+                                <a href="demo-trading-1-invest.html#general" class="cascade-item cascade-item--rich">
+                                    <span class="cascade-item-icon"><i class="ph ph-chart-line-up" aria-hidden="true"></i></span>
+                                    <span class="cascade-item-title">General Account</span>
+                                </a>
+                                <span class="custom-menu-allowance">No limits</span>
+                                <a href="demo-trading-1-invest.html#junior-isa" class="cascade-item cascade-item--rich">
+                                    <span class="cascade-item-icon"><i class="ph ph-baby" aria-hidden="true"></i></span>
+                                    <span class="cascade-item-title">Junior ISA</span>
+                                </a>
+                                <span class="custom-menu-allowance">£9,000 a year</span>
+                                <a href="demo-trading-1-invest.html" class="cascade-item custom-menu-all">Compare Accounts <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                            </div>
+                        </li>
+
+                        <!-- Markets mega panel - four tabs, four instrument rows each (name, symbol, spark, price, day change), one feature card beside the tabs. Prices are fixed demo values. Edit: the rows (the row's custom-delta--up / --down colours its spark and change) -->
+                        <li class="nav-megamenu nav-megamenu--tabs custom-menu-markets">
+                            <button class="nav-link">
+                                Markets
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="megamenu-panel" data-lenis-prevent>
+                                <div class="megamenu-inner megamenu-inner--tabs container">
+                                    <!-- hover(): a short dwell before switching; go(): arrow keys move between the tabs, Tab goes on into the open panel -->
+                                    <div class="tabs tabs-vertical tabs-rich megamenu-tabs" x-data="{ tab: 'shares', tabs: ['shares', 'etfs', 'forex', 'crypto'], t: null, hover(v) { clearTimeout(this.t); this.t = setTimeout(() => this.tab = v, 120) }, go(d) { clearTimeout(this.t); const n = this.tabs.length; this.tab = this.tabs[(this.tabs.indexOf(this.tab) + d + n) % n]; this.$refs[this.tab].focus() } }">
+
+                                        <div class="tabs-nav" role="tablist" aria-label="Markets" aria-orientation="vertical" @keydown.down.prevent="go(1)" @keydown.up.prevent="go(-1)">
+                                            <button type="button" class="tab-btn is-active" role="tab" id="tr-mk-tab-shares" aria-controls="tr-mk-panel-shares" x-ref="shares" :class="{ 'is-active': tab === 'shares' }" :aria-selected="tab === 'shares'" :tabindex="tab === 'shares' ? 0 : -1" @mouseenter="hover('shares')" @mouseleave="clearTimeout(t)" @click="tab = 'shares'">
+                                                <span class="tab-btn-icon"><i class="ph ph-chart-line-up" aria-hidden="true"></i></span>
+                                                <span class="tab-btn-title text-[1rem]">Shares</span>
+                                                <span class="tab-btn-caption">UK, US and European companies</span>
+                                            </button>
+                                            <button type="button" class="tab-btn" role="tab" id="tr-mk-tab-etfs" aria-controls="tr-mk-panel-etfs" x-ref="etfs" tabindex="-1" :class="{ 'is-active': tab === 'etfs' }" :aria-selected="tab === 'etfs'" :tabindex="tab === 'etfs' ? 0 : -1" @mouseenter="hover('etfs')" @mouseleave="clearTimeout(t)" @click="tab = 'etfs'">
+                                                <span class="tab-btn-icon"><i class="ph ph-stack" aria-hidden="true"></i></span>
+                                                <span class="tab-btn-title text-[1rem]">ETFs</span>
+                                                <span class="tab-btn-caption">Index funds and themes, from £1</span>
+                                            </button>
+                                            <button type="button" class="tab-btn" role="tab" id="tr-mk-tab-forex" aria-controls="tr-mk-panel-forex" x-ref="forex" tabindex="-1" :class="{ 'is-active': tab === 'forex' }" :aria-selected="tab === 'forex'" :tabindex="tab === 'forex' ? 0 : -1" @mouseenter="hover('forex')" @mouseleave="clearTimeout(t)" @click="tab = 'forex'">
+                                                <span class="tab-btn-icon"><i class="ph ph-currency-gbp" aria-hidden="true"></i></span>
+                                                <span class="tab-btn-title text-[1rem]">Forex</span>
+                                                <span class="tab-btn-caption">Major and minor currency pairs</span>
+                                            </button>
+                                            <button type="button" class="tab-btn" role="tab" id="tr-mk-tab-crypto" aria-controls="tr-mk-panel-crypto" x-ref="crypto" tabindex="-1" :class="{ 'is-active': tab === 'crypto' }" :aria-selected="tab === 'crypto'" :tabindex="tab === 'crypto' ? 0 : -1" @mouseenter="hover('crypto')" @mouseleave="clearTimeout(t)" @click="tab = 'crypto'">
+                                                <span class="tab-btn-icon"><i class="ph ph-currency-btc" aria-hidden="true"></i></span>
+                                                <span class="tab-btn-title text-[1rem]">Crypto</span>
+                                                <span class="tab-btn-caption">Crypto ETNs, high risk</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="tabs-panels">
+
+                                            <!-- Shares -->
+                                            <div class="tabs-panel megamenu-tabpanel is-active" role="tabpanel" id="tr-mk-panel-shares" aria-labelledby="tr-mk-tab-shares" :class="{ 'is-active': tab === 'shares' }">
+                                                <div class="megamenu-links">
+                                                    <div class="megamenu-col">
+                                                        <div class="custom-menu-quote custom-delta--up">
+                                                            <a href="demo-trading-1-markets.html" class="megamenu-item">Apple</a>
+                                                            <span class="custom-menu-quote-sym">AAPL</span>
+                                                            <svg class="custom-spark [grid-area:spark] justify-self-center" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                                <path d="M0.0 17.0 L4.3 16.3 L8.5 14.2 L12.8 14.8 L17.1 13.0 L21.3 12.8 L25.6 12.6 L29.9 9.6 L34.1 8.8 L38.4 8.3 L42.7 6.8 L46.9 4.8 L51.2 4.3 L55.5 3.0 L59.7 3.7 L64.0 3.6" />
+                                                            </svg>
+                                                            <span class="custom-menu-quote-price">228.14</span>
+                                                            <span class="custom-delta-pct">+1.84%</span>
+                                                        </div>
+                                                        <div class="custom-menu-quote custom-delta--down">
+                                                            <a href="demo-trading-1-markets.html" class="megamenu-item">Tesla</a>
+                                                            <span class="custom-menu-quote-sym">TSLA</span>
+                                                            <svg class="custom-spark [grid-area:spark] justify-self-center" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                                <path d="M0.0 3.0 L4.3 4.8 L8.5 6.6 L12.8 6.3 L17.1 9.4 L21.3 10.1 L25.6 13.1 L29.9 12.3 L34.1 12.6 L38.4 11.5 L42.7 12.6 L46.9 12.6 L51.2 13.4 L55.5 14.8 L59.7 15.1 L64.0 17.0" />
+                                                            </svg>
+                                                            <span class="custom-menu-quote-price">241.07</span>
+                                                            <span class="custom-delta-pct">−2.10%</span>
+                                                        </div>
+                                                        <div class="custom-menu-quote custom-delta--up">
+                                                            <a href="demo-trading-1-markets.html" class="megamenu-item">Rolls-Royce</a>
+                                                            <span class="custom-menu-quote-sym">RR.</span>
+                                                            <svg class="custom-spark [grid-area:spark] justify-self-center" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                                <path d="M0.0 17.0 L4.3 16.8 L8.5 15.1 L12.8 14.8 L17.1 14.7 L21.3 15.9 L25.6 15.6 L29.9 12.7 L34.1 11.1 L38.4 8.3 L42.7 7.1 L46.9 5.6 L51.2 4.5 L55.5 7.1 L59.7 4.7 L64.0 3.0" />
+                                                            </svg>
+                                                            <span class="custom-menu-quote-price">512.40</span>
+                                                            <span class="custom-delta-pct">+0.96%</span>
+                                                        </div>
+                                                        <div class="custom-menu-quote custom-delta--down">
+                                                            <a href="demo-trading-1-markets.html" class="megamenu-item">AstraZeneca</a>
+                                                            <span class="custom-menu-quote-sym">AZN</span>
+                                                            <svg class="custom-spark [grid-area:spark] justify-self-center" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                                <path d="M0.0 4.6 L4.3 5.6 L8.5 3.0 L12.8 5.6 L17.1 10.4 L21.3 10.5 L25.6 9.8 L29.9 9.7 L34.1 9.2 L38.4 10.1 L42.7 12.1 L46.9 14.4 L51.2 15.5 L55.5 17.0 L59.7 15.5 L64.0 14.7" />
+                                                            </svg>
+                                                            <span class="custom-menu-quote-price">11,842</span>
+                                                            <span class="custom-delta-pct">−0.34%</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="megamenu-col megamenu-col--lead">
+                                                        <a href="demo-trading-1-markets.html" class="megamenu-item">All Shares</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- ETFs -->
+                                            <div class="tabs-panel megamenu-tabpanel" role="tabpanel" id="tr-mk-panel-etfs" aria-labelledby="tr-mk-tab-etfs" :class="{ 'is-active': tab === 'etfs' }">
+                                                <div class="megamenu-links">
+                                                    <div class="megamenu-col">
+                                                        <div class="custom-menu-quote custom-delta--up">
+                                                            <a href="demo-trading-1-markets.html" class="megamenu-item">FTSE All-World</a>
+                                                            <span class="custom-menu-quote-sym">VWRL</span>
+                                                            <svg class="custom-spark [grid-area:spark] justify-self-center" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                                <path d="M0.0 15.9 L4.3 17.0 L8.5 15.7 L12.8 13.4 L17.1 13.4 L21.3 14.7 L25.6 14.0 L29.9 12.5 L34.1 10.0 L38.4 11.1 L42.7 12.3 L46.9 10.5 L51.2 9.0 L55.5 5.9 L59.7 3.6 L64.0 3.0" />
+                                                            </svg>
+                                                            <span class="custom-menu-quote-price">118.62</span>
+                                                            <span class="custom-delta-pct">+0.62%</span>
+                                                        </div>
+                                                        <div class="custom-menu-quote custom-delta--up">
+                                                            <a href="demo-trading-1-markets.html" class="megamenu-item">S&amp;P 500</a>
+                                                            <span class="custom-menu-quote-sym">VUSA</span>
+                                                            <svg class="custom-spark [grid-area:spark] justify-self-center" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                                <path d="M0.0 7.7 L4.3 8.6 L8.5 11.0 L12.8 12.7 L17.1 12.5 L21.3 17.0 L25.6 12.5 L29.9 12.2 L34.1 10.6 L38.4 10.2 L42.7 8.2 L46.9 8.3 L51.2 6.4 L55.5 4.6 L59.7 3.0 L64.0 3.4" />
+                                                            </svg>
+                                                            <span class="custom-menu-quote-price">92.18</span>
+                                                            <span class="custom-delta-pct">+0.21%</span>
+                                                        </div>
+                                                        <div class="custom-menu-quote custom-delta--up">
+                                                            <a href="demo-trading-1-markets.html" class="megamenu-item">FTSE 100</a>
+                                                            <span class="custom-menu-quote-sym">ISF</span>
+                                                            <svg class="custom-spark [grid-area:spark] justify-self-center" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                                <path d="M0.0 13.4 L4.3 14.3 L8.5 14.1 L12.8 12.5 L17.1 13.1 L21.3 14.0 L25.6 13.4 L29.9 17.0 L34.1 13.8 L38.4 11.4 L42.7 9.5 L46.9 8.5 L51.2 6.1 L55.5 3.7 L59.7 3.0 L64.0 3.8" />
+                                                            </svg>
+                                                            <span class="custom-menu-quote-price">8.71</span>
+                                                            <span class="custom-delta-pct">+0.40%</span>
+                                                        </div>
+                                                        <div class="custom-menu-quote custom-delta--up">
+                                                            <a href="demo-trading-1-markets.html" class="megamenu-item">Physical Gold</a>
+                                                            <span class="custom-menu-quote-sym">SGLN</span>
+                                                            <svg class="custom-spark [grid-area:spark] justify-self-center" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                                <path d="M0.0 17.0 L4.3 16.8 L8.5 15.1 L12.8 14.8 L17.1 14.7 L21.3 15.9 L25.6 15.6 L29.9 12.7 L34.1 11.1 L38.4 8.3 L42.7 7.1 L46.9 5.6 L51.2 4.5 L55.5 7.1 L59.7 4.7 L64.0 3.0" />
+                                                            </svg>
+                                                            <span class="custom-menu-quote-price">46.30</span>
+                                                            <span class="custom-delta-pct">+0.31%</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="megamenu-col megamenu-col--lead">
+                                                        <a href="demo-trading-1-markets.html" class="megamenu-item">All ETFs</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Forex -->
+                                            <div class="tabs-panel megamenu-tabpanel" role="tabpanel" id="tr-mk-panel-forex" aria-labelledby="tr-mk-tab-forex" :class="{ 'is-active': tab === 'forex' }">
+                                                <div class="megamenu-links">
+                                                    <div class="megamenu-col">
+                                                        <div class="custom-menu-quote custom-delta--down">
+                                                            <a href="demo-trading-1-markets.html" class="megamenu-item">Pound / Dollar</a>
+                                                            <span class="custom-menu-quote-sym">GBP/USD</span>
+                                                            <svg class="custom-spark [grid-area:spark] justify-self-center" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                                <path d="M0.0 7.8 L4.3 3.0 L8.5 6.7 L12.8 6.7 L17.1 8.2 L21.3 11.4 L25.6 13.7 L29.9 15.9 L34.1 17.0 L38.4 16.8 L42.7 15.0 L46.9 15.3 L51.2 13.4 L55.5 13.1 L59.7 13.8 L64.0 15.3" />
+                                                            </svg>
+                                                            <span class="custom-menu-quote-price">1.2734</span>
+                                                            <span class="custom-delta-pct">−0.06%</span>
+                                                        </div>
+                                                        <div class="custom-menu-quote custom-delta--up">
+                                                            <a href="demo-trading-1-markets.html" class="megamenu-item">Euro / Pound</a>
+                                                            <span class="custom-menu-quote-sym">EUR/GBP</span>
+                                                            <svg class="custom-spark [grid-area:spark] justify-self-center" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                                <path d="M0.0 7.7 L4.3 8.6 L8.5 11.0 L12.8 12.7 L17.1 12.5 L21.3 17.0 L25.6 12.5 L29.9 12.2 L34.1 10.6 L38.4 10.2 L42.7 8.2 L46.9 8.3 L51.2 6.4 L55.5 4.6 L59.7 3.0 L64.0 3.4" />
+                                                            </svg>
+                                                            <span class="custom-menu-quote-price">0.8412</span>
+                                                            <span class="custom-delta-pct">+0.09%</span>
+                                                        </div>
+                                                        <div class="custom-menu-quote custom-delta--up">
+                                                            <a href="demo-trading-1-markets.html" class="megamenu-item">Pound / Yen</a>
+                                                            <span class="custom-menu-quote-sym">GBP/JPY</span>
+                                                            <svg class="custom-spark [grid-area:spark] justify-self-center" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                                <path d="M0.0 17.0 L4.3 16.3 L8.5 14.2 L12.8 14.8 L17.1 13.0 L21.3 12.8 L25.6 12.6 L29.9 9.6 L34.1 8.8 L38.4 8.3 L42.7 6.8 L46.9 4.8 L51.2 4.3 L55.5 3.0 L59.7 3.7 L64.0 3.6" />
+                                                            </svg>
+                                                            <span class="custom-menu-quote-price">191.36</span>
+                                                            <span class="custom-delta-pct">+0.27%</span>
+                                                        </div>
+                                                        <div class="custom-menu-quote custom-delta--down">
+                                                            <a href="demo-trading-1-markets.html" class="megamenu-item">Dollar / Franc</a>
+                                                            <span class="custom-menu-quote-sym">USD/CHF</span>
+                                                            <svg class="custom-spark [grid-area:spark] justify-self-center" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                                <path d="M0.0 4.6 L4.3 5.6 L8.5 3.0 L12.8 5.6 L17.1 10.4 L21.3 10.5 L25.6 9.8 L29.9 9.7 L34.1 9.2 L38.4 10.1 L42.7 12.1 L46.9 14.4 L51.2 15.5 L55.5 17.0 L59.7 15.5 L64.0 14.7" />
+                                                            </svg>
+                                                            <span class="custom-menu-quote-price">0.8846</span>
+                                                            <span class="custom-delta-pct">−0.12%</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="megamenu-col megamenu-col--lead">
+                                                        <a href="demo-trading-1-markets.html" class="megamenu-item">All Currency Pairs</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Crypto -->
+                                            <div class="tabs-panel megamenu-tabpanel" role="tabpanel" id="tr-mk-panel-crypto" aria-labelledby="tr-mk-tab-crypto" :class="{ 'is-active': tab === 'crypto' }">
+                                                <div class="megamenu-links">
+                                                    <div class="megamenu-col">
+                                                        <div class="custom-menu-quote custom-delta--down">
+                                                            <a href="demo-trading-1-markets.html" class="megamenu-item">Bitcoin ETN</a>
+                                                            <span class="custom-menu-quote-sym">BTC</span>
+                                                            <svg class="custom-spark [grid-area:spark] justify-self-center" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                                <path d="M0.0 3.0 L4.3 4.8 L8.5 6.6 L12.8 6.3 L17.1 9.4 L21.3 10.1 L25.6 13.1 L29.9 12.3 L34.1 12.6 L38.4 11.5 L42.7 12.6 L46.9 12.6 L51.2 13.4 L55.5 14.8 L59.7 15.1 L64.0 17.0" />
+                                                            </svg>
+                                                            <span class="custom-menu-quote-price">61,240</span>
+                                                            <span class="custom-delta-pct">−1.12%</span>
+                                                        </div>
+                                                        <div class="custom-menu-quote custom-delta--down">
+                                                            <a href="demo-trading-1-markets.html" class="megamenu-item">Ethereum ETN</a>
+                                                            <span class="custom-menu-quote-sym">ETH</span>
+                                                            <svg class="custom-spark [grid-area:spark] justify-self-center" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                                <path d="M0.0 7.8 L4.3 3.0 L8.5 6.7 L12.8 6.7 L17.1 8.2 L21.3 11.4 L25.6 13.7 L29.9 15.9 L34.1 17.0 L38.4 16.8 L42.7 15.0 L46.9 15.3 L51.2 13.4 L55.5 13.1 L59.7 13.8 L64.0 15.3" />
+                                                            </svg>
+                                                            <span class="custom-menu-quote-price">2,964.10</span>
+                                                            <span class="custom-delta-pct">−0.84%</span>
+                                                        </div>
+                                                        <div class="custom-menu-quote custom-delta--up">
+                                                            <a href="demo-trading-1-markets.html" class="megamenu-item">Solana ETN</a>
+                                                            <span class="custom-menu-quote-sym">SOL</span>
+                                                            <svg class="custom-spark [grid-area:spark] justify-self-center" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                                <path d="M0.0 15.9 L4.3 17.0 L8.5 15.7 L12.8 13.4 L17.1 13.4 L21.3 14.7 L25.6 14.0 L29.9 12.5 L34.1 10.0 L38.4 11.1 L42.7 12.3 L46.9 10.5 L51.2 9.0 L55.5 5.9 L59.7 3.6 L64.0 3.0" />
+                                                            </svg>
+                                                            <span class="custom-menu-quote-price">142.55</span>
+                                                            <span class="custom-delta-pct">+2.36%</span>
+                                                        </div>
+                                                        <div class="custom-menu-quote custom-delta--down">
+                                                            <a href="demo-trading-1-markets.html" class="megamenu-item">Crypto Basket ETN</a>
+                                                            <span class="custom-menu-quote-sym">CBX</span>
+                                                            <svg class="custom-spark [grid-area:spark] justify-self-center" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                                                <path d="M0.0 4.6 L4.3 5.6 L8.5 3.0 L12.8 5.6 L17.1 10.4 L21.3 10.5 L25.6 9.8 L29.9 9.7 L34.1 9.2 L38.4 10.1 L42.7 12.1 L46.9 14.4 L51.2 15.5 L55.5 17.0 L59.7 15.5 L64.0 14.7" />
+                                                            </svg>
+                                                            <span class="custom-menu-quote-price">38.20</span>
+                                                            <span class="custom-delta-pct">−0.41%</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="megamenu-col megamenu-col--lead">
+                                                        <a href="demo-trading-1-markets.html" class="megamenu-item">All Crypto ETNs</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <!-- Feature card - not a .megamenu-col, so the mobile panel leaves it out. Edit: the label, the figure, the line, the link -->
+                                    <a href="demo-trading-1-invest.html" class="custom-menu-feature max-xl:hidden" tabindex="-1">
+                                        <span class="text-[0.8125rem] font-semibold tracking-[0.12em] uppercase text-(--color-primary)">Fractional Shares</span>
+                                        <span class="mt-2 font-heading text-[4.5rem] font-semibold leading-[0.9] tracking-[-0.05em] text-(--menu-strong)"><small class="me-2 text-[1.25rem] font-medium tracking-[-0.01em] text-(--menu-title)">from</small>£1</span>
+                                        <span class="max-w-60 text-[0.9375rem] leading-[1.5]">Own a slice of any FTSE 100 or US share, not the whole thing.</span>
+                                        <span class="custom-menu-feature-go inline-flex items-center gap-1.5 mt-auto font-semibold">Start Investing <i class="ph ph-arrow-up-right" aria-hidden="true"></i></span>
+                                        <svg class="custom-menu-feature-bars absolute -z-1 right-6 bottom-6 w-34" viewBox="0 0 142 80" aria-hidden="true" focusable="false">
+                                            <rect class="opacity-25" x="0" y="50" width="14" height="30" />
+                                            <rect class="opacity-35" x="25" y="42" width="14" height="38" />
+                                            <rect class="opacity-45" x="50" y="46" width="14" height="34" />
+                                            <rect class="opacity-60" x="75" y="30" width="14" height="50" />
+                                            <rect class="opacity-80" x="100" y="20" width="14" height="60" />
+                                            <rect x="125" y="4" width="14" height="76" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="demo-trading-1-pricing.html" class="nav-link">Pricing</a>
+                        </li>
+
+                        <li class="nav-cascade">
+                            <button class="nav-link active">
+                                Learn
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="cascade-panel">
+                                <a href="demo-trading-1-academy.html" class="cascade-item">Academy</a>
+                                <a href="demo-trading-1-news.html" class="cascade-item">News &amp; Analysis</a>
+                                <a href="demo-trading-1-article.html" class="cascade-item">Article</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-cascade">
+                            <button class="nav-link">
+                                Company
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="cascade-panel">
+                                <a href="demo-trading-1-about.html" class="cascade-item">About Us</a>
+                                <a href="demo-trading-1-security.html" class="cascade-item">Security &amp; Regulation</a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                    <!-- Right-side actions -->
+                    <div class="nav-actions">
+
+                        <!-- Meta group - display:contents by default; header-stacked turns it into its own row. -->
+                        <div class="nav-meta">
+
+                        </div><!-- /.nav-meta -->
+
+                        <!-- Trading 1 header actions - Log In and Open an Account; the menu panel carries _mobile-cta.html -->
+                        <a href="#" class="custom-nav-login py-2 px-3.5 text-[0.9375rem] font-semibold whitespace-nowrap max-xl:hidden">Log In</a>
+                        <a href="demo-trading-1-open-account.html" class="btn btn-primary custom-nav-action px-5">Open an Account</a>
+
+                        <!-- Menu toggle - mobile hamburger below 1024px; also the close button on header-overlay-menu / header-side-drawer -->
+                        <button class="hamburger" data-toggle aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation menu">
+                            <i class="ph ph-list text-xl nav-toggle-open" aria-hidden="true"></i>
+                            <i class="ph ph-x text-xl nav-toggle-close" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Navigation panel - links are auto-generated by initMobileSync() in main.js -->
+                <!-- data-lenis-prevent: opts this scroll container out of Lenis smooth scrolling -->
+                <div id="mobile-nav" class="mobile-nav" data-mobile-nav data-lenis-prevent role="dialog" aria-modal="true" aria-label="Site navigation">
+
+                    <!-- Menu column - the scroll container -->
+                    <div class="nav-panel-menu">
+
+                        <!-- JS target: desktop nav items are injected here -->
+                        <div data-mobile-links></div>
+
+                        <!-- Mobile-only items: add or remove <a> elements here freely -->
+                        <!-- <a href="#" class="mobile-link" data-mobile-only>Exclusive Item</a> -->
+
+                        <!-- Trading 1 menu panel CTA - Log In and Open an Account -->
+                        <div class="nav-panel-cta flex gap-2.5 mt-6">
+                            <a href="#" class="btn btn-outline-light flex-1">Log In</a>
+                            <a href="demo-trading-1-open-account.html" class="btn btn-primary flex-1">Open an Account</a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </nav>
+
+        </header>
+
+        <main>
+            <!-- Trading 1 page header - the inner pages' opening on ink: candles along the foot, an amber glow at one side. Params: phCrumb (this page's crumb); optional phTrail + phHref (a parent crumb); phTitle (words before the amber word), phKey (the amber word), optional phEnd (words after it); optional phLead; optional phButton + phLink (an amber button); optional phRisk (the small print under it); optional phFigure + phCaption + phNote (a glass card at the side with the big figure over a chart drawing in); optional phCompact "yes" (less room, for focused pages) -->
+            <section id="tr-page-head" class="custom-ph custom-ph--compact relative isolate overflow-clip text-(--custom-on-dark-soft) bg-(--custom-ink)" aria-labelledby="tr-page-title">
+                <svg class="custom-candles custom-ph-candles" viewBox="0 0 960 200" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                    <g class="u">
+                        <line x1="10.0" y1="186.0" x2="10.0" y2="194.0" />
+                        <rect x="4.4" y="190.2" width="11.2" height="3.3" />
+                    </g>
+                    <g class="u">
+                        <line x1="30.0" y1="168.0" x2="30.0" y2="193.9" />
+                        <rect x="24.4" y="172.3" width="11.2" height="17.9" />
+                    </g>
+                    <g class="d">
+                        <line x1="50.0" y1="169.8" x2="50.0" y2="187.6" />
+                        <rect x="44.4" y="172.3" width="11.2" height="11.1" />
+                    </g>
+                    <g class="u">
+                        <line x1="70.0" y1="162.6" x2="70.0" y2="183.4" />
+                        <rect x="64.4" y="172.3" width="11.2" height="11.1" />
+                    </g>
+                    <g class="u">
+                        <line x1="90.0" y1="146.4" x2="90.0" y2="176.5" />
+                        <rect x="84.4" y="148.6" width="11.2" height="23.7" />
+                    </g>
+                    <g class="u">
+                        <line x1="110.0" y1="123.5" x2="110.0" y2="149.1" />
+                        <rect x="104.4" y="132.9" width="11.2" height="15.7" />
+                    </g>
+                    <g class="u">
+                        <line x1="130.0" y1="124.8" x2="130.0" y2="140.2" />
+                        <rect x="124.4" y="128.8" width="11.2" height="4.1" />
+                    </g>
+                    <g class="u">
+                        <line x1="150.0" y1="116.4" x2="150.0" y2="129.5" />
+                        <rect x="144.4" y="119.7" width="11.2" height="9.1" />
+                    </g>
+                    <g class="u">
+                        <line x1="170.0" y1="115.6" x2="170.0" y2="121.6" />
+                        <rect x="164.4" y="117.5" width="11.2" height="2.2" />
+                    </g>
+                    <g class="u">
+                        <line x1="190.0" y1="98.4" x2="190.0" y2="120.5" />
+                        <rect x="184.4" y="105.5" width="11.2" height="12.0" />
+                    </g>
+                    <g class="u">
+                        <line x1="210.0" y1="84.7" x2="210.0" y2="113.5" />
+                        <rect x="204.4" y="89.0" width="11.2" height="16.5" />
+                    </g>
+                    <g class="d">
+                        <line x1="230.0" y1="88.6" x2="230.0" y2="99.5" />
+                        <rect x="224.4" y="89.0" width="11.2" height="1.5" />
+                    </g>
+                    <g class="u">
+                        <line x1="250.0" y1="77.6" x2="250.0" y2="97.5" />
+                        <rect x="244.4" y="80.7" width="11.2" height="9.2" />
+                    </g>
+                    <g class="u">
+                        <line x1="270.0" y1="69.9" x2="270.0" y2="81.2" />
+                        <rect x="264.4" y="72.2" width="11.2" height="8.5" />
+                    </g>
+                    <g class="d">
+                        <line x1="290.0" y1="69.3" x2="290.0" y2="88.9" />
+                        <rect x="284.4" y="72.2" width="11.2" height="14.3" />
+                    </g>
+                    <g class="d">
+                        <line x1="310.0" y1="84.9" x2="310.0" y2="87.9" />
+                        <rect x="304.4" y="86.5" width="11.2" height="1.5" />
+                    </g>
+                    <g class="u">
+                        <line x1="330.0" y1="61.5" x2="330.0" y2="87.3" />
+                        <rect x="324.4" y="72.7" width="11.2" height="14.5" />
+                    </g>
+                    <g class="d">
+                        <line x1="350.0" y1="69.2" x2="350.0" y2="94.9" />
+                        <rect x="344.4" y="72.7" width="11.2" height="21.5" />
+                    </g>
+                    <g class="d">
+                        <line x1="370.0" y1="92.8" x2="370.0" y2="108.9" />
+                        <rect x="364.4" y="94.2" width="11.2" height="14.2" />
+                    </g>
+                    <g class="d">
+                        <line x1="390.0" y1="107.1" x2="390.0" y2="117.1" />
+                        <rect x="384.4" y="108.4" width="11.2" height="8.2" />
+                    </g>
+                    <g class="d">
+                        <line x1="410.0" y1="116.6" x2="410.0" y2="127.8" />
+                        <rect x="404.4" y="116.6" width="11.2" height="1.9" />
+                    </g>
+                    <g class="u">
+                        <line x1="430.0" y1="85.4" x2="430.0" y2="128.2" />
+                        <rect x="424.4" y="96.0" width="11.2" height="22.5" />
+                    </g>
+                    <g class="u">
+                        <line x1="450.0" y1="79.3" x2="450.0" y2="101.3" />
+                        <rect x="444.4" y="83.6" width="11.2" height="12.4" />
+                    </g>
+                    <g class="u">
+                        <line x1="470.0" y1="78.4" x2="470.0" y2="85.6" />
+                        <rect x="464.4" y="79.2" width="11.2" height="4.4" />
+                    </g>
+                    <g class="d">
+                        <line x1="490.0" y1="77.1" x2="490.0" y2="85.7" />
+                        <rect x="484.4" y="79.2" width="11.2" height="1.5" />
+                    </g>
+                    <g class="d">
+                        <line x1="510.0" y1="72.4" x2="510.0" y2="99.8" />
+                        <rect x="504.4" y="79.6" width="11.2" height="16.4" />
+                    </g>
+                    <g class="d">
+                        <line x1="530.0" y1="95.2" x2="530.0" y2="106.4" />
+                        <rect x="524.4" y="96.0" width="11.2" height="2.2" />
+                    </g>
+                    <g class="u">
+                        <line x1="550.0" y1="95.5" x2="550.0" y2="99.3" />
+                        <rect x="544.4" y="95.6" width="11.2" height="2.6" />
+                    </g>
+                    <g class="u">
+                        <line x1="570.0" y1="90.7" x2="570.0" y2="97.7" />
+                        <rect x="564.4" y="90.8" width="11.2" height="4.8" />
+                    </g>
+                    <g class="d">
+                        <line x1="590.0" y1="86.5" x2="590.0" y2="95.7" />
+                        <rect x="584.4" y="90.8" width="11.2" height="1.5" />
+                    </g>
+                    <g class="u">
+                        <line x1="610.0" y1="85.9" x2="610.0" y2="92.7" />
+                        <rect x="604.4" y="87.6" width="11.2" height="4.5" />
+                    </g>
+                    <g class="u">
+                        <line x1="630.0" y1="68.5" x2="630.0" y2="89.2" />
+                        <rect x="624.4" y="71.0" width="11.2" height="16.6" />
+                    </g>
+                    <g class="u">
+                        <line x1="650.0" y1="45.3" x2="650.0" y2="71.6" />
+                        <rect x="644.4" y="47.2" width="11.2" height="23.8" />
+                    </g>
+                    <g class="u">
+                        <line x1="670.0" y1="25.5" x2="670.0" y2="56.8" />
+                        <rect x="664.4" y="35.6" width="11.2" height="11.6" />
+                    </g>
+                    <g class="d">
+                        <line x1="690.0" y1="29.1" x2="690.0" y2="41.7" />
+                        <rect x="684.4" y="35.6" width="11.2" height="2.2" />
+                    </g>
+                    <g class="u">
+                        <line x1="710.0" y1="35.3" x2="710.0" y2="39.7" />
+                        <rect x="704.4" y="36.5" width="11.2" height="1.5" />
+                    </g>
+                    <g class="d">
+                        <line x1="730.0" y1="33.7" x2="730.0" y2="42.2" />
+                        <rect x="724.4" y="36.5" width="11.2" height="4.9" />
+                    </g>
+                    <g class="u">
+                        <line x1="750.0" y1="28.1" x2="750.0" y2="47.5" />
+                        <rect x="744.4" y="30.6" width="11.2" height="10.8" />
+                    </g>
+                    <g class="u">
+                        <line x1="770.0" y1="27.7" x2="770.0" y2="31.9" />
+                        <rect x="764.4" y="28.2" width="11.2" height="2.4" />
+                    </g>
+                    <g class="u">
+                        <line x1="790.0" y1="20.0" x2="790.0" y2="32.2" />
+                        <rect x="784.4" y="24.3" width="11.2" height="3.9" />
+                    </g>
+                    <g class="d">
+                        <line x1="810.0" y1="16.5" x2="810.0" y2="36.6" />
+                        <rect x="804.4" y="24.3" width="11.2" height="6.2" />
+                    </g>
+                    <g class="u">
+                        <line x1="830.0" y1="6.0" x2="830.0" y2="34.1" />
+                        <rect x="824.4" y="10.1" width="11.2" height="20.4" />
+                    </g>
+                    <g class="d">
+                        <line x1="850.0" y1="9.5" x2="850.0" y2="23.9" />
+                        <rect x="844.4" y="10.1" width="11.2" height="13.4" />
+                    </g>
+                    <g class="d">
+                        <line x1="870.0" y1="21.1" x2="870.0" y2="33.4" />
+                        <rect x="864.4" y="23.5" width="11.2" height="5.3" />
+                    </g>
+                    <g class="u">
+                        <line x1="890.0" y1="18.3" x2="890.0" y2="35.6" />
+                        <rect x="884.4" y="28.1" width="11.2" height="1.5" />
+                    </g>
+                    <g class="d">
+                        <line x1="910.0" y1="23.3" x2="910.0" y2="50.3" />
+                        <rect x="904.4" y="28.1" width="11.2" height="12.4" />
+                    </g>
+                    <g class="u">
+                        <line x1="930.0" y1="22.9" x2="930.0" y2="41.2" />
+                        <rect x="924.4" y="35.8" width="11.2" height="4.7" />
+                    </g>
+                    <g class="d">
+                        <line x1="950.0" y1="27.7" x2="950.0" y2="74.2" />
+                        <rect x="944.4" y="35.8" width="11.2" height="37.3" />
+                    </g>
+                </svg>
+                <div class="glow-field" aria-hidden="true">
+                    <div class="glow custom-ph-glow -top-64 -left-72"></div>
+                </div>
+
+                <div class="container custom-ph-grid grid">
+                    <div>
+                        <nav class="custom-ph-crumb mb-[clamp(1.75rem,1.25rem_+_1.5vw,2.75rem)]" aria-label="Breadcrumb" data-anim="fade" data-anim-duration="800">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="demo-trading-1.html">Home</a></li>
+                                <li class="breadcrumb-item" aria-current="page">News &amp; Analysis</li>
+                            </ol>
+                        </nav>
+
+                        <h1 id="tr-page-title" class="custom-ph-title max-w-[15ch] font-medium leading-[0.98] tracking-[-0.045em] text-(--custom-on-dark) text-balance" data-anim="fade-up" data-anim-duration="1200">What moved markets, <em class="not-italic text-(--color-primary)">and why.</em></h1>
+
+                        <p class="max-w-144 mt-7 text-[clamp(1.125rem,1.05rem_+_0.3vw,1.25rem)] leading-[1.55] text-(--custom-on-dark-soft) text-pretty" data-anim="fade-up" data-anim-delay="140">Daily notes from our analysts. Short, plain English, and never a tip.</p>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- LEAD - the lead story (photo card, the whole card is the link) beside the market snapshot. Snapshot values are fixed demo values. Edit: the story (photo, category, date, time, title, line, link); the snapshot rows (name, spark path, change and its --up / --down class) and its note -->
+            <section id="tr-nw-lead" class="custom-section pt-(--section-space)" aria-label="Lead story and market snapshot">
+                <div class="container grid grid-cols-1 gap-5 min-[68.75rem]:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
+                    <article class="custom-news-feature relative grid [align-content:end] min-h-[clamp(26rem,20rem_+_14vw,34rem)] p-[clamp(1.5rem,1rem_+_2vw,2.75rem)] overflow-hidden isolate text-(--custom-on-dark-soft) rounded-(--custom-radius-photo)" data-anim="fade-up">
+                        <img class="absolute inset-0 -z-2 size-full object-cover" src="../assets/media/placeholder/2000x1333.svg" alt="" width="2000" height="1333" loading="lazy" decoding="async">
+                        <p class="custom-news-meta flex flex-wrap items-center gap-y-2 gap-x-4 text-(--custom-on-dark-soft)"><span class="py-1 px-3 text-[0.875rem] font-semibold text-on-primary bg-primary rounded-pill">Markets</span><time datetime="2026-10-16">16 October 2026</time><span>4 min read</span></p>
+                        <h2 class="max-w-[22ch] mt-4 text-[clamp(1.875rem,1.3rem_+_1.8vw,3rem)] font-medium leading-[1.05] tracking-[-0.04em] text-(--custom-on-dark) text-balance"><a class="text-inherit" href="demo-trading-1-article.html">Why the FTSE 100 had its best week since spring</a></h2>
+                        <p>Miners and banks led the way as the pound eased. What it means if you hold a UK tracker.</p>
+                    </article>
+                    <aside class="custom-snapshot flex flex-col p-[clamp(1.5rem,1rem_+_1.4vw,2.25rem)] text-(--custom-on-dark-soft) bg-(--custom-ink) rounded-(--custom-radius-photo)" aria-labelledby="tr-nw-snap-title" data-anim="fade-up" data-anim-delay="120">
+                        <h2 class="mb-4 text-[1.5rem] font-medium tracking-[-0.03em] text-(--custom-on-dark)" id="tr-nw-snap-title">Market Snapshot</h2>
+                        <ul role="list">
+                            <li class="custom-delta--up"><strong class="font-semibold text-(--custom-on-dark)">FTSE 100</strong><svg class="custom-spark w-14" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                    <path d="M0 16 L8 15 L16 13 L24 14 L32 10 L40 9 L48 7 L56 5 L64 4" />
+                                </svg><span class="custom-delta-pct min-w-19 text-end">+0.42%</span></li>
+                            <li class="custom-delta--up"><strong class="font-semibold text-(--custom-on-dark)">S&amp;P 500</strong><svg class="custom-spark w-14" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                    <path d="M0 14 L8 15 L16 12 L24 12 L32 11 L40 12 L48 9 L56 8 L64 7" />
+                                </svg><span class="custom-delta-pct min-w-19 text-end">+0.18%</span></li>
+                            <li class="custom-delta--up"><strong class="font-semibold text-(--custom-on-dark)">Nasdaq</strong><svg class="custom-spark w-14" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                    <path d="M0 17 L8 14 L16 15 L24 11 L32 12 L40 8 L48 9 L56 5 L64 3" />
+                                </svg><span class="custom-delta-pct min-w-19 text-end">+0.55%</span></li>
+                            <li class="custom-delta--down"><strong class="font-semibold text-(--custom-on-dark)">GBP/USD</strong><svg class="custom-spark w-14" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                    <path d="M0 5 L8 6 L16 4 L24 8 L32 9 L40 8 L48 12 L56 13 L64 14" />
+                                </svg><span class="custom-delta-pct min-w-19 text-end">−0.06%</span></li>
+                            <li class="custom-delta--down"><strong class="font-semibold text-(--custom-on-dark)">Bitcoin</strong><svg class="custom-spark w-14" viewBox="0 0 64 20" aria-hidden="true" focusable="false">
+                                    <path d="M0 4 L8 7 L16 5 L24 10 L32 8 L40 13 L48 11 L56 15 L64 16" />
+                                </svg><span class="custom-delta-pct min-w-19 text-end">−1.12%</span></li>
+                        </ul>
+                        <p class="custom-small mt-auto pt-5">At the close, 16 October · illustrative</p>
+                    </aside>
+                </div>
+            </section>
+
+            <!-- LATEST - light band: topic filter (template tabs-pills buttons) over six notes; each card's data-topic is matched by the filter, without JS all six show. Edit: the filter labels; per card the image or drawn head, topic, date, title, line, link -->
+            <section id="tr-nw-latest" class="custom-section custom-section--light" aria-labelledby="tr-nw-latest-title" x-data="{ topic: 'all' }">
+                <div class="container">
+                    <header class="custom-head custom-head--row">
+                        <h2 id="tr-nw-latest-title" class="custom-title" data-anim="fade-up">Latest <em>notes</em>.</h2>
+                        <p class="custom-lead" data-anim="fade-up" data-anim-delay="120">Published every weekday before the London open.</p>
+                    </header>
+
+                    <div class="tabs tabs-pills custom-filter flex flex-wrap gap-2 mb-10" role="group" aria-label="Filter notes by topic" data-anim="fade-up">
+                        <div class="tabs-nav">
+                            <button type="button" class="tab-btn is-active text-[1rem] font-semibold" :class="{ 'is-active': topic === 'all' }" :aria-pressed="topic === 'all'" @click="topic = 'all'">All Notes</button>
+                            <button type="button" class="tab-btn text-[1rem] font-semibold" :class="{ 'is-active': topic === 'markets' }" :aria-pressed="topic === 'markets'" @click="topic = 'markets'">Markets</button>
+                            <button type="button" class="tab-btn text-[1rem] font-semibold" :class="{ 'is-active': topic === 'economy' }" :aria-pressed="topic === 'economy'" @click="topic = 'economy'">Economy</button>
+                            <button type="button" class="tab-btn text-[1rem] font-semibold" :class="{ 'is-active': topic === 'companies' }" :aria-pressed="topic === 'companies'" @click="topic = 'companies'">Companies</button>
+                        </div>
+                    </div>
+
+                    <ul class="custom-learn-grid md:grid-cols-3" role="list">
+                        <li class="custom-learn-card" data-topic="economy" x-show="topic === 'all' || topic === $el.dataset.topic">
+                            <div class="custom-guide-art" aria-hidden="true"><i class="ph ph-bank text-[clamp(3rem,2.5rem_+_2vw,4rem)] text-(--color-primary)"></i></div>
+                            <p class="custom-learn-meta"><span class="custom-learn-level text-text bg-muted">Economy</span><span class="inline-flex items-center gap-1.5"><time datetime="2026-10-15">15 Oct</time> · 3 min</span></p>
+                            <h3 class="custom-learn-title"><a href="demo-trading-1-article.html">Rates on Hold: What It Means for Cash</a></h3>
+                            <p class="custom-learn-text">Savers keep their rates for now. Here’s what to watch next.</p>
+                        </li>
+                        <li class="custom-learn-card" data-topic="companies" x-show="topic === 'all' || topic === $el.dataset.topic">
+                            <figure class="custom-learn-photo aspect-[16/10] overflow-hidden"><img class="size-full object-cover" src="../assets/media/placeholder/1200x800.svg" alt="" width="1200" height="800" loading="lazy" decoding="async"></figure>
+                            <p class="custom-learn-meta"><span class="custom-learn-level text-text bg-muted">Companies</span><span class="inline-flex items-center gap-1.5"><time datetime="2026-10-14">14 Oct</time> · 5 min</span></p>
+                            <h3 class="custom-learn-title"><a href="demo-trading-1-article.html">Big Tech Results: Three Things to Watch</a></h3>
+                            <p class="custom-learn-text">Cloud growth, spending plans and the outlook for next year.</p>
+                        </li>
+                        <li class="custom-learn-card" data-topic="markets" x-show="topic === 'all' || topic === $el.dataset.topic">
+                            <div class="custom-guide-art" aria-hidden="true">
+                                <svg class="custom-candles custom-guide-candles" viewBox="0 0 960 200" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                                    <g class="u">
+                                        <line x1="10.0" y1="186.0" x2="10.0" y2="194.0" />
+                                        <rect x="4.4" y="190.2" width="11.2" height="3.3" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="30.0" y1="168.0" x2="30.0" y2="193.9" />
+                                        <rect x="24.4" y="172.3" width="11.2" height="17.9" />
+                                    </g>
+                                    <g class="d">
+                                        <line x1="50.0" y1="169.8" x2="50.0" y2="187.6" />
+                                        <rect x="44.4" y="172.3" width="11.2" height="11.1" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="70.0" y1="162.6" x2="70.0" y2="183.4" />
+                                        <rect x="64.4" y="172.3" width="11.2" height="11.1" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="90.0" y1="146.4" x2="90.0" y2="176.5" />
+                                        <rect x="84.4" y="148.6" width="11.2" height="23.7" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="110.0" y1="123.5" x2="110.0" y2="149.1" />
+                                        <rect x="104.4" y="132.9" width="11.2" height="15.7" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="130.0" y1="124.8" x2="130.0" y2="140.2" />
+                                        <rect x="124.4" y="128.8" width="11.2" height="4.1" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="150.0" y1="116.4" x2="150.0" y2="129.5" />
+                                        <rect x="144.4" y="119.7" width="11.2" height="9.1" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="170.0" y1="115.6" x2="170.0" y2="121.6" />
+                                        <rect x="164.4" y="117.5" width="11.2" height="2.2" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="190.0" y1="98.4" x2="190.0" y2="120.5" />
+                                        <rect x="184.4" y="105.5" width="11.2" height="12.0" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="210.0" y1="84.7" x2="210.0" y2="113.5" />
+                                        <rect x="204.4" y="89.0" width="11.2" height="16.5" />
+                                    </g>
+                                    <g class="d">
+                                        <line x1="230.0" y1="88.6" x2="230.0" y2="99.5" />
+                                        <rect x="224.4" y="89.0" width="11.2" height="1.5" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="250.0" y1="77.6" x2="250.0" y2="97.5" />
+                                        <rect x="244.4" y="80.7" width="11.2" height="9.2" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="270.0" y1="69.9" x2="270.0" y2="81.2" />
+                                        <rect x="264.4" y="72.2" width="11.2" height="8.5" />
+                                    </g>
+                                    <g class="d">
+                                        <line x1="290.0" y1="69.3" x2="290.0" y2="88.9" />
+                                        <rect x="284.4" y="72.2" width="11.2" height="14.3" />
+                                    </g>
+                                    <g class="d">
+                                        <line x1="310.0" y1="84.9" x2="310.0" y2="87.9" />
+                                        <rect x="304.4" y="86.5" width="11.2" height="1.5" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="330.0" y1="61.5" x2="330.0" y2="87.3" />
+                                        <rect x="324.4" y="72.7" width="11.2" height="14.5" />
+                                    </g>
+                                    <g class="d">
+                                        <line x1="350.0" y1="69.2" x2="350.0" y2="94.9" />
+                                        <rect x="344.4" y="72.7" width="11.2" height="21.5" />
+                                    </g>
+                                    <g class="d">
+                                        <line x1="370.0" y1="92.8" x2="370.0" y2="108.9" />
+                                        <rect x="364.4" y="94.2" width="11.2" height="14.2" />
+                                    </g>
+                                    <g class="d">
+                                        <line x1="390.0" y1="107.1" x2="390.0" y2="117.1" />
+                                        <rect x="384.4" y="108.4" width="11.2" height="8.2" />
+                                    </g>
+                                    <g class="d">
+                                        <line x1="410.0" y1="116.6" x2="410.0" y2="127.8" />
+                                        <rect x="404.4" y="116.6" width="11.2" height="1.9" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="430.0" y1="85.4" x2="430.0" y2="128.2" />
+                                        <rect x="424.4" y="96.0" width="11.2" height="22.5" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="450.0" y1="79.3" x2="450.0" y2="101.3" />
+                                        <rect x="444.4" y="83.6" width="11.2" height="12.4" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="470.0" y1="78.4" x2="470.0" y2="85.6" />
+                                        <rect x="464.4" y="79.2" width="11.2" height="4.4" />
+                                    </g>
+                                    <g class="d">
+                                        <line x1="490.0" y1="77.1" x2="490.0" y2="85.7" />
+                                        <rect x="484.4" y="79.2" width="11.2" height="1.5" />
+                                    </g>
+                                    <g class="d">
+                                        <line x1="510.0" y1="72.4" x2="510.0" y2="99.8" />
+                                        <rect x="504.4" y="79.6" width="11.2" height="16.4" />
+                                    </g>
+                                    <g class="d">
+                                        <line x1="530.0" y1="95.2" x2="530.0" y2="106.4" />
+                                        <rect x="524.4" y="96.0" width="11.2" height="2.2" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="550.0" y1="95.5" x2="550.0" y2="99.3" />
+                                        <rect x="544.4" y="95.6" width="11.2" height="2.6" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="570.0" y1="90.7" x2="570.0" y2="97.7" />
+                                        <rect x="564.4" y="90.8" width="11.2" height="4.8" />
+                                    </g>
+                                    <g class="d">
+                                        <line x1="590.0" y1="86.5" x2="590.0" y2="95.7" />
+                                        <rect x="584.4" y="90.8" width="11.2" height="1.5" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="610.0" y1="85.9" x2="610.0" y2="92.7" />
+                                        <rect x="604.4" y="87.6" width="11.2" height="4.5" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="630.0" y1="68.5" x2="630.0" y2="89.2" />
+                                        <rect x="624.4" y="71.0" width="11.2" height="16.6" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="650.0" y1="45.3" x2="650.0" y2="71.6" />
+                                        <rect x="644.4" y="47.2" width="11.2" height="23.8" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="670.0" y1="25.5" x2="670.0" y2="56.8" />
+                                        <rect x="664.4" y="35.6" width="11.2" height="11.6" />
+                                    </g>
+                                    <g class="d">
+                                        <line x1="690.0" y1="29.1" x2="690.0" y2="41.7" />
+                                        <rect x="684.4" y="35.6" width="11.2" height="2.2" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="710.0" y1="35.3" x2="710.0" y2="39.7" />
+                                        <rect x="704.4" y="36.5" width="11.2" height="1.5" />
+                                    </g>
+                                    <g class="d">
+                                        <line x1="730.0" y1="33.7" x2="730.0" y2="42.2" />
+                                        <rect x="724.4" y="36.5" width="11.2" height="4.9" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="750.0" y1="28.1" x2="750.0" y2="47.5" />
+                                        <rect x="744.4" y="30.6" width="11.2" height="10.8" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="770.0" y1="27.7" x2="770.0" y2="31.9" />
+                                        <rect x="764.4" y="28.2" width="11.2" height="2.4" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="790.0" y1="20.0" x2="790.0" y2="32.2" />
+                                        <rect x="784.4" y="24.3" width="11.2" height="3.9" />
+                                    </g>
+                                    <g class="d">
+                                        <line x1="810.0" y1="16.5" x2="810.0" y2="36.6" />
+                                        <rect x="804.4" y="24.3" width="11.2" height="6.2" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="830.0" y1="6.0" x2="830.0" y2="34.1" />
+                                        <rect x="824.4" y="10.1" width="11.2" height="20.4" />
+                                    </g>
+                                    <g class="d">
+                                        <line x1="850.0" y1="9.5" x2="850.0" y2="23.9" />
+                                        <rect x="844.4" y="10.1" width="11.2" height="13.4" />
+                                    </g>
+                                    <g class="d">
+                                        <line x1="870.0" y1="21.1" x2="870.0" y2="33.4" />
+                                        <rect x="864.4" y="23.5" width="11.2" height="5.3" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="890.0" y1="18.3" x2="890.0" y2="35.6" />
+                                        <rect x="884.4" y="28.1" width="11.2" height="1.5" />
+                                    </g>
+                                    <g class="d">
+                                        <line x1="910.0" y1="23.3" x2="910.0" y2="50.3" />
+                                        <rect x="904.4" y="28.1" width="11.2" height="12.4" />
+                                    </g>
+                                    <g class="u">
+                                        <line x1="930.0" y1="22.9" x2="930.0" y2="41.2" />
+                                        <rect x="924.4" y="35.8" width="11.2" height="4.7" />
+                                    </g>
+                                    <g class="d">
+                                        <line x1="950.0" y1="27.7" x2="950.0" y2="74.2" />
+                                        <rect x="944.4" y="35.8" width="11.2" height="37.3" />
+                                    </g>
+                                </svg>
+                            </div>
+                            <p class="custom-learn-meta"><span class="custom-learn-level text-text bg-muted">Markets</span><span class="inline-flex items-center gap-1.5"><time datetime="2026-10-13">13 Oct</time> · 4 min</span></p>
+                            <h3 class="custom-learn-title"><a href="demo-trading-1-article.html">Gold Near a Record. Why Now?</a></h3>
+                            <p class="custom-learn-text">A weaker dollar and steady central-bank buying.</p>
+                        </li>
+                        <li class="custom-learn-card" data-topic="markets" x-show="topic === 'all' || topic === $el.dataset.topic">
+                            <figure class="custom-learn-photo aspect-[16/10] overflow-hidden"><img class="size-full object-cover" src="../assets/media/placeholder/1200x800.svg" alt="" width="1200" height="800" loading="lazy" decoding="async"></figure>
+                            <p class="custom-learn-meta"><span class="custom-learn-level text-text bg-muted">Markets</span><span class="inline-flex items-center gap-1.5"><time datetime="2026-10-10">10 Oct</time> · 6 min</span></p>
+                            <h3 class="custom-learn-title"><a href="demo-trading-1-article.html">The Week Ahead: Earnings Season Begins</a></h3>
+                            <p class="custom-learn-text">Banks report first. What their numbers tend to signal.</p>
+                        </li>
+                        <li class="custom-learn-card" data-topic="economy" x-show="topic === 'all' || topic === $el.dataset.topic">
+                            <figure class="custom-learn-photo aspect-[16/10] overflow-hidden"><img class="size-full object-cover" src="../assets/media/placeholder/1200x800.svg" alt="" width="1200" height="800" loading="lazy" decoding="async"></figure>
+                            <p class="custom-learn-meta"><span class="custom-learn-level text-text bg-muted">Economy</span><span class="inline-flex items-center gap-1.5"><time datetime="2026-10-09">9 Oct</time> · 4 min</span></p>
+                            <h3 class="custom-learn-title"><a href="demo-trading-1-article.html">Inflation Eases Again</a></h3>
+                            <p class="custom-learn-text">Prices rose 2.4% in the year to September.</p>
+                        </li>
+                        <li class="custom-learn-card" data-topic="companies" x-show="topic === 'all' || topic === $el.dataset.topic">
+                            <div class="custom-guide-art" aria-hidden="true"><i class="ph ph-shopping-bag text-[clamp(3rem,2.5rem_+_2vw,4rem)] text-(--color-primary)"></i></div>
+                            <p class="custom-learn-meta"><span class="custom-learn-level text-text bg-muted">Companies</span><span class="inline-flex items-center gap-1.5"><time datetime="2026-10-08">8 Oct</time> · 3 min</span></p>
+                            <h3 class="custom-learn-title"><a href="demo-trading-1-article.html">Retailers Brace for Christmas</a></h3>
+                            <p class="custom-learn-text">Early trading updates point to a cautious season.</p>
+                        </li>
+                    </ul>
+
+                    <div class="flex justify-center mt-12"><a href="#" class="btn btn-outline-dark btn-lg">Older Notes</a></div>
+                    <p class="custom-small mt-8 max-w-240 mx-auto text-center">Our notes are for information only and aren’t a personal recommendation. Capital at risk.</p>
+                </div>
+            </section>
+
+            <!-- BRIEFING - ink band: the weekday email beside an email field (template input-group, formValidate, demo note). Edit: the title, the lead, the field, the button, the small print -->
+            <section id="tr-nw-briefing" class="custom-section custom-section--dark" aria-labelledby="tr-nw-briefing-title">
+                <svg class="custom-candles custom-security-candles" viewBox="0 0 960 200" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                    <g class="u">
+                        <line x1="10.0" y1="186.0" x2="10.0" y2="194.0" />
+                        <rect x="4.4" y="190.2" width="11.2" height="3.3" />
+                    </g>
+                    <g class="u">
+                        <line x1="30.0" y1="168.0" x2="30.0" y2="193.9" />
+                        <rect x="24.4" y="172.3" width="11.2" height="17.9" />
+                    </g>
+                    <g class="d">
+                        <line x1="50.0" y1="169.8" x2="50.0" y2="187.6" />
+                        <rect x="44.4" y="172.3" width="11.2" height="11.1" />
+                    </g>
+                    <g class="u">
+                        <line x1="70.0" y1="162.6" x2="70.0" y2="183.4" />
+                        <rect x="64.4" y="172.3" width="11.2" height="11.1" />
+                    </g>
+                    <g class="u">
+                        <line x1="90.0" y1="146.4" x2="90.0" y2="176.5" />
+                        <rect x="84.4" y="148.6" width="11.2" height="23.7" />
+                    </g>
+                    <g class="u">
+                        <line x1="110.0" y1="123.5" x2="110.0" y2="149.1" />
+                        <rect x="104.4" y="132.9" width="11.2" height="15.7" />
+                    </g>
+                    <g class="u">
+                        <line x1="130.0" y1="124.8" x2="130.0" y2="140.2" />
+                        <rect x="124.4" y="128.8" width="11.2" height="4.1" />
+                    </g>
+                    <g class="u">
+                        <line x1="150.0" y1="116.4" x2="150.0" y2="129.5" />
+                        <rect x="144.4" y="119.7" width="11.2" height="9.1" />
+                    </g>
+                    <g class="u">
+                        <line x1="170.0" y1="115.6" x2="170.0" y2="121.6" />
+                        <rect x="164.4" y="117.5" width="11.2" height="2.2" />
+                    </g>
+                    <g class="u">
+                        <line x1="190.0" y1="98.4" x2="190.0" y2="120.5" />
+                        <rect x="184.4" y="105.5" width="11.2" height="12.0" />
+                    </g>
+                    <g class="u">
+                        <line x1="210.0" y1="84.7" x2="210.0" y2="113.5" />
+                        <rect x="204.4" y="89.0" width="11.2" height="16.5" />
+                    </g>
+                    <g class="d">
+                        <line x1="230.0" y1="88.6" x2="230.0" y2="99.5" />
+                        <rect x="224.4" y="89.0" width="11.2" height="1.5" />
+                    </g>
+                    <g class="u">
+                        <line x1="250.0" y1="77.6" x2="250.0" y2="97.5" />
+                        <rect x="244.4" y="80.7" width="11.2" height="9.2" />
+                    </g>
+                    <g class="u">
+                        <line x1="270.0" y1="69.9" x2="270.0" y2="81.2" />
+                        <rect x="264.4" y="72.2" width="11.2" height="8.5" />
+                    </g>
+                    <g class="d">
+                        <line x1="290.0" y1="69.3" x2="290.0" y2="88.9" />
+                        <rect x="284.4" y="72.2" width="11.2" height="14.3" />
+                    </g>
+                    <g class="d">
+                        <line x1="310.0" y1="84.9" x2="310.0" y2="87.9" />
+                        <rect x="304.4" y="86.5" width="11.2" height="1.5" />
+                    </g>
+                    <g class="u">
+                        <line x1="330.0" y1="61.5" x2="330.0" y2="87.3" />
+                        <rect x="324.4" y="72.7" width="11.2" height="14.5" />
+                    </g>
+                    <g class="d">
+                        <line x1="350.0" y1="69.2" x2="350.0" y2="94.9" />
+                        <rect x="344.4" y="72.7" width="11.2" height="21.5" />
+                    </g>
+                    <g class="d">
+                        <line x1="370.0" y1="92.8" x2="370.0" y2="108.9" />
+                        <rect x="364.4" y="94.2" width="11.2" height="14.2" />
+                    </g>
+                    <g class="d">
+                        <line x1="390.0" y1="107.1" x2="390.0" y2="117.1" />
+                        <rect x="384.4" y="108.4" width="11.2" height="8.2" />
+                    </g>
+                    <g class="d">
+                        <line x1="410.0" y1="116.6" x2="410.0" y2="127.8" />
+                        <rect x="404.4" y="116.6" width="11.2" height="1.9" />
+                    </g>
+                    <g class="u">
+                        <line x1="430.0" y1="85.4" x2="430.0" y2="128.2" />
+                        <rect x="424.4" y="96.0" width="11.2" height="22.5" />
+                    </g>
+                    <g class="u">
+                        <line x1="450.0" y1="79.3" x2="450.0" y2="101.3" />
+                        <rect x="444.4" y="83.6" width="11.2" height="12.4" />
+                    </g>
+                    <g class="u">
+                        <line x1="470.0" y1="78.4" x2="470.0" y2="85.6" />
+                        <rect x="464.4" y="79.2" width="11.2" height="4.4" />
+                    </g>
+                    <g class="d">
+                        <line x1="490.0" y1="77.1" x2="490.0" y2="85.7" />
+                        <rect x="484.4" y="79.2" width="11.2" height="1.5" />
+                    </g>
+                    <g class="d">
+                        <line x1="510.0" y1="72.4" x2="510.0" y2="99.8" />
+                        <rect x="504.4" y="79.6" width="11.2" height="16.4" />
+                    </g>
+                    <g class="d">
+                        <line x1="530.0" y1="95.2" x2="530.0" y2="106.4" />
+                        <rect x="524.4" y="96.0" width="11.2" height="2.2" />
+                    </g>
+                    <g class="u">
+                        <line x1="550.0" y1="95.5" x2="550.0" y2="99.3" />
+                        <rect x="544.4" y="95.6" width="11.2" height="2.6" />
+                    </g>
+                    <g class="u">
+                        <line x1="570.0" y1="90.7" x2="570.0" y2="97.7" />
+                        <rect x="564.4" y="90.8" width="11.2" height="4.8" />
+                    </g>
+                    <g class="d">
+                        <line x1="590.0" y1="86.5" x2="590.0" y2="95.7" />
+                        <rect x="584.4" y="90.8" width="11.2" height="1.5" />
+                    </g>
+                    <g class="u">
+                        <line x1="610.0" y1="85.9" x2="610.0" y2="92.7" />
+                        <rect x="604.4" y="87.6" width="11.2" height="4.5" />
+                    </g>
+                    <g class="u">
+                        <line x1="630.0" y1="68.5" x2="630.0" y2="89.2" />
+                        <rect x="624.4" y="71.0" width="11.2" height="16.6" />
+                    </g>
+                    <g class="u">
+                        <line x1="650.0" y1="45.3" x2="650.0" y2="71.6" />
+                        <rect x="644.4" y="47.2" width="11.2" height="23.8" />
+                    </g>
+                    <g class="u">
+                        <line x1="670.0" y1="25.5" x2="670.0" y2="56.8" />
+                        <rect x="664.4" y="35.6" width="11.2" height="11.6" />
+                    </g>
+                    <g class="d">
+                        <line x1="690.0" y1="29.1" x2="690.0" y2="41.7" />
+                        <rect x="684.4" y="35.6" width="11.2" height="2.2" />
+                    </g>
+                    <g class="u">
+                        <line x1="710.0" y1="35.3" x2="710.0" y2="39.7" />
+                        <rect x="704.4" y="36.5" width="11.2" height="1.5" />
+                    </g>
+                    <g class="d">
+                        <line x1="730.0" y1="33.7" x2="730.0" y2="42.2" />
+                        <rect x="724.4" y="36.5" width="11.2" height="4.9" />
+                    </g>
+                    <g class="u">
+                        <line x1="750.0" y1="28.1" x2="750.0" y2="47.5" />
+                        <rect x="744.4" y="30.6" width="11.2" height="10.8" />
+                    </g>
+                    <g class="u">
+                        <line x1="770.0" y1="27.7" x2="770.0" y2="31.9" />
+                        <rect x="764.4" y="28.2" width="11.2" height="2.4" />
+                    </g>
+                    <g class="u">
+                        <line x1="790.0" y1="20.0" x2="790.0" y2="32.2" />
+                        <rect x="784.4" y="24.3" width="11.2" height="3.9" />
+                    </g>
+                    <g class="d">
+                        <line x1="810.0" y1="16.5" x2="810.0" y2="36.6" />
+                        <rect x="804.4" y="24.3" width="11.2" height="6.2" />
+                    </g>
+                    <g class="u">
+                        <line x1="830.0" y1="6.0" x2="830.0" y2="34.1" />
+                        <rect x="824.4" y="10.1" width="11.2" height="20.4" />
+                    </g>
+                    <g class="d">
+                        <line x1="850.0" y1="9.5" x2="850.0" y2="23.9" />
+                        <rect x="844.4" y="10.1" width="11.2" height="13.4" />
+                    </g>
+                    <g class="d">
+                        <line x1="870.0" y1="21.1" x2="870.0" y2="33.4" />
+                        <rect x="864.4" y="23.5" width="11.2" height="5.3" />
+                    </g>
+                    <g class="u">
+                        <line x1="890.0" y1="18.3" x2="890.0" y2="35.6" />
+                        <rect x="884.4" y="28.1" width="11.2" height="1.5" />
+                    </g>
+                    <g class="d">
+                        <line x1="910.0" y1="23.3" x2="910.0" y2="50.3" />
+                        <rect x="904.4" y="28.1" width="11.2" height="12.4" />
+                    </g>
+                    <g class="u">
+                        <line x1="930.0" y1="22.9" x2="930.0" y2="41.2" />
+                        <rect x="924.4" y="35.8" width="11.2" height="4.7" />
+                    </g>
+                    <g class="d">
+                        <line x1="950.0" y1="27.7" x2="950.0" y2="74.2" />
+                        <rect x="944.4" y="35.8" width="11.2" height="37.3" />
+                    </g>
+                </svg>
+                <div class="container custom-split grid">
+                    <header class="custom-head mb-0" data-anim="fade-up">
+                        <h2 id="tr-nw-briefing-title" class="custom-title">The morning note, in your <em class="text-(--color-primary)">inbox</em>.</h2>
+                        <p class="custom-lead">Three stories and one chart, before 7am on weekdays.</p>
+                    </header>
+                    <form x-data="formValidate()" novalidate @submit.prevent="onSubmit($event)" data-anim="fade-up" data-anim-delay="120">
+                        <label class="sr-only" for="tr-nw-email">Email address</label>
+                        <div class="input-group max-w-136">
+                            <input id="tr-nw-email" name="email" type="email" class="form-input form-input-lg" placeholder="you@example.com" autocomplete="email" required aria-describedby="tr-nw-email-err" @blur="$event.target.value &amp;&amp; check($event.target)" @input="touched.email &amp;&amp; check($event.target)">
+                            <button type="submit" class="input-btn">Sign Up</button>
+                        </div>
+                        <span class="form-error-msg" id="tr-nw-email-err" x-show="errors.email" x-text="errors.email" x-cloak></span>
+                        <p class="custom-subscribe-done items-center gap-2 mt-3.5 font-semibold text-(--custom-up)" role="status" x-show="sent" x-cloak><i class="ph-bold ph-check-circle" aria-hidden="true"></i>Thank you — this is a demo, so nothing was sent.</p>
+                        <p class="custom-small mt-3.5">Free. Unsubscribe in one click.</p>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+        <!-- Trading 1 footer - the template default footer on the ink (site-footer--dark footer-default): brand, line and app pills beside five link columns, then the risk-warning block and the legal line. Edit: the line, the app pills, the columns, the risk lines, the registration numbers -->
+        <footer class="site-footer site-footer--dark footer-default custom-footer border-t border-t-(--custom-line-dark)">
+
+            <span class="glow footer-default-glow -top-72 -right-64" aria-hidden="true"></span>
+            <svg class="custom-candles custom-footer-candles" viewBox="0 0 960 200" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                <g class="u">
+                    <line x1="10.0" y1="186.0" x2="10.0" y2="194.0" />
+                    <rect x="4.4" y="190.2" width="11.2" height="3.3" />
+                </g>
+                <g class="u">
+                    <line x1="30.0" y1="168.0" x2="30.0" y2="193.9" />
+                    <rect x="24.4" y="172.3" width="11.2" height="17.9" />
+                </g>
+                <g class="d">
+                    <line x1="50.0" y1="169.8" x2="50.0" y2="187.6" />
+                    <rect x="44.4" y="172.3" width="11.2" height="11.1" />
+                </g>
+                <g class="u">
+                    <line x1="70.0" y1="162.6" x2="70.0" y2="183.4" />
+                    <rect x="64.4" y="172.3" width="11.2" height="11.1" />
+                </g>
+                <g class="u">
+                    <line x1="90.0" y1="146.4" x2="90.0" y2="176.5" />
+                    <rect x="84.4" y="148.6" width="11.2" height="23.7" />
+                </g>
+                <g class="u">
+                    <line x1="110.0" y1="123.5" x2="110.0" y2="149.1" />
+                    <rect x="104.4" y="132.9" width="11.2" height="15.7" />
+                </g>
+                <g class="u">
+                    <line x1="130.0" y1="124.8" x2="130.0" y2="140.2" />
+                    <rect x="124.4" y="128.8" width="11.2" height="4.1" />
+                </g>
+                <g class="u">
+                    <line x1="150.0" y1="116.4" x2="150.0" y2="129.5" />
+                    <rect x="144.4" y="119.7" width="11.2" height="9.1" />
+                </g>
+                <g class="u">
+                    <line x1="170.0" y1="115.6" x2="170.0" y2="121.6" />
+                    <rect x="164.4" y="117.5" width="11.2" height="2.2" />
+                </g>
+                <g class="u">
+                    <line x1="190.0" y1="98.4" x2="190.0" y2="120.5" />
+                    <rect x="184.4" y="105.5" width="11.2" height="12.0" />
+                </g>
+                <g class="u">
+                    <line x1="210.0" y1="84.7" x2="210.0" y2="113.5" />
+                    <rect x="204.4" y="89.0" width="11.2" height="16.5" />
+                </g>
+                <g class="d">
+                    <line x1="230.0" y1="88.6" x2="230.0" y2="99.5" />
+                    <rect x="224.4" y="89.0" width="11.2" height="1.5" />
+                </g>
+                <g class="u">
+                    <line x1="250.0" y1="77.6" x2="250.0" y2="97.5" />
+                    <rect x="244.4" y="80.7" width="11.2" height="9.2" />
+                </g>
+                <g class="u">
+                    <line x1="270.0" y1="69.9" x2="270.0" y2="81.2" />
+                    <rect x="264.4" y="72.2" width="11.2" height="8.5" />
+                </g>
+                <g class="d">
+                    <line x1="290.0" y1="69.3" x2="290.0" y2="88.9" />
+                    <rect x="284.4" y="72.2" width="11.2" height="14.3" />
+                </g>
+                <g class="d">
+                    <line x1="310.0" y1="84.9" x2="310.0" y2="87.9" />
+                    <rect x="304.4" y="86.5" width="11.2" height="1.5" />
+                </g>
+                <g class="u">
+                    <line x1="330.0" y1="61.5" x2="330.0" y2="87.3" />
+                    <rect x="324.4" y="72.7" width="11.2" height="14.5" />
+                </g>
+                <g class="d">
+                    <line x1="350.0" y1="69.2" x2="350.0" y2="94.9" />
+                    <rect x="344.4" y="72.7" width="11.2" height="21.5" />
+                </g>
+                <g class="d">
+                    <line x1="370.0" y1="92.8" x2="370.0" y2="108.9" />
+                    <rect x="364.4" y="94.2" width="11.2" height="14.2" />
+                </g>
+                <g class="d">
+                    <line x1="390.0" y1="107.1" x2="390.0" y2="117.1" />
+                    <rect x="384.4" y="108.4" width="11.2" height="8.2" />
+                </g>
+                <g class="d">
+                    <line x1="410.0" y1="116.6" x2="410.0" y2="127.8" />
+                    <rect x="404.4" y="116.6" width="11.2" height="1.9" />
+                </g>
+                <g class="u">
+                    <line x1="430.0" y1="85.4" x2="430.0" y2="128.2" />
+                    <rect x="424.4" y="96.0" width="11.2" height="22.5" />
+                </g>
+                <g class="u">
+                    <line x1="450.0" y1="79.3" x2="450.0" y2="101.3" />
+                    <rect x="444.4" y="83.6" width="11.2" height="12.4" />
+                </g>
+                <g class="u">
+                    <line x1="470.0" y1="78.4" x2="470.0" y2="85.6" />
+                    <rect x="464.4" y="79.2" width="11.2" height="4.4" />
+                </g>
+                <g class="d">
+                    <line x1="490.0" y1="77.1" x2="490.0" y2="85.7" />
+                    <rect x="484.4" y="79.2" width="11.2" height="1.5" />
+                </g>
+                <g class="d">
+                    <line x1="510.0" y1="72.4" x2="510.0" y2="99.8" />
+                    <rect x="504.4" y="79.6" width="11.2" height="16.4" />
+                </g>
+                <g class="d">
+                    <line x1="530.0" y1="95.2" x2="530.0" y2="106.4" />
+                    <rect x="524.4" y="96.0" width="11.2" height="2.2" />
+                </g>
+                <g class="u">
+                    <line x1="550.0" y1="95.5" x2="550.0" y2="99.3" />
+                    <rect x="544.4" y="95.6" width="11.2" height="2.6" />
+                </g>
+                <g class="u">
+                    <line x1="570.0" y1="90.7" x2="570.0" y2="97.7" />
+                    <rect x="564.4" y="90.8" width="11.2" height="4.8" />
+                </g>
+                <g class="d">
+                    <line x1="590.0" y1="86.5" x2="590.0" y2="95.7" />
+                    <rect x="584.4" y="90.8" width="11.2" height="1.5" />
+                </g>
+                <g class="u">
+                    <line x1="610.0" y1="85.9" x2="610.0" y2="92.7" />
+                    <rect x="604.4" y="87.6" width="11.2" height="4.5" />
+                </g>
+                <g class="u">
+                    <line x1="630.0" y1="68.5" x2="630.0" y2="89.2" />
+                    <rect x="624.4" y="71.0" width="11.2" height="16.6" />
+                </g>
+                <g class="u">
+                    <line x1="650.0" y1="45.3" x2="650.0" y2="71.6" />
+                    <rect x="644.4" y="47.2" width="11.2" height="23.8" />
+                </g>
+                <g class="u">
+                    <line x1="670.0" y1="25.5" x2="670.0" y2="56.8" />
+                    <rect x="664.4" y="35.6" width="11.2" height="11.6" />
+                </g>
+                <g class="d">
+                    <line x1="690.0" y1="29.1" x2="690.0" y2="41.7" />
+                    <rect x="684.4" y="35.6" width="11.2" height="2.2" />
+                </g>
+                <g class="u">
+                    <line x1="710.0" y1="35.3" x2="710.0" y2="39.7" />
+                    <rect x="704.4" y="36.5" width="11.2" height="1.5" />
+                </g>
+                <g class="d">
+                    <line x1="730.0" y1="33.7" x2="730.0" y2="42.2" />
+                    <rect x="724.4" y="36.5" width="11.2" height="4.9" />
+                </g>
+                <g class="u">
+                    <line x1="750.0" y1="28.1" x2="750.0" y2="47.5" />
+                    <rect x="744.4" y="30.6" width="11.2" height="10.8" />
+                </g>
+                <g class="u">
+                    <line x1="770.0" y1="27.7" x2="770.0" y2="31.9" />
+                    <rect x="764.4" y="28.2" width="11.2" height="2.4" />
+                </g>
+                <g class="u">
+                    <line x1="790.0" y1="20.0" x2="790.0" y2="32.2" />
+                    <rect x="784.4" y="24.3" width="11.2" height="3.9" />
+                </g>
+                <g class="d">
+                    <line x1="810.0" y1="16.5" x2="810.0" y2="36.6" />
+                    <rect x="804.4" y="24.3" width="11.2" height="6.2" />
+                </g>
+                <g class="u">
+                    <line x1="830.0" y1="6.0" x2="830.0" y2="34.1" />
+                    <rect x="824.4" y="10.1" width="11.2" height="20.4" />
+                </g>
+                <g class="d">
+                    <line x1="850.0" y1="9.5" x2="850.0" y2="23.9" />
+                    <rect x="844.4" y="10.1" width="11.2" height="13.4" />
+                </g>
+                <g class="d">
+                    <line x1="870.0" y1="21.1" x2="870.0" y2="33.4" />
+                    <rect x="864.4" y="23.5" width="11.2" height="5.3" />
+                </g>
+                <g class="u">
+                    <line x1="890.0" y1="18.3" x2="890.0" y2="35.6" />
+                    <rect x="884.4" y="28.1" width="11.2" height="1.5" />
+                </g>
+                <g class="d">
+                    <line x1="910.0" y1="23.3" x2="910.0" y2="50.3" />
+                    <rect x="904.4" y="28.1" width="11.2" height="12.4" />
+                </g>
+                <g class="u">
+                    <line x1="930.0" y1="22.9" x2="930.0" y2="41.2" />
+                    <rect x="924.4" y="35.8" width="11.2" height="4.7" />
+                </g>
+                <g class="d">
+                    <line x1="950.0" y1="27.7" x2="950.0" y2="74.2" />
+                    <rect x="944.4" y="35.8" width="11.2" height="37.3" />
+                </g>
+            </svg>
+
+            <div class="footer-main">
+                <div class="container">
+
+                    <!-- Brand + link columns -->
+                    <div class="grid grid-cols-2 gap-y-12 gap-x-8 md:grid-cols-5 min-[75rem]:grid-cols-[minmax(0,1.7fr)_repeat(5,minmax(0,1fr))]" data-anim-stagger="80">
+                        <div class="col-span-full min-[75rem]:col-[auto]" data-anim="fade-up">
+                            <a href="demo-trading-1.html" class="brand">
+
+                                <img class="brand-logo" src="../assets/media/logo/draftmango-logo.svg" alt="Draftmango" width="120" height="32" style="--logo-tint: url(#logo-tint-footer)">
+
+                                <svg class="brand-tint" aria-hidden="true" focusable="false">
+                                    <filter id="logo-tint-footer" color-interpolation-filters="sRGB">
+                                        <feFlood flood-color="currentColor" />
+                                        <feComposite in2="SourceAlpha" operator="in" />
+                                    </filter>
+                                </svg>
+                            </a>
+                            <p class="mt-5 font-heading text-[1.75rem] font-medium leading-[1.1] tracking-[-0.035em] text-(--custom-on-dark)">Investing made clear.</p>
+                            <ul class="flex flex-wrap gap-2 mt-7 mb-7" role="list">
+                                <li><a href="#" class="custom-footer-app"><i class="ph ph-device-mobile text-[1.125rem] text-(--color-primary)" aria-hidden="true"></i>iPhone App</a></li>
+                                <li><a href="#" class="custom-footer-app"><i class="ph ph-device-mobile-camera text-[1.125rem] text-(--color-primary)" aria-hidden="true"></i>Android App</a></li>
+                            </ul>
+                            <ul class="social-list" role="list">
+                                <li><a href="#" aria-label="X" data-social="x" class="social-link social-link--circle social-link--outline"><i class="ph ph-x-logo"></i></a></li>
+                                <li><a href="#" aria-label="LinkedIn" data-social="linkedin" class="social-link social-link--circle social-link--outline"><i class="ph ph-linkedin-logo"></i></a></li>
+                                <li><a href="#" aria-label="YouTube" data-social="youtube" class="social-link social-link--circle social-link--outline"><i class="ph ph-youtube-logo"></i></a></li>
+                            </ul>
+                        </div>
+
+                        <div data-anim="fade-up">
+                            <p class="footer-col-title font-heading">Invest</p>
+                            <ul class="footer-links footer-links--slide" role="list">
+                                <li><a href="demo-trading-1-isa.html">Stocks &amp; Shares ISA</a></li>
+                                <li><a href="demo-trading-1-invest.html#sipp">SIPP</a></li>
+                                <li><a href="demo-trading-1-invest.html#general">General Account</a></li>
+                                <li><a href="demo-trading-1-invest.html#junior-isa">Junior ISA</a></li>
+                            </ul>
+                        </div>
+
+                        <div data-anim="fade-up">
+                            <p class="footer-col-title font-heading">Markets</p>
+                            <ul class="footer-links footer-links--slide" role="list">
+                                <li><a href="demo-trading-1-markets.html">Shares</a></li>
+                                <li><a href="demo-trading-1-markets.html">ETFs</a></li>
+                                <li><a href="demo-trading-1-markets.html">Forex</a></li>
+                                <li><a href="demo-trading-1-markets.html">Crypto ETNs</a></li>
+                            </ul>
+                        </div>
+
+                        <div data-anim="fade-up">
+                            <p class="footer-col-title font-heading">Learn</p>
+                            <ul class="footer-links footer-links--slide" role="list">
+                                <li><a href="demo-trading-1-academy.html">Academy</a></li>
+                                <li><a href="demo-trading-1-news.html">News &amp; Analysis</a></li>
+                                <li><a href="demo-trading-1-pricing.html">Pricing</a></li>
+                            </ul>
+                        </div>
+
+                        <div data-anim="fade-up">
+                            <p class="footer-col-title font-heading">Company</p>
+                            <ul class="footer-links footer-links--slide" role="list">
+                                <li><a href="demo-trading-1-about.html">About Us</a></li>
+                                <li><a href="demo-trading-1-security.html">Security &amp; Regulation</a></li>
+                                <li><a href="demo-trading-1-open-account.html">Open an Account</a></li>
+                            </ul>
+                        </div>
+
+                        <div data-anim="fade-up">
+                            <p class="footer-col-title font-heading">Help</p>
+                            <ul class="footer-links footer-links--slide" role="list">
+                                <li><a href="#">Help Centre</a></li>
+                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="#">Complaints</a></li>
+                                <li><a href="#">Accessibility</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Risk warning - Edit: the lines; keep "Capital at risk" first -->
+                    <div class="custom-footer-risk mt-[clamp(3rem,5vw,4.5rem)] py-7 px-[clamp(1.25rem,3vw,2.25rem)] rounded-(--custom-radius-card)" data-anim="fade-up">
+                        <p class="custom-footer-risk-title"><i class="ph ph-warning-circle text-[1.125rem] text-(--color-primary)" aria-hidden="true"></i>Important Information</p>
+                        <ul class="grid gap-2 max-w-248 text-[0.9375rem] leading-[1.55] text-(--custom-on-dark-soft)" role="list">
+                            <li><strong class="font-semibold text-(--custom-on-dark)">Capital at risk.</strong> The value of your investments can go down as well as up and you may get back less than you invest.</li>
+                            <li>Tax treatment depends on your individual circumstances and may change.</li>
+                            <li>We don't provide investment advice.</li>
+                            <li>Cryptoasset ETNs are high-risk.</li>
+                            <li>Draftmango Invest Ltd is authorised and regulated by the Financial Conduct Authority (FRN 000000). Eligible investments are protected by the FSCS up to £85,000.</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="container footer-bottom-inner">
+                    <span>&copy; 2026 Draftmango Invest Ltd. Registered in England and Wales, company no. 00000000.</span>
+                    <ul class="footer-nav" role="list">
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Cookies</a></li>
+                        <li><a href="#">Key Information Documents</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </footer>
+
+        <!-- Back to top button -->
+        <button data-back-top aria-label="Back to top" class="back-to-top fixed bottom-8 right-8 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer border-0 bg-primary custom-back-top shadow-token-lg z-sticky">
+            <i class="ph ph-arrow-up"></i>
+        </button>
+
+        <script defer src="../assets/js/vendor.js"></script>
+        <script defer src="../assets/js/main.js"></script>
+    </body>
+</html>

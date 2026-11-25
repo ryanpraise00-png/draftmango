@@ -1,0 +1,126 @@
+/* ================================================================
+ *  demo-sneaker-store-1.css — Draftmango theme for the Sneaker Store demo
+ *
+ *  The colors, fonts and layout settings of the Sneaker Store
+ *  demo (Draftmango Kicks, a multi-brand sneaker store: 40+ labels, launches and restocks, a Chicago flagship on Milwaukee Ave).
+ *  The store itself is black and white; colour lives in the products and their banners.
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here).
+   Anton for headings (first candidate; the font check compares it with Big Shoulders
+   Display 900 and Inter Display 900 italic), Inter for the body. */
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #18181b;   /* main color: near-black for buttons, links and fills; labels on it are white */
+    --color-secondary-base:  #09090b;   /* second color: ink for the text and the ticker; the dark scheme takes its hue */
+    --color-tertiary-base:   #ececef;   /* third color: light grey for soft fills and the cut-out tiles */
+    --color-quaternary-base: #6b6b73;   /* fourth color: grey for meta */
+    --color-accent-base:     #d4ff3a;   /* attention color: volt, for small sale / new tags; labels on it stay black (Auto) */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. White labels on the brand fills (a preset picks its own);
+       the volt accent keeps its Auto label, black. */
+    --color-on-primary: #fff;
+
+    --color-primary:       var(--color-primary-base);
+    --color-primary-hover: oklch(from var(--color-primary-base) calc(l - 0.06) c h);
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-bg:          oklch(from var(--color-quaternary-base) 0.985 0.002 h);   /* page background: near-white */
+    --color-bg-soft:     oklch(from var(--color-quaternary-base) 0.960 0.003 h);   /* a step deeper: fills and hover rows */
+    --color-bg-muted:    oklch(from var(--color-quaternary-base) 0.935 0.004 h);   /* placeholders */
+    --color-border:      oklch(from var(--color-quaternary-base) 0.900 0.004 h);   /* lines and borders */
+    --color-border-soft: oklch(from var(--color-quaternary-base) 0.935 0.003 h);   /* the faintest rules */
+    --color-text:        var(--color-secondary-base);   /* headings and body text */
+    --color-text-soft:   oklch(from var(--color-quaternary-base) 0.48 c h);   /* running text */
+    --color-text-muted:  oklch(from var(--color-quaternary-base) 0.5 c h);   /* meta text */
+    --color-dark:        var(--color-secondary-base);   /* dark sections and dark buttons */
+    /* Brand-colored text on the ground, held at or under 0.5 lightness so a
+       preset's lighter primary still reads at 4.5:1 */
+    --color-primary-ink: oklch(from var(--color-primary-base) min(l, 0.5) c h);
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Anton', system-ui, sans-serif;   /* headings */
+
+    /* Headings and buttons */
+    --heading-weight:     400;   /* Anton has the one weight */
+    --heading-tracking:   0;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        1;      /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 9999px;  /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1600px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 0.55;     /* space between sections: 0.5 compact shop rhythm (≈ 70px at 1440) · 1 · 1.25 spacious */
+}
+
+/* Fluid up to 1600px: the container takes the full measure from 1280px up
+   (the template steps it to 1280 there) */
+@layer utilities {
+    @media (width >= 80rem) {
+        :where(html[data-demo="sneaker-store-1"]) .container { max-width: var(--container-max); }
+    }
+}
+
+@media (width >= 80rem) {
+    html[data-demo="sneaker-store-1"] { --container-width: var(--container-max); }
+}
+
+/* From 1024px the page gutter matches the hero copy and the Shop by Brand row,
+   which sit 1.75rem inside the glass island */
+@media (width >= 64rem) {
+    html[data-demo="sneaker-store-1"] { --container-x: calc(var(--capsule-inset, 1.5rem) + 1.75rem); }
+}
+
+/* Drop Ticker header: a 40px ink ticker over the glass island, which floats
+   12px inside the hero stage (the stage sits 12px in from the page). These
+   outrank the template's :root:has() height rules (header.css) */
+html:root[data-demo="sneaker-store-1"]:has(.header-glass) {
+    --topbar-h: 40px;
+    --navbar-h: 68px;
+    --capsule-inset: 1.5rem;
+}
+
+@media (max-width: 1023px) {
+    html:root[data-demo="sneaker-store-1"]:has(.header-glass) {
+        --topbar-h: 38px;
+        --navbar-h: 60px;
+        --capsule-inset: 1rem;
+    }
+}

@@ -20,7 +20,7 @@ test('web and MCP adapters use one version of the template, source and vendor as
   assert.deepEqual(manifest.assets,exported.manifest.assets);
   for(const [name,source] of Object.entries(hosted.files)) {
     if(['index.html','TEMPLATE.md','template.lock.json'].includes(name))continue;
-    assert.equal(exported.files[name],source.replaceAll('https://draftmango.com/framo/assets/','/framo/assets/'),name);
+    assert.equal(exported.files[name],source.replaceAll('https://draftmango.com/draftmango/assets/','/draftmango/assets/'),name);
   }
   for(const [name,record] of Object.entries(exported.manifest.assets)) {
     const bytes=exported.assetFiles[name]!==undefined?Buffer.from(exported.assetFiles[name]):Buffer.from(exported.binaryFiles[name],'base64');

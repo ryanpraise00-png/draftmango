@@ -311,7 +311,7 @@
         $('#canvas-project-name').textContent=template.name+' · Design preview';
         frame.title=template.name+' design preview — sample content';
         frame.onload=()=>{if(sequence===reviewPreviewSequence&&key===reviewPreviewKey)$('#preview-status').textContent='Design preview · Awaiting your approval';};
-        frame.src='/framo/previews/'+template.file;frame.hidden=false;scheduleCanvasSize();
+        frame.src='/draftmango/previews/'+template.file;frame.hidden=false;scheduleCanvasSize();
         return true;
       }catch{
         if(sequence!==reviewPreviewSequence||key!==reviewPreviewKey)return false;
@@ -386,14 +386,14 @@
   function previewDocument(html, token) {
     const localAssets = ['127.0.0.1','localhost'].includes(location.hostname);
     if(localAssets){
-      const rewrite=value=>value.replaceAll('https://draftmango.com/framo/',location.origin+'/framo/');
+      const rewrite=value=>value.replaceAll('https://draftmango.com/draftmango/',location.origin+'/draftmango/').replaceAll('https://draftmango.com/framo/',location.origin+'/framo/');
       html=rewrite(html).replace(/data:(text\/javascript|text\/css);base64,([A-Za-z0-9+/=]+)/g,(_all,type,data)=>{
         try{return 'data:'+type+';base64,'+btoa(rewrite(atob(data)))}catch{return _all}
       });
     }
     // Alpine's supplied interactions evaluate local expressions. The opaque-origin
     // iframe still forbids parent access, connections, forms and remote scripts.
-    const templateRuntime=!!project.files?.['src/framo/vendor.txt'];
+    const templateRuntime=!!(project.files?.['src/draftmango/vendor.txt'] || project.files?.['src/framo/vendor.txt']);
     const policy = `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data: https: ${localAssets?location.origin:''}; style-src 'unsafe-inline' data: https: ${localAssets?location.origin:''}; font-src data: https: ${localAssets?location.origin:''}; script-src 'unsafe-inline' data: ${templateRuntime?"'unsafe-eval'":''}; connect-src 'none'; object-src 'none'; frame-src 'none'; form-action 'none'; base-uri 'none'">`;
     const bridge = `<script>(()=>{const token=${JSON.stringify(token)};window.__draftmangoPreviewNonce=token;const send=(level,text)=>parent.postMessage({draftmango:token,level,text:String(text).slice(0,2000)},'*');for(const level of ['log','info','warn','error']){const original=console[level];console[level]=(...args)=>{send(level,args.map(value=>{try{return typeof value==='string'?value:JSON.stringify(value)}catch{return String(value)}}).join(' '));original.apply(console,args)}}addEventListener('error',event=>send('error',event.message+' (line '+event.lineno+')'));addEventListener('unhandledrejection',event=>send('error',event.reason?.message||event.reason));addEventListener('load',()=>send('ready','Preview ready'));document.addEventListener('click',event=>{const link=event.target.closest('a[href^="#"]');if(link&&!link.hash.startsWith('#page=')){event.preventDefault();const target=document.getElementById(decodeURIComponent(link.hash.slice(1)));target?.scrollIntoView({behavior:'smooth'})}})})()<\/script>`;
     const start = policy + bridge;
@@ -798,7 +798,7 @@
         if(preview)preview.opener=null;
         if(!await renderTemplateReview(review)){preview?.close();announce('The design preview is unavailable. Try refreshing it.');return;}
         const source=$('#template-review-frame')?.getAttribute('src');
-        if(!source||!/^\/framo\/previews\/demo-[a-z0-9-]+\.html$/.test(source)){preview?.close();return;}
+        if(!source||!/^\/draftmango\/previews\/demo-[a-z0-9-]+\.html$/.test(source)){preview?.close();return;}
         const content=`<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>Design preview | Draftmango</title><style>html,body,iframe{margin:0;width:100%;height:100%;border:0;display:block}</style></head><body><iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="Proposed website design" src="${location.origin}${source}"></iframe></body></html>`;
         const url=URL.createObjectURL(new Blob([content],{type:'text/html;charset=utf-8'}));
         if(preview)preview.location.href=url;

@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en" data-demo="electronics-store-1">
+    <head>
+        <meta charset="UTF-8">
+        <script async src="../assets/js/entrance.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>My Account — Electronics Store — Draftmango</title>
+        <link rel="icon" href="../assets/media/logo/favicon.ico" sizes="32x32">
+        <link rel="icon" href="../assets/media/logo/draftmango-mark.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="../assets/media/logo/apple-touch-icon.png">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link rel="stylesheet" href="../assets/css/icons.css">
+        <link rel="stylesheet" href="../assets/css/app.css">
+        <link rel="stylesheet" href="../assets/css/vendor.css">
+        <link rel="stylesheet" href="../assets/css/shop.css">
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" data-theme-fonts>
+        <link rel="stylesheet" href="../assets/css/demos/demo-electronics-store-1.css">
+        <link rel="stylesheet" href="../assets/css/themes/demo-electronics-store-1.css" data-theme-file>
+        <link rel="stylesheet" href="../assets/css/custom.css">
+    </head>
+    <body>
+
+        <header class="site-header header-stacked header-topbar header-shop" data-header>
+
+            <!-- Electronics Store strip - header-topbar includes it for a demo (in place of the template shop strip): one navy row, the delivery note, customer links, currency and language. Edit: the note, the links -->
+            <div class="site-topbar custom-strip bg-(--custom-ink) text-(--custom-on-ink-soft)">
+                <div class="site-topbar-inner shop-utility container relative gap-6 text-[0.875rem] max-lg:text-[0.8125rem] max-lg:flex max-lg:justify-center">
+                    <p class="shop-utility-note max-lg:m-0"><i class="ph ph-truck text-(--custom-primary-lift)" aria-hidden="true"></i> Free next-day delivery on orders over $49</p>
+
+                    <nav class="shop-utility-links max-lg:hidden" aria-label="Customer links">
+                        <a href="demo-electronics-store-1-track-order.html">Track Order</a>
+                        <a href="demo-electronics-store-1-support.html">Help Center</a>
+                    </nav>
+
+                    <div class="shop-region max-lg:hidden">
+                        <button type="button" class="nav-lang-toggle" data-panel-toggle="currency" aria-expanded="false" aria-controls="es1-currency" aria-label="Currency: US dollar">
+                            <span>USD</span>
+                            <i class="ph ph-caret-down" aria-hidden="true"></i>
+                        </button>
+                        <div id="es1-currency" class="nav-lang-menu nav-region-menu" data-panel="currency" role="menu" aria-label="Currency">
+                            <span class="nav-region-title">Currency</span>
+                            <a href="#" class="nav-lang-item" role="menuitem" aria-current="true">USD · US dollar <i class="ph ph-check nav-lang-check" aria-hidden="true"></i></a>
+                            <a href="#" class="nav-lang-item" role="menuitem">CAD · Canadian dollar <i class="ph ph-check nav-lang-check" aria-hidden="true"></i></a>
+                            <a href="#" class="nav-lang-item" role="menuitem">MXN · Mexican peso <i class="ph ph-check nav-lang-check" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="shop-region max-lg:hidden">
+                        <button type="button" class="nav-lang-toggle" data-panel-toggle="lang" aria-expanded="false" aria-controls="es1-lang" aria-label="Language: English">
+                            <i class="ph ph-globe-simple" aria-hidden="true"></i>
+                            <span>EN</span>
+                            <i class="ph ph-caret-down" aria-hidden="true"></i>
+                        </button>
+                        <div id="es1-lang" class="nav-lang-menu nav-region-menu" data-panel="lang" role="menu" aria-label="Language">
+                            <span class="nav-region-title">Language</span>
+                            <a href="#" class="nav-lang-item" role="menuitem" aria-current="true" hreflang="en">English <i class="ph ph-check nav-lang-check" aria-hidden="true"></i></a>
+                            <a href="#" class="nav-lang-item" role="menuitem" hreflang="es">Español <i class="ph ph-check nav-lang-check" aria-hidden="true"></i></a>
+                            <a href="#" class="nav-lang-item" role="menuitem" hreflang="fr">Français <i class="ph ph-check nav-lang-check" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main navbar -->
+            <nav class="navbar" role="navigation" aria-label="Main navigation">
+                <div class="navbar-inner container">
+
+                    <!-- Brand -->
+                    <a href="demo-electronics-store-1.html" class="brand">
+
+                        <img class="brand-logo" src="../assets/media/logo/draftmango-logo.svg" alt="Draftmango" width="120" height="32" style="--logo-tint: url(#logo-tint-header)">
+
+                        <svg class="brand-tint" aria-hidden="true" focusable="false">
+                            <filter id="logo-tint-header" color-interpolation-filters="sRGB">
+                                <feFlood flood-color="currentColor" />
+                                <feComposite in2="SourceAlpha" operator="in" />
+                            </filter>
+                        </svg>
+
+                    </a>
+
+                    <!-- Desktop navigation links -->
+                    <ul class="nav-links" role="list">
+
+                        <!-- Electronics Store menu - the <li> items of . Inner pages (planned): shop, departments, product, cart, checkout, track-order, account, deals, brands, support, blog, contact -->
+
+                        <!-- All Departments - the department mega: a vertical department list swapping a panel of three link columns and a product card with a spec callout. hover(): a short dwell before switching; go() / step(): arrow keys, Home and End move between departments, Tab goes on into the panel. Edit: the departments, the links, the cards -->
+                        <li class="nav-megamenu nav-megamenu--tabs custom-dept">
+                            <button class="nav-link">
+                                <i class="ph ph-squares-four custom-dept-icon" aria-hidden="true"></i>
+                                All Departments
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="megamenu-panel" data-lenis-prevent>
+                                <div class="megamenu-inner megamenu-inner--tabs container">
+                                    <div class="tabs tabs-vertical tabs-rich megamenu-tabs grid-cols-[21.5rem_minmax(0,1fr)] gap-y-0 gap-x-8" x-data="{ tab: 'audio', t: null, tabs: ['audio', 'wearables', 'charging', 'phone', 'home', 'outlet'], hover(v) { clearTimeout(this.t); this.t = setTimeout(() => this.tab = v, 120) }, go(v) { clearTimeout(this.t); this.tab = v; this.$refs[v].focus() }, step(d) { const n = this.tabs.length; this.go(this.tabs[(this.tabs.indexOf(this.tab) + d + n) % n]) } }">
+
+                                        <div class="tabs-nav" role="tablist" aria-label="Departments" aria-orientation="vertical" @keydown.down.prevent="step(1)" @keydown.up.prevent="step(-1)" @keydown.home.prevent="go(tabs[0])" @keydown.end.prevent="go(tabs[tabs.length - 1])">
+                                            <button type="button" class="tab-btn is-active py-2.75 pr-3.5 pl-2.75" role="tab" id="es1-tab-audio" aria-controls="es1-panel-audio" x-ref="audio" :class="{ 'is-active': tab === 'audio' }" :aria-selected="tab === 'audio'" :tabindex="tab === 'audio' ? 0 : -1" @mouseenter="hover('audio')" @mouseleave="clearTimeout(t)" @click="tab = 'audio'">
+                                                <span class="tab-btn-icon"><i class="ph ph-headphones" aria-hidden="true"></i></span>
+                                                <span class="tab-btn-title">Audio</span>
+                                                <span class="tab-btn-caption">Headphones, earbuds, speakers</span>
+                                            </button>
+                                            <button type="button" class="tab-btn py-2.75 pr-3.5 pl-2.75" role="tab" id="es1-tab-wearables" aria-controls="es1-panel-wearables" x-ref="wearables" tabindex="-1" :class="{ 'is-active': tab === 'wearables' }" :aria-selected="tab === 'wearables'" :tabindex="tab === 'wearables' ? 0 : -1" @mouseenter="hover('wearables')" @mouseleave="clearTimeout(t)" @click="tab = 'wearables'">
+                                                <span class="tab-btn-icon"><i class="ph ph-watch" aria-hidden="true"></i></span>
+                                                <span class="tab-btn-title">Wearables</span>
+                                                <span class="tab-btn-caption">Smartwatches, bands, straps</span>
+                                            </button>
+                                            <button type="button" class="tab-btn py-2.75 pr-3.5 pl-2.75" role="tab" id="es1-tab-charging" aria-controls="es1-panel-charging" x-ref="charging" tabindex="-1" :class="{ 'is-active': tab === 'charging' }" :aria-selected="tab === 'charging'" :tabindex="tab === 'charging' ? 0 : -1" @mouseenter="hover('charging')" @mouseleave="clearTimeout(t)" @click="tab = 'charging'">
+                                                <span class="tab-btn-icon"><i class="ph ph-lightning" aria-hidden="true"></i></span>
+                                                <span class="tab-btn-title">Charging</span>
+                                                <span class="tab-btn-caption">Power banks, chargers, cables</span>
+                                            </button>
+                                            <button type="button" class="tab-btn py-2.75 pr-3.5 pl-2.75" role="tab" id="es1-tab-phone" aria-controls="es1-panel-phone" x-ref="phone" tabindex="-1" :class="{ 'is-active': tab === 'phone' }" :aria-selected="tab === 'phone'" :tabindex="tab === 'phone' ? 0 : -1" @mouseenter="hover('phone')" @mouseleave="clearTimeout(t)" @click="tab = 'phone'">
+                                                <span class="tab-btn-icon"><i class="ph ph-device-mobile" aria-hidden="true"></i></span>
+                                                <span class="tab-btn-title">Phone &amp; Tablet</span>
+                                                <span class="tab-btn-caption">Cases, protectors, keyboards</span>
+                                            </button>
+                                            <button type="button" class="tab-btn py-2.75 pr-3.5 pl-2.75" role="tab" id="es1-tab-home" aria-controls="es1-panel-home" x-ref="home" tabindex="-1" :class="{ 'is-active': tab === 'home' }" :aria-selected="tab === 'home'" :tabindex="tab === 'home' ? 0 : -1" @mouseenter="hover('home')" @mouseleave="clearTimeout(t)" @click="tab = 'home'">
+                                                <span class="tab-btn-icon"><i class="ph ph-house-line" aria-hidden="true"></i></span>
+                                                <span class="tab-btn-title">Smart Home</span>
+                                                <span class="tab-btn-caption">Speakers, hubs, lighting</span>
+                                            </button>
+                                            <button type="button" class="tab-btn py-2.75 pr-3.5 pl-2.75" role="tab" id="es1-tab-outlet" aria-controls="es1-panel-outlet" x-ref="outlet" tabindex="-1" :class="{ 'is-active': tab === 'outlet' }" :aria-selected="tab === 'outlet'" :tabindex="tab === 'outlet' ? 0 : -1" @mouseenter="hover('outlet')" @mouseleave="clearTimeout(t)" @click="tab = 'outlet'">
+                                                <span class="tab-btn-icon"><i class="ph ph-tag" aria-hidden="true"></i></span>
+                                                <span class="tab-btn-title">Open Box &amp; Outlet</span>
+                                                <span class="tab-btn-caption">Renewed, like-new, last chance</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="tabs-panels">
+
+                                            <!-- Audio -->
+                                            <div class="tabs-panel megamenu-tabpanel custom-dept-panel is-active max-xl:grid-cols-3" role="tabpanel" id="es1-panel-audio" aria-labelledby="es1-tab-audio" :class="{ 'is-active': tab === 'audio' }">
+                                                <div class="megamenu-col">
+                                                    <div class="megamenu-col-title">Headphones</div>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Over-Ear</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">On-Ear</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Noise-Cancelling</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Studio &amp; DJ</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Kids&#8217; Headphones</a>
+                                                </div>
+                                                <div class="megamenu-col">
+                                                    <div class="megamenu-col-title">Earbuds</div>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">True Wireless</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Sport Earbuds</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Open-Ear</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Wired Earbuds</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Ear Tips &amp; Cases</a>
+                                                </div>
+                                                <div class="megamenu-col">
+                                                    <div class="megamenu-col-title">Speakers</div>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Portable Speakers</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Smart Speakers</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Soundbars</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Party Speakers</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Bookshelf Speakers</a>
+                                                </div>
+                                                <div class="megamenu-col megamenu-col--lead custom-dept-all max-xl:mr-0">
+                                                    <a href="demo-electronics-store-1-departments.html" class="megamenu-item">Shop All Audio <span class="font-normal text-(--menu-title)">412 products</span> <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                                                </div>
+                                                <a href="demo-electronics-store-1-product.html" class="custom-dept-card max-xl:hidden">
+                                                    <span class="custom-dept-card-stage relative flex-1 min-h-44">
+                                                        <img src="../assets/media/placeholder/617x697.svg" alt="Black over-ear headphones with cushioned ear cups" width="617" height="697" loading="lazy" decoding="async">
+                                                        <span class="custom-dept-callout" style="--x: 70%; --y: 30%" aria-hidden="true"><span class="custom-dept-callout-label"><b class="font-bold text-text tabular-nums">40 h</b> battery</span></span>
+                                                    </span>
+                                                    <span class="custom-dept-card-body">
+                                                        <span class="custom-dept-card-name">Draftmango Arc Studio</span>
+                                                        <span class="text-[0.875rem] text-(--menu-title)">Over-ear · Graphite</span>
+                                                        <span class="custom-dept-card-foot"><span>from <b class="tabular-nums text-[1rem]">$249</b></span><span class="custom-dept-card-go">Shop Now <i class="ph ph-arrow-right" aria-hidden="true"></i></span></span>
+                                                    </span>
+                                                </a>
+                                            </div>
+
+                                            <!-- Wearables -->
+                                            <div class="tabs-panel megamenu-tabpanel custom-dept-panel max-xl:grid-cols-3" role="tabpanel" id="es1-panel-wearables" aria-labelledby="es1-tab-wearables" :class="{ 'is-active': tab === 'wearables' }">
+                                                <div class="megamenu-col">
+                                                    <div class="megamenu-col-title">Smartwatches</div>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Sport Watches</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Classic Watches</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">GPS &amp; Outdoor</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Kids&#8217; Watches</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Renewed Watches</a>
+                                                </div>
+                                                <div class="megamenu-col">
+                                                    <div class="megamenu-col-title">Fitness</div>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Fitness Bands</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Smart Rings</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Heart-Rate Monitors</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Smart Scales</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Sleep Trackers</a>
+                                                </div>
+                                                <div class="megamenu-col">
+                                                    <div class="megamenu-col-title">Straps &amp; Chargers</div>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Sport Bands</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Metal Links</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Leather Straps</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Watch Chargers</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Screen Guards</a>
+                                                </div>
+                                                <div class="megamenu-col megamenu-col--lead custom-dept-all max-xl:mr-0">
+                                                    <a href="demo-electronics-store-1-departments.html" class="megamenu-item">Shop All Wearables <span class="font-normal text-(--menu-title)">186 products</span> <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                                                </div>
+                                                <a href="demo-electronics-store-1-product.html" class="custom-dept-card max-xl:hidden">
+                                                    <span class="custom-dept-card-stage relative flex-1 min-h-44">
+                                                        <img src="../assets/media/placeholder/436x498.svg" alt="Black sport smartwatch with a square face" width="436" height="498" loading="lazy" decoding="async">
+                                                        <span class="custom-dept-callout" style="--x: 62%; --y: 30%" aria-hidden="true"><span class="custom-dept-callout-label"><b class="font-bold text-text tabular-nums">Dual-band</b> GPS</span></span>
+                                                    </span>
+                                                    <span class="custom-dept-card-body">
+                                                        <span class="custom-dept-card-name">Draftmango Pulse Sport</span>
+                                                        <span class="text-[0.875rem] text-(--menu-title)">45 mm · Midnight</span>
+                                                        <span class="custom-dept-card-foot"><span>from <b class="tabular-nums text-[1rem]">$199</b></span><span class="custom-dept-card-go">Shop Now <i class="ph ph-arrow-right" aria-hidden="true"></i></span></span>
+                                                    </span>
+                                                </a>
+                                            </div>
+
+                                            <!-- Charging -->
+                                            <div class="tabs-panel megamenu-tabpanel custom-dept-panel max-xl:grid-cols-3" role="tabpanel" id="es1-panel-charging" aria-labelledby="es1-tab-charging" :class="{ 'is-active': tab === 'charging' }">
+                                                <div class="megamenu-col">
+                                                    <div class="megamenu-col-title">Power Banks</div>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">10,000 mAh</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">20,000 mAh &amp; Up</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Magnetic Power Banks</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Laptop Power Banks</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Slim &amp; Pocket</a>
+                                                </div>
+                                                <div class="megamenu-col">
+                                                    <div class="megamenu-col-title">Chargers</div>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">USB-C Wall Chargers</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Multi-Port Chargers</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Wireless Pads</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">3-in-1 Stands</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Car Chargers</a>
+                                                </div>
+                                                <div class="megamenu-col">
+                                                    <div class="megamenu-col-title">Cables &amp; Adapters</div>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">USB-C Cables</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Lightning Cables</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Braided Cables</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Adapters &amp; Hubs</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Travel Adapters</a>
+                                                </div>
+                                                <div class="megamenu-col megamenu-col--lead custom-dept-all max-xl:mr-0">
+                                                    <a href="demo-electronics-store-1-departments.html" class="megamenu-item">Shop All Charging <span class="font-normal text-(--menu-title)">328 products</span> <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                                                </div>
+                                                <a href="demo-electronics-store-1-product.html" class="custom-dept-card max-xl:hidden">
+                                                    <span class="custom-dept-card-stage relative flex-1 min-h-44">
+                                                        <img src="../assets/media/placeholder/750x570.svg" alt="Black 25,000 mAh power bank with three ports" width="750" height="570" loading="lazy" decoding="async">
+                                                        <span class="custom-dept-callout" style="--x: 76%; --y: 40%" aria-hidden="true"><span class="custom-dept-callout-label"><b class="font-bold text-text tabular-nums">100 W</b> USB-C</span></span>
+                                                    </span>
+                                                    <span class="custom-dept-card-body">
+                                                        <span class="custom-dept-card-name">Draftmango Volt 25K</span>
+                                                        <span class="text-[0.875rem] text-(--menu-title)">25,000 mAh · Black</span>
+                                                        <span class="custom-dept-card-foot"><span>from <b class="tabular-nums text-[1rem]">$79</b></span><span class="custom-dept-card-go">Shop Now <i class="ph ph-arrow-right" aria-hidden="true"></i></span></span>
+                                                    </span>
+                                                </a>
+                                            </div>
+
+                                            <!-- Phone & Tablet -->
+                                            <div class="tabs-panel megamenu-tabpanel custom-dept-panel max-xl:grid-cols-3" role="tabpanel" id="es1-panel-phone" aria-labelledby="es1-tab-phone" :class="{ 'is-active': tab === 'phone' }">
+                                                <div class="megamenu-col">
+                                                    <div class="megamenu-col-title">Phone Cases</div>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Clear Cases</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Magnetic Cases</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Leather Cases</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Rugged Cases</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Wallet Cases</a>
+                                                </div>
+                                                <div class="megamenu-col">
+                                                    <div class="megamenu-col-title">Protection</div>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Screen Protectors</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Camera Lens Guards</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Privacy Glass</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Tablet Protectors</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Install Kits</a>
+                                                </div>
+                                                <div class="megamenu-col">
+                                                    <div class="megamenu-col-title">Tablet Gear</div>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Keyboard Cases</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Folio Cases</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Stylus Pens</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Stands &amp; Mounts</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Sleeves</a>
+                                                </div>
+                                                <div class="megamenu-col megamenu-col--lead custom-dept-all max-xl:mr-0">
+                                                    <a href="demo-electronics-store-1-departments.html" class="megamenu-item">Shop All Phone &amp; Tablet <span class="font-normal text-(--menu-title)">264 products</span> <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                                                </div>
+                                                <a href="demo-electronics-store-1-product.html" class="custom-dept-card max-xl:hidden">
+                                                    <span class="custom-dept-card-stage relative flex-1 min-h-44">
+                                                        <img src="../assets/media/placeholder/744x499.svg" alt="White keyboard case holding a tablet at an angle" width="744" height="499" loading="lazy" decoding="async">
+                                                        <span class="custom-dept-callout" style="--x: 64%; --y: 70%" aria-hidden="true"><span class="custom-dept-callout-label"><b class="font-bold text-text tabular-nums">Backlit</b> keys</span></span>
+                                                    </span>
+                                                    <span class="custom-dept-card-body">
+                                                        <span class="custom-dept-card-name">Draftmango Glide Keyboard Case 11</span>
+                                                        <span class="text-[0.875rem] text-(--menu-title)">Keyboard case · Pearl</span>
+                                                        <span class="custom-dept-card-foot"><span>from <b class="tabular-nums text-[1rem]">$179</b></span><span class="custom-dept-card-go">Shop Now <i class="ph ph-arrow-right" aria-hidden="true"></i></span></span>
+                                                    </span>
+                                                </a>
+                                            </div>
+
+                                            <!-- Smart Home -->
+                                            <div class="tabs-panel megamenu-tabpanel custom-dept-panel max-xl:grid-cols-3" role="tabpanel" id="es1-panel-home" aria-labelledby="es1-tab-home" :class="{ 'is-active': tab === 'home' }">
+                                                <div class="megamenu-col">
+                                                    <div class="megamenu-col-title">Smart Speakers</div>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Home Speakers</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Mini Speakers</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Stereo Pairs</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Mounts &amp; Stands</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Voice Remotes</a>
+                                                </div>
+                                                <div class="megamenu-col">
+                                                    <div class="megamenu-col-title">Connected Home</div>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Smart Plugs</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Smart Bulbs</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Hubs &amp; Bridges</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Motion Sensors</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Wi-Fi Mesh</a>
+                                                </div>
+                                                <div class="megamenu-col">
+                                                    <div class="megamenu-col-title">Entertainment</div>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Streaming Sticks</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">TV Soundbars</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Universal Remotes</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">HDMI Cables</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Media Hubs</a>
+                                                </div>
+                                                <div class="megamenu-col megamenu-col--lead custom-dept-all max-xl:mr-0">
+                                                    <a href="demo-electronics-store-1-departments.html" class="megamenu-item">Shop All Smart Home <span class="font-normal text-(--menu-title)">97 products</span> <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                                                </div>
+                                                <a href="demo-electronics-store-1-product.html" class="custom-dept-card max-xl:hidden">
+                                                    <span class="custom-dept-card-stage relative flex-1 min-h-44">
+                                                        <img src="../assets/media/placeholder/389x498.svg" alt="Sand-coloured fabric smart speaker" width="389" height="498" loading="lazy" decoding="async">
+                                                        <span class="custom-dept-callout" style="--x: 62%; --y: 34%" aria-hidden="true"><span class="custom-dept-callout-label"><b class="font-bold text-text tabular-nums">360°</b> sound</span></span>
+                                                    </span>
+                                                    <span class="custom-dept-card-body">
+                                                        <span class="custom-dept-card-name">Draftmango Wave Home</span>
+                                                        <span class="text-[0.875rem] text-(--menu-title)">Smart speaker · Sand</span>
+                                                        <span class="custom-dept-card-foot"><span>from <b class="tabular-nums text-[1rem]">$169</b></span><span class="custom-dept-card-go">Shop Now <i class="ph ph-arrow-right" aria-hidden="true"></i></span></span>
+                                                    </span>
+                                                </a>
+                                            </div>
+
+                                            <!-- Open Box & Outlet -->
+                                            <div class="tabs-panel megamenu-tabpanel custom-dept-panel max-xl:grid-cols-3" role="tabpanel" id="es1-panel-outlet" aria-labelledby="es1-tab-outlet" :class="{ 'is-active': tab === 'outlet' }">
+                                                <div class="megamenu-col">
+                                                    <div class="megamenu-col-title">Open Box</div>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Open-Box Audio</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Open-Box Wearables</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Open-Box Charging</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Open-Box Phone &amp; Tablet</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Open-Box Smart Home</a>
+                                                </div>
+                                                <div class="megamenu-col">
+                                                    <div class="megamenu-col-title">Renewed</div>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Certified Renewed</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Grade A Like-New</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Grade B Good</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">How We Test</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Renewed Warranty</a>
+                                                </div>
+                                                <div class="megamenu-col">
+                                                    <div class="megamenu-col-title">Last Chance</div>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Under $25</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Under $50</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Under $100</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Bundles</a>
+                                                    <a href="demo-electronics-store-1-shop.html" class="megamenu-item">Clearance</a>
+                                                </div>
+                                                <div class="megamenu-col megamenu-col--lead custom-dept-all max-xl:mr-0">
+                                                    <a href="demo-electronics-store-1-departments.html" class="megamenu-item">Shop All Open Box &amp; Outlet <span class="font-normal text-(--menu-title)">143 products</span> <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                                                </div>
+                                                <a href="demo-electronics-store-1-product.html" class="custom-dept-card max-xl:hidden">
+                                                    <span class="custom-dept-card-stage relative flex-1 min-h-44">
+                                                        <img src="../assets/media/placeholder/498x462.svg" alt="Sage-green fabric mini speaker with a wrist loop" width="498" height="462" loading="lazy" decoding="async">
+                                                        <span class="custom-dept-callout" style="--x: 70%; --y: 36%" aria-hidden="true"><span class="custom-dept-callout-label"><b class="font-bold text-text tabular-nums">Tested,</b> like new</span></span>
+                                                    </span>
+                                                    <span class="custom-dept-card-body">
+                                                        <span class="custom-dept-card-name">Draftmango Wave Cube</span>
+                                                        <span class="text-[0.875rem] text-(--menu-title)">Open box · Sage</span>
+                                                        <span class="custom-dept-card-foot"><span>from <b class="tabular-nums text-[1rem]">$39</b></span><span class="custom-dept-card-go">Shop Now <i class="ph ph-arrow-right" aria-hidden="true"></i></span></span>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="demo-electronics-store-1.html" class="nav-link">Home</a>
+                        </li>
+                        <li>
+                            <a href="demo-electronics-store-1-shop.html" class="nav-link">Shop</a>
+                        </li>
+                        <li>
+                            <a href="demo-electronics-store-1-brands.html" class="nav-link">Brands</a>
+                        </li>
+                        <li>
+                            <a href="demo-electronics-store-1-support.html" class="nav-link">Support</a>
+                        </li>
+                        <li>
+                            <a href="demo-electronics-store-1-blog.html" class="nav-link">Blog</a>
+                        </li>
+                        <li class="nav-cascade">
+                            <button class="nav-link">
+                                Company
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="cascade-panel">
+                                <a href="demo-electronics-store-1-about.html" class="cascade-item">About Draftmango</a>
+                                <a href="demo-electronics-store-1-contact.html" class="cascade-item">Contact</a>
+                                <a href="demo-electronics-store-1-contact.html#es1-teams-title" class="cascade-item">Careers</a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                    <!-- Right-side actions -->
+                    <div class="nav-actions">
+
+                        <!-- Meta group - display:contents by default; header-stacked turns it into its own row. -->
+                        <div class="nav-meta">
+
+                            <!--html: the department select, the product search and the round submit (WooCommerce's own fields: s, post_type=product, product_cat). Edit: the placeholder, the departments -->
+                            <form class="shop-search custom-search p-1.25" role="search" method="get" action="demo-electronics-store-1-shop.html">
+                                <select class="h-full pr-8 pl-4.5 font-semibold text-text border-r border-r-(--color-border)" name="product_cat" aria-label="Department">
+                                    <option value="">All Departments</option>
+                                    <option value="audio">Audio</option>
+                                    <option value="wearables">Wearables</option>
+                                    <option value="charging">Charging</option>
+                                    <option value="phone-tablet">Phone &amp; Tablet</option>
+                                    <option value="smart-home">Smart Home</option>
+                                </select>
+                                <label class="sr-only" for="es1-search-q">Search products</label>
+                                <input class="px-4 text-[1rem]" id="es1-search-q" type="search" name="s" placeholder="Search headphones, chargers, cases…" autocomplete="off">
+                                <input type="hidden" name="post_type" value="product">
+                                <button type="submit" class="shop-search-submit size-10.5 text-[1.125rem]" aria-label="Search"><i class="ph-bold ph-magnifying-glass" aria-hidden="true"></i></button>
+                            </form>
+
+                            <!-- Edit: the city, the ZIP, the lines -->
+                            <div class="custom-deliver relative flex-none max-lg:hidden" x-data="{ zip: '78701', place: 'Austin 78701', draft: '' }">
+                                <button type="button" class="nav-contact" data-panel-toggle="deliver" aria-expanded="false" aria-controls="es1-deliver" :aria-label="'Deliver to ' + place + ', change location'" aria-label="Deliver to Austin 78701, change location">
+                                    <i class="ph ph-map-pin" aria-hidden="true"></i>
+                                    <span class="nav-contact-text">
+                                        <span class="nav-contact-label">Deliver to</span>
+                                        <span class="nav-contact-value" x-text="place">Austin 78701</span>
+                                    </span>
+                                </button>
+                                <div id="es1-deliver" class="custom-deliver-panel absolute top-[calc(100%_+_1rem)] -right-4 z-(--z-dropdown) w-84 p-5.5 text-text rounded-lg" data-panel="deliver" role="dialog" aria-labelledby="es1-deliver-title">
+                                    <p id="es1-deliver-title" class="text-[1.0625rem] font-bold tracking-[-0.015em]">Choose your location</p>
+                                    <p class="mt-1 text-[0.875rem] text-soft">Delivery dates and prices depend on your ZIP code.</p>
+                                    <form class="mt-4 flex gap-2" action="#" @submit.prevent="if (/^\d{5}$/.test(draft)) { zip = draft; place = 'ZIP ' + draft; draft = '' }">
+                                        <label class="sr-only" for="es1-zip">ZIP code</label>
+                                        <input id="es1-zip" class="form-input h-11 rounded-pill" type="text" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" placeholder="ZIP code" autocomplete="postal-code" x-model="draft">
+                                        <button type="submit" class="btn btn-primary">Apply</button>
+                                    </form>
+                                    <p class="flex gap-2 mt-4 pt-3.5 text-[0.875rem] text-soft border-t border-t-(--color-border-soft)"><i class="ph ph-lightning flex-none mt-0.5 text-primary-ink" aria-hidden="true"></i> <span>Next-day delivery to <strong class="text-text tabular-nums" x-text="zip">78701</strong> on orders over $49</span></p>
+                                </div>
+                            </div>
+
+                            <button class="nav-search-toggle" data-panel-toggle="search" aria-expanded="false" aria-controls="header-search" aria-label="Open search">
+                                <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+
+                                <span class="nav-search-label">Search</span>
+
+                            </button>
+
+                        </div><!-- /.nav-meta -->
+
+                        <!-- Electronics Store header action - included with "cartActions": "demo": Today's Deals at the end of the menu row (desktop only; the panel lists Deals). Edit: the label, the link -->
+                        <a href="demo-electronics-store-1-deals.html" class="custom-deals-link items-center gap-2.5 text-[0.9375rem] font-semibold tracking-[-0.01em] whitespace-nowrap max-lg:hidden"><span class="grid place-items-center size-6.5 text-[0.9375rem] text-(--color-on-accent) bg-accent rounded-sm" aria-hidden="true"><i class="ph-fill ph-fire"></i></span>Today's Deals</a>
+                        <!--html: the two-line account, the wishlist and the cart pill (count and running total from Alpine.store('cart'), which the mini cart keeps up to date; opens the mini cart). Edit: the links, the lines, the wishlist count -->
+                        <div class="shop-actions gap-1.5" x-data>
+                            <a href="demo-electronics-store-1-account.html" class="shop-action shop-action--account custom-account">
+                                <i class="ph ph-user" aria-hidden="true"></i>
+                                <span class="custom-account-text flex-col leading-[1.25] text-left whitespace-nowrap">
+                                    <span class="custom-account-hello text-[0.8125rem]">Hello, Sign In</span>
+                                    <span class="custom-account-label text-[0.9375rem] font-semibold tracking-[-0.01em]">Account &amp; Orders</span>
+                                </span>
+                            </a>
+                            <a href="demo-electronics-store-1-account.html#wishlist" class="shop-action shop-action--wishlist" aria-label="Wishlist, 2 items"><i class="ph ph-heart" aria-hidden="true"></i><span class="shop-action-count">2</span></a>
+                            <button type="button" class="shop-action shop-action--cart custom-cart max-lg:ml-1 max-lg:h-11" data-panel-toggle="cart" aria-expanded="false" aria-controls="mini-cart" :aria-label="'Open cart, ' + $store.cart.count + ' items, ' + '$' + ($store.cart.total ?? 248).toFixed(2)" aria-label="Open cart, 4 items, $248.00">
+                                <span class="relative grid" aria-hidden="true">
+                                    <i class="ph ph-shopping-cart-simple"></i>
+                                    <span class="shop-action-count -top-1.75 left-auto -right-2.5" x-text="$store.cart.count" x-show="$store.cart.count">4</span>
+                                </span>
+                                <span class="text-[0.9375rem] font-bold tracking-[-0.01em] tabular-nums max-[26.25rem]:hidden" aria-hidden="true" x-text="'$' + ($store.cart.total ?? 248).toFixed(2)">$248.00</span>
+                            </button>
+                        </div>
+
+                        <!-- Menu toggle - mobile hamburger below 1024px; also the close button on header-overlay-menu / header-side-drawer -->
+                        <button class="hamburger" data-toggle aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation menu">
+                            <i class="ph ph-list text-xl nav-toggle-open" aria-hidden="true"></i>
+                            <i class="ph ph-x text-xl nav-toggle-close" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Navigation panel - links are auto-generated by initMobileSync() in main.js -->
+                <!-- data-lenis-prevent: opts this scroll container out of Lenis smooth scrolling -->
+                <div id="mobile-nav" class="mobile-nav" data-mobile-nav data-lenis-prevent role="dialog" aria-modal="true" aria-label="Site navigation">
+
+                    <!-- Menu column - the scroll container -->
+                    <div class="nav-panel-menu">
+
+                        <!-- JS target: desktop nav items are injected here -->
+                        <div data-mobile-links></div>
+
+                        <!-- Mobile-only items: add or remove <a> elements here freely -->
+                        <!-- <a href="#" class="mobile-link" data-mobile-only>Exclusive Item</a> -->
+
+                    </div>
+
+                    <!--html out of the panel): the product search (shown on top of the panel by CSS) and the help lines. Edit: the placeholder, the lines, the email, the number -->
+                    <form class="shop-search custom-search custom-panel-search p-1.25" role="search" method="get" action="demo-electronics-store-1-shop.html">
+                        <label class="sr-only" for="es1-panel-q">Search products</label>
+                        <input class="px-4 text-[1rem]" id="es1-panel-q" type="search" name="s" placeholder="Search headphones, chargers…" autocomplete="off">
+                        <input type="hidden" name="post_type" value="product">
+                        <button type="submit" class="shop-search-submit size-10.5 text-[1.125rem]" aria-label="Search"><i class="ph-bold ph-magnifying-glass" aria-hidden="true"></i></button>
+                    </form>
+                    <div class="nav-panel-foot">
+                        <div class="nav-panel-foot-col">
+                            <span class="nav-panel-foot-title">Help Center</span>
+                            <a href="tel:+15125550162" class="nav-panel-foot-link tabular-nums">(512) 555-0162</a>
+                            <a href="mailto:help@draftmangotech.example" class="nav-panel-foot-link">help@draftmangotech.example</a>
+                        </div>
+                        <div class="nav-panel-foot-col">
+                            <span class="nav-panel-foot-title">Orders</span>
+                            <a href="demo-electronics-store-1-deals.html" class="nav-panel-foot-link">Today&#8217;s Deals</a>
+                            <a href="demo-electronics-store-1-track-order.html" class="nav-panel-foot-link">Track Order</a>
+                            <a href="demo-electronics-store-1-support.html" class="nav-panel-foot-link">Returns &amp; Warranty</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </nav>
+
+            <div id="header-search" class="site-search" data-panel="search" role="dialog" aria-modal="false" aria-label="Search">
+                <div class="site-search-inner" data-lenis-prevent>
+                    <div class="site-search-body container">
+
+                        <button class="site-panel-close" data-panel-close aria-label="Close search">
+                            <i class="ph ph-x" aria-hidden="true"></i>
+                        </button>
+
+                        <h2 class="site-search-title">Search the store</h2>
+
+                        <form class="site-search-form" role="search" method="get" action="shop-category-sidebar.html">
+                            <input type="hidden" name="post_type" value="product">
+
+                            <label class="sr-only" for="site-search-input">Search products</label>
+                            <input id="site-search-input" type="search" name="s" class="form-input form-input-underline site-search-input" placeholder="Search cases, chargers, cables…" autocomplete="off" />
+                            <button type="submit" class="site-search-submit" aria-label="Search">
+                                <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+                            </button>
+                        </form>
+
+                        <div class="site-search-suggest">
+                            <span class="site-search-suggest-label">Popular</span>
+                            <a href="shop-category-sidebar.html?product_cat=cases" class="site-search-tag">Cases</a>
+                            <a href="shop-category-sidebar.html?product_cat=magsafe" class="site-search-tag">MagSafe</a>
+                            <a href="shop-category-sidebar.html?product_cat=power-banks" class="site-search-tag">Power Banks</a>
+                            <a href="shop-category-sidebar.html?product_cat=smartwatches" class="site-search-tag">Smartwatches</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!--html. Lines, totals and the meter run on cartPage() in main.js. Edit: the lines (name, meta, price, image), the threshold, the links -->
+            <div id="mini-cart" class="mini-cart" data-panel="cart" data-panel-modal role="dialog" aria-modal="true" aria-labelledby="mini-cart-title">
+                <div class="mini-cart-panel" x-data="cartPage({ threshold: 49 })" x-effect="$store.cart.count = itemCount; $store.cart.total = subtotal" @change="sync($event)" data-lenis-prevent>
+
+                    <div class="mini-cart-head">
+                        <h2 id="mini-cart-title" class="mini-cart-title">Your cart <span class="mini-cart-count" x-text="itemCount + (itemCount === 1 ? ' item' : ' items')">4 items</span></h2>
+                        <button type="button" class="modal-close" data-panel-close aria-label="Close cart"><i class="ph ph-x" aria-hidden="true"></i></button>
+                    </div>
+
+                    <div class="mini-cart-body" x-show="!empty">
+                        <div class="shipping-meter is-complete" :class="{ 'is-complete': freeShipping }" :style="'--p:' + progress + '%'" style="--p: 100%">
+                            <p class="flex items-center gap-3">
+                                <i class="ph text-xl" :class="freeShipping ? 'ph-seal-check text-[var(--color-success)]' : 'ph-truck color-primary'" aria-hidden="true"></i>
+                                <span x-show="!freeShipping" x-cloak>Add <strong x-text="money(remaining)">$0.00</strong> more for <strong>free delivery</strong></span>
+                                <span x-show="freeShipping"><strong>Free delivery</strong> is on us</span>
+                            </p>
+                            <div class="shipping-meter-track">
+                                <div class="shipping-meter-fill"></div>
+                            </div>
+                        </div>
+
+                        <ul class="mini-cart-list">
+                            <li class="mini-cart-item" data-cart-line="m1" data-price="149" data-name="Draftmango Arc Buds Pro" x-show="!line('m1').removed" x-transition.opacity.duration.300ms>
+                                <a href="demo-electronics-store-1-product.html" class="mini-cart-thumb"><img src="../assets/media/placeholder/800x800.svg" alt="Black noise-cancelling earbuds in their charging case" width="800" height="800" loading="lazy"></a>
+                                <div class="mini-cart-info">
+                                    <a href="demo-electronics-store-1-product.html" class="mini-cart-name">Draftmango Arc Buds Pro</a>
+                                    <p class="mini-cart-meta">Graphite</p>
+                                    <div class="qty qty--sm">
+                                        <button type="button" class="qty-btn" data-step="-1" aria-label="Decrease quantity of Draftmango Arc Buds Pro"><i class="ph ph-minus" aria-hidden="true"></i></button>
+                                        <input type="number" class="qty-input" name="cart[m1][qty]" value="1" min="0" max="10" aria-label="Quantity of Draftmango Arc Buds Pro">
+                                        <button type="button" class="qty-btn" data-step="1" aria-label="Increase quantity of Draftmango Arc Buds Pro"><i class="ph ph-plus" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                                <div class="mini-cart-end">
+                                    <button type="button" class="cart-remove" @click="remove('m1')" aria-label="Remove Draftmango Arc Buds Pro"><i class="ph ph-x" aria-hidden="true"></i></button>
+                                    <span class="mini-cart-price" x-text="money(line('m1').price * line('m1').qty)">$149.00</span>
+                                </div>
+                            </li>
+                            <li class="mini-cart-item" data-cart-line="m2" data-price="79" data-name="Draftmango Volt 25K Power Bank" x-show="!line('m2').removed" x-transition.opacity.duration.300ms>
+                                <a href="demo-electronics-store-1-product.html" class="mini-cart-thumb"><img src="../assets/media/placeholder/800x800.svg" alt="Black 25,000 mAh power bank" width="800" height="800" loading="lazy"></a>
+                                <div class="mini-cart-info">
+                                    <a href="demo-electronics-store-1-product.html" class="mini-cart-name">Draftmango Volt 25K Power Bank</a>
+                                    <p class="mini-cart-meta">Black · 25,000 mAh</p>
+                                    <div class="qty qty--sm">
+                                        <button type="button" class="qty-btn" data-step="-1" aria-label="Decrease quantity of Draftmango Volt 25K Power Bank"><i class="ph ph-minus" aria-hidden="true"></i></button>
+                                        <input type="number" class="qty-input" name="cart[m2][qty]" value="1" min="0" max="10" aria-label="Quantity of Draftmango Volt 25K Power Bank">
+                                        <button type="button" class="qty-btn" data-step="1" aria-label="Increase quantity of Draftmango Volt 25K Power Bank"><i class="ph ph-plus" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                                <div class="mini-cart-end">
+                                    <button type="button" class="cart-remove" @click="remove('m2')" aria-label="Remove Draftmango Volt 25K Power Bank"><i class="ph ph-x" aria-hidden="true"></i></button>
+                                    <span class="mini-cart-price" x-text="money(line('m2').price * line('m2').qty)">$79.00</span>
+                                </div>
+                            </li>
+                            <li class="mini-cart-item" data-cart-line="m3" data-price="10" data-name="Aster Braided USB-C Cable 1.8 m" x-show="!line('m3').removed" x-transition.opacity.duration.300ms>
+                                <a href="demo-electronics-store-1-product.html" class="mini-cart-thumb"><img src="../assets/media/placeholder/800x800.svg" alt="Coiled black braided USB-C cable" width="800" height="800" loading="lazy"></a>
+                                <div class="mini-cart-info">
+                                    <a href="demo-electronics-store-1-product.html" class="mini-cart-name">Aster Braided USB-C Cable 1.8 m</a>
+                                    <p class="mini-cart-meta">Black · 1.8 m</p>
+                                    <div class="qty qty--sm">
+                                        <button type="button" class="qty-btn" data-step="-1" aria-label="Decrease quantity of Aster Braided USB-C Cable 1.8 m"><i class="ph ph-minus" aria-hidden="true"></i></button>
+                                        <input type="number" class="qty-input" name="cart[m3][qty]" value="2" min="0" max="10" aria-label="Quantity of Aster Braided USB-C Cable 1.8 m">
+                                        <button type="button" class="qty-btn" data-step="1" aria-label="Increase quantity of Aster Braided USB-C Cable 1.8 m"><i class="ph ph-plus" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                                <div class="mini-cart-end">
+                                    <button type="button" class="cart-remove" @click="remove('m3')" aria-label="Remove Aster Braided USB-C Cable 1.8 m"><i class="ph ph-x" aria-hidden="true"></i></button>
+                                    <span class="mini-cart-price" x-text="money(line('m3').price * line('m3').qty)">$20.00</span>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <p class="mini-cart-undo" x-show="undoLine" x-cloak><span x-text="(undoLine?.name ?? '') + ' removed.'"></span> <button type="button" @click="undo()">Undo</button></p>
+                    </div>
+
+                    <div class="mini-cart-empty" x-show="empty" x-cloak>
+                        <span class="mx-auto grid size-16 place-items-center rounded-full bg-soft text-3xl"><i class="ph ph-handbag" aria-hidden="true"></i></span>
+                        <p class="mt-5 text-lg font-semibold">Your cart is empty</p>
+                        <p class="mt-1 text-soft">Nothing in the cart yet.</p>
+                        <a href="demo-electronics-store-1-shop.html" class="btn btn-dark btn-pill mt-6">Start Shopping</a>
+                    </div>
+
+                    <div class="mini-cart-foot" x-show="!empty">
+                        <p class="mini-cart-subtotal"><span>Subtotal</span> <strong class="tabular-nums" x-text="money(subtotal)">$248.00</strong></p>
+                        <p class="mini-cart-note"><i class="ph ph-lock-simple" aria-hidden="true"></i> Taxes and delivery calculated at checkout</p>
+                        <div class="mini-cart-buttons">
+                            <a href="demo-electronics-store-1-cart.html" class="btn btn-outline-dark btn-pill">View Cart</a>
+                            <a href="demo-electronics-store-1-checkout.html" class="btn btn-dark btn-pill">Checkout <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+
+        <main id="main" class="bg-(--custom-ground)">
+
+            <!-- Electronics Store page header - the inner pages' opening, in three kinds: "shop" (breadcrumb, title and line on the page ground; optional checkout steps), "stage" (the hero's stage ground, for the content pages; optional help search) and "ink" (navy with a brand glow, for the deals). Params: phKind (shop | stage | ink), phCrumb (this page); optional phTrail + phHref (a parent crumb), phEyebrow, phTitle, phLead, phMeta (a short line under the lead, stage / ink); shop only: phSteps (cart | checkout | done); stage only: phSearch (yes) -->
+            <section class="custom-ph--shop pt-[clamp(1.75rem,1rem_+_1.6vw,2.5rem)] pb-[clamp(2.5rem,1.5rem_+_2.4vw,3.5rem)]" aria-labelledby="es1-page-title">
+                <div class="container">
+
+                    <nav aria-label="Breadcrumb">
+                        <ol class="breadcrumb breadcrumb--sm">
+                            <li class="breadcrumb-item"><a href="demo-electronics-store-1.html">Home</a></li>
+                            <li class="breadcrumb-item" aria-current="page">My Account</li>
+                        </ol>
+                    </nav>
+                    <div class="grid gap-y-5 gap-x-16 mt-7 lg:grid-cols-[minmax(0,1fr)_minmax(0,30rem)] lg:[align-items:end]">
+                        <h1 id="es1-page-title" class="shop-title m-0" data-anim="fade-up">My account</h1>
+                        <p class="custom-ph-lead m-0 text-[1.0625rem] leading-[1.6] text-pretty" data-anim="fade-up" data-anim-delay="80">Orders, firmware, addresses and your wishlist in one place. Member since March 2025.</p>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ACCOUNT - the template account: one view per endpoint (#orders, #downloads…), plus the wishlist the header heart opens. Edit: the person, the orders, the files, the addresses, the cards, the saved products -->
+            <section class="pb-(--custom-space)">
+                <div class="container grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12" x-data="hashView(['dashboard', 'orders', 'downloads', 'wishlist', 'addresses', 'payment-methods', 'account-details'])">
+
+                    <aside class="min-w-0 lg:col-span-3">
+                        <div class="custom-panel sticky-top--lg p-2 lg:p-3 bg-base rounded-lg" style="--sticky-offset: calc(var(--header-h) + 1.5rem)">
+                            <div class="mb-3 hidden items-center gap-3 border-b border-default px-2 pt-2 pb-5 lg:flex">
+                                <span class="grid size-11 shrink-0 place-items-center rounded-full bg-primary font-semibold text-white">RC</span>
+                                <span class="min-w-0"><strong class="block truncate font-semibold">Ryan Carter</strong><span class="shop-meta mt-0 block truncate">ryan.carter@example.com</span></span>
+                            </div>
+                            <nav class="account-nav" aria-label="Account pages" data-lenis-prevent-touch>
+                                <ul>
+                                    <li class="is-active" :class="{ 'is-active': is('dashboard') }"><a href="#dashboard" :aria-current="is('dashboard') &amp;&amp; 'page'"><i class="ph ph-squares-four" aria-hidden="true"></i>Dashboard</a></li>
+                                    <li :class="{ 'is-active': is('orders') }"><a href="#orders" :aria-current="is('orders') &amp;&amp; 'page'"><i class="ph ph-package" aria-hidden="true"></i>Orders <span class="account-nav-count">4</span></a></li>
+                                    <li :class="{ 'is-active': is('downloads') }"><a href="#downloads" :aria-current="is('downloads') &amp;&amp; 'page'"><i class="ph ph-download-simple" aria-hidden="true"></i>Firmware &amp; Manuals</a></li>
+                                    <li :class="{ 'is-active': is('wishlist') }"><a href="#wishlist" :aria-current="is('wishlist') &amp;&amp; 'page'"><i class="ph ph-heart" aria-hidden="true"></i>Wishlist <span class="account-nav-count">2</span></a></li>
+                                    <li :class="{ 'is-active': is('addresses') }"><a href="#addresses" :aria-current="is('addresses') &amp;&amp; 'page'"><i class="ph ph-map-pin" aria-hidden="true"></i>Addresses</a></li>
+                                    <li :class="{ 'is-active': is('payment-methods') }"><a href="#payment-methods" :aria-current="is('payment-methods') &amp;&amp; 'page'"><i class="ph ph-credit-card" aria-hidden="true"></i>Payment Methods</a></li>
+                                    <li :class="{ 'is-active': is('account-details') }"><a href="#account-details" :aria-current="is('account-details') &amp;&amp; 'page'"><i class="ph ph-user-circle" aria-hidden="true"></i>Account Details</a></li>
+                                    <li><a href="demo-electronics-store-1.html"><i class="ph ph-sign-out" aria-hidden="true"></i>Log Out</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </aside>
+
+                    <div class="min-w-0 lg:col-span-9">
+
+                        <!-- Dashboard -->
+                        <div x-show="is('dashboard')" x-transition:enter.opacity.duration.300ms>
+                            <h2 class="shop-title m-0">Hello, Ryan</h2>
+                            <p class="mt-3 mb-0 max-w-2xl text-[1.0625rem] text-soft">Follow your <a href="#orders" class="font-medium text-primary-ink hover:underline">recent orders</a>, grab <a href="#downloads" class="font-medium text-primary-ink hover:underline">firmware for your gear</a> and change <a href="#account-details" class="font-medium text-primary-ink hover:underline">your details</a>. Not Ryan? <a href="demo-electronics-store-1.html" class="font-medium text-primary-ink hover:underline">Log out</a>.</p>
+
+                            <div class="custom-panel mt-8 bg-base rounded-lg">
+                                <div class="flex flex-wrap items-center justify-between gap-4">
+                                    <div>
+                                        <p class="m-0 flex flex-wrap items-center gap-3"><span class="text-soft">Latest order · <span class="font-medium text-(--color-text) tabular-nums">#NX-48213</span></span><span class="badge badge-sm badge-fade-primary">Out for delivery</span></p>
+                                        <h3 class="mt-2 mb-0 text-2xl tracking-[-0.025em]">Arriving today, by 8&nbsp;pm</h3>
+                                    </div>
+                                    <div class="flex items-center gap-4">
+                                        <div class="avatar-stack avatar-stack-sm" aria-hidden="true">
+                                            <img src="../assets/media/placeholder/800x800.svg" alt="" width="800" height="800" loading="lazy">
+                                            <img src="../assets/media/placeholder/800x800.svg" alt="" width="800" height="800" loading="lazy">
+                                        </div>
+                                        <a href="demo-electronics-store-1-track-order.html" class="btn btn-dark btn-pill btn-sm">Track <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                                <ol class="track-progress mt-8" style="--p: 0.75; --dot: 2rem" aria-label="Delivery progress">
+                                    <li class="is-done"><span class="track-progress-dot"><i class="ph-bold ph-check" aria-hidden="true"></i></span><span class="track-progress-label">Ordered</span></li>
+                                    <li class="is-done"><span class="track-progress-dot"><i class="ph-bold ph-check" aria-hidden="true"></i></span><span class="track-progress-label">Packed</span></li>
+                                    <li class="is-done"><span class="track-progress-dot"><i class="ph-bold ph-check" aria-hidden="true"></i></span><span class="track-progress-label">Shipped</span></li>
+                                    <li class="is-current" aria-current="step"><span class="track-progress-dot"><i class="ph-fill ph-truck" aria-hidden="true"></i></span><span class="track-progress-label">Out for delivery</span></li>
+                                    <li><span class="track-progress-dot"><i class="ph ph-house-line" aria-hidden="true"></i></span><span class="track-progress-label">Delivered</span></li>
+                                </ol>
+                            </div>
+
+                            <div class="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                                <a href="#orders" class="icon-box icon-box--card icon-box--primary p-5">
+                                    <div class="icon-box-icon icon-box-icon--rounded icon-box-icon--primary-soft"><i class="ph ph-package" aria-hidden="true"></i></div>
+                                    <div class="icon-box-body gap-1">
+                                        <h3 class="icon-box-title text-lg">Orders</h3>
+                                        <p class="icon-box-text">4 orders · 1 on its way</p>
+                                    </div>
+                                </a>
+                                <a href="#downloads" class="icon-box icon-box--card icon-box--primary p-5">
+                                    <div class="icon-box-icon icon-box-icon--rounded icon-box-icon--primary-soft"><i class="ph ph-cpu" aria-hidden="true"></i></div>
+                                    <div class="icon-box-body gap-1">
+                                        <h3 class="icon-box-title text-lg">Firmware</h3>
+                                        <p class="icon-box-text">1 update for your Arc Buds Pro</p>
+                                    </div>
+                                </a>
+                                <a href="#wishlist" class="icon-box icon-box--card icon-box--primary p-5">
+                                    <div class="icon-box-icon icon-box-icon--rounded icon-box-icon--primary-soft"><i class="ph ph-heart" aria-hidden="true"></i></div>
+                                    <div class="icon-box-body gap-1">
+                                        <h3 class="icon-box-title text-lg">Wishlist</h3>
+                                        <p class="icon-box-text">2 saved · 1 price drop</p>
+                                    </div>
+                                </a>
+                                <a href="#addresses" class="icon-box icon-box--card icon-box--primary p-5">
+                                    <div class="icon-box-icon icon-box-icon--rounded icon-box-icon--primary-soft"><i class="ph ph-map-pin" aria-hidden="true"></i></div>
+                                    <div class="icon-box-body gap-1">
+                                        <h3 class="icon-box-title text-lg">Addresses</h3>
+                                        <p class="icon-box-text">Home and the office</p>
+                                    </div>
+                                </a>
+                                <a href="#payment-methods" class="icon-box icon-box--card icon-box--primary p-5">
+                                    <div class="icon-box-icon icon-box-icon--rounded icon-box-icon--primary-soft"><i class="ph ph-credit-card" aria-hidden="true"></i></div>
+                                    <div class="icon-box-body gap-1">
+                                        <h3 class="icon-box-title text-lg">Payment methods</h3>
+                                        <p class="icon-box-text">2 saved cards</p>
+                                    </div>
+                                </a>
+                                <a href="demo-electronics-store-1-support.html#care" class="icon-box icon-box--card icon-box--primary p-5">
+                                    <div class="icon-box-icon icon-box-icon--rounded icon-box-icon--primary-soft"><i class="ph ph-shield-check" aria-hidden="true"></i></div>
+                                    <div class="icon-box-body gap-1">
+                                        <h3 class="icon-box-title text-lg">Draftmango Care+</h3>
+                                        <p class="icon-box-text">Arc Studio covered until 2029</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Orders -->
+                        <div x-show="is('orders')" x-transition:enter.opacity.duration.300ms x-cloak>
+                            <div class="flex flex-wrap items-end justify-between gap-4">
+                                <h2 class="shop-title m-0">Orders</h2>
+                                <p class="shop-meta mt-0">4 orders since March 2025</p>
+                            </div>
+                            <div class="custom-panel mt-6 bg-base rounded-lg">
+                                <table class="shop-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Order</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Total</th>
+                                            <th><span class="sr-only">Actions</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td data-title="Order"><span class="flex items-center gap-3"><span class="avatar-stack avatar-stack-sm max-md:hidden" aria-hidden="true"><img src="../assets/media/placeholder/800x800.svg" alt="" width="800" height="800" loading="lazy"><img src="../assets/media/placeholder/800x800.svg" alt="" width="800" height="800" loading="lazy"></span><a href="demo-electronics-store-1-track-order.html" class="font-semibold hover:text-primary-ink">#NX-48213</a></span></td>
+                                            <td data-title="Date">Yesterday</td>
+                                            <td data-title="Status"><span class="badge badge-sm badge-fade-primary">Out for delivery</span></td>
+                                            <td data-title="Total"><span><strong class="font-semibold">$327.00</strong> <span class="shop-meta inline">for 2 items</span></span></td>
+                                            <td><a href="demo-electronics-store-1-track-order.html" class="btn btn-dark btn-pill btn-sm">Track</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td data-title="Order"><span class="flex items-center gap-3"><span class="avatar-stack avatar-stack-sm max-md:hidden" aria-hidden="true"><img src="../assets/media/placeholder/800x800.svg" alt="" width="800" height="800" loading="lazy"></span><a href="demo-electronics-store-1-track-order.html" class="font-semibold hover:text-primary-ink">#NX-46071</a></span></td>
+                                            <td data-title="Date">Dec 2, 2026</td>
+                                            <td data-title="Status"><span class="badge badge-sm badge-fade-success">Delivered</span></td>
+                                            <td data-title="Total"><span><strong class="font-semibold">$149.00</strong> <span class="shop-meta inline">for 1 item</span></span></td>
+                                            <td><button type="button" class="btn btn-outline-dark btn-pill btn-sm">Buy Again</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td data-title="Order"><span class="flex items-center gap-3"><span class="avatar-stack avatar-stack-sm max-md:hidden" aria-hidden="true"><img src="../assets/media/placeholder/800x800.svg" alt="" width="800" height="800" loading="lazy"><img src="../assets/media/placeholder/800x800.svg" alt="" width="800" height="800" loading="lazy"><img src="../assets/media/placeholder/800x800.svg" alt="" width="800" height="800" loading="lazy"></span><a href="demo-electronics-store-1-track-order.html" class="font-semibold hover:text-primary-ink">#NX-41588</a></span></td>
+                                            <td data-title="Date">Aug 19, 2026</td>
+                                            <td data-title="Status"><span class="badge badge-sm badge-fade-success">Delivered</span></td>
+                                            <td data-title="Total"><span><strong class="font-semibold">$129.00</strong> <span class="shop-meta inline">for 3 items</span></span></td>
+                                            <td><button type="button" class="btn btn-outline-dark btn-pill btn-sm">Buy Again</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td data-title="Order"><span class="flex items-center gap-3"><span class="avatar-stack avatar-stack-sm max-md:hidden" aria-hidden="true"><img src="../assets/media/placeholder/800x800.svg" alt="" width="800" height="800" loading="lazy"></span><a href="demo-electronics-store-1-track-order.html" class="font-semibold hover:text-primary-ink">#NX-38204</a></span></td>
+                                            <td data-title="Date">Apr 7, 2026</td>
+                                            <td data-title="Status"><span class="badge badge-sm badge-fade-dark">Returned</span></td>
+                                            <td data-title="Total"><span><strong class="font-semibold">$49.00</strong> <span class="shop-meta inline">refunded</span></span></td>
+                                            <td><span class="shop-meta mt-0">Refund sent</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Firmware & manuals -->
+                        <div x-show="is('downloads')" x-transition:enter.opacity.duration.300ms x-cloak>
+                            <h2 class="shop-title m-0">Firmware &amp; manuals</h2>
+                            <p class="mt-3 mb-0 text-[1.0625rem] text-soft">Updates for the Draftmango gear you own appear here the day they ship. The app installs them too.</p>
+                            <div class="custom-panel mt-6 bg-base rounded-lg">
+                                <table class="shop-table">
+                                    <thead>
+                                        <tr>
+                                            <th>File</th>
+                                            <th>Product</th>
+                                            <th>Released</th>
+                                            <th><span class="sr-only">Download</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td data-title="File"><span class="flex items-center gap-3"><span class="grid size-10 shrink-0 place-items-center rounded-full bg-(--color-tertiary) text-xl text-primary-ink max-md:hidden"><i class="ph ph-cpu" aria-hidden="true"></i></span><span><strong class="block font-semibold">Firmware 3.2</strong><span class="shop-meta mt-0 block">Better wind noise handling · 22 MB</span></span></span></td>
+                                            <td data-title="Product">Arc Buds Pro</td>
+                                            <td data-title="Released">This week</td>
+                                            <td><a href="#" class="btn btn-dark btn-pill btn-sm" download><i class="ph ph-download-simple" aria-hidden="true"></i>Download</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td data-title="File"><span class="flex items-center gap-3"><span class="grid size-10 shrink-0 place-items-center rounded-full bg-(--color-tertiary) text-xl text-primary-ink max-md:hidden"><i class="ph ph-file-pdf" aria-hidden="true"></i></span><span><strong class="block font-semibold">Quick-start guide</strong><span class="shop-meta mt-0 block">PDF · 2.4 MB</span></span></span></td>
+                                            <td data-title="Product">Arc Studio</td>
+                                            <td data-title="Released">Nov 2026</td>
+                                            <td><a href="#" class="btn btn-outline-dark btn-pill btn-sm" download><i class="ph ph-download-simple" aria-hidden="true"></i>Download</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td data-title="File"><span class="flex items-center gap-3"><span class="grid size-10 shrink-0 place-items-center rounded-full bg-(--color-tertiary) text-xl text-primary-ink max-md:hidden"><i class="ph ph-file-text" aria-hidden="true"></i></span><span><strong class="block font-semibold">Full spec sheet</strong><span class="shop-meta mt-0 block">PDF · 860 KB</span></span></span></td>
+                                            <td data-title="Product">Arc Studio</td>
+                                            <td data-title="Released">Nov 2026</td>
+                                            <td><a href="#" class="btn btn-outline-dark btn-pill btn-sm" download><i class="ph ph-download-simple" aria-hidden="true"></i>Download</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Wishlist -->
+                        <div x-show="is('wishlist')" x-transition:enter.opacity.duration.300ms x-cloak>
+                            <div class="flex flex-wrap items-end justify-between gap-4">
+                                <h2 class="shop-title m-0">Wishlist</h2>
+                                <p class="shop-meta mt-0">We email you when a saved price drops</p>
+                            </div>
+                            <ul class="products mt-6 [--cols:2] md:[--cols:3] lg:gap-x-8">
+                                <li class="product-card" data-product data-product_id="es1-wave-home" data-cat="audio" data-price="199.00" data-colours="sand" data-sizes="" data-brand="wave" data-sale="no" data-features="wireless" data-rating="4.6" data-stock="in" data-date="2026-07-30" data-pop="84" data-anim="fade-up" data-anim-delay="0">
+                                    <div class="product-card-media">
+                                        <a href="demo-electronics-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/800x800.svg" alt="Oat fabric smart home speaker" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/800x800.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="es1-wave-home" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="" aria-label="Add Draftmango Wave Home Speaker to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="" aria-label="Save Draftmango Wave Home Speaker to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="" aria-label="Quick view: Draftmango Wave Home Speaker">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Smart Home</span>
+
+                                            <span class="swatch-dots" role="img" aria-label="Colours: sand"><i style="--swatch:#d9c4a6"></i></span>
+
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-electronics-store-1-product.html">Draftmango Wave Home Speaker</a></h3>
+                                        <p class="product-card-excerpt"></p>
+
+                                        <div class="product-rating" style="--rating: 4.6" role="img" aria-label="Rated 4.6 out of 5">(842)</div>
+
+                                        <p class="product-price">
+
+                                            <span>$199.00</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card" data-product data-product_id="es1-glide-11" data-cat="phone" data-price="199.00" data-colours="white" data-sizes="" data-brand="glide" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-01-10" data-pop="72" data-anim="fade-up" data-anim-delay="80">
+                                    <div class="product-card-media">
+                                        <a href="demo-electronics-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/800x800.svg" alt="White keyboard case holding an 11-inch tablet upright" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/800x800.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="es1-glide-11" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="" aria-label="Add Draftmango Glide Keyboard Case 11 to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="" aria-label="Save Draftmango Glide Keyboard Case 11 to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="" aria-label="Quick view: Draftmango Glide Keyboard Case 11">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Tablet Keyboards</span>
+
+                                            <span class="swatch-dots" role="img" aria-label="Colours: white"><i style="--swatch:#f5f5f3"></i></span>
+
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-electronics-store-1-product.html">Draftmango Glide Keyboard Case 11</a></h3>
+                                        <p class="product-card-excerpt"></p>
+
+                                        <div class="product-rating" style="--rating: 4.8" role="img" aria-label="Rated 4.8 out of 5">(312)</div>
+
+                                        <p class="product-price">
+
+                                            <span>$199.00</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Addresses -->
+                        <div x-show="is('addresses')" x-transition:enter.opacity.duration.300ms x-cloak>
+                            <h2 class="shop-title m-0">Addresses</h2>
+                            <p class="mt-3 mb-0 text-[1.0625rem] text-soft">These fill in for you at checkout. You can still change them per order.</p>
+                            <div class="mt-6 grid gap-5 md:grid-cols-2">
+                                <div class="custom-panel flex flex-col bg-base rounded-lg">
+                                    <div class="flex items-center justify-between gap-3">
+                                        <h3 class="m-0 flex items-center gap-2 text-lg"><i class="ph ph-house-line text-xl text-primary-ink" aria-hidden="true"></i>Home</h3>
+                                        <span class="badge badge-xs badge-fade-primary">Default</span>
+                                    </div>
+                                    <address class="mt-4 flex-1 not-italic leading-relaxed text-soft">Ryan Carter<br>2231 N Damen Ave, Apt 3<br>Chicago, IL 60647<br>United States<br>(312) 555-0193</address>
+                                </div>
+                                <div class="custom-panel flex flex-col bg-base rounded-lg">
+                                    <h3 class="m-0 flex items-center gap-2 text-lg"><i class="ph ph-briefcase text-xl text-primary-ink" aria-hidden="true"></i>Office</h3>
+                                    <address class="mt-4 flex-1 not-italic leading-relaxed text-soft">Ryan Carter<br>Reception, 14th floor<br>225 W Wacker Dr<br>Chicago, IL 60606<br>United States</address>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment methods -->
+                        <div x-show="is('payment-methods')" x-transition:enter.opacity.duration.300ms x-cloak x-data="{ main: 'visa', gone: [] }">
+                            <h2 class="shop-title m-0">Payment methods</h2>
+                            <p class="mt-3 mb-0 text-[1.0625rem] text-soft">Saved securely by our payment provider. We never see or store your full card number.</p>
+                            <ul class="mt-6 space-y-3 p-0">
+                                <li class="custom-panel flex flex-wrap items-center gap-x-5 gap-y-3 py-4 bg-base rounded-lg" x-show="!gone.includes('visa')" x-transition.opacity>
+                                    <span class="grid h-10 w-14 place-items-center rounded-(--radius-sm) bg-(--custom-ink) text-[0.8125rem] font-bold tracking-[0.08em] text-white" aria-hidden="true">VISA</span>
+                                    <span class="min-w-0 flex-1"><strong class="block font-semibold">Visa ending 4417</strong><span class="shop-meta mt-0 block">Expires 06/29</span></span>
+                                    <span class="badge badge-xs badge-fade-primary" x-show="main === 'visa'">Default</span>
+                                    <span class="flex gap-2">
+                                        <button type="button" class="btn btn-outline-dark btn-pill btn-sm" x-show="main !== 'visa'" x-cloak @click="main = 'visa'">Make Default</button>
+                                        <button type="button" class="cart-remove" @click="gone.push('visa')" aria-label="Delete Visa ending 4417"><i class="ph ph-trash" aria-hidden="true"></i></button>
+                                    </span>
+                                </li>
+                                <li class="custom-panel flex flex-wrap items-center gap-x-5 gap-y-3 py-4 bg-base rounded-lg" x-show="!gone.includes('mc')" x-transition.opacity>
+                                    <span class="grid h-10 w-14 place-items-center rounded-(--radius-sm) bg-primary text-[0.8125rem] font-bold tracking-[0.08em] text-white" aria-hidden="true">MC</span>
+                                    <span class="min-w-0 flex-1"><strong class="block font-semibold">Mastercard ending 0921</strong><span class="shop-meta mt-0 block">Expires 11/28</span></span>
+                                    <span class="badge badge-xs badge-fade-primary" x-show="main === 'mc'" x-cloak>Default</span>
+                                    <span class="flex gap-2">
+                                        <button type="button" class="btn btn-outline-dark btn-pill btn-sm" x-show="main !== 'mc'" @click="main = 'mc'">Make Default</button>
+                                        <button type="button" class="cart-remove" @click="gone.push('mc')" aria-label="Delete Mastercard ending 0921"><i class="ph ph-trash" aria-hidden="true"></i></button>
+                                    </span>
+                                </li>
+                            </ul>
+                            <p class="custom-panel mt-3 flex items-center gap-3 text-soft bg-base rounded-lg" x-show="gone.length === 2" x-cloak><i class="ph ph-info text-xl" aria-hidden="true"></i>No saved cards. Save one at your next checkout.</p>
+                        </div>
+
+                        <!-- Account details -->
+                        <div x-show="is('account-details')" x-transition:enter.opacity.duration.300ms x-cloak>
+                            <h2 class="shop-title m-0">Account details</h2>
+                            <form class="shop-form custom-panel mt-6 bg-base rounded-lg" method="post" action="#" x-data="formValidate()" novalidate @submit.prevent="onSubmit($event)">
+                                <div class="grid gap-x-4 gap-y-5 sm:grid-cols-2">
+                                    <div class="form-group">
+                                        <label class="form-label" for="es1-acc-first">First name <span class="required">*</span></label>
+                                        <input type="text" id="es1-acc-first" name="account_first_name" class="form-input" value="Ryan" autocomplete="given-name" required @blur="check($event.target)">
+                                        <span class="form-error-msg" x-show="errors.account_first_name" x-text="errors.account_first_name" x-cloak></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="es1-acc-last">Last name <span class="required">*</span></label>
+                                        <input type="text" id="es1-acc-last" name="account_last_name" class="form-input" value="Carter" autocomplete="family-name" required @blur="check($event.target)">
+                                        <span class="form-error-msg" x-show="errors.account_last_name" x-text="errors.account_last_name" x-cloak></span>
+                                    </div>
+                                    <div class="form-group sm:col-span-2">
+                                        <label class="form-label" for="es1-acc-email">Email <span class="required">*</span></label>
+                                        <input type="email" id="es1-acc-email" name="account_email" class="form-input" value="ryan.carter@example.com" autocomplete="email" required @blur="check($event.target)">
+                                        <span class="form-error-msg" x-show="errors.account_email" x-text="errors.account_email" x-cloak></span>
+                                    </div>
+                                    <label class="form-check sm:col-span-2"><input type="checkbox" class="form-check-input" name="firmware_mail" value="1" checked><span class="form-check-label">Email me when firmware for my gear is released</span></label>
+                                </div>
+                                <div class="alert alert-success mt-6" x-show="sent" x-cloak role="status">
+                                    <i class="ph ph-check-circle alert-icon" aria-hidden="true"></i>
+                                    <div class="alert-content"><span class="alert-title">Changes saved</span>Your account details are up to date.</div>
+                                </div>
+                                <button type="submit" name="save_account_details" value="Save changes" class="btn btn-dark btn-pill mt-6">Save Changes</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Quick view - one dialog per page, filled by initQuickView() from the card that opened it -->
+        <dialog id="quick-view" class="modal modal--xl" data-anim="zoom" aria-labelledby="qv-title">
+            <div class="modal-dialog">
+                <div class="modal-content relative">
+                    <button class="modal-close absolute top-4 right-4 z-10" data-modal-close aria-label="Close"><i class="ph ph-x" aria-hidden="true"></i></button>
+                    <div class="grid md:grid-cols-2 overflow-y-auto" data-lenis-prevent>
+                        <div class="bg-muted aspect-[4/5] md:aspect-auto md:min-h-[34rem]">
+                            <img data-qv-img src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="" class="size-full object-cover" width="900" height="1100">
+                        </div>
+                        <div class="flex flex-col p-7 md:p-10">
+                            <span class="product-card-cat" data-qv-cat></span>
+                            <h2 id="qv-title" class="mt-3 text-2xl font-semibold tracking-[-0.025em] leading-tight" data-qv-title></h2>
+                            <div class="mt-3" data-qv-rating></div>
+                            <p class="product-price text-xl mt-5" data-qv-price></p>
+                            <p class="mt-4 text-soft leading-relaxed" data-qv-excerpt></p>
+                            <div class="mt-5 flex items-center gap-3 text-sm text-soft">Colours <span data-qv-colours></span></div>
+                            <form class="mt-8 flex flex-wrap items-center gap-3" x-data @submit.prevent>
+                                <div class="qty">
+                                    <button type="button" class="qty-btn" data-step="-1" aria-label="Decrease quantity"><i class="ph ph-minus" aria-hidden="true"></i></button>
+                                    <input type="number" class="qty-input" name="quantity" value="1" min="1" max="10" aria-label="Quantity">
+                                    <button type="button" class="qty-btn" data-step="1" aria-label="Increase quantity"><i class="ph ph-plus" aria-hidden="true"></i></button>
+                                </div>
+                                <button type="submit" class="btn btn-dark btn-pill btn-lg btn-atc flex-1 min-w-[12rem]" x-data="addToCart" @click="add()" :data-state="state">
+                                    <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i>Add to cart</span>
+                                    <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                    <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i>Added to cart</span>
+                                </button>
+                            </form>
+                            <a href="#" class="btn-link-arrow mt-auto pt-8 self-start font-semibold text-primary-ink" data-qv-link>View full details <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </dialog>
+
+        <!-- Electronics Store footer - "service desk": the navy desk panel (status line, four support channels), three promises (warranty, returns, delivery), the brand with the newsletter and the app, three link columns, then the region, payment marks, social links and the legal bar. Edit: the status, the desk lines, the channels, the promises, the newsletter lines, the columns, the legal links -->
+        <footer class="site-footer custom-footer">
+
+            <div class="footer-main">
+                <div class="container">
+
+                    <!-- Service desk -->
+                    <div class="isolate relative grid items-center gap-y-10 gap-x-16 overflow-hidden p-[clamp(1.5rem,0.5rem_+_3.6vw,4.5rem)] text-(--custom-on-ink-soft) bg-(--custom-ink) rounded-lg lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]" data-anim="fade-up">
+                        <div class="glow -top-40 -right-24" style="--glow-size: 26rem; --glow-opacity: 0.45" aria-hidden="true"></div>
+                        <div>
+                            <p class="inline-flex items-center gap-3 text-[0.9375rem] font-semibold text-(--custom-on-ink)"><span class="custom-desk-dot size-2 bg-(--color-success) rounded-full" aria-hidden="true"></span>Open now · replies in about 2 min</p>
+                            <h2 class="mt-5 text-[clamp(1.75rem,1rem_+_1.8vw,2.625rem)] leading-[1.08] tracking-[-0.035em] text-(--custom-on-ink) text-balance">Real people in Austin, ready when you are.</h2>
+                            <p class="mt-4 mb-0 max-w-[40ch] text-[1.0625rem]">Setup help, order questions, returns and warranty claims. One team, seven days a week.</p>
+                        </div>
+                        <ul class="grid gap-3 sm:grid-cols-2" role="list">
+                            <li><a href="demo-electronics-store-1-support.html" class="custom-channel"><span class="custom-icon custom-channel-icon flex-none size-11 text-[1.375rem]"><i class="ph ph-chats-circle" aria-hidden="true"></i></span><span class="custom-channel-text"><b class="text-[1rem] font-semibold text-(--custom-on-ink)">Live Chat</b><span>Daily, 7 am – 11 pm CT</span></span><i class="ph ph-arrow-up-right custom-channel-go absolute top-4 right-4" aria-hidden="true"></i></a></li>
+                            <li><a href="tel:+15125550148" class="custom-channel"><span class="custom-icon custom-channel-icon flex-none size-11 text-[1.375rem]"><i class="ph ph-phone" aria-hidden="true"></i></span><span class="custom-channel-text"><b class="tabular-nums text-[1rem] font-semibold text-(--custom-on-ink)">(512) 555-0148</b><span>Mon – Sat, 8 am – 8 pm</span></span><i class="ph ph-arrow-up-right custom-channel-go absolute top-4 right-4" aria-hidden="true"></i></a></li>
+                            <li><a href="mailto:help@draftmango.store" class="custom-channel"><span class="custom-icon custom-channel-icon flex-none size-11 text-[1.375rem]"><i class="ph ph-envelope-simple" aria-hidden="true"></i></span><span class="custom-channel-text"><b class="text-[1rem] font-semibold text-(--custom-on-ink)">help@draftmango.store</b><span>Replies within 4 hours</span></span><i class="ph ph-arrow-up-right custom-channel-go absolute top-4 right-4" aria-hidden="true"></i></a></li>
+                            <li><a href="demo-electronics-store-1-contact.html" class="custom-channel"><span class="custom-icon custom-channel-icon flex-none size-11 text-[1.375rem]"><i class="ph ph-storefront" aria-hidden="true"></i></span><span class="custom-channel-text"><b class="text-[1rem] font-semibold text-(--custom-on-ink)">Austin Service Bar</b><span>Walk-in swaps, East 6th St</span></span><i class="ph ph-arrow-up-right custom-channel-go absolute top-4 right-4" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Promises -->
+                    <ul class="custom-promises md:grid-cols-3 md:mt-16" role="list" data-anim-stagger="80">
+                        <li data-anim="fade-up"><i class="ph ph-shield-check flex-none text-[1.75rem] text-(--footer-accent-ink)" aria-hidden="true"></i><span><b>2-Year Warranty</b>A swap, not a repair, on Draftmango-label gear</span></li>
+                        <li data-anim="fade-up"><i class="ph ph-arrow-u-up-left flex-none text-[1.75rem] text-(--footer-accent-ink)" aria-hidden="true"></i><span><b>30-Day Returns</b>Free label, refund in three business days</span></li>
+                        <li data-anim="fade-up"><i class="ph ph-truck flex-none text-[1.75rem] text-(--footer-accent-ink)" aria-hidden="true"></i><span><b>Free Next-Day Delivery</b>On orders over $49, anywhere in the US</span></li>
+                    </ul>
+
+                    <div class="grid grid-cols-1 gap-x-10 gap-y-10 md:grid-cols-3 lg:grid-cols-[1.5fr_repeat(3,1fr)]">
+
+                        <!-- Brand, newsletter, app -->
+                        <div class="md:col-span-3 lg:col-span-1 lg:pr-10" data-anim="fade-up">
+                            <a href="demo-electronics-store-1.html" class="brand inline-block" aria-label="Draftmango Tech, home">
+
+                                <img class="brand-logo" src="../assets/media/logo/draftmango-logo.svg" alt="Draftmango" width="120" height="32" style="--logo-tint: url(#logo-tint-footer)">
+
+                                <svg class="brand-tint" aria-hidden="true" focusable="false">
+                                    <filter id="logo-tint-footer" color-interpolation-filters="sRGB">
+                                        <feFlood flood-color="currentColor" />
+                                        <feComposite in2="SourceAlpha" operator="in" />
+                                    </filter>
+                                </svg>
+                            </a>
+                            <p class="footer-detail mt-5 mb-6 max-w-[38ch]">Launch dates, restocks and members-only deals, about twice a month.</p>
+
+                            <form class="max-w-[30rem]" x-data="formValidate()" novalidate @submit.prevent="onSubmit($event)">
+                                <div class="footer-subscribe footer-subscribe--boxed footer-subscribe--label">
+                                    <input id="es1-footer-email" name="email" type="email" placeholder="Your email address" aria-label="Email address" aria-describedby="es1-footer-email-msg" autocomplete="email" required @blur="check($event.target)" @input="check($event.target)">
+                                    <button type="submit">Subscribe <i class="ph ph-arrow-right" aria-hidden="true"></i></button>
+                                </div>
+                                <span class="footer-subscribe-msg" id="es1-footer-email-msg">
+                                    <span x-show="!errors.email &amp;&amp; !sent">By subscribing you accept our <a href="#">Privacy Policy</a>.</span>
+                                    <span class="footer-subscribe-msg--error" x-show="errors.email" x-text="errors.email" x-cloak></span>
+                                    <span class="footer-subscribe-msg--ok" x-show="sent" x-cloak>You are in. Look out for the first email this week.</span>
+                                </span>
+                            </form>
+
+                            <div class="footer-app-badges mt-8">
+                                <a href="#" class="btn btn-dark rounded-2xl gap-2.5 py-1.5 pl-3 pr-4">
+                                    <i class="ph-fill ph-apple-logo text-[1.5rem]" aria-hidden="true"></i>
+                                    <span class="text-left leading-[1.15] tracking-normal"><span class="block text-[0.6875rem] font-medium opacity-70">Download on the</span><span class="block text-[0.9375rem] font-semibold tracking-[-0.01em]">App Store</span></span>
+                                </a>
+                                <a href="#" class="btn btn-dark rounded-2xl gap-2.5 py-1.5 pl-3 pr-4">
+                                    <i class="ph-fill ph-google-play-logo text-[1.5rem]" aria-hidden="true"></i>
+                                    <span class="text-left leading-[1.15] tracking-normal"><span class="block text-[0.6875rem] font-medium opacity-70">Get it on</span><span class="block text-[0.9375rem] font-semibold tracking-[-0.01em]">Google Play</span></span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Shop -->
+                        <nav class="footer-acc" x-data="{ open: false }" :class="open ? 'is-open' : 'is-shut'" aria-labelledby="es1-col-shop" data-anim="fade-up" data-anim-delay="80">
+                            <button type="button" class="footer-acc-toggle" id="es1-col-shop" @click="open = !open" :aria-expanded="open">Shop <i class="ph ph-plus footer-acc-caret" aria-hidden="true"></i></button>
+                            <div class="footer-acc-body">
+                                <ul class="footer-links footer-links--slide">
+                                    <li><a href="demo-electronics-store-1-shop.html">Audio</a></li>
+                                    <li><a href="demo-electronics-store-1-shop.html">Wearables</a></li>
+                                    <li><a href="demo-electronics-store-1-shop.html">Charging</a></li>
+                                    <li><a href="demo-electronics-store-1-shop.html">Phone &amp; Tablet</a></li>
+                                    <li><a href="demo-electronics-store-1-deals.html">Today's Deals</a></li>
+                                    <li><a href="demo-electronics-store-1-brands.html">Brands</a></li>
+                                </ul>
+                            </div>
+                        </nav>
+
+                        <!-- Support -->
+                        <nav class="footer-acc" x-data="{ open: false }" :class="open ? 'is-open' : 'is-shut'" aria-labelledby="es1-col-support" data-anim="fade-up" data-anim-delay="160">
+                            <button type="button" class="footer-acc-toggle" id="es1-col-support" @click="open = !open" :aria-expanded="open">Support <i class="ph ph-plus footer-acc-caret" aria-hidden="true"></i></button>
+                            <div class="footer-acc-body">
+                                <ul class="footer-links footer-links--slide">
+                                    <li><a href="demo-electronics-store-1-track-order.html">Track an Order</a></li>
+                                    <li><a href="demo-electronics-store-1-support.html#delivery">Shipping &amp; Delivery</a></li>
+                                    <li><a href="demo-electronics-store-1-support.html#returns">Returns &amp; Refunds</a></li>
+                                    <li><a href="demo-electronics-store-1-support.html#warranty">Warranty Claims</a></li>
+                                    <li><a href="demo-electronics-store-1-support.html">Help Center</a></li>
+                                </ul>
+                            </div>
+                        </nav>
+
+                        <!-- Company -->
+                        <nav class="footer-acc" x-data="{ open: false }" :class="open ? 'is-open' : 'is-shut'" aria-labelledby="es1-col-company" data-anim="fade-up" data-anim-delay="240">
+                            <button type="button" class="footer-acc-toggle" id="es1-col-company" @click="open = !open" :aria-expanded="open">Company <i class="ph ph-plus footer-acc-caret" aria-hidden="true"></i></button>
+                            <div class="footer-acc-body">
+                                <ul class="footer-links footer-links--slide">
+                                    <li><a href="demo-electronics-store-1-about.html">About Draftmango Tech</a></li>
+                                    <li><a href="demo-electronics-store-1-blog.html">Blog</a></li>
+                                    <li><a href="demo-electronics-store-1-contact.html">Careers</a></li>
+                                    <li><a href="demo-electronics-store-1-contact.html">Contact</a></li>
+                                </ul>
+                            </div>
+                        </nav>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom bar -->
+            <div class="footer-bottom">
+                <div class="container py-8">
+                    <div class="footer-shop-bar">
+                        <div class="flex flex-wrap items-center gap-x-6 gap-y-4">
+                            <div class="footer-region" x-data="{ open: false }" @keydown.escape="open = false" @click.outside="open = false">
+                                <button type="button" class="footer-region-toggle" @click="open = !open" :aria-expanded="open" aria-expanded="false" aria-haspopup="true" aria-label="Country and currency">
+                                    <i class="ph ph-globe-hemisphere-west" aria-hidden="true"></i>
+                                    <span>United States · USD $</span>
+                                    <i class="ph ph-caret-up footer-region-caret" aria-hidden="true"></i>
+                                </button>
+                                <div class="footer-region-menu" x-show="open" x-transition.opacity.origin.bottom x-cloak role="menu" aria-label="Country and currency">
+                                    <span class="nav-region-title">Ship to</span>
+                                    <a href="#" class="nav-lang-item" role="menuitem" aria-current="true">United States · USD $ <i class="ph ph-check nav-lang-check" aria-hidden="true"></i></a>
+                                    <a href="#" class="nav-lang-item" role="menuitem">Canada · CAD $ <i class="ph ph-check nav-lang-check" aria-hidden="true"></i></a>
+                                    <a href="#" class="nav-lang-item" role="menuitem">United Kingdom · GBP £ <i class="ph ph-check nav-lang-check" aria-hidden="true"></i></a>
+                                    <a href="#" class="nav-lang-item" role="menuitem">Germany · EUR € <i class="ph ph-check nav-lang-check" aria-hidden="true"></i></a>
+                                    <a href="#" class="nav-lang-item" role="menuitem">Australia · AUD $ <i class="ph ph-check nav-lang-check" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                            <ul class="pay-marks" aria-label="Payment methods we accept">
+                                <li class="pay-mark pay-mark--visa"><span>VISA</span></li>
+                                <li class="pay-mark pay-mark--mc" aria-label="Mastercard"><span class="pay-mark-circles" aria-hidden="true"><i></i><i></i></span></li>
+                                <li class="pay-mark" aria-label="PayPal"><i class="ph-fill ph-paypal-logo" aria-hidden="true"></i></li>
+                                <li class="pay-mark" aria-label="Apple Pay"><i class="ph-fill ph-apple-logo" aria-hidden="true"></i><span>Pay</span></li>
+                                <li class="pay-mark" aria-label="Google Pay"><i class="ph-bold ph-google-logo" aria-hidden="true"></i><span>Pay</span></li>
+                            </ul>
+                        </div>
+                        <ul class="social-list" role="list">
+                            <li><a href="#" aria-label="Instagram" data-social="instagram" class="social-link social-link--circle social-link--outline"><i class="ph ph-instagram-logo" aria-hidden="true"></i></a></li>
+                            <li><a href="#" aria-label="YouTube" data-social="youtube" class="social-link social-link--circle social-link--outline"><i class="ph ph-youtube-logo" aria-hidden="true"></i></a></li>
+                            <li><a href="#" aria-label="TikTok" data-social="tiktok" class="social-link social-link--circle social-link--outline"><i class="ph ph-tiktok-logo" aria-hidden="true"></i></a></li>
+                            <li><a href="#" aria-label="X" data-social="x" class="social-link social-link--circle social-link--outline"><i class="ph ph-x-logo" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-shop-bar mt-6 border-t border-[var(--footer-rule)] pt-6">
+                        <span>&copy; 2027 Draftmango. Austin, Texas.</span>
+                        <ul class="footer-nav" role="list">
+                            <li><a href="#">Terms of Sale</a></li>
+                            <li><a href="#">Privacy</a></li>
+                            <li><a href="#">Cookies</a></li>
+                            <li><a href="#">Accessibility</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </footer>
+
+        <!-- Back to top button -->
+        <button data-back-top aria-label="Back to top" class="back-to-top fixed bottom-8 right-8 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer border-0 text-white bg-primary shadow-token-lg z-sticky">
+            <i class="ph ph-arrow-up"></i>
+        </button>
+
+        <script defer src="../assets/js/vendor.js"></script>
+        <script defer src="../assets/js/shop.js"></script>
+        <script defer src="../assets/js/main.js"></script>
+        <script defer src="../assets/js/demos/demo-electronics-store-1.js"></script>
+    </body>
+</html>

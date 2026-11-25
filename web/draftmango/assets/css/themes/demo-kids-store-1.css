@@ -1,0 +1,140 @@
+/* ================================================================
+ *  demo-kids-store-1.css — Draftmango theme for the Kids Store demo
+ *
+ *  The colors, fonts and layout settings of the Kids Store
+ *  demo (Draftmango Kids, organic baby and kids clothing, knitwear, wooden toys and nursery, with a shop in Minneapolis).
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here).
+   Quicksand 700 for headings (the font check picked it over Fredoka 600 and
+   Nunito 800: rounded but light-footed, never bubbly), Inter for the body. */
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@500..700&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #2a9d8f;   /* main color: sea glass for buttons, the bag and links; labels on it are white */
+    --color-secondary-base:  #123532;   /* second color: deep teal for the text and the strip; the dark scheme takes its hue */
+    --color-tertiary-base:   #fde6d6;   /* third color: peach for soft fills and the age dock */
+    --color-quaternary-base: #6b716e;   /* fourth color: sage grey for meta */
+    --color-accent-base:     #f2643d;   /* attention color: tomato, for stickers and sale; labels on it are white */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. White labels on the brand fills (a preset picks its own). */
+    --color-on-primary: #fff;
+    --color-on-accent:  #fff;
+
+    --color-primary:       var(--color-primary-base);
+    --color-primary-hover: oklch(from var(--color-primary-base) calc(l - 0.06) c h);
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-bg:          oklch(from var(--color-quaternary-base) 0.977 0.010 calc(h - 83));   /* page background: oat (#fbf7f0) */
+    --color-bg-soft:     oklch(from var(--color-quaternary-base) 0.955 0.014 calc(h - 83));   /* a step deeper: fills and hover rows */
+    --color-bg-muted:    oklch(from var(--color-quaternary-base) 0.930 0.017 calc(h - 83));   /* placeholders */
+    --color-border:      oklch(from var(--color-quaternary-base) 0.895 0.018 calc(h - 83));   /* lines and borders */
+    --color-border-soft: oklch(from var(--color-quaternary-base) 0.930 0.014 calc(h - 83));   /* the faintest rules */
+    --color-text:        var(--color-secondary-base);   /* headings and body text */
+    --color-text-soft:   oklch(from var(--color-quaternary-base) 0.48 c h);   /* running text */
+    --color-text-muted:  oklch(from var(--color-quaternary-base) 0.5 c h);   /* meta text */
+    --color-dark:        var(--color-secondary-base);   /* dark sections and dark buttons */
+    /* Brand-colored text on the ground, held at or under 0.5 lightness so a
+       preset's lighter primary still reads at 4.5:1 */
+    --color-primary-ink: oklch(from var(--color-primary-base) min(l, 0.5) c h);
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Quicksand', system-ui, sans-serif;   /* headings */
+
+    /* Headings and buttons */
+    --heading-weight:     700;   /* Quicksand bold: 500–700 is loaded */
+    --heading-tracking:   -0.02em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        1.5;      /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 9999px;  /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1400px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 0.55;     /* space between sections: 0.5 compact · 1 · 1.25 spacious (0.55 ≈ 70px at 1440) */
+}
+
+/* The 1400px container from 1280px up (the template steps it to 1280 there),
+   growing with the window to 1600px, so the bar and the diptych never read as
+   a narrow column on a large screen */
+@layer utilities {
+    @media (width >= 80rem) {
+        :where(html[data-demo="kids-store-1"]) .container { max-width: var(--container-max); }
+    }
+}
+
+@media (width >= 80rem) {
+    html[data-demo="kids-store-1"] {
+        --container-max: clamp(1400px, 86vw, 1600px);
+        --container-width: var(--container-max);
+    }
+}
+
+/* Playroom header: a 38px deep-teal strip over an 88px bar (icons over the
+   labels); once scrolled the strip folds away and the icons with it, so the
+   bar settles at 72px. These outrank the template's :root:has() height rules
+   (header.css) */
+html:root[data-demo="kids-store-1"]:has(.header-topbar) {
+    --topbar-h: 38px;
+    --navbar-h: 88px;
+}
+
+html:root[data-demo="kids-store-1"]:has(.site-header.scrolled) {
+    --navbar-h: 72px;
+    --header-h: 72px;
+}
+
+html:root[data-demo="kids-store-1"]:has(.site-header:not(.scrolled)) {
+    --header-h: calc(var(--topbar-h) + var(--navbar-h));
+}
+
+@media (max-width: 1279px) {
+    html:root[data-demo="kids-store-1"]:has(.header-topbar) { --navbar-h: 72px; }
+}
+
+@media (max-width: 1023px) {
+    html:root[data-demo="kids-store-1"]:has(.header-topbar) {
+        --topbar-h: 34px;
+        --navbar-h: 64px;
+    }
+
+    html:root[data-demo="kids-store-1"]:has(.site-header.scrolled) {
+        --navbar-h: 64px;
+        --header-h: 64px;
+    }
+}

@@ -1,0 +1,91 @@
+/* ================================================================
+ *  demo-financial-planner-1.css — Draftmango theme for the Financial Planner demo
+ *
+ *  The colors, fonts and layout settings of the Financial Planner
+ *  demo (Draftmango Planning, fee-only fiduciary financial planners for professionals, young families and founders, Charlotte NC and nationwide by video).
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here).
+   Hanken Grotesk 600 / 300 for the headings (the font check against Inter
+   Display and Onest: the warmest of the three, and narrower than Onest, so
+   the two hero lines keep clear of the faces), Inter for the text. */
+@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300..700&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #ff5d2a;   /* main color: vivid orange for buttons, links and the active milestone pin; labels on it are white (3.1:1, the brand-fill rule) */
+    --color-secondary-base:  #0d3a30;   /* second color: pine for the text, the bands and the panels; the dark scheme takes its hue */
+    --color-tertiary-base:   #dfe8e1;   /* third color: sage mist for soft fills */
+    --color-quaternary-base: #6f6b63;   /* fourth color: warm grey for meta */
+    --color-accent-base:     #ffb37d;   /* attention color: apricot for warm highlights */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. */
+    --color-on-primary: #fff;   /* labels on the brand fill: white (a preset picks its own) */
+
+    --color-primary:       var(--color-primary-base);
+    --color-primary-hover: oklch(from var(--color-primary-base) calc(l - 0.06) c h);
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-text:        var(--color-secondary-base);   /* headings and body text */
+    --color-text-soft:   oklch(from var(--color-quaternary-base) 0.48 c h);   /* running text */
+    --color-text-muted:  oklch(from var(--color-quaternary-base) 0.5 c h);   /* meta text */
+    --color-bg:          oklch(from var(--color-quaternary-base) 0.957 calc(c * 0.9) calc(h - 5));   /* page background: cream (#f5f0e8) */
+    --color-bg-soft:     oklch(from var(--color-quaternary-base) 0.928 calc(c * 1.3) calc(h - 3));   /* a step deeper: bands and hover fills (#ede6da) */
+    --color-bg-muted:    oklch(from var(--color-quaternary-base) 0.905 calc(c * 1.45) calc(h - 2));   /* behind the avatars and placeholders (#e6dfd2) */
+    --color-border:      oklch(from var(--color-quaternary-base) 0.875 calc(c * 1.3) h);   /* lines and borders (#ddd6ca) */
+    --color-border-soft: oklch(from var(--color-quaternary-base) 0.915 calc(c * 1.1) h);   /* the faintest rules */
+    --color-dark:        var(--color-secondary-base);   /* dark sections and dark buttons */
+    /* Brand-colored text on the ground: held at or under 0.53 lightness so a
+       preset's lighter primary still reads at 4.5:1, and its chroma capped so
+       the orange stays burnt orange (#b53f1a, 5:1) instead of clipping to red */
+    --color-primary-ink: oklch(from var(--color-primary-base) min(l, 0.53) min(c, 0.16) h);
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Hanken Grotesk', system-ui, sans-serif;   /* headings */
+
+    /* Headings and buttons */
+    --heading-weight:     600;   /* the hero's second line drops to 300 */
+    --heading-tracking:   -0.035em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        1.5;      /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 9999px;  /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1360px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 1.2;      /* space between sections: 0.75 compact · 1 · 1.25 spacious */
+}

@@ -1,0 +1,2820 @@
+@layer components {
+    html[data-demo='kids-store-1'] {
+        --custom-r: var(--radius-20);
+        --custom-bar: var(--color-surface);
+        --custom-soft: color-mix(in oklab, var(--color-primary) 13%, var(--custom-bar));
+        --custom-line: color-mix(in oklab, var(--color-text) 10%, transparent);
+        --custom-hem-x: 12px;
+        --custom-hem-y: 9px;
+        --custom-wave-x: 18px;
+        --custom-wave-y: 12px;
+        --custom-chip-1: var(--color-tertiary-base);
+        --custom-chip-2: color-mix(in oklab, var(--color-primary-base) 24%, #fff);
+        --custom-chip-3: oklch(from var(--color-accent-base) 0.93 0.075 calc(h + 45));
+        --custom-chip-4: color-mix(in oklab, var(--color-accent-base) 22%, #fff);
+        --custom-chip-5: oklch(from var(--color-primary-base) 0.92 0.045 calc(h - 70));
+        --custom-stitch: color-mix(in oklab, var(--color-text) 24%, transparent);
+        --custom-shadow:
+            0 1px 2px color-mix(in oklab, var(--color-secondary-base) 5%, transparent),
+            0 24px 48px -24px color-mix(in oklab, var(--color-secondary-base) 18%, transparent);
+    }
+
+    html[data-demo='kids-store-1'] .site-header {
+        --menu-surface: var(--custom-bar);
+        --menu-border: transparent;
+        --menu-shadow: var(--custom-shadow);
+        --menu-hover-bg: var(--custom-soft);
+        --menu-hover-text: var(--color-primary-ink);
+        background: var(--custom-bar);
+        border-bottom: 0;
+
+        &.scrolled {
+            box-shadow: none;
+        }
+
+        &:after {
+            content: '';
+            height: var(--custom-hem-y);
+            background: radial-gradient(50% 100% at 50% 0, var(--custom-bar) 98%, transparent) 0 0 /
+                calc(var(--custom-hem-x) * 2) var(--custom-hem-y) round no-repeat;
+            filter: drop-shadow(
+                0 2px 2px color-mix(in oklab, var(--color-secondary-base) 7%, transparent)
+            );
+            pointer-events: none;
+            position: absolute;
+            inset: 100% 0 auto;
+        }
+
+        & .site-topbar {
+            background: var(--color-secondary-base);
+            color: #fff;
+            border-bottom: 0;
+        }
+
+        & .site-topbar-inner {
+            width: 100%;
+            max-width: var(--container-width);
+            padding-inline: var(--container-x);
+            margin-inline: auto;
+        }
+
+        & .site-topbar-text,
+        & .site-topbar-meta-item {
+            color: #ffffffdb;
+            font-size: 0.875rem;
+        }
+
+        & .site-topbar-icon,
+        & .site-topbar-meta-item i {
+            color: oklch(from var(--color-primary-base) 0.84 0.09 h);
+        }
+
+        & a.site-topbar-meta-item:hover {
+            color: #fff;
+        }
+
+        & .navbar {
+            background: none;
+        }
+
+        & .site-topbar-meta {
+            gap: 1.75rem;
+        }
+
+        & .nav-search-toggle,
+        & .shop-action {
+            width: 2.75rem;
+            min-width: 2.75rem;
+            height: 2.75rem;
+            color: var(--color-text);
+            border-radius: var(--radius-full);
+            background: none;
+            border: 0;
+            font-size: 1.375rem;
+
+            &:hover,
+            &[aria-expanded='true'] {
+                color: var(--color-primary-ink);
+                background: var(--custom-soft);
+            }
+        }
+
+        & .shop-actions {
+            gap: 0.125rem;
+        }
+
+        & .shop-action-count {
+            color: var(--color-on-accent);
+            background: var(--color-accent);
+            box-shadow: 0 0 0 2px var(--custom-bar);
+            top: 0.125rem;
+            left: 1.5rem;
+        }
+
+        & .nav-actions {
+            gap: 0.125rem;
+        }
+
+        & .custom-nav-icon {
+            display: none;
+        }
+
+        @media (width <= 767px) {
+            & .shop-action--account {
+                display: none;
+            }
+        }
+    }
+
+    @media (width <= 1279px) {
+        html[data-demo='kids-store-1'] .site-header {
+            & .navbar-inner {
+                grid-template-columns: 1fr auto;
+            }
+
+            & .nav-links {
+                display: none;
+            }
+
+            & .hamburger {
+                display: grid;
+            }
+        }
+    }
+
+    @media (width >= 1280px) {
+        html[data-demo='kids-store-1'] .site-header {
+            & .nav-links {
+                gap: 0.125rem;
+            }
+
+            & .nav-links > li > .nav-link {
+                color: var(--color-text);
+                border-radius: var(--radius-lg);
+                transition:
+                    color var(--duration-fast) var(--ease-out),
+                    background-color var(--duration-fast) var(--ease-out);
+                flex-direction: column;
+                gap: 0.3125rem;
+                padding: 0.5rem 0.875rem 0.4375rem;
+                font-size: 0.9375rem;
+                line-height: 1.15;
+
+                &:hover,
+                &.active {
+                    color: var(--color-primary-ink);
+                    background: var(--custom-soft);
+                }
+            }
+
+            & .nav-megamenu:is(:hover, :focus-within) > .nav-link {
+                color: var(--color-primary-ink);
+                background: var(--custom-soft);
+            }
+
+            & .custom-nav-icon {
+                fill: none;
+                width: 1.5rem;
+                height: 1.5rem;
+                stroke: var(--color-primary-ink);
+                stroke-width: 1.5px;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                transition:
+                    height var(--duration-base) var(--ease-out),
+                    opacity var(--duration-fast) var(--ease-out),
+                    margin var(--duration-base) var(--ease-out);
+                display: block;
+            }
+
+            & .custom-nav-label {
+                align-items: center;
+                gap: 0.25rem;
+                display: inline-flex;
+
+                & i {
+                    font-size: 0.75rem;
+                }
+            }
+
+            &.scrolled .custom-nav-icon {
+                opacity: 0;
+                height: 0;
+                margin-top: -0.3125rem;
+            }
+        }
+    }
+
+    html[data-demo='kids-store-1'] .custom-mega {
+        & .megamenu-panel {
+            border-bottom-left-radius: var(--custom-r);
+            border-bottom-right-radius: var(--custom-r);
+            border-top: 0;
+        }
+
+        & .custom-mega-inner {
+            grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(17rem, 20rem);
+            gap: 1.5rem 2rem;
+            padding-block: 1.75rem 2.25rem;
+        }
+
+        & .megamenu-item > i {
+            color: var(--color-primary-ink);
+            font-size: 1.125rem;
+        }
+    }
+
+    html[data-demo='kids-store-1'] .custom-ages {
+        grid-column: 1 / 4;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.5rem 1rem;
+        display: grid;
+
+        & .megamenu-col-title {
+            grid-column: 1 / -1;
+        }
+    }
+
+    html[data-demo='kids-store-1'] .custom-mega .custom-age {
+        border-radius: var(--radius-lg);
+        gap: 0.125rem;
+        padding: 0.5rem 0.5rem 0.625rem;
+        display: grid;
+
+        & img {
+            aspect-ratio: 16 / 10;
+            object-fit: cover;
+            border-radius: 0 0 calc(var(--radius-lg) - 0.5rem) calc(var(--radius-lg) - 0.5rem);
+            width: 100%;
+            mask:
+                radial-gradient(50% 100% at 50% 100%, #000 98%, transparent) 0 0 /
+                    calc(var(--custom-hem-x) * 2) var(--custom-hem-y) round no-repeat,
+                linear-gradient(#000 0 0) 0 calc(var(--custom-hem-y) - 0.5px) / 100% 100% no-repeat;
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    .custom-age-name {
+        font-family: var(--font-heading);
+        color: var(--color-text);
+        font-size: 1.0625rem;
+        font-weight: 700;
+    }
+
+    .custom-age-range {
+        color: var(--color-text-muted);
+        font-size: 0.8125rem;
+    }
+
+    .custom-age:hover .custom-age-name {
+        color: var(--color-primary-ink);
+    }
+
+    html[data-demo='kids-store-1'] .custom-gift {
+        background: color-mix(in oklab, var(--color-tertiary-base) 75%, var(--custom-bar));
+        border-radius: var(--custom-r);
+        flex-direction: column;
+        grid-area: 1 / 4 / span 2;
+        align-self: start;
+        gap: 0.875rem;
+        padding: 1.5rem;
+        display: flex;
+    }
+
+    .custom-gift-icon {
+        aspect-ratio: 1;
+        width: 2.75rem;
+        color: var(--color-accent);
+        background: var(--custom-bar);
+        border-radius: var(--radius-full);
+        place-items: center;
+        font-size: 1.375rem;
+        display: grid;
+    }
+
+    .custom-gift-title {
+        font-family: var(--font-heading);
+        color: var(--color-text);
+        margin: 0.25rem 0 0;
+        font-size: 1.375rem;
+        font-weight: 700;
+        line-height: 1.15;
+    }
+
+    .custom-gift-lead {
+        color: var(--color-text-soft);
+        margin: -0.375rem 0 0.25rem;
+        font-size: 0.9375rem;
+        line-height: 1.45;
+    }
+
+    .custom-gift-set {
+        border: 0;
+        flex-wrap: wrap;
+        gap: 0.375rem;
+        min-width: 0;
+        margin: 0;
+        padding: 0;
+        display: flex;
+
+        & .option-pill > span {
+            background: var(--custom-bar);
+            border-color: #0000;
+            padding: 0.4375rem 0.875rem;
+            font-size: 0.875rem;
+        }
+
+        & .option-pill > input:focus-visible + span {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
+        }
+    }
+
+    .custom-gift-legend {
+        color: var(--color-text-muted);
+        margin-bottom: 0.4375rem;
+        padding: 0;
+        font-size: 0.8125rem;
+        font-weight: 600;
+    }
+
+    .custom-gift-submit {
+        justify-content: center;
+        margin-top: 0.5rem;
+    }
+
+    .custom-search-picks {
+        text-align: left;
+        max-width: 44rem;
+        margin: 2.5rem auto 0;
+    }
+
+    .custom-search-picks-title {
+        color: var(--color-text-muted);
+        margin: 0 0 0.875rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+
+    .custom-search-picks-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.5rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+    }
+
+    .custom-search-pick {
+        color: var(--color-text-soft);
+        border-radius: var(--radius-lg);
+        transition: background-color var(--duration-fast) var(--ease-out);
+        align-items: center;
+        gap: 0.875rem;
+        padding: 0.5rem;
+        font-size: 0.875rem;
+        text-decoration: none;
+        display: flex;
+
+        & img {
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: calc(var(--radius-lg) - 0.5rem);
+            flex: none;
+            width: 4rem;
+        }
+
+        & span {
+            display: grid;
+        }
+
+        & strong {
+            color: var(--color-text);
+            font-size: 0.9375rem;
+            font-weight: 600;
+        }
+
+        &:hover {
+            background: var(--custom-soft);
+        }
+
+        &:hover strong {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    @media (width <= 767px) {
+        .custom-search-picks-list {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .custom-hero {
+        padding-block: clamp(2.75rem, 6.4vh, 4rem) 2.5rem;
+        position: relative;
+        overflow-x: clip;
+
+        &:before,
+        &:after {
+            content: '';
+            z-index: -1;
+            filter: blur(70px);
+            opacity: 0.3;
+            pointer-events: none;
+            border-radius: 50%;
+            width: 34rem;
+            height: 26rem;
+            position: absolute;
+            top: -6rem;
+        }
+
+        &:before {
+            background: var(--color-tertiary-base);
+            left: -20rem;
+        }
+
+        &:after {
+            background: color-mix(in oklab, var(--color-primary) 40%, transparent);
+            right: -20rem;
+        }
+    }
+
+    .custom-hero-title {
+        letter-spacing: -0.03em;
+        text-align: center;
+        text-wrap: balance;
+        max-width: 22ch;
+        margin: 0 auto clamp(1.75rem, 4.4vh, 2.75rem);
+        font-size: clamp(2rem, 1.1rem + 2.4vw, 3.5rem);
+        line-height: 1.04;
+
+        @media (width >= 1024px) {
+            max-width: none;
+        }
+    }
+
+    .custom-hero-mark {
+        color: var(--color-primary-ink);
+        display: inline-block;
+        position: relative;
+
+        & svg {
+            fill: none;
+            width: calc(100% - 0.36em);
+            height: 0.2em;
+            stroke: var(--color-accent);
+            stroke-width: 2.25px;
+            stroke-linecap: round;
+            position: absolute;
+            bottom: -0.2em;
+            left: 0.04em;
+            right: 0.32em;
+            overflow: visible;
+        }
+
+        & path {
+            stroke-dasharray: 1;
+            stroke-dashoffset: 0;
+            animation: custom-draw 1.1s 0.45s var(--ease-out) backwards;
+        }
+    }
+
+    @keyframes custom-draw {
+        from {
+            stroke-dashoffset: 1px;
+        }
+    }
+
+    .custom-diptych {
+        z-index: 1;
+        position: relative;
+    }
+
+    .custom-diptych-swiper {
+        height: clamp(26rem, 100svh - 21.75rem, 40rem);
+    }
+
+    .custom-story {
+        border-radius: var(--custom-r) var(--custom-r) 0 0;
+        isolation: isolate;
+        height: 100%;
+        mask:
+            radial-gradient(50% 100% at 50% 0, #000 98%, transparent) 0 100% /
+                calc(var(--custom-hem-x) * 2) var(--custom-hem-y) round no-repeat,
+            linear-gradient(#000 0 0) 0 0 / 100% calc(100% - var(--custom-hem-y) + 0.5px) no-repeat;
+        position: relative;
+        overflow: hidden;
+
+        &:after {
+            content: '';
+            z-index: 0;
+            background: linear-gradient(
+                to top,
+                color-mix(in oklab, var(--color-secondary-base) 52%, transparent),
+                transparent
+            );
+            pointer-events: none;
+            position: absolute;
+            inset: 45% 0 0;
+        }
+    }
+
+    .custom-story-photo {
+        z-index: -1;
+        object-fit: cover;
+        object-position: 50% 32%;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        inset: 0;
+    }
+
+    .custom-story-tag {
+        z-index: 1;
+        color: var(--color-text);
+        background: var(--custom-bar);
+        border-radius: var(--radius-pill);
+        padding: 0.4375rem 0.9375rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        line-height: 1.2;
+        position: absolute;
+        top: 1.25rem;
+        left: 1.25rem;
+    }
+
+    .custom-story-body {
+        left: clamp(1.25rem, 2.4vw, 2rem);
+        right: clamp(1.25rem, 2.4vw, 2rem);
+        bottom: calc(var(--custom-hem-y) + clamp(4.25rem, 7vh, 5rem));
+        z-index: 1;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem 1.5rem;
+        display: flex;
+        position: absolute;
+    }
+
+    .custom-story-title {
+        letter-spacing: -0.025em;
+        color: #fff;
+        text-shadow: 0 1px 18px color-mix(in oklab, var(--color-secondary-base) 30%, transparent);
+        margin: 0;
+        font-size: clamp(1.75rem, 1.1rem + 1.4vw, 2.5rem);
+        line-height: 1.08;
+    }
+
+    .custom-story-link {
+        color: #fff;
+        white-space: nowrap;
+        border-radius: var(--radius-pill);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        transition:
+            color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out),
+            border-color var(--duration-fast) var(--ease-out);
+        background: #ffffff29;
+        border: 1px solid #fff6;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.6875rem 1.25rem;
+        font-weight: 600;
+        line-height: 1.2;
+        text-decoration: none;
+        display: inline-flex;
+
+        & i {
+            transition: translate var(--duration-base) var(--ease-out);
+        }
+
+        &:hover {
+            color: var(--color-text);
+            background: var(--custom-bar);
+            border-color: var(--custom-bar);
+        }
+
+        &:hover i {
+            translate: 3px;
+        }
+    }
+
+    .custom-seal {
+        z-index: 2;
+        aspect-ratio: 1;
+        width: 7.5rem;
+        color: var(--color-text);
+        background: var(--custom-bar);
+        border-radius: var(--radius-full);
+        box-shadow:
+            0 0 0 6px color-mix(in oklab, var(--custom-bar) 35%, transparent),
+            var(--custom-shadow);
+        place-items: center;
+        display: grid;
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        translate: -50% -50%;
+    }
+
+    .custom-seal-ring {
+        width: 100%;
+        height: 100%;
+        animation: 36s linear infinite custom-spin;
+        position: absolute;
+        inset: 0;
+
+        & text {
+            font-family: var(--font-sans);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            fill: currentColor;
+            font-size: 9.5px;
+            font-weight: 600;
+        }
+    }
+
+    .custom-seal-mark {
+        fill: none;
+        width: 2.25rem;
+        height: 2.25rem;
+        stroke: var(--color-primary-ink);
+        stroke-width: 1.5px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    @keyframes custom-spin {
+        to {
+            rotate: 1turn;
+        }
+    }
+
+    .custom-diptych-nav {
+        z-index: 2;
+        background: color-mix(in oklab, var(--custom-bar) 82%, transparent);
+        border-radius: var(--radius-pill);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.3125rem;
+        display: flex;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+
+        & .carousel-btn {
+            width: 2.5rem;
+            height: 2.5rem;
+            box-shadow: none;
+            background: none;
+            border: 0;
+            font-size: 1rem;
+
+            &:hover {
+                color: var(--color-on-primary);
+                background: var(--color-primary);
+                box-shadow: none;
+            }
+        }
+
+        & .swiper-pagination {
+            align-items: center;
+            gap: 0.375rem;
+            width: auto;
+            padding-inline: 0.25rem;
+            display: flex;
+            position: static;
+        }
+
+        & .swiper-pagination-bullet {
+            background: color-mix(in oklab, var(--color-text) 25%, transparent);
+            opacity: 1;
+            width: 0.5rem;
+            height: 0.5rem;
+            margin: 0;
+        }
+
+        & .swiper-pagination-bullet-active {
+            background: var(--color-primary-ink);
+            width: 1.375rem;
+        }
+    }
+
+    .custom-dock {
+        z-index: 2;
+        background: var(--custom-bar);
+        border-radius: var(--radius-pill);
+        width: fit-content;
+        max-width: 100%;
+        box-shadow: var(--custom-shadow);
+        align-items: center;
+        gap: 1.25rem;
+        margin: -3rem auto 0;
+        padding: 0.5rem 0.5rem 0.5rem 1.75rem;
+        display: flex;
+        position: relative;
+    }
+
+    .custom-dock-label {
+        font-family: var(--font-heading);
+        white-space: nowrap;
+        color: var(--color-text);
+        margin: 0;
+        font-size: 1.125rem;
+        font-weight: 700;
+    }
+
+    .custom-dock-list {
+        gap: 0.5rem;
+        min-width: 0;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+
+        & li:first-child {
+            --chip: var(--custom-chip-1);
+        }
+
+        & li:nth-child(2) {
+            --chip: var(--custom-chip-2);
+        }
+
+        & li:nth-child(3) {
+            --chip: var(--custom-chip-3);
+        }
+
+        & li:nth-child(4) {
+            --chip: var(--custom-chip-4);
+        }
+
+        & li:nth-child(5) {
+            --chip: var(--custom-chip-5);
+        }
+    }
+
+    .custom-dock-chip {
+        aspect-ratio: 1;
+        text-align: center;
+        width: 4.75rem;
+        color: color-mix(in oklab, var(--color-secondary-base) 80%, #fff);
+        background: var(--chip);
+        border-radius: var(--radius-full);
+        transition:
+            color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out);
+        place-content: center;
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 1.1;
+        text-decoration: none;
+        display: grid;
+
+        & strong {
+            font-family: var(--font-heading);
+            letter-spacing: -0.02em;
+            color: var(--color-secondary-base);
+            transition: color var(--duration-fast) var(--ease-out);
+            font-size: 1.3125rem;
+            font-weight: 700;
+        }
+
+        &:hover {
+            color: #ffffffd9;
+            background: var(--color-secondary-base);
+
+            & strong {
+                color: #fff;
+            }
+        }
+    }
+
+    @media (width <= 1023px) {
+        .custom-dock-label {
+            display: none;
+        }
+
+        .custom-dock {
+            padding: 0.5rem;
+        }
+    }
+
+    @media (width <= 767px) {
+        .custom-diptych-swiper {
+            height: clamp(26rem, 122vw, 34rem);
+        }
+
+        .custom-seal {
+            display: none;
+        }
+
+        .custom-story-body {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.875rem;
+        }
+
+        .custom-diptych-nav {
+            top: 0.75rem;
+            right: 0.75rem;
+        }
+
+        .custom-diptych-nav .carousel-btn {
+            width: 2.25rem;
+            height: 2.25rem;
+        }
+
+        .custom-diptych-nav .swiper-pagination {
+            display: none;
+        }
+
+        .custom-dock {
+            scrollbar-width: none;
+            width: auto;
+            margin: -2.375rem 0 0;
+            padding: 0.375rem;
+            overflow-x: auto;
+        }
+
+        .custom-dock-list {
+            gap: 0.375rem;
+            margin-inline: auto;
+        }
+
+        .custom-dock-chip {
+            width: 3.875rem;
+            font-size: 0.8125rem;
+
+            & strong {
+                font-size: 1.125rem;
+            }
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .custom-hero-mark path,
+        .custom-seal-ring {
+            animation: none;
+        }
+    }
+
+    .custom-h2 {
+        letter-spacing: -0.025em;
+        text-wrap: balance;
+        margin: 0;
+        font-size: clamp(2rem, 1.35rem + 1.6vw, 2.75rem);
+        line-height: 1.08;
+    }
+
+    .custom-lead {
+        color: var(--color-text-soft);
+        margin: 0.75rem 0 0;
+        font-size: 1.125rem;
+        line-height: 1.55;
+    }
+
+    .custom-more {
+        color: var(--color-text);
+        text-decoration: underline;
+        text-decoration-thickness: 1.5px;
+        -webkit-text-decoration-color: var(--custom-stitch);
+        text-decoration-color: var(--custom-stitch);
+        text-underline-offset: 0.35em;
+        transition:
+            color var(--duration-fast) var(--ease-out),
+            text-decoration-color var(--duration-fast) var(--ease-out);
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+        display: inline-flex;
+
+        & i {
+            transition: translate var(--duration-base) var(--ease-out);
+            display: inline-block;
+        }
+
+        &:hover {
+            color: var(--color-primary-ink);
+            text-decoration-color: currentColor;
+        }
+
+        &:hover i {
+            translate: 3px;
+        }
+    }
+
+    .custom-after-hero {
+        padding-top: calc(var(--section-space) * 0.6);
+    }
+
+    .custom-sticker {
+        aspect-ratio: 1;
+        width: 5.75rem;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        line-height: 1.15;
+        font-family: var(--font-sans);
+        text-align: center;
+        letter-spacing: 0;
+        color: var(--color-on-accent);
+        background: var(--color-accent);
+        border-radius: var(--radius-full);
+        outline-offset: -6px;
+        outline: 1.5px dashed #fff9;
+        flex: none;
+        place-content: center;
+        justify-items: center;
+        display: grid;
+        rotate: -10deg;
+
+        & strong {
+            font-family: var(--font-heading);
+            letter-spacing: -0.02em;
+            font-size: 1.625rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        & i {
+            margin-bottom: 0.125rem;
+            font-size: 1.5rem;
+        }
+    }
+
+    .custom-sticker--title {
+        vertical-align: -0.2em;
+        width: 4.75rem;
+        margin-left: 0.875rem;
+        font-size: 0.75rem;
+        display: inline-grid;
+
+        & strong {
+            font-size: 1.375rem;
+        }
+    }
+
+    .custom-sticker--photo {
+        z-index: 1;
+        width: 6.5rem;
+        box-shadow: var(--custom-shadow);
+        position: absolute;
+        top: -1.5rem;
+        right: -1.25rem;
+
+        @media (width <= 767px) {
+            width: 5.5rem;
+            top: 1rem;
+            right: 1rem;
+        }
+    }
+
+    .custom-band {
+        position: relative;
+    }
+
+    .custom-band--peach {
+        background: color-mix(in oklab, var(--color-tertiary-base) 62%, var(--color-bg));
+    }
+
+    .custom-band--oat {
+        background: var(--color-bg-soft);
+    }
+
+    .custom-band--deep {
+        color: #fffc;
+        background: var(--color-secondary-base);
+        mask:
+            radial-gradient(50% 100% at 50% 100%, #000 98%, transparent) 0 0 /
+                calc(var(--custom-wave-x) * 2) var(--custom-wave-y) round no-repeat,
+            radial-gradient(50% 100% at 50% 0, #000 98%, transparent) 0 100% /
+                calc(var(--custom-wave-x) * 2) var(--custom-wave-y) round no-repeat,
+            linear-gradient(#000 0 0) 0 50% / 100% calc(100% - var(--custom-wave-y) * 2 + 1px)
+                no-repeat;
+    }
+
+    .custom-eyebrow-light {
+        color: oklch(from var(--color-primary-base) 0.84 0.09 h);
+    }
+
+    .custom-cats {
+        & > li:nth-child(6n + 1) {
+            --chip: var(--custom-chip-1);
+        }
+
+        & > li:nth-child(6n + 2) {
+            --chip: var(--custom-chip-2);
+        }
+
+        & > li:nth-child(6n + 3) {
+            --chip: var(--custom-chip-3);
+        }
+
+        & > li:nth-child(6n + 4) {
+            --chip: var(--custom-chip-4);
+        }
+
+        & > li:nth-child(6n + 5) {
+            --chip: var(--custom-chip-5);
+        }
+
+        & > li:nth-child(6n + 6) {
+            --chip: color-mix(in oklab, var(--custom-chip-2) 50%, var(--custom-chip-1));
+        }
+    }
+
+    .custom-cat {
+        text-align: center;
+        background: var(--chip);
+        border-radius: var(--custom-r);
+        gap: 0.125rem;
+        height: 100%;
+        padding: 0.5rem 0.5rem 1.125rem;
+        text-decoration: none;
+        display: grid;
+    }
+
+    .custom-cat-photo {
+        aspect-ratio: 4 / 5;
+        border-radius: 0 0 calc(var(--custom-r) - 0.5rem) calc(var(--custom-r) - 0.5rem);
+        mask:
+            radial-gradient(50% 100% at 50% 100%, #000 98%, transparent) 0 0 /
+                calc(var(--custom-hem-x) * 2) var(--custom-hem-y) round no-repeat,
+            linear-gradient(#000 0 0) 0 calc(var(--custom-hem-y) - 0.5px) / 100% 100% no-repeat;
+        margin-bottom: 0.875rem;
+        display: block;
+        overflow: hidden;
+
+        & img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .custom-cat-name {
+        font-family: var(--font-heading);
+        color: var(--color-secondary-base);
+        transition: color var(--duration-fast) var(--ease-out);
+        justify-content: center;
+        align-items: center;
+        gap: 0.375rem;
+        font-size: 1.1875rem;
+        font-weight: 700;
+        line-height: 1.2;
+        display: inline-flex;
+
+        & i {
+            transition: translate var(--duration-base) var(--ease-out);
+            font-size: 0.875rem;
+        }
+    }
+
+    .custom-cat-meta {
+        color: color-mix(in oklab, var(--color-secondary-base) 72%, var(--chip));
+        font-size: 0.9375rem;
+    }
+
+    .custom-cat:hover .custom-cat-name {
+        color: var(--color-primary-ink);
+
+        & i {
+            translate: 3px;
+        }
+    }
+
+    html[data-demo='kids-store-1'] .custom-card {
+        & .product-card-media {
+            border-radius: var(--custom-r);
+        }
+
+        & .product-card-title {
+            font-family: var(--font-heading);
+            letter-spacing: -0.01em;
+            font-size: 1.125rem;
+            font-weight: 700;
+        }
+
+        & .product-card-cat {
+            text-transform: none;
+            letter-spacing: 0;
+            font-size: 0.875rem;
+        }
+    }
+
+    .custom-arch {
+        max-width: 30rem;
+        position: relative;
+
+        & img {
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+            object-position: 50% 30%;
+            border-radius: calc(16rem * var(--radius-scale)) calc(16rem * var(--radius-scale))
+                var(--custom-r) var(--custom-r);
+            width: 100%;
+            display: block;
+        }
+    }
+
+    .custom-label {
+        white-space: nowrap;
+        color: var(--color-text);
+        background: var(--custom-bar);
+        border-radius: var(--radius-pill);
+        outline: 1.5px dashed color-mix(in oklab, var(--color-primary) 45%, transparent);
+        outline-offset: -5px;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.25rem;
+        font-size: 0.9375rem;
+        font-weight: 600;
+        display: inline-flex;
+        position: absolute;
+        bottom: 1.5rem;
+        left: 50%;
+        translate: -50%;
+
+        & i {
+            color: var(--color-primary-ink);
+            font-size: 1.125rem;
+        }
+    }
+
+    .custom-facts {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin: 0;
+        display: grid;
+
+        & > div {
+            padding-inline: 1.5rem;
+        }
+
+        & > div:first-child {
+            padding-left: 0;
+        }
+
+        & > div + div {
+            border-left: 1.5px dashed var(--custom-stitch);
+        }
+
+        & dt {
+            font-family: var(--font-heading);
+            letter-spacing: -0.03em;
+            color: var(--color-primary-ink);
+            font-size: clamp(1.875rem, 1.5rem + 1vw, 2.375rem);
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        & dd {
+            color: var(--color-text-soft);
+            margin: 0.625rem 0 0;
+            font-size: 0.9375rem;
+            line-height: 1.45;
+        }
+    }
+
+    @media (width <= 639px) {
+        .custom-facts {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 1.25rem;
+
+            & > div {
+                padding: 0;
+            }
+
+            & > div + div {
+                border-left: 0;
+                border-top: 1.5px dashed var(--custom-stitch);
+                padding-top: 1.25rem;
+            }
+        }
+    }
+
+    .custom-tab-icon {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.6px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    html[data-demo='kids-store-1'] .custom-tabs .tabs-panels {
+        margin-top: 2rem;
+    }
+
+    .custom-gift-photo {
+        max-width: 29rem;
+        position: relative;
+
+        & img {
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+            object-position: 50% 60%;
+            border-radius: var(--custom-r);
+            width: 100%;
+            display: block;
+        }
+
+        &:after {
+            content: '';
+            border-radius: max(0px, calc(var(--custom-r) - 0.875rem));
+            pointer-events: none;
+            border: 1.5px dashed #ffffff8c;
+            position: absolute;
+            inset: 0.875rem;
+        }
+    }
+
+    .custom-finder-set {
+        border: 0;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        min-width: 0;
+        margin: 0 0 1.5rem;
+        padding: 0;
+        display: flex;
+
+        & .option-pill > span {
+            color: #ffffffdb;
+            background: #ffffff0d;
+            border-color: #ffffff3d;
+        }
+
+        & .option-pill:hover > span {
+            color: #fff;
+            border-color: #fff9;
+        }
+
+        & .option-pill > input:checked + span {
+            color: var(--color-secondary-base);
+            background: #fff;
+            border-color: #fff;
+        }
+
+        & .option-pill > input:focus-visible + span {
+            outline-offset: 3px;
+            outline: 2px solid #fff;
+        }
+    }
+
+    .custom-finder-legend {
+        color: #fff;
+        margin-bottom: 0.75rem;
+        padding: 0;
+        font-weight: 600;
+    }
+
+    .custom-playmat {
+        --mat-r: calc(var(--custom-r) + 0.75rem);
+        background: color-mix(in oklab, var(--color-primary-base) 10%, var(--color-bg));
+        border-radius: var(--mat-r);
+        padding: clamp(1.75rem, 1rem + 2.6vw, 3.5rem);
+        position: relative;
+
+        &:before {
+            content: '';
+            border: 1.5px dashed color-mix(in oklab, var(--color-primary-base) 38%, transparent);
+            border-radius: max(0px, calc(var(--mat-r) - 0.75rem));
+            pointer-events: none;
+            position: absolute;
+            inset: 0.75rem;
+        }
+    }
+
+    .custom-promises {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+
+        @media (width >= 1024px) {
+            justify-content: flex-end;
+        }
+
+        & li {
+            color: var(--color-text);
+            background: var(--custom-bar);
+            border-radius: var(--radius-pill);
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem 0.5rem 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+        }
+
+        & i {
+            color: var(--color-primary-ink);
+            font-size: 1.25rem;
+        }
+    }
+
+    .custom-trade-photo {
+        max-width: 31rem;
+        position: relative;
+
+        & img {
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: var(--custom-r);
+            width: 100%;
+            display: block;
+        }
+
+        & .custom-sticker--photo {
+            inset: auto auto 1.5rem 1.5rem;
+        }
+    }
+
+    .custom-steps {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.5rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        & li {
+            align-content: start;
+            gap: 0.25rem;
+            display: grid;
+            position: relative;
+        }
+
+        & li:not(:last-child):after {
+            content: '';
+            border-top: 2px dashed var(--custom-stitch);
+            position: absolute;
+            top: 1.75rem;
+            left: 4.25rem;
+            right: -0.75rem;
+        }
+
+        & strong {
+            font-family: var(--font-heading);
+            color: var(--color-text);
+            margin-top: 1rem;
+            font-size: 1.1875rem;
+            font-weight: 700;
+        }
+
+        & span:not(.custom-step-icon) {
+            color: var(--color-text-soft);
+            font-size: 0.9375rem;
+            line-height: 1.45;
+        }
+    }
+
+    .custom-step-icon {
+        aspect-ratio: 1;
+        width: 3.5rem;
+        color: var(--color-secondary-base);
+        background: var(--custom-chip-1);
+        border-radius: var(--radius-full);
+        place-items: center;
+        font-size: 1.5rem;
+        display: grid;
+    }
+
+    .custom-steps li:nth-child(2) .custom-step-icon {
+        background: var(--custom-chip-2);
+    }
+
+    .custom-steps li:nth-child(3) .custom-step-icon {
+        background: var(--custom-chip-3);
+    }
+
+    @media (width <= 639px) {
+        .custom-steps {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 1.25rem;
+
+            & li {
+                grid-template-columns: 3.5rem minmax(0, 1fr);
+                column-gap: 1rem;
+            }
+
+            & .custom-step-icon {
+                grid-row: span 2;
+            }
+
+            & strong {
+                margin-top: 0.25rem;
+            }
+
+            & li:not(:last-child):after {
+                display: none;
+            }
+        }
+    }
+
+    .custom-score {
+        align-items: center;
+        gap: 1rem;
+        display: flex;
+
+        & > strong {
+            font-family: var(--font-heading);
+            letter-spacing: -0.04em;
+            color: var(--color-text);
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 0.9;
+        }
+    }
+
+    .custom-stars {
+        color: var(--color-accent);
+        gap: 0.125rem;
+        font-size: 1.125rem;
+        display: inline-flex;
+    }
+
+    .custom-reviews .swiper-slide {
+        height: auto;
+    }
+
+    .custom-review {
+        background: var(--custom-bar);
+        border-radius: var(--custom-r);
+        flex-direction: column;
+        gap: 1.25rem;
+        padding: 1.75rem;
+        display: flex;
+    }
+
+    .custom-review-text {
+        font-family: var(--font-heading);
+        color: var(--color-text);
+        flex: 1;
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        line-height: 1.45;
+    }
+
+    .custom-review-foot {
+        align-items: center;
+        gap: 0.875rem;
+        display: flex;
+
+        & img {
+            object-fit: cover;
+            border-radius: var(--radius-full);
+            width: 3rem;
+            height: 3rem;
+        }
+
+        & strong {
+            color: var(--color-text);
+            display: block;
+        }
+
+        & span {
+            color: var(--color-text-soft);
+            font-size: 0.9375rem;
+            display: block;
+        }
+    }
+
+    .custom-review-piece {
+        color: var(--color-text-soft);
+        border-top: 1.5px dashed var(--custom-stitch);
+        transition: color var(--duration-fast) var(--ease-out);
+        align-items: center;
+        gap: 0.75rem;
+        padding-top: 1.25rem;
+        font-size: 0.9375rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: flex;
+
+        & img {
+            object-fit: cover;
+            background: var(--product-bg);
+            border-radius: var(--radius-full);
+            width: 2.75rem;
+            height: 2.75rem;
+        }
+
+        &:hover {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    .custom-post {
+        color: inherit;
+        align-content: start;
+        gap: 0.375rem;
+        text-decoration: none;
+        display: grid;
+    }
+
+    .custom-post-photo {
+        aspect-ratio: 3 / 2;
+        border-radius: var(--custom-r);
+        margin-bottom: 0.875rem;
+        display: block;
+        overflow: hidden;
+
+        & img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .custom-post-meta {
+        color: var(--color-primary-ink);
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+
+    .custom-post-title {
+        font-family: var(--font-heading);
+        color: var(--color-text);
+        transition: color var(--duration-fast) var(--ease-out);
+        font-size: 1.1875rem;
+        font-weight: 700;
+        line-height: 1.25;
+    }
+
+    .custom-post-line {
+        color: var(--color-text-soft);
+    }
+
+    .custom-post:hover .custom-post-title {
+        color: var(--color-primary-ink);
+    }
+
+    .custom-post--feature .custom-post-photo {
+        aspect-ratio: 16 / 10;
+    }
+
+    .custom-post--feature .custom-post-title {
+        letter-spacing: -0.02em;
+        font-size: clamp(1.5rem, 1.2rem + 0.9vw, 1.875rem);
+    }
+
+    .custom-post:not(.custom-post--feature) {
+        grid-template-columns: clamp(6.5rem, 22vw, 10rem) minmax(0, 1fr);
+        column-gap: clamp(1rem, 3vw, 1.5rem);
+
+        & .custom-post-photo {
+            aspect-ratio: 1;
+            border-radius: calc(var(--custom-r) * 0.8);
+            grid-row: span 2;
+            margin: 0;
+        }
+
+        & .custom-post-meta {
+            align-self: end;
+        }
+    }
+
+    .custom-footer {
+        --footer-bg: color-mix(in oklab, var(--color-tertiary-base) 78%, var(--color-bg));
+        --footer-y: 4rem;
+        margin-top: var(--custom-wave-y);
+
+        &:before {
+            content: '';
+            height: var(--custom-wave-y);
+            background: radial-gradient(50% 100% at 50% 100%, var(--footer-bg) 98%, transparent) 0
+                0 / calc(var(--custom-wave-x) * 2) var(--custom-wave-y) round no-repeat;
+            pointer-events: none;
+            position: absolute;
+            inset: auto 0 100%;
+        }
+    }
+
+    .custom-tag {
+        background: var(--custom-bar);
+        border-radius: 0 var(--custom-r) var(--custom-r) 0;
+        clip-path: polygon(
+            1.5rem 0,
+            100% 0,
+            100% 100%,
+            1.5rem 100%,
+            0 calc(100% - 1.5rem),
+            0 1.5rem
+        );
+        align-items: center;
+        gap: 1rem;
+        padding: 1.25rem 1.5rem 1.25rem 3rem;
+        display: flex;
+        position: relative;
+
+        &:before {
+            content: '';
+            aspect-ratio: 1;
+            background: var(--footer-bg);
+            border-radius: var(--radius-full);
+            width: 0.75rem;
+            box-shadow: inset 0 0 0 1.5px var(--custom-stitch);
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            translate: 0 -50%;
+        }
+
+        & strong {
+            font-family: var(--font-heading);
+            color: var(--color-text);
+            font-size: 1.125rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        & span:not(.custom-tag-icon) {
+            color: var(--color-text-soft);
+            margin-top: 0.125rem;
+            font-size: 0.9375rem;
+            display: block;
+        }
+    }
+
+    .custom-tag-icon {
+        aspect-ratio: 1;
+        width: 3rem;
+        color: var(--color-primary-ink);
+        background: var(--custom-soft);
+        border-radius: var(--radius-full);
+        flex: none;
+        place-items: center;
+        font-size: 1.375rem;
+        display: grid;
+    }
+
+    .custom-footer-brand {
+        margin-bottom: 1.75rem;
+    }
+
+    .custom-footer-title {
+        letter-spacing: -0.02em;
+        color: var(--color-text);
+        margin: 0;
+        font-size: clamp(1.625rem, 1.3rem + 1vw, 2.125rem);
+        line-height: 1.12;
+    }
+
+    .custom-letter {
+        background: var(--custom-bar);
+
+        & .form-input {
+            background: none;
+            border-color: #0000;
+        }
+    }
+
+    .custom-footer-shop {
+        gap: 0.25rem;
+        margin-top: 1.5rem;
+        line-height: 1.5;
+        display: grid;
+
+        & strong {
+            color: var(--footer-title);
+        }
+    }
+
+    html[data-demo='kids-store-1'] .custom-footer-strip {
+        --footer-link: #ffffffc7;
+        --footer-link-hover: #fff;
+        color: #ffffffc7;
+        background: var(--color-secondary-base);
+        border-top: 0;
+
+        & .footer-nav a {
+            color: var(--footer-link);
+        }
+
+        & .footer-nav a:hover {
+            color: #fff;
+        }
+
+        & .social-link {
+            color: #fff;
+            border-color: #ffffff47;
+        }
+
+        & .social-link:hover {
+            color: var(--color-secondary-base);
+            background: #fff;
+            border-color: #fff;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .custom-more i,
+        .custom-cat-name i {
+            transition: none;
+        }
+    }
+
+    .custom-head {
+        padding-top: calc(var(--custom-hem-y) + clamp(1.75rem, 3.4vw, 2.75rem));
+
+        &:is(.custom-head--centred, .custom-head--story) {
+            overflow-x: clip;
+
+            &:before,
+            &:after {
+                content: '';
+                z-index: -1;
+                filter: blur(70px);
+                opacity: 0.3;
+                pointer-events: none;
+                border-radius: 50%;
+                width: 30rem;
+                height: 22rem;
+                position: absolute;
+                top: -6rem;
+            }
+
+            &:before {
+                background: var(--color-tertiary-base);
+                left: -19rem;
+            }
+
+            &:after {
+                background: color-mix(in oklab, var(--color-primary) 40%, transparent);
+                right: -19rem;
+            }
+        }
+    }
+
+    .custom-head--shop {
+        padding-bottom: calc(var(--custom-hem-y) + clamp(2rem, 3.6vw, 3rem));
+        background: color-mix(in oklab, var(--color-tertiary-base) 55%, var(--color-bg));
+        mask:
+            radial-gradient(50% 100% at 50% 0, #000 98%, transparent) 0 100% /
+                calc(var(--custom-hem-x) * 2) var(--custom-hem-y) round no-repeat,
+            linear-gradient(#000 0 0) 0 0 / 100% calc(100% - var(--custom-hem-y) + 0.5px) no-repeat;
+    }
+
+    .custom-head--centred {
+        padding-bottom: clamp(2.25rem, 4vw, 3.25rem);
+    }
+
+    .custom-head-title {
+        letter-spacing: -0.03em;
+        text-wrap: balance;
+        font-size: clamp(2.25rem, 1.55rem + 1.9vw, 3.25rem);
+        line-height: 1.05;
+    }
+
+    .custom-head-title--lg {
+        font-size: clamp(2.5rem, 1.6rem + 2.6vw, 4rem);
+    }
+
+    .custom-head-photo {
+        margin-inline: 0;
+        margin-bottom: 0;
+        position: relative;
+
+        & img {
+            object-fit: cover;
+            border-radius: var(--custom-r) var(--custom-r) 0 0;
+            width: 100%;
+            height: clamp(17rem, 34vw, 31rem);
+            mask:
+                radial-gradient(50% 100% at 50% 0, #000 98%, transparent) 0 100% /
+                    calc(var(--custom-hem-x) * 2) var(--custom-hem-y) round no-repeat,
+                linear-gradient(#000 0 0) 0 0 / 100% calc(100% - var(--custom-hem-y) + 0.5px)
+                    no-repeat;
+            display: block;
+        }
+
+        & .custom-sticker--photo {
+            top: -2rem;
+            right: clamp(1.5rem, 6vw, 5rem);
+        }
+    }
+
+    .custom-steps-nav .stepper {
+        justify-content: center;
+    }
+
+    .custom-ages-row {
+        align-items: center;
+        gap: 1.25rem;
+        margin-top: 1.75rem;
+        display: flex;
+
+        & .custom-dock-list {
+            scrollbar-width: none;
+            padding: 0.25rem;
+            overflow-x: auto;
+        }
+
+        & .custom-dock-chip {
+            cursor: pointer;
+            border: 0;
+            width: 4.5rem;
+            font-family: inherit;
+
+            &[aria-pressed='true'] {
+                color: #ffffffd9;
+                background: var(--color-secondary-base);
+
+                & strong {
+                    color: #fff;
+                }
+            }
+        }
+
+        @media (width <= 767px) {
+            margin-inline: 0;
+            padding-right: 0;
+
+            & .custom-dock-chip {
+                width: 3.875rem;
+                font-size: 0.8125rem;
+            }
+
+            & .custom-dock-chip strong {
+                font-size: 1.125rem;
+            }
+        }
+    }
+
+    .custom-ages-label {
+        font-family: var(--font-heading);
+        color: var(--color-text);
+        flex: none;
+        margin: 0;
+        font-size: 1.125rem;
+        font-weight: 700;
+
+        @media (width <= 639px) {
+            display: none;
+        }
+    }
+
+    :is(.custom-size-pills, .custom-age-pills) {
+        flex-wrap: wrap;
+        gap: 0.375rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+
+        & .option-pill > span {
+            padding: 0.4375rem 0.875rem;
+        }
+    }
+
+    @media (width >= 640px) {
+        html[data-demo='kids-store-1'] .custom-shop .product-card--fade .product-card-media {
+            aspect-ratio: 1;
+        }
+    }
+
+    html[data-demo='kids-store-1'] .custom-board {
+        background: none;
+        border: 0;
+        gap: 0.75rem;
+
+        & > li:nth-child(6n + 1) {
+            --chip: var(--custom-chip-1);
+        }
+
+        & > li:nth-child(6n + 2) {
+            --chip: var(--custom-chip-2);
+        }
+
+        & > li:nth-child(6n + 3) {
+            --chip: var(--custom-chip-3);
+        }
+
+        & > li:nth-child(6n + 4) {
+            --chip: var(--custom-chip-4);
+        }
+
+        & > li:nth-child(6n + 5) {
+            --chip: var(--custom-chip-5);
+        }
+
+        & > li:nth-child(6n + 6) {
+            --chip: color-mix(in oklab, var(--custom-chip-2) 50%, var(--custom-chip-1));
+        }
+
+        & .cat-board-item {
+            background: var(--chip);
+            border-radius: var(--custom-r);
+        }
+
+        & .cat-board-item:hover {
+            background: color-mix(in oklab, var(--chip) 80%, var(--color-secondary-base) 6%);
+        }
+
+        & .cat-board-img {
+            background: var(--custom-bar);
+            box-shadow: 0 0 0 5px color-mix(in oklab, var(--custom-bar) 55%, transparent);
+        }
+
+        & .cat-board-img--icon {
+            color: var(--color-primary-ink);
+        }
+
+        & .cat-board-name {
+            font-family: var(--font-heading);
+            color: var(--color-secondary-base);
+            gap: 0.125rem;
+            font-size: 1.125rem;
+            font-weight: 700;
+            display: grid;
+
+            & small {
+                font-family: var(--font-sans);
+                color: color-mix(in oklab, var(--color-secondary-base) 72%, var(--chip));
+                font-size: 0.875rem;
+                font-weight: 500;
+            }
+        }
+    }
+
+    .custom-age-section:not(.custom-band) + .custom-age-section:not(.custom-band) {
+        padding-top: 0;
+    }
+
+    .custom-age-badge {
+        font-family: var(--font-heading);
+        color: var(--color-secondary-base);
+        background: var(--custom-chip-1);
+        border-radius: var(--radius-pill);
+        align-items: baseline;
+        gap: 0.5rem;
+        margin: 0;
+        padding: 0.375rem 0.9375rem;
+        font-size: 1.0625rem;
+        font-weight: 700;
+        display: inline-flex;
+
+        & span {
+            font-family: var(--font-sans);
+            color: color-mix(in oklab, var(--color-secondary-base) 72%, var(--custom-chip-1));
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+    }
+
+    .custom-age-photo {
+        border-radius: var(--custom-r);
+        min-height: 22rem;
+        position: relative;
+        overflow: hidden;
+
+        & img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            inset: 0;
+        }
+
+        & .custom-story-tag {
+            top: 1rem;
+            left: 1rem;
+        }
+    }
+
+    html[data-demo='kids-store-1'] .custom-gallery > li {
+        border-radius: var(--custom-r);
+    }
+
+    .custom-product-title {
+        letter-spacing: -0.03em;
+        margin-bottom: 0;
+        font-size: clamp(2.125rem, 1.5rem + 1.8vw, 3rem);
+    }
+
+    .custom-summary {
+        background: var(--custom-bar);
+        border-radius: var(--custom-r);
+        box-shadow: var(--custom-shadow);
+        padding: clamp(1.5rem, 1rem + 1.4vw, 2rem);
+    }
+
+    .custom-summary-rule {
+        border-top: 1.5px dashed var(--custom-stitch);
+    }
+
+    .custom-size-pills .option-pill small {
+        color: var(--color-accent);
+        margin-left: 0.25rem;
+    }
+
+    .custom-wrap {
+        background: color-mix(in oklab, var(--color-tertiary-base) 55%, var(--custom-bar));
+        border-radius: var(--radius-lg);
+        padding: 0.875rem 1rem;
+
+        & .form-textarea {
+            background: var(--custom-bar);
+        }
+    }
+
+    .custom-wish {
+        width: 3.25rem;
+        height: 3.25rem;
+        color: var(--color-text);
+        border: 1.5px solid var(--color-border);
+        border-radius: var(--radius-full);
+        cursor: pointer;
+        transition:
+            color var(--duration-fast) var(--ease-out),
+            border-color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out);
+        background: none;
+        flex: none;
+        place-items: center;
+        font-size: 1.25rem;
+        display: grid;
+
+        &:hover {
+            color: var(--color-primary-ink);
+            background: var(--custom-soft);
+            border-color: #0000;
+        }
+
+        &[aria-pressed='true'] {
+            color: var(--color-accent);
+        }
+    }
+
+    .custom-pair-photo {
+        aspect-ratio: 4 / 5;
+        object-fit: cover;
+        border-radius: var(--custom-r);
+        width: 100%;
+    }
+
+    .custom-mini-review {
+        background: var(--color-bg-soft);
+        border-radius: var(--radius-lg);
+        align-content: start;
+        gap: 0.75rem;
+        margin: 0;
+        padding: 1.25rem;
+        display: grid;
+
+        & blockquote {
+            color: var(--color-text);
+            margin: 0;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        & figcaption {
+            color: var(--color-text-soft);
+            font-size: 0.9375rem;
+        }
+
+        & strong {
+            color: var(--color-text);
+        }
+    }
+
+    html[data-demo='kids-store-1'] .custom-size-table {
+        width: 100%;
+
+        & th[scope='row'] {
+            font-family: var(--font-heading);
+            letter-spacing: 0;
+            text-transform: none;
+            color: var(--color-text);
+            font-size: 1.0625rem;
+            font-weight: 700;
+        }
+
+        & td {
+            font-size: 1rem;
+        }
+    }
+
+    .custom-fit-notes {
+        align-content: start;
+        gap: 1.25rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        & li {
+            color: var(--color-text-soft);
+            gap: 0.875rem;
+            line-height: 1.5;
+            display: flex;
+        }
+
+        & i {
+            width: 2.5rem;
+            height: 2.5rem;
+            color: var(--color-primary-ink);
+            background: var(--custom-soft);
+            border-radius: var(--radius-full);
+            flex: none;
+            place-items: center;
+            font-size: 1.25rem;
+            display: grid;
+        }
+
+        & strong {
+            color: var(--color-text);
+        }
+    }
+
+    .custom-list-card {
+        background: var(--custom-bar);
+        border-radius: var(--custom-r);
+        box-shadow: var(--custom-shadow);
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1.5rem;
+        display: flex;
+    }
+
+    .custom-list-card--soft {
+        background: color-mix(in oklab, var(--color-tertiary-base) 55%, var(--color-bg));
+        box-shadow: none;
+    }
+
+    .custom-list-icon {
+        width: 3rem;
+        height: 3rem;
+        color: var(--color-primary-ink);
+        background: var(--custom-soft);
+        border-radius: var(--radius-full);
+        flex: none;
+        place-items: center;
+        font-size: 1.375rem;
+        display: grid;
+
+        .custom-list-card--soft & {
+            background: var(--custom-bar);
+        }
+    }
+
+    .custom-list-link {
+        min-width: 0;
+        color: var(--color-text-soft);
+        border: 1.5px dashed var(--custom-stitch);
+        border-radius: var(--radius-pill);
+        align-items: center;
+        gap: 1rem;
+        padding: 0.375rem 0.375rem 0.375rem 1.125rem;
+        font-weight: 500;
+        display: flex;
+
+        & .btn {
+            flex: none;
+            margin-left: auto;
+        }
+    }
+
+    .custom-wrap--slip {
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1.125rem 1.25rem;
+        display: flex;
+
+        & .custom-list-icon {
+            background: var(--custom-bar);
+        }
+    }
+
+    .custom-tag-note-text {
+        font-family: var(--font-heading);
+        color: var(--color-text);
+        margin-bottom: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        line-height: 1.35;
+    }
+
+    .custom-trade-card {
+        color: inherit;
+        background: var(--custom-chip-2);
+        border-radius: var(--custom-r);
+        align-items: center;
+        gap: 1.25rem;
+        padding: 1.5rem;
+        text-decoration: none;
+        display: flex;
+
+        & .custom-sticker {
+            flex: none;
+            width: 5.25rem;
+        }
+
+        & > span:last-child {
+            justify-items: start;
+            gap: 0.25rem;
+            display: grid;
+        }
+
+        &:hover .custom-more {
+            color: var(--color-primary-ink);
+            text-decoration-color: currentColor;
+        }
+
+        &:hover .custom-more i {
+            translate: 3px;
+        }
+    }
+
+    .custom-trade-card-title {
+        font-family: var(--font-heading);
+        color: var(--color-secondary-base);
+        font-size: 1.25rem;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .custom-trade-card-text {
+        color: color-mix(in oklab, var(--color-secondary-base) 78%, var(--custom-chip-2));
+    }
+
+    .custom-finder-sticky {
+        color: #fffc;
+        background: var(--color-secondary-base);
+        border-radius: var(--custom-r);
+        gap: 1.5rem;
+        padding: clamp(1.5rem, 1rem + 1.6vw, 2.25rem);
+        display: grid;
+
+        & .custom-finder-set {
+            margin: 0;
+        }
+
+        & .custom-gift-icon {
+            color: var(--color-on-accent);
+            background: var(--color-accent);
+        }
+
+        & .option-pill small {
+            color: #fff9;
+        }
+
+        & .option-pill > input:checked + span small {
+            color: color-mix(in oklab, var(--color-secondary-base) 70%, #fff);
+        }
+
+        & .option-pill i {
+            margin-right: 0.375rem;
+            font-size: 1rem;
+        }
+    }
+
+    .custom-finder-title {
+        letter-spacing: -0.02em;
+        color: #fff;
+        margin: -0.5rem 0 0;
+        font-size: clamp(1.625rem, 1.3rem + 0.9vw, 2rem);
+        line-height: 1.1;
+    }
+
+    .custom-finder-reset {
+        color: #fff;
+        border-radius: var(--radius-pill);
+        cursor: pointer;
+        transition:
+            color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out),
+            border-color var(--duration-fast) var(--ease-out);
+        background: none;
+        border: 1.5px dashed #fff6;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        font-weight: 600;
+        display: inline-flex;
+
+        &:hover {
+            color: var(--color-secondary-base);
+            background: #fff;
+            border-color: #fff;
+        }
+    }
+
+    .custom-finder-count {
+        color: var(--color-text-soft);
+        font-size: 1.125rem;
+
+        & strong {
+            font-family: var(--font-heading);
+            color: var(--color-text);
+            font-size: 1.5rem;
+        }
+    }
+
+    .custom-prose {
+        color: var(--color-text-soft);
+        font-size: 1.125rem;
+        line-height: 1.65;
+
+        & p {
+            margin: 0;
+        }
+
+        & p + p {
+            margin-top: 1.25rem;
+        }
+    }
+
+    .custom-signature {
+        font-family: var(--font-heading);
+        color: var(--color-text);
+        gap: 0.125rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+        display: grid;
+
+        & span {
+            font-family: var(--font-sans);
+            color: var(--color-text-muted);
+            font-size: 0.9375rem;
+            font-weight: 500;
+        }
+    }
+
+    .custom-rooms {
+        & .custom-cat {
+            padding-bottom: 1.5rem;
+        }
+
+        & .custom-cat-photo {
+            aspect-ratio: 4 / 3;
+        }
+
+        & .custom-cat:hover .custom-cat-name {
+            color: var(--color-secondary-base);
+        }
+    }
+
+    .custom-room-line {
+        max-width: 30ch;
+        color: color-mix(in oklab, var(--color-secondary-base) 72%, var(--chip));
+        margin: 0.25rem auto 0;
+        line-height: 1.5;
+    }
+
+    .custom-makers .custom-cat-photo {
+        aspect-ratio: 1;
+        background: color-mix(in oklab, var(--chip) 55%, #fff);
+
+        & img {
+            object-position: 50% 100%;
+        }
+    }
+
+    .custom-story-sticky {
+        @media (width >= 64rem) {
+            top: calc(var(--header-h, 6rem) + 2rem);
+            position: sticky;
+        }
+    }
+
+    .custom-story-years-photo {
+        aspect-ratio: 3 / 2;
+        object-fit: cover;
+        border-radius: var(--custom-r);
+        width: 100%;
+        margin-top: 2rem;
+        display: block;
+    }
+
+    html[data-demo='kids-store-1'] .custom-story-timeline {
+        margin: 0;
+
+        & .timeline-item-date {
+            font-family: var(--font-heading);
+            color: var(--color-primary-ink);
+            font-size: 1.625rem;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        & .timeline-item-dot {
+            margin-top: 0.65rem;
+        }
+
+        & .timeline-item-title {
+            margin-top: 0.25rem;
+            font-size: 1.25rem;
+        }
+
+        & .timeline-item-text {
+            max-width: 34rem;
+            color: var(--color-text-soft);
+            font-size: 1.0625rem;
+        }
+
+        & .timeline-item-content {
+            padding-bottom: 2.25rem;
+        }
+    }
+
+    .custom-facts--light {
+        & dt {
+            color: #fff;
+        }
+
+        & dd {
+            color: #ffffffb8;
+        }
+
+        & > div + div {
+            border-color: #ffffff40;
+        }
+
+        @media (width >= 640px) and (width <= 767px) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            row-gap: 2rem;
+
+            & > div:nth-child(3) {
+                border-left: 0;
+                padding-left: 0;
+            }
+        }
+    }
+
+    .custom-credit {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+
+        & li {
+            aspect-ratio: 1;
+            text-align: center;
+            background: var(--custom-chip-1);
+            border-radius: var(--radius-full);
+            place-content: center;
+            width: 7rem;
+            display: grid;
+        }
+
+        & li:nth-child(2) {
+            background: var(--custom-chip-2);
+        }
+
+        & li:nth-child(3) {
+            background: var(--custom-chip-3);
+        }
+
+        & strong {
+            font-family: var(--font-heading);
+            color: var(--color-secondary-base);
+            font-size: 1.625rem;
+            line-height: 1;
+        }
+
+        & span {
+            color: color-mix(in oklab, var(--color-secondary-base) 75%, #fff);
+            margin-top: 0.25rem;
+            font-size: 0.875rem;
+        }
+    }
+
+    .custom-topic {
+        font: inherit;
+        color: var(--color-text);
+        background: var(--custom-bar);
+        border-radius: var(--radius-pill);
+        cursor: pointer;
+        transition:
+            color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out);
+        border: 0;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5625rem 1.125rem;
+        font-weight: 600;
+        display: inline-flex;
+
+        & i {
+            color: var(--color-primary-ink);
+            transition: color var(--duration-fast) var(--ease-out);
+            font-size: 1.125rem;
+        }
+
+        &:hover {
+            color: var(--color-primary-ink);
+            background: var(--custom-soft);
+        }
+
+        &[aria-pressed='true'] {
+            color: #fff;
+            background: var(--color-secondary-base);
+
+            & i {
+                color: #fff;
+            }
+        }
+    }
+
+    .custom-posts {
+        gap: 2.75rem 1.75rem;
+        margin: 0;
+        display: grid;
+
+        @media (width >= 768px) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        @media (width >= 1024px) {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+
+            &:not(.is-filtered) > li:first-child {
+                grid-area: span 2 / span 2;
+            }
+        }
+
+        @media (width >= 768px) and (width <= 1023px) {
+            &:not(.is-filtered) > li:first-child {
+                grid-column: span 2;
+            }
+        }
+
+        & .custom-post:not(.custom-post--feature) {
+            grid-template-columns: minmax(0, 1fr);
+
+            & .custom-post-photo {
+                aspect-ratio: 3 / 2;
+                border-radius: var(--custom-r);
+                grid-row: auto;
+                margin-bottom: 0.875rem;
+            }
+        }
+
+        &.is-filtered .custom-post--feature {
+            & .custom-post-photo {
+                aspect-ratio: 3 / 2;
+            }
+
+            & .custom-post-title {
+                font-size: 1.1875rem;
+            }
+        }
+
+        & .custom-post-line {
+            line-height: 1.55;
+        }
+    }
+
+    .custom-post-by {
+        color: var(--color-text-soft);
+        align-items: center;
+        gap: 0.625rem;
+        margin-top: 0.75rem;
+        font-size: 0.9375rem;
+        font-weight: 500;
+        display: flex;
+
+        & img {
+            object-fit: cover;
+            border-radius: var(--radius-full);
+            width: 2.25rem;
+            height: 2.25rem;
+        }
+    }
+
+    .custom-letter-card {
+        background: color-mix(in oklab, var(--color-tertiary-base) 62%, var(--color-bg));
+        border-radius: var(--custom-r);
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1.5rem 2.5rem;
+        padding: clamp(1.75rem, 1rem + 2vw, 2.75rem);
+        display: flex;
+
+        & > div {
+            flex: 22rem;
+        }
+
+        & .custom-sticker {
+            width: 6rem;
+        }
+    }
+
+    .custom-shop-card {
+        background: color-mix(in oklab, var(--color-tertiary-base) 62%, var(--color-bg));
+        border-radius: var(--custom-r);
+        padding: clamp(1.75rem, 1rem + 2vw, 2.5rem);
+    }
+
+    .custom-shop-card-title {
+        letter-spacing: -0.02em;
+        margin: 0;
+        font-size: clamp(1.5rem, 1.25rem + 0.7vw, 1.875rem);
+    }
+
+    .custom-shop-list {
+        gap: 1.25rem;
+        margin: 1.75rem 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        & li {
+            gap: 1rem;
+            display: flex;
+        }
+
+        & i {
+            width: 2.75rem;
+            height: 2.75rem;
+            color: var(--color-primary-ink);
+            background: var(--custom-bar);
+            border-radius: var(--radius-full);
+            flex: none;
+            place-items: center;
+            font-size: 1.25rem;
+            display: grid;
+        }
+
+        & span {
+            color: var(--color-text-soft);
+            align-content: center;
+            gap: 0.125rem;
+            display: grid;
+        }
+
+        & strong {
+            color: var(--color-text);
+            font-weight: 600;
+        }
+
+        & a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        & a:hover {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    .custom-shop-card-note {
+        color: var(--color-text-soft);
+        border-top: 1.5px dashed var(--custom-stitch);
+        gap: 0.75rem;
+        margin: 1.75rem 0 0;
+        padding-top: 1.5rem;
+        line-height: 1.5;
+        display: flex;
+
+        & i {
+            color: var(--color-primary-ink);
+            flex: none;
+            font-size: 1.375rem;
+        }
+    }
+
+    html[data-demo='kids-store-1'] .custom-band--oat .custom-accordion .accordion-item {
+        background: var(--custom-bar);
+    }
+
+    .custom-loop-promo {
+        position: relative;
+    }
+
+    .custom-loop-promo-link {
+        color: inherit;
+        background: var(--custom-chip-2);
+        border-radius: var(--custom-r);
+        grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+        align-items: center;
+        gap: clamp(1.25rem, 3vw, 2.5rem);
+        padding: 0.625rem;
+        text-decoration: none;
+        display: grid;
+
+        &:hover .custom-more {
+            color: var(--color-primary-ink);
+            text-decoration-color: currentColor;
+        }
+
+        &:hover .custom-more i {
+            translate: 3px;
+        }
+
+        & .custom-sticker {
+            width: 5.25rem;
+            position: absolute;
+            top: -1.25rem;
+            right: 1.5rem;
+        }
+
+        @media (width <= 639px) {
+            grid-template-columns: minmax(0, 1fr);
+
+            & .custom-sticker {
+                top: 1.25rem;
+                right: 1.25rem;
+            }
+        }
+    }
+
+    .custom-loop-promo-photo {
+        aspect-ratio: 4 / 3;
+        border-radius: calc(var(--custom-r) - 0.625rem);
+        display: block;
+        overflow: hidden;
+
+        & img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .custom-loop-promo-copy {
+        justify-items: start;
+        gap: 0.75rem;
+        padding: 0.5rem 1.5rem 0.5rem 0;
+        display: grid;
+
+        @media (width <= 639px) {
+            padding: 0.5rem 1rem 1.25rem;
+        }
+    }
+
+    .custom-loop-promo-title {
+        max-width: 18ch;
+        font-family: var(--font-heading);
+        letter-spacing: -0.02em;
+        color: var(--color-secondary-base);
+        font-size: clamp(1.5rem, 1.1rem + 1.1vw, 2rem);
+        font-weight: 700;
+        line-height: 1.12;
+    }
+}
+
+@media (width >= 768px) {
+    html[data-demo='kids-store-1'] .custom-diptych-swiper {
+        & .swiper-wrapper {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            column-gap: 12px;
+            display: grid;
+        }
+
+        & .custom-story {
+            opacity: 0;
+            transition: opacity 0.9s var(--ease-out);
+            grid-row: 1;
+
+            &:nth-child(odd) {
+                grid-column: 1;
+            }
+
+            &:nth-child(2n) {
+                grid-column: 2;
+            }
+        }
+
+        & .custom-story-photo {
+            transition: scale 2.4s var(--ease-out);
+            scale: 1.045;
+        }
+
+        & :is(.swiper-slide-active, .swiper-slide-active + .custom-story) {
+            z-index: 1;
+            opacity: 1;
+
+            & .custom-story-photo {
+                scale: 1;
+            }
+        }
+
+        & .swiper-slide-active + .custom-story {
+            transition-delay: 0.14s;
+        }
+
+        &:not(.swiper-initialized) .custom-story:nth-child(-n + 2) {
+            opacity: 1;
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html[data-demo='kids-store-1'] .custom-diptych-swiper :is(.custom-story, .custom-story-photo) {
+        transition: none;
+    }
+}
+
+html[data-demo='kids-store-1'] .custom-reviews .custom-review {
+    display: flex;
+}

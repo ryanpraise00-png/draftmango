@@ -1,0 +1,93 @@
+/* ================================================================
+ *  demo-trading-1.css — Draftmango theme for the Trading Platform demo
+ *
+ *  The colors, fonts and layout settings of the Trading Platform demo
+ *  (an amber for the actions, an ink and a graphite for the dark-led
+ *  grounds and the footer, a steel grey for meta and an up-green for gains;
+ *  the down-red is fixed in the demo CSS, not a brand colour).
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Each page also preloads this URL in its <head>
+   (the <link data-theme-fonts> line) so the fonts arrive sooner: after
+   changing it here, replace it in the pages too, or delete that line.
+   Space Grotesk (500 display, 600 figures) sets the headings; Inter the
+   text, with tabular figures for every price. */
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #ff8b2a;   /* main color: amber for buttons, links and focus; labels on it are white */
+    --color-secondary-base:  #0c0e12;   /* second color: the ink of the dark grounds and the footer; the dark scheme takes its hue */
+    --color-tertiary-base:   #1c2028;   /* third color: graphite, the second dark ground */
+    --color-quaternary-base: #8a93a3;   /* fourth color: steel, for meta and small marks */
+    --color-accent-base:     #35d08a;   /* attention color: up-green, for gains and live marks */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. */
+    /* Labels on the primary: white (the demo's choice), dark only on a very light primary */
+    --color-on-primary: oklch(from var(--color-primary-base) clamp(0.2, (0.8 - l) * 1000, 1) 0 0);
+    --color-primary-hover: oklch(from var(--color-primary-base) calc(l - 0.07) c h);   /* hover darkens, so the white label keeps its contrast */
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-text:      var(--color-secondary-base);   /* headings and body text: the ink (#0c0e12) */
+    --color-text-soft: oklch(from var(--color-secondary-base) 0.412 calc(c * 2.38) h);   /* secondary text: the ink softened (#454b57) */
+    --color-bg:        #ffffff;   /* page background: white (the light sections) */
+    --color-bg-soft:   #f4f5f7;   /* a step deeper: cool light grey */
+    --color-border:    oklch(from var(--color-quaternary-base) 0.9241 calc(c * 0.289) calc(h - 1.3));   /* lines and borders (#e3e6eb) */
+    --color-dark:      var(--color-secondary-base);   /* dark sections and dark buttons (#0c0e12) */
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Space Grotesk', system-ui, sans-serif;   /* headings and figures */
+    --font-serif:   'Instrument Serif', Georgia, 'Times New Roman', serif;   /* italic accents */
+    --font-tertiary: 'Urbanist', system-ui, sans-serif;   /* display accents (unused by this demo) */
+
+    /* Stylesheets of the accent fonts, fetched only on pages that use them.
+       Change a family above and its URL here together. Set one to "" to
+       load nothing, e.g. when that font is a system font. */
+    --font-serif-src:    "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap";
+    --font-tertiary-src: "https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800;900&display=swap";
+
+    /* Headings and buttons */
+    --heading-weight:     500;                   /* Space Grotesk medium: the range 400–700 is loaded */
+    --heading-tracking:   -0.04em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        0.5;      /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 0.375rem;   /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1440px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 1.15;   /* space between sections: 0.75 compact · 1 · 1.25 spacious */
+}

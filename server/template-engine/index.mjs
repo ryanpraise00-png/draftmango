@@ -8,16 +8,16 @@ import '../../web/project-format.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const web = path.join(root, 'web');
-const assetsRoot = path.join(web, 'framo', 'assets');
-const remoteAssets = 'https://draftmango.com/framo/assets/';
-const localAssets = '/framo/assets/';
+const assetsRoot = path.join(web, 'draftmango', 'assets');
+const remoteAssets = 'https://draftmango.com/draftmango/assets/';
+const localAssets = '/draftmango/assets/';
 const textTypes = new Set(['.css', '.svg', '.js', '.json', '.txt', '.html', '.xml']);
 const maxAssetBytes = 4 * 1024 * 1024, maxTotalAssetBytes = 24 * 1024 * 1024;
 
 let catalog, runtime;
 const packages = new Map();
 const loadCatalog = async () => catalog ||= JSON.parse(await readFile(path.join(web, 'template-catalog.json'), 'utf8'));
-const loadRuntime = async () => runtime ||= JSON.parse(await readFile(path.join(web, 'framo', 'starters', 'runtime.json'), 'utf8')).files ?? JSON.parse(await readFile(path.join(web, 'framo', 'starters', 'runtime.json'), 'utf8'));
+const loadRuntime = async () => runtime ||= JSON.parse(await readFile(path.join(web, 'draftmango', 'starters', 'runtime.json'), 'utf8')).files ?? JSON.parse(await readFile(path.join(web, 'draftmango', 'starters', 'runtime.json'), 'utf8'));
 const summary = item => ({ id: item.id, name: item.name, categories: item.categories, description: item.description, color: item.color, fonts: item.fonts, dark: item.dark, pages: item.pages });
 
 // The builder's own picker chooses the first result; the rest are ranked by
@@ -37,7 +37,7 @@ async function template(id) {
   const items = await loadCatalog();
   const chosen = items.find(item => item.id === id);
   if (!chosen) throw Object.assign(new Error(`Unknown template "${id}". Choose a design from the library.`), {status:422,code:'template_unavailable'});
-  const starter = JSON.parse(await readFile(path.join(web, 'framo', 'starters', `${chosen.id}.json`), 'utf8'));
+  const starter = JSON.parse(await readFile(path.join(web, 'draftmango', 'starters', `${chosen.id}.json`), 'utf8'));
   return { chosen, starter };
 }
 
@@ -62,7 +62,7 @@ async function collectAssets(sources) {
     if (!clean || relative.endsWith('/') || clean.startsWith('..') || clean.startsWith('/') || seen.has(clean)) return;
     seen.add(clean); queue.push(clean);
   };
-  for (const text of sources) for (const match of text.matchAll(/https:\/\/draftmango\.com\/framo\/assets\/([^\s"'`)<>]+)/g)) enqueue(match[1]);
+  for (const text of sources) for (const match of text.matchAll(/https:\/\/draftmango\.com\/draftmango\/assets\/([^\s"'`)<>]+)/g)) enqueue(match[1]);
   const missing = [];
   while (queue.length) {
     const relative = queue.shift();
@@ -101,7 +101,7 @@ async function packageFor(id) {
 
       const assetManifest = Object.fromEntries(Object.entries(assets).sort(([a],[b])=>a.localeCompare(b)).map(([name,asset])=>{
         const bytes = asset.text !== undefined ? Buffer.from(asset.text) : Buffer.from(asset.base64,'base64');
-        return ['public/framo/assets/'+name,{sha256:hash(bytes),bytes:bytes.length}];
+        return ['public/draftmango/assets/'+name,{sha256:hash(bytes),bytes:bytes.length}];
       }));
       const manifest = createManifest(chosen,source,assetManifest);
       return {chosen,source,assets,manifest,missing};
@@ -126,12 +126,12 @@ export async function templateFiles(id, siteName) {
     const escape = text=>String(text).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
     local['index.html'] = local['index.html'].replace(/<title>[^<]*<\/title>/,()=>`<title>${escape(String(siteName).slice(0,120))}</title>`);
   }
-  local['TEMPLATE.md'] = (local['TEMPLATE.md']||'').replace('https://draftmango.com/framo/.','public/framo/ in this project.');
+  local['TEMPLATE.md'] = (local['TEMPLATE.md']||'').replace('https://draftmango.com/draftmango/.','public/draftmango/ in this project.');
   const manifest = createManifest(pkg.chosen,local,pkg.manifest.assets,'local',pkg.manifest.template.version);
   local[lockFile] = JSON.stringify(manifest,null,2)+'\n';
   const assetFiles = {}, binaryFiles = {};
   for (const [relative,asset] of Object.entries(pkg.assets)) {
-    const target = `public/framo/assets/${relative}`;
+    const target = `public/draftmango/assets/${relative}`;
     if (asset.text !== undefined) assetFiles[target] = asset.text;
     else binaryFiles[target] = asset.base64;
   }

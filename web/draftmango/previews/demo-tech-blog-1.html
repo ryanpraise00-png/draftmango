@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en" data-scheme-lock="light" data-demo="tech-blog-1">
+    <head>
+        <meta charset="UTF-8">
+        <script async src="../assets/js/entrance.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tech &amp; Reviews — Draftmango</title>
+        <link rel="icon" href="../assets/media/logo/favicon.ico" sizes="32x32">
+        <link rel="icon" href="../assets/media/logo/draftmango-mark.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="../assets/media/logo/apple-touch-icon.png">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="../assets/css/icons.css">
+        <link rel="stylesheet" href="../assets/css/app.css">
+        <link rel="stylesheet" href="../assets/css/vendor.css">
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700&amp;family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" data-theme-fonts>
+        <link rel="stylesheet" href="../assets/css/demos/demo-tech-blog-1.css">
+        <link rel="stylesheet" href="../assets/css/themes/demo-tech-blog-1.css" data-theme-file>
+        <link rel="stylesheet" href="../assets/css/custom.css">
+    </head>
+    <body>
+
+        <header class="site-header header-glass header-glass--ink header-search" data-header>
+
+            <!-- Main navbar -->
+            <nav class="navbar" role="navigation" aria-label="Main navigation">
+                <div class="navbar-inner container">
+
+                    <!-- Brand -->
+                    <a href="demo-tech-blog-1.html" class="brand">
+
+                        <img class="brand-logo" src="../assets/media/logo/draftmango-logo.svg" alt="Draftmango" width="120" height="32" style="--logo-tint: url(#logo-tint-header)">
+
+                        <svg class="brand-tint" aria-hidden="true" focusable="false">
+                            <filter id="logo-tint-header" color-interpolation-filters="sRGB">
+                                <feFlood flood-color="currentColor" />
+                                <feComposite in2="SourceAlpha" operator="in" />
+                            </filter>
+                        </svg>
+
+                    </a>
+
+                    <!-- Desktop navigation links -->
+                    <ul class="nav-links" role="list">
+
+                        <!-- Tech & Reviews menu - the <li> items of . The Home is the brand link. Inner pages (demo-tech-blog-1-*.html): news, reviews, review, guides, deals, podcast, article, author, about, contact -->
+
+                        <li>
+                            <a href="demo-tech-blog-1-news.html" class="nav-link">News</a>
+                        </li>
+
+                        <!-- Reviews - tabbed mega: Phones / Laptops / Audio / Smart Home, three scored reviews and a buying guide each -->
+                        <li class="nav-megamenu nav-megamenu--tabs custom-mega">
+                            <button class="nav-link">
+                                Reviews
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="megamenu-panel" data-lenis-prevent>
+                                <div class="megamenu-inner megamenu-inner--tabs container">
+                                    <!-- hover(): a short dwell before switching; go(): arrow keys move between the tabs, Tab goes on into the open panel -->
+                                    <div class="tabs tabs-vertical tabs-rich megamenu-tabs" x-data="{ tab: 'phones', t: null, tabs: ['phones', 'laptops', 'audio', 'home'], next(d) { return this.tabs[(this.tabs.indexOf(this.tab) + d + 4) % 4] }, hover(v) { clearTimeout(this.t); this.t = setTimeout(() => this.tab = v, 120) }, go(v) { clearTimeout(this.t); this.tab = v; this.$refs[v].focus() } }">
+
+                                        <div class="tabs-nav" role="tablist" aria-label="Reviews" aria-orientation="vertical" @keydown.down.prevent="go(next(1))" @keydown.up.prevent="go(next(-1))" @keydown.home.prevent="go('phones')" @keydown.end.prevent="go('home')">
+                                            <button type="button" class="tab-btn is-active" role="tab" id="sg1-tab-phones" aria-controls="sg1-panel-phones" x-ref="phones" :class="{ 'is-active': tab === 'phones' }" :aria-selected="tab === 'phones'" :tabindex="tab === 'phones' ? 0 : -1" @mouseenter="hover('phones')" @mouseleave="clearTimeout(t)" @click="tab = 'phones'">
+                                                <span class="tab-btn-icon"><i class="ph ph-device-mobile" aria-hidden="true"></i></span>
+                                                <span class="tab-btn-title">Phones</span>
+                                                <span class="tab-btn-caption">Flagships to budget picks</span>
+                                            </button>
+                                            <button type="button" class="tab-btn" role="tab" id="sg1-tab-laptops" aria-controls="sg1-panel-laptops" x-ref="laptops" tabindex="-1" :class="{ 'is-active': tab === 'laptops' }" :aria-selected="tab === 'laptops'" :tabindex="tab === 'laptops' ? 0 : -1" @mouseenter="hover('laptops')" @mouseleave="clearTimeout(t)" @click="tab = 'laptops'">
+                                                <span class="tab-btn-icon"><i class="ph ph-laptop" aria-hidden="true"></i></span>
+                                                <span class="tab-btn-title">Laptops</span>
+                                                <span class="tab-btn-caption">For work, study and creative</span>
+                                            </button>
+                                            <button type="button" class="tab-btn" role="tab" id="sg1-tab-audio" aria-controls="sg1-panel-audio" x-ref="audio" tabindex="-1" :class="{ 'is-active': tab === 'audio' }" :aria-selected="tab === 'audio'" :tabindex="tab === 'audio' ? 0 : -1" @mouseenter="hover('audio')" @mouseleave="clearTimeout(t)" @click="tab = 'audio'">
+                                                <span class="tab-btn-icon"><i class="ph ph-headphones" aria-hidden="true"></i></span>
+                                                <span class="tab-btn-title">Audio</span>
+                                                <span class="tab-btn-caption">Headphones, earbuds, speakers</span>
+                                            </button>
+                                            <button type="button" class="tab-btn" role="tab" id="sg1-tab-home" aria-controls="sg1-panel-home" x-ref="home" tabindex="-1" :class="{ 'is-active': tab === 'home' }" :aria-selected="tab === 'home'" :tabindex="tab === 'home' ? 0 : -1" @mouseenter="hover('home')" @mouseleave="clearTimeout(t)" @click="tab = 'home'">
+                                                <span class="tab-btn-icon"><i class="ph ph-house-line" aria-hidden="true"></i></span>
+                                                <span class="tab-btn-title">Smart Home</span>
+                                                <span class="tab-btn-caption">Hubs, speakers, cameras</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="tabs-panels">
+
+                                            <!-- Phones - three reviews (--score drives the ring, data-score and data-verdict are its text) and a buying guide -->
+                                            <div class="tabs-panel megamenu-tabpanel is-active" role="tabpanel" id="sg1-panel-phones" aria-labelledby="sg1-tab-phones" :class="{ 'is-active': tab === 'phones' }">
+                                                <div class="megamenu-links grid-cols-1!">
+                                                    <div class="megamenu-col">
+                                                        <div class="megamenu-col-title">Phones</div>
+                                                        <div class="custom-menu-scores">
+                                                            <a href="demo-tech-blog-1-review.html" class="megamenu-item custom-menu-score" style="--score: 91" data-score="9.1" data-verdict="The camera finally matches the hype" aria-label="Orra 9 Pro review, scored 9.1: The camera finally matches the hype">Orra 9 Pro</a>
+                                                            <a href="demo-tech-blog-1-review.html" class="megamenu-item custom-menu-score" style="--score: 84" data-score="8.4" data-verdict="Two-day battery, sensible price" aria-label="Brisa A5 review, scored 8.4: Two-day battery, sensible price">Brisa A5</a>
+                                                            <a href="demo-tech-blog-1-review.html" class="megamenu-item custom-menu-score" style="--score: 79" data-score="7.9" data-verdict="A fold that survives the pocket" aria-label="Fennix Fold 3 review, scored 7.9: A fold that survives the pocket">Fennix Fold 3</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="megamenu-col megamenu-col--lead">
+                                                        <a href="demo-tech-blog-1-reviews.html" class="megamenu-item">All Phone Reviews</a>
+                                                    </div>
+                                                </div>
+                                                <a href="demo-tech-blog-1-guides.html" class="megamenu-feature custom-menu-guide relative isolate flex flex-col justify-end overflow-hidden p-5 text-white no-underline" tabindex="-1">
+                                                    <img src="../assets/media/placeholder/1600x1200.svg" alt="" width="960" height="960" loading="lazy" decoding="async" class="absolute inset-0 -z-1 size-full object-cover">
+                                                    <span class="text-[0.75rem] font-semibold tracking-[0.12em] uppercase text-primary-300">Buying Guide</span>
+                                                    <span class="mt-2 font-heading text-[1.375rem] font-semibold leading-[1.15] tracking-[-0.02em]">Best Phones of 2027</span>
+                                                    <span class="mt-1.5 text-base text-white/70">Eleven tested, three worth it</span>
+                                                </a>
+                                            </div>
+
+                                            <!-- Laptops - three reviews (--score drives the ring, data-score and data-verdict are its text) and a buying guide -->
+                                            <div class="tabs-panel megamenu-tabpanel" role="tabpanel" id="sg1-panel-laptops" aria-labelledby="sg1-tab-laptops" :class="{ 'is-active': tab === 'laptops' }">
+                                                <div class="megamenu-links grid-cols-1!">
+                                                    <div class="megamenu-col">
+                                                        <div class="megamenu-col-title">Laptops</div>
+                                                        <div class="custom-menu-scores">
+                                                            <a href="demo-tech-blog-1-review.html" class="megamenu-item custom-menu-score" style="--score: 90" data-score="9.0" data-verdict="The thin laptop that stays cool" aria-label="Aurel Book 14 review, scored 9.0: The thin laptop that stays cool">Aurel Book 14</a>
+                                                            <a href="demo-tech-blog-1-review.html" class="megamenu-item custom-menu-score" style="--score: 87" data-score="8.7" data-verdict="A studio in a backpack" aria-label="Kestra Pro 16 review, scored 8.7: A studio in a backpack">Kestra Pro 16</a>
+                                                            <a href="demo-tech-blog-1-review.html" class="megamenu-item custom-menu-score" style="--score: 82" data-score="8.2" data-verdict="The student pick of the year" aria-label="Mira X Air review, scored 8.2: The student pick of the year">Mira X Air</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="megamenu-col megamenu-col--lead">
+                                                        <a href="demo-tech-blog-1-reviews.html" class="megamenu-item">All Laptop Reviews</a>
+                                                    </div>
+                                                </div>
+                                                <a href="demo-tech-blog-1-guides.html" class="megamenu-feature custom-menu-guide relative isolate flex flex-col justify-end overflow-hidden p-5 text-white no-underline" tabindex="-1">
+                                                    <img src="../assets/media/placeholder/960x960.svg" alt="" width="960" height="960" loading="lazy" decoding="async" class="absolute inset-0 -z-1 size-full object-cover">
+                                                    <span class="text-[0.75rem] font-semibold tracking-[0.12em] uppercase text-primary-300">Buying Guide</span>
+                                                    <span class="mt-2 font-heading text-[1.375rem] font-semibold leading-[1.15] tracking-[-0.02em]">Best Laptops for Creatives</span>
+                                                    <span class="mt-1.5 text-base text-white/70">Color-accurate, quiet, all-day</span>
+                                                </a>
+                                            </div>
+
+                                            <!-- Audio - three reviews (--score drives the ring, data-score and data-verdict are its text) and a buying guide -->
+                                            <div class="tabs-panel megamenu-tabpanel" role="tabpanel" id="sg1-panel-audio" aria-labelledby="sg1-tab-audio" :class="{ 'is-active': tab === 'audio' }">
+                                                <div class="megamenu-links grid-cols-1!">
+                                                    <div class="megamenu-col">
+                                                        <div class="megamenu-col-title">Audio</div>
+                                                        <div class="custom-menu-scores">
+                                                            <a href="demo-tech-blog-1-review.html" class="megamenu-item custom-menu-score" style="--score: 90" data-score="9.0" data-verdict="Silence that never presses" aria-label="Corvo Studio ANC review, scored 9.0: Silence that never presses">Corvo Studio ANC</a>
+                                                            <a href="demo-tech-blog-1-review.html" class="megamenu-item custom-menu-score" style="--score: 86" data-score="8.6" data-verdict="Small buds, big low end" aria-label="Lyra Buds Pro review, scored 8.6: Small buds, big low end">Lyra Buds Pro</a>
+                                                            <a href="demo-tech-blog-1-review.html" class="megamenu-item custom-menu-score" style="--score: 83" data-score="8.3" data-verdict="Room-filling for its size" aria-label="Ondo Home Mini review, scored 8.3: Room-filling for its size">Ondo Home Mini</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="megamenu-col megamenu-col--lead">
+                                                        <a href="demo-tech-blog-1-reviews.html" class="megamenu-item">All Audio Reviews</a>
+                                                    </div>
+                                                </div>
+                                                <a href="demo-tech-blog-1-guides.html" class="megamenu-feature custom-menu-guide relative isolate flex flex-col justify-end overflow-hidden p-5 text-white no-underline" tabindex="-1">
+                                                    <img src="../assets/media/placeholder/960x960.svg" alt="" width="960" height="960" loading="lazy" decoding="async" class="absolute inset-0 -z-1 size-full object-cover">
+                                                    <span class="text-[0.75rem] font-semibold tracking-[0.12em] uppercase text-primary-300">Buying Guide</span>
+                                                    <span class="mt-2 font-heading text-[1.375rem] font-semibold leading-[1.15] tracking-[-0.02em]">Best Noise-Cancelling Headphones</span>
+                                                    <span class="mt-1.5 text-base text-white/70">Tested on planes and trains</span>
+                                                </a>
+                                            </div>
+
+                                            <!-- Smart Home - three reviews (--score drives the ring, data-score and data-verdict are its text) and a buying guide -->
+                                            <div class="tabs-panel megamenu-tabpanel" role="tabpanel" id="sg1-panel-home" aria-labelledby="sg1-tab-home" :class="{ 'is-active': tab === 'home' }">
+                                                <div class="megamenu-links grid-cols-1!">
+                                                    <div class="megamenu-col">
+                                                        <div class="megamenu-col-title">Smart Home</div>
+                                                        <div class="custom-menu-scores">
+                                                            <a href="demo-tech-blog-1-review.html" class="megamenu-item custom-menu-score" style="--score: 88" data-score="8.8" data-verdict="One hub for every protocol" aria-label="Ondo Hub Max review, scored 8.8: One hub for every protocol">Ondo Hub Max</a>
+                                                            <a href="demo-tech-blog-1-review.html" class="megamenu-item custom-menu-score" style="--score: 85" data-score="8.5" data-verdict="Clear nights, no subscription" aria-label="Halo Cam 2 review, scored 8.5: Clear nights, no subscription">Halo Cam 2</a>
+                                                            <a href="demo-tech-blog-1-review.html" class="megamenu-item custom-menu-score" style="--score: 80" data-score="8.0" data-verdict="The cheapest upgrade that works" aria-label="Brisa Plug Duo review, scored 8.0: The cheapest upgrade that works">Brisa Plug Duo</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="megamenu-col megamenu-col--lead">
+                                                        <a href="demo-tech-blog-1-reviews.html" class="megamenu-item">All Smart Home Reviews</a>
+                                                    </div>
+                                                </div>
+                                                <a href="demo-tech-blog-1-guides.html" class="megamenu-feature custom-menu-guide relative isolate flex flex-col justify-end overflow-hidden p-5 text-white no-underline" tabindex="-1">
+                                                    <img src="../assets/media/placeholder/1200x1200.svg" alt="" width="960" height="960" loading="lazy" decoding="async" class="absolute inset-0 -z-1 size-full object-cover">
+                                                    <span class="text-[0.75rem] font-semibold tracking-[0.12em] uppercase text-primary-300">Buying Guide</span>
+                                                    <span class="mt-2 font-heading text-[1.375rem] font-semibold leading-[1.15] tracking-[-0.02em]">The Smart Home Starter Kit</span>
+                                                    <span class="mt-1.5 text-base text-white/70">Five devices that just work</span>
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="demo-tech-blog-1-guides.html" class="nav-link">Guides</a>
+                        </li>
+                        <li>
+                            <a href="demo-tech-blog-1-deals.html" class="nav-link">Deals</a>
+                        </li>
+                        <li>
+                            <a href="demo-tech-blog-1-podcast.html" class="nav-link">Podcast</a>
+                        </li>
+
+                    </ul>
+
+                    <!-- Right-side actions -->
+                    <div class="nav-actions">
+
+                        <!-- Meta group - display:contents by default; header-stacked turns it into its own row. -->
+                        <div class="nav-meta">
+
+                            <button class="nav-search-toggle" data-panel-toggle="search" aria-expanded="false" aria-controls="header-search" aria-label="Open search">
+                                <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+                            </button>
+
+                        </div><!-- /.nav-meta -->
+
+                        <!-- Tech & Reviews header action - the menu panel carries _mobile-cta.html -->
+                        <a href="demo-tech-blog-1-contact.html#newsletter" class="btn btn-primary btn-sm custom-nav-action max-sm:hidden">Newsletter</a>
+
+                        <!-- Menu toggle - mobile hamburger below 1024px; also the close button on header-overlay-menu / header-side-drawer -->
+                        <button class="hamburger" data-toggle aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation menu">
+                            <i class="ph ph-list text-xl nav-toggle-open" aria-hidden="true"></i>
+                            <i class="ph ph-x text-xl nav-toggle-close" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Navigation panel - links are auto-generated by initMobileSync() in main.js -->
+                <!-- data-lenis-prevent: opts this scroll container out of Lenis smooth scrolling -->
+                <div id="mobile-nav" class="mobile-nav" data-mobile-nav data-lenis-prevent role="dialog" aria-modal="true" aria-label="Site navigation">
+
+                    <!-- Menu column - the scroll container -->
+                    <div class="nav-panel-menu">
+
+                        <!-- JS target: desktop nav items are injected here -->
+                        <div data-mobile-links></div>
+
+                        <!-- Mobile-only items: add or remove <a> elements here freely -->
+                        <!-- <a href="#" class="mobile-link" data-mobile-only>Exclusive Item</a> -->
+
+                        <!-- Tech & Reviews menu panel foot - the lead action under the links. Edit: the button -->
+                        <div class="nav-panel-cta grid gap-3 mt-6">
+                            <a href="demo-tech-blog-1-contact.html#newsletter" class="btn btn-primary btn-lg justify-center">Get the Newsletter</a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </nav>
+
+            <!--css .site-search). Edit: the title, the placeholder, the suggested searches -->
+            <div id="header-search" class="site-search" data-panel="search" role="dialog" aria-modal="false" aria-label="Search">
+                <div class="site-search-inner" data-lenis-prevent>
+                    <div class="site-search-body container">
+
+                        <button class="site-panel-close" data-panel-close aria-label="Close search">
+                            <i class="ph ph-x" aria-hidden="true"></i>
+                        </button>
+
+                        <h2 class="site-search-title">Search Draftmango Signal</h2>
+
+                        <form class="site-search-form" role="search" action="#" x-data @submit.prevent>
+                            <label class="sr-only" for="site-search-input">Search Draftmango Signal</label>
+                            <input id="site-search-input" type="search" name="q" class="form-input form-input-underline site-search-input" placeholder="Search reviews, guides and news" autocomplete="off" />
+                            <button type="submit" class="site-search-submit" aria-label="Search">
+                                <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+                            </button>
+                        </form>
+
+                        <p class="site-search-hint">
+                            Press <kbd class="site-search-key">Esc</kbd> to close
+                        </p>
+
+                        <div class="site-search-suggest">
+                            <span class="site-search-suggest-label">Popular</span>
+                            <a href="demo-tech-blog-1-reviews.html" class="site-search-tag">Best Phones</a>
+                            <a href="demo-tech-blog-1-reviews.html" class="site-search-tag">Laptops</a>
+                            <a href="demo-tech-blog-1-guides.html" class="site-search-tag">Smart Home Guides</a>
+                            <a href="demo-tech-blog-1-deals.html" class="site-search-tag">Deals</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+
+        <main>
+            <!-- HERO - "the bento front": a lead review (photo, score ring), a news story, Top 5 This Week, a buying guide and a deal, on one grid. Phone: the lead, then the rest as a swipe rail. Edit: each tile's link, kicker, title, byline, image (src, alt); the ring reads --score (0–100) -->
+            <section id="sg1-front" class="custom-front relative isolate pt-[calc(var(--header-h)+1.25rem)] pb-[clamp(3rem,2rem+3vw,5rem)]" aria-labelledby="sg1-lead-title">
+                <div class="custom-front-frame">
+
+                    <!-- Trending topics -->
+                    <div class="custom-trending flex items-center gap-x-5 gap-y-2 mb-4 min-w-0" data-anim="fade" data-anim-delay="100">
+                        <span class="eyebrow shrink-0 inline-flex items-center gap-2 m-0 text-white"><span class="custom-live" aria-hidden="true"></span>Trending</span>
+                        <ul class="custom-trending-list flex gap-2 m-0 p-0 list-none min-w-0 overflow-x-auto" role="list" data-lenis-prevent-touch>
+                            <li><a href="demo-tech-blog-1-news.html" class="custom-topic">Foldables</a></li>
+                            <li><a href="demo-tech-blog-1-news.html" class="custom-topic">2 nm Chips</a></li>
+                            <li><a href="demo-tech-blog-1-guides.html" class="custom-topic">AI Laptops</a></li>
+                            <li><a href="demo-tech-blog-1-guides.html" class="custom-topic">Matter Smart Home</a></li>
+                            <li><a href="demo-tech-blog-1-reviews.html" class="custom-topic">Noise-Cancelling</a></li>
+                            <li><a href="demo-tech-blog-1-deals.html" class="custom-topic">Holiday Deals</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="custom-bento">
+
+                        <!-- Lead review -->
+                        <article class="custom-tile custom-tile--lead" data-anim="fade-up">
+                            <a href="demo-tech-blog-1-review.html" class="custom-tile-link flex flex-col justify-end h-full p-[clamp(1.5rem,1rem+1.4vw,2.5rem)] text-white no-underline">
+                                <span class="custom-media absolute inset-0 -z-1" aria-hidden="true">
+                                    <img src="../assets/media/placeholder/1600x1200.svg" alt="" width="1600" height="1200" class="size-full object-cover" fetchpriority="high" decoding="async">
+                                </span>
+                                <span class="flex flex-wrap items-center gap-2">
+                                    <span class="custom-chip custom-chip--fill">Review</span>
+                                    <span class="custom-chip">Phones</span>
+                                </span>
+                                <h1 id="sg1-lead-title" class="mt-5 mb-0 max-w-[15em] text-white text-[clamp(2rem,1.1rem+2.4vw,3.5rem)] font-bold leading-[1.02] tracking-[-0.04em] text-balance">Orra 9 Pro review: the quiet phone that finally gets the camera right</h1>
+                                <p class="mt-4 mb-0 max-w-[34rem] text-lg leading-[1.5] text-white/72">Three weeks, two continents, 4,000 photos. A flagship that stops chasing specs and starts taking pictures you keep.</p>
+                                <span class="inline-flex items-center gap-2.5 mt-6 text-[0.9375rem] text-white/70">
+                                    <img src="../assets/media/placeholder/800x800.svg" alt="" width="64" height="64" class="size-8 rounded-full object-cover">
+                                    <span><strong class="font-semibold text-white">Elio Brecken</strong> <span aria-hidden="true">·</span> 12 min read</span>
+                                </span>
+                                <span class="custom-score absolute top-[clamp(1.25rem,0.9rem+1vw,2rem)] right-[clamp(1.25rem,0.9rem+1vw,2rem)]" style="--score: 91">
+                                    <svg viewBox="0 0 100 100" aria-hidden="true">
+                                        <circle cx="50" cy="50" r="45" pathLength="100" />
+                                        <circle class="custom-score-arc" cx="50" cy="50" r="45" pathLength="100" />
+                                    </svg>
+                                    <span class="[grid-area:1/1] -mt-2.5 font-heading text-[clamp(1.75rem,1.4rem+0.9vw,2.375rem)] font-bold leading-none tracking-[-0.045em] tabular-nums text-white">9.1</span>
+                                    <span class="[grid-area:1/1] mt-[2.1rem] text-[0.6875rem] font-semibold tracking-[0.14em] uppercase text-white/60">Score</span>
+                                </span>
+                            </a>
+                        </article>
+
+                        <!-- Phone: the rest of the grid becomes a swipe rail -->
+                        <div class="custom-bento-rest" data-lenis-prevent-touch>
+
+                            <!-- News -->
+                            <article class="custom-tile custom-tile--news" data-anim="fade-up" data-anim-delay="80">
+                                <a href="demo-tech-blog-1-article.html" class="custom-tile-link flex flex-col h-full text-white no-underline">
+                                    <span class="custom-media relative block shrink-0" aria-hidden="true">
+                                        <img src="../assets/media/placeholder/1400x1050.svg" alt="" width="1400" height="1050" class="size-full object-cover" decoding="async">
+                                    </span>
+                                    <span class="flex flex-col flex-1 p-6">
+                                        <span class="custom-kicker"><span class="custom-live" aria-hidden="true"></span>News <span aria-hidden="true">·</span> Chips</span>
+                                        <h2 class="mt-3 mb-0 text-white text-[1.375rem] font-semibold leading-[1.18] tracking-[-0.025em] text-balance">Two-nanometer chips reach volume production a quarter early</h2>
+                                        <span class="custom-meta mt-auto pt-4">Sanna Callen <span aria-hidden="true">·</span> 5 min read</span>
+                                    </span>
+                                </a>
+                            </article>
+
+                            <!-- Top 5 this week -->
+                            <section class="custom-tile custom-tile--top flex flex-col p-6" aria-labelledby="sg1-top-title" data-anim="fade-up" data-anim-delay="160">
+                                <div class="flex items-baseline justify-between gap-4">
+                                    <h2 id="sg1-top-title" class="m-0 text-white text-[1.25rem] font-bold tracking-[-0.03em]">Top 5 This Week</h2>
+                                    <a href="demo-tech-blog-1-reviews.html" class="text-[0.875rem] font-semibold text-primary-300 no-underline hover:underline">See All</a>
+                                </div>
+                                <ol class="custom-top-list flex flex-col flex-1 m-0 mt-3 p-0 list-none" role="list">
+                                    <li><a href="demo-tech-blog-1-review.html"><span class="font-heading text-[1.125rem] font-bold tabular-nums text-primary-300" aria-hidden="true">01</span><span class="custom-top-text">Corvo Studio ANC review: silence that never presses<span class="custom-meta">Review <span aria-hidden="true">·</span> 9.0</span></span></a></li>
+                                    <li><a href="demo-tech-blog-1-article.html"><span class="font-heading text-[1.125rem] font-bold tabular-nums text-primary-300" aria-hidden="true">02</span><span class="custom-top-text">The best laptops for creative work in 2027<span class="custom-meta">Guide <span aria-hidden="true">·</span> 14 min</span></span></a></li>
+                                    <li><a href="demo-tech-blog-1-article.html"><span class="font-heading text-[1.125rem] font-bold tabular-nums text-primary-300" aria-hidden="true">03</span><span class="custom-top-text">Why your smart home keeps dropping offline<span class="custom-meta">Explainer <span aria-hidden="true">·</span> 7 min</span></span></a></li>
+                                    <li><a href="demo-tech-blog-1-review.html"><span class="font-heading text-[1.125rem] font-bold tabular-nums text-primary-300" aria-hidden="true">04</span><span class="custom-top-text">We tested 11 earbuds. Three are worth it<span class="custom-meta">Roundup <span aria-hidden="true">·</span> 11 min</span></span></a></li>
+                                    <li><a href="demo-tech-blog-1-review.html"><span class="font-heading text-[1.125rem] font-bold tabular-nums text-primary-300" aria-hidden="true">05</span><span class="custom-top-text">Ondo Home Mini review: small, room-filling<span class="custom-meta">Review <span aria-hidden="true">·</span> 8.3</span></span></a></li>
+                                </ol>
+                            </section>
+
+                            <!-- Guide -->
+                            <article class="custom-tile custom-tile--guide" data-anim="fade-up" data-anim-delay="120">
+                                <a href="demo-tech-blog-1-guides.html" class="custom-tile-link grid h-full text-white no-underline">
+                                    <span class="custom-media relative block" aria-hidden="true">
+                                        <img src="../assets/media/placeholder/960x960.svg" alt="" width="960" height="960" class="size-full object-cover" decoding="async">
+                                    </span>
+                                    <span class="flex flex-col p-5">
+                                        <span class="custom-kicker">Guide <span aria-hidden="true">·</span> Laptops</span>
+                                        <h2 class="mt-2.5 mb-0 text-white text-[1.125rem] font-semibold leading-[1.22] tracking-[-0.02em]">How to choose a laptop for photo and video work</h2>
+                                        <span class="custom-meta mt-auto pt-3">Ivo Hask <span aria-hidden="true">·</span> 9 min read</span>
+                                    </span>
+                                </a>
+                            </article>
+
+                            <!-- Deal -->
+                            <article class="custom-tile custom-tile--deal" data-anim="fade-up" data-anim-delay="200">
+                                <a href="demo-tech-blog-1-deals.html" class="custom-tile-link grid h-full text-white no-underline">
+                                    <span class="custom-media relative block" aria-hidden="true">
+                                        <img src="../assets/media/placeholder/1200x1200.svg" alt="" width="960" height="960" class="size-full object-cover" decoding="async">
+                                    </span>
+                                    <span class="flex flex-col p-5">
+                                        <span class="flex items-center justify-between gap-2">
+                                            <span class="custom-kicker">Deal</span>
+                                            <span class="inline-flex items-center h-6 px-2 rounded-pill bg-accent text-[0.8125rem] font-bold tabular-nums text-on-accent">−28%</span>
+                                        </span>
+                                        <h2 class="mt-2.5 mb-0 text-white text-[1.125rem] font-semibold leading-[1.22] tracking-[-0.02em]">Lyra Buds Pro</h2>
+                                        <span class="mt-auto pt-3 flex items-baseline gap-2.5">
+                                            <span class="font-heading text-[1.75rem] font-bold leading-none tracking-[-0.04em] tabular-nums text-accent">$129</span>
+                                            <s class="custom-meta tabular-nums"><span class="sr-only">was </span>$179</s>
+                                        </span>
+                                        <span class="custom-meta mt-1">Lowest price we've tracked</span>
+                                    </span>
+                                </a>
+                            </article>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LATEST - the newest stories as a list beside a sticky rail (Most Read, the reviews promise). Edit: each row's params; the ranks; the promise numbers -->
+            <section id="sg1-latest" class="pt-[clamp(2rem,1rem+3vw,4rem)] pb-(--section-space)" aria-labelledby="sg1-latest-title">
+                <div class="container">
+                    <div class="grid gap-14 lg:grid-cols-12 lg:gap-16">
+                        <div class="lg:col-span-8 min-w-0">
+                            <div class="custom-sec-head">
+                                <div>
+                                    <p class="custom-kicker m-0" data-anim="fade-up"><span class="custom-live" aria-hidden="true"></span>Updated through the day</p>
+                                    <h2 id="sg1-latest-title" class="custom-sec-title" data-anim="fade-up" data-anim-delay="60">Latest stories</h2>
+                                </div>
+                                <a href="demo-tech-blog-1-news.html" class="btn btn-outline-light btn-sm" data-anim="fade-up">All News <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                            </div>
+                            <div class="custom-rows">
+                                <!-- Tech & Reviews post row - a story in a list: thumbnail, kicker, title, standfirst, byline. Params: prHref, prImg, prKicker, prTitle, prText, prAvatar, prAuthor, prRead -->
+                                <article class="custom-row" data-anim="fade-up">
+                                    <a href="demo-tech-blog-1-article.html" class="custom-row-link group grid gap-5 sm:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] sm:gap-7 py-7 text-white no-underline">
+                                        <span class="custom-media block aspect-[4/3] rounded-(--radius-md)" aria-hidden="true">
+                                            <img src="../assets/media/placeholder/2400x1350.svg" alt="" width="1200" height="900" loading="lazy" decoding="async" class="size-full object-cover">
+                                        </span>
+                                        <span class="flex flex-col">
+                                            <span class="custom-kicker">Chips</span>
+                                            <span class="custom-row-title mt-2.5 font-heading text-[clamp(1.25rem,1.1rem+0.5vw,1.5rem)] font-semibold leading-[1.2] tracking-[-0.025em] text-balance">Two-nanometer chips reach volume production a quarter early</span>
+                                            <span class="mt-2.5 text-base leading-relaxed text-soft line-clamp-2">Yields crossed 70% in September, two fabs confirmed. What that means for the phones and laptops you'll buy next autumn.</span>
+                                            <span class="mt-auto pt-4 inline-flex items-center gap-2.5 text-[0.9375rem] text-muted">
+                                                <img src="../assets/media/placeholder/160x160.svg" alt="" width="64" height="64" loading="lazy" class="custom-avatar size-7 rounded-full object-cover">
+                                                <span><strong class="font-semibold text-white">Sanna Callen</strong> <span aria-hidden="true">·</span> 5 min read</span>
+                                            </span>
+                                        </span>
+                                    </a>
+                                </article>
+                                <!-- Tech & Reviews post row - a story in a list: thumbnail, kicker, title, standfirst, byline. Params: prHref, prImg, prKicker, prTitle, prText, prAvatar, prAuthor, prRead -->
+                                <article class="custom-row" data-anim="fade-up">
+                                    <a href="demo-tech-blog-1-review.html" class="custom-row-link group grid gap-5 sm:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] sm:gap-7 py-7 text-white no-underline">
+                                        <span class="custom-media block aspect-[4/3] rounded-(--radius-md)" aria-hidden="true">
+                                            <img src="../assets/media/placeholder/1600x1200.svg" alt="" width="1200" height="900" loading="lazy" decoding="async" class="size-full object-cover">
+                                        </span>
+                                        <span class="flex flex-col">
+                                            <span class="custom-kicker">Hands-On · XR</span>
+                                            <span class="custom-row-title mt-2.5 font-heading text-[clamp(1.25rem,1.1rem+0.5vw,1.5rem)] font-semibold leading-[1.2] tracking-[-0.025em] text-balance">Lumen XR first look: the headset that wants to be glasses</span>
+                                            <span class="mt-2.5 text-base leading-relaxed text-soft line-clamp-2">At 212 grams it's the lightest mixed-reality set we've worn. The battery lives in your pocket, and that's the catch.</span>
+                                            <span class="mt-auto pt-4 inline-flex items-center gap-2.5 text-[0.9375rem] text-muted">
+                                                <img src="../assets/media/placeholder/160x160.svg" alt="" width="64" height="64" loading="lazy" class="custom-avatar size-7 rounded-full object-cover">
+                                                <span><strong class="font-semibold text-white">Elio Brecken</strong> <span aria-hidden="true">·</span> 8 min read</span>
+                                            </span>
+                                        </span>
+                                    </a>
+                                </article>
+                                <!-- Tech & Reviews post row - a story in a list: thumbnail, kicker, title, standfirst, byline. Params: prHref, prImg, prKicker, prTitle, prText, prAvatar, prAuthor, prRead -->
+                                <article class="custom-row" data-anim="fade-up">
+                                    <a href="demo-tech-blog-1-article.html" class="custom-row-link group grid gap-5 sm:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] sm:gap-7 py-7 text-white no-underline">
+                                        <span class="custom-media block aspect-[4/3] rounded-(--radius-md)" aria-hidden="true">
+                                            <img src="../assets/media/placeholder/2400x1350.svg" alt="" width="1200" height="900" loading="lazy" decoding="async" class="size-full object-cover">
+                                        </span>
+                                        <span class="flex flex-col">
+                                            <span class="custom-kicker">AI · Explainer</span>
+                                            <span class="custom-row-title mt-2.5 font-heading text-[clamp(1.25rem,1.1rem+0.5vw,1.5rem)] font-semibold leading-[1.2] tracking-[-0.025em] text-balance">Where your AI questions actually go, and what each one costs</span>
+                                            <span class="mt-2.5 text-base leading-relaxed text-soft line-clamp-2">We followed one prompt from a phone to a data hall in Oregon and back. The answer took 1.8 seconds and about a teaspoon of water.</span>
+                                            <span class="mt-auto pt-4 inline-flex items-center gap-2.5 text-[0.9375rem] text-muted">
+                                                <img src="../assets/media/placeholder/160x160.svg" alt="" width="64" height="64" loading="lazy" class="custom-avatar size-7 rounded-full object-cover">
+                                                <span><strong class="font-semibold text-white">Sanna Callen</strong> <span aria-hidden="true">·</span> 11 min read</span>
+                                            </span>
+                                        </span>
+                                    </a>
+                                </article>
+                                <!-- Tech & Reviews post row - a story in a list: thumbnail, kicker, title, standfirst, byline. Params: prHref, prImg, prKicker, prTitle, prText, prAvatar, prAuthor, prRead -->
+                                <article class="custom-row" data-anim="fade-up">
+                                    <a href="demo-tech-blog-1-guides.html" class="custom-row-link group grid gap-5 sm:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] sm:gap-7 py-7 text-white no-underline">
+                                        <span class="custom-media block aspect-[4/3] rounded-(--radius-md)" aria-hidden="true">
+                                            <img src="../assets/media/placeholder/1200x1200.svg" alt="" width="1200" height="900" loading="lazy" decoding="async" class="size-full object-cover">
+                                        </span>
+                                        <span class="flex flex-col">
+                                            <span class="custom-kicker">Smart Home · Guide</span>
+                                            <span class="custom-row-title mt-2.5 font-heading text-[clamp(1.25rem,1.1rem+0.5vw,1.5rem)] font-semibold leading-[1.2] tracking-[-0.025em] text-balance">Security cameras without a monthly fee: the four we trust</span>
+                                            <span class="mt-2.5 text-base leading-relaxed text-soft line-clamp-2">Local storage, honest night vision and apps that don't nag. We left them outside for a Portland winter.</span>
+                                            <span class="mt-auto pt-4 inline-flex items-center gap-2.5 text-[0.9375rem] text-muted">
+                                                <img src="../assets/media/placeholder/160x160.svg" alt="" width="64" height="64" loading="lazy" class="custom-avatar size-7 rounded-full object-cover">
+                                                <span><strong class="font-semibold text-white">Talia Ormond</strong> <span aria-hidden="true">·</span> 9 min read</span>
+                                            </span>
+                                        </span>
+                                    </a>
+                                </article>
+                                <!-- Tech & Reviews post row - a story in a list: thumbnail, kicker, title, standfirst, byline. Params: prHref, prImg, prKicker, prTitle, prText, prAvatar, prAuthor, prRead -->
+                                <article class="custom-row" data-anim="fade-up">
+                                    <a href="demo-tech-blog-1-review.html" class="custom-row-link group grid gap-5 sm:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] sm:gap-7 py-7 text-white no-underline">
+                                        <span class="custom-media block aspect-[4/3] rounded-(--radius-md)" aria-hidden="true">
+                                            <img src="../assets/media/placeholder/1600x1200.svg" alt="" width="1200" height="900" loading="lazy" decoding="async" class="size-full object-cover">
+                                        </span>
+                                        <span class="flex flex-col">
+                                            <span class="custom-kicker">Review · Accessories</span>
+                                            <span class="custom-row-title mt-2.5 font-heading text-[clamp(1.25rem,1.1rem+0.5vw,1.5rem)] font-semibold leading-[1.2] tracking-[-0.025em] text-balance">Keel 75 review: the keyboard that made us type slower, on purpose</span>
+                                            <span class="mt-2.5 text-base leading-relaxed text-soft line-clamp-2">Heavy, quiet and gloriously over-built. At $189 it's the best mechanical board for people who don't want a hobby.</span>
+                                            <span class="mt-auto pt-4 inline-flex items-center gap-2.5 text-[0.9375rem] text-muted">
+                                                <img src="../assets/media/placeholder/160x160.svg" alt="" width="64" height="64" loading="lazy" class="custom-avatar size-7 rounded-full object-cover">
+                                                <span><strong class="font-semibold text-white">Ivo Hask</strong> <span aria-hidden="true">·</span> 6 min read</span>
+                                            </span>
+                                        </span>
+                                    </a>
+                                </article>
+                            </div>
+                        </div>
+
+                        <aside class="lg:col-span-4" aria-label="Most read and our reviews promise">
+                            <div class="grid gap-5 lg:sticky lg:top-[calc(var(--header-h)+1.5rem)]">
+                                <section class="custom-panel p-7" aria-labelledby="sg1-most-title" data-anim="fade-up">
+                                    <h3 id="sg1-most-title" class="m-0 text-white text-[1.25rem] font-bold tracking-[-0.03em]">Most Read</h3>
+                                    <ol class="custom-rank m-0 mt-4 p-0 list-none" role="list">
+                                        <li><a href="demo-tech-blog-1-review.html"><span class="custom-rank-no" aria-hidden="true">1</span><span>We tested 11 earbuds. Three are worth it</span></a></li>
+                                        <li><a href="demo-tech-blog-1-article.html"><span class="custom-rank-no" aria-hidden="true">2</span><span>Why your smart home keeps dropping offline</span></a></li>
+                                        <li><a href="demo-tech-blog-1-guides.html"><span class="custom-rank-no" aria-hidden="true">3</span><span>The best laptops for creative work in 2027</span></a></li>
+                                        <li><a href="demo-tech-blog-1-review.html"><span class="custom-rank-no" aria-hidden="true">4</span><span>Orra 9 Pro review: the camera finally matches the hype</span></a></li>
+                                        <li><a href="demo-tech-blog-1-deals.html"><span class="custom-rank-no" aria-hidden="true">5</span><span>Twelve deals we would actually buy this week</span></a></li>
+                                    </ol>
+                                </section>
+                                <section class="custom-panel p-7" aria-labelledby="sg1-promise-title" data-anim="fade-up" data-anim-delay="100">
+                                    <span class="custom-icon" aria-hidden="true"><i class="ph ph-seal-check"></i></span>
+                                    <h3 id="sg1-promise-title" class="mt-5 mb-0 text-white text-[1.25rem] font-bold tracking-[-0.03em]">Nobody pays for a score</h3>
+                                    <p class="mt-2.5 mb-0 text-base leading-relaxed text-soft">We buy most of what we review and return the loans. Brands see the verdict when you do.</p>
+                                    <a href="demo-tech-blog-1-about.html#ethics" class="custom-link mt-4">Our Ethics Policy <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                                </section>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </section>
+
+            <!-- EDITOR'S CHOICE - scored reviews in a carousel, arrows beside the title. Edit: each card's params (rcScore 0–100 draws the ring, rcValue is printed) -->
+            <section id="sg1-choice" class="pb-(--section-space)" aria-labelledby="sg1-choice-title">
+                <div class="container">
+                    <div class="carousel-wrap">
+                        <div class="custom-sec-head">
+                            <div>
+                                <p class="custom-kicker m-0" data-anim="fade-up">Editor's Choice</p>
+                                <h2 id="sg1-choice-title" class="custom-sec-title" data-anim="fade-up" data-anim-delay="60">The best things we tested this year</h2>
+                            </div>
+                            <div class="flex items-center gap-2" data-anim="fade-up">
+                                <button class="carousel-btn carousel-btn-prev custom-nav-btn" aria-label="Previous reviews"><i class="ph ph-arrow-left" aria-hidden="true"></i></button>
+                                <button class="carousel-btn carousel-btn-next custom-nav-btn" aria-label="Next reviews"><i class="ph ph-arrow-right" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                        <div class="swiper custom-swiper" data-grab-cursor="true" data-space-between="16" data-speed="600" data-slides-per-view="1.15" data-breakpoints="{&quot;640&quot;:{&quot;slidesPerView&quot;:2},&quot;1024&quot;:{&quot;slidesPerView&quot;:3},&quot;1280&quot;:{&quot;slidesPerView&quot;:4}}" data-lenis-prevent-touch>
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide h-auto"><!-- Tech & Reviews review card - product photo with the score ring, category, name, verdict, price. Params: rcHref, rcImg, rcCat, rcName, rcScore (0–100, draws the ring), rcValue (the printed score), rcVerdict, rcPrice -->
+                                    <article class="custom-card h-full" data-anim="fade-up">
+                                        <a href="demo-tech-blog-1-review.html" class="custom-tile-link flex flex-col h-full text-white no-underline">
+                                            <span class="custom-media relative block aspect-square shrink-0" aria-hidden="true">
+                                                <img src="../assets/media/placeholder/1600x1200.svg" alt="" width="1200" height="1200" loading="lazy" decoding="async" class="size-full object-cover">
+                                            </span>
+                                            <span class="custom-ring absolute top-4 right-4 z-1" style="--score: 92"><span class="sr-only">Score </span>9.2</span>
+                                            <span class="flex flex-col flex-1 p-6">
+                                                <span class="custom-kicker">Review <span aria-hidden="true">·</span> Cameras</span>
+                                                <span class="custom-card-title mt-3 font-heading text-[1.375rem] font-semibold leading-[1.15] tracking-[-0.025em]">Kiro M2</span>
+                                                <span class="mt-2 text-base leading-snug text-soft">The pocketable camera that makes phones feel small again.</span>
+                                                <span class="mt-auto pt-5 flex items-center justify-between gap-3 text-[0.9375rem]">
+                                                    <span class="text-muted">From <strong class="font-semibold text-white tabular-nums">$1,249</strong></span>
+                                                    <span class="custom-arrow" aria-hidden="true"><i class="ph ph-arrow-up-right"></i></span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </article>
+                                </div>
+                                <div class="swiper-slide h-auto"><!-- Tech & Reviews review card - product photo with the score ring, category, name, verdict, price. Params: rcHref, rcImg, rcCat, rcName, rcScore (0–100, draws the ring), rcValue (the printed score), rcVerdict, rcPrice -->
+                                    <article class="custom-card h-full" data-anim="fade-up">
+                                        <a href="demo-tech-blog-1-review.html" class="custom-tile-link flex flex-col h-full text-white no-underline">
+                                            <span class="custom-media relative block aspect-square shrink-0" aria-hidden="true">
+                                                <img src="../assets/media/placeholder/1600x1200.svg" alt="" width="1200" height="1200" loading="lazy" decoding="async" class="size-full object-cover">
+                                            </span>
+                                            <span class="custom-ring absolute top-4 right-4 z-1" style="--score: 91"><span class="sr-only">Score </span>9.1</span>
+                                            <span class="flex flex-col flex-1 p-6">
+                                                <span class="custom-kicker">Review <span aria-hidden="true">·</span> Phones</span>
+                                                <span class="custom-card-title mt-3 font-heading text-[1.375rem] font-semibold leading-[1.15] tracking-[-0.025em]">Orra 9 Pro</span>
+                                                <span class="mt-2 text-base leading-snug text-soft">The camera finally matches the hype, and the battery lasts two days.</span>
+                                                <span class="mt-auto pt-5 flex items-center justify-between gap-3 text-[0.9375rem]">
+                                                    <span class="text-muted">From <strong class="font-semibold text-white tabular-nums">$999</strong></span>
+                                                    <span class="custom-arrow" aria-hidden="true"><i class="ph ph-arrow-up-right"></i></span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </article>
+                                </div>
+                                <div class="swiper-slide h-auto"><!-- Tech & Reviews review card - product photo with the score ring, category, name, verdict, price. Params: rcHref, rcImg, rcCat, rcName, rcScore (0–100, draws the ring), rcValue (the printed score), rcVerdict, rcPrice -->
+                                    <article class="custom-card h-full" data-anim="fade-up">
+                                        <a href="demo-tech-blog-1-review.html" class="custom-tile-link flex flex-col h-full text-white no-underline">
+                                            <span class="custom-media relative block aspect-square shrink-0" aria-hidden="true">
+                                                <img src="../assets/media/placeholder/960x960.svg" alt="" width="1200" height="1200" loading="lazy" decoding="async" class="size-full object-cover">
+                                            </span>
+                                            <span class="custom-ring absolute top-4 right-4 z-1" style="--score: 90"><span class="sr-only">Score </span>9.0</span>
+                                            <span class="flex flex-col flex-1 p-6">
+                                                <span class="custom-kicker">Review <span aria-hidden="true">·</span> Audio</span>
+                                                <span class="custom-card-title mt-3 font-heading text-[1.375rem] font-semibold leading-[1.15] tracking-[-0.025em]">Corvo Studio ANC</span>
+                                                <span class="mt-2 text-base leading-snug text-soft">Silence that never presses, on a twelve-hour flight.</span>
+                                                <span class="mt-auto pt-5 flex items-center justify-between gap-3 text-[0.9375rem]">
+                                                    <span class="text-muted">From <strong class="font-semibold text-white tabular-nums">$349</strong></span>
+                                                    <span class="custom-arrow" aria-hidden="true"><i class="ph ph-arrow-up-right"></i></span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </article>
+                                </div>
+                                <div class="swiper-slide h-auto"><!-- Tech & Reviews review card - product photo with the score ring, category, name, verdict, price. Params: rcHref, rcImg, rcCat, rcName, rcScore (0–100, draws the ring), rcValue (the printed score), rcVerdict, rcPrice -->
+                                    <article class="custom-card h-full" data-anim="fade-up">
+                                        <a href="demo-tech-blog-1-review.html" class="custom-tile-link flex flex-col h-full text-white no-underline">
+                                            <span class="custom-media relative block aspect-square shrink-0" aria-hidden="true">
+                                                <img src="../assets/media/placeholder/960x960.svg" alt="" width="1200" height="1200" loading="lazy" decoding="async" class="size-full object-cover">
+                                            </span>
+                                            <span class="custom-ring absolute top-4 right-4 z-1" style="--score: 90"><span class="sr-only">Score </span>9.0</span>
+                                            <span class="flex flex-col flex-1 p-6">
+                                                <span class="custom-kicker">Review <span aria-hidden="true">·</span> Laptops</span>
+                                                <span class="custom-card-title mt-3 font-heading text-[1.375rem] font-semibold leading-[1.15] tracking-[-0.025em]">Aurel Book 14</span>
+                                                <span class="mt-2 text-base leading-snug text-soft">The thin laptop that stays cool and silent under load.</span>
+                                                <span class="mt-auto pt-5 flex items-center justify-between gap-3 text-[0.9375rem]">
+                                                    <span class="text-muted">From <strong class="font-semibold text-white tabular-nums">$1,399</strong></span>
+                                                    <span class="custom-arrow" aria-hidden="true"><i class="ph ph-arrow-up-right"></i></span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </article>
+                                </div>
+                                <div class="swiper-slide h-auto"><!-- Tech & Reviews review card - product photo with the score ring, category, name, verdict, price. Params: rcHref, rcImg, rcCat, rcName, rcScore (0–100, draws the ring), rcValue (the printed score), rcVerdict, rcPrice -->
+                                    <article class="custom-card h-full" data-anim="fade-up">
+                                        <a href="demo-tech-blog-1-review.html" class="custom-tile-link flex flex-col h-full text-white no-underline">
+                                            <span class="custom-media relative block aspect-square shrink-0" aria-hidden="true">
+                                                <img src="../assets/media/placeholder/1200x1200.svg" alt="" width="1200" height="1200" loading="lazy" decoding="async" class="size-full object-cover">
+                                            </span>
+                                            <span class="custom-ring absolute top-4 right-4 z-1" style="--score: 88"><span class="sr-only">Score </span>8.8</span>
+                                            <span class="flex flex-col flex-1 p-6">
+                                                <span class="custom-kicker">Review <span aria-hidden="true">·</span> Smart Home</span>
+                                                <span class="custom-card-title mt-3 font-heading text-[1.375rem] font-semibold leading-[1.15] tracking-[-0.025em]">Ondo Hub Max</span>
+                                                <span class="mt-2 text-base leading-snug text-soft">One hub for every protocol, and a screen you'll actually use.</span>
+                                                <span class="mt-auto pt-5 flex items-center justify-between gap-3 text-[0.9375rem]">
+                                                    <span class="text-muted">From <strong class="font-semibold text-white tabular-nums">$229</strong></span>
+                                                    <span class="custom-arrow" aria-hidden="true"><i class="ph ph-arrow-up-right"></i></span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </article>
+                                </div>
+                                <div class="swiper-slide h-auto"><!-- Tech & Reviews review card - product photo with the score ring, category, name, verdict, price. Params: rcHref, rcImg, rcCat, rcName, rcScore (0–100, draws the ring), rcValue (the printed score), rcVerdict, rcPrice -->
+                                    <article class="custom-card h-full" data-anim="fade-up">
+                                        <a href="demo-tech-blog-1-review.html" class="custom-tile-link flex flex-col h-full text-white no-underline">
+                                            <span class="custom-media relative block aspect-square shrink-0" aria-hidden="true">
+                                                <img src="../assets/media/placeholder/1600x1200.svg" alt="" width="1200" height="1200" loading="lazy" decoding="async" class="size-full object-cover">
+                                            </span>
+                                            <span class="custom-ring absolute top-4 right-4 z-1" style="--score: 86"><span class="sr-only">Score </span>8.6</span>
+                                            <span class="flex flex-col flex-1 p-6">
+                                                <span class="custom-kicker">Review <span aria-hidden="true">·</span> Tablets</span>
+                                                <span class="custom-card-title mt-3 font-heading text-[1.375rem] font-semibold leading-[1.15] tracking-[-0.025em]">Arca Tab 11</span>
+                                                <span class="mt-2 text-base leading-snug text-soft">A real laptop stand-in, if you can live with the keyboard.</span>
+                                                <span class="mt-auto pt-5 flex items-center justify-between gap-3 text-[0.9375rem]">
+                                                    <span class="text-muted">From <strong class="font-semibold text-white tabular-nums">$649</strong></span>
+                                                    <span class="custom-arrow" aria-hidden="true"><i class="ph ph-arrow-up-right"></i></span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </article>
+                                </div>
+                                <div class="swiper-slide h-auto"><!-- Tech & Reviews review card - product photo with the score ring, category, name, verdict, price. Params: rcHref, rcImg, rcCat, rcName, rcScore (0–100, draws the ring), rcValue (the printed score), rcVerdict, rcPrice -->
+                                    <article class="custom-card h-full" data-anim="fade-up">
+                                        <a href="demo-tech-blog-1-review.html" class="custom-tile-link flex flex-col h-full text-white no-underline">
+                                            <span class="custom-media relative block aspect-square shrink-0" aria-hidden="true">
+                                                <img src="../assets/media/placeholder/1200x1200.svg" alt="" width="1200" height="1200" loading="lazy" decoding="async" class="size-full object-cover">
+                                            </span>
+                                            <span class="custom-ring absolute top-4 right-4 z-1" style="--score: 84"><span class="sr-only">Score </span>8.4</span>
+                                            <span class="flex flex-col flex-1 p-6">
+                                                <span class="custom-kicker">Review <span aria-hidden="true">·</span> Wearables</span>
+                                                <span class="custom-card-title mt-3 font-heading text-[1.375rem] font-semibold leading-[1.15] tracking-[-0.025em]">Tempo Watch 3</span>
+                                                <span class="mt-2 text-base leading-snug text-soft">Five-day battery, a dial you'd wear without the tech.</span>
+                                                <span class="mt-auto pt-5 flex items-center justify-between gap-3 text-[0.9375rem]">
+                                                    <span class="text-muted">From <strong class="font-semibold text-white tabular-nums">$399</strong></span>
+                                                    <span class="custom-arrow" aria-hidden="true"><i class="ph ph-arrow-up-right"></i></span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </article>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HOW WE TEST - the violet band: the promise and four counters. Edit: the title, the line, each number (data-counter) and its label -->
+            <section id="sg1-method" class="pb-(--section-space)" aria-labelledby="sg1-method-title">
+                <div class="container">
+                    <div class="custom-band relative isolate overflow-hidden grid gap-12 lg:grid-cols-12 lg:gap-16 items-end p-[clamp(1.75rem,1rem+3vw,4.5rem)]">
+                        <div class="lg:col-span-5">
+                            <p class="eyebrow m-0 text-white/80" data-anim="fade-up">How We Test</p>
+                            <h2 id="sg1-method-title" class="mt-5 mb-0 text-white text-[clamp(2.25rem,1.2rem+3vw,4rem)] font-bold leading-[1.02] tracking-[-0.045em] text-balance" data-anim="fade-up" data-anim-delay="80">Every score is earned on the bench, then in a bag.</h2>
+                            <p class="mt-5 mb-0 max-w-[30rem] text-lg leading-relaxed text-white/80" data-anim="fade-up" data-anim-delay="140">Lab numbers first, then three weeks of real life. A device doesn't get a score until two of us have lived with it.</p>
+                            <a href="demo-tech-blog-1-about.html#method" class="btn btn-white mt-8" data-anim="fade-up" data-anim-delay="200">Read Our Method</a>
+                        </div>
+                        <dl class="custom-stats lg:col-span-7 m-0 grid grid-cols-2" data-anim-stagger="90">
+                            <div data-anim="fade-up">
+                                <dt>Devices tested since 2019</dt>
+                                <dd><span data-counter="1240" data-suffix="">1,240</span></dd>
+                            </div>
+                            <div data-anim="fade-up">
+                                <dt>Days of use before a verdict</dt>
+                                <dd><span data-counter="21">21</span></dd>
+                            </div>
+                            <div data-anim="fade-up">
+                                <dt>Sponsored reviews, ever</dt>
+                                <dd><span>0</span></dd>
+                            </div>
+                            <div data-anim="fade-up">
+                                <dt>Test rigs in our Portland lab</dt>
+                                <dd><span data-counter="34">34</span></dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CAMERA TEST - before/after slider: last year's phone against this year's, same street, same second. Edit: the copy, the three results, both images (alt), the labels -->
+            <section id="sg1-compare" class="pb-(--section-space)" aria-labelledby="sg1-compare-title">
+                <div class="container">
+                    <div class="grid gap-12 lg:grid-cols-12 lg:gap-16 items-center">
+                        <div class="lg:col-span-4">
+                            <p class="custom-kicker m-0" data-anim="fade-up">Camera Test · Night Mode</p>
+                            <h2 id="sg1-compare-title" class="custom-sec-title" data-anim="fade-up" data-anim-delay="60">Same street, same second, one year apart</h2>
+                            <p class="mt-5 mb-0 text-lg leading-relaxed text-soft" data-anim="fade-up" data-anim-delay="120">We mounted last year's Orra 8 Pro and the new 9 Pro side by side on one rig in Lisbon's old town. Drag the handle to see what a bigger sensor buys you at 10 pm.</p>
+                            <dl class="custom-specs mt-8 mb-0" data-anim="fade-up" data-anim-delay="180">
+                                <div>
+                                    <dt>Shadow noise</dt>
+                                    <dd>−42%</dd>
+                                </div>
+                                <div>
+                                    <dt>Exposure time</dt>
+                                    <dd>1/3 s → 1/8 s</dd>
+                                </div>
+                                <div>
+                                    <dt>Sensor size</dt>
+                                    <dd>1/1.3″ → 1″</dd>
+                                </div>
+                            </dl>
+                        </div>
+                        <div class="lg:col-span-8" data-anim="fade-up">
+                            <div class="before-after custom-compare" data-before-after data-ba-start="50">
+                                <img class="ba-before" src="../assets/media/placeholder/1600x1200.svg" alt="A rainy old-town lane at night shot on the Orra 8 Pro: muddy shadows and grain" width="1600" height="1200" loading="lazy">
+                                <img class="ba-after" src="../assets/media/placeholder/1600x1200.svg" alt="The same lane shot on the Orra 9 Pro: clean shadows, crisp shop windows and reflections" width="1600" height="1200" loading="lazy">
+                                <span class="ba-label ba-label--before">Orra 8 Pro</span>
+                                <span class="ba-label ba-label--after">Orra 9 Pro</span>
+                                <button class="ba-handle" type="button" role="slider" aria-label="Drag to compare the Orra 8 Pro and the Orra 9 Pro" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" tabindex="0">
+                                    <i class="ph ph-arrows-left-right" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BUYING GUIDES - tabs per category: the guide on the left, its top three picks on the right. Edit: the tabs, each guide (link, image, title, line, byline), each pick (rank, award, name, price, score) -->
+            <section id="sg1-guides" class="pb-(--section-space)" aria-labelledby="sg1-guides-title">
+                <div class="container">
+                    <div class="tabs tabs-pills custom-tabs" x-data="{ tab: 'phones' }">
+                        <div class="custom-sec-head">
+                            <div>
+                                <p class="custom-kicker m-0" data-anim="fade-up">Buying Guides</p>
+                                <h2 id="sg1-guides-title" class="custom-sec-title" data-anim="fade-up" data-anim-delay="60">What to buy, updated every month</h2>
+                            </div>
+                            <div class="tabs-nav min-w-0 overflow-x-auto" role="tablist" aria-label="Guide categories" data-lenis-prevent-touch data-anim="fade-up">
+                                <button class="tab-btn" :class="{ 'is-active': tab === 'phones' }" @click="tab = 'phones'" role="tab" :aria-selected="tab === 'phones'">Phones</button>
+                                <button class="tab-btn" :class="{ 'is-active': tab === 'laptops' }" @click="tab = 'laptops'" role="tab" :aria-selected="tab === 'laptops'">Laptops</button>
+                                <button class="tab-btn" :class="{ 'is-active': tab === 'audio' }" @click="tab = 'audio'" role="tab" :aria-selected="tab === 'audio'">Audio</button>
+                                <button class="tab-btn" :class="{ 'is-active': tab === 'home' }" @click="tab = 'home'" role="tab" :aria-selected="tab === 'home'">Smart Home</button>
+                            </div>
+                        </div>
+                        <div class="tabs-panels">
+
+                            <div class="tabs-panel is-active" :class="{ 'is-active': tab === 'phones' }" role="tabpanel">
+                                <div class="custom-guide">
+                                    <a href="demo-tech-blog-1-guides.html" class="custom-guide-lead custom-tile-link text-white no-underline">
+                                        <span class="custom-media absolute inset-0 -z-1" aria-hidden="true"><img src="../assets/media/placeholder/1800x1200.svg" alt="" width="1600" height="1067" loading="lazy" decoding="async" class="size-full object-cover"></span>
+                                        <span class="custom-kicker text-white!">Updated October 2027</span>
+                                        <span class="custom-guide-title">The best phones of 2027</span>
+                                        <span class="mt-2 text-base text-white/75">Eleven flagships, 4,000 test photos, three we'd buy.</span>
+                                    </a>
+                                    <ol class="custom-picks" role="list">
+                                        <li><a href="demo-tech-blog-1-review.html"><span class="custom-pick-no">1</span><span><span class="custom-award">Best Overall</span><b>Orra 9 Pro</b><span class="custom-meta">From $999</span></span><span class="custom-pill-score">9.1</span></a></li>
+                                        <li><a href="demo-tech-blog-1-review.html"><span class="custom-pick-no">2</span><span><span class="custom-award">Best Value</span><b>Brisa A5</b><span class="custom-meta">From $449</span></span><span class="custom-pill-score">8.4</span></a></li>
+                                        <li><a href="demo-tech-blog-1-review.html"><span class="custom-pick-no">3</span><span><span class="custom-award">Best Foldable</span><b>Fennix Fold 3</b><span class="custom-meta">From $1,599</span></span><span class="custom-pill-score">7.9</span></a></li>
+                                    </ol>
+                                </div>
+                            </div>
+
+                            <div class="tabs-panel" :class="{ 'is-active': tab === 'laptops' }" role="tabpanel">
+                                <div class="custom-guide">
+                                    <a href="demo-tech-blog-1-guides.html" class="custom-guide-lead custom-tile-link text-white no-underline">
+                                        <span class="custom-media absolute inset-0 -z-1" aria-hidden="true"><img src="../assets/media/placeholder/1600x1200.svg" alt="" width="1600" height="1200" loading="lazy" decoding="async" class="size-full object-cover"></span>
+                                        <span class="custom-kicker text-white!">Updated September 2027</span>
+                                        <span class="custom-guide-title">The best laptops for creative work</span>
+                                        <span class="mt-2 text-base text-white/75">Color-accurate screens, quiet fans, a full day away from the wall.</span>
+                                    </a>
+                                    <ol class="custom-picks" role="list">
+                                        <li><a href="demo-tech-blog-1-review.html"><span class="custom-pick-no">1</span><span><span class="custom-award">Best Overall</span><b>Aurel Book 14</b><span class="custom-meta">From $1,399</span></span><span class="custom-pill-score">9.0</span></a></li>
+                                        <li><a href="demo-tech-blog-1-review.html"><span class="custom-pick-no">2</span><span><span class="custom-award">Best for Video</span><b>Kestra Pro 16</b><span class="custom-meta">From $2,199</span></span><span class="custom-pill-score">8.7</span></a></li>
+                                        <li><a href="demo-tech-blog-1-review.html"><span class="custom-pick-no">3</span><span><span class="custom-award">Best for Students</span><b>Mira X Air</b><span class="custom-meta">From $799</span></span><span class="custom-pill-score">8.2</span></a></li>
+                                    </ol>
+                                </div>
+                            </div>
+
+                            <div class="tabs-panel" :class="{ 'is-active': tab === 'audio' }" role="tabpanel">
+                                <div class="custom-guide">
+                                    <a href="demo-tech-blog-1-guides.html" class="custom-guide-lead custom-tile-link text-white no-underline">
+                                        <span class="custom-media absolute inset-0 -z-1" aria-hidden="true"><img src="../assets/media/placeholder/960x960.svg" alt="" width="960" height="960" loading="lazy" decoding="async" class="size-full object-cover"></span>
+                                        <span class="custom-kicker text-white!">Updated October 2027</span>
+                                        <span class="custom-guide-title">The best noise-cancelling headphones</span>
+                                        <span class="mt-2 text-base text-white/75">Tested on 40 hours of flights, trains and open-plan offices.</span>
+                                    </a>
+                                    <ol class="custom-picks" role="list">
+                                        <li><a href="demo-tech-blog-1-review.html"><span class="custom-pick-no">1</span><span><span class="custom-award">Best Overall</span><b>Corvo Studio ANC</b><span class="custom-meta">From $349</span></span><span class="custom-pill-score">9.0</span></a></li>
+                                        <li><a href="demo-tech-blog-1-review.html"><span class="custom-pick-no">2</span><span><span class="custom-award">Best Earbuds</span><b>Lyra Buds Pro</b><span class="custom-meta">From $179</span></span><span class="custom-pill-score">8.6</span></a></li>
+                                        <li><a href="demo-tech-blog-1-review.html"><span class="custom-pick-no">3</span><span><span class="custom-award">Best Speaker</span><b>Ondo Home Mini</b><span class="custom-meta">From $99</span></span><span class="custom-pill-score">8.3</span></a></li>
+                                    </ol>
+                                </div>
+                            </div>
+
+                            <div class="tabs-panel" :class="{ 'is-active': tab === 'home' }" role="tabpanel">
+                                <div class="custom-guide">
+                                    <a href="demo-tech-blog-1-guides.html" class="custom-guide-lead custom-tile-link text-white no-underline">
+                                        <span class="custom-media absolute inset-0 -z-1" aria-hidden="true"><img src="../assets/media/placeholder/1600x1200.svg" alt="" width="1600" height="1200" loading="lazy" decoding="async" class="size-full object-cover"></span>
+                                        <span class="custom-kicker text-white!">Updated August 2027</span>
+                                        <span class="custom-guide-title">The smart home starter kit</span>
+                                        <span class="mt-2 text-base text-white/75">Five devices that set up in an evening and never need a reboot.</span>
+                                    </a>
+                                    <ol class="custom-picks" role="list">
+                                        <li><a href="demo-tech-blog-1-review.html"><span class="custom-pick-no">1</span><span><span class="custom-award">Best Hub</span><b>Ondo Hub Max</b><span class="custom-meta">From $229</span></span><span class="custom-pill-score">8.8</span></a></li>
+                                        <li><a href="demo-tech-blog-1-review.html"><span class="custom-pick-no">2</span><span><span class="custom-award">Best Camera</span><b>Halo Cam 2</b><span class="custom-meta">From $129</span></span><span class="custom-pill-score">8.5</span></a></li>
+                                        <li><a href="demo-tech-blog-1-review.html"><span class="custom-pick-no">3</span><span><span class="custom-award">Best Robot Vacuum</span><b>Drift R8</b><span class="custom-meta">From $549</span></span><span class="custom-pill-score">8.0</span></a></li>
+                                    </ol>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIDEO - the week's film in a wide frame (lightbox), three more beside it. Edit: the film link (href), poster, title, length; each short's link, image, title, length -->
+            <section id="sg1-video" class="pb-(--section-space)" aria-labelledby="sg1-video-title">
+                <div class="container">
+                    <div class="grid gap-5 lg:grid-cols-12">
+                        <div class="custom-film relative isolate overflow-hidden lg:col-span-8 min-h-[26rem] md:min-h-[34rem] flex flex-col justify-end p-[clamp(1.5rem,1rem+1.6vw,2.75rem)]" data-anim="fade-up">
+                            <span class="custom-media absolute inset-0 -z-1" aria-hidden="true"><img src="../assets/media/placeholder/2400x1350.svg" alt="" width="2400" height="1350" loading="lazy" decoding="async" class="size-full object-cover"></span>
+                            <a href="#" class="custom-play glightbox" data-gallery="sg1-film" data-glightbox="type: video" aria-label="Play the film: 4,000 photos on the Orra 9 Pro, 14 minutes"><i class="ph-fill ph-play" aria-hidden="true"></i></a>
+                            <p class="custom-kicker m-0 text-white!">Video Review · 14:32</p>
+                            <h2 id="sg1-video-title" class="mt-3 mb-0 max-w-[18em] text-white text-[clamp(1.75rem,1.1rem+1.8vw,2.75rem)] font-bold leading-[1.05] tracking-[-0.04em] text-balance">We shot 4,000 photos on the Orra 9 Pro. Here are the 12 that matter.</h2>
+                        </div>
+                        <div class="lg:col-span-4 grid gap-5 content-start">
+                            <p class="custom-kicker m-0 lg:mt-1" data-anim="fade-up">More To Watch</p>
+                            <a href="demo-tech-blog-1-review.html" class="custom-short group" data-anim="fade-up"><span class="custom-media" aria-hidden="true"><img src="../assets/media/placeholder/1600x1200.svg" alt="" width="1200" height="900" loading="lazy" class="size-full object-cover"><span class="custom-dur">9:14</span></span><span><span class="custom-short-title">Pocket Deck review: a PC that fits a coat pocket</span><span class="custom-meta mt-1.5">Hands-On</span></span></a>
+                            <a href="demo-tech-blog-1-guides.html" class="custom-short group" data-anim="fade-up" data-anim-delay="80"><span class="custom-media" aria-hidden="true"><img src="../assets/media/placeholder/2400x1350.svg" alt="" width="1600" height="900" loading="lazy" class="size-full object-cover"><span class="custom-dur">12:40</span></span><span><span class="custom-short-title">Desk setup under $1,000 that doesn't look it</span><span class="custom-meta mt-1.5">Guide</span></span></a>
+                            <a href="demo-tech-blog-1-review.html" class="custom-short group" data-anim="fade-up" data-anim-delay="160"><span class="custom-media" aria-hidden="true"><img src="../assets/media/placeholder/1200x1200.svg" alt="" width="1200" height="1200" loading="lazy" class="size-full object-cover"><span class="custom-dur">7:05</span></span><span><span class="custom-short-title">Eleven earbuds, one subway ride, three winners</span><span class="custom-meta mt-1.5">Roundup</span></span></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DEALS - four prices we've checked against their history. Edit: each card's params -->
+            <section id="sg1-deals" class="pb-(--section-space)" aria-labelledby="sg1-deals-title">
+                <div class="container">
+                    <div class="custom-sec-head">
+                        <div>
+                            <p class="custom-kicker m-0" data-anim="fade-up"><span class="custom-live" aria-hidden="true"></span>Prices checked this morning</p>
+                            <h2 id="sg1-deals-title" class="custom-sec-title" data-anim="fade-up" data-anim-delay="60">Deals we would actually buy</h2>
+                        </div>
+                        <a href="demo-tech-blog-1-deals.html" class="btn btn-outline-light btn-sm" data-anim="fade-up">All Deals <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                    </div>
+                    <div class="custom-rail grid gap-4 sm:grid-cols-2 xl:grid-cols-4" data-anim-stagger="80" data-lenis-prevent-touch>
+                        <!-- Tech & Reviews deal card - product photo, discount, name, price against the old one, store, our note. Params: dcHref, dcImg, dcOff, dcName, dcPrice, dcWas, dcStore, dcNote -->
+                        <article class="custom-card h-full" data-anim="fade-up">
+                            <a href="demo-tech-blog-1-deals.html" class="custom-tile-link flex flex-col h-full text-white no-underline">
+                                <span class="custom-media relative block aspect-[4/3] shrink-0" aria-hidden="true">
+                                    <img src="../assets/media/placeholder/1200x1200.svg" alt="" width="1200" height="900" loading="lazy" decoding="async" class="size-full object-cover">
+                                </span>
+                                <span class="custom-off absolute top-4 left-4 z-1">−28%</span>
+                                <span class="flex flex-col flex-1 p-6">
+                                    <span class="custom-card-title font-heading text-[1.25rem] font-semibold leading-[1.2] tracking-[-0.02em]">Lyra Buds Pro</span>
+                                    <span class="mt-3 flex items-baseline gap-2.5">
+                                        <span class="font-heading text-[1.875rem] font-bold leading-none tracking-[-0.04em] tabular-nums text-accent">$129</span>
+                                        <s class="custom-meta tabular-nums"><span class="sr-only">was </span>$179</s>
+                                    </span>
+                                    <span class="mt-3 text-base leading-snug text-soft">Lowest price we've tracked, and our top earbuds pick.</span>
+                                    <span class="mt-auto pt-5 flex items-center justify-between gap-3 border-t border-(--custom-hairline) text-[0.9375rem] text-muted"><span class="pt-4">At Northline</span><span class="pt-4 font-semibold text-white">See Deal <i class="ph ph-arrow-up-right" aria-hidden="true"></i></span></span>
+                                </span>
+                            </a>
+                        </article>
+                        <!-- Tech & Reviews deal card - product photo, discount, name, price against the old one, store, our note. Params: dcHref, dcImg, dcOff, dcName, dcPrice, dcWas, dcStore, dcNote -->
+                        <article class="custom-card h-full" data-anim="fade-up">
+                            <a href="demo-tech-blog-1-deals.html" class="custom-tile-link flex flex-col h-full text-white no-underline">
+                                <span class="custom-media relative block aspect-[4/3] shrink-0" aria-hidden="true">
+                                    <img src="../assets/media/placeholder/1200x1200.svg" alt="" width="1200" height="900" loading="lazy" decoding="async" class="size-full object-cover">
+                                </span>
+                                <span class="custom-off absolute top-4 left-4 z-1">−30%</span>
+                                <span class="flex flex-col flex-1 p-6">
+                                    <span class="custom-card-title font-heading text-[1.25rem] font-semibold leading-[1.2] tracking-[-0.02em]">Ondo Home Mini</span>
+                                    <span class="mt-3 flex items-baseline gap-2.5">
+                                        <span class="font-heading text-[1.875rem] font-bold leading-none tracking-[-0.04em] tabular-nums text-accent">$69</span>
+                                        <s class="custom-meta tabular-nums"><span class="sr-only">was </span>$99</s>
+                                    </span>
+                                    <span class="mt-3 text-base leading-snug text-soft">Buy two for stereo; still less than one rival.</span>
+                                    <span class="mt-auto pt-5 flex items-center justify-between gap-3 border-t border-(--custom-hairline) text-[0.9375rem] text-muted"><span class="pt-4">At Bayside</span><span class="pt-4 font-semibold text-white">See Deal <i class="ph ph-arrow-up-right" aria-hidden="true"></i></span></span>
+                                </span>
+                            </a>
+                        </article>
+                        <!-- Tech & Reviews deal card - product photo, discount, name, price against the old one, store, our note. Params: dcHref, dcImg, dcOff, dcName, dcPrice, dcWas, dcStore, dcNote -->
+                        <article class="custom-card h-full" data-anim="fade-up">
+                            <a href="demo-tech-blog-1-deals.html" class="custom-tile-link flex flex-col h-full text-white no-underline">
+                                <span class="custom-media relative block aspect-[4/3] shrink-0" aria-hidden="true">
+                                    <img src="../assets/media/placeholder/1600x1200.svg" alt="" width="1200" height="900" loading="lazy" decoding="async" class="size-full object-cover">
+                                </span>
+                                <span class="custom-off absolute top-4 left-4 z-1">−18%</span>
+                                <span class="flex flex-col flex-1 p-6">
+                                    <span class="custom-card-title font-heading text-[1.25rem] font-semibold leading-[1.2] tracking-[-0.02em]">Arca Tab 11 + Keyboard</span>
+                                    <span class="mt-3 flex items-baseline gap-2.5">
+                                        <span class="font-heading text-[1.875rem] font-bold leading-none tracking-[-0.04em] tabular-nums text-accent">$579</span>
+                                        <s class="custom-meta tabular-nums"><span class="sr-only">was </span>$709</s>
+                                    </span>
+                                    <span class="mt-3 text-base leading-snug text-soft">The bundle drops the keyboard to $50.</span>
+                                    <span class="mt-auto pt-5 flex items-center justify-between gap-3 border-t border-(--custom-hairline) text-[0.9375rem] text-muted"><span class="pt-4">At Northline</span><span class="pt-4 font-semibold text-white">See Deal <i class="ph ph-arrow-up-right" aria-hidden="true"></i></span></span>
+                                </span>
+                            </a>
+                        </article>
+                        <!-- Tech & Reviews deal card - product photo, discount, name, price against the old one, store, our note. Params: dcHref, dcImg, dcOff, dcName, dcPrice, dcWas, dcStore, dcNote -->
+                        <article class="custom-card h-full" data-anim="fade-up">
+                            <a href="demo-tech-blog-1-deals.html" class="custom-tile-link flex flex-col h-full text-white no-underline">
+                                <span class="custom-media relative block aspect-[4/3] shrink-0" aria-hidden="true">
+                                    <img src="../assets/media/placeholder/1200x1200.svg" alt="" width="1200" height="900" loading="lazy" decoding="async" class="size-full object-cover">
+                                </span>
+                                <span class="custom-off absolute top-4 left-4 z-1">−25%</span>
+                                <span class="flex flex-col flex-1 p-6">
+                                    <span class="custom-card-title font-heading text-[1.25rem] font-semibold leading-[1.2] tracking-[-0.02em]">Tempo Watch 3</span>
+                                    <span class="mt-3 flex items-baseline gap-2.5">
+                                        <span class="font-heading text-[1.875rem] font-bold leading-none tracking-[-0.04em] tabular-nums text-accent">$299</span>
+                                        <s class="custom-meta tabular-nums"><span class="sr-only">was </span>$399</s>
+                                    </span>
+                                    <span class="mt-3 text-base leading-snug text-soft">Matches last year's Black Friday low.</span>
+                                    <span class="mt-auto pt-5 flex items-center justify-between gap-3 border-t border-(--custom-hairline) text-[0.9375rem] text-muted"><span class="pt-4">At Corner Tech</span><span class="pt-4 font-semibold text-white">See Deal <i class="ph ph-arrow-up-right" aria-hidden="true"></i></span></span>
+                                </span>
+                            </a>
+                        </article>
+                    </div>
+                    <p class="mt-6 mb-0 text-base text-muted" data-anim="fade">We earn a small commission when you buy through these links. It never changes a score. <a href="demo-tech-blog-1-about.html#ethics" class="text-white underline underline-offset-2 hover:text-primary-300">How affiliates work here</a></p>
+                </div>
+            </section>
+
+            <!-- PODCAST - the latest episode with a player strip, the studio photo, earlier episodes. Edit: episode number, title, line, length, the listen links, earlier episodes -->
+            <section id="sg1-podcast" class="custom-podcast py-(--section-space)" aria-labelledby="sg1-podcast-title">
+                <div class="container">
+                    <div class="grid gap-12 lg:grid-cols-12 lg:gap-16 items-center">
+                        <div class="lg:col-span-6" data-anim="fade-up">
+                            <img src="../assets/media/placeholder/2400x1350.svg" alt="Nell Arkwright and Juno Marsh laughing at the microphones in the Draftmango Signal studio" width="1600" height="900" loading="lazy" decoding="async" class="aspect-[4/3] w-full rounded-(--radius-xl) object-cover">
+                        </div>
+                        <div class="lg:col-span-6">
+                            <p class="custom-kicker m-0" data-anim="fade-up">The Signal Podcast · Episode 142</p>
+                            <h2 id="sg1-podcast-title" class="custom-sec-title" data-anim="fade-up" data-anim-delay="60">Is the phone camera war finally over?</h2>
+                            <p class="mt-5 mb-0 max-w-[34rem] text-lg leading-relaxed text-soft" data-anim="fade-up" data-anim-delay="120">Nell and Juno argue about one-inch sensors, the AI that edits your sky, and why nobody prints photos anymore. With a guest from the Lisbon camera test.</p>
+                            <div class="custom-player mt-8" data-anim="fade-up" data-anim-delay="180">
+                                <a href="demo-tech-blog-1-podcast.html" class="custom-player-btn" aria-label="Listen to episode 142"><i class="ph-fill ph-play" aria-hidden="true"></i></a>
+                                <span class="custom-wave" aria-hidden="true"></span>
+                                <span class="text-[0.9375rem] tabular-nums text-muted shrink-0">48:12</span>
+                            </div>
+                            <div class="flex flex-wrap gap-2.5 mt-6" data-anim="fade-up" data-anim-delay="220">
+                                <a href="#" class="custom-topic"><i class="ph ph-spotify-logo mr-2" aria-hidden="true"></i>Spotify</a>
+                                <a href="#" class="custom-topic"><i class="ph ph-youtube-logo mr-2" aria-hidden="true"></i>YouTube</a>
+                                <a href="#" class="custom-topic"><i class="ph ph-rss mr-2" aria-hidden="true"></i>RSS</a>
+                            </div>
+                            <ul class="custom-episodes mt-9 m-0 p-0 list-none" role="list" data-anim="fade-up" data-anim-delay="260">
+                                <li><a href="demo-tech-blog-1-podcast.html"><span class="custom-meta tabular-nums">141</span><span>The laptop that ran for 26 hours</span><span class="custom-meta tabular-nums">52:40</span></a></li>
+                                <li><a href="demo-tech-blog-1-podcast.html"><span class="custom-meta tabular-nums">140</span><span>Smart homes that forgot how to be dumb</span><span class="custom-meta tabular-nums">44:05</span></a></li>
+                                <li><a href="demo-tech-blog-1-podcast.html"><span class="custom-meta tabular-nums">139</span><span>Two nanometers, explained without a slide</span><span class="custom-meta tabular-nums">39:58</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- THE DESK - the lab photo, the people behind the scores. Edit: the photo, the quote, each person (avatar, name, beat, link) -->
+            <section id="sg1-desk" class="py-(--section-space)" aria-labelledby="sg1-desk-title">
+                <div class="container">
+                    <div class="custom-sec-head">
+                        <div>
+                            <p class="custom-kicker m-0" data-anim="fade-up">The Desk</p>
+                            <h2 id="sg1-desk-title" class="custom-sec-title max-w-[18em]" data-anim="fade-up" data-anim-delay="60">Six reviewers, one lab, no press releases</h2>
+                        </div>
+                        <a href="demo-tech-blog-1-about.html" class="btn btn-outline-light btn-sm" data-anim="fade-up">About Draftmango Signal <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                    </div>
+                    <div class="grid gap-5 lg:grid-cols-12">
+                        <figure class="relative lg:col-span-7 m-0" data-anim="fade-up">
+                            <img src="../assets/media/placeholder/2400x1350.svg" alt="Two reviewers calibrating a laptop screen and metering a phone on the test bench in the Portland lab" width="2400" height="1350" loading="lazy" decoding="async" class="aspect-[16/10] lg:aspect-auto lg:h-full w-full rounded-(--radius-lg) object-cover">
+                            <figcaption class="custom-caption absolute left-4 bottom-4">Our Portland lab · 34 test rigs</figcaption>
+                        </figure>
+                        <div class="lg:col-span-5 grid sm:grid-cols-2 gap-3" data-anim-stagger="60">
+                            <a href="demo-tech-blog-1-author.html" class="custom-person" data-anim="fade-up"><img src="../assets/media/placeholder/160x160.svg" alt="" width="120" height="120" loading="lazy" class="custom-avatar"><span><b>Pia Lorne</b><span>Editor-in-Chief</span></span></a>
+                            <a href="demo-tech-blog-1-author.html" class="custom-person" data-anim="fade-up"><img src="../assets/media/placeholder/160x160.svg" alt="" width="120" height="120" loading="lazy" class="custom-avatar"><span><b>Elio Brecken</b><span>Reviews, Phones</span></span></a>
+                            <a href="demo-tech-blog-1-author.html" class="custom-person" data-anim="fade-up"><img src="../assets/media/placeholder/160x160.svg" alt="" width="120" height="120" loading="lazy" class="custom-avatar"><span><b>Sanna Callen</b><span>News, Chips &amp; AI</span></span></a>
+                            <a href="demo-tech-blog-1-author.html" class="custom-person" data-anim="fade-up"><img src="../assets/media/placeholder/160x160.svg" alt="" width="120" height="120" loading="lazy" class="custom-avatar"><span><b>Ivo Hask</b><span>Laptops &amp; Guides</span></span></a>
+                            <a href="demo-tech-blog-1-author.html" class="custom-person" data-anim="fade-up"><img src="../assets/media/placeholder/160x160.svg" alt="" width="120" height="120" loading="lazy" class="custom-avatar"><span><b>Talia Ormond</b><span>Audio, Smart Home</span></span></a>
+                            <a href="demo-tech-blog-1-author.html" class="custom-person" data-anim="fade-up"><img src="../assets/media/placeholder/160x160.svg" alt="" width="120" height="120" loading="lazy" class="custom-avatar"><span><b>Oskar Venn</b><span>Deals</span></span></a>
+                            <blockquote class="custom-quote sm:col-span-2 m-0 mt-2 p-7" data-anim="fade-up">
+                                <p class="m-0 font-heading text-[1.25rem] font-medium leading-[1.4] tracking-[-0.015em] text-white">"If we wouldn't tell a friend to buy it, it doesn't get a 9. That's the whole rulebook."</p>
+                                <footer class="mt-4 text-base text-muted">Pia Lorne, Editor-in-Chief</footer>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tech & Reviews newsletter band - the violet panel: the pitch, the form, the readers, what each issue holds. Params: nlId (unique per page, e.g. "home") ; Edit: the title, the line, the counts, the issue list -->
+            <section id="newsletter" class="pb-(--section-space)" aria-labelledby="sg1-nl-home-title">
+                <div class="container">
+                    <div class="custom-signal relative isolate overflow-hidden grid gap-12 lg:grid-cols-12 lg:gap-16 items-center p-[clamp(1.75rem,1rem+3vw,4.5rem)]">
+                        <div class="lg:col-span-7">
+                            <p class="eyebrow m-0 text-white/80" data-anim="fade-up">The Signal · Weekdays at 7 am</p>
+                            <h2 id="sg1-nl-home-title" class="mt-5 mb-0 max-w-[14em] text-white text-[clamp(2.25rem,1.2rem+3vw,4rem)] font-bold leading-[1.02] tracking-[-0.045em] text-balance" data-anim="fade-up" data-anim-delay="80">Five minutes of tech news that actually matters.</h2>
+                            <p class="mt-5 mb-0 max-w-[34rem] text-lg leading-relaxed text-white/80" data-anim="fade-up" data-anim-delay="140">The day's three stories, one review verdict and the deal worth your money. Written by the desk, never by a press release.</p>
+                            <form class="grid gap-3 mt-8 w-full max-w-[30rem]" x-data="formValidate()" novalidate @submit.prevent="onSubmit($event)" data-anim="fade-up" data-anim-delay="200">
+                                <label class="sr-only" for="sg1-nl-home-email">Email address</label>
+                                <div class="input-group p-[0.3125rem] rounded-pill bg-white">
+                                    <input id="sg1-nl-home-email" name="email" type="email" class="form-input form-input-pill py-2.5 pr-3 pl-5 rounded-pill bg-transparent border-0 text-(--color-dark) placeholder:text-(--color-dark)/55" placeholder="you@email.com" autocomplete="email" aria-describedby="sg1-nl-home-msg" required @blur="$event.target.value &amp;&amp; check($event.target)" @input="touched.email &amp;&amp; check($event.target)">
+                                    <button type="submit" class="btn btn-dark btn-pill py-3">Subscribe</button>
+                                </div>
+                                <p class="m-0 pl-5 text-[0.9375rem] text-white/75 leading-[1.45]" id="sg1-nl-home-msg" aria-live="polite">
+                                    <span x-show="!errors.email &amp;&amp; !sent">Free. One click to unsubscribe.</span>
+                                    <span class="text-white font-semibold" x-show="errors.email &amp;&amp; !sent" x-text="errors.email" x-cloak></span>
+                                    <span class="text-white font-semibold" x-show="sent" x-cloak>You're in. Tomorrow's issue lands at 7 am.</span>
+                                </p>
+                            </form>
+                            <div class="flex flex-wrap items-center gap-4 mt-8" data-anim="fade-up" data-anim-delay="260">
+                                <div class="avatar-stack avatar-stack-sm [&>img]:border-(--color-primary)">
+                                    <img src="../assets/media/placeholder/160x160.svg" alt="" width="120" height="120" loading="lazy">
+                                    <img src="../assets/media/placeholder/160x160.svg" alt="" width="120" height="120" loading="lazy">
+                                    <img src="../assets/media/placeholder/160x160.svg" alt="" width="120" height="120" loading="lazy">
+                                    <img src="../assets/media/placeholder/160x160.svg" alt="" width="120" height="120" loading="lazy">
+                                </div>
+                                <p class="m-0 text-base text-white/80"><strong class="font-semibold text-white tabular-nums">214,000</strong> readers, 61% open rate</p>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-5" data-anim="fade-up" data-anim-delay="160">
+                            <ol class="custom-issue m-0 p-0 list-none" role="list" aria-label="In every issue">
+                                <li><span class="custom-issue-no">01</span><span><b>The Brief</b>Three stories, the why in two lines each.</span></li>
+                                <li><span class="custom-issue-no">02</span><span><b>The Verdict</b>One review, scored, in a paragraph.</span></li>
+                                <li><span class="custom-issue-no">03</span><span><b>The Deal</b>A price we've checked against its history.</span></li>
+                                <li><span class="custom-issue-no">04</span><span><b>The Fix</b>A setting or shortcut that saves you time.</span></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Tech & Reviews footer - the template footer-blog on the ink: brand band and the newsletter, editor's picks, most read, topics, the legal bar. Edit: the pitch, the email, the socials, the picks, the ranks, the topics and counts, the legal line -->
+        <footer class="site-footer site-footer--dark footer-blog custom-footer isolate overflow-hidden">
+
+            <div class="glow -right-40 top-32" style="--glow-size: 34rem; --glow-opacity: .3" aria-hidden="true"></div>
+
+            <div class="footer-main">
+                <div class="container">
+
+                    <!-- Brand band -->
+                    <div class="footer-blog-band">
+                        <div data-anim="fade-up">
+                            <a href="demo-tech-blog-1.html" class="brand block">
+
+                                <img class="brand-logo" src="../assets/media/logo/draftmango-logo.svg" alt="Draftmango" width="120" height="32" style="--logo-tint: url(#logo-tint-footer)">
+
+                                <svg class="brand-tint" aria-hidden="true" focusable="false">
+                                    <filter id="logo-tint-footer" color-interpolation-filters="sRGB">
+                                        <feFlood flood-color="currentColor" />
+                                        <feComposite in2="SourceAlpha" operator="in" />
+                                    </filter>
+                                </svg>
+                            </a>
+                            <p class="footer-blog-pitch">Independent reviews and the tech news that <em>matters</em>, tested before we tell you.</p>
+                            <p class="footer-detail mt-4">Tips and corrections go to the desk: <a href="mailto:desk@draftmangosignal.com">desk@draftmangosignal.com</a></p>
+                            <ul class="social-list mt-6" role="list">
+                                <li><a href="#" aria-label="YouTube" data-social="youtube" class="social-link social-link--circle social-link--outline"><i class="ph ph-youtube-logo" aria-hidden="true"></i></a></li>
+                                <li><a href="#" aria-label="X" data-social="x" class="social-link social-link--circle social-link--outline"><i class="ph ph-x-logo" aria-hidden="true"></i></a></li>
+                                <li><a href="#" aria-label="Instagram" data-social="instagram" class="social-link social-link--circle social-link--outline"><i class="ph ph-instagram-logo" aria-hidden="true"></i></a></li>
+                                <li><a href="#" aria-label="TikTok" data-social="tiktok" class="social-link social-link--circle social-link--outline"><i class="ph ph-tiktok-logo" aria-hidden="true"></i></a></li>
+                                <li><a href="#" aria-label="RSS feed" data-social="rss" class="social-link social-link--circle social-link--outline"><i class="ph ph-rss" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Newsletter -->
+                        <div data-anim="fade-up" data-anim-delay="120">
+                            <span class="footer-perk"><i class="ph-bold ph-envelope-simple" aria-hidden="true"></i>Weekdays at 7 am</span>
+                            <h3 class="footer-shop-title mt-4 text-[1.375rem]">The Signal, in your inbox</h3>
+                            <p class="footer-detail mt-3 mb-6 max-w-[44ch]">Three stories, one verdict and one deal worth your money, read by 214,000 people before their first coffee.</p>
+                            <form x-data="formValidate()" novalidate @submit.prevent="onSubmit($event)">
+                                <div class="footer-subscribe">
+                                    <input id="sg1-fb-email" name="email" type="email" placeholder="Your email address" aria-label="Email address" aria-describedby="sg1-fb-email-msg" autocomplete="email" required @blur="check($event.target)" @input="check($event.target)">
+                                    <button type="submit">Subscribe <i class="ph ph-arrow-right" aria-hidden="true"></i></button>
+                                </div>
+                                <span class="footer-subscribe-msg" id="sg1-fb-email-msg">
+                                    <span x-show="!errors.email &amp;&amp; !sent">Free, no spam, one-click unsubscribe.</span>
+                                    <span class="footer-subscribe-msg--error" x-show="errors.email" x-text="errors.email" x-cloak></span>
+                                    <span class="footer-subscribe-msg--ok" x-show="sent" x-cloak>You're in. Tomorrow's issue lands at 7 am.</span>
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-x-12 gap-y-12 md:grid-cols-2 lg:grid-cols-[1.25fr_1fr_0.8fr]">
+
+                        <!-- Editor's picks -->
+                        <section aria-labelledby="sg1-fb-picks" data-anim="fade-up">
+                            <div class="footer-blog-head">
+                                <h3 class="footer-col-title" id="sg1-fb-picks">Editor's Picks</h3>
+                            </div>
+                            <ul class="footer-posts">
+                                <li>
+                                    <a href="demo-tech-blog-1-review.html" class="footer-post group">
+                                        <span class="footer-post-thumb"><img src="../assets/media/placeholder/480x360.svg" alt="" width="480" height="360" loading="lazy" decoding="async"></span>
+                                        <span>
+                                            <span class="footer-post-topic"><span class="dot" aria-hidden="true"></span>Review · 9.1</span>
+                                            <span class="footer-post-title"><span class="hover-underline">Orra 9 Pro review: the quiet phone that gets the camera right</span></span>
+                                            <span class="footer-post-meta">Elio Brecken · 12 min read</span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="demo-tech-blog-1-article.html" class="footer-post group">
+                                        <span class="footer-post-thumb"><img src="../assets/media/placeholder/480x360.svg" alt="" width="480" height="360" loading="lazy" decoding="async"></span>
+                                        <span>
+                                            <span class="footer-post-topic"><span class="dot" aria-hidden="true"></span>Chips</span>
+                                            <span class="footer-post-title"><span class="hover-underline">Two-nanometer chips reach volume production a quarter early</span></span>
+                                            <span class="footer-post-meta">Sanna Callen · 5 min read</span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="demo-tech-blog-1-guides.html" class="footer-post group">
+                                        <span class="footer-post-thumb"><img src="../assets/media/placeholder/480x360.svg" alt="" width="480" height="360" loading="lazy" decoding="async"></span>
+                                        <span>
+                                            <span class="footer-post-topic"><span class="dot" aria-hidden="true"></span>Guide</span>
+                                            <span class="footer-post-title"><span class="hover-underline">The smart home starter kit: five devices that just work</span></span>
+                                            <span class="footer-post-meta">Talia Ormond · 10 min read</span>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </section>
+
+                        <!-- Most read -->
+                        <section aria-labelledby="sg1-fb-most-read" data-anim="fade-up" data-anim-delay="100">
+                            <div class="footer-blog-head">
+                                <h3 class="footer-col-title" id="sg1-fb-most-read">Most Read</h3>
+                                <span class="footer-post-meta mt-0">This week</span>
+                            </div>
+                            <ol class="footer-rank">
+                                <li><a href="demo-tech-blog-1-review.html" class="group"><span><span class="footer-post-title mt-0"><span class="hover-underline">We tested 11 earbuds. Three are worth it</span></span><span class="footer-post-meta">Audio · 11 min read</span></span></a></li>
+                                <li><a href="demo-tech-blog-1-article.html" class="group"><span><span class="footer-post-title mt-0"><span class="hover-underline">Why your smart home keeps dropping offline</span></span><span class="footer-post-meta">Explainer · 7 min read</span></span></a></li>
+                                <li><a href="demo-tech-blog-1-guides.html" class="group"><span><span class="footer-post-title mt-0"><span class="hover-underline">The best laptops for creative work in 2027</span></span><span class="footer-post-meta">Guide · 14 min read</span></span></a></li>
+                                <li><a href="demo-tech-blog-1-deals.html" class="group"><span><span class="footer-post-title mt-0"><span class="hover-underline">Twelve deals we would actually buy this week</span></span><span class="footer-post-meta">Deals · 4 min read</span></span></a></li>
+                            </ol>
+                        </section>
+
+                        <!-- Topics -->
+                        <nav class="footer-acc md:col-span-2 lg:col-span-1" x-data="{ open: false }" :class="open ? 'is-open' : 'is-shut'" aria-labelledby="sg1-fb-topics" data-anim="fade-up" data-anim-delay="200">
+                            <button type="button" class="footer-acc-toggle" id="sg1-fb-topics" @click="open = !open" :aria-expanded="open">Topics <i class="ph ph-plus footer-acc-caret" aria-hidden="true"></i></button>
+                            <div class="footer-acc-body">
+                                <div>
+                                    <ul class="footer-topics">
+                                        <li><a href="demo-tech-blog-1-reviews.html"><span class="dot" style="--dot: var(--color-primary)" aria-hidden="true"></span>Phones<span class="footer-topic-count">184</span></a></li>
+                                        <li><a href="demo-tech-blog-1-reviews.html"><span class="dot" style="--dot: var(--color-primary-300)" aria-hidden="true"></span>Laptops<span class="footer-topic-count">126</span></a></li>
+                                        <li><a href="demo-tech-blog-1-reviews.html"><span class="dot" style="--dot: var(--color-accent)" aria-hidden="true"></span>Audio<span class="footer-topic-count">97</span></a></li>
+                                        <li><a href="demo-tech-blog-1-guides.html"><span class="dot" style="--dot: var(--color-quaternary)" aria-hidden="true"></span>Smart Home<span class="footer-topic-count">73</span></a></li>
+                                        <li><a href="demo-tech-blog-1-news.html"><span class="dot" style="--dot: var(--footer-title)" aria-hidden="true"></span>Chips &amp; AI<span class="footer-topic-count">158</span></a></li>
+                                    </ul>
+                                    <a href="demo-tech-blog-1-news.html" class="btn btn-link btn-link-arrow mt-5 !px-0"><span class="link-arrow" aria-hidden="true"></span>All 2,140 Stories</a>
+                                </div>
+                            </div>
+                        </nav>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom bar -->
+            <div class="footer-bottom">
+                <div class="container footer-shop-bar py-7">
+                    <span>&copy; 2027 Draftmango Signal. Built by <a href="#">Okler</a>.</span>
+                    <ul class="footer-nav" role="list">
+                        <li><a href="demo-tech-blog-1-about.html#ethics">Ethics &amp; Affiliates</a></li>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Cookies</a></li>
+                        <li><a href="#">RSS</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </footer>
+
+        <!-- Back to top button -->
+        <button data-back-top aria-label="Back to top" class="back-to-top fixed bottom-8 right-8 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer border-0 text-white bg-primary shadow-token-lg z-sticky">
+            <i class="ph ph-arrow-up"></i>
+        </button>
+
+        <script defer src="../assets/js/vendor.js"></script>
+        <script defer src="../assets/js/vendor-swiper.js"></script>
+        <script defer src="../assets/js/vendor-glightbox.js"></script>
+        <script defer src="../assets/js/main.js"></script>
+    </body>
+</html>

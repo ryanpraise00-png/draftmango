@@ -1,0 +1,93 @@
+/* ================================================================
+ *  demo-accounting-1.css — Draftmango theme for the Accounting Firm demo
+ *
+ *  The colors, fonts and layout settings of the Accounting Firm demo
+ *  (a ledger green for the actions, pine for the slabs and the footer
+ *  strip, mint for quiet fills, a sage grey for meta and a lime for the
+ *  highlighter, stamps and stars, on a white ground).
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Each page also preloads this URL in its <head>
+   (the <link data-theme-fonts> line) so the fonts arrive sooner: after
+   changing it here, replace it in the pages too, or delete that line.
+   Plus Jakarta Sans (800 display, 700 titles, 500 leads) sets the
+   headings; Inter the text. */
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,500..800;1,500..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #23845a;   /* main color: green for buttons, links and focus; labels on it are white */
+    --color-secondary-base:  #0f2e24;   /* second color: the pine of the slabs and the footer strip; the dark scheme takes its hue */
+    --color-tertiary-base:   #d3f3e1;   /* third color: mint, for quiet fills */
+    --color-quaternary-base: #64746c;   /* fourth color: sage grey, for meta and small marks */
+    --color-accent-base:     #c3e86b;   /* attention color: lime, for the highlighter, stamps and stars (ink text on it) */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. */
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-text:      var(--color-secondary-base);   /* headings and body text: the pine ink (#0f2e24) */
+    --color-text-soft: oklch(from var(--color-quaternary-base) 0.4361 calc(c * 1.094) calc(h + 1.1));   /* secondary text: the pine softened (#45564e) */
+    --color-text-muted: oklch(from var(--color-tertiary-base) 0.5646 calc(c * 0.524) calc(h + 1.5));   /* meta text: the sage (#6b7a72) */
+    --color-bg:        #ffffff;   /* page background: white */
+    --color-bg-soft:   oklch(from var(--color-primary-base) 0.9725 calc(c * 0.09) calc(h - 4.9));   /* a step deeper: mint tint (#f1f8f3) */
+    --color-bg-muted:  oklch(from var(--color-primary-base) 0.9499 calc(c * 0.15) calc(h - 3.1));   /* hover fills (#e6f2ea) */
+    --color-border:    oklch(from var(--color-primary-base) 0.9248 calc(c * 0.121) calc(h - 0.1));   /* lines and borders (#dfe9e3) */
+    --color-border-soft: oklch(from var(--color-primary-base) 0.9567 calc(c * 0.097) calc(h - 1.2));   /* the faintest rules (#ebf3ee) */
+    --color-dark:      var(--color-secondary-base);   /* dark sections and dark buttons */
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;   /* headings and figures */
+    --font-serif:   'Instrument Serif', Georgia, 'Times New Roman', serif;   /* italic accents */
+    --font-tertiary: 'Urbanist', system-ui, sans-serif;   /* display accents (unused by this demo) */
+
+    /* Stylesheets of the accent fonts, fetched only on pages that use them.
+       Change a family above and its URL here together. Set one to "" to
+       load nothing, e.g. when that font is a system font. */
+    --font-serif-src:    "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap";
+    --font-tertiary-src: "https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800;900&display=swap";
+
+    /* Headings and buttons */
+    --heading-weight:     800;                   /* Plus Jakarta Sans extra bold: the range 500–800 is loaded */
+    --heading-tracking:   -0.025em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        1.5;      /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 9999px;   /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1320px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 1.2;   /* space between sections: 0.75 compact · 1 · 1.25 spacious */
+}

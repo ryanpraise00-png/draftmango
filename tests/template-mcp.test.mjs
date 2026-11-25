@@ -38,11 +38,11 @@ test('details list pages with their visible headings and the editing guide', asy
 test('project files are complete, runnable and self-contained', async () => {
   const result = await templateFiles('cafe-1', 'Ridge Roasters');
   for (const name of ['index.html', 'package.json', 'vite.config.js', 'src/main.jsx', 'src/App.jsx', 'src/styles.css']) assert.equal(typeof result.files[name], 'string', name);
-  assert.match(result.files['index.html'], /href="\/framo\/assets\/css\/app\.css"/);
+  assert.match(result.files['index.html'], /href="\/draftmango\/assets\/css\/app\.css"/);
   assert.match(result.files['index.html'], /<title>Ridge Roasters<\/title>/, 'the site name replaces the demo title');
   assert.match((await templateFiles('cafe-1', 'A & B <Co>')).files['index.html'], /<title>A &amp; B &lt;Co&gt;<\/title>/);
-  assert.ok(!Object.values(result.files).some(text => text.includes('draftmango.com/framo')), 'no file depends on the Draftmango server');
-  assert.ok(result.assetFiles['public/framo/assets/css/app.css'].length > 1_000_000, 'the main stylesheet is included');
+  assert.ok(!Object.values(result.files).some(text => text.includes('draftmango.com/draftmango')), 'no file depends on the Draftmango server');
+  assert.ok(result.assetFiles['public/draftmango/assets/css/app.css'].length > 1_000_000, 'the main stylesheet is included');
   assert.ok(!Object.keys(result.files).some(name => name.startsWith('public/')), 'vendor assets are kept apart from editable source');
   assert.ok(Object.keys(result.binaryFiles).some(name => name.endsWith('.woff2')), 'icon fonts referenced by CSS are included');
   assert.deepEqual(result.missingAssets, []);

@@ -1,4 +1,4 @@
-// Draftmango's public footer, built from the Framo SaaS Automation headline footer.
+// Draftmango's public footer, built from the Draftmango SaaS Automation headline footer.
 import {Brand} from "./SiteHeader";
 
 const news = [

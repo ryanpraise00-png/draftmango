@@ -1,0 +1,93 @@
+/* ================================================================
+ *  demo-cloud-hosting-1.css — Draftmango theme for the Cloud Hosting demo
+ *
+ *  The colors, fonts and layout settings of the Cloud Hosting demo
+ *  (Draftmango Cloud, a developer cloud).
+ *  Dark-led: the neutrals below are the ink page, graphite panels and a
+ *  cool white text, so every template part lands on the ink by itself.
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here).
+   Mona Sans sets the headings at 650 and a slightly wide 112% (the
+   demo CSS sets font-stretch); Inter the text; JetBrains Mono only the
+   real code. */
+@import url("https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,400..800&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* No dark scheme: this demo is dark by design (dark.css does not apply to it). */
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #c4f25a;   /* main color: lime for buttons, links and focus; labels on it are ink */
+    --color-secondary-base:  #0a0b0d;   /* second color: ink, the ground and the footer; the dark scheme takes its hue */
+    --color-tertiary-base:   #14161a;   /* third color: graphite, the panels on the ink */
+    --color-quaternary-base: #8a9099;   /* fourth color: ash, for meta text on the ink */
+    --color-accent-base:     #5ab8ff;   /* attention color: sky, for latency and links in code */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. */
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-text:      #f1f2f3;   /* headings and body text */
+    --color-text-soft: oklch(from var(--color-quaternary-base) 0.8064 calc(c * 0.631) h);   /* secondary text (#bcc0c6) */
+    --color-bg:        var(--color-secondary-base);   /* page background (#0a0b0d) */
+    --color-bg-soft:   var(--color-tertiary-base);   /* a step deeper (#14161a) */
+    --color-border:    oklch(from var(--color-tertiary-base) 0.2804 calc(c * 1.378) h);   /* lines and borders (#26292f) */
+    --color-dark:      var(--color-secondary-base);   /* dark sections and dark buttons (#0a0b0d) */
+
+    /* The rest of the dark-led ground (the template's defaults are light) */
+    --color-surface:     #191b20;   /* cards and menus raised above the ground */
+    --color-bg-muted:    oklch(from var(--color-quaternary-base) 0.2426 calc(c * 0.698) calc(h + 2.3));   /* a quiet fill on the panels (#1d2025) */
+    --color-border-soft: oklch(from var(--color-quaternary-base) 0.2383 calc(c * 0.702) calc(h + 2.3));   /* the faintest rule (#1c1f24) */
+    --color-text-muted:  var(--color-quaternary-base);   /* meta text (#8a9099) */
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Mona Sans', system-ui, sans-serif;   /* headings and figures */
+    --font-serif:   'Instrument Serif', Georgia, 'Times New Roman', serif;   /* italic accents */
+    --font-tertiary: 'Urbanist', system-ui, sans-serif;   /* display accents (unused so far) */
+
+    /* Stylesheets of the accent fonts, fetched only on pages that use them.
+       Change a family above and its URL here together. Set one to "" to
+       load nothing, e.g. when that font is a system font. */
+    --font-serif-src:    "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap";
+    --font-tertiary-src: "https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800;900&display=swap";
+
+    /* Headings and buttons */
+    --heading-weight:     650;                     /* Mona Sans: the range 400–800 is loaded */
+    --heading-tracking:   -0.035em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        1;       /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 0.5rem;  /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1320px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 1.2;   /* space between sections: 0.75 compact · 1 · 1.25 spacious */
+}

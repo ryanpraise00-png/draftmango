@@ -1,0 +1,86 @@
+/* ================================================================
+ *  demo-holding-1.css — Draftmango theme for the Holding Group demo
+ *
+ *  The colors, fonts and layout settings of the Holding Group demo (spec
+ *  docs/superpowers/specs/2026-10-15-demos-corporate-2-5-design.md). Its pages
+ *  load this file after the template's own CSS, so a value set here wins. Each
+ *  brand color generates its own scale of tints and shades.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Each page also preloads this URL in its <head>
+   (the <link data-theme-fonts> line) so the fonts arrive sooner: after
+   changing it here, replace it in the pages too, or delete that line.
+   Display face for headings and figures; Inter for text. */
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #d2203a;
+    --color-secondary-base:  #141519;
+    --color-tertiary-base:   #c9bfb3;
+    --color-quaternary-base: #5d6470;
+    --color-accent-base:     #b8893b;
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. */
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-text:      var(--color-secondary-base);   /* #141519 */
+    --color-text-soft: var(--color-quaternary-base);   /* #5d6470 */
+    --color-bg:        #ffffff;
+    --color-bg-soft:   oklch(from var(--color-accent-base) 0.9649 calc(c * 0.041) calc(h + 1));   /* #f5f3f0 */
+    --color-border:    oklch(from var(--color-accent-base) 0.9142 calc(c * 0.083) calc(h + 1));   /* #e6e2dc */
+    --color-dark:      var(--color-secondary-base);   /* #141519 */
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;                          /* body text */
+    --font-heading:  'Inter Tight', system-ui, sans-serif;   /* headings and figures */
+    --font-serif:    'Instrument Serif', Georgia, 'Times New Roman', serif;   /* italic accents */
+    --font-tertiary: 'Urbanist', system-ui, sans-serif;                       /* display accents */
+
+    /* Stylesheets of the accent fonts, fetched only on pages that use them.
+       Change a family above and its URL here together. Set one to "" to
+       load nothing, e.g. when that font is a system font. */
+    --font-serif-src:    "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap";
+    --font-tertiary-src: "https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800;900&display=swap";
+
+    /* Headings and buttons */
+    --heading-weight:     300;
+    --heading-tracking:   -0.04em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        0.5;      /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 0.375rem;   /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1440px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 1.25;   /* space between sections: 0.75 compact · 1 · 1.25 spacious */
+}

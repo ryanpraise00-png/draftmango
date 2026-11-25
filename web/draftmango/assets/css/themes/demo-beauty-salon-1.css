@@ -1,0 +1,93 @@
+/* ================================================================
+ *  demo-beauty-salon-1.css — Draftmango theme for the Beauty Salon demo
+ *
+ *  The colors, fonts and layout settings of the Beauty Salon demo
+ *  (Draftmango Salon, hair, nails and brows & lashes salon on 12 South in
+ *  Nashville, Tennessee): a rose wine for the actions, a wine ink for the
+ *  text, the bands and the footer, blush cream for the page, mauve grey
+ *  for meta and blush for the line drawings and soft panels.
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here).
+   Prata sets the headings and the giant word (one weight, 400: its high
+   contrast does the work); Instrument Serif italic marks one word per
+   heading; Inter sets the text, the labels and the figures. */
+@import url("https://fonts.googleapis.com/css2?family=Prata&family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #8e3b4f;   /* main color: rose wine for buttons, links and focus; labels on it are white */
+    --color-secondary-base:  #2a1419;   /* second color: wine ink for the bands and the footer; the dark scheme takes its hue */
+    --color-tertiary-base:   #f6efe9;   /* third color: blush cream, the page and soft fills */
+    --color-quaternary-base: #827275;   /* fourth color: mauve grey, for meta and small marks */
+    --color-accent-base:     #e9c4c0;   /* attention color: blush, for line art and soft panels */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. */
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-text:       var(--color-secondary-base);   /* headings and body text: the wine ink (#2a1419) */
+    --color-text-soft:  oklch(from var(--color-secondary-base) 0.4214 calc(c * 0.797) calc(h - 0.2));   /* secondary text: the ink softened, never a cool grey (#5c474b) */
+    --color-text-muted: oklch(from var(--color-quaternary-base) 0.5258 calc(c * 0.977) calc(h - 5.1));   /* meta text: the mauve grey, deepened to read on the cream (#75666a) */
+    --color-bg:         var(--color-tertiary-base);   /* page background: blush cream (#f6efe9) */
+    --color-bg-soft:    oklch(from var(--color-tertiary-base) 0.9254 calc(c * 1.465) calc(h - 4.7));   /* a step deeper (#efe4dc) */
+    --color-bg-muted:   oklch(from var(--color-tertiary-base) 0.9024 calc(c * 1.707) calc(h - 6.2));   /* hover fills (#e9dcd3) */
+    --color-border:     oklch(from var(--color-tertiary-base) 0.8824 calc(c * 1.952) calc(h - 7.3));   /* lines and borders (#e4d5cb) */
+    --color-dark:       var(--color-secondary-base);   /* dark sections and dark buttons: the wine ink (#2a1419) */
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Prata', Georgia, 'Times New Roman', serif;   /* headings and the giant word */
+    --font-serif:   'Instrument Serif', Georgia, 'Times New Roman', serif;   /* the italic word in each heading */
+    --font-tertiary: 'Urbanist', system-ui, sans-serif;   /* display accents (unused so far) */
+
+    /* Stylesheets of the accent fonts, fetched only on pages that use them.
+       Change a family above and its URL here together. Set one to "" to
+       load nothing, e.g. when that font is a system font. */
+    --font-serif-src:    "";   /* Instrument Serif already comes with the @import above */
+    --font-tertiary-src: "https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800;900&display=swap";
+
+    /* Headings and buttons */
+    --heading-weight:     400;                     /* Prata has one weight */
+    --heading-tracking:   -0.01em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        1.5;    /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 9999px; /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1280px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 1.25;   /* space between sections: 0.75 compact · 1 · 1.25 spacious */
+}

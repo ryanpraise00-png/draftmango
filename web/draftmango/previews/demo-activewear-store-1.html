@@ -1,0 +1,1762 @@
+<!DOCTYPE html>
+<html lang="en" data-demo="activewear-store-1">
+    <head>
+        <meta charset="UTF-8">
+        <script async src="../assets/js/entrance.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Activewear Store — Draftmango</title>
+        <link rel="icon" href="../assets/media/logo/favicon.ico" sizes="32x32">
+        <link rel="icon" href="../assets/media/logo/draftmango-mark.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="../assets/media/logo/apple-touch-icon.png">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link rel="stylesheet" href="../assets/css/icons.css">
+        <link rel="stylesheet" href="../assets/css/app.css">
+        <link rel="stylesheet" href="../assets/css/vendor.css">
+        <link rel="stylesheet" href="../assets/css/shop.css">
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,600;0,700;1,500;1,600;1,700;1,800&amp;family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" data-theme-fonts>
+        <link rel="stylesheet" href="../assets/css/demos/demo-activewear-store-1.css">
+        <link rel="stylesheet" href="../assets/css/themes/demo-activewear-store-1.css" data-theme-file>
+        <link rel="stylesheet" href="../assets/css/custom.css">
+    </head>
+    <body>
+
+        <header class="site-header header-reveal header-topbar header-search header-cart" data-header>
+
+            <!-- Activewear strip - header-topbar includes it for a demo (graphite, 34px): the store promises as a fade ticker (template carousel, autoplay; reduced motion shows the first) and the customer links. Edit: the lines, the links -->
+            <div class="site-topbar">
+                <div class="site-topbar-inner container">
+                    <div class="custom-ticker flex-[1_1_auto] min-w-0 max-w-136 h-(--topbar-h) max-sm:max-w-none" role="region" aria-label="Store promises">
+                        <div class="swiper" data-effect="fade" data-loop="true" data-speed="600" data-autoplay="4200">
+                            <ul class="swiper-wrapper">
+                                <li class="swiper-slide"><i class="ph ph-truck text-[1rem] text-(--custom-light)" aria-hidden="true"></i><span><strong class="font-semibold">Free shipping</strong> on orders over $60</span></li>
+                                <li class="swiper-slide"><i class="ph ph-arrow-counter-clockwise text-[1rem] text-(--custom-light)" aria-hidden="true"></i><span><strong class="font-semibold">30-day sweat-test returns</strong>, worn or not</span></li>
+                                <li class="swiper-slide"><i class="ph ph-person-simple-run text-[1rem] text-(--custom-light)" aria-hidden="true"></i><a class="text-inherit" href="demo-activewear-store-1-run-club.html"><strong class="font-semibold">Join Run Club</strong>, Saturdays 8 AM at Mission Bay</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <nav class="custom-strip-links flex items-center gap-6 flex-none max-sm:hidden" aria-label="Customer links">
+                        <a class="text-[0.875rem]" href="demo-activewear-store-1-size-guide.html">Size Guide</a>
+                        <a class="text-[0.875rem]" href="demo-activewear-store-1-account.html#orders">Track Order</a>
+                        <a class="text-[0.875rem]" href="demo-activewear-store-1-about.html#help">Help</a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main navbar -->
+            <nav class="navbar" role="navigation" aria-label="Main navigation">
+                <div class="navbar-inner container">
+
+                    <!-- Brand -->
+                    <a href="demo-activewear-store-1.html" class="brand">
+
+                        <!-- Activewear Store wordmark - set in type: a stride mark (two slanted bars in the primary) and DRAFTMANGO ACTIVE in condensed italic (header brand: "demo" slot). Edit: the two words -->
+                        <span class="custom-brand max-sm:text-[1.375rem]"><svg class="custom-brand-mark w-[1.25em] h-auto me-[0.12em]" viewBox="0 0 30 22" aria-hidden="true" focusable="false">
+                                <path d="M9.5 0H17L7.5 22H0z" />
+                                <path d="M22.5 0H30l-9.5 22H13z" />
+                            </svg><span>Draftmango</span> <b class="font-medium">Active</b></span>
+
+                    </a>
+
+                    <!-- Desktop navigation links -->
+                    <ul class="nav-links" role="list">
+
+                        <!-- Activewear Store menu - the <li> items of .2); the phone panel is built from it. Inner pages (planned, demo-activewear-store-1-<slug>.html): shop (hidden sidebar), activities (banner), product (sidebar + fit finder), cart, checkout, account, order-complete, size-guide, run-club, about, blog -->
+
+                        <!-- Women | Men switch - the template capsule tabs; main.js swaps the Shop mega's set and the hero tiles (aria-pressed). No . Edit: the labels -->
+                        <li class="flex items-center me-auto pe-6">
+                            <div class="tabs tabs-capsule custom-seg w-auto">
+                                <div class="tabs-nav" role="group" aria-label="Shop for">
+                                    <button type="button" class="tab-btn is-active" data-aw-show="women" aria-pressed="true">Women</button>
+                                    <button type="button" class="tab-btn" data-aw-show="men" aria-pressed="false">Men</button>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="demo-activewear-store-1.html" class="nav-link active">Home</a>
+                        </li>
+                        <li>
+                            <a href="demo-activewear-store-1-shop.html?sort=new" class="nav-link">New</a>
+                        </li>
+
+                        <!-- Shop - by activity + by fit: one panel, a Women set and a Men set (template tabs panels; the in-panel switch and the header switch stay in step). Activity photo tiles, four link columns (support / inseam legend), the Find Your Fit card. Edit: the tiles, the columns, the chips -->
+                        <li class="nav-megamenu custom-mega custom-mega--shop">
+                            <button class="nav-link">
+                                Shop
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="megamenu-panel" data-lenis-prevent>
+                                <div class="megamenu-inner container">
+                                    <div class="tabs tabs-capsule custom-seg w-auto">
+                                        <div class="tabs-nav" role="group" aria-label="Shop for">
+                                            <button type="button" class="tab-btn is-active py-1.25 px-4.5 text-[1rem]" data-aw-show="women" aria-pressed="true" aria-controls="aw1-shop-women">Women</button>
+                                            <button type="button" class="tab-btn py-1.25 px-4.5 text-[1rem]" data-aw-show="men" aria-pressed="false" aria-controls="aw1-shop-men">Men</button>
+                                        </div>
+                                    </div>
+                                    <div class="tabs-panels mt-0">
+
+                                        <!-- Women -->
+                                        <div id="aw1-shop-women" class="tabs-panel is-active grid grid-cols-[minmax(0,1.5fr)_repeat(4,minmax(0,1fr))_minmax(0,1.4fr)] gap-8 [align-items:start]" data-aw-pane="women">
+                                            <div class="grid grid-cols-2 gap-2.5" role="group" aria-label="Women's activities">
+                                                <a href="demo-activewear-store-1-activities.html?for=women#train" class="custom-act"><img src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><span>Train</span></a>
+                                                <a href="demo-activewear-store-1-activities.html?for=women#run" class="custom-act"><img src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><span>Run</span></a>
+                                                <a href="demo-activewear-store-1-activities.html?for=women#yoga" class="custom-act"><img src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><span>Yoga</span></a>
+                                                <a href="demo-activewear-store-1-activities.html?for=women#studio" class="custom-act"><img src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><span>Studio</span></a>
+                                            </div>
+                                            <div class="megamenu-col">
+                                                <div class="megamenu-col-title">Tops</div>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=tanks" class="megamenu-item">Tanks</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=tees" class="megamenu-item">Tees</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=crop-tops" class="megamenu-item">Crop Tops</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=long-sleeves" class="megamenu-item">Long Sleeves</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=outer-layers" class="megamenu-item">Outer Layers</a>
+                                            </div>
+                                            <div class="megamenu-col">
+                                                <div class="megamenu-col-title">Bottoms</div>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=leggings" class="megamenu-item">Leggings</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=shorts" class="megamenu-item">Shorts</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=joggers" class="megamenu-item">Joggers</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=leggings&amp;length=flare" class="megamenu-item">Flares</a>
+                                                <a href="demo-activewear-store-1-product.html" class="megamenu-item">Sculpt Leggings</a>
+                                            </div>
+                                            <div class="megamenu-col">
+                                                <div class="megamenu-col-title">Sports Bras</div>
+                                                <a href="demo-activewear-store-1-shop.html?cat=bras&amp;support=light" class="megamenu-item">Light Support<span class="custom-level" data-level="1" aria-hidden="true"><i class="bg-primary"></i><i class="h-[70%]"></i><i class="h-full"></i></span></a>
+                                                <a href="demo-activewear-store-1-shop.html?cat=bras&amp;support=medium" class="megamenu-item">Medium Support<span class="custom-level" data-level="2" aria-hidden="true"><i class="bg-primary"></i><i class="h-[70%] bg-primary"></i><i class="h-full"></i></span></a>
+                                                <a href="demo-activewear-store-1-shop.html?cat=bras&amp;support=high" class="megamenu-item">High Support<span class="custom-level" data-level="3" aria-hidden="true"><i class="bg-primary"></i><i class="h-[70%] bg-primary"></i><i class="h-full bg-primary"></i></span></a>
+                                                <a href="demo-activewear-store-1-shop.html?cat=bras" class="megamenu-item">All Sports Bras</a>
+                                            </div>
+                                            <div class="megamenu-col">
+                                                <div class="megamenu-col-title">Accessories</div>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=bags" class="megamenu-item">Gym Bags</a>
+                                                <a href="demo-activewear-store-1-shop.html?cat=bottles" class="megamenu-item">Bottles</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=caps" class="megamenu-item">Caps &amp; Visors</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=women&amp;cat=socks" class="megamenu-item">Socks</a>
+                                                <a href="demo-activewear-store-1-shop.html?cat=mats" class="megamenu-item">Yoga Mats</a>
+                                            </div>
+                                            <div class="megamenu-col megamenu-col--cta custom-fit relative gap-0 self-stretch pt-5.5 pb-5 px-5.5 overflow-hidden text-text">
+                                                <span class="custom-fit-thumb absolute top-4.5 right-4.5 grid place-items-center size-21 p-2 bg-surface"><img class="w-auto max-w-17 max-h-17" src="../assets/media/placeholder/371x1000.svg" alt="" width="371" height="1000" loading="lazy" decoding="async"></span>
+                                                <p class="max-w-[calc(100%_-_6rem)] font-heading text-[1.625rem] italic font-bold leading-[1.05]">Find Your Fit</p>
+                                                <p class="max-w-[calc(100%_-_6rem)] mt-1.5 mb-5.5 text-[0.875rem] leading-[1.4] text-soft">Leggings by rise and length.</p>
+                                                <div class="custom-fit-group">
+                                                    <span class="w-full text-[0.8125rem] font-semibold text-soft">Rise</span>
+                                                    <a href="demo-activewear-store-1-shop.html?cat=leggings&amp;rise=high">High</a>
+                                                    <a href="demo-activewear-store-1-shop.html?cat=leggings&amp;rise=mid">Mid</a>
+                                                </div>
+                                                <div class="custom-fit-group">
+                                                    <span class="w-full text-[0.8125rem] font-semibold text-soft">Length</span>
+                                                    <a href="demo-activewear-store-1-shop.html?cat=leggings&amp;length=7-8">7/8</a>
+                                                    <a href="demo-activewear-store-1-shop.html?cat=leggings&amp;length=full">Full</a>
+                                                    <a href="demo-activewear-store-1-shop.html?cat=leggings&amp;length=flare">Flare</a>
+                                                </div>
+                                                <a href="demo-activewear-store-1-size-guide.html" class="custom-fit-link inline-flex items-center gap-1.5 self-start mt-2 text-[0.9375rem] font-semibold text-primary-ink">Size Guide<i class="ph-bold ph-arrow-right" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+
+                                        <!-- Men -->
+                                        <div id="aw1-shop-men" class="tabs-panel grid grid-cols-[minmax(0,1.5fr)_repeat(4,minmax(0,1fr))_minmax(0,1.4fr)] gap-8 [align-items:start]" data-aw-pane="men">
+                                            <div class="grid grid-cols-2 gap-2.5" role="group" aria-label="Men's activities">
+                                                <a href="demo-activewear-store-1-activities.html?for=men#train" class="custom-act"><img src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><span>Train</span></a>
+                                                <a href="demo-activewear-store-1-activities.html?for=men#run" class="custom-act"><img src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><span>Run</span></a>
+                                                <a href="demo-activewear-store-1-activities.html?for=men#yoga" class="custom-act"><img src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><span>Yoga</span></a>
+                                                <a href="demo-activewear-store-1-activities.html?for=men#recovery" class="custom-act"><img src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><span>Recovery</span></a>
+                                            </div>
+                                            <div class="megamenu-col">
+                                                <div class="megamenu-col-title">Tops</div>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=tees" class="megamenu-item">Training Tees</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=tanks" class="megamenu-item">Tanks</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=long-sleeves" class="megamenu-item">Long Sleeves</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=quarter-zips" class="megamenu-item">Quarter-Zips</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=outer-layers" class="megamenu-item">Outer Layers</a>
+                                            </div>
+                                            <div class="megamenu-col">
+                                                <div class="megamenu-col-title">Bottoms</div>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=joggers" class="megamenu-item">Joggers</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=tights" class="megamenu-item">Tights</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=sweatpants" class="megamenu-item">Sweatpants</a>
+                                                <a href="demo-activewear-store-1-product.html" class="megamenu-item">Flow Jogger</a>
+                                            </div>
+                                            <div class="megamenu-col">
+                                                <div class="megamenu-col-title">Shorts</div>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=shorts&amp;inseam=5" class="megamenu-item">5-Inch Inseam<span class="custom-level" data-level="1" aria-hidden="true"><i class="bg-primary"></i><i class="h-[70%]"></i><i class="h-full"></i></span></a>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=shorts&amp;inseam=7" class="megamenu-item">7-Inch Inseam<span class="custom-level" data-level="2" aria-hidden="true"><i class="bg-primary"></i><i class="h-[70%] bg-primary"></i><i class="h-full"></i></span></a>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=shorts&amp;inseam=9" class="megamenu-item">9-Inch Inseam<span class="custom-level" data-level="3" aria-hidden="true"><i class="bg-primary"></i><i class="h-[70%] bg-primary"></i><i class="h-full bg-primary"></i></span></a>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=shorts" class="megamenu-item">All Shorts</a>
+                                            </div>
+                                            <div class="megamenu-col">
+                                                <div class="megamenu-col-title">Accessories</div>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=bags" class="megamenu-item">Gym Bags</a>
+                                                <a href="demo-activewear-store-1-shop.html?cat=bottles" class="megamenu-item">Bottles</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=caps" class="megamenu-item">Caps</a>
+                                                <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=socks" class="megamenu-item">Socks</a>
+                                                <a href="demo-activewear-store-1-shop.html?cat=recovery" class="megamenu-item">Recovery Tools</a>
+                                            </div>
+                                            <div class="megamenu-col megamenu-col--cta custom-fit relative gap-0 self-stretch pt-5.5 pb-5 px-5.5 overflow-hidden text-text">
+                                                <span class="custom-fit-thumb absolute top-4.5 right-4.5 grid place-items-center size-21 p-2 bg-surface"><img class="w-auto max-w-17 max-h-17" src="../assets/media/placeholder/1000x714.svg" alt="" width="1000" height="714" loading="lazy" decoding="async"></span>
+                                                <p class="max-w-[calc(100%_-_6rem)] font-heading text-[1.625rem] italic font-bold leading-[1.05]">Find Your Fit</p>
+                                                <p class="max-w-[calc(100%_-_6rem)] mt-1.5 mb-5.5 text-[0.875rem] leading-[1.4] text-soft">Shorts by inseam and liner.</p>
+                                                <div class="custom-fit-group">
+                                                    <span class="w-full text-[0.8125rem] font-semibold text-soft">Inseam</span>
+                                                    <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=shorts&amp;inseam=5">5″</a>
+                                                    <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=shorts&amp;inseam=7">7″</a>
+                                                    <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=shorts&amp;inseam=9">9″</a>
+                                                </div>
+                                                <div class="custom-fit-group">
+                                                    <span class="w-full text-[0.8125rem] font-semibold text-soft">Liner</span>
+                                                    <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=shorts&amp;liner=yes">Lined</a>
+                                                    <a href="demo-activewear-store-1-shop.html?for=men&amp;cat=shorts&amp;liner=no">Unlined</a>
+                                                </div>
+                                                <a href="demo-activewear-store-1-size-guide.html" class="custom-fit-link inline-flex items-center gap-1.5 self-start mt-2 text-[0.9375rem] font-semibold text-primary-ink">Size Guide<i class="ph-bold ph-arrow-right" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- Activities - the five activities as photo tiles with a line each, and the Run Club card. Edit: the tiles, the lines, the card -->
+                        <li class="nav-megamenu custom-mega custom-mega--acts">
+                            <button class="nav-link">
+                                Activities
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="megamenu-panel" data-lenis-prevent>
+                                <div class="megamenu-inner container">
+                                    <div class="megamenu-col custom-act-row grid grid-cols-5 gap-3.5">
+                                        <div class="megamenu-col-title">Shop by Activity</div>
+                                        <div class="custom-act-card relative grid gap-0.5"><img class="w-full aspect-[4/5] mb-2.5 object-cover" src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><a href="demo-activewear-store-1-activities.html#train" class="megamenu-item">Train</a>
+                                            <p>Strength, HIIT and lifting days</p>
+                                        </div>
+                                        <div class="custom-act-card relative grid gap-0.5"><img class="w-full aspect-[4/5] mb-2.5 object-cover" src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><a href="demo-activewear-store-1-activities.html#run" class="megamenu-item">Run</a>
+                                            <p>Road, track and long-run kit</p>
+                                        </div>
+                                        <div class="custom-act-card relative grid gap-0.5"><img class="w-full aspect-[4/5] mb-2.5 object-cover" src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><a href="demo-activewear-store-1-activities.html#yoga" class="megamenu-item">Yoga</a>
+                                            <p>Soft, second-skin layers</p>
+                                        </div>
+                                        <div class="custom-act-card relative grid gap-0.5"><img class="w-full aspect-[4/5] mb-2.5 object-cover" src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><a href="demo-activewear-store-1-activities.html#studio" class="megamenu-item">Studio</a>
+                                            <p>Pilates, barre and spin</p>
+                                        </div>
+                                        <div class="custom-act-card relative grid gap-0.5"><img class="w-full aspect-[4/5] mb-2.5 object-cover" src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"><a href="demo-activewear-store-1-activities.html#recovery" class="megamenu-item">Recovery</a>
+                                            <p>Rest-day layers and tools</p>
+                                        </div>
+                                    </div>
+                                    <div class="megamenu-col megamenu-col--cta custom-club gap-0 p-6.5">
+                                        <span class="custom-club-icon grid place-items-center size-11 mb-4.5 text-[1.375rem] text-on-primary bg-primary" aria-hidden="true"><i class="ph-bold ph-person-simple-run"></i></span>
+                                        <p class="font-heading text-[1.875rem] italic font-bold leading-[1] text-white">Draftmango Run Club</p>
+                                        <p class="mt-2 mb-3 text-[0.9375rem] font-semibold text-(--custom-light)">Saturdays, 8 AM · Mission Bay</p>
+                                        <p class="custom-club-text mb-6 text-[0.9375rem] leading-[1.5]">3K, 5K and 10K loops, every pace welcome. Free, with coffee after.</p>
+                                        <div class="mt-auto flex flex-wrap items-center gap-x-5 gap-y-3">
+                                            <a href="demo-activewear-store-1-run-club.html" class="btn btn-primary">Join Run Club</a>
+                                            <a href="demo-activewear-store-1-about.html" class="custom-club-link text-[0.9375rem] font-semibold">About Us</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="demo-activewear-store-1-shop.html?sort=bestsellers" class="nav-link">Bestsellers</a>
+                        </li>
+                        <li>
+                            <a href="demo-activewear-store-1-run-club.html" class="nav-link">Run Club</a>
+                        </li>
+                        <li>
+                            <a href="demo-activewear-store-1-blog.html" class="nav-link">Blog</a>
+                        </li>
+
+                    </ul>
+
+                    <!-- Right-side actions -->
+                    <div class="nav-actions">
+
+                        <!-- Meta group - display:contents by default; header-stacked turns it into its own row. -->
+                        <div class="nav-meta">
+
+                            <button class="nav-search-toggle" data-panel-toggle="search" aria-expanded="false" aria-controls="header-search" aria-label="Open search">
+                                <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+                            </button>
+
+                        </div><!-- /.nav-meta -->
+
+                        <!--html: the Women | Men switch for tablets (the bar's own sits in the menu, which folds below 1200px), account, wishlist and the cart (opens the mini cart; the count comes from Alpine.store('cart')). Edit: the links, the wishlist count -->
+                        <div class="shop-actions gap-0" x-data>
+                            <div class="tabs tabs-capsule custom-seg custom-seg--bar w-auto me-3">
+                                <div class="tabs-nav" role="group" aria-label="Shop for">
+                                    <button type="button" class="tab-btn is-active" data-aw-show="women" aria-pressed="true">Women</button>
+                                    <button type="button" class="tab-btn" data-aw-show="men" aria-pressed="false">Men</button>
+                                </div>
+                            </div>
+                            <a href="demo-activewear-store-1-account.html" class="shop-action shop-action--account text-[1.5rem] max-sm:hidden" aria-label="My account"><i class="ph ph-user" aria-hidden="true"></i></a>
+                            <a href="demo-activewear-store-1-account.html#wishlist" class="shop-action shop-action--wishlist text-[1.5rem] max-sm:hidden" aria-label="Wishlist, 4 items"><i class="ph ph-heart" aria-hidden="true"></i><span class="shop-action-count">4</span></a>
+                            <button type="button" class="shop-action shop-action--cart text-[1.5rem]" data-panel-toggle="cart" aria-expanded="false" aria-controls="mini-cart" :aria-label="'Open cart, ' + $store.cart.count + ' items'" aria-label="Open cart, 3 items">
+                                <i class="ph ph-handbag" aria-hidden="true"></i>
+                                <span class="shop-action-count" x-text="$store.cart.count" x-show="$store.cart.count">3</span>
+                            </button>
+                        </div>
+
+                        <!-- Menu toggle - mobile hamburger below 1024px; also the close button on header-overlay-menu / header-side-drawer -->
+                        <button class="hamburger" data-toggle aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation menu">
+                            <i class="ph ph-list text-xl nav-toggle-open" aria-hidden="true"></i>
+                            <i class="ph ph-x text-xl nav-toggle-close" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Navigation panel - links are auto-generated by initMobileSync() in main.js -->
+                <!-- data-lenis-prevent: opts this scroll container out of Lenis smooth scrolling -->
+                <div id="mobile-nav" class="mobile-nav" data-mobile-nav data-lenis-prevent role="dialog" aria-modal="true" aria-label="Site navigation">
+
+                    <!-- Menu column - the scroll container -->
+                    <div class="nav-panel-menu">
+
+                        <!-- JS target: desktop nav items are injected here -->
+                        <div data-mobile-links></div>
+
+                        <!-- Mobile-only items: add or remove <a> elements here freely -->
+                        <!-- <a href="#" class="mobile-link" data-mobile-only>Exclusive Item</a> -->
+
+                        <!-- Edit: the buttons, the line -->
+                        <div class="nav-panel-cta grid gap-3 mt-6">
+                            <div class="tabs tabs-capsule custom-seg w-auto [justify-self:center]">
+                                <div class="tabs-nav" role="group" aria-label="Shop for">
+                                    <button type="button" class="tab-btn is-active py-2 px-6 text-[1.125rem]" data-aw-show="women" aria-pressed="true">Women</button>
+                                    <button type="button" class="tab-btn py-2 px-6 text-[1.125rem]" data-aw-show="men" aria-pressed="false">Men</button>
+                                </div>
+                            </div>
+                            <a href="demo-activewear-store-1-shop.html?sort=new" class="btn btn-primary btn-lg justify-center">Shop New</a>
+                            <a href="demo-activewear-store-1-run-club.html" class="btn btn-outline btn-lg justify-center"><i class="ph ph-person-simple-run" aria-hidden="true"></i>Join Run Club</a>
+                            <nav class="custom-panel-links grid grid-cols-4 gap-2" aria-label="Your account and the store">
+                                <a href="demo-activewear-store-1-account.html"><i class="ph ph-user text-[1.375rem]" aria-hidden="true"></i>Account</a>
+                                <a href="demo-activewear-store-1-account.html#wishlist"><i class="ph ph-heart text-[1.375rem]" aria-hidden="true"></i>Wishlist</a>
+                                <a href="demo-activewear-store-1-account.html#orders"><i class="ph ph-package text-[1.375rem]" aria-hidden="true"></i>Orders</a>
+                                <a href="demo-activewear-store-1-about.html"><i class="ph ph-storefront text-[1.375rem]" aria-hidden="true"></i>About Us</a>
+                            </nav>
+                            <p class="m-0 text-center text-base text-soft">Free shipping over $60 · 30-day returns</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </nav>
+
+            <!-- Edit: the placeholder, the chips, the products -->
+            <div id="header-search" class="site-search" data-panel="search" role="dialog" aria-modal="false" aria-label="Search">
+                <div class="site-search-inner" data-lenis-prevent>
+                    <div class="site-search-body container">
+
+                        <button class="site-panel-close" data-panel-close aria-label="Close search">
+                            <i class="ph ph-x" aria-hidden="true"></i>
+                        </button>
+
+                        <h2 class="site-search-title">What are you training for?</h2>
+
+                        <form class="site-search-form" role="search" method="get" action="demo-activewear-store-1-shop.html">
+                            <input type="hidden" name="post_type" value="product">
+                            <label class="sr-only" for="site-search-input">Search activewear</label>
+                            <input id="site-search-input" type="search" name="s" class="form-input form-input-underline site-search-input" placeholder="Search leggings, sports bras, shorts…" autocomplete="off" />
+                            <button type="submit" class="site-search-submit" aria-label="Search">
+                                <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+                            </button>
+                        </form>
+
+                        <div class="site-search-suggest">
+                            <span class="site-search-suggest-label">Popular</span>
+                            <a href="demo-activewear-store-1-product.html" class="site-search-tag">Sculpt Leggings</a>
+                            <a href="demo-activewear-store-1-shop.html?cat=shorts" class="site-search-tag">Run Shorts</a>
+                            <a href="demo-activewear-store-1-shop.html?cat=bras&amp;support=high" class="site-search-tag">High Support Bras</a>
+                            <a href="demo-activewear-store-1-activities.html#yoga" class="site-search-tag">Yoga</a>
+                            <a href="demo-activewear-store-1-size-guide.html" class="site-search-tag">Size Guide</a>
+                        </div>
+
+                        <div class="max-w-200 mt-9 mr-auto ml-auto pt-7 border-t border-t-(--color-border-soft)">
+                            <p class="mb-4 font-heading text-[1.25rem] italic font-bold">Trending now</p>
+                            <div class="grid grid-cols-[repeat(auto-fit,minmax(14.5rem,1fr))] gap-3">
+                                <a href="demo-activewear-store-1-product.html" class="custom-trend"><span class="custom-trend-img"><img class="size-full object-cover" src="../assets/media/placeholder/1000x1000.svg" alt="" width="1000" height="1000" loading="lazy" decoding="async"></span><span class="custom-trend-info grid min-w-0"><b class="overflow-hidden text-[0.9375rem] font-semibold whitespace-nowrap">Sculpt Leggings</b><small class="text-[0.875rem] text-muted">Draftmango Active</small></span><span class="custom-trend-price">$88</span></a>
+                                <a href="demo-activewear-store-1-product.html" class="custom-trend"><span class="custom-trend-img"><img class="size-full object-cover" src="../assets/media/placeholder/1000x1000.svg" alt="" width="1000" height="1000" loading="lazy" decoding="async"></span><span class="custom-trend-info grid min-w-0"><b class="overflow-hidden text-[0.9375rem] font-semibold whitespace-nowrap">Pace Run Shorts</b><small class="text-[0.875rem] text-muted">Tidal</small></span><span class="custom-trend-price">$54</span></a>
+                                <a href="demo-activewear-store-1-product.html" class="custom-trend"><span class="custom-trend-img"><img class="size-full object-cover" src="../assets/media/placeholder/1000x1000.svg" alt="" width="1000" height="1000" loading="lazy" decoding="async"></span><span class="custom-trend-info grid min-w-0"><b class="overflow-hidden text-[0.9375rem] font-semibold whitespace-nowrap">Lift Bra</b><small class="text-[0.875rem] text-muted">Kinetic</small></span><span class="custom-trend-price">$58</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--html. Lines, totals and the meter run on cartPage() in main.js; a card added on the page bumps $store.cart.extra / extraTotal on top of the lines (demo JS). "miniCartEmpty": "yes" on the header include drops the lines (the Cart page shows the empty state). Edit: the lines (name, meta, price, image), the threshold, the links -->
+            <div id="mini-cart" class="mini-cart" data-panel="cart" data-panel-modal role="dialog" aria-modal="true" aria-labelledby="mini-cart-title">
+                <div class="mini-cart-panel" x-data="cartPage({ threshold: 60 })" x-effect="$store.cart.count = itemCount + ($store.cart.extra ?? 0)" @change="sync($event)" data-lenis-prevent>
+
+                    <div class="mini-cart-head">
+                        <h2 id="mini-cart-title" class="mini-cart-title">Your cart <span class="mini-cart-count not-italic" x-text="itemCount + (itemCount === 1 ? ' item' : ' items')">3 items</span></h2>
+                        <button type="button" class="modal-close" data-panel-close aria-label="Close cart"><i class="ph ph-x" aria-hidden="true"></i></button>
+                    </div>
+
+                    <div class="mini-cart-body" x-show="!empty">
+                        <div class="shipping-meter is-complete" :class="{ 'is-complete': freeShipping }" :style="'--p:' + progress + '%'" style="--p: 100%">
+                            <p class="flex items-center gap-3">
+                                <i class="ph text-xl" :class="freeShipping ? 'ph-seal-check text-[var(--color-success)]' : 'ph-truck color-primary'" aria-hidden="true"></i>
+                                <span x-show="!freeShipping" x-cloak>Add <strong x-text="money(remaining)">$0.00</strong> more for <strong>free shipping</strong></span>
+                                <span x-show="freeShipping"><strong>Free shipping</strong> is on us</span>
+                            </p>
+                            <div class="shipping-meter-track">
+                                <div class="shipping-meter-fill"></div>
+                            </div>
+                        </div>
+
+                        <ul class="mini-cart-list">
+
+                            <li class="mini-cart-item" data-cart-line="m1" data-price="88" data-name="Sculpt Leggings" x-show="!line('m1').removed" x-transition.opacity.duration.300ms>
+                                <a href="demo-activewear-store-1-product.html" class="mini-cart-thumb"><img src="../assets/media/placeholder/1000x1000.svg" alt="" width="1000" height="1000" loading="lazy"></a>
+                                <div class="mini-cart-info">
+                                    <a href="demo-activewear-store-1-product.html" class="mini-cart-name">Sculpt Leggings</a>
+                                    <p class="mini-cart-meta">Draftmango Active · Graphite · 7/8 · S</p>
+                                    <div class="qty qty--sm">
+                                        <button type="button" class="qty-btn" data-step="-1" aria-label="Decrease quantity of Sculpt Leggings"><i class="ph ph-minus" aria-hidden="true"></i></button>
+                                        <input type="number" class="qty-input" name="cart[m1][qty]" value="1" min="0" max="10" aria-label="Quantity of Sculpt Leggings">
+                                        <button type="button" class="qty-btn" data-step="1" aria-label="Increase quantity of Sculpt Leggings"><i class="ph ph-plus" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                                <div class="mini-cart-end">
+                                    <button type="button" class="cart-remove" @click="remove('m1')" aria-label="Remove Sculpt Leggings"><i class="ph ph-x" aria-hidden="true"></i></button>
+                                    <span class="mini-cart-price" x-text="money(line('m1').price * line('m1').qty)">$88.00</span>
+                                </div>
+                            </li>
+                            <li class="mini-cart-item" data-cart-line="m2" data-price="54" data-name="Pace Run Shorts" x-show="!line('m2').removed" x-transition.opacity.duration.300ms>
+                                <a href="demo-activewear-store-1-product.html" class="mini-cart-thumb"><img src="../assets/media/placeholder/1000x1000.svg" alt="" width="1000" height="1000" loading="lazy"></a>
+                                <div class="mini-cart-info">
+                                    <a href="demo-activewear-store-1-product.html" class="mini-cart-name">Pace Run Shorts</a>
+                                    <p class="mini-cart-meta">Tidal · Slate · 3-inch · M</p>
+                                    <div class="qty qty--sm">
+                                        <button type="button" class="qty-btn" data-step="-1" aria-label="Decrease quantity of Pace Run Shorts"><i class="ph ph-minus" aria-hidden="true"></i></button>
+                                        <input type="number" class="qty-input" name="cart[m2][qty]" value="1" min="0" max="10" aria-label="Quantity of Pace Run Shorts">
+                                        <button type="button" class="qty-btn" data-step="1" aria-label="Increase quantity of Pace Run Shorts"><i class="ph ph-plus" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                                <div class="mini-cart-end">
+                                    <button type="button" class="cart-remove" @click="remove('m2')" aria-label="Remove Pace Run Shorts"><i class="ph ph-x" aria-hidden="true"></i></button>
+                                    <span class="mini-cart-price" x-text="money(line('m2').price * line('m2').qty)">$54.00</span>
+                                </div>
+                            </li>
+                            <li class="mini-cart-item" data-cart-line="m3" data-price="58" data-name="Lift Bra" x-show="!line('m3').removed" x-transition.opacity.duration.300ms>
+                                <a href="demo-activewear-store-1-product.html" class="mini-cart-thumb"><img src="../assets/media/placeholder/1000x1000.svg" alt="" width="1000" height="1000" loading="lazy"></a>
+                                <div class="mini-cart-info">
+                                    <a href="demo-activewear-store-1-product.html" class="mini-cart-name">Lift Bra</a>
+                                    <p class="mini-cart-meta">Kinetic · Coral · Medium Support · S</p>
+                                    <div class="qty qty--sm">
+                                        <button type="button" class="qty-btn" data-step="-1" aria-label="Decrease quantity of Lift Bra"><i class="ph ph-minus" aria-hidden="true"></i></button>
+                                        <input type="number" class="qty-input" name="cart[m3][qty]" value="1" min="0" max="10" aria-label="Quantity of Lift Bra">
+                                        <button type="button" class="qty-btn" data-step="1" aria-label="Increase quantity of Lift Bra"><i class="ph ph-plus" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                                <div class="mini-cart-end">
+                                    <button type="button" class="cart-remove" @click="remove('m3')" aria-label="Remove Lift Bra"><i class="ph ph-x" aria-hidden="true"></i></button>
+                                    <span class="mini-cart-price" x-text="money(line('m3').price * line('m3').qty)">$58.00</span>
+                                </div>
+                            </li>
+
+                        </ul>
+
+                        <p class="mini-cart-undo" x-show="undoLine" x-cloak><span x-text="(undoLine?.name ?? '') + ' removed.'"></span> <button type="button" @click="undo()">Undo</button></p>
+                    </div>
+
+                    <div class="mini-cart-empty" x-show="empty" x-cloak>
+                        <span class="mx-auto grid size-16 place-items-center rounded-full bg-soft text-3xl"><i class="ph ph-handbag" aria-hidden="true"></i></span>
+                        <p class="mt-5 text-lg font-semibold">Your cart is empty</p>
+                        <p class="mt-1 text-soft">Nothing in the bag yet — start with the bestsellers.</p>
+                        <a href="demo-activewear-store-1-shop.html" class="btn btn-dark btn-pill mt-6">Shop Bestsellers</a>
+                    </div>
+
+                    <div class="mini-cart-foot" x-show="!empty">
+                        <p class="mini-cart-subtotal"><span>Subtotal</span> <strong class="tabular-nums" x-text="money(subtotal + ($store.cart.extraTotal ?? 0))">$200.00</strong></p>
+                        <p class="mini-cart-note"><i class="ph ph-lock-simple" aria-hidden="true"></i> 30-day sweat-test returns</p>
+                        <div class="mini-cart-buttons">
+                            <a href="demo-activewear-store-1-cart.html" class="btn btn-outline-dark btn-pill">View Cart</a>
+                            <a href="demo-activewear-store-1-checkout.html" class="btn btn-dark btn-pill">Checkout <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+
+        <main id="main">
+            <!-- HERO - the activity photo bento: the big tile is a fade slideshow (Train, Run, Yoga; its tabs fill with the autoplay) under the headline, the two tiles beside it are this week's new and bestselling pieces and follow the header's Women | Men switch (main.js). The activity chips sit under it. Edit: the slides, the tiles, the chips -->
+            <section id="aw1-hero" class="pt-[clamp(0.75rem,1.3vw,1.25rem)] pb-[clamp(1.25rem,2vw,1.75rem)]" aria-labelledby="aw1-hero-title">
+                <div class="container">
+                    <div class="custom-bento max-lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] max-lg:h-[clamp(30rem,72vw,38rem)] max-md:grid-cols-2 max-md:h-auto max-md:grid-rows-[auto_auto]">
+
+                        <div class="custom-feature relative row-[span_2] overflow-hidden isolate rounded-(--custom-radius) max-md:row-[auto] max-md:col-span-full max-md:aspect-[4/5]" role="region" aria-roledescription="carousel" aria-label="Draftmango Active in motion">
+                            <div class="swiper custom-feature-swiper" data-effect="fade" data-loop="true" data-speed="900" data-thumbs="#aw1-feature-tabs" data-autoplay="{&quot;delay&quot;:6500,&quot;disableOnInteraction&quot;:false,&quot;pauseOnMouseEnter&quot;:true}">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide custom-slide overflow-hidden" role="group" aria-roledescription="slide" aria-label="1 of 3: Train">
+                                        <img src="../assets/media/placeholder/2304x1728.svg" alt="A woman in a deep lunge with a medicine ball on a seaside training terrace" width="2304" height="1728" fetchpriority="high" class="custom-slide-img" style="--pos: 66% 30%">
+                                        <a href="demo-activewear-store-1-product.html" class="custom-worn max-lg:hidden"><span>Worn here</span><b class="font-semibold">Sculpt Leggings</b><em>$88</em></a>
+                                    </div>
+                                    <div class="swiper-slide custom-slide overflow-hidden" role="group" aria-roledescription="slide" aria-label="2 of 3: Run" style="--shade: 0.42">
+                                        <img src="../assets/media/placeholder/2304x1728.svg" alt="A man running along a palm-lined seaside path in the morning" width="2304" height="1728" loading="lazy" decoding="async" class="custom-slide-img" style="--pos: 62% 30%">
+                                        <a href="demo-activewear-store-1-product.html" class="custom-worn max-lg:hidden"><span>Worn here</span><b class="font-semibold">Pace Run Shorts</b><em>$58</em></a>
+                                    </div>
+                                    <div class="swiper-slide custom-slide overflow-hidden" role="group" aria-roledescription="slide" aria-label="3 of 3: Yoga">
+                                        <img src="../assets/media/placeholder/2304x1728.svg" alt="A woman in warrior pose on a cork mat by doors open to the ocean" width="2304" height="1728" loading="lazy" decoding="async" class="custom-slide-img" style="--pos: 60% 40%">
+                                        <a href="demo-activewear-store-1-product.html" class="custom-worn max-lg:hidden"><span>Worn here</span><b class="font-semibold">Ease Leggings</b><em>$92</em></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="absolute left-[clamp(1.5rem,3.2vw,3.25rem)] bottom-[clamp(1.5rem,3vw,3rem)] z-2 max-w-[min(40rem,100%_-_3rem)] text-white max-md:left-5 max-md:bottom-5 max-md:max-w-[calc(100%_-_2.5rem)]">
+                                <p class="custom-feature-kicker flex items-center gap-2.5 text-[0.9375rem] font-semibold">Fall Drop · 140 new styles</p>
+                                <h1 id="aw1-hero-title" class="custom-feature-title max-md:mt-2.5 max-md:mb-5 max-md:mx-0 max-md:text-[clamp(2.5rem,11.5vw,3.25rem)]">Made to move<br> <span class="font-medium">the way you do.</span></h1>
+                                <div class="custom-feature-ctas flex flex-wrap gap-3">
+                                    <a href="demo-activewear-store-1-shop.html?for=women" class="btn btn-primary btn-lg max-md:px-5">Shop Women</a>
+                                    <a href="demo-activewear-store-1-shop.html?for=men" class="btn btn-white btn-lg max-md:px-5">Shop Men</a>
+                                </div>
+                            </div>
+
+                            <div id="aw1-feature-tabs" class="carousel-thumb-cards custom-feature-tabs absolute top-[clamp(1rem,1.6vw,1.5rem)] left-[clamp(1rem,1.6vw,1.5rem)] z-2 flex gap-0 p-1 rounded-pill max-md:top-3 max-md:left-3" role="group" aria-label="Choose an activity">
+                                <button class="max-md:px-3 max-md:text-[0.875rem]" type="button"><span class="text-[0.75rem] tabular-nums opacity-70 max-md:hidden">01</span>Train<i class="max-md:inset-x-3" aria-hidden="true"></i></button>
+                                <button class="max-md:px-3 max-md:text-[0.875rem]" type="button"><span class="text-[0.75rem] tabular-nums opacity-70 max-md:hidden">02</span>Run<i class="max-md:inset-x-3" aria-hidden="true"></i></button>
+                                <button class="max-md:px-3 max-md:text-[0.875rem]" type="button"><span class="text-[0.75rem] tabular-nums opacity-70 max-md:hidden">03</span>Yoga<i class="max-md:inset-x-3" aria-hidden="true"></i></button>
+                            </div>
+                            <div class="absolute right-[clamp(1rem,2vw,1.75rem)] bottom-[clamp(1.5rem,3vw,3rem)] z-2 flex gap-1.5 max-lg:right-4 max-lg:bottom-auto max-lg:top-4 max-md:right-3 max-md:bottom-auto max-md:top-3">
+                                <button type="button" class="carousel-btn carousel-btn-prev custom-arrow max-md:size-10" aria-label="Previous slide"><i class="ph-bold ph-arrow-left" aria-hidden="true"></i></button>
+                                <button type="button" class="carousel-btn carousel-btn-next custom-arrow max-md:size-10" aria-label="Next slide"><i class="ph-bold ph-arrow-right" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- New In tile - Women and Men panes (template tabs panels), the switch shows one -->
+                        <article class="tabs-panels relative mt-0 overflow-hidden isolate rounded-(--custom-radius) bg-muted max-md:aspect-[4/5]" aria-label="New in">
+                            <a href="demo-activewear-store-1-product.html" class="custom-tile-pane tabs-panel is-active" data-aw-pane="women">
+                                <img src="../assets/media/placeholder/1600x1067.svg" alt="A woman running along the shoreline in white tank and slate shorts" width="1600" height="1067" class="custom-tile-img" style="--pos: 68% 40%">
+                                <span class="custom-tile-tag max-md:top-2.5 max-md:left-2.5 max-md:py-1 max-md:text-[0.8125rem]">New In</span>
+                                <span class="custom-tile-card">
+                                    <span class="grid gap-0.5 min-w-0">
+                                        <span class="custom-tile-brand max-md:hidden">Tidal</span>
+                                        <span class="custom-tile-name max-md:text-[1.0625rem] max-md:whitespace-normal">Pace Run Shorts</span>
+                                        <span class="custom-tile-meta max-xl:hidden">3-inch · Lined · 4 colours</span>
+                                    </span>
+                                    <span class="custom-tile-price max-md:text-[1.1875rem] max-md:self-end">$54</span>
+                                    <span class="custom-tile-go max-lg:hidden" aria-hidden="true"><i class="ph-bold ph-arrow-up-right"></i></span>
+                                </span>
+                            </a>
+                            <a href="demo-activewear-store-1-product.html" class="custom-tile-pane tabs-panel" data-aw-pane="men">
+                                <img src="../assets/media/placeholder/1600x1067.svg" alt="A man jogging down beach steps in a grey tank and slate shorts" width="1600" height="1067" loading="lazy" decoding="async" class="custom-tile-img" style="--pos: 82% 40%">
+                                <span class="custom-tile-tag max-md:top-2.5 max-md:left-2.5 max-md:py-1 max-md:text-[0.8125rem]">New In</span>
+                                <span class="custom-tile-card">
+                                    <span class="grid gap-0.5 min-w-0">
+                                        <span class="custom-tile-brand max-md:hidden">Tidal</span>
+                                        <span class="custom-tile-name max-md:text-[1.0625rem] max-md:whitespace-normal">Pace Run Shorts</span>
+                                        <span class="custom-tile-meta max-xl:hidden">5-inch · Lined · 3 colours</span>
+                                    </span>
+                                    <span class="custom-tile-price max-md:text-[1.1875rem] max-md:self-end">$58</span>
+                                    <span class="custom-tile-go max-lg:hidden" aria-hidden="true"><i class="ph-bold ph-arrow-up-right"></i></span>
+                                </span>
+                            </a>
+                        </article>
+
+                        <!-- Bestseller tile - Women and Men panes; the dots are the product's own colours -->
+                        <article class="tabs-panels relative mt-0 overflow-hidden isolate rounded-(--custom-radius) bg-muted max-md:aspect-[4/5]" aria-label="Bestseller">
+                            <a href="demo-activewear-store-1-product.html" class="custom-tile-pane tabs-panel is-active" data-aw-pane="women">
+                                <img src="../assets/media/placeholder/1600x1067.svg" alt="A woman walking past a sunlit concrete wall in graphite leggings and sports bra" width="1600" height="1067" class="custom-tile-img" style="--pos: 72% 30%">
+                                <span class="custom-tile-tag max-md:top-2.5 max-md:left-2.5 max-md:py-1 max-md:text-[0.8125rem]">Bestseller</span>
+                                <span class="custom-tile-card">
+                                    <span class="grid gap-0.5 min-w-0">
+                                        <span class="custom-tile-brand max-md:hidden">Draftmango Active</span>
+                                        <span class="custom-tile-name max-md:text-[1.0625rem] max-md:whitespace-normal">Sculpt Leggings</span>
+                                        <span class="custom-tile-meta max-xl:hidden"><span class="swatch-dots" aria-hidden="true"><i style="--swatch: #3d4246"></i><i style="--swatch: #5d7a92"></i><i style="--swatch: #cbb79b"></i><i style="--swatch: #e2685b"></i></span>4 colours</span>
+                                    </span>
+                                    <span class="custom-tile-price max-md:text-[1.1875rem] max-md:self-end">$88</span>
+                                    <span class="custom-tile-go max-lg:hidden" aria-hidden="true"><i class="ph-bold ph-arrow-up-right"></i></span>
+                                </span>
+                            </a>
+                            <a href="demo-activewear-store-1-product.html" class="custom-tile-pane tabs-panel" data-aw-pane="men">
+                                <img src="../assets/media/placeholder/1600x1067.svg" alt="A man walking across a sunlit rooftop in black joggers and a charcoal quarter-zip" width="1600" height="1067" loading="lazy" decoding="async" class="custom-tile-img" style="--pos: 62% 30%">
+                                <span class="custom-tile-tag max-md:top-2.5 max-md:left-2.5 max-md:py-1 max-md:text-[0.8125rem]">Bestseller</span>
+                                <span class="custom-tile-card">
+                                    <span class="grid gap-0.5 min-w-0">
+                                        <span class="custom-tile-brand max-md:hidden">Kinetic</span>
+                                        <span class="custom-tile-name max-md:text-[1.0625rem] max-md:whitespace-normal">Flow Jogger</span>
+                                        <span class="custom-tile-meta max-xl:hidden"><span class="swatch-dots" aria-hidden="true"><i style="--swatch: #1e2022"></i><i style="--swatch: #4b5055"></i><i style="--swatch: #b8b1a5"></i></span>3 colours</span>
+                                    </span>
+                                    <span class="custom-tile-price max-md:text-[1.1875rem] max-md:self-end">$98</span>
+                                    <span class="custom-tile-go max-lg:hidden" aria-hidden="true"><i class="ph-bold ph-arrow-up-right"></i></span>
+                                </span>
+                            </a>
+                        </article>
+                    </div>
+
+                    <!-- Activity chips (template cat-chip) and the store rating -->
+                    <div class="flex items-center justify-between gap-6 mt-(--custom-gap) max-md:mx-[calc(var(--container-x)_*_-1)]">
+                        <nav class="custom-chips flex gap-2 min-w-0 overflow-x-auto max-md:px-(--container-x)" aria-label="Shop by activity" data-lenis-prevent-touch>
+                            <a href="demo-activewear-store-1-activities.html#train" class="cat-chip bg-surface border-(--color-border-soft)"><span class="cat-chip-img"><img src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"></span>Train <small>214</small></a>
+                            <a href="demo-activewear-store-1-activities.html#run" class="cat-chip bg-surface border-(--color-border-soft)"><span class="cat-chip-img"><img src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"></span>Run <small>168</small></a>
+                            <a href="demo-activewear-store-1-activities.html#yoga" class="cat-chip bg-surface border-(--color-border-soft)"><span class="cat-chip-img"><img src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"></span>Yoga <small>132</small></a>
+                            <a href="demo-activewear-store-1-activities.html#studio" class="cat-chip bg-surface border-(--color-border-soft)"><span class="cat-chip-img"><img src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"></span>Studio <small>96</small></a>
+                            <a href="demo-activewear-store-1-activities.html#recovery" class="cat-chip bg-surface border-(--color-border-soft)"><span class="cat-chip-img"><img src="../assets/media/placeholder/640x800.svg" alt="" width="640" height="800" loading="lazy" decoding="async"></span>Recovery <small>54</small></a>
+                        </nav>
+                        <p class="flex items-center gap-2 flex-none text-[0.9375rem] text-soft whitespace-nowrap max-[75rem]:hidden"><span class="product-rating text-[0.9375rem]" style="--rating: 4.8" role="img" aria-label="Rated 4.8 out of 5"></span><strong class="font-bold text-text">4.8</strong> from 12,400 reviews</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Edit: NEW IN - four pieces from the fall drop in a white panel (image-scrub cards: move across a photo for the back and the fabric): the head, per card the include's title, brand, photos, price, colours -->
+            <section id="aw1-new" class="section pt-[calc(var(--section-space)_-_1.25rem)] pb-(--section-space)" aria-labelledby="aw1-new-title">
+                <div class="container">
+                    <div class="custom-panel">
+                        <div class="custom-head" data-anim="fade-up">
+                            <div>
+                                <p class="custom-label">New In</p>
+                                <h2 id="aw1-new-title" class="custom-h2">Fresh for the fall drop</h2>
+                            </div>
+                            <div class="flex flex-wrap items-center gap-y-4 gap-x-8">
+                                <p class="flex items-center gap-2 text-[0.9375rem] text-muted max-md:hidden"><i class="ph ph-hand-pointing text-[1.125rem] text-primary-ink" aria-hidden="true"></i>Move across a photo for the back and the fabric</p>
+                                <a href="demo-activewear-store-1-shop.html?sort=new" class="custom-more">Shop New In<i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                        <ul class="products custom-grid" style="--cols: 4">
+                            <li class="product-card product-card--scrub custom-card" data-product data-product_id="aw1-201" data-cat="women tops run" data-price="48" data-colours="white blush sand" data-sizes="xs s m l xl" data-brand="tidal" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-09-28" data-pop="90" data-anim="fade-up" data-anim-delay="0">
+                                <div class="product-card-media">
+                                    <a href="demo-activewear-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                        <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Off-white racerback running tank with mesh side panels" width="600" height="600" loading="lazy" decoding="async">
+                                        <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+
+                                        <img class="product-card-img product-card-img--3" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+
+                                        <span class="product-card-scrub"><i></i><i></i><i></i></span>
+
+                                    </a>
+                                    <div class="product-card-actions">
+
+                                        <button type="button" name="add-to-cart" value="aw1-201" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Breeze Run Tank to cart">
+                                            <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                        </button>
+
+                                        <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Breeze Run Tank to wishlist">
+                                            <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Breeze Run Tank">
+                                            <i class="ph ph-eye" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="product-card-body">
+
+                                    <div class="product-card-meta">
+                                        <span class="product-card-cat">Tidal · Run</span>
+
+                                        <span class="swatch-dots" role="img" aria-label="Colours: white blush sand"><i style="--swatch:#d9c4a6"></i><i style="--swatch:#f5f5f3"></i><i style="--swatch:#ebb7bb"></i></span>
+
+                                    </div>
+
+                                    <h3 class="product-card-title"><a href="demo-activewear-store-1-product.html">Breeze Run Tank</a></h3>
+                                    <p class="product-card-excerpt">A featherweight racerback with mesh where you heat up.</p>
+                                    <p class="product-price">
+
+                                        <span>$48</span>
+
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="product-card product-card--scrub custom-card" data-product data-product_id="aw1-202" data-cat="women tops train" data-price="84" data-colours="lavender graphite" data-sizes="xs s m l xl" data-brand="draftmango-active" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-09-28" data-pop="90" data-anim="fade-up" data-anim-delay="80">
+                                <div class="product-card-media">
+                                    <a href="demo-activewear-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                        <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Lavender fitted half-zip long-sleeve top with thumbholes" width="600" height="600" loading="lazy" decoding="async">
+                                        <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+
+                                        <img class="product-card-img product-card-img--3" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+
+                                        <span class="product-card-scrub"><i></i><i></i><i></i></span>
+
+                                    </a>
+                                    <div class="product-card-actions">
+
+                                        <button type="button" name="add-to-cart" value="aw1-202" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Contour Half-Zip to cart">
+                                            <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                        </button>
+
+                                        <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Contour Half-Zip to wishlist">
+                                            <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Contour Half-Zip">
+                                            <i class="ph ph-eye" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="product-card-body">
+
+                                    <div class="product-card-meta">
+                                        <span class="product-card-cat">Draftmango Active · Train</span>
+
+                                        <span class="swatch-dots" role="img" aria-label="Colours: lavender graphite"><i style="--swatch:#2f3033"></i><i style="--swatch:#bcb1e3"></i></span>
+
+                                    </div>
+
+                                    <h3 class="product-card-title"><a href="demo-activewear-store-1-product.html">Contour Half-Zip</a></h3>
+                                    <p class="product-card-excerpt">Brushed inside, a fitted cut and thumbholes for cold starts.</p>
+                                    <p class="product-price">
+
+                                        <span>$84</span>
+
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="product-card product-card--scrub custom-card" data-product data-product_id="aw1-203" data-cat="men tops train" data-price="44" data-colours="graphite black white" data-sizes="xs s m l xl" data-brand="kinetic" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-09-28" data-pop="90" data-anim="fade-up" data-anim-delay="160">
+                                <div class="product-card-media">
+                                    <a href="demo-activewear-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                        <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Graphite crew-neck training t-shirt in a smooth technical knit" width="600" height="600" loading="lazy" decoding="async">
+                                        <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+
+                                        <img class="product-card-img product-card-img--3" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+
+                                        <span class="product-card-scrub"><i></i><i></i><i></i></span>
+
+                                    </a>
+                                    <div class="product-card-actions">
+
+                                        <button type="button" name="add-to-cart" value="aw1-203" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Forge Training Tee to cart">
+                                            <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                        </button>
+
+                                        <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Forge Training Tee to wishlist">
+                                            <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Forge Training Tee">
+                                            <i class="ph ph-eye" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="product-card-body">
+
+                                    <div class="product-card-meta">
+                                        <span class="product-card-cat">Kinetic · Train</span>
+
+                                        <span class="swatch-dots" role="img" aria-label="Colours: graphite black white"><i style="--swatch:#2f3033"></i><i style="--swatch:#121315"></i><i style="--swatch:#f5f5f3"></i></span>
+
+                                    </div>
+
+                                    <h3 class="product-card-title"><a href="demo-activewear-store-1-product.html">Forge Training Tee</a></h3>
+                                    <p class="product-card-excerpt">A smooth, quick-dry knit with room through the shoulders.</p>
+                                    <p class="product-price">
+
+                                        <span>$44</span>
+
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="product-card product-card--scrub custom-card" data-product data-product_id="aw1-204" data-cat="women men outer run" data-price="128" data-colours="ocean black" data-sizes="xs s m l xl" data-brand="tidal" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-09-28" data-pop="90" data-anim="fade-up" data-anim-delay="240">
+                                <div class="product-card-media">
+                                    <a href="demo-activewear-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                        <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Slate blue hooded running jacket in a packable ripstop" width="600" height="600" loading="lazy" decoding="async">
+                                        <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+
+                                        <img class="product-card-img product-card-img--3" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+
+                                        <span class="product-card-scrub"><i></i><i></i><i></i></span>
+
+                                    </a>
+                                    <div class="product-card-actions">
+
+                                        <button type="button" name="add-to-cart" value="aw1-204" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Squall Run Jacket to cart">
+                                            <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                        </button>
+
+                                        <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Squall Run Jacket to wishlist">
+                                            <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Squall Run Jacket">
+                                            <i class="ph ph-eye" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="product-card-body">
+
+                                    <div class="product-card-meta">
+                                        <span class="product-card-cat">Tidal · Run</span>
+
+                                        <span class="swatch-dots" role="img" aria-label="Colours: ocean black"><i style="--swatch:#121315"></i><i style="--swatch:#2f5d8a"></i></span>
+
+                                    </div>
+
+                                    <h3 class="product-card-title"><a href="demo-activewear-store-1-product.html">Squall Run Jacket</a></h3>
+                                    <p class="product-card-excerpt">Packs into its own pocket, sheds a squall, weighs 140 g.</p>
+                                    <p class="product-price">
+
+                                        <span>$128</span>
+
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Edit: SHOP BY ACTIVITY - five photo tiles (a swipe row on phones): per tile the link, photo (src, alt), number, name, line and style count -->
+            <section id="aw1-acts" class="section pt-0" aria-labelledby="aw1-acts-title">
+                <div class="container">
+                    <div class="custom-head" data-anim="fade-up">
+                        <div>
+                            <p class="custom-label">Shop by Activity</p>
+                            <h2 id="aw1-acts-title" class="custom-h2">Pick your session</h2>
+                        </div>
+                        <a href="demo-activewear-store-1-activities.html" class="custom-more">All Activities<i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                    </div>
+
+                    <ul class="custom-acts-row grid gap-(--custom-gap) max-sm:auto-cols-[68%]" role="list" data-anim-stagger="70" data-lenis-prevent-touch>
+                        <li data-anim="fade-up">
+                            <a href="demo-activewear-store-1-activities.html#train" class="custom-act-tile">
+                                <img src="../assets/media/placeholder/800x1000.svg" alt="A man mid kettlebell swing on a wooden deck above the ocean" width="800" height="1000" loading="lazy" decoding="async" style="--pos: 50% 40%">
+                                <span class="custom-act-num" aria-hidden="true">01</span>
+                                <span class="custom-act-foot">
+                                    <span class="grid gap-1 min-w-0"><b>Train</b><small>214 styles</small></span>
+                                    <i class="ph-bold ph-arrow-up-right" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li data-anim="fade-up">
+                            <a href="demo-activewear-store-1-activities.html#run" class="custom-act-tile">
+                                <img src="../assets/media/placeholder/800x1000.svg" alt="A smiling woman running on a palm-lined seaside path in the morning" width="800" height="1000" loading="lazy" decoding="async" style="--pos: 50% 30%">
+                                <span class="custom-act-num" aria-hidden="true">02</span>
+                                <span class="custom-act-foot">
+                                    <span class="grid gap-1 min-w-0"><b>Run</b><small>168 styles</small></span>
+                                    <i class="ph-bold ph-arrow-up-right" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li data-anim="fade-up">
+                            <a href="demo-activewear-store-1-activities.html#yoga" class="custom-act-tile">
+                                <img src="../assets/media/placeholder/800x1000.svg" alt="A woman holding tree pose on a deck by the ocean at golden hour" width="800" height="1000" loading="lazy" decoding="async" style="--pos: 50% 30%">
+                                <span class="custom-act-num" aria-hidden="true">03</span>
+                                <span class="custom-act-foot">
+                                    <span class="grid gap-1 min-w-0"><b>Yoga</b><small>132 styles</small></span>
+                                    <i class="ph-bold ph-arrow-up-right" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li data-anim="fade-up">
+                            <a href="demo-activewear-store-1-activities.html#studio" class="custom-act-tile">
+                                <img src="../assets/media/placeholder/800x1000.svg" alt="A woman in a lavender set stretching at a ballet barre in a bright white studio" width="800" height="1000" loading="lazy" decoding="async" style="--pos: 50% 40%">
+                                <span class="custom-act-num" aria-hidden="true">04</span>
+                                <span class="custom-act-foot">
+                                    <span class="grid gap-1 min-w-0"><b>Studio</b><small>96 styles</small></span>
+                                    <i class="ph-bold ph-arrow-up-right" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li data-anim="fade-up">
+                            <a href="demo-activewear-store-1-activities.html#recovery" class="custom-act-tile">
+                                <img src="../assets/media/placeholder/800x1000.svg" alt="A woman in a sand-coloured set rolling her calf on a foam roller in a sunlit living room" width="800" height="1000" loading="lazy" decoding="async" style="--pos: 45% 50%">
+                                <span class="custom-act-num" aria-hidden="true">05</span>
+                                <span class="custom-act-foot">
+                                    <span class="grid gap-1 min-w-0"><b>Recovery</b><small>54 styles</small></span>
+                                    <i class="ph-bold ph-arrow-up-right" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Edit: BEST SELLERS - the graphite panel: the Women | Men capsule follows the header switch (demo JS), each set four info-overlay cards ranked by the CSS counter. Edit: the head, per card the include's title, brand line, photos, price, colours -->
+            <section id="aw1-best" class="section pt-0" aria-labelledby="aw1-best-title">
+                <div class="container">
+                    <div class="custom-panel custom-panel--dark text-(--color-on-dark) bg-(--color-dark)">
+                        <div class="custom-head" data-anim="fade-up">
+                            <div>
+                                <p class="custom-label text-(--custom-light)">Best Sellers</p>
+                                <h2 id="aw1-best-title" class="custom-h2 text-white">What everyone&rsquo;s training in</h2>
+                            </div>
+                            <div class="flex flex-wrap items-center gap-y-4 gap-x-8">
+                                <div class="tabs tabs-capsule custom-seg custom-seg--dark w-auto">
+                                    <div class="tabs-nav" role="group" aria-label="Best sellers for">
+                                        <button type="button" class="tab-btn is-active" data-aw-show="women" aria-pressed="true" aria-controls="aw1-best-women">Women</button>
+                                        <button type="button" class="tab-btn" data-aw-show="men" aria-pressed="false" aria-controls="aw1-best-men">Men</button>
+                                    </div>
+                                </div>
+                                <a href="demo-activewear-store-1-shop.html?sort=popular" class="custom-more text-white">All Best Sellers<i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                        <div class="tabs-panels mt-0">
+                            <ul id="aw1-best-women" class="products custom-grid tabs-panel is-active" style="--cols: 4" data-aw-pane="women" aria-label="Women's best sellers">
+                                <li class="product-card product-card--overlay custom-card custom-ranked" data-product data-product_id="aw1-301" data-cat="women bottoms" data-price="88" data-colours="graphite ocean sand sunset" data-sizes="xs s m l xl" data-brand="draftmango-active" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-09-28" data-pop="90" data-anim="fade-up" data-anim-delay="0">
+                                    <div class="product-card-media">
+                                        <a href="demo-activewear-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Graphite high-rise 7/8 leggings" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="aw1-301" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Sculpt Leggings to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Sculpt Leggings to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Sculpt Leggings">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Draftmango Active · 7/8 · High rise</span>
+
+                                            <span class="swatch-dots" role="img" aria-label="Colours: graphite ocean sand sunset"><i style="--swatch:#2f3033"></i><i style="--swatch:#d9c4a6"></i><i style="--swatch:#2f5d8a"></i><i style="--swatch:#f08a4b"></i></span>
+
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-activewear-store-1-product.html">Sculpt Leggings</a></h3>
+                                        <p class="product-card-excerpt">Our squat-proof bestseller.</p>
+                                        <p class="product-price">
+
+                                            <span>$88</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--overlay custom-card custom-ranked" data-product data-product_id="aw1-302" data-cat="women bras" data-price="58" data-colours="sunset black lavender" data-sizes="xs s m l xl" data-brand="kinetic" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-09-28" data-pop="90" data-anim="fade-up" data-anim-delay="80">
+                                    <div class="product-card-media">
+                                        <a href="demo-activewear-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Coral racerback medium-support sports bra" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="aw1-302" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Lift Bra to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Lift Bra to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Lift Bra">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Kinetic · Medium support</span>
+
+                                            <span class="swatch-dots" role="img" aria-label="Colours: sunset black lavender"><i style="--swatch:#121315"></i><i style="--swatch:#f08a4b"></i><i style="--swatch:#bcb1e3"></i></span>
+
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-activewear-store-1-product.html">Lift Bra</a></h3>
+                                        <p class="product-card-excerpt">Medium support with a soft band.</p>
+                                        <p class="product-price">
+
+                                            <span>$58</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--overlay custom-card custom-ranked" data-product data-product_id="aw1-303" data-cat="women shorts run" data-price="54" data-colours="ocean black blush" data-sizes="xs s m l xl" data-brand="tidal" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-09-28" data-pop="90" data-anim="fade-up" data-anim-delay="160">
+                                    <div class="product-card-media">
+                                        <a href="demo-activewear-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Slate blue lined running shorts with a drawcord" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="aw1-303" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Pace Run Shorts to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Pace Run Shorts to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Pace Run Shorts">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Tidal · 3-inch · Lined</span>
+
+                                            <span class="swatch-dots" role="img" aria-label="Colours: ocean black blush"><i style="--swatch:#121315"></i><i style="--swatch:#ebb7bb"></i><i style="--swatch:#2f5d8a"></i></span>
+
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-activewear-store-1-product.html">Pace Run Shorts</a></h3>
+                                        <p class="product-card-excerpt">Light, lined and quick to dry.</p>
+                                        <p class="product-price">
+
+                                            <span>$54</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--overlay custom-card custom-ranked" data-product data-product_id="aw1-304" data-cat="women tops studio" data-price="52" data-colours="black sand" data-sizes="xs s m l xl" data-brand="stillwell" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-09-28" data-pop="90" data-anim="fade-up" data-anim-delay="240">
+                                    <div class="product-card-media">
+                                        <a href="demo-activewear-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Black cropped square-neck ribbed tank" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="aw1-304" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Studio Crop Tank to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Studio Crop Tank to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Studio Crop Tank">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Stillwell · Ribbed</span>
+
+                                            <span class="swatch-dots" role="img" aria-label="Colours: black sand"><i style="--swatch:#121315"></i><i style="--swatch:#d9c4a6"></i></span>
+
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-activewear-store-1-product.html">Studio Crop Tank</a></h3>
+                                        <p class="product-card-excerpt">A ribbed crop with a built-in shelf.</p>
+                                        <p class="product-price">
+
+                                            <span>$52</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul id="aw1-best-men" class="products custom-grid tabs-panel" style="--cols: 4" data-aw-pane="men" aria-label="Men's best sellers">
+                                <li class="product-card product-card--overlay custom-card custom-ranked" data-product data-product_id="aw1-311" data-cat="men bottoms" data-price="98" data-colours="black graphite sand" data-sizes="xs s m l xl" data-brand="kinetic" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-09-28" data-pop="90" data-anim="fade-up" data-anim-delay="0">
+                                    <div class="product-card-media">
+                                        <a href="demo-activewear-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Black tapered training joggers with ribbed cuffs and zip pockets" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="aw1-311" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Flow Jogger to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Flow Jogger to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Flow Jogger">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Kinetic · Tapered</span>
+
+                                            <span class="swatch-dots" role="img" aria-label="Colours: black graphite sand"><i style="--swatch:#2f3033"></i><i style="--swatch:#121315"></i><i style="--swatch:#d9c4a6"></i></span>
+
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-activewear-store-1-product.html">Flow Jogger</a></h3>
+                                        <p class="product-card-excerpt">Tapered, cuffed, zip pockets.</p>
+                                        <p class="product-price">
+
+                                            <span>$98</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--overlay custom-card custom-ranked" data-product data-product_id="aw1-312" data-cat="men shorts run" data-price="58" data-colours="graphite black ocean" data-sizes="xs s m l xl" data-brand="tidal" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-09-28" data-pop="90" data-anim="fade-up" data-anim-delay="80">
+                                    <div class="product-card-media">
+                                        <a href="demo-activewear-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Charcoal 7-inch running shorts with a split hem" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="aw1-312" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Stride Run Short to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Stride Run Short to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Stride Run Short">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Tidal · 7-inch · Lined</span>
+
+                                            <span class="swatch-dots" role="img" aria-label="Colours: graphite black ocean"><i style="--swatch:#2f3033"></i><i style="--swatch:#121315"></i><i style="--swatch:#2f5d8a"></i></span>
+
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-activewear-store-1-product.html">Stride Run Short</a></h3>
+                                        <p class="product-card-excerpt">Split hem, phone pocket, lined.</p>
+                                        <p class="product-price">
+
+                                            <span>$58</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--overlay custom-card custom-ranked" data-product data-product_id="aw1-313" data-cat="men tops" data-price="92" data-colours="sand graphite" data-sizes="xs s m l xl" data-brand="draftmango-active" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-09-28" data-pop="90" data-anim="fade-up" data-anim-delay="160">
+                                    <div class="product-card-media">
+                                        <a href="demo-activewear-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Stone beige waffle-knit quarter-zip base layer" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="aw1-313" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Base Quarter-Zip to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Base Quarter-Zip to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Base Quarter-Zip">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Draftmango Active · Waffle knit</span>
+
+                                            <span class="swatch-dots" role="img" aria-label="Colours: sand graphite"><i style="--swatch:#2f3033"></i><i style="--swatch:#d9c4a6"></i></span>
+
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-activewear-store-1-product.html">Base Quarter-Zip</a></h3>
+                                        <p class="product-card-excerpt">A warm waffle knit for early runs.</p>
+                                        <p class="product-price">
+
+                                            <span>$92</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--overlay custom-card custom-ranked" data-product data-product_id="aw1-314" data-cat="men tops train" data-price="38" data-colours="graphite white black" data-sizes="xs s m l xl" data-brand="kinetic" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-09-28" data-pop="90" data-anim="fade-up" data-anim-delay="240">
+                                    <div class="product-card-media">
+                                        <a href="demo-activewear-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Heather grey sleeveless training tank" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="aw1-314" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Core Muscle Tank to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Core Muscle Tank to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Core Muscle Tank">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Kinetic · Heather</span>
+
+                                            <span class="swatch-dots" role="img" aria-label="Colours: graphite white black"><i style="--swatch:#2f3033"></i><i style="--swatch:#121315"></i><i style="--swatch:#f5f5f3"></i></span>
+
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-activewear-store-1-product.html">Core Muscle Tank</a></h3>
+                                        <p class="product-card-excerpt">Dropped armholes, soft heather.</p>
+                                        <p class="product-price">
+
+                                            <span>$38</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Edit: FABRIC TECH - the ice-mint panel: the macro photo with its fabric tag, the head and three facts (icon, title, line), the link -->
+            <section id="aw1-fabric" class="section pt-0" aria-labelledby="aw1-fabric-title">
+                <div class="container">
+                    <div class="custom-panel custom-panel--tint grid grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] gap-[clamp(2rem,4.5vw,4.5rem)] items-center max-lg:grid-cols-1">
+                        <figure class="relative self-stretch min-h-104 overflow-hidden rounded-(--custom-radius) bg-(--color-dark) max-lg:min-h-0 max-lg:aspect-[16/10]" data-anim="fade-up">
+                            <img class="absolute inset-0 size-full object-cover" src="../assets/media/placeholder/1920x1080.svg" alt="Macro of a graphite performance knit in soft folds, with water beading on the surface" width="1920" height="1080" loading="lazy" decoding="async">
+                            <figcaption class="custom-fabric-tag max-md:pr-2"><b class="py-1 px-3 font-heading text-[1.0625rem] italic font-bold text-(--color-on-dark) bg-(--color-dark) rounded-pill">CoreKnit</b><span class="max-md:hidden">74% recycled nylon · 26% elastane · 240 gsm</span></figcaption>
+                        </figure>
+
+                        <div data-anim="fade-up" data-anim-delay="80">
+                            <p class="custom-label">Fabric Tech</p>
+                            <h2 id="aw1-fabric-title" class="custom-h2">Built to sweat in, tested to stay put</h2>
+                            <p class="custom-lead">CoreKnit is the fabric inside our leggings, bras and training tops: soft on the skin, firm where you need hold.</p>
+
+                            <ol class="custom-facts" role="list">
+                                <li class="flex gap-4.5 py-4.5">
+                                    <span class="custom-fact-icon"><i class="ph ph-drop" aria-hidden="true"></i></span>
+                                    <div>
+                                        <h3>Sweat-wicking</h3>
+                                        <p class="text-soft">Pulls moisture to the surface and dries twice as fast as cotton.</p>
+                                    </div>
+                                </li>
+                                <li class="flex gap-4.5 py-4.5">
+                                    <span class="custom-fact-icon"><i class="ph ph-arrows-out" aria-hidden="true"></i></span>
+                                    <div>
+                                        <h3>4-way stretch</h3>
+                                        <p class="text-soft">Moves with every lunge and reach, then springs back to shape.</p>
+                                    </div>
+                                </li>
+                                <li class="flex gap-4.5 py-4.5">
+                                    <span class="custom-fact-icon"><i class="ph ph-seal-check" aria-hidden="true"></i></span>
+                                    <div>
+                                        <h3>Squat-proof</h3>
+                                        <p class="text-soft">Every legging is checked at full depth under bright studio light.</p>
+                                    </div>
+                                </li>
+                            </ol>
+
+                            <a href="demo-activewear-store-1-shop.html?fabric=coreknit" class="btn btn-dark btn-lg mt-8">Shop CoreKnit</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Edit: LEGGINGS BY FIT - the white panel: rise and length pills (template option pills; demo JS dims the pairs that do not match and counts the rest), four soft-tile cards; per card the include's title, the rise / length line, the photo, the price and the fit words in pGroup (rise-high, len-78…) -->
+            <section id="aw1-fit" class="section pt-0" aria-labelledby="aw1-fit-title">
+                <div class="container">
+                    <div class="custom-panel" data-aw-fit>
+                        <div class="flex flex-wrap items-end justify-between gap-y-6 gap-x-[clamp(2rem,5vw,5rem)] mb-8" data-anim="fade-up">
+                            <div>
+                                <p class="custom-label">Leggings by Fit</p>
+                                <h2 id="aw1-fit-title" class="custom-h2">Find your rise and length</h2>
+                                <p class="custom-lead">Pick what you like to wear and the pairs that match stay lit.</p>
+                                <p class="custom-fit-status mt-4 text-[0.9375rem] text-muted" aria-live="polite"><b class="font-bold text-text" data-aw-fit-count>4</b> of 4 pairs match <a class="ms-3 font-semibold" href="demo-activewear-store-1-size-guide.html">Size Guide</a></p>
+                            </div>
+
+                            <div class="flex flex-wrap gap-y-5 gap-x-8">
+                                <fieldset class="flex flex-wrap gap-2 border-0 border-none">
+                                    <legend class="mb-2.5 text-[0.9375rem] font-semibold">Rise</legend>
+                                    <label class="option-pill"><input type="radio" name="aw1-rise" value="" checked><span class="py-2 px-4 text-[0.9375rem]">Any</span></label>
+                                    <label class="option-pill"><input type="radio" name="aw1-rise" value="rise-high"><span class="py-2 px-4 text-[0.9375rem]">High</span></label>
+                                    <label class="option-pill"><input type="radio" name="aw1-rise" value="rise-mid"><span class="py-2 px-4 text-[0.9375rem]">Mid</span></label>
+                                </fieldset>
+                                <fieldset class="flex flex-wrap gap-2 border-0 border-none">
+                                    <legend class="mb-2.5 text-[0.9375rem] font-semibold">Length</legend>
+                                    <label class="option-pill"><input type="radio" name="aw1-length" value="" checked><span class="py-2 px-4 text-[0.9375rem]">Any</span></label>
+                                    <label class="option-pill"><input type="radio" name="aw1-length" value="len-bike"><span class="py-2 px-4 text-[0.9375rem]">Bike</span></label>
+                                    <label class="option-pill"><input type="radio" name="aw1-length" value="len-78"><span class="py-2 px-4 text-[0.9375rem]">7/8</span></label>
+                                    <label class="option-pill"><input type="radio" name="aw1-length" value="len-full"><span class="py-2 px-4 text-[0.9375rem]">Full</span></label>
+                                    <label class="option-pill"><input type="radio" name="aw1-length" value="len-flare"><span class="py-2 px-4 text-[0.9375rem]">Flare</span></label>
+                                </fieldset>
+                            </div>
+                        </div>
+
+                        <ul class="products custom-grid custom-fit-grid" style="--cols: 4">
+                            <li class="product-card product-card--tile custom-card" data-product data-product_id="aw1-401" data-cat="rise-high len-78" data-price="88" data-colours="graphite" data-sizes="xs s m l xl" data-brand="draftmango-active" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-09-28" data-pop="90" data-anim="fade-up" data-anim-delay="0">
+                                <div class="product-card-media">
+                                    <a href="demo-activewear-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                        <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Graphite high-rise 7/8 leggings" width="600" height="600" loading="lazy" decoding="async">
+                                        <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                    </a>
+                                    <div class="product-card-actions">
+
+                                        <button type="button" name="add-to-cart" value="aw1-401" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Sculpt Leggings to cart">
+                                            <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                        </button>
+
+                                        <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Sculpt Leggings to wishlist">
+                                            <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Sculpt Leggings">
+                                            <i class="ph ph-eye" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="product-card-body">
+
+                                    <div class="product-card-meta">
+                                        <span class="product-card-cat">High rise · 7/8 · 25-inch</span>
+                                    </div>
+
+                                    <h3 class="product-card-title"><a href="demo-activewear-store-1-product.html">Sculpt Leggings</a></h3>
+                                    <p class="product-card-excerpt"></p>
+                                    <p class="product-price">
+
+                                        <span>$88</span>
+
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="product-card product-card--tile custom-card" data-product data-product_id="aw1-402" data-cat="rise-high len-full" data-price="92" data-colours="ocean" data-sizes="xs s m l xl" data-brand="stillwell" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-09-28" data-pop="90" data-anim="fade-up" data-anim-delay="80">
+                                <div class="product-card-media">
+                                    <a href="demo-activewear-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                        <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Deep ocean blue high-rise full-length leggings" width="600" height="600" loading="lazy" decoding="async">
+                                        <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                    </a>
+                                    <div class="product-card-actions">
+
+                                        <button type="button" name="add-to-cart" value="aw1-402" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Ease Leggings to cart">
+                                            <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                        </button>
+
+                                        <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Ease Leggings to wishlist">
+                                            <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Ease Leggings">
+                                            <i class="ph ph-eye" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="product-card-body">
+
+                                    <div class="product-card-meta">
+                                        <span class="product-card-cat">High rise · Full · 28-inch</span>
+                                    </div>
+
+                                    <h3 class="product-card-title"><a href="demo-activewear-store-1-product.html">Ease Leggings</a></h3>
+                                    <p class="product-card-excerpt"></p>
+                                    <p class="product-price">
+
+                                        <span>$92</span>
+
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="product-card product-card--tile custom-card" data-product data-product_id="aw1-403" data-cat="rise-high len-flare" data-price="96" data-colours="sand" data-sizes="xs s m l xl" data-brand="stillwell" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-09-28" data-pop="90" data-anim="fade-up" data-anim-delay="160">
+                                <div class="product-card-media">
+                                    <a href="demo-activewear-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                        <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Sand taupe high-rise flared yoga pants" width="600" height="600" loading="lazy" decoding="async">
+                                        <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                    </a>
+                                    <div class="product-card-actions">
+
+                                        <button type="button" name="add-to-cart" value="aw1-403" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Studio Flare Pant to cart">
+                                            <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                        </button>
+
+                                        <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Studio Flare Pant to wishlist">
+                                            <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Studio Flare Pant">
+                                            <i class="ph ph-eye" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="product-card-body">
+
+                                    <div class="product-card-meta">
+                                        <span class="product-card-cat">High rise · Flare · 31-inch</span>
+                                    </div>
+
+                                    <h3 class="product-card-title"><a href="demo-activewear-store-1-product.html">Studio Flare Pant</a></h3>
+                                    <p class="product-card-excerpt"></p>
+                                    <p class="product-price">
+
+                                        <span>$96</span>
+
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="product-card product-card--tile custom-card" data-product data-product_id="aw1-404" data-cat="rise-mid len-bike" data-price="48" data-colours="blush" data-sizes="xs s m l xl" data-brand="draftmango-active" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-09-28" data-pop="90" data-anim="fade-up" data-anim-delay="240">
+                                <div class="product-card-media">
+                                    <a href="demo-activewear-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                        <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Blush pink mid-rise 6-inch bike shorts" width="600" height="600" loading="lazy" decoding="async">
+                                        <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                    </a>
+                                    <div class="product-card-actions">
+
+                                        <button type="button" name="add-to-cart" value="aw1-404" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Tempo Bike Short to cart">
+                                            <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                            <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                        </button>
+
+                                        <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Tempo Bike Short to wishlist">
+                                            <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Tempo Bike Short">
+                                            <i class="ph ph-eye" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="product-card-body">
+
+                                    <div class="product-card-meta">
+                                        <span class="product-card-cat">Mid rise · Bike · 6-inch</span>
+                                    </div>
+
+                                    <h3 class="product-card-title"><a href="demo-activewear-store-1-product.html">Tempo Bike Short</a></h3>
+                                    <p class="product-card-excerpt"></p>
+                                    <p class="product-price">
+
+                                        <span>$48</span>
+
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Edit: RUN CLUB - the club photo beside the primary card: the head, the line, the three Saturday routes (distance, name, pace), the two links -->
+            <section id="aw1-club" class="section pt-0" aria-labelledby="aw1-club-title">
+                <div class="container">
+                    <div class="grid grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)] gap-(--custom-gap) min-h-[clamp(28rem,36vw,34rem)] max-lg:grid-cols-1">
+                        <div class="custom-meet-photo relative overflow-hidden bg-muted max-lg:aspect-video" data-anim="fade-up">
+                            <img class="absolute inset-0 size-full object-cover object-[50%_40%]" src="../assets/media/placeholder/2560x1097.svg" alt="Seven runners of the Draftmango Run Club jogging together along a seaside boardwalk at sunrise" width="2560" height="1097" loading="lazy" decoding="async">
+                            <span class="custom-meet-chip"><i class="ph-fill ph-map-pin text-primary-ink" aria-hidden="true"></i>Harbor Lane store, Mission Bay</span>
+                        </div>
+
+                        <div class="custom-meet-card flex flex-col p-[clamp(1.75rem,3vw,2.75rem)] text-on-primary bg-primary" data-anim="fade-up" data-anim-delay="80">
+                            <p class="custom-label text-inherit">Draftmango Run Club</p>
+                            <h2 id="aw1-club-title" class="custom-h2 text-white">Saturdays, 8&nbsp;AM.<br> Every pace.</h2>
+                            <p class="mt-4 text-[1.0625rem] opacity-90">Free group runs along the bay, with coffee after. 1,800 members and counting.</p>
+
+                            <ul class="custom-routes grid mt-7" role="list">
+                                <li class="flex items-center gap-5 py-3.5"><b>3K</b><span class="grid font-semibold">Easy Loop<small class="text-[0.875rem] font-normal opacity-82">Walk-run welcome</small></span></li>
+                                <li class="flex items-center gap-5 py-3.5"><b>5K</b><span class="grid font-semibold">Harbor Loop<small class="text-[0.875rem] font-normal opacity-82">10&ndash;11 min a mile</small></span></li>
+                                <li class="flex items-center gap-5 py-3.5"><b>10K</b><span class="grid font-semibold">Pier &amp; Back<small class="text-[0.875rem] font-normal opacity-82">8&ndash;9 min a mile</small></span></li>
+                            </ul>
+
+                            <div class="mt-auto flex flex-wrap items-center gap-x-6 gap-y-3 pt-8">
+                                <a href="demo-activewear-store-1-run-club.html#join" class="btn btn-white btn-lg">Join Run Club</a>
+                                <a href="demo-activewear-store-1-run-club.html#routes" class="custom-meet-link font-semibold">See the Routes</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Edit: REVIEWS - the score card (score, stars, count, the fit and length meters: --custom-at is where the dot sits, 50% = as expected) and three reviews (the piece bought, size, stars, title, words, name, fit tag) -->
+            <section id="aw1-reviews" class="section pt-0" aria-labelledby="aw1-reviews-title">
+                <div class="container">
+                    <div class="custom-head" data-anim="fade-up">
+                        <div>
+                            <p class="custom-label">Reviews</p>
+                            <h2 id="aw1-reviews-title" class="custom-h2">Runs true to size, say 12,400 of you</h2>
+                        </div>
+                        <a href="demo-activewear-store-1-product.html#reviews" class="custom-more">Read All Reviews<i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                    </div>
+
+                    <div class="grid grid-cols-[minmax(0,20rem)_minmax(0,1fr)] gap-(--custom-gap) max-xl:grid-cols-1">
+                        <div class="p-[clamp(1.5rem,2.2vw,2rem)] bg-surface rounded-(--custom-radius) max-xl:grid max-xl:grid-cols-[auto_repeat(2,minmax(0,1fr))] max-xl:gap-y-0 max-xl:gap-x-[clamp(1.5rem,4vw,3rem)] max-xl:items-center max-md:block" data-anim="fade-up">
+                            <div>
+                                <p class="custom-score-num">4.8<small class="font-sans text-[1rem] not-italic font-normal text-muted">out of 5</small></p>
+                                <div class="product-rating product-rating--lg" style="--rating: 4.8" role="img" aria-label="Rated 4.8 out of 5"></div>
+                                <p class="mt-2 mb-0 text-soft">From 12,400 verified buyers</p>
+                            </div>
+
+                            <div class="custom-meter mt-6 pt-5 border-t border-t-(--color-border-soft) max-xl:m-0 max-xl:p-0 max-xl:border-0 max-md:mt-6 max-md:pt-5 max-md:border-t max-md:border-t-(--color-border-soft)" style="--custom-at: 52%" role="img" aria-label="Fit: true to size">
+                                <p>How it fits <b class="font-semibold text-text">True to size</b></p>
+                                <span class="custom-meter-track"><i></i></span>
+                                <span class="custom-meter-ends" aria-hidden="true"><span>Runs small</span><span>Runs large</span></span>
+                            </div>
+                            <div class="custom-meter mt-6 pt-5 border-t border-t-(--color-border-soft) max-xl:m-0 max-xl:p-0 max-xl:border-0 max-md:mt-6 max-md:pt-5 max-md:border-t max-md:border-t-(--color-border-soft)" style="--custom-at: 46%" role="img" aria-label="Length: as expected">
+                                <p>Length <b class="font-semibold text-text">As expected</b></p>
+                                <span class="custom-meter-track"><i></i></span>
+                                <span class="custom-meter-ends" aria-hidden="true"><span>Short</span><span>Long</span></span>
+                            </div>
+                            <p class="custom-score-foot max-xl:col-span-full"><i class="ph-fill ph-arrows-clockwise text-[1.25rem] text-primary-ink" aria-hidden="true"></i><span><b class="text-text">94%</b> would buy the same size again</span></p>
+                        </div>
+
+                        <ul class="custom-review-list grid gap-(--custom-gap) max-md:auto-cols-[84%]" role="list" data-anim-stagger="80">
+                            <li class="custom-review p-[clamp(1.5rem,2.2vw,2rem)] bg-surface rounded-(--custom-radius) flex flex-col" data-anim="fade-up">
+                                <div class="custom-review-item">
+                                    <img class="flex-none size-14 bg-(--product-bg)" src="../assets/media/placeholder/1000x1000.svg" alt="" width="1000" height="1000" loading="lazy" decoding="async">
+                                    <p><b class="text-[1rem] font-semibold text-text">Sculpt Leggings</b>Bought S · 7/8 · Graphite</p>
+                                </div>
+                                <div class="product-rating" style="--rating: 5" role="img" aria-label="Rated 5 out of 5"></div>
+                                <h3>Passed the squat test in the studio mirror</h3>
+                                <p class="text-soft">Thick enough that nothing shows at the bottom of a squat, and the waistband stays put through a full HIIT class. I have washed them twenty times and they still look new.</p>
+                                <p class="custom-review-by mt-0 text-soft"><span class="grid">Maya Bennett <small class="text-[0.875rem] font-normal text-muted">San Diego, CA</small></span><span class="custom-review-fit">True to size</span></p>
+                            </li>
+                            <li class="custom-review p-[clamp(1.5rem,2.2vw,2rem)] bg-surface rounded-(--custom-radius) flex flex-col" data-anim="fade-up">
+                                <div class="custom-review-item">
+                                    <img class="flex-none size-14 bg-(--product-bg)" src="../assets/media/placeholder/1000x1000.svg" alt="" width="1000" height="1000" loading="lazy" decoding="async">
+                                    <p><b class="text-[1rem] font-semibold text-text">Stride Run Short</b>Bought M · 7-inch · Charcoal</p>
+                                </div>
+                                <div class="product-rating" style="--rating: 5" role="img" aria-label="Rated 5 out of 5"></div>
+                                <h3>My long-run shorts now</h3>
+                                <p class="text-soft">The liner does not ride up, and the back pocket holds my phone without bouncing. Ran a half marathon in them last month with no chafing at all.</p>
+                                <p class="custom-review-by mt-0 text-soft"><span class="grid">Ryan Carter <small class="text-[0.875rem] font-normal text-muted">Austin, TX</small></span><span class="custom-review-fit">True to size</span></p>
+                            </li>
+                            <li class="custom-review p-[clamp(1.5rem,2.2vw,2rem)] bg-surface rounded-(--custom-radius) flex flex-col" data-anim="fade-up">
+                                <div class="custom-review-item">
+                                    <img class="flex-none size-14 bg-(--product-bg)" src="../assets/media/placeholder/1000x1000.svg" alt="" width="1000" height="1000" loading="lazy" decoding="async">
+                                    <p><b class="text-[1rem] font-semibold text-text">Studio Flare Pant</b>Bought XS · Sand</p>
+                                </div>
+                                <div class="product-rating" style="--rating: 4" role="img" aria-label="Rated 4 out of 5"></div>
+                                <h3>So soft, a little long on me</h3>
+                                <p class="text-soft">The brushed fabric feels like nothing at all in a slow flow class. I am 5&prime;2&Prime; and the hem pools a bit over my feet, so I would love a petite length.</p>
+                                <p class="custom-review-by mt-0 text-soft"><span class="grid">Sofia Alvarez <small class="text-[0.875rem] font-normal text-muted">Denver, CO</small></span><span class="custom-review-fit custom-review-fit--off text-soft bg-soft">Runs long</span></p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Edit: BLOG - one lead post and two side posts, each card one link: the photo (src, alt), the topic, the minutes, the title (the lead adds a line) -->
+            <section id="aw1-blog" class="section pt-0" aria-labelledby="aw1-blog-title">
+                <div class="container">
+                    <div class="custom-head" data-anim="fade-up">
+                        <div>
+                            <p class="custom-label">From the Blog</p>
+                            <h2 id="aw1-blog-title" class="custom-h2">Training notes</h2>
+                        </div>
+                        <a href="demo-activewear-store-1-blog.html" class="custom-more">All Posts<i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                    </div>
+
+                    <ul class="grid grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] grid-rows-[repeat(2,auto)] gap-y-(--custom-gap) gap-x-[clamp(1.5rem,3vw,3rem)] max-lg:grid-cols-1" role="list" data-anim-stagger="80">
+                        <li class="row-[span_2] max-lg:row-[auto]" data-anim="fade-up">
+                            <a href="demo-activewear-store-1-article.html" class="custom-post custom-post--lead max-md:grid-cols-none max-md:gap-4">
+                                <span class="custom-post-img aspect-[16/10] max-md:aspect-[3/2]"><img class="size-full object-cover" src="../assets/media/placeholder/1200x800.svg" alt="Hands tying the laces of white running shoes on a weathered wooden pier" width="1200" height="800" loading="lazy" decoding="async"></span>
+                                <span class="grid gap-2">
+                                    <span class="text-[0.875rem] font-semibold text-primary-ink">Run <span aria-hidden="true">&middot;</span> 6 min read</span>
+                                    <span class="custom-post-title text-[clamp(1.75rem,1.3rem_+_1vw,2.25rem)]">Your first 5K with Run Club: an eight-week plan</span>
+                                    <span class="max-w-144 text-soft">Three runs a week, one of them with us on Saturday, from walk-run to a steady 5K.</span>
+                                </span>
+                            </a>
+                        </li>
+                        <li data-anim="fade-up">
+                            <a href="demo-activewear-store-1-blog.html" class="custom-post max-md:grid-cols-[7.5rem_minmax(0,1fr)] max-md:gap-4">
+                                <span class="custom-post-img max-md:aspect-square"><img class="size-full object-cover" src="../assets/media/placeholder/1200x800.svg" alt="A woman in a deep hip flexor stretch on the sand at sunset" width="1200" height="800" loading="lazy" decoding="async"></span>
+                                <span class="grid gap-2">
+                                    <span class="text-[0.875rem] font-semibold text-primary-ink">Recovery <span aria-hidden="true">&middot;</span> 4 min read</span>
+                                    <span class="custom-post-title">Ten minutes of mobility for desk days</span>
+                                </span>
+                            </a>
+                        </li>
+                        <li class="pt-(--custom-gap) border-t border-t-(--color-border)" data-anim="fade-up">
+                            <a href="demo-activewear-store-1-blog.html" class="custom-post max-md:grid-cols-[7.5rem_minmax(0,1fr)] max-md:gap-4">
+                                <span class="custom-post-img max-md:aspect-square"><img class="size-full object-cover" src="../assets/media/placeholder/1200x800.svg" alt="A flat lay of a steel bottle, folded graphite leggings, a rolled towel and a notebook on concrete" width="1200" height="800" loading="lazy" decoding="async"></span>
+                                <span class="grid gap-2">
+                                    <span class="text-[0.875rem] font-semibold text-primary-ink">Train <span aria-hidden="true">&middot;</span> 3 min read</span>
+                                    <span class="custom-post-title">What to pack for a lunchtime session</span>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <!-- Quick view - one dialog per page, filled by initQuickView() from the card that opened it -->
+        <dialog id="quick-view" class="modal modal--xl" data-anim="zoom" aria-labelledby="qv-title">
+            <div class="modal-dialog">
+                <div class="modal-content relative">
+                    <button class="modal-close absolute top-4 right-4 z-10" data-modal-close aria-label="Close"><i class="ph ph-x" aria-hidden="true"></i></button>
+                    <div class="grid md:grid-cols-2 overflow-y-auto" data-lenis-prevent>
+                        <div class="bg-muted aspect-[4/5] md:aspect-auto md:min-h-[34rem]">
+                            <img data-qv-img src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="" class="size-full object-cover" width="900" height="1100">
+                        </div>
+                        <div class="flex flex-col p-7 md:p-10">
+                            <span class="product-card-cat" data-qv-cat></span>
+                            <h2 id="qv-title" class="mt-3 text-2xl font-semibold tracking-[-0.025em] leading-tight" data-qv-title></h2>
+                            <div class="mt-3" data-qv-rating></div>
+                            <p class="product-price text-xl mt-5" data-qv-price></p>
+                            <p class="mt-4 text-soft leading-relaxed" data-qv-excerpt></p>
+                            <div class="mt-5 flex items-center gap-3 text-sm text-soft">Colours <span data-qv-colours></span></div>
+                            <form class="mt-8 flex flex-wrap items-center gap-3" x-data @submit.prevent>
+                                <div class="qty">
+                                    <button type="button" class="qty-btn" data-step="-1" aria-label="Decrease quantity"><i class="ph ph-minus" aria-hidden="true"></i></button>
+                                    <input type="number" class="qty-input" name="quantity" value="1" min="1" max="10" aria-label="Quantity">
+                                    <button type="button" class="qty-btn" data-step="1" aria-label="Increase quantity"><i class="ph ph-plus" aria-hidden="true"></i></button>
+                                </div>
+                                <button type="submit" class="btn btn-dark btn-pill btn-lg btn-atc flex-1 min-w-[12rem]" x-data="addToCart" @click="add()" :data-state="state">
+                                    <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i>Add to cart</span>
+                                    <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                    <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i>Added to cart</span>
+                                </button>
+                            </form>
+                            <a href="#" class="btn-link-arrow mt-auto pt-8 self-start font-semibold text-primary-ink" data-qv-link>View full details <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </dialog>
+
+        <!-- Activewear Store footer - Run Club + App: the newsletter (formValidate), the Run Club card (photo, day, routes) and the app card (neutral store chips), four link columns that fold on phones, then © / legal, socials and payment marks. Edit: the copy, the card links, the columns, the legal links, the socials -->
+        <footer class="site-footer site-footer--dark custom-footer pt-[clamp(3rem,5vw,4.5rem)]">
+            <div class="container">
+                <div class="grid grid-cols-[minmax(0,1.25fr)_repeat(2,minmax(0,1fr))] gap-(--custom-gap) pb-[clamp(2.5rem,4vw,3.5rem)] max-lg:grid-cols-2 max-md:grid-cols-1">
+                    <div class="py-2 pr-[clamp(0rem,3vw,3rem)] pl-0 max-lg:pt-0 max-lg:pb-4 max-lg:px-0 max-lg:col-span-full" data-anim="fade-up">
+                        <a href="demo-activewear-store-1.html" class="custom-footer-brand inline-flex text-white" aria-label="Draftmango Active, home"><!-- Activewear Store wordmark - set in type: a stride mark (two slanted bars in the primary) and DRAFTMANGO ACTIVE in condensed italic (header brand: "demo" slot). Edit: the two words -->
+                            <span class="custom-brand max-sm:text-[1.375rem]"><svg class="custom-brand-mark w-[1.25em] h-auto me-[0.12em]" viewBox="0 0 30 22" aria-hidden="true" focusable="false">
+                                    <path d="M9.5 0H17L7.5 22H0z" />
+                                    <path d="M22.5 0H30l-9.5 22H13z" />
+                                </svg><span>Draftmango</span> <b class="font-medium">Active</b></span></a>
+                        <h2 class="mt-8 text-[clamp(2rem,1.5rem_+_1.2vw,2.625rem)] leading-[1] text-white">Get the drop first</h2>
+                        <p class="max-w-120 mt-3 text-(--footer-body)">New styles, restocks and the next Run Club routes, every other Thursday. 10% off your first order.</p>
+                        <form class="mt-6 max-w-[30rem]" x-data="formValidate()" novalidate @submit.prevent="onSubmit($event)">
+                            <div class="footer-subscribe footer-subscribe--boxed footer-subscribe--label">
+                                <input id="aw1-news" name="email" type="email" placeholder="Your email address" aria-label="Email address" aria-describedby="aw1-news-msg" autocomplete="email" required @blur="check($event.target)" @input="check($event.target)">
+                                <button type="submit">Sign Up<i class="ph ph-arrow-right" aria-hidden="true"></i></button>
+                            </div>
+                            <span class="footer-subscribe-msg" id="aw1-news-msg">
+                                <span x-show="!errors.email &amp;&amp; !sent">No spam. Unsubscribe in one click.</span>
+                                <span class="footer-subscribe-msg--error" x-show="errors.email" x-text="errors.email" x-cloak></span>
+                                <span class="footer-subscribe-msg--ok" x-show="sent" x-cloak>You&rsquo;re in. Your 10% code is on its way.</span>
+                            </span>
+                        </form>
+                    </div>
+
+                    <a href="demo-activewear-store-1-run-club.html" class="custom-footer-card custom-footer-card--club relative flex flex-col p-7 overflow-hidden isolate rounded-(--custom-radius)" data-anim="fade-up" data-anim-delay="80">
+                        <img class="w-[calc(100%_+_3.5rem)] max-w-none h-38 -mt-7 mb-6 -mx-7 object-cover object-[50%_30%]" src="../assets/media/placeholder/2560x1097.svg" alt="" width="2560" height="1097" loading="lazy" decoding="async">
+                        <span class="grid gap-1.5">
+                            <span class="text-[0.875rem] font-semibold text-(--custom-light)">Draftmango Run Club</span>
+                            <span class="custom-footer-card-title mt-0.5 font-heading text-[1.75rem] font-bold leading-[1.05] text-white">Saturdays, 8&nbsp;AM</span>
+                            <span class="mt-1.5 text-[0.9375rem] leading-[1.5]">3K, 5K and 10K from the Harbor Lane store, every pace, coffee after.</span>
+                            <span class="custom-footer-card-go inline-flex items-center gap-2 mt-3 font-semibold text-white">Join Free<i class="ph ph-arrow-right" aria-hidden="true"></i></span>
+                        </span>
+                    </a>
+
+                    <div class="custom-footer-card relative flex flex-col p-7 overflow-hidden isolate no-underline rounded-(--custom-radius)" data-anim="fade-up" data-anim-delay="160">
+                        <span class="custom-footer-card-icon grid place-items-center size-12 mb-5 text-[1.5rem] text-on-primary bg-primary"><i class="ph ph-device-mobile" aria-hidden="true"></i></span>
+                        <span class="text-[0.875rem] font-semibold text-(--custom-light)">The Draftmango Active App</span>
+                        <h2 class="custom-footer-card-title mt-0.5 text-[1.75rem] font-bold leading-[1.05] text-white">Early drops, one tap away</h2>
+                        <p class="mt-1.5 text-[0.9375rem] leading-[1.5]">Track orders, shop members-only drops a day early and check in at Run Club.</p>
+                        <div class="flex flex-wrap gap-2.5 mt-auto pt-6">
+                            <a href="#" class="custom-footer-store"><i class="ph-fill ph-apple-logo text-[1.375rem]" aria-hidden="true"></i><span class="grid"><small class="text-[0.75rem] font-medium opacity-70">Download on the</small>App Store</span></a>
+                            <a href="#" class="custom-footer-store"><i class="ph-fill ph-google-play-logo text-[1.375rem]" aria-hidden="true"></i><span class="grid"><small class="text-[0.75rem] font-medium opacity-70">Get it on</small>Google Play</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="custom-footer-cols grid grid-cols-4 gap-y-10 gap-x-(--custom-gap) py-[clamp(2.5rem,4vw,3.5rem)] border-t border-t-(--footer-rule) max-lg:grid-cols-2 max-md:grid-cols-1 max-md:gap-0 max-md:border-t-0">
+                    <nav class="footer-acc" x-data="{ open: false }" :class="open ? 'is-open' : 'is-shut'" aria-labelledby="aw1-col-shop">
+                        <button type="button" class="footer-acc-toggle font-heading text-[1.25rem] italic" id="aw1-col-shop" @click="open = !open" :aria-expanded="open">Shop <i class="ph ph-plus footer-acc-caret" aria-hidden="true"></i></button>
+                        <div class="footer-acc-body">
+                            <ul class="footer-links">
+                                <li><a href="demo-activewear-store-1-shop.html?for=women">Women</a></li>
+                                <li><a href="demo-activewear-store-1-shop.html?for=men">Men</a></li>
+                                <li><a href="demo-activewear-store-1-shop.html?sort=new">New In</a></li>
+                                <li><a href="demo-activewear-store-1-shop.html?sort=popular">Bestsellers</a></li>
+                                <li><a href="demo-activewear-store-1-shop.html?cat=leggings">Leggings</a></li>
+                                <li><a href="demo-activewear-store-1-shop.html?cat=bras">Sports Bras</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                    <nav class="footer-acc" x-data="{ open: false }" :class="open ? 'is-open' : 'is-shut'" aria-labelledby="aw1-col-acts">
+                        <button type="button" class="footer-acc-toggle font-heading text-[1.25rem] italic" id="aw1-col-acts" @click="open = !open" :aria-expanded="open">Activities <i class="ph ph-plus footer-acc-caret" aria-hidden="true"></i></button>
+                        <div class="footer-acc-body">
+                            <ul class="footer-links">
+                                <li><a href="demo-activewear-store-1-activities.html#train">Train</a></li>
+                                <li><a href="demo-activewear-store-1-activities.html#run">Run</a></li>
+                                <li><a href="demo-activewear-store-1-activities.html#yoga">Yoga</a></li>
+                                <li><a href="demo-activewear-store-1-activities.html#studio">Studio</a></li>
+                                <li><a href="demo-activewear-store-1-activities.html#recovery">Recovery</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                    <nav class="footer-acc" x-data="{ open: false }" :class="open ? 'is-open' : 'is-shut'" aria-labelledby="aw1-col-help">
+                        <button type="button" class="footer-acc-toggle font-heading text-[1.25rem] italic" id="aw1-col-help" @click="open = !open" :aria-expanded="open">Help <i class="ph ph-plus footer-acc-caret" aria-hidden="true"></i></button>
+                        <div class="footer-acc-body">
+                            <ul class="footer-links">
+                                <li><a href="demo-activewear-store-1-size-guide.html">Size Guide</a></li>
+                                <li><a href="demo-activewear-store-1-account.html#orders">Track Order</a></li>
+                                <li><a href="demo-activewear-store-1-about.html#shipping">Shipping</a></li>
+                                <li><a href="demo-activewear-store-1-about.html#returns">30-Day Sweat Test</a></li>
+                                <li><a href="mailto:hello@draftmangoactive.com">Email Us</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                    <nav class="footer-acc" x-data="{ open: false }" :class="open ? 'is-open' : 'is-shut'" aria-labelledby="aw1-col-co">
+                        <button type="button" class="footer-acc-toggle font-heading text-[1.25rem] italic" id="aw1-col-co" @click="open = !open" :aria-expanded="open">Draftmango Active <i class="ph ph-plus footer-acc-caret" aria-hidden="true"></i></button>
+                        <div class="footer-acc-body">
+                            <ul class="footer-links">
+                                <li><a href="demo-activewear-store-1-about.html">About Us</a></li>
+                                <li><a href="demo-activewear-store-1-run-club.html">Run Club</a></li>
+                                <li><a href="demo-activewear-store-1-blog.html">Blog</a></li>
+                                <li><a href="demo-activewear-store-1-about.html#store">Harbor Lane Store</a></li>
+                                <li><a href="demo-activewear-store-1-about.html#careers">Careers</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="container footer-shop-bar py-7">
+                    <div class="flex flex-wrap items-center gap-x-8 gap-y-3">
+                        <span>&copy; 2027 Draftmango Active, San Diego</span>
+                        <ul class="footer-nav" role="list">
+                            <li><a href="#">Privacy</a></li>
+                            <li><a href="#">Terms</a></li>
+                            <li><a href="#">Accessibility</a></li>
+                        </ul>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-x-8 gap-y-4">
+                        <ul class="social-list" role="list">
+                            <li><a href="#" aria-label="Instagram" data-social="instagram" class="social-link social-link--circle social-link--sm"><i class="ph ph-instagram-logo" aria-hidden="true"></i></a></li>
+                            <li><a href="#" aria-label="TikTok" data-social="tiktok" class="social-link social-link--circle social-link--sm"><i class="ph ph-tiktok-logo" aria-hidden="true"></i></a></li>
+                            <li><a href="#" aria-label="YouTube" data-social="youtube" class="social-link social-link--circle social-link--sm"><i class="ph ph-youtube-logo" aria-hidden="true"></i></a></li>
+                        </ul>
+                        <ul class="pay-marks" aria-label="Payment methods we accept">
+                            <li class="pay-mark pay-mark--visa"><span>VISA</span></li>
+                            <li class="pay-mark pay-mark--mc" aria-label="Mastercard"><span class="pay-mark-circles" aria-hidden="true"><i></i><i></i></span></li>
+                            <li class="pay-mark" aria-label="PayPal"><i class="ph-fill ph-paypal-logo" aria-hidden="true"></i></li>
+                            <li class="pay-mark" aria-label="Apple Pay"><i class="ph-fill ph-apple-logo" aria-hidden="true"></i><span>Pay</span></li>
+                            <li class="pay-mark" aria-label="Google Pay"><i class="ph-bold ph-google-logo" aria-hidden="true"></i><span>Pay</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Back to top button -->
+        <button data-back-top aria-label="Back to top" class="back-to-top fixed bottom-8 right-8 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer border-0 text-white bg-primary shadow-token-lg z-sticky">
+            <i class="ph ph-arrow-up"></i>
+        </button>
+
+        <script defer src="../assets/js/vendor.js"></script>
+        <script defer src="../assets/js/vendor-swiper.js"></script>
+        <script defer src="../assets/js/shop.js"></script>
+        <script defer src="../assets/js/main.js"></script>
+        <script defer src="../assets/js/demos/demo-activewear-store-1.js"></script>
+    </body>
+</html>

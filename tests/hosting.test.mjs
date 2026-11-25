@@ -61,7 +61,7 @@ test('isolated template previews can load public icon fonts without exposing API
  const get=pathname=>new Promise((resolve,reject)=>{
   const req=http.get({hostname:'127.0.0.1',port:server.address().port,path:pathname,headers:{Host:'draftmango.com',Origin:'null'}},res=>{res.resume();res.on('end',()=>resolve({status:res.statusCode,headers:res.headers}));});req.on('error',reject);
  });
- const font=await get('/framo/assets/fonts/Phosphor.woff2');
+ const font=await get('/draftmango/assets/fonts/Phosphor.woff2');
  assert.equal(font.status,200);assert.equal(font.headers['access-control-allow-origin'],'*');assert.equal(font.headers['content-type'],'font/woff2');
  assert.equal(font.headers['access-control-allow-credentials'],undefined);
  const api=await get('/api/accounts/session');assert.equal(api.status,403);assert.equal(api.headers['access-control-allow-origin'],undefined);
@@ -80,7 +80,7 @@ test('retired library URLs return to the brief while builder design assets remai
       assert.equal(response.headers.get('location'), '/#idea');
     }
   }
-  for (const path of ['/templates-model.js', '/template-catalog.json', '/framo/previews/demo-cafe-1.html']) {
+  for (const path of ['/templates-model.js', '/template-catalog.json', '/draftmango/previews/demo-cafe-1.html']) {
     assert.equal((await fetch(origin + path, {redirect:'manual'})).status, 200, path);
   }
 });

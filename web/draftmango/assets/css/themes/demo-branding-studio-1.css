@@ -1,0 +1,96 @@
+/* ================================================================
+ *  demo-branding-studio-1.css — Draftmango theme for the Branding Studio demo
+ *
+ *  The colors, fonts and layout settings of the Branding Studio demo
+ *  (one emerald for the actions and the closing panel, a green-black
+ *  ink for the one dark panel, a mint for quiet panels, on a faint
+ *  green-grey paper). Its pages load this file after the template's
+ *  own CSS, so a value set here wins. Each brand color generates its
+ *  own scale of tints and shades — change one line, the whole palette
+ *  follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Each page also preloads this URL in its <head>
+   (the <link data-theme-fonts> line) so the fonts arrive sooner: after
+   changing it here, replace it in the pages too, or delete that line.
+   Funnel Display (300..800) sets the headings, figures and wordmarks;
+   Inter the text. */
+@import url("https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #14b86a;   /* main color: emerald for buttons and the closing panel; labels on it are dark */
+    --color-secondary-base:  #0e1f17;   /* second color: the green-black of the dark panel; the dark scheme takes its hue */
+    --color-tertiary-base:   #d3f2e1;   /* third color: mint, for quiet panels and chips */
+    --color-quaternary-base: #c9f26b;   /* fourth color: lime, used rarely (a chip, a pulse dot) */
+    --color-accent-base:     #ffd84a;   /* attention color: sun, used rarely (a chip, a measurement) */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. */
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-text:      var(--color-secondary-base);   /* headings and body text (#0e1f17) */
+    --color-text-soft: oklch(from var(--color-secondary-base) 0.4522 calc(c * 0.81) calc(h - 0.5));   /* secondary text (#4b5a52) */
+    --color-bg:        oklch(from var(--color-quaternary-base) 0.9632 calc(c * 0.051) calc(h + 4.7));   /* page background: a faint green-grey paper (#f1f4ee) */
+    --color-bg-soft:   oklch(from var(--color-quaternary-base) 0.9358 calc(c * 0.088) calc(h + 8.6));   /* a step deeper, for alternate sections (#e6ece2) */
+    --color-border:    oklch(from var(--color-quaternary-base) 0.9046 calc(c * 0.092) calc(h + 12.2));   /* lines and borders (#dbe2d8) */
+    /* Brand-coloured text on light grounds: darker than the template default (L 0.6), which a green
+       reads at about 3.2:1 on the page; dark mode keeps its own lifted value */
+    --color-primary-ink: oklch(from var(--color-primary-base) min(l, 0.48) c h);
+    /* Labels on the primary: white on the emerald (the studio's choice, about 2.6:1), dark only on a
+       very light primary such as the Lime preset */
+    --color-on-primary: oklch(from var(--color-primary-base) clamp(0.2, (0.75 - l) * 1000, 1) 0 0);
+    --color-dark:      var(--color-secondary-base);   /* dark sections and dark buttons (#0e1f17) */
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;                          /* body text */
+    --font-heading:  'Funnel Display', system-ui, sans-serif;                 /* headings, figures and wordmarks */
+    --font-serif:    'Instrument Serif', Georgia, 'Times New Roman', serif;   /* italic accents */
+    --font-tertiary: 'Urbanist', system-ui, sans-serif;                       /* display accents */
+
+    /* Stylesheets of the accent fonts, fetched only on pages that use them.
+       Change a family above and its URL here together. Set one to "" to
+       load nothing, e.g. when that font is a system font. */
+    --font-serif-src:    "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap";
+    --font-tertiary-src: "https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800;900&display=swap";
+
+    /* Headings and buttons */
+    --heading-weight:     500;                     /* 300–800: Funnel Display loads the whole range above */
+    --heading-tracking:   -0.03em;                 /* or var(--tracking-tight), var(--tracking-normal) */
+    --btn-font-weight:    600;                     /* 500–600 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        1.5;      /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 9999px;   /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1360px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 1.2;      /* space between sections: 0.75 compact · 1 · 1.25 spacious */
+}

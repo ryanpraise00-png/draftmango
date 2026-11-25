@@ -1,6 +1,6 @@
 # Template library over MCP
 
-`server/template-mcp.mjs` exposes the builder's template library as a local MCP server (stdio, JSON-RPC 2.0), so other tools, such as the Isotris editor, can start sites from the same 100 Framo design families instead of generic generated layouts. It reuses the builder's own catalog (`web/template-catalog.json`), its template picker (`web/templates-model.js`) and the React starters in `web/framo/starters/`. It does not modify any of them.
+`server/template-mcp.mjs` exposes the builder's template library as a local MCP server (stdio, JSON-RPC 2.0), so other tools, such as the Isotris editor, can start sites from the same 100 Draftmango design families instead of generic generated layouts. It reuses the builder's own catalog (`web/template-catalog.json`), its template picker (`web/templates-model.js`) and the React starters in `web/draftmango/starters/`. It does not modify any of them.
 
 ```powershell
 node server/template-mcp.mjs
@@ -19,8 +19,8 @@ The transport delegates to `server/template-engine/`. See [Shared engine contrac
 
 `get_template_files` includes `template.lock.json` and a manifest with the package version and source/asset checksums. It copies available referenced assets locally; missing original demo media is reported in `missingAssets`:
 
-- References to `https://draftmango.com/framo/assets/` are rewritten to `/framo/assets/`.
-- Every referenced stylesheet, image and font is copied under `public/framo/assets/`, including assets that the CSS files themselves reference.
+- References to `https://draftmango.com/draftmango/assets/` are rewritten to `/draftmango/assets/`.
+- Every referenced stylesheet, image and font is copied under `public/draftmango/assets/`, including assets that the CSS files themselves reference.
 - `site_name` sets the page title.
 
 The tool is marked `_meta["io.isotris/files"]`. Isotris uses that marker to write the files into the project, so the model receives only a summary and the file contents stay out of its context.

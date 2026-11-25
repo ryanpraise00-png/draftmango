@@ -1,0 +1,124 @@
+/* ================================================================
+ *  demo-furniture-store-1.css — Draftmango theme for the Furniture Store demo
+ *
+ *  The colors, fonts and layout settings of the Furniture Store
+ *  demo (Draftmango Home, modern furniture and decor with made-to-order upholstery, showrooms in Portland, Seattle and Denver).
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here).
+   Fraunces (SOFT and opsz axes) for headings — picked over Newsreader 400 and
+   Inter Display 500 in the font check: the soft ball terminals read warm and
+   tactile, like upholstery, at 380 with SOFT 50. Inter for the body. */
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #9e5a26;   /* main color: cognac for buttons and links; labels on it are white (5.3:1) */
+    --color-secondary-base:  #2b1d14;   /* second color: espresso ink for the text and the dark band; the dark scheme takes its hue */
+    --color-tertiary-base:   #efe5d5;   /* third color: warm oat for the ground and soft fills */
+    --color-quaternary-base: #756a5e;   /* fourth color: warm grey for meta */
+    --color-accent-base:     #946c26;   /* attention color: brass, for stars and small marks; labels on it are white */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. White labels on the brand fills (a preset picks its own). */
+    --color-on-primary: #fff;
+    --color-on-accent:  #fff;
+
+    --color-primary:       var(--color-primary-base);
+    --color-primary-hover: oklch(from var(--color-primary-base) calc(l - 0.06) c h);
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-text:        var(--color-secondary-base);   /* headings and body text: espresso ink */
+    --color-text-soft:   oklch(from var(--color-secondary-base) 0.42 calc(c * 0.6) h);   /* running text */
+    --color-text-muted:  oklch(from var(--color-quaternary-base) 0.5 c h);   /* meta text */
+    --color-bg:          oklch(from var(--color-tertiary-base) 0.952 calc(c * 0.62) h);   /* page background: linen */
+    --color-bg-soft:     oklch(from var(--color-tertiary-base) 0.925 calc(c * 0.85) h);   /* a step deeper: oat */
+    --color-bg-muted:    oklch(from var(--color-tertiary-base) 0.9 c h);                  /* hover fills */
+    --color-surface:     oklch(from var(--color-tertiary-base) 0.985 calc(c * 0.3) h);    /* cards and the header island: warm white */
+    --color-border:      oklch(from var(--color-tertiary-base) 0.86 c h);                 /* lines and borders */
+    --color-border-soft: oklch(from var(--color-tertiary-base) 0.9 calc(c * 0.8) h);      /* the faintest rules */
+    --color-dark:        var(--color-secondary-base);   /* dark sections and dark buttons */
+    /* Brand-colored text on the ground, held at or under 0.5 lightness so a
+       preset's lighter primary still reads at 4.5:1 */
+    --color-primary-ink: oklch(from var(--color-primary-base) min(l, 0.5) c h);
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Fraunces', Georgia, 'Times New Roman', serif;   /* headings */
+
+    /* Headings and buttons */
+    --heading-weight:     380;   /* Fraunces: 300–600 and the SOFT axis are loaded */
+    --heading-tracking:   -0.025em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        1;      /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 9999px;  /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1400px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 0.6;      /* space between sections: 0.75 compact · 1 · 1.25 spacious (0.6: ≈ 77px at 1440, 48px on a phone) */
+}
+
+/* The 1400px container from 1280px up (the template steps it to 1280 there),
+   so the bar and the hero share the wider column */
+@layer utilities {
+    @media (width >= 80rem) {
+        :where(html[data-demo="furniture-store-1"]) .container { max-width: var(--container-max); }
+    }
+}
+
+@media (width >= 80rem) {
+    html[data-demo="furniture-store-1"] { --container-width: var(--container-max); }
+}
+
+/* Showroom header: a 40px oat strip over a 76px ruled bar. These outrank
+   the template's :root:has() height rules (header.css) */
+html:root[data-demo="furniture-store-1"]:has(.header-topbar) {
+    --topbar-h: 40px;
+    --navbar-h: 76px;
+}
+
+html:root[data-demo="furniture-store-1"]:has(.site-header) { --header-h: var(--navbar-h); }
+
+html:root[data-demo="furniture-store-1"]:has(.site-header:not(.scrolled)) {
+    --header-h: calc(var(--topbar-h) + var(--navbar-h));
+}
+
+@media (max-width: 1023px) {
+    html:root[data-demo="furniture-store-1"]:has(.header-topbar) {
+        --topbar-h: 36px;
+        --navbar-h: 64px;
+    }
+}

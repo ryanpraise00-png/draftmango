@@ -1,0 +1,1710 @@
+<!DOCTYPE html>
+<html lang="en" data-demo="beauty-store-1">
+    <head>
+        <meta charset="UTF-8">
+        <script async src="../assets/js/entrance.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Shop — Beauty Store — Draftmango</title>
+        <link rel="icon" href="../assets/media/logo/favicon.ico" sizes="32x32">
+        <link rel="icon" href="../assets/media/logo/draftmango-mark.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="../assets/media/logo/apple-touch-icon.png">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link rel="stylesheet" href="../assets/css/icons.css">
+        <link rel="stylesheet" href="../assets/css/app.css">
+        <link rel="stylesheet" href="../assets/css/vendor.css">
+        <link rel="stylesheet" href="../assets/css/shop.css">
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400..700&amp;family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" data-theme-fonts>
+        <link rel="stylesheet" href="../assets/css/demos/demo-beauty-store-1.css">
+        <link rel="stylesheet" href="../assets/css/themes/demo-beauty-store-1.css" data-theme-file>
+        <link rel="stylesheet" href="../assets/css/custom.css">
+    </head>
+    <body>
+
+        <header class="site-header header-pill-menu header-topbar header-cart" data-header>
+
+            <!-- Beauty Store strip - header-topbar includes it for a demo: the claims marquee (template marquee, pauses on hover) with Rewards fixed on the right. Edit: the claims, the link -->
+            <div class="site-topbar">
+                <div class="site-topbar-inner container">
+                    <div class="marquee-wrap marquee-wrap--pause min-w-0 flex-1">
+                        <div class="marquee marquee-text text-sm">
+                            <span class="marquee-text__item">Clean, vegan, cruelty-free</span>
+                            <span class="marquee-text__sep" aria-hidden="true"></span>
+                            <span class="marquee-text__item">Two free minis with every order</span>
+                            <span class="marquee-text__sep" aria-hidden="true"></span>
+                            <span class="marquee-text__item">Free shipping over $50</span>
+                            <span class="marquee-text__sep" aria-hidden="true"></span>
+                            <span class="marquee-text__item">60-day returns</span>
+                            <span class="marquee-text__sep" aria-hidden="true"></span>
+                            <span class="marquee-text__item" aria-hidden="true">Clean, vegan, cruelty-free</span>
+                            <span class="marquee-text__sep" aria-hidden="true"></span>
+                            <span class="marquee-text__item" aria-hidden="true">Two free minis with every order</span>
+                            <span class="marquee-text__sep" aria-hidden="true"></span>
+                            <span class="marquee-text__item" aria-hidden="true">Free shipping over $50</span>
+                            <span class="marquee-text__sep" aria-hidden="true"></span>
+                            <span class="marquee-text__item" aria-hidden="true">60-day returns</span>
+                            <span class="marquee-text__sep" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                    <a href="demo-beauty-store-1-account.html#rewards" class="btn btn-link btn-link-light btn-xs site-topbar-cta">
+                        <span class="site-topbar-cta-label">Rewards</span>
+                        <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main navbar -->
+            <nav class="navbar" role="navigation" aria-label="Main navigation">
+                <div class="navbar-inner container">
+
+                    <!-- Brand -->
+                    <a href="demo-beauty-store-1.html" class="brand">
+
+                        <!-- Beauty Store wordmark - the name in lowercase Hanken Grotesk with a soft glow dot, set in type (header brand: "demo" slot). Edit: the name, the line -->
+                        <span class="custom-brand"><span class="custom-brand-dot" aria-hidden="true"></span>draftmango<span class="custom-brand-line">beauty</span></span>
+
+                    </a>
+
+                    <!-- Desktop navigation links -->
+                    <ul class="nav-links" role="list">
+
+                        <!-- Beauty Store menu - the <li> items of . Inner pages (planned): shop (category sidebar), sets-gifts (3 columns), product (stacked), cart (classic), checkout, wishlist, account, skin-quiz, ingredients, about, blog, contact -->
+
+                        <li>
+                            <a href="demo-beauty-store-1.html" class="nav-link">Home</a>
+                        </li>
+
+                        <!-- Skincare - "shop by concern": a capsule tab row (By Category / By Concern / By Skin Type / By Ingredient) swaps the body; the Your AM Routine card stays on the right. Edit: the tabs, the links, the concern photos, the routine steps and total -->
+                        <li class="nav-megamenu custom-mega custom-mega--skin">
+                            <button class="nav-link">
+                                Skincare
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="megamenu-panel" data-lenis-prevent>
+                                <div class="megamenu-inner custom-mega-inner">
+                                    <div class="tabs tabs-capsule custom-mega-tabs" x-data="{ tab: 'concern', tabs: ['category', 'concern', 'type', 'ingredient'], go(d) { const n = this.tabs.length; this.tab = this.tabs[(this.tabs.indexOf(this.tab) + d + n) % n]; this.$refs[this.tab].focus() } }">
+                                        <div class="custom-mega-bar">
+                                            <div class="tabs-nav" role="tablist" aria-label="Shop skincare" @keydown.right.prevent="go(1)" @keydown.left.prevent="go(-1)">
+                                                <button type="button" class="tab-btn" role="tab" id="bs-skin-tab-category" aria-controls="bs-skin-category" x-ref="category" tabindex="-1" :class="{ 'is-active': tab === 'category' }" :aria-selected="tab === 'category'" :tabindex="tab === 'category' ? 0 : -1" @click="tab = 'category'">By Category</button>
+                                                <button type="button" class="tab-btn is-active" role="tab" id="bs-skin-tab-concern" aria-controls="bs-skin-concern" aria-selected="true" x-ref="concern" :class="{ 'is-active': tab === 'concern' }" :aria-selected="tab === 'concern'" :tabindex="tab === 'concern' ? 0 : -1" @click="tab = 'concern'">By Concern</button>
+                                                <button type="button" class="tab-btn" role="tab" id="bs-skin-tab-type" aria-controls="bs-skin-type" x-ref="type" tabindex="-1" :class="{ 'is-active': tab === 'type' }" :aria-selected="tab === 'type'" :tabindex="tab === 'type' ? 0 : -1" @click="tab = 'type'">By Skin Type</button>
+                                                <button type="button" class="tab-btn" role="tab" id="bs-skin-tab-ingredient" aria-controls="bs-skin-ingredient" x-ref="ingredient" tabindex="-1" :class="{ 'is-active': tab === 'ingredient' }" :aria-selected="tab === 'ingredient'" :tabindex="tab === 'ingredient' ? 0 : -1" @click="tab = 'ingredient'">By Ingredient</button>
+                                            </div>
+                                            <a href="demo-beauty-store-1-shop.html" class="custom-mega-all">Shop All Skincare <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                                        </div>
+
+                                        <div class="tabs-panels">
+                                            <div class="tabs-panel" role="tabpanel" id="bs-skin-category" aria-labelledby="bs-skin-tab-category" :class="{ 'is-active': tab === 'category' }">
+                                                <div class="custom-cat-grid">
+                                                    <div class="megamenu-col">
+                                                        <span class="custom-cat-disc" aria-hidden="true"><img src="../assets/media/placeholder/737x737.svg" alt="" width="737" height="737" loading="lazy" decoding="async"></span>
+                                                        <div class="megamenu-col-title">Cleanse</div>
+                                                        <a href="demo-beauty-store-1-shop.html?cat=cleansers" class="megamenu-item">Gel Cleansers</a>
+                                                        <a href="demo-beauty-store-1-shop.html?cat=balms" class="megamenu-item">Cleansing Balms</a>
+                                                        <a href="demo-beauty-store-1-shop.html?cat=toners" class="megamenu-item">Toners</a>
+                                                    </div>
+                                                    <div class="megamenu-col">
+                                                        <span class="custom-cat-disc" aria-hidden="true"><img src="../assets/media/placeholder/622x622.svg" alt="" width="622" height="622" loading="lazy" decoding="async"></span>
+                                                        <div class="megamenu-col-title">Treat</div>
+                                                        <a href="demo-beauty-store-1-shop.html?cat=serums" class="megamenu-item">Serums</a>
+                                                        <a href="demo-beauty-store-1-shop.html?cat=exfoliants" class="megamenu-item">Exfoliants</a>
+                                                        <a href="demo-beauty-store-1-shop.html?cat=masks" class="megamenu-item">Masks</a>
+                                                    </div>
+                                                    <div class="megamenu-col">
+                                                        <span class="custom-cat-disc" aria-hidden="true"><img src="../assets/media/placeholder/416x416.svg" alt="" width="416" height="416" loading="lazy" decoding="async"></span>
+                                                        <div class="megamenu-col-title">Moisturise</div>
+                                                        <a href="demo-beauty-store-1-shop.html?cat=moisturisers" class="megamenu-item">Creams</a>
+                                                        <a href="demo-beauty-store-1-shop.html?cat=gels" class="megamenu-item">Gel Creams</a>
+                                                        <a href="demo-beauty-store-1-shop.html?cat=oils" class="megamenu-item">Face Oils</a>
+                                                    </div>
+                                                    <div class="megamenu-col">
+                                                        <span class="custom-cat-disc" aria-hidden="true"><img src="../assets/media/placeholder/641x641.svg" alt="" width="641" height="641" loading="lazy" decoding="async"></span>
+                                                        <div class="megamenu-col-title">Protect</div>
+                                                        <a href="demo-beauty-store-1-shop.html?cat=spf" class="megamenu-item">Mineral SPF</a>
+                                                        <a href="demo-beauty-store-1-shop.html?cat=tinted-spf" class="megamenu-item">Tinted SPF</a>
+                                                        <a href="demo-beauty-store-1-shop.html?cat=lip-spf" class="megamenu-item">Lip SPF</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="tabs-panel is-active" role="tabpanel" id="bs-skin-concern" aria-labelledby="bs-skin-tab-concern" :class="{ 'is-active': tab === 'concern' }">
+                                                <div class="megamenu-col custom-concerns">
+                                                    <a href="demo-beauty-store-1-shop.html?concern=dryness" class="megamenu-item custom-concern"><img src="../assets/media/placeholder/400x400.svg" alt="" width="400" height="400" loading="lazy" decoding="async">Dryness</a>
+                                                    <a href="demo-beauty-store-1-shop.html?concern=dullness" class="megamenu-item custom-concern"><img src="../assets/media/placeholder/400x400.svg" alt="" width="400" height="400" loading="lazy" decoding="async">Dullness</a>
+                                                    <a href="demo-beauty-store-1-shop.html?concern=breakouts" class="megamenu-item custom-concern"><img src="../assets/media/placeholder/400x400.svg" alt="" width="400" height="400" loading="lazy" decoding="async">Breakouts</a>
+                                                    <a href="demo-beauty-store-1-shop.html?concern=fine-lines" class="megamenu-item custom-concern"><img src="../assets/media/placeholder/400x400.svg" alt="" width="400" height="400" loading="lazy" decoding="async">Fine Lines</a>
+                                                    <a href="demo-beauty-store-1-shop.html?concern=redness" class="megamenu-item custom-concern"><img src="../assets/media/placeholder/400x400.svg" alt="" width="400" height="400" loading="lazy" decoding="async">Redness</a>
+                                                    <a href="demo-beauty-store-1-shop.html?concern=dark-spots" class="megamenu-item custom-concern"><img src="../assets/media/placeholder/400x400.svg" alt="" width="400" height="400" loading="lazy" decoding="async">Dark Spots</a>
+                                                </div>
+                                            </div>
+
+                                            <div class="tabs-panel" role="tabpanel" id="bs-skin-type" aria-labelledby="bs-skin-tab-type" :class="{ 'is-active': tab === 'type' }">
+                                                <div class="megamenu-col custom-types">
+                                                    <div class="custom-type">
+                                                        <i class="ph ph-drop-half" aria-hidden="true"></i>
+                                                        <a href="demo-beauty-store-1-shop.html?type=dry" class="megamenu-item">Dry Skin</a>
+                                                        <p>Feels tight by noon, flakes around the nose.</p>
+                                                    </div>
+                                                    <div class="custom-type">
+                                                        <i class="ph ph-sun-dim" aria-hidden="true"></i>
+                                                        <a href="demo-beauty-store-1-shop.html?type=oily" class="megamenu-item">Oily Skin</a>
+                                                        <p>Shine through the T-zone by mid-afternoon.</p>
+                                                    </div>
+                                                    <div class="custom-type">
+                                                        <i class="ph ph-circle-half" aria-hidden="true"></i>
+                                                        <a href="demo-beauty-store-1-shop.html?type=combination" class="megamenu-item">Combination</a>
+                                                        <p>An oily centre with cheeks that run dry.</p>
+                                                    </div>
+                                                    <div class="custom-type">
+                                                        <i class="ph ph-feather" aria-hidden="true"></i>
+                                                        <a href="demo-beauty-store-1-shop.html?type=sensitive" class="megamenu-item">Sensitive Skin</a>
+                                                        <p>Reacts to fragrance, heat and new formulas.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="tabs-panel" role="tabpanel" id="bs-skin-ingredient" aria-labelledby="bs-skin-tab-ingredient" :class="{ 'is-active': tab === 'ingredient' }">
+                                                <div class="megamenu-col custom-ingredients">
+                                                    <a href="demo-beauty-store-1-ingredients.html#bakuchiol" class="megamenu-item">Bakuchiol</a>
+                                                    <a href="demo-beauty-store-1-ingredients.html#centella" class="megamenu-item">Centella</a>
+                                                    <a href="demo-beauty-store-1-ingredients.html#ceramides" class="megamenu-item">Ceramides</a>
+                                                    <a href="demo-beauty-store-1-ingredients.html#hyaluronic-acid" class="megamenu-item">Hyaluronic Acid</a>
+                                                    <a href="demo-beauty-store-1-ingredients.html#lactic-acid" class="megamenu-item">Lactic Acid</a>
+                                                    <a href="demo-beauty-store-1-ingredients.html#niacinamide" class="megamenu-item">Niacinamide</a>
+                                                    <a href="demo-beauty-store-1-ingredients.html#peptides" class="megamenu-item">Peptides</a>
+                                                    <a href="demo-beauty-store-1-ingredients.html#retinal" class="megamenu-item">Retinal</a>
+                                                    <a href="demo-beauty-store-1-ingredients.html#salicylic-acid" class="megamenu-item">Salicylic Acid</a>
+                                                    <a href="demo-beauty-store-1-ingredients.html#squalane" class="megamenu-item">Squalane</a>
+                                                    <a href="demo-beauty-store-1-ingredients.html#vitamin-c" class="megamenu-item">Vitamin C</a>
+                                                    <a href="demo-beauty-store-1-ingredients.html#zinc-oxide" class="megamenu-item">Zinc Oxide</a>
+                                                    <a href="demo-beauty-store-1-ingredients.html" class="megamenu-item custom-ingredients-all">All Ingredients A–Z <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <a href="demo-beauty-store-1-skin-quiz.html" class="custom-mega-quiz">
+                                            <span class="custom-quiz-icon" aria-hidden="true"><i class="ph ph-sparkle"></i></span>
+                                            <span class="custom-mega-quiz-text"><strong>Not sure what your skin needs?</strong> Six questions, two minutes, a routine matched to you.</span>
+                                            <span class="custom-mega-quiz-cta">Take the Skin Quiz <i class="ph ph-arrow-right" aria-hidden="true"></i></span>
+                                        </a>
+                                    </div>
+
+                                    <aside class="custom-routine-card" aria-labelledby="bs-am-title">
+                                        <p class="custom-routine-card-eyebrow"><i class="ph ph-sun-horizon" aria-hidden="true"></i> Three steps, five minutes</p>
+                                        <h3 id="bs-am-title" class="custom-routine-card-title">Your AM Routine</h3>
+                                        <ol class="custom-routine-list" role="list">
+                                            <li><a href="demo-beauty-store-1-product.html" class="custom-routine-item">
+                                                    <span class="custom-routine-disc"><img src="../assets/media/placeholder/737x737.svg" alt="" width="737" height="737" loading="lazy" decoding="async"></span>
+                                                    <span class="custom-routine-text"><span class="custom-routine-step">1 · Cleanse</span><span class="custom-routine-name">Cloudmilk Cleanser</span></span>
+                                                    <span class="custom-routine-price tabular-nums">$24</span>
+                                                </a></li>
+                                            <li><a href="demo-beauty-store-1-product.html" class="custom-routine-item">
+                                                    <span class="custom-routine-disc"><img src="../assets/media/placeholder/622x622.svg" alt="" width="622" height="622" loading="lazy" decoding="async"></span>
+                                                    <span class="custom-routine-text"><span class="custom-routine-step">2 · Treat</span><span class="custom-routine-name">Dewline Serum</span></span>
+                                                    <span class="custom-routine-price tabular-nums">$38</span>
+                                                </a></li>
+                                            <li><a href="demo-beauty-store-1-product.html" class="custom-routine-item">
+                                                    <span class="custom-routine-disc"><img src="../assets/media/placeholder/641x641.svg" alt="" width="641" height="641" loading="lazy" decoding="async"></span>
+                                                    <span class="custom-routine-text"><span class="custom-routine-step">3 · Protect</span><span class="custom-routine-name">Haloshade SPF 40</span></span>
+                                                    <span class="custom-routine-price tabular-nums">$32</span>
+                                                </a></li>
+                                        </ol>
+                                        <button type="button" class="btn btn-primary btn-atc custom-routine-add" x-data="addToCart" @click="add()" @cart-added="$store.cart.extra = ($store.cart.extra ?? 0) + 3; $store.cart.extraTotal = ($store.cart.extraTotal ?? 0) + 79.9" :data-state="state">
+                                            <span class="btn-atc-idle">Add All · <span class="tabular-nums">$79.90</span></span>
+                                            <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                            <span class="btn-atc-done" aria-hidden="true">Added <i class="ph ph-check"></i></span>
+                                        </button>
+                                        <p class="custom-routine-save">You save 15% on the set</p>
+                                    </aside>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- Makeup - a compact columns mega with two shade-dot products. Edit: the columns, the links, the products and their shades -->
+                        <li class="nav-megamenu custom-mega custom-mega--makeup">
+                            <button class="nav-link">
+                                Makeup
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="megamenu-panel" data-lenis-prevent>
+                                <div class="megamenu-inner custom-mega-inner">
+                                    <div class="megamenu-col">
+                                        <div class="megamenu-col-title">Lips</div>
+                                        <a href="demo-beauty-store-1-shop.html?cat=lip-tints" class="megamenu-item">Lip Tints</a>
+                                        <a href="demo-beauty-store-1-shop.html?cat=lip-balms" class="megamenu-item">Lip Balms</a>
+                                        <a href="demo-beauty-store-1-shop.html?cat=lip-oils" class="megamenu-item">Lip Oils</a>
+                                        <a href="demo-beauty-store-1-shop.html?cat=lip-liners" class="megamenu-item">Lip Liners</a>
+                                    </div>
+                                    <div class="megamenu-col">
+                                        <div class="megamenu-col-title">Cheek</div>
+                                        <a href="demo-beauty-store-1-shop.html?cat=cheek" class="megamenu-item">Cheek Balms</a>
+                                        <a href="demo-beauty-store-1-shop.html?cat=bronzers" class="megamenu-item">Cream Bronzers</a>
+                                        <a href="demo-beauty-store-1-shop.html?cat=highlighters" class="megamenu-item">Highlighters</a>
+                                    </div>
+                                    <div class="megamenu-col">
+                                        <div class="megamenu-col-title">Base &amp; Brow</div>
+                                        <a href="demo-beauty-store-1-shop.html?cat=skin-tint" class="megamenu-item">Skin Tints</a>
+                                        <a href="demo-beauty-store-1-shop.html?cat=concealer" class="megamenu-item">Concealers</a>
+                                        <a href="demo-beauty-store-1-shop.html?cat=brow" class="megamenu-item">Brow Gels</a>
+                                    </div>
+                                    <div class="megamenu-col megamenu-col--cta custom-shades">
+                                        <a href="demo-beauty-store-1-product.html" class="custom-shade-card">
+                                            <span class="custom-shade-disc"><img src="../assets/media/placeholder/539x539.svg" alt="" width="539" height="539" loading="lazy" decoding="async"></span>
+                                            <span class="custom-shade-name">Rosewash Lip Tint</span>
+                                            <span class="custom-shade-meta"><span class="tabular-nums">$18</span> · 6 shades</span>
+                                            <span class="custom-shade-dots" aria-hidden="true"><i style="--shade: #c9646e"></i><i style="--shade: #b5485a"></i><i style="--shade: #d98b7f"></i><i style="--shade: #8e3b45"></i></span>
+                                        </a>
+                                        <a href="demo-beauty-store-1-product.html" class="custom-shade-card">
+                                            <span class="custom-shade-disc"><img src="../assets/media/placeholder/445x445.svg" alt="" width="445" height="445" loading="lazy" decoding="async"></span>
+                                            <span class="custom-shade-name">Flushbloom Cheek Balm</span>
+                                            <span class="custom-shade-meta"><span class="tabular-nums">$22</span> · 5 shades</span>
+                                            <span class="custom-shade-dots" aria-hidden="true"><i style="--shade: #e08a86"></i><i style="--shade: #cf6f63"></i><i style="--shade: #e7a37f"></i><i style="--shade: #b65c62"></i></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="demo-beauty-store-1-shop.html?cat=body" class="nav-link">Body</a>
+                        </li>
+                        <li>
+                            <a href="demo-beauty-store-1-sets-gifts.html" class="nav-link">Sets &amp; Gifts</a>
+                        </li>
+                        <li>
+                            <a href="demo-beauty-store-1-skin-quiz.html" class="nav-link">Skin Quiz</a>
+                        </li>
+                        <li>
+                            <a href="demo-beauty-store-1-blog.html" class="nav-link">Blog</a>
+                        </li>
+
+                    </ul>
+
+                    <!-- Right-side actions -->
+                    <div class="nav-actions">
+
+                        <!-- Meta group - display:contents by default; header-stacked turns it into its own row. -->
+                        <div class="nav-meta">
+
+                            <!--js). WooCommerce's own fields: s, post_type=product. Edit: the hints, the chips, the products -->
+                            <div class="custom-search-slot">
+                                <form class="shop-search custom-search" role="search" method="get" action="demo-beauty-store-1-shop.html" data-custom-hints="Try ‘vitamin C serum’|Try ‘SPF for sensitive skin’|Try ‘lip tint’|Try ‘retinal’">
+                                    <label class="sr-only" for="bs-search-q">Search products</label>
+                                    <input id="bs-search-q" type="search" name="s" placeholder="Try ‘vitamin C serum’" autocomplete="off" aria-describedby="bs-search-hint">
+                                    <input type="hidden" name="post_type" value="product">
+                                    <button type="submit" class="shop-search-submit" aria-label="Search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i></button>
+
+                                    <div class="custom-search-panel" data-lenis-prevent>
+                                        <p id="bs-search-hint" class="custom-search-label">Popular right now</p>
+                                        <div class="custom-search-chips">
+                                            <a href="demo-beauty-store-1-shop.html?s=vitamin+c" class="custom-search-chip">Vitamin C</a>
+                                            <a href="demo-beauty-store-1-shop.html?s=spf" class="custom-search-chip">Mineral SPF</a>
+                                            <a href="demo-beauty-store-1-shop.html?s=retinal" class="custom-search-chip">Retinal</a>
+                                            <a href="demo-beauty-store-1-shop.html?s=lip+tint" class="custom-search-chip">Lip Tint</a>
+                                            <a href="demo-beauty-store-1-shop.html?concern=redness" class="custom-search-chip">Sensitive Skin</a>
+                                        </div>
+                                        <p class="custom-search-label">Trending</p>
+                                        <ul class="custom-search-picks" role="list">
+                                            <li><a href="demo-beauty-store-1-product.html" class="custom-search-pick">
+                                                    <span class="custom-pick-disc"><img src="../assets/media/placeholder/622x622.svg" alt="" width="622" height="622" loading="lazy" decoding="async"></span>
+                                                    <span class="custom-search-pick-name">Dewline Serum</span>
+                                                    <span class="custom-search-pick-price tabular-nums">$38</span>
+                                                </a></li>
+                                            <li><a href="demo-beauty-store-1-product.html" class="custom-search-pick">
+                                                    <span class="custom-pick-disc"><img src="../assets/media/placeholder/539x539.svg" alt="" width="539" height="539" loading="lazy" decoding="async"></span>
+                                                    <span class="custom-search-pick-name">Rosewash Lip Tint</span>
+                                                    <span class="custom-search-pick-price tabular-nums">$18</span>
+                                                </a></li>
+                                            <li><a href="demo-beauty-store-1-product.html" class="custom-search-pick">
+                                                    <span class="custom-pick-disc"><img src="../assets/media/placeholder/416x416.svg" alt="" width="416" height="416" loading="lazy" decoding="async"></span>
+                                                    <span class="custom-search-pick-name">Plumpwell Cream</span>
+                                                    <span class="custom-search-pick-price tabular-nums">$42</span>
+                                                </a></li>
+                                        </ul>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div><!-- /.nav-meta -->
+
+                        <!--html: account, wishlist and the bag (opens the mini cart; the count comes from Alpine.store('cart')). Edit: the links, the wishlist count -->
+                        <div class="shop-actions" x-data>
+                            <a href="demo-beauty-store-1-account.html" class="shop-action shop-action--account" aria-label="My account"><i class="ph ph-user" aria-hidden="true"></i></a>
+                            <a href="demo-beauty-store-1-wishlist.html" class="shop-action shop-action--wishlist" aria-label="Wishlist, 3 items"><i class="ph ph-heart" aria-hidden="true"></i><span class="shop-action-count">3</span></a>
+                            <button type="button" class="shop-action shop-action--cart" data-panel-toggle="cart" aria-expanded="false" aria-controls="mini-cart" :aria-label="'Open bag, ' + $store.cart.count + ' items'" aria-label="Open bag, 2 items">
+                                <i class="ph ph-handbag" aria-hidden="true"></i>
+                                <span class="shop-action-count" x-text="$store.cart.count" x-show="$store.cart.count">2</span>
+                            </button>
+                        </div>
+
+                        <!-- Menu toggle - mobile hamburger below 1024px; also the close button on header-overlay-menu / header-side-drawer -->
+                        <button class="hamburger" data-toggle aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation menu">
+                            <i class="ph ph-list text-xl nav-toggle-open" aria-hidden="true"></i>
+                            <i class="ph ph-x text-xl nav-toggle-close" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Navigation panel - links are auto-generated by initMobileSync() in main.js -->
+                <!-- data-lenis-prevent: opts this scroll container out of Lenis smooth scrolling -->
+                <div id="mobile-nav" class="mobile-nav" data-mobile-nav data-lenis-prevent role="dialog" aria-modal="true" aria-label="Site navigation">
+
+                    <!-- Menu column - the scroll container -->
+                    <div class="nav-panel-menu">
+
+                        <!-- JS target: desktop nav items are injected here -->
+                        <div data-mobile-links></div>
+
+                        <!-- Mobile-only items: add or remove <a> elements here freely -->
+                        <!-- <a href="#" class="mobile-link" data-mobile-only>Exclusive Item</a> -->
+
+                        <!-- Edit: the buttons, the line -->
+                        <div class="nav-panel-cta grid gap-3 mt-6">
+                            <a href="demo-beauty-store-1-skin-quiz.html" class="btn btn-primary btn-lg justify-center">Take the Skin Quiz</a>
+                            <a href="demo-beauty-store-1-account.html#rewards" class="btn btn-outline btn-lg justify-center"><i class="ph ph-gift" aria-hidden="true"></i>Draftmango Rewards</a>
+                            <p class="m-0 text-center text-base text-soft">Two free minis with every order</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </nav>
+
+            <!--html. Lines, totals and the meter run on cartPage() in main.js. "miniCartEmpty": "yes" on the header include drops the lines (the Cart page shows the empty state). The hero chips and the mega's Add All bump $store.cart.extra / extraTotal on top of the lines. Edit: the lines (name, meta, price, image), the threshold, the links -->
+            <div id="mini-cart" class="mini-cart" data-panel="cart" data-panel-modal role="dialog" aria-modal="true" aria-labelledby="mini-cart-title">
+                <div class="mini-cart-panel" x-data="cartPage({ threshold: 50 })" x-effect="$store.cart.count = itemCount + ($store.cart.extra ?? 0)" @change="sync($event)" data-lenis-prevent>
+
+                    <div class="mini-cart-head">
+                        <h2 id="mini-cart-title" class="mini-cart-title">Your bag <span class="mini-cart-count" x-text="itemCount + (itemCount === 1 ? ' item' : ' items')">2 items</span></h2>
+                        <button type="button" class="modal-close" data-panel-close aria-label="Close bag"><i class="ph ph-x" aria-hidden="true"></i></button>
+                    </div>
+
+                    <div class="mini-cart-body" x-show="!empty">
+                        <div class="shipping-meter is-complete" :class="{ 'is-complete': freeShipping }" :style="'--p:' + progress + '%'" style="--p: 100%">
+                            <p class="flex items-center gap-3">
+                                <i class="ph text-xl" :class="freeShipping ? 'ph-seal-check text-[var(--color-success)]' : 'ph-truck color-primary'" aria-hidden="true"></i>
+                                <span x-show="!freeShipping" x-cloak>Add <strong x-text="money(remaining)">$0.00</strong> more for <strong>free shipping</strong></span>
+                                <span x-show="freeShipping"><strong>Free shipping</strong> is on us</span>
+                            </p>
+                            <div class="shipping-meter-track">
+                                <div class="shipping-meter-fill"></div>
+                            </div>
+                        </div>
+
+                        <ul class="mini-cart-list">
+
+                            <li class="mini-cart-item" data-cart-line="m1" data-price="38" data-name="Dewline Serum" x-show="!line('m1').removed" x-transition.opacity.duration.300ms>
+                                <a href="demo-beauty-store-1-product.html" class="mini-cart-thumb custom-thumb"><img src="../assets/media/placeholder/622x622.svg" alt="" width="622" height="622" loading="lazy"></a>
+                                <div class="mini-cart-info">
+                                    <a href="demo-beauty-store-1-product.html" class="mini-cart-name">Dewline Serum</a>
+                                    <p class="mini-cart-meta">30 ml · Vitamin C + ferulic</p>
+                                    <div class="qty qty--sm">
+                                        <button type="button" class="qty-btn" data-step="-1" aria-label="Decrease quantity of Dewline Serum"><i class="ph ph-minus" aria-hidden="true"></i></button>
+                                        <input type="number" class="qty-input" name="cart[m1][qty]" value="1" min="0" max="10" aria-label="Quantity of Dewline Serum">
+                                        <button type="button" class="qty-btn" data-step="1" aria-label="Increase quantity of Dewline Serum"><i class="ph ph-plus" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                                <div class="mini-cart-end">
+                                    <button type="button" class="cart-remove" @click="remove('m1')" aria-label="Remove Dewline Serum"><i class="ph ph-x" aria-hidden="true"></i></button>
+                                    <span class="mini-cart-price" x-text="money(line('m1').price * line('m1').qty)">$38.00</span>
+                                </div>
+                            </li>
+                            <li class="mini-cart-item" data-cart-line="m2" data-price="24" data-name="Cloudmilk Cleanser" x-show="!line('m2').removed" x-transition.opacity.duration.300ms>
+                                <a href="demo-beauty-store-1-product.html" class="mini-cart-thumb custom-thumb"><img src="../assets/media/placeholder/737x737.svg" alt="" width="737" height="737" loading="lazy"></a>
+                                <div class="mini-cart-info">
+                                    <a href="demo-beauty-store-1-product.html" class="mini-cart-name">Cloudmilk Cleanser</a>
+                                    <p class="mini-cart-meta">150 ml · All skin types</p>
+                                    <div class="qty qty--sm">
+                                        <button type="button" class="qty-btn" data-step="-1" aria-label="Decrease quantity of Cloudmilk Cleanser"><i class="ph ph-minus" aria-hidden="true"></i></button>
+                                        <input type="number" class="qty-input" name="cart[m2][qty]" value="1" min="0" max="10" aria-label="Quantity of Cloudmilk Cleanser">
+                                        <button type="button" class="qty-btn" data-step="1" aria-label="Increase quantity of Cloudmilk Cleanser"><i class="ph ph-plus" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                                <div class="mini-cart-end">
+                                    <button type="button" class="cart-remove" @click="remove('m2')" aria-label="Remove Cloudmilk Cleanser"><i class="ph ph-x" aria-hidden="true"></i></button>
+                                    <span class="mini-cart-price" x-text="money(line('m2').price * line('m2').qty)">$24.00</span>
+                                </div>
+                            </li>
+
+                        </ul>
+
+                        <p class="mini-cart-undo" x-show="undoLine" x-cloak><span x-text="(undoLine?.name ?? '') + ' removed.'"></span> <button type="button" @click="undo()">Undo</button></p>
+                    </div>
+
+                    <div class="mini-cart-empty" x-show="empty" x-cloak>
+                        <span class="mx-auto grid size-16 place-items-center rounded-full bg-soft text-3xl"><i class="ph ph-handbag" aria-hidden="true"></i></span>
+                        <p class="mt-5 text-lg font-semibold">Your bag is empty</p>
+                        <p class="mt-1 text-soft">Nothing in the bag yet — start with the routine.</p>
+                        <a href="demo-beauty-store-1-sets-gifts.html" class="btn btn-dark btn-pill mt-6">Shop Sets &amp; Gifts</a>
+                    </div>
+
+                    <div class="mini-cart-foot" x-show="!empty">
+                        <p class="mini-cart-subtotal"><span>Subtotal</span> <strong class="tabular-nums" x-text="money(subtotal + ($store.cart.extraTotal ?? 0))">$62.00</strong></p>
+                        <p class="mini-cart-note"><i class="ph ph-lock-simple" aria-hidden="true"></i> Two free minis are added at checkout</p>
+                        <div class="mini-cart-buttons">
+                            <a href="demo-beauty-store-1-cart.html" class="btn btn-outline-dark btn-pill">View Bag</a>
+                            <a href="demo-beauty-store-1-checkout.html" class="btn btn-dark btn-pill">Checkout <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+
+        <main id="main">
+            <!-- The URL opens it filtered: ?cat= (a category word on the cards), ?concern=, ?type= (skin type), ?sort=bestsellers | new, ?s= (a search word mapped to a category) -->
+            <div x-data="productFilter({ min: 0, max: 50, pageSize: 11, cols: 3, labels: { all: 'Shop All', skincare: 'Skincare', cleansers: 'Cleansers', balms: 'Cleansing Balms', serums: 'Serums', moisturisers: 'Moisturisers', spf: 'Sun Care', masks: 'Masks', toners: 'Toners &amp; Essences', eyes: 'Eye Care', makeup: 'Makeup', base: 'Base', 'skin-tint': 'Skin Tints', lips: 'Lips', 'lip-tints': 'Lip Tints', 'lip-oils': 'Lip Oils', 'lip-balms': 'Lip Balms', cheek: 'Cheek', brow: 'Brows', mascara: 'Mascara', body: 'Body', oils: 'Oils', creams: 'Body Creams', hands: 'Hands', wash: 'Body Wash', dryness: 'Dryness', dullness: 'Dullness', breakouts: 'Breakouts', 'fine-lines': 'Fine Lines', redness: 'Redness', 'dark-spots': 'Dark Spots', dry: 'Dry skin', oily: 'Oily skin', combination: 'Combination skin', normal: 'Normal skin', sensitive: 'Sensitive skin', 'fragrance-free': 'Fragrance-free', refill: 'Refill available' } })" x-init="const p = new URLSearchParams(location.search), alias = { gels: 'moisturisers', exfoliants: 'masks', 'tinted-spf': 'spf', concealer: 'base', highlighters: 'cheek', bronzers: 'cheek', 'lip-liners': 'lips', 'lip-spf': 'lips' }, q = (p.get('s') ?? '').toLowerCase(), words = { 'vitamin c': 'serums', retinal: 'serums', serum: 'serums', spf: 'spf', sunscreen: 'spf', 'lip tint': 'lip-tints', lip: 'lips', cleanser: 'cleansers', balm: 'cleansers', cream: 'moisturisers', mask: 'masks', mist: 'toners', tint: 'base', body: 'body', mascara: 'mascara', brow: 'brow' }, c = p.get('cat'); cat = alias[c] ?? c ?? Object.entries(words).find(([w]) => q.includes(w))?.[1] ?? 'all'; if (p.get('concern')) colours = [p.get('concern')]; if (p.get('type')) sizes = [p.get('type')]; sort = { bestsellers: 'popularity', new: 'date' }[p.get('sort')] ?? 'menu_order'" @keydown.escape.window="drawer = false">
+
+                <!-- Beauty Store page header - the inner pages' opening on the blush page, three kinds: "compact" (shop pages: crumbs, the title left and a short line right, one side glow), "glow" (content pages: crumbs, an eyebrow, a large title with a soft second half and the line beside a round photo in an offset ring, a small texture round on its edge), "steps" (bag and checkout: a centred title over the three checkout steps). Params: phKind, phCrumb, phTitle, phSoft (the title's soft half), phLead; optional phTrail + phHref (a parent crumb), phBind (x-text for a title that follows a filter); glow: phEyebrow, phImg, phAlt, phPos (object-position), phDot (a bs1-*.webp texture); steps: phStep (bag | details) -->
+
+                <section class="custom-ph custom-ph--compact relative isolate overflow-x-clip" aria-labelledby="bs-page-title">
+                    <div class="container">
+                        <nav aria-label="Breadcrumb" data-anim="fade">
+                            <ol class="breadcrumb breadcrumb--sm">
+                                <li class="breadcrumb-item"><a href="demo-beauty-store-1.html">Home</a></li>
+                                <li class="breadcrumb-item" aria-current="page">Shop</li>
+                            </ol>
+                        </nav>
+                        <div class="mt-6 grid gap-x-12 gap-y-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,30rem)] lg:items-end">
+                            <h1 id="bs-page-title" class="custom-ph-title m-0" data-anim="fade-up" data-anim-delay="60"><span x-text="cat === 'all' &amp;&amp; colours.length === 1 ? label(colours[0]) : label(cat)">Shop All</span></h1>
+                            <p class="m-0 text-lg leading-relaxed text-soft" data-anim="fade-up" data-anim-delay="140">Twenty formulas for face, colour and body, each one clean, vegan and made in San Diego. Two free minis ride along with every order.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Concerns: each chip filters the grid by one concern -->
+                <div class="container mt-8 md:mt-10">
+                    <div class="rail-scroll" x-data="railScroll">
+                        <nav class="cat-rail custom-concern-chips" x-ref="rail" aria-label="Shop by concern" data-lenis-prevent-touch>
+                            <ul class="flex w-max gap-2.5" data-anim-stagger="50">
+                                <li data-anim="fade-up"><a href="?concern=dryness" class="cat-chip" @click.prevent="colours = colours.includes('dryness') ? [] : ['dryness']" :aria-current="colours.includes('dryness')"><span class="cat-chip-img"><img src="../assets/media/placeholder/400x400.svg" alt="" width="400" height="400" loading="lazy" decoding="async"></span>Dryness</a></li>
+                                <li data-anim="fade-up"><a href="?concern=dullness" class="cat-chip" @click.prevent="colours = colours.includes('dullness') ? [] : ['dullness']" :aria-current="colours.includes('dullness')"><span class="cat-chip-img"><img src="../assets/media/placeholder/400x400.svg" alt="" width="400" height="400" loading="lazy" decoding="async"></span>Dullness</a></li>
+                                <li data-anim="fade-up"><a href="?concern=breakouts" class="cat-chip" @click.prevent="colours = colours.includes('breakouts') ? [] : ['breakouts']" :aria-current="colours.includes('breakouts')"><span class="cat-chip-img"><img src="../assets/media/placeholder/400x400.svg" alt="" width="400" height="400" loading="lazy" decoding="async"></span>Breakouts</a></li>
+                                <li data-anim="fade-up"><a href="?concern=fine-lines" class="cat-chip" @click.prevent="colours = colours.includes('fine-lines') ? [] : ['fine-lines']" :aria-current="colours.includes('fine-lines')"><span class="cat-chip-img"><img src="../assets/media/placeholder/400x400.svg" alt="" width="400" height="400" loading="lazy" decoding="async"></span>Fine Lines</a></li>
+                                <li data-anim="fade-up"><a href="?concern=redness" class="cat-chip" @click.prevent="colours = colours.includes('redness') ? [] : ['redness']" :aria-current="colours.includes('redness')"><span class="cat-chip-img"><img src="../assets/media/placeholder/400x400.svg" alt="" width="400" height="400" loading="lazy" decoding="async"></span>Redness</a></li>
+                                <li data-anim="fade-up"><a href="?concern=dark-spots" class="cat-chip" @click.prevent="colours = colours.includes('dark-spots') ? [] : ['dark-spots']" :aria-current="colours.includes('dark-spots')"><span class="cat-chip-img"><img src="../assets/media/placeholder/400x400.svg" alt="" width="400" height="400" loading="lazy" decoding="async"></span>Dark Spots</a></li>
+                            </ul>
+                        </nav>
+                        <button type="button" class="carousel-btn rail-scroll-btn rail-scroll-btn--prev" x-show="!start" x-cloak x-transition.opacity @click="go(-1)" aria-label="Previous categories"><i class="ph ph-arrow-left" aria-hidden="true"></i></button>
+                        <button type="button" class="carousel-btn rail-scroll-btn rail-scroll-btn--next" x-show="!end" x-cloak x-transition.opacity @click="go(1)" aria-label="Next categories"><i class="ph ph-arrow-right" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+
+                <section class="pt-10 pb-(--section-space) md:pt-12" id="products" aria-label="Products">
+                    <div class="container shop-layout">
+
+                        <!-- Filters: a sidebar from 1024px, a drawer below -->
+                        <aside class="shop-filters custom-filters" :class="{ 'is-open': drawer }" aria-label="Product filters" @click.self="drawer = false">
+                            <div class="shop-filters-panel" :role="drawer ? 'dialog' : null" :aria-modal="drawer ? 'true' : null" aria-labelledby="filters-title" data-lenis-prevent>
+                                <div class="shop-filters-head">
+                                    <h2 id="filters-title" class="text-xl font-semibold">Filters</h2>
+                                    <button type="button" class="modal-close" @click="drawer = false" aria-label="Close filters"><i class="ph ph-x" aria-hidden="true"></i></button>
+                                </div>
+                                <form class="shop-filters-body" method="get" @submit.prevent>
+                                    <!-- Beauty Store shop filters - category, concern, skin type, price, formula, rating (productFilter in main.js: cat, colours = concerns, sizes = skin types, features = formula). Category and Concern open, the rest folded. Edit: the labels and counts -->
+                                    <details class="filter-group" open>
+                                        <summary :class="{ 'is-active': cat !== 'all' }">Category</summary>
+                                        <div class="filter-group-body">
+                                            <ul class="filter-list">
+                                                <li><a href="?cat=all" @click.prevent="cat = 'all'" :aria-current="cat === 'all'" aria-current="true">Everything <small>20</small></a></li>
+                                                <li><a href="?cat=cleansers" @click.prevent="cat = 'cleansers'" :aria-current="cat === 'cleansers'">Cleansers <small>2</small></a></li>
+                                                <li><a href="?cat=serums" @click.prevent="cat = 'serums'" :aria-current="cat === 'serums'">Serums <small>2</small></a></li>
+                                                <li><a href="?cat=moisturisers" @click.prevent="cat = 'moisturisers'" :aria-current="cat === 'moisturisers'">Moisturisers <small>2</small></a></li>
+                                                <li><a href="?cat=spf" @click.prevent="cat = 'spf'" :aria-current="cat === 'spf'">Sun Care <small>1</small></a></li>
+                                                <li><a href="?cat=masks" @click.prevent="cat = 'masks'" :aria-current="cat === 'masks'">Masks <small>1</small></a></li>
+                                                <li><a href="?cat=toners" @click.prevent="cat = 'toners'" :aria-current="cat === 'toners'">Toners &amp; Essences <small>1</small></a></li>
+                                                <li><a href="?cat=makeup" @click.prevent="cat = 'makeup'" :aria-current="cat === 'makeup'">Makeup <small>7</small></a></li>
+                                                <li><a href="?cat=body" @click.prevent="cat = 'body'" :aria-current="cat === 'body'">Body <small>4</small></a></li>
+                                            </ul>
+                                        </div>
+                                    </details>
+                                    <details class="filter-group" open>
+                                        <summary :class="{ 'is-active': colours.length }">Concern</summary>
+                                        <div class="filter-group-body">
+                                            <ul class="filter-options">
+                                                <li><label class="filter-option"><input type="checkbox" class="form-check-input" name="filter_concern" value="dryness" x-model="colours"><span class="filter-option-name">Dryness</span><small class="filter-count">9</small></label></li>
+                                                <li><label class="filter-option"><input type="checkbox" class="form-check-input" name="filter_concern" value="dullness" x-model="colours"><span class="filter-option-name">Dullness</span><small class="filter-count">4</small></label></li>
+                                                <li><label class="filter-option"><input type="checkbox" class="form-check-input" name="filter_concern" value="breakouts" x-model="colours"><span class="filter-option-name">Breakouts</span><small class="filter-count">2</small></label></li>
+                                                <li><label class="filter-option"><input type="checkbox" class="form-check-input" name="filter_concern" value="fine-lines" x-model="colours"><span class="filter-option-name">Fine Lines</span><small class="filter-count">3</small></label></li>
+                                                <li><label class="filter-option"><input type="checkbox" class="form-check-input" name="filter_concern" value="redness" x-model="colours"><span class="filter-option-name">Redness</span><small class="filter-count">4</small></label></li>
+                                                <li><label class="filter-option"><input type="checkbox" class="form-check-input" name="filter_concern" value="dark-spots" x-model="colours"><span class="filter-option-name">Dark Spots</span><small class="filter-count">3</small></label></li>
+                                            </ul>
+                                        </div>
+                                    </details>
+                                    <details class="filter-group">
+                                        <summary :class="{ 'is-active': sizes.length }">Skin Type</summary>
+                                        <div class="filter-group-body">
+                                            <ul class="filter-options">
+                                                <li><label class="filter-option"><input type="checkbox" class="form-check-input" name="filter_skin" value="dry" x-model="sizes"><span class="filter-option-name">Dry</span><small class="filter-count">12</small></label></li>
+                                                <li><label class="filter-option"><input type="checkbox" class="form-check-input" name="filter_skin" value="oily" x-model="sizes"><span class="filter-option-name">Oily</span><small class="filter-count">8</small></label></li>
+                                                <li><label class="filter-option"><input type="checkbox" class="form-check-input" name="filter_skin" value="combination" x-model="sizes"><span class="filter-option-name">Combination</span><small class="filter-count">12</small></label></li>
+                                                <li><label class="filter-option"><input type="checkbox" class="form-check-input" name="filter_skin" value="normal" x-model="sizes"><span class="filter-option-name">Normal</span><small class="filter-count">14</small></label></li>
+                                                <li><label class="filter-option"><input type="checkbox" class="form-check-input" name="filter_skin" value="sensitive" x-model="sizes"><span class="filter-option-name">Sensitive</span><small class="filter-count">8</small></label></li>
+                                            </ul>
+                                        </div>
+                                    </details>
+                                    <details class="filter-group">
+                                        <summary :class="{ 'is-active': priceActive }">Price</summary>
+                                        <div class="filter-group-body">
+                                            <div class="range-dual" :style="fill">
+                                                <input type="range" class="range-dual-input" name="min_price" min="0" max="50" step="1" x-model.number="from" @input="clamp('from')" aria-label="Minimum price">
+                                                <input type="range" class="range-dual-input" name="max_price" min="0" max="50" step="1" x-model.number="to" @input="clamp('to')" aria-label="Maximum price">
+                                            </div>
+                                            <div class="mt-4 flex items-center justify-between gap-3">
+                                                <span class="rounded-pill border border-default px-3.5 py-1.5 tabular-nums">$<span x-text="from">0</span></span>
+                                                <span class="h-px flex-1 bg-[var(--color-border)]"></span>
+                                                <span class="rounded-pill border border-default px-3.5 py-1.5 tabular-nums">$<span x-text="to">50</span></span>
+                                            </div>
+                                            <ul class="filter-list mt-5">
+                                                <li><a href="?min_price=0&amp;max_price=20" @click.prevent="setPrice(0, 20)" :aria-current="isPrice(0, 20)">Under $20 <small>5</small></a></li>
+                                                <li><a href="?min_price=20&amp;max_price=35" @click.prevent="setPrice(20, 35)" :aria-current="isPrice(20, 35)">$20 – $35 <small>13</small></a></li>
+                                                <li><a href="?min_price=35&amp;max_price=50" @click.prevent="setPrice(35, 50)" :aria-current="isPrice(35, 50)">$35 and up <small>4</small></a></li>
+                                            </ul>
+                                        </div>
+                                    </details>
+                                    <details class="filter-group">
+                                        <summary :class="{ 'is-active': features.length }">Formula</summary>
+                                        <div class="filter-group-body">
+                                            <ul class="filter-options">
+                                                <li><label class="filter-option"><input type="checkbox" class="form-check-input" name="filter_formula" value="fragrance-free" x-model="features"><span class="filter-option-name">Fragrance-free</span><small class="filter-count">9</small></label></li>
+                                                <li><label class="filter-option"><input type="checkbox" class="form-check-input" name="filter_formula" value="refill" x-model="features"><span class="filter-option-name">Refill available</span><small class="filter-count">7</small></label></li>
+                                            </ul>
+                                        </div>
+                                    </details>
+                                    <details class="filter-group">
+                                        <summary :class="{ 'is-active': rating }">Rating</summary>
+                                        <div class="filter-group-body">
+                                            <ul class="filter-options">
+                                                <li><label class="filter-option"><input type="radio" class="form-check-input" name="rating_filter" value="4.8" x-model.number="rating"><span class="filter-option-name"><span class="product-rating" style="--rating: 4.8" aria-label="4.8 stars">&amp; up</span></span><small class="filter-count">11</small></label></li>
+                                                <li><label class="filter-option"><input type="radio" class="form-check-input" name="rating_filter" value="4.7" x-model.number="rating"><span class="filter-option-name"><span class="product-rating" style="--rating: 4.7" aria-label="4.7 stars">&amp; up</span></span><small class="filter-count">17</small></label></li>
+                                                <li><label class="filter-option"><input type="radio" class="form-check-input" name="rating_filter" value="0" x-model.number="rating"><span class="filter-option-name">Any rating</span><small class="filter-count">20</small></label></li>
+                                            </ul>
+                                        </div>
+                                    </details>
+                                </form>
+                                <div class="shop-filters-foot">
+                                    <button type="button" class="btn btn-outline btn-pill flex-1" @click="clear()">Clear All</button>
+                                    <button type="button" class="btn btn-dark btn-pill flex-[1.4]" @click="drawer = false"><span>Show <span x-text="count">20</span> Products</span></button>
+                                </div>
+                            </div>
+                        </aside>
+
+                        <!-- Results -->
+                        <div class="min-w-0">
+                            <div class="shop-toolbar border-b border-default pb-5">
+                                <button type="button" class="btn btn-outline btn-pill btn-sm lg:hidden" @click="drawer = true" aria-controls="filters-title">
+                                    <i class="ph ph-sliders-horizontal" aria-hidden="true"></i> Filters
+                                    <span class="grid size-5 place-items-center rounded-full bg-[var(--color-dark)] text-[0.6875rem] text-white" x-show="chips.length" x-text="chips.length" x-cloak></span>
+                                </button>
+                                <p class="mr-auto hidden text-soft sm:block" aria-live="polite"><span class="font-semibold text-[var(--color-text)] tabular-nums" x-text="count">20</span> products</p>
+                                <label class="ml-auto flex items-center gap-2.5 sm:ml-0">
+                                    <span class="hidden text-soft md:inline">Sort by</span>
+                                    <select class="form-select form-select-sm w-auto rounded-pill pr-10" name="orderby" x-model="sort">
+                                        <option value="menu_order">Featured</option>
+                                        <option value="popularity">Bestsellers</option>
+                                        <option value="rating">Top Rated</option>
+                                        <option value="date">Newest</option>
+                                        <option value="price">Price: Low to High</option>
+                                        <option value="price-desc">Price: High to Low</option>
+                                    </select>
+                                </label>
+                                <span class="shop-toolbar-divider max-sm:hidden" aria-hidden="true"></span>
+                                <div class="view-switch max-sm:hidden" role="group" aria-label="Layout">
+                                    <button type="button" @click="setView('grid')" :aria-pressed="view === 'grid'" aria-pressed="true" aria-label="Grid view"><i class="ph ph-squares-four" aria-hidden="true"></i></button>
+                                    <button type="button" @click="setView('list')" :aria-pressed="view === 'list'" aria-pressed="false" aria-label="List view"><i class="ph ph-rows" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="mt-5 flex flex-wrap items-center gap-2" x-show="chips.length" x-cloak>
+                                <template x-for="chip in chips" :key="chip.key + (chip.value ?? '')">
+                                    <span class="tag-pill">
+                                        <span x-text="chip.label"></span>
+                                        <button type="button" class="tag-pill-remove" @click="remove(chip)" :aria-label="'Remove ' + chip.label"><i class="ph ph-x" aria-hidden="true"></i></button>
+                                    </span>
+                                </template>
+                                <button type="button" class="ml-1 font-semibold underline decoration-[var(--color-border)] underline-offset-4 hover:decoration-current" @click="clear()">Clear All</button>
+                            </div>
+
+                            <ul class="products mt-8" :class="{ 'products--list': view === 'list' }" :style="{ '--cols': cols }" style="--cols: 3">
+                                <!-- Filter words per card: pGroup = categories (?cat=), pColours = concerns (?concern=), pSizes = skin types (?type=), pFeatures = formula. Edit: the include params -->
+                                <li class="product-card product-card--tile custom-card" data-product data-product_id="bs-101" data-cat="skincare cleansers" data-price="24" data-colours="dryness redness" data-sizes="dry sensitive normal combination" data-brand="draftmango-beauty" data-sale="no" data-features="fragrance-free refill" data-rating="4.8" data-stock="in" data-date="2027-01-12" data-pop="96" data-anim="fade-up" data-anim-delay="0">
+                                    <div class="product-card-media">
+                                        <a href="demo-beauty-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Blush squeeze tube of Cloudmilk Cleanser" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/800x800.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+
+                                        <div class="product-card-badges">
+                                            <span class="product-badge product-badge--soft">Bestseller</span>
+                                        </div>
+
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="bs-101" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Cloudmilk Cleanser to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Cloudmilk Cleanser to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Cloudmilk Cleanser">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Gel Cleanser · 150 ml</span>
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-beauty-store-1-product.html">Cloudmilk Cleanser</a></h3>
+                                        <p class="product-card-excerpt">A milky gel that whips into a cloud and rinses clean.</p>
+
+                                        <div class="product-rating" style="--rating: 4.8" role="img" aria-label="Rated 4.8 out of 5">(2,140)</div>
+
+                                        <p class="product-price">
+
+                                            <span>$24</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--tile custom-card" data-product data-product_id="bs-102" data-cat="skincare serums" data-price="38" data-colours="dullness dark-spots" data-sizes="dry oily combination normal" data-brand="draftmango-beauty" data-sale="no" data-features="fragrance-free refill" data-rating="4.9" data-stock="in" data-date="2027-01-12" data-pop="99" data-anim="fade-up" data-anim-delay="90">
+                                    <div class="product-card-media">
+                                        <a href="demo-beauty-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Frosted dropper bottle of amber Dewline Serum" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/800x800.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+
+                                        <div class="product-card-badges">
+                                            <span class="product-badge product-badge--soft">Bestseller</span>
+                                        </div>
+
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="bs-102" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Dewline Serum to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Dewline Serum to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Dewline Serum">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Vitamin C Serum · 30 ml</span>
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-beauty-store-1-product.html">Dewline Serum</a></h3>
+                                        <p class="product-card-excerpt">Vitamin C and ferulic acid for brighter, more even skin.</p>
+
+                                        <div class="product-rating" style="--rating: 4.9" role="img" aria-label="Rated 4.9 out of 5">(3,618)</div>
+
+                                        <p class="product-price">
+
+                                            <span>$38</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--tile custom-card" data-product data-product_id="bs-103" data-cat="skincare moisturisers" data-price="42" data-colours="dryness fine-lines" data-sizes="dry normal combination" data-brand="draftmango-beauty" data-sale="no" data-features="fragrance-free refill" data-rating="4.8" data-stock="in" data-date="2027-01-12" data-pop="94" data-anim="fade-up" data-anim-delay="180">
+                                    <div class="product-card-media">
+                                        <a href="demo-beauty-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Frosted blush jar of Plumpwell Cream" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/800x800.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="bs-103" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Plumpwell Cream to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Plumpwell Cream to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Plumpwell Cream">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Peptide Moisturiser · 50 ml</span>
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-beauty-store-1-product.html">Plumpwell Cream</a></h3>
+                                        <p class="product-card-excerpt">A whipped peptide cream that holds moisture all day.</p>
+
+                                        <div class="product-rating" style="--rating: 4.8" role="img" aria-label="Rated 4.8 out of 5">(1,906)</div>
+
+                                        <p class="product-price">
+
+                                            <span>$42</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--tile custom-card" data-product data-product_id="bs-104" data-cat="skincare spf" data-price="32" data-colours="dark-spots redness" data-sizes="dry oily combination normal sensitive" data-brand="draftmango-beauty" data-sale="yes" data-features="fragrance-free" data-rating="4.7" data-stock="in" data-date="2027-02-02" data-pop="93" data-anim="fade-up" data-anim-delay="0">
+                                    <div class="product-card-media">
+                                        <a href="demo-beauty-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Cream tube of Haloshade SPF 40 with a peach cap" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/800x800.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+
+                                        <div class="product-card-badges">
+                                            <span class="product-badge product-badge--sale">−15%</span>
+                                        </div>
+
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="bs-104" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Haloshade SPF 40 to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Haloshade SPF 40 to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Haloshade SPF 40">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Mineral Sunscreen · 50 ml</span>
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-beauty-store-1-product.html">Haloshade SPF 40</a></h3>
+                                        <p class="product-card-excerpt">A sheer mineral SPF 40 that disappears on every skin tone.</p>
+
+                                        <div class="product-rating" style="--rating: 4.7" role="img" aria-label="Rated 4.7 out of 5">(1,284)</div>
+
+                                        <p class="product-price">
+
+                                            <del><span class="sr-only">Original price:</span> $38</del>
+                                            <ins><span class="sr-only">Current price:</span> $32</ins>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--tile custom-card" data-product data-product_id="bs-406" data-cat="skincare serums" data-price="48" data-colours="fine-lines breakouts dark-spots" data-sizes="oily combination normal" data-brand="draftmango-beauty" data-sale="no" data-features="fragrance-free" data-rating="4.7" data-stock="in" data-date="2027-03-20" data-pop="88" data-anim="fade-up" data-anim-delay="90">
+                                    <div class="product-card-media">
+                                        <a href="demo-beauty-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Amber frosted dropper bottle of Nightbloom Retinal Serum" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/800x800.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="bs-406" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Nightbloom Retinal Serum to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Nightbloom Retinal Serum to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Nightbloom Retinal Serum">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Retinal Serum · 30 ml</span>
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-beauty-store-1-product.html">Nightbloom Retinal Serum</a></h3>
+                                        <p class="product-card-excerpt">Gentle encapsulated retinal for smoother skin, night by night.</p>
+
+                                        <div class="product-rating" style="--rating: 4.7" role="img" aria-label="Rated 4.7 out of 5">(167)</div>
+
+                                        <p class="product-price">
+
+                                            <span>$48</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--tile custom-card" data-product data-product_id="bs-405" data-cat="skincare cleansers balms" data-price="30" data-colours="dryness" data-sizes="dry normal sensitive combination" data-brand="draftmango-beauty" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-04-01" data-pop="86" data-anim="fade-up" data-anim-delay="180">
+                                    <div class="product-card-media">
+                                        <a href="demo-beauty-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Frosted jar of Meltaway Cleansing Balm with a peach lid" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/800x800.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+
+                                        <div class="product-card-badges">
+                                            <span class="product-badge product-badge--dark">New</span>
+                                        </div>
+
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="bs-405" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Meltaway Cleansing Balm to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Meltaway Cleansing Balm to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Meltaway Cleansing Balm">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Cleansing Balm · 90 g</span>
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-beauty-store-1-product.html">Meltaway Cleansing Balm</a></h3>
+                                        <p class="product-card-excerpt">Melts SPF and makeup into a silky oil, then rinses milky.</p>
+
+                                        <div class="product-rating" style="--rating: 4.8" role="img" aria-label="Rated 4.8 out of 5">(298)</div>
+
+                                        <p class="product-price">
+
+                                            <span>$30</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <!-- Params: ptHref, ptImg (a bs1-*.webp photo), ptPos (object-position), ptIcon (Phosphor name), ptEyebrow, ptTitle, ptText, ptCta -->
+                                <li class="custom-promo-tile" x-show="view === 'grid' &amp;&amp; !chips.length" data-anim="fade-up" data-anim-delay="120">
+                                    <a href="demo-beauty-store-1-skin-quiz.html" class="group">
+                                        <img src="../assets/media/placeholder/2304x1728.svg" alt="" width="1600" height="1200" loading="lazy" decoding="async" style="object-position: 70% 50%">
+                                        <span class="custom-promo-tile-copy">
+                                            <span class="custom-promo-tile-eyebrow"><i class="ph ph-sparkle" aria-hidden="true"></i>Skin Quiz · 2 min</span>
+                                            <span class="custom-promo-tile-title">Not sure where to start?</span>
+                                            <span class="custom-promo-tile-text">Five questions, one routine made for your skin.</span>
+                                            <span class="btn btn-light btn-pill btn-sm mt-5 self-start">Take the Quiz <i class="ph ph-arrow-right" aria-hidden="true"></i></span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="product-card product-card--tile custom-card" data-product data-product_id="bs-401" data-cat="skincare eyes moisturisers" data-price="34" data-colours="fine-lines dullness" data-sizes="dry oily combination normal sensitive" data-brand="draftmango-beauty" data-sale="no" data-features="fragrance-free" data-rating="4.8" data-stock="in" data-date="2027-04-03" data-pop="84" data-anim="fade-up" data-anim-delay="0">
+                                    <div class="product-card-media">
+                                        <a href="demo-beauty-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Cream airless pump of Brightwake Eye Cream" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/800x800.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+
+                                        <div class="product-card-badges">
+                                            <span class="product-badge product-badge--dark">New</span>
+                                        </div>
+
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="bs-401" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Brightwake Eye Cream to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Brightwake Eye Cream to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Brightwake Eye Cream">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Eye Cream · 15 ml</span>
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-beauty-store-1-product.html">Brightwake Eye Cream</a></h3>
+                                        <p class="product-card-excerpt">Caffeine and peptides for brighter, smoother mornings.</p>
+
+                                        <div class="product-rating" style="--rating: 4.8" role="img" aria-label="Rated 4.8 out of 5">(214)</div>
+
+                                        <p class="product-price">
+
+                                            <span>$34</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--tile custom-card" data-product data-product_id="bs-402" data-cat="skincare masks" data-price="28" data-colours="breakouts dullness" data-sizes="oily combination normal" data-brand="draftmango-beauty" data-sale="no" data-features="" data-rating="4.7" data-stock="in" data-date="2027-04-05" data-pop="82" data-anim="fade-up" data-anim-delay="90">
+                                    <div class="product-card-media">
+                                        <a href="demo-beauty-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Open jar of rose-pink Rosebed Clay Mask" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/800x800.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+
+                                        <div class="product-card-badges">
+                                            <span class="product-badge product-badge--dark">New</span>
+                                        </div>
+
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="bs-402" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Rosebed Clay Mask to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Rosebed Clay Mask to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Rosebed Clay Mask">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Clay Mask · 75 ml</span>
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-beauty-store-1-product.html">Rosebed Clay Mask</a></h3>
+                                        <p class="product-card-excerpt">Pink kaolin that clears pores in ten minutes, without the squeak.</p>
+
+                                        <div class="product-rating" style="--rating: 4.7" role="img" aria-label="Rated 4.7 out of 5">(186)</div>
+
+                                        <p class="product-price">
+
+                                            <span>$28</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--tile custom-card" data-product data-product_id="bs-404" data-cat="skincare toners" data-price="26" data-colours="dryness redness dullness" data-sizes="dry oily combination normal sensitive" data-brand="draftmango-beauty" data-sale="no" data-features="fragrance-free refill" data-rating="4.6" data-stock="in" data-date="2027-03-02" data-pop="78" data-anim="fade-up" data-anim-delay="180">
+                                    <div class="product-card-media">
+                                        <a href="demo-beauty-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Frosted spray bottle of Mistwell Essence" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/800x800.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="bs-404" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Mistwell Essence to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Mistwell Essence to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Mistwell Essence">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Essence Mist · 100 ml</span>
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-beauty-store-1-product.html">Mistwell Essence</a></h3>
+                                        <p class="product-card-excerpt">A fine hydrating mist of rice water and panthenol.</p>
+
+                                        <div class="product-rating" style="--rating: 4.6" role="img" aria-label="Rated 4.6 out of 5">(131)</div>
+
+                                        <p class="product-price">
+
+                                            <span>$26</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--tile custom-card" data-product data-product_id="bs-201" data-cat="makeup base skin-tint" data-price="36" data-colours="redness" data-sizes="dry oily combination normal sensitive" data-brand="draftmango-beauty" data-sale="no" data-features="fragrance-free" data-rating="4.7" data-stock="in" data-date="2027-02-14" data-pop="87" data-anim="fade-up" data-anim-delay="0">
+                                    <div class="product-card-media">
+                                        <a href="demo-beauty-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Squeeze tube of Softfocus Skin Tint in a medium shade" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="bs-201" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Softfocus Skin Tint to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Softfocus Skin Tint to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Softfocus Skin Tint">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Skin Tint · 12 shades</span>
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-beauty-store-1-product.html">Softfocus Skin Tint</a></h3>
+                                        <p class="product-card-excerpt">Sheer, skin-like coverage with a soft-focus finish.</p>
+
+                                        <div class="product-rating" style="--rating: 4.7" role="img" aria-label="Rated 4.7 out of 5">(1,122)</div>
+
+                                        <p class="product-price">
+
+                                            <span>$36</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--tile custom-card" data-product data-product_id="bs-204" data-cat="makeup lips lip-tints" data-price="18" data-colours="" data-sizes="" data-brand="draftmango-beauty" data-sale="no" data-features="" data-rating="4.9" data-stock="in" data-date="2027-01-20" data-pop="95" data-anim="fade-up" data-anim-delay="90">
+                                    <div class="product-card-media">
+                                        <a href="demo-beauty-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Frosted tube of Rosewash Lip Tint in Rose" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/800x800.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+
+                                        <div class="product-card-badges">
+                                            <span class="product-badge product-badge--soft">Bestseller</span>
+                                        </div>
+
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="bs-204" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Rosewash Lip Tint to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Rosewash Lip Tint to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Rosewash Lip Tint">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Lip Tint · 6 shades</span>
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-beauty-store-1-product.html">Rosewash Lip Tint</a></h3>
+                                        <p class="product-card-excerpt">A water-light stain that wears like your lips, only rosier.</p>
+
+                                        <div class="product-rating" style="--rating: 4.9" role="img" aria-label="Rated 4.9 out of 5">(2,457)</div>
+
+                                        <p class="product-price">
+
+                                            <span>$18</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--tile custom-card" data-product data-product_id="bs-501" data-cat="makeup cheek" data-price="22" data-colours="" data-sizes="" data-brand="draftmango-beauty" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-02-20" data-pop="89" data-anim="fade-up" data-anim-delay="180">
+                                    <div class="product-card-media">
+                                        <a href="demo-beauty-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Open glass pot of Flushbloom Cheek Balm in Petal" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="bs-501" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Flushbloom Cheek Balm to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Flushbloom Cheek Balm to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Flushbloom Cheek Balm">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Cheek Balm · 5 shades</span>
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-beauty-store-1-product.html">Flushbloom Cheek Balm</a></h3>
+                                        <p class="product-card-excerpt">A sheer cream flush you tap on with a fingertip.</p>
+
+                                        <div class="product-rating" style="--rating: 4.8" role="img" aria-label="Rated 4.8 out of 5">(1,377)</div>
+
+                                        <p class="product-price">
+
+                                            <span>$22</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--tile custom-card" data-product data-product_id="bs-502" data-cat="makeup lips lip-oils" data-price="20" data-colours="" data-sizes="" data-brand="draftmango-beauty" data-sale="no" data-features="" data-rating="4.7" data-stock="in" data-date="2027-03-10" data-pop="80" data-anim="fade-up" data-anim-delay="0">
+                                    <div class="product-card-media">
+                                        <a href="demo-beauty-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Frosted tube of Glasslip Lip Oil in Clear Pink" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/1000x1000.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="bs-502" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Glasslip Lip Oil to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Glasslip Lip Oil to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Glasslip Lip Oil">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Lip Oil · 3 shades</span>
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-beauty-store-1-product.html">Glasslip Lip Oil</a></h3>
+                                        <p class="product-card-excerpt">A cushiony glass-shine oil that never feels sticky.</p>
+
+                                        <div class="product-rating" style="--rating: 4.7" role="img" aria-label="Rated 4.7 out of 5">(696)</div>
+
+                                        <p class="product-price">
+
+                                            <span>$20</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--tile custom-card" data-product data-product_id="bs-202" data-cat="makeup brow" data-price="20" data-colours="" data-sizes="" data-brand="draftmango-beauty" data-sale="no" data-features="" data-rating="4.8" data-stock="in" data-date="2027-01-28" data-pop="79" data-anim="fade-up" data-anim-delay="90">
+                                    <div class="product-card-media">
+                                        <a href="demo-beauty-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Slim cream tube of Featherbrow Gel" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/800x800.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="bs-202" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Featherbrow Gel to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Featherbrow Gel to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Featherbrow Gel">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Brow Gel · 3 shades</span>
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-beauty-store-1-product.html">Featherbrow Gel</a></h3>
+                                        <p class="product-card-excerpt">A flexible tinted gel that brushes brows up and holds them.</p>
+
+                                        <div class="product-rating" style="--rating: 4.8" role="img" aria-label="Rated 4.8 out of 5">(842)</div>
+
+                                        <p class="product-price">
+
+                                            <span>$20</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--tile custom-card" data-product data-product_id="bs-203" data-cat="makeup eyes mascara" data-price="24" data-colours="" data-sizes="" data-brand="draftmango-beauty" data-sale="no" data-features="" data-rating="4.6" data-stock="in" data-date="2027-01-28" data-pop="77" data-anim="fade-up" data-anim-delay="180">
+                                    <div class="product-card-media">
+                                        <a href="demo-beauty-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Slim blush tube of Lashlift Mascara" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/800x800.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="bs-203" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Lashlift Mascara to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Lashlift Mascara to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Lashlift Mascara">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Tubing Mascara</span>
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-beauty-store-1-product.html">Lashlift Mascara</a></h3>
+                                        <p class="product-card-excerpt">Lifts and lengthens, then slides off with warm water.</p>
+
+                                        <div class="product-rating" style="--rating: 4.6" role="img" aria-label="Rated 4.6 out of 5">(968)</div>
+
+                                        <p class="product-price">
+
+                                            <span>$24</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--tile custom-card" data-product data-product_id="bs-403" data-cat="makeup lips lip-balms" data-price="18" data-colours="dryness" data-sizes="" data-brand="draftmango-beauty" data-sale="no" data-features="fragrance-free" data-rating="4.9" data-stock="in" data-date="2027-03-28" data-pop="83" data-anim="fade-up" data-anim-delay="0">
+                                    <div class="product-card-media">
+                                        <a href="demo-beauty-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Small blush pot of Lipnap Lip Mask" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/800x800.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="bs-403" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Lipnap Lip Mask to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Lipnap Lip Mask to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Lipnap Lip Mask">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Overnight Lip Mask · 12 g</span>
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-beauty-store-1-product.html">Lipnap Lip Mask</a></h3>
+                                        <p class="product-card-excerpt">A cushiony overnight balm; wake up to smooth lips.</p>
+
+                                        <div class="product-rating" style="--rating: 4.9" role="img" aria-label="Rated 4.9 out of 5">(402)</div>
+
+                                        <p class="product-price">
+
+                                            <span>$18</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--tile custom-card" data-product data-product_id="bs-301" data-cat="body oils" data-price="34" data-colours="dryness" data-sizes="dry normal combination" data-brand="draftmango-beauty" data-sale="no" data-features="refill" data-rating="4.8" data-stock="in" data-date="2027-02-08" data-pop="76" data-anim="fade-up" data-anim-delay="90">
+                                    <div class="product-card-media">
+                                        <a href="demo-beauty-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Frosted pump bottle of golden Silkdrop Body Oil" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/800x800.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="bs-301" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Silkdrop Body Oil to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Silkdrop Body Oil to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Silkdrop Body Oil">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Dry Body Oil · 100 ml</span>
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-beauty-store-1-product.html">Silkdrop Body Oil</a></h3>
+                                        <p class="product-card-excerpt">A dry-touch oil of squalane and camellia that sinks in fast.</p>
+
+                                        <div class="product-rating" style="--rating: 4.8" role="img" aria-label="Rated 4.8 out of 5">(734)</div>
+
+                                        <p class="product-price">
+
+                                            <span>$34</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--tile custom-card" data-product data-product_id="bs-302" data-cat="body creams" data-price="30" data-colours="dryness" data-sizes="dry normal sensitive" data-brand="draftmango-beauty" data-sale="no" data-features="refill" data-rating="4.9" data-stock="in" data-date="2027-02-08" data-pop="90" data-anim="fade-up" data-anim-delay="180">
+                                    <div class="product-card-media">
+                                        <a href="demo-beauty-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Wide frosted jar of Butterlight Body Cream with a peach lid" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/800x800.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+
+                                        <div class="product-card-badges">
+                                            <span class="product-badge product-badge--soft">Bestseller</span>
+                                        </div>
+
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="bs-302" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Butterlight Body Cream to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Butterlight Body Cream to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Butterlight Body Cream">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Body Cream · 200 ml</span>
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-beauty-store-1-product.html">Butterlight Body Cream</a></h3>
+                                        <p class="product-card-excerpt">Whipped shea and oat for soft skin without the slick.</p>
+
+                                        <div class="product-rating" style="--rating: 4.9" role="img" aria-label="Rated 4.9 out of 5">(1,015)</div>
+
+                                        <p class="product-price">
+
+                                            <span>$30</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--tile custom-card" data-product data-product_id="bs-303" data-cat="body hands" data-price="16" data-colours="dryness" data-sizes="dry normal" data-brand="draftmango-beauty" data-sale="no" data-features="" data-rating="4.7" data-stock="in" data-date="2027-02-08" data-pop="74" data-anim="fade-up" data-anim-delay="0">
+                                    <div class="product-card-media">
+                                        <a href="demo-beauty-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Cream squeeze tube of Velvethand Cream" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/800x800.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="bs-303" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Velvethand Cream to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Velvethand Cream to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Velvethand Cream">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Hand Cream · 75 ml</span>
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-beauty-store-1-product.html">Velvethand Cream</a></h3>
+                                        <p class="product-card-excerpt">A quick-absorbing hand cream with a soft fig scent.</p>
+
+                                        <div class="product-rating" style="--rating: 4.7" role="img" aria-label="Rated 4.7 out of 5">(658)</div>
+
+                                        <p class="product-price">
+
+                                            <span>$16</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="product-card product-card--tile custom-card" data-product data-product_id="bs-304" data-cat="body wash" data-price="22" data-colours="dryness" data-sizes="dry oily normal sensitive combination" data-brand="draftmango-beauty" data-sale="no" data-features="refill" data-rating="4.6" data-stock="in" data-date="2027-02-08" data-pop="72" data-anim="fade-up" data-anim-delay="90">
+                                    <div class="product-card-media">
+                                        <a href="demo-beauty-store-1-product.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+                                            <img class="product-card-img" src="../assets/media/placeholder/1000x1000.svg" alt="Frosted blush pump bottle of Dewbath Body Wash" width="600" height="600" loading="lazy" decoding="async">
+                                            <img class="product-card-img product-card-img--alt" src="../assets/media/placeholder/800x800.svg" alt="" width="600" height="600" loading="lazy" decoding="async">
+                                        </a>
+                                        <div class="product-card-actions">
+
+                                            <button type="button" name="add-to-cart" value="bs-304" class="product-action product-action--primary btn-atc" x-data="addToCart" @click="add()" :data-state="state" data-tooltip="Add to cart" data-tip-pos="left" aria-label="Add Dewbath Body Wash to cart">
+                                                <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i><span class="product-action-label">Add to cart</span></span>
+                                                <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                                <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i><span class="product-action-label">Added</span></span>
+                                            </button>
+
+                                            <button type="button" class="product-action" x-data="{ on: false }" @click="on = !on" :aria-pressed="on" aria-pressed="false" data-tooltip="Wishlist" data-tip-pos="left" aria-label="Save Dewbath Body Wash to wishlist">
+                                                <i class="ph ph-heart" :class="{ 'ph': !on, 'ph-fill': on }" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="product-action" data-quick-view data-modal-target="quick-view" data-tooltip="Quick view" data-tip-pos="left" aria-label="Quick view: Dewbath Body Wash">
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+
+                                        <div class="product-card-meta">
+                                            <span class="product-card-cat">Body Wash · 300 ml</span>
+                                        </div>
+
+                                        <h3 class="product-card-title"><a href="demo-beauty-store-1-product.html">Dewbath Body Wash</a></h3>
+                                        <p class="product-card-excerpt">A low-foam gel wash that leaves skin soft, never tight.</p>
+
+                                        <div class="product-rating" style="--rating: 4.6" role="img" aria-label="Rated 4.6 out of 5">(512)</div>
+
+                                        <p class="product-price">
+
+                                            <span>$22</span>
+
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <!-- Nothing matches -->
+                            <div class="custom-empty" x-show="count === 0" x-cloak>
+                                <span class="custom-empty-icon"><i class="ph ph-drop" aria-hidden="true"></i></span>
+                                <h3 class="mt-5 mb-0 text-xl">Nothing in that combination</h3>
+                                <p class="mx-auto mt-2 mb-0 max-w-sm text-soft">Loosen a filter or two, or let the Skin Quiz pick for you.</p>
+                                <div class="mt-6 flex flex-wrap justify-center gap-3">
+                                    <button type="button" class="btn btn-dark" @click="clear()">Reset Filters</button>
+                                    <a href="demo-beauty-store-1-skin-quiz.html" class="btn btn-outline-dark">Take the Skin Quiz</a>
+                                </div>
+                            </div>
+
+                            <div class="mx-auto mt-12 flex max-w-xs flex-col items-center text-center" x-show="count" data-anim="fade-up">
+                                <p class="m-0 text-soft">You&rsquo;ve seen <strong class="text-[var(--color-text)] tabular-nums" x-text="shown">11</strong> of <span class="tabular-nums" x-text="count">20</span> products</p>
+                                <div class="progress progress--sm mt-4 w-full" role="progressbar" aria-label="Products shown" aria-valuemin="0" aria-valuemax="100" :aria-valuenow="progress">
+                                    <div class="progress-bar" :style="{ width: progress + '%' }" style="width: 55%"></div>
+                                </div>
+                                <button type="button" class="btn btn-outline-dark mt-7 w-full" @click="more()" x-show="hasMore">Load More <i class="ph ph-arrow-down" aria-hidden="true"></i></button>
+                                <p class="mt-7 mb-0 inline-flex items-center gap-2 font-semibold" x-show="!hasMore" x-cloak><i class="ph ph-check-circle text-lg" aria-hidden="true"></i> That&rsquo;s everything</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Quick view - one dialog per page, filled by initQuickView() from the card that opened it -->
+        <dialog id="quick-view" class="modal modal--xl" data-anim="zoom" aria-labelledby="qv-title">
+            <div class="modal-dialog">
+                <div class="modal-content relative">
+                    <button class="modal-close absolute top-4 right-4 z-10" data-modal-close aria-label="Close"><i class="ph ph-x" aria-hidden="true"></i></button>
+                    <div class="grid md:grid-cols-2 overflow-y-auto" data-lenis-prevent>
+                        <div class="bg-muted aspect-[4/5] md:aspect-auto md:min-h-[34rem]">
+                            <img data-qv-img src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="" class="size-full object-cover" width="900" height="1100">
+                        </div>
+                        <div class="flex flex-col p-7 md:p-10">
+                            <span class="product-card-cat" data-qv-cat></span>
+                            <h2 id="qv-title" class="mt-3 text-2xl font-semibold tracking-[-0.025em] leading-tight" data-qv-title></h2>
+                            <div class="mt-3" data-qv-rating></div>
+                            <p class="product-price text-xl mt-5" data-qv-price></p>
+                            <p class="mt-4 text-soft leading-relaxed" data-qv-excerpt></p>
+                            <div class="mt-5 flex items-center gap-3 text-sm text-soft">Colours <span data-qv-colours></span></div>
+                            <form class="mt-8 flex flex-wrap items-center gap-3" x-data @submit.prevent>
+                                <div class="qty">
+                                    <button type="button" class="qty-btn" data-step="-1" aria-label="Decrease quantity"><i class="ph ph-minus" aria-hidden="true"></i></button>
+                                    <input type="number" class="qty-input" name="quantity" value="1" min="1" max="10" aria-label="Quantity">
+                                    <button type="button" class="qty-btn" data-step="1" aria-label="Increase quantity"><i class="ph ph-plus" aria-hidden="true"></i></button>
+                                </div>
+                                <button type="submit" class="btn btn-dark btn-pill btn-lg btn-atc flex-1 min-w-[12rem]" x-data="addToCart" @click="add()" :data-state="state">
+                                    <span class="btn-atc-idle"><i class="ph ph-handbag" aria-hidden="true"></i>Add to cart</span>
+                                    <span class="btn-atc-busy" aria-hidden="true"><i class="ph ph-circle-notch"></i></span>
+                                    <span class="btn-atc-done" aria-hidden="true"><i class="ph ph-check"></i>Added to cart</span>
+                                </button>
+                            </form>
+                            <a href="#" class="btn-link-arrow mt-auto pt-8 self-start font-semibold text-primary-ink" data-qv-link>View full details <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </dialog>
+
+        <!-- Beauty Store footer - rewards + routine: the Draftmango Rewards card (15%-off signup and the three tiers), the routine promises, then the brand, three link columns, the region, small print and payment marks. Edit: the offer, the tiers, the promises, the columns, the small print -->
+        <footer class="site-footer site-footer--soft custom-footer">
+
+            <div class="footer-main">
+                <div class="container">
+
+                    <div class="custom-rewards" data-anim="fade-up">
+                        <div class="custom-rewards-join">
+                            <p class="eyebrow custom-eyebrow"><i class="ph-fill ph-sparkle" aria-hidden="true"></i> Draftmango Rewards</p>
+                            <h2 class="custom-rewards-title">Join free and take <span class="custom-soft">15% off your first order.</span></h2>
+                            <p class="footer-detail mt-4 mb-6 max-w-[40ch]">One point for every dollar, a gift on your birthday and first look at every launch.</p>
+                            <form x-data="formValidate()" novalidate @submit.prevent="onSubmit($event)">
+                                <div class="footer-subscribe footer-subscribe--boxed footer-subscribe--label custom-subscribe">
+                                    <input id="bs1-email" name="email" type="email" placeholder="Your email address" aria-label="Email address" aria-describedby="bs1-email-msg" autocomplete="email" required @blur="check($event.target)" @input="check($event.target)">
+                                    <button type="submit">Join Free <i class="ph ph-arrow-right" aria-hidden="true"></i></button>
+                                </div>
+                                <span class="footer-subscribe-msg" id="bs1-email-msg">
+                                    <span x-show="!errors.email &amp;&amp; !sent">By joining you accept the <a href="#">Rewards Terms</a> and <a href="#">Privacy Policy</a>.</span>
+                                    <span class="footer-subscribe-msg--error" x-show="errors.email" x-text="errors.email" x-cloak></span>
+                                    <span class="footer-subscribe-msg--ok" x-show="sent" x-cloak>Welcome in — your 15% code is on its way.</span>
+                                </span>
+                            </form>
+                        </div>
+
+                        <ol class="custom-tiers" role="list" aria-label="Reward tiers">
+                            <li class="custom-tier">
+                                <span class="custom-tier-orb" aria-hidden="true"></span>
+                                <h3 class="custom-tier-name">Glow</h3>
+                                <p class="custom-tier-pts">From your first order</p>
+                                <ul role="list">
+                                    <li>1 point per $1</li>
+                                    <li>A birthday gift</li>
+                                </ul>
+                            </li>
+                            <li class="custom-tier custom-tier--2">
+                                <span class="custom-tier-orb" aria-hidden="true"></span>
+                                <h3 class="custom-tier-name">Radiant</h3>
+                                <p class="custom-tier-pts"><span class="tabular-nums">250</span> points</p>
+                                <ul role="list">
+                                    <li>Free shipping, always</li>
+                                    <li>Early access to launches</li>
+                                </ul>
+                            </li>
+                            <li class="custom-tier custom-tier--3">
+                                <span class="custom-tier-orb" aria-hidden="true"></span>
+                                <h3 class="custom-tier-name">Luminous</h3>
+                                <p class="custom-tier-pts"><span class="tabular-nums">600</span> points</p>
+                                <ul role="list">
+                                    <li>Double points</li>
+                                    <li>A full size every season</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <ul class="custom-promises" role="list" data-anim-stagger="80">
+                        <li data-anim="fade-up"><i class="ph ph-arrows-clockwise" aria-hidden="true"></i><span><strong>Auto-Refill</strong> Your routine every 6, 8 or 12 weeks, 10% off</span></li>
+                        <li data-anim="fade-up"><i class="ph ph-gift" aria-hidden="true"></i><span><strong>Two Free Minis</strong> Chosen for your skin, with every order</span></li>
+                        <li data-anim="fade-up"><i class="ph ph-heart" aria-hidden="true"></i><span><strong>Love It or Return It</strong> 60 days, even if it's open</span></li>
+                    </ul>
+
+                    <div class="grid grid-cols-1 gap-x-10 gap-y-10 md:grid-cols-3 xl:grid-cols-[1.6fr_repeat(3,1fr)]">
+
+                        <div class="flex flex-col items-start gap-5 md:col-span-3 xl:col-span-1" data-anim="fade-up">
+                            <a href="demo-beauty-store-1.html" class="brand block" aria-label="Draftmango Beauty, home">
+                                <!-- Beauty Store wordmark - the name in lowercase Hanken Grotesk with a soft glow dot, set in type (header brand: "demo" slot). Edit: the name, the line -->
+                                <span class="custom-brand"><span class="custom-brand-dot" aria-hidden="true"></span>draftmango<span class="custom-brand-line">beauty</span></span>
+                            </a>
+                            <p class="footer-detail m-0 max-w-[34ch]">Clean skincare and colour, formulated in San Diego. Vegan, cruelty-free, and kind to sensitive skin.</p>
+                            <ul class="social-list" role="list">
+                                <li><a href="#" aria-label="Instagram" data-social="instagram" class="social-link social-link--circle social-link--outline"><i class="ph ph-instagram-logo" aria-hidden="true"></i></a></li>
+                                <li><a href="#" aria-label="TikTok" data-social="tiktok" class="social-link social-link--circle social-link--outline"><i class="ph ph-tiktok-logo" aria-hidden="true"></i></a></li>
+                                <li><a href="#" aria-label="Pinterest" data-social="pinterest" class="social-link social-link--circle social-link--outline"><i class="ph ph-pinterest-logo" aria-hidden="true"></i></a></li>
+                                <li><a href="#" aria-label="YouTube" data-social="youtube" class="social-link social-link--circle social-link--outline"><i class="ph ph-youtube-logo" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+
+                        <nav class="footer-acc" x-data="{ open: false }" :class="open ? 'is-open' : 'is-shut'" aria-labelledby="bs1-col-shop" data-anim="fade-up" data-anim-delay="60">
+                            <button type="button" class="footer-acc-toggle" id="bs1-col-shop" @click="open = !open" :aria-expanded="open">Shop <i class="ph ph-plus footer-acc-caret" aria-hidden="true"></i></button>
+                            <div class="footer-acc-body">
+                                <ul class="footer-links footer-links--slide">
+                                    <li><a href="demo-beauty-store-1-shop.html?cat=skincare">Skincare</a></li>
+                                    <li><a href="demo-beauty-store-1-shop.html?cat=makeup">Makeup</a></li>
+                                    <li><a href="demo-beauty-store-1-shop.html?cat=body">Body</a></li>
+                                    <li><a href="demo-beauty-store-1-sets-gifts.html">Sets &amp; Gifts</a></li>
+                                    <li><a href="demo-beauty-store-1-sets-gifts.html#gift-cards">Gift Cards</a></li>
+                                </ul>
+                            </div>
+                        </nav>
+
+                        <nav class="footer-acc" x-data="{ open: false }" :class="open ? 'is-open' : 'is-shut'" aria-labelledby="bs1-col-help" data-anim="fade-up" data-anim-delay="120">
+                            <button type="button" class="footer-acc-toggle" id="bs1-col-help" @click="open = !open" :aria-expanded="open">Help <i class="ph ph-plus footer-acc-caret" aria-hidden="true"></i></button>
+                            <div class="footer-acc-body">
+                                <ul class="footer-links footer-links--slide">
+                                    <li><a href="demo-beauty-store-1-skin-quiz.html">Skin Quiz</a></li>
+                                    <li><a href="demo-beauty-store-1-account.html">Track an Order</a></li>
+                                    <li><a href="demo-beauty-store-1-contact.html#shipping">Shipping &amp; Returns</a></li>
+                                    <li><a href="demo-beauty-store-1-account.html">Rewards &amp; Auto-Refill</a></li>
+                                    <li><a href="demo-beauty-store-1-contact.html">Contact</a></li>
+                                </ul>
+                            </div>
+                        </nav>
+
+                        <nav class="footer-acc" x-data="{ open: false }" :class="open ? 'is-open' : 'is-shut'" aria-labelledby="bs1-col-about" data-anim="fade-up" data-anim-delay="180">
+                            <button type="button" class="footer-acc-toggle" id="bs1-col-about" @click="open = !open" :aria-expanded="open">About <i class="ph ph-plus footer-acc-caret" aria-hidden="true"></i></button>
+                            <div class="footer-acc-body">
+                                <ul class="footer-links footer-links--slide">
+                                    <li><a href="demo-beauty-store-1-about.html">Our Story</a></li>
+                                    <li><a href="demo-beauty-store-1-ingredients.html">Ingredients A–Z</a></li>
+                                    <li><a href="demo-beauty-store-1-about.html#clean">Our Clean Standard</a></li>
+                                    <li><a href="demo-beauty-store-1-blog.html">Blog</a></li>
+                                </ul>
+                            </div>
+                        </nav>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="container footer-shop-bar py-7">
+                    <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
+                        <div class="footer-region" x-data="{ open: false }" @keydown.escape="open = false" @click.outside="open = false">
+                            <button type="button" class="footer-region-toggle" @click="open = !open" :aria-expanded="open" aria-expanded="false" aria-haspopup="true" aria-label="Country and currency">
+                                <i class="ph ph-globe-hemisphere-west" aria-hidden="true"></i>
+                                <span>United States · USD $</span>
+                                <i class="ph ph-caret-up footer-region-caret" aria-hidden="true"></i>
+                            </button>
+                            <div class="footer-region-menu" x-show="open" x-transition.opacity.origin.bottom x-cloak role="menu" aria-label="Country and currency">
+                                <span class="nav-region-title">Ship to</span>
+                                <a href="#" class="nav-lang-item" role="menuitem" aria-current="true">United States · USD $ <i class="ph ph-check nav-lang-check" aria-hidden="true"></i></a>
+                                <a href="#" class="nav-lang-item" role="menuitem">Canada · CAD $ <i class="ph ph-check nav-lang-check" aria-hidden="true"></i></a>
+                                <a href="#" class="nav-lang-item" role="menuitem">United Kingdom · GBP £ <i class="ph ph-check nav-lang-check" aria-hidden="true"></i></a>
+                                <a href="#" class="nav-lang-item" role="menuitem">Germany · EUR € <i class="ph ph-check nav-lang-check" aria-hidden="true"></i></a>
+                                <a href="#" class="nav-lang-item" role="menuitem">Australia · AUD $ <i class="ph ph-check nav-lang-check" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                        <span>&copy; 2027 Draftmango Beauty. All rights reserved.</span>
+                    </div>
+                    <ul class="pay-marks" aria-label="Payment methods we accept">
+                        <li class="pay-mark pay-mark--visa"><span>VISA</span></li>
+                        <li class="pay-mark pay-mark--mc" aria-label="Mastercard"><span class="pay-mark-circles" aria-hidden="true"><i></i><i></i></span></li>
+                        <li class="pay-mark" aria-label="PayPal"><i class="ph-fill ph-paypal-logo" aria-hidden="true"></i></li>
+                        <li class="pay-mark" aria-label="Apple Pay"><i class="ph-fill ph-apple-logo" aria-hidden="true"></i><span>Pay</span></li>
+                        <li class="pay-mark" aria-label="Google Pay"><i class="ph-bold ph-google-logo" aria-hidden="true"></i><span>Pay</span></li>
+                    </ul>
+                </div>
+            </div>
+
+        </footer>
+
+        <!-- Back to top button -->
+        <button data-back-top aria-label="Back to top" class="back-to-top fixed bottom-8 right-8 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer border-0 text-white bg-primary shadow-token-lg z-sticky">
+            <i class="ph ph-arrow-up"></i>
+        </button>
+
+        <script defer src="../assets/js/vendor.js"></script>
+        <script defer src="../assets/js/shop.js"></script>
+        <script defer src="../assets/js/main.js"></script>
+        <script defer src="../assets/js/demos/demo-beauty-store-1.js"></script>
+    </body>
+</html>

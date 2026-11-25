@@ -1,0 +1,1835 @@
+html[data-demo='jewelry-store-1']:has(.header-shop) {
+    --shop-announce-h: 0px;
+    --shop-utility-h: 36px;
+}
+
+@media (width >= 1024px) {
+    html[data-demo='jewelry-store-1']:has(.header-shop) {
+        --stack-lock: 84px;
+        --navbar-h: 136px;
+        --stack-open-h: 136px;
+    }
+}
+
+@layer components {
+    html[data-demo='jewelry-store-1'] {
+        --product-bg: #fff;
+        --custom-hair: color-mix(in oklch, var(--color-accent) 40%, transparent);
+        --custom-hair-strong: color-mix(in oklch, var(--color-accent) 75%, transparent);
+    }
+
+    html[data-demo='jewelry-store-1'] :is(.product-card-title, .testimonial-name) {
+        font-family: var(--font-sans);
+        letter-spacing: 0;
+        font-weight: 500;
+    }
+
+    html[data-demo='jewelry-store-1'] .product-card-title {
+        font-size: 1.0625rem;
+    }
+
+    html[data-demo='jewelry-store-1'] .product-rating {
+        --rating-color: var(--color-accent);
+    }
+
+    .custom-swatch {
+        border-radius: var(--radius-full);
+        background:
+            radial-gradient(circle at 34% 30%, #ffffffbf 0, transparent 42%),
+            linear-gradient(
+                140deg,
+                color-mix(in oklch, var(--swatch) 70%, #fff),
+                var(--swatch) 55%,
+                color-mix(in oklch, var(--swatch) 72%, #000)
+            );
+        flex: none;
+        width: 0.875rem;
+        height: 0.875rem;
+        display: inline-block;
+        box-shadow: inset 0 0 0 1px #0000001a;
+    }
+
+    .custom-swatch--pearl {
+        background:
+            radial-gradient(circle at 34% 30%, #fff 0, transparent 46%),
+            radial-gradient(
+                circle at 60% 65%,
+                color-mix(in oklch, var(--swatch) 80%, #c9a9c0),
+                var(--swatch) 70%
+            );
+    }
+
+    .custom-gem {
+        color: var(--swatch);
+        flex: none;
+        font-size: 1rem;
+    }
+
+    .custom-metals {
+        align-items: center;
+        gap: 0.25rem;
+        display: inline-flex;
+    }
+
+    .custom-brand {
+        font-family: var(--font-heading);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--color-text);
+        margin-right: -0.14em;
+        font-size: 2.375rem;
+        line-height: 1;
+        display: inline-flex;
+        position: relative;
+    }
+
+    .custom-brand-glint {
+        width: 0.3em;
+        height: 0.3em;
+        fill: var(--color-accent);
+        position: absolute;
+        top: -0.2em;
+        right: -0.08em;
+    }
+
+    html[data-demo='jewelry-store-1'] .header-shop {
+        --custom-on-bar: color-mix(in oklch, var(--color-accent) 55%, #fff);
+        background: var(--color-secondary);
+        border-bottom: 0;
+
+        & .custom-strip {
+            background: oklch(from var(--color-secondary-base) calc(l - 0.05) c h);
+            color: #fffc;
+            box-shadow: inset 0 -1px color-mix(in oklch, var(--color-accent) 22%, transparent);
+        }
+
+        & .custom-strip .site-topbar-inner {
+            grid-template-columns: 1fr auto 1fr;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: grid;
+        }
+
+        & .custom-strip-promise {
+            letter-spacing: 0.02em;
+            color: var(--custom-on-bar);
+            margin: 0;
+        }
+
+        & .custom-strip .shop-utility-note {
+            color: inherit;
+        }
+
+        & .custom-strip .shop-utility-note i,
+        & .custom-strip .shop-utility-links i {
+            color: var(--color-accent);
+        }
+
+        & .custom-strip .shop-utility-links {
+            justify-content: flex-end;
+        }
+
+        & .custom-strip .shop-utility-links a {
+            color: inherit;
+            align-items: center;
+            gap: 0.4rem;
+            display: inline-flex;
+
+            &:hover {
+                color: #fff;
+            }
+        }
+
+        & .custom-brand {
+            color: #fff;
+        }
+
+        & .custom-search {
+            background: #ffffff14;
+            border-color: #ffffff24;
+            height: 2.75rem;
+            padding: 0 1rem 0 0.25rem;
+
+            &:focus-within {
+                border-color: var(--color-accent);
+                box-shadow: 0 0 0 3px color-mix(in oklch, var(--color-accent) 25%, transparent);
+                background: #ffffff1f;
+            }
+
+            & input[type='search'] {
+                color: #fff;
+                padding-inline: 0.25rem;
+            }
+
+            & input::placeholder {
+                color: #ffffff9e;
+            }
+        }
+
+        & .custom-search .shop-search-submit {
+            color: #fffc;
+            width: 2.5rem;
+            font-size: 1.125rem;
+
+            &:hover {
+                color: var(--custom-on-bar);
+            }
+        }
+
+        & :is(.shop-action, .hamburger, .nav-search-toggle) {
+            color: #fff;
+        }
+
+        & .nav-search-toggle:is(:hover, [aria-expanded='true']) {
+            color: var(--custom-on-bar);
+        }
+
+        & .shop-action:is(:hover, [aria-expanded='true']) {
+            color: #fff;
+            background: #ffffff1a;
+        }
+
+        & .shop-action-count {
+            color: var(--color-secondary);
+            background: var(--color-accent);
+            box-shadow: 0 0 0 2px var(--color-secondary);
+        }
+
+        &
+            :is(
+                .custom-strip a,
+                .navbar-inner > .brand,
+                .nav-links > li > .nav-link,
+                .nav-contact,
+                .nav-search-toggle,
+                .shop-action,
+                .hamburger
+            ):focus-visible {
+            outline: 2px solid var(--color-accent);
+            outline-offset: 2px;
+        }
+
+        & .mobile-nav {
+            background: var(--color-bg);
+        }
+    }
+
+    @media (width >= 1024px) {
+        html[data-demo='jewelry-store-1'] .header-shop {
+            --custom-actions-w: 9.5rem;
+
+            & .navbar-inner {
+                background: linear-gradient(#ffffff1a, #ffffff1a) no-repeat 50% var(--stack-row) /
+                    calc(100% - 2 * var(--container-x)) 1px;
+            }
+
+            & .navbar-inner > .brand {
+                width: auto;
+                left: 50%;
+                translate: -50%;
+            }
+
+            & .nav-meta {
+                left: var(--container-x);
+                right: calc(var(--container-x) + var(--custom-actions-w) + 1rem);
+                pointer-events: none;
+                justify-content: space-between;
+
+                & > * {
+                    pointer-events: auto;
+                }
+            }
+
+            & .shop-search {
+                flex: 0 18rem;
+                max-width: 18rem;
+                margin-right: 0;
+            }
+
+            & .nav-contact {
+                color: #fff;
+                gap: 0.25rem;
+
+                &:before {
+                    display: none;
+                }
+
+                & .btn {
+                    color: inherit;
+                    background: none;
+                    font-size: 1.25rem;
+                }
+
+                &:hover {
+                    color: var(--custom-on-bar);
+                }
+            }
+
+            & .nav-contact-label {
+                display: none;
+            }
+
+            & .nav-contact-value {
+                font-size: 0.9375rem;
+                font-weight: 600;
+            }
+
+            & .nav-actions > .shop-actions {
+                top: 0;
+                right: calc(var(--container-x) - 0.5rem);
+                height: var(--stack-lock);
+                grid-area: auto;
+                position: absolute;
+            }
+
+            & .shop-action {
+                font-size: 1.5rem;
+            }
+
+            & .cascade-item {
+                font-weight: 500;
+            }
+
+            & .nav-links {
+                grid-column: 1 / -1;
+                justify-self: center;
+                margin-left: 0;
+            }
+
+            & .nav-links > li > .nav-link {
+                --custom-pad: 1.125rem;
+                padding-inline: var(--custom-pad);
+                letter-spacing: 0.005em;
+                color: #ffffffeb;
+                font-size: 0.96875rem;
+                font-weight: 500;
+                position: relative;
+
+                &:after {
+                    content: '';
+                    inset: auto var(--custom-pad) -0.125rem;
+                    background: var(--color-accent);
+                    height: 2px;
+                    transition: scale var(--duration-base) var(--ease-out);
+                    border-radius: 2px;
+                    position: absolute;
+                    scale: 0 1;
+                }
+
+                &:has(.ph-caret-down):after {
+                    right: calc(var(--custom-pad) + 1rem);
+                }
+
+                &:is(:hover, .active, [aria-expanded='true']) {
+                    color: #fff;
+                }
+
+                &:is(:hover, .active, [aria-expanded='true']):after {
+                    scale: 1;
+                }
+            }
+
+            &.is-stuck {
+                & .navbar-inner {
+                    background: none;
+                }
+
+                & .navbar-inner > .brand,
+                & .nav-actions > .shop-actions {
+                    top: var(--stack-row);
+                    height: calc(var(--navbar-h) - var(--stack-row));
+                    animation: custom-join 0.32s var(--ease-out);
+                }
+
+                & .navbar-inner > .brand {
+                    left: var(--container-x);
+                    translate: none;
+                }
+
+                & .custom-brand {
+                    font-size: 1.625rem;
+                }
+
+                & .nav-links > li > .nav-link {
+                    --custom-pad: 0.875rem;
+                }
+            }
+        }
+    }
+
+    @media (width >= 1024px) and (width <= 1279px) {
+        html[data-demo='jewelry-store-1'] .site-header.header-shop.header-stacked {
+            & .nav-links {
+                display: flex;
+            }
+
+            & .hamburger {
+                display: none;
+            }
+
+            & .nav-links > li > .nav-link {
+                --custom-pad: 0.75rem;
+            }
+
+            & .shop-search {
+                flex-basis: 14rem;
+            }
+
+            &.is-stuck .navbar-inner > .brand {
+                display: none;
+            }
+
+            &.is-stuck .nav-links {
+                justify-self: start;
+                margin-left: -0.5rem;
+            }
+
+            &.is-stuck .nav-links > li > .nav-link {
+                --custom-pad: 0.5rem;
+            }
+        }
+    }
+
+    @keyframes custom-join {
+        from {
+            opacity: 0;
+        }
+    }
+
+    @media (width <= 1023px) {
+        html[data-demo='jewelry-store-1'] .header-shop {
+            & .custom-strip .site-topbar-inner {
+                justify-content: center;
+                display: flex;
+            }
+
+            & .custom-strip .shop-utility-note,
+            & .custom-strip .shop-utility-links {
+                display: none;
+            }
+
+            & .navbar-inner {
+                position: relative;
+            }
+
+            & .navbar-inner > .brand {
+                height: var(--navbar-h);
+                position: absolute;
+                top: 0;
+                left: 50%;
+                translate: -50%;
+            }
+
+            & .custom-brand {
+                font-size: 1.5rem;
+            }
+
+            & .hamburger {
+                top: 50%;
+                left: calc(var(--container-x) - 0.5rem);
+                position: absolute;
+                translate: 0 -50%;
+            }
+
+            & .nav-contact {
+                display: none;
+            }
+        }
+    }
+
+    @media (width <= 639px) {
+        html[data-demo='jewelry-store-1'] .custom-strip-promise {
+            letter-spacing: 0.02em;
+            font-size: 0.8125rem;
+        }
+
+        html[data-demo='jewelry-store-1'] .header-shop .custom-brand {
+            font-size: 1.375rem;
+        }
+    }
+
+    html[data-demo='jewelry-store-1'] .nav-megamenu.custom-mega {
+        & .megamenu-inner {
+            grid-template-rows: 1fr auto;
+            grid-template-columns: repeat(3, minmax(0, 1fr)) 15.5rem;
+            gap: 1.25rem 2.5rem;
+            padding-block: 2.5rem;
+
+            @media (width <= 1279px) {
+                grid-template-columns: repeat(3, minmax(0, 1fr)) 13.5rem;
+                column-gap: 1.5rem;
+            }
+        }
+
+        & .megamenu-item {
+            gap: 0.625rem;
+            font-weight: 500;
+        }
+
+        & .custom-mega-all {
+            color: var(--menu-hover-text);
+            margin-top: 0.25rem;
+            font-weight: 600;
+
+            & i {
+                transition: translate var(--duration-fast) var(--ease-out);
+            }
+
+            &:hover i {
+                translate: 3px;
+            }
+        }
+
+        & .custom-mega-foot {
+            border-top: 1px solid var(--custom-hair);
+            flex-wrap: wrap;
+            grid-area: 2 / 1 / auto / 4;
+            gap: 0.5rem 2rem;
+            padding: 1.25rem 0.875rem 0;
+            display: flex;
+
+            & a {
+                color: var(--menu-text);
+                transition: color var(--duration-fast) var(--ease-out);
+                align-items: center;
+                gap: 0.5rem;
+                font-size: 0.9375rem;
+                text-decoration: none;
+                display: inline-flex;
+
+                &:hover {
+                    color: var(--menu-hover-text);
+                }
+            }
+
+            & i {
+                color: var(--color-accent);
+                font-size: 1.125rem;
+            }
+        }
+
+        & .custom-mega-card-media {
+            border-radius: 50% 50% var(--radius-lg) var(--radius-lg) / 47% 47% var(--radius-lg)
+                var(--radius-lg);
+        }
+
+        & .custom-mega-card-kicker {
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--menu-hover-text);
+            margin: 1.125rem 0 0;
+            font-size: 0.8125rem;
+            font-weight: 600;
+        }
+
+        & .custom-mega-card-title {
+            font-family: var(--font-heading);
+            letter-spacing: -0.01em;
+            color: var(--menu-text);
+            transition: color var(--duration-fast) var(--ease-out);
+            margin-top: 0.375rem;
+            font-size: 1.375rem;
+            line-height: 1.2;
+            text-decoration: none;
+
+            &:hover {
+                color: var(--menu-hover-text);
+            }
+        }
+
+        & .custom-mega-card-link {
+            color: var(--menu-hover-text);
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 0.625rem;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+
+            & i {
+                transition: translate var(--duration-fast) var(--ease-out);
+            }
+
+            &:hover i {
+                translate: 3px;
+            }
+        }
+    }
+
+    .custom-search-pick {
+        text-align: start;
+        color: var(--color-text);
+        align-items: center;
+        gap: 1rem;
+        text-decoration: none;
+        display: flex;
+
+        & img {
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            flex: none;
+            width: 4rem;
+            height: 4rem;
+        }
+
+        &:hover .custom-search-pick-name {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    .custom-search-pick-name {
+        transition: color var(--duration-fast) var(--ease-out);
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 1.3;
+        display: block;
+    }
+
+    .custom-stage {
+        --custom-veil: var(--color-bg-soft);
+        background:
+            radial-gradient(
+                55% 75% at 0% 0%,
+                color-mix(in oklch, var(--color-accent) 22%, transparent),
+                transparent 72%
+            ),
+            radial-gradient(
+                48% 70% at 100% 8%,
+                color-mix(in oklch, var(--color-primary) 9%, transparent),
+                transparent 72%
+            ),
+            radial-gradient(
+                60% 55% at 50% 100%,
+                color-mix(in oklch, var(--color-surface) 85%, transparent),
+                transparent 75%
+            ),
+            linear-gradient(
+                176deg,
+                color-mix(in oklch, var(--color-tertiary) 72%, var(--color-surface)),
+                var(--color-bg-soft) 78%
+            );
+    }
+
+    .custom-glint {
+        left: var(--gx);
+        top: var(--gy);
+        width: var(--gs);
+        aspect-ratio: 1;
+        background: var(--color-accent);
+        animation: custom-twinkle 4.8s var(--gd, 0s) ease-in-out infinite;
+        position: absolute;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0C12.7 7.3 16.7 11.3 24 12 16.7 12.7 12.7 16.7 12 24 11.3 16.7 7.3 12.7 0 12 7.3 11.3 11.3 7.3 12 0Z'/%3E%3C/svg%3E")
+            center / contain no-repeat;
+    }
+
+    @keyframes custom-twinkle {
+        0%,
+        100% {
+            opacity: 0.35;
+            scale: 0.7;
+        }
+
+        50% {
+            opacity: 1;
+            scale: 1;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .custom-glint {
+            animation: none;
+        }
+    }
+
+    .custom-eyebrow-lines {
+        align-items: center;
+        gap: 0.875rem;
+        display: inline-flex;
+
+        &:before,
+        &:after {
+            content: '';
+            background: var(--custom-hair-strong);
+            width: 2.25rem;
+            height: 1px;
+        }
+    }
+
+    .custom-box {
+        --custom-n: 5;
+        --custom-gutter: var(--container-x);
+        --custom-wmax: 100vw;
+        --custom-inline: max(0px, (100cqi - var(--custom-n) * var(--custom-wmax)) / 2);
+        --custom-w: calc((100cqi - var(--custom-inline) * 2) / var(--custom-n));
+        --custom-drape: -0.75rem;
+        --custom-room: 0.75rem;
+        --custom-r: var(--radius-xl);
+        --custom-inset: 0.625rem;
+        container-type: inline-size;
+    }
+
+    @media (width >= 1024px) {
+        .custom-box {
+            --custom-wmax: max(10.5rem, (100svh - 40rem) * 0.8);
+        }
+    }
+
+    .custom-box-swiper > .swiper-wrapper {
+        padding-block: var(--custom-room) 2.25rem;
+    }
+
+    .custom-box-swiper {
+        max-width: calc(100% - var(--custom-inline) * 2);
+        margin-bottom: -1rem;
+    }
+
+    .custom-chain {
+        --custom-rise: calc(var(--custom-drape) * -7.5);
+        z-index: -1;
+        left: calc(var(--custom-gutter) + var(--custom-inline) + 1.375rem);
+        right: calc(var(--custom-gutter) + var(--custom-inline) + 1.375rem);
+        top: calc(var(--custom-room) + var(--custom-w) * 0.625 - var(--custom-rise));
+        width: calc(100% - (var(--custom-gutter) + var(--custom-inline)) * 2 - 2.75rem);
+        height: var(--custom-rise);
+        fill: none;
+        stroke: var(--custom-hair-strong);
+        stroke-width: 1px;
+        position: absolute;
+        overflow: visible;
+    }
+
+    .custom-piece {
+        height: auto;
+    }
+
+    .custom-piece-body {
+        opacity: clamp(0, calc((2.6 - var(--a, 0)) * 2.5), 1);
+        transform: translate(
+                calc(var(--x, 0) * 100%),
+                calc(var(--a, 0) * var(--a, 0) * var(--custom-drape))
+            )
+            scale(var(--s, 1));
+        position: relative;
+        container-type: inline-size;
+    }
+
+    .custom-piece-frame {
+        --custom-foot: calc(var(--custom-r) * (1 - var(--t, 0)) + 50% * var(--t, 0));
+        aspect-ratio: 4 / 5;
+        background: var(--color-bg-muted);
+        border-radius: 50% 50% var(--custom-foot) var(--custom-foot) / calc(40% + 10% * var(--t, 0))
+            calc(40% + 10% * var(--t, 0)) var(--custom-foot) var(--custom-foot);
+        display: block;
+        position: relative;
+        overflow: hidden;
+
+        & img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+
+        &:after {
+            content: '';
+            background: var(--custom-veil, var(--color-bg));
+            opacity: calc(min(var(--a, 0), 2) * 0.13);
+            pointer-events: none;
+            position: absolute;
+            inset: 0;
+        }
+    }
+
+    .custom-piece:not(.is-front) .custom-piece-frame {
+        cursor: pointer;
+    }
+
+    .custom-piece-plate {
+        inset: auto var(--custom-inset) var(--custom-inset);
+        background: color-mix(in oklch, var(--color-surface) 94%, transparent);
+        border-radius: calc(var(--custom-r) - var(--custom-inset));
+        opacity: clamp(0, calc(1 - var(--a, 0) * 3), 1);
+        pointer-events: none;
+        padding: 0.75rem 1rem 0.8125rem;
+        position: absolute;
+    }
+
+    .is-front .custom-piece-plate {
+        pointer-events: auto;
+    }
+
+    .custom-piece-name {
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        color: var(--color-text);
+        transition: color var(--duration-fast) var(--ease-out);
+        font-size: 0.9375rem;
+        font-weight: 500;
+        line-height: 1.3;
+        text-decoration: none;
+        display: block;
+        overflow: hidden;
+
+        &:hover {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    .custom-piece-foot {
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 0.375rem 0 0;
+        display: flex;
+    }
+
+    .custom-piece-price {
+        white-space: nowrap;
+        font-variant-numeric: lining-nums tabular-nums;
+        color: var(--color-text-soft);
+        font-size: 0.9375rem;
+    }
+
+    .custom-box-swiper:not(.swiper-initialized) {
+        & .swiper-slide {
+            width: calc(100% / var(--custom-n));
+        }
+
+        & .swiper-slide:nth-child(7) {
+            order: -2;
+        }
+
+        & .swiper-slide:nth-child(8) {
+            order: -1;
+        }
+    }
+
+    .custom-box-prev,
+    .custom-box-next {
+        z-index: 2;
+        top: calc(var(--custom-room) + var(--custom-w) * 0.625 + var(--custom-drape) * 7.5);
+        background: var(--color-surface);
+        border-color: var(--custom-hair-strong);
+        width: 2.75rem;
+        height: 2.75rem;
+        box-shadow: none;
+        position: absolute;
+        translate: 0 -50%;
+    }
+
+    .custom-box-prev {
+        left: calc(var(--custom-gutter) + var(--custom-inline));
+    }
+
+    .custom-box-next {
+        right: calc(var(--custom-gutter) + var(--custom-inline));
+    }
+
+    @container (width <= 12.5rem) {
+        .custom-piece-plate {
+            padding: 0.625rem 0.875rem 0.6875rem;
+        }
+
+        .custom-piece-plate .custom-metals {
+            display: none;
+        }
+
+        .custom-piece-name {
+            font-size: 0.875rem;
+        }
+
+        .custom-piece-foot {
+            justify-content: flex-start;
+            margin-top: 0.25rem;
+        }
+    }
+
+    @media (width <= 1023px) {
+        .custom-box {
+            --custom-n: 3;
+            --custom-drape: -1rem;
+        }
+
+        .custom-chain {
+            --custom-rise: calc(var(--custom-drape) * -2.25);
+        }
+
+        .custom-box-prev,
+        .custom-box-next {
+            top: calc(var(--custom-room) + var(--custom-w) * 0.625 + var(--custom-drape) * 2.25);
+        }
+    }
+
+    @media (width <= 639px) {
+        .custom-eyebrow-lines:before,
+        .custom-eyebrow-lines:after {
+            display: none;
+        }
+
+        .custom-box {
+            --custom-n: 1.8;
+            --custom-gutter: 0px;
+            padding-inline: 0;
+        }
+
+        .custom-chain {
+            --custom-rise: calc(var(--custom-drape) * -0.6);
+            width: 100%;
+            left: 0;
+            right: 0;
+        }
+
+        .custom-box-prev,
+        .custom-box-next {
+            position: static;
+            translate: none;
+        }
+    }
+
+    .custom-serif {
+        font-family: var(--font-serif);
+        color: var(--color-primary-ink);
+        font-style: italic;
+    }
+
+    .custom-link {
+        color: var(--color-text);
+        text-decoration: underline;
+        -webkit-text-decoration-color: var(--custom-hair-strong);
+        text-decoration-color: var(--custom-hair-strong);
+        text-underline-offset: 0.4em;
+        transition:
+            color var(--duration-fast) var(--ease-out),
+            text-decoration-color var(--duration-fast) var(--ease-out);
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+        text-decoration-thickness: 1px;
+        display: inline-flex;
+
+        & i {
+            transition: translate var(--duration-fast) var(--ease-out);
+        }
+
+        &:hover {
+            color: var(--color-primary-ink);
+            text-decoration-color: currentColor;
+
+            & i {
+                translate: 3px;
+            }
+        }
+    }
+
+    .custom-ticker .marquee-text__sep:before {
+        background: var(--color-accent);
+        border-radius: 0;
+        width: 0.875rem;
+        height: 0.875rem;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0C12.7 7.3 16.7 11.3 24 12 16.7 12.7 12.7 16.7 12 24 11.3 16.7 7.3 12.7 0 12 7.3 11.3 11.3 7.3 12 0Z'/%3E%3C/svg%3E")
+            center / contain no-repeat;
+    }
+
+    .custom-cat {
+        text-align: center;
+        color: var(--color-text);
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        display: flex;
+
+        & img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            transition: scale 1.2s var(--ease-out);
+        }
+
+        &:hover img {
+            scale: 1.04;
+        }
+
+        &:hover .custom-cat-name {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    .custom-cat-media {
+        aspect-ratio: 3 / 4;
+        background: var(--color-bg-muted);
+        border-radius: 50% 50% var(--radius-xl) var(--radius-xl) / 37.5% 37.5% var(--radius-xl)
+            var(--radius-xl);
+        width: 100%;
+        display: block;
+        position: relative;
+        overflow: hidden;
+
+        &:after {
+            content: '';
+            border-radius: 50% 50% calc(var(--radius-xl) - 0.625rem)
+                calc(var(--radius-xl) - 0.625rem) / 37% 37% calc(var(--radius-xl) - 0.625rem)
+                calc(var(--radius-xl) - 0.625rem);
+            pointer-events: none;
+            border: 1px solid #fff9;
+            position: absolute;
+            inset: 0.625rem;
+        }
+    }
+
+    .custom-cat-name {
+        font-family: var(--font-heading);
+        transition: color var(--duration-fast) var(--ease-out);
+        margin-top: 1.375rem;
+        font-size: 1.625rem;
+        line-height: 1.1;
+    }
+
+    .custom-edit {
+        aspect-ratio: 3 / 4;
+        position: relative;
+    }
+
+    @media (width >= 1024px) {
+        .custom-edit {
+            top: calc(var(--navbar-h, 5rem) + 1.5rem);
+            aspect-ratio: auto;
+            height: 100%;
+            max-height: 52rem;
+            position: sticky;
+        }
+    }
+
+    .custom-edit-plate {
+        background: color-mix(in oklch, var(--color-surface) 92%, transparent);
+        border-radius: calc(var(--radius-xl) - 0.75rem);
+        padding: 1rem 1.25rem 1.125rem;
+    }
+
+    .custom-craft-media {
+        aspect-ratio: 4 / 5;
+        background: var(--color-bg-muted);
+        border-radius: var(--radius-xl);
+        overflow: hidden;
+    }
+
+    .custom-craft-media--arch {
+        border-radius: 50% 50% var(--radius-xl) var(--radius-xl) / 32% 32% var(--radius-xl)
+            var(--radius-xl);
+    }
+
+    .custom-craft-detail {
+        aspect-ratio: 4 / 5;
+        background: var(--color-bg-muted);
+        border: 0.5rem solid var(--color-bg-soft);
+        border-radius: 50%;
+        width: 44%;
+        position: absolute;
+        bottom: 2.5rem;
+        right: calc(-1 * clamp(1.5rem, 4vw, 3.5rem));
+        overflow: hidden;
+        box-shadow: 0 1.5rem 3rem -1.5rem #2814232e;
+    }
+
+    .custom-seal {
+        --seal-size: 7.5rem;
+        --seal-duration: 26s;
+        top: 12%;
+        left: calc(var(--seal-size) * -0.4);
+        background: var(--color-surface);
+        border-radius: var(--radius-full);
+        position: absolute;
+
+        & .seal-icon {
+            color: var(--color-accent);
+            font-size: 1.5rem;
+        }
+    }
+
+    @media (width <= 1279px) {
+        .custom-seal {
+            left: -1rem;
+        }
+    }
+
+    @media (width <= 639px) {
+        .custom-seal {
+            --seal-size: 6rem;
+            left: -0.5rem;
+        }
+    }
+
+    .custom-facts {
+        gap: 1.75rem;
+        margin: 2.75rem 0 0;
+        display: grid;
+
+        & > div {
+            border-top: 1px solid var(--custom-hair-strong);
+            padding-top: 1.25rem;
+        }
+
+        & dt {
+            font-family: var(--font-heading);
+            letter-spacing: -0.01em;
+            font-size: 2.25rem;
+            line-height: 1;
+        }
+
+        & dd {
+            color: var(--color-text-soft);
+            margin: 0.75rem 0 0;
+        }
+    }
+
+    @media (width >= 640px) {
+        .custom-facts {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+
+    .custom-bridal {
+        --color-text: var(--color-secondary-base);
+        --color-text-soft: oklch(from var(--color-secondary-base) 0.42 calc(c * 0.6) h);
+        --custom-ink: oklch(from var(--color-primary-base) min(l, 0.45) c h);
+        background: var(--color-bg-muted);
+        border-radius: var(--radius-xl);
+        min-height: clamp(30rem, 20rem + 18vw, 38rem);
+        color: var(--color-text);
+        align-items: center;
+        display: grid;
+        position: relative;
+        overflow: hidden;
+
+        &:before {
+            content: '';
+            z-index: 1;
+            pointer-events: none;
+            background: linear-gradient(90deg, #f1eee9d1 0%, #f1eee98c 32%, #0000 52%);
+            position: absolute;
+            inset: 0;
+        }
+
+        &:after {
+            content: '';
+            z-index: 2;
+            border-radius: calc(var(--radius-xl) - 0.875rem);
+            pointer-events: none;
+            border: 1px solid #ffffff8c;
+            position: absolute;
+            inset: 0.875rem;
+        }
+    }
+
+    .custom-bridal-img {
+        object-fit: cover;
+        object-position: 70% 50%;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        inset: 0;
+    }
+
+    .custom-bridal-copy {
+        z-index: 3;
+        max-width: 36rem;
+        padding: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
+        position: relative;
+    }
+
+    @media (width <= 1279px) {
+        .custom-bridal {
+            min-height: 0;
+            display: block;
+        }
+
+        .custom-bridal:before,
+        .custom-bridal:after {
+            display: none;
+        }
+
+        .custom-bridal-img {
+            aspect-ratio: 16 / 9;
+            object-position: 72% 50%;
+            position: static;
+        }
+
+        .custom-bridal-copy {
+            max-width: 40rem;
+            padding: 2.5rem clamp(1.5rem, 1rem + 2vw, 3rem) 3rem;
+        }
+    }
+
+    @media (width <= 639px) {
+        .custom-bridal-img {
+            aspect-ratio: 4 / 3;
+        }
+
+        .custom-price-tabs .tab-btn {
+            padding-inline: 0.75rem;
+        }
+    }
+
+    .custom-stars {
+        color: var(--color-accent);
+    }
+
+    .custom-review {
+        background: var(--color-surface);
+
+        & .testimonial-body:before {
+            content: '“';
+            height: 2.25rem;
+            font-family: var(--font-heading);
+            color: var(--color-accent);
+            font-size: 4.5rem;
+            line-height: 1;
+            display: block;
+        }
+
+        & .testimonial-quote {
+            color: var(--color-text);
+            font-size: 1.125rem;
+            line-height: 1.6;
+        }
+
+        & .testimonial-role {
+            color: var(--color-text-muted);
+        }
+    }
+
+    .custom-atelier {
+        --custom-light-accent: color-mix(in oklch, var(--color-accent) 75%, #fff);
+        background: var(--color-secondary);
+        color: #ffffffc7;
+
+        & .custom-serif {
+            color: var(--custom-light-accent);
+        }
+    }
+
+    .custom-atelier-glow {
+        --glow-color: var(--color-primary);
+        --glow-size: 36rem;
+        --glow-opacity: 0.35;
+        --glow-blur: 160px;
+    }
+
+    .custom-atelier-media {
+        aspect-ratio: 4 / 5;
+        border-radius: 50% 50% var(--radius-xl) var(--radius-xl) / 30% 30% var(--radius-xl)
+            var(--radius-xl);
+        max-height: 40rem;
+        position: relative;
+        overflow: hidden;
+
+        &:after {
+            content: '';
+            border-radius: 50% 50% calc(var(--radius-xl) - 0.75rem)
+                calc(var(--radius-xl) - 0.75rem) / 29.5% 29.5% calc(var(--radius-xl) - 0.75rem)
+                calc(var(--radius-xl) - 0.75rem);
+            pointer-events: none;
+            border: 1px solid #ffffff73;
+            position: absolute;
+            inset: 0.75rem;
+        }
+    }
+
+    .custom-ways {
+        margin: 2.5rem 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        & li {
+            border-top: 1px solid #ffffff24;
+            grid-template-columns: auto minmax(0, 1fr);
+            gap: 1.25rem;
+            padding-block: 1.5rem;
+            display: grid;
+        }
+
+        & li:last-child {
+            border-bottom: 1px solid #ffffff24;
+        }
+
+        & i {
+            color: var(--custom-light-accent);
+            font-size: 1.5rem;
+        }
+
+        & p {
+            margin: 0.375rem 0 0;
+        }
+    }
+
+    .custom-ways-title {
+        color: #fff;
+        margin: 0;
+        font-size: 1.375rem;
+        line-height: 1.2;
+    }
+
+    .custom-ways--light {
+        & li {
+            border-top-color: var(--color-border);
+        }
+
+        & li:last-child {
+            border-bottom-color: var(--color-border);
+        }
+
+        & i {
+            color: var(--color-primary-ink);
+        }
+
+        & p {
+            color: var(--color-text-soft);
+        }
+
+        & .custom-ways-title {
+            color: var(--color-text);
+        }
+    }
+
+    .custom-atelier-link {
+        color: #fff;
+        text-decoration-color: #ffffff59;
+
+        &:hover {
+            color: #fff;
+            text-decoration-color: #fff;
+        }
+    }
+
+    .custom-hours {
+        & > div {
+            border-top: 1px solid var(--color-border-soft);
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 0.75rem;
+            display: flex;
+        }
+
+        & dt {
+            color: var(--color-text-soft);
+        }
+
+        & dd {
+            font-variant-numeric: tabular-nums;
+            margin: 0;
+            font-weight: 500;
+        }
+    }
+
+    .custom-footer .footer-shop-title {
+        letter-spacing: -0.03em;
+        font-size: 1.5rem;
+        font-weight: 400;
+    }
+
+    html[data-demo='jewelry-store-1'] :is(.shop-title, .product-title) {
+        letter-spacing: -0.02em;
+        font-weight: 400;
+    }
+
+    html[data-demo='jewelry-store-1'] .shop-title {
+        font-size: clamp(2.25rem, 1.5rem + 2.4vw, 3.5rem);
+        line-height: 1.04;
+    }
+
+    html[data-demo='jewelry-store-1'] :is(.shop-heading, .shop-subheading) {
+        font-weight: 400;
+    }
+
+    .custom-banner {
+        min-height: clamp(18rem, 26vw, 24rem);
+        color: var(--color-secondary-base);
+
+        &:after {
+            background: radial-gradient(60% 75%, #f8f3f0db, #f8f3f059 70%, #0000);
+        }
+
+        & .shop-title {
+            color: var(--color-secondary-base);
+        }
+
+        & .category-hero-body p {
+            color: oklch(from var(--color-secondary-base) 0.4 calc(c * 0.6) h);
+        }
+
+        & .custom-serif {
+            color: oklch(from var(--color-primary-base) min(l, 0.45) c h);
+        }
+    }
+
+    .custom-banner-eyebrow {
+        color: oklch(from var(--color-primary-base) min(l, 0.45) c h);
+    }
+
+    .custom-collections .collection-card > img {
+        object-position: 50% 62%;
+    }
+
+    .filter-option-swatch.custom-swatch {
+        width: 1.125rem;
+        height: 1.125rem;
+    }
+
+    .custom-steps {
+        counter-reset: step;
+        gap: 1.75rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        & li {
+            counter-increment: step;
+            padding-left: 3.25rem;
+            position: relative;
+        }
+
+        & li:before {
+            content: counter(step);
+            border: 1px solid var(--custom-hair-strong);
+            border-radius: var(--radius-full);
+            width: 2.25rem;
+            height: 2.25rem;
+            color: var(--color-primary-ink);
+            place-items: center;
+            font-weight: 500;
+            display: grid;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        & p {
+            color: var(--color-text-soft);
+            margin: 0.375rem 0 0;
+        }
+    }
+
+    .custom-steps-title {
+        margin: 0;
+        padding-top: 0.125rem;
+        font-size: 1.375rem;
+        line-height: 1.2;
+    }
+
+    .custom-size-table {
+        border-collapse: collapse;
+        width: 100%;
+        min-width: 22rem;
+        font-size: 1rem;
+
+        & th,
+        & td {
+            text-align: left;
+            border-bottom: 1px solid var(--color-border);
+            padding: 0.875rem 1rem;
+        }
+
+        & thead th {
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+            font-size: 0.8125rem;
+            font-weight: 600;
+        }
+
+        & tbody th {
+            font-weight: 500;
+        }
+
+        & td {
+            color: var(--color-text-soft);
+        }
+    }
+
+    .swatch-color.custom-swatch-lg {
+        background:
+            radial-gradient(circle at 34% 30%, #ffffffbf 0, transparent 42%),
+            linear-gradient(
+                140deg,
+                color-mix(in oklch, var(--swatch) 70%, #fff),
+                var(--swatch) 55%,
+                color-mix(in oklch, var(--swatch) 72%, #000)
+            );
+    }
+
+    .custom-gallery .swiper-slide {
+        background: var(--product-bg);
+        border-radius: var(--radius-xl);
+        overflow: hidden;
+
+        & img {
+            aspect-ratio: 1;
+            object-fit: cover;
+            width: 100%;
+        }
+    }
+
+    .custom-view {
+        background: var(--product-bg);
+        border: 1px solid var(--color-border-soft);
+        border-radius: var(--radius-md);
+        width: 4rem;
+        height: 4rem;
+        transition: border-color var(--duration-fast) var(--ease-out);
+        place-items: center;
+        display: grid;
+        overflow: hidden;
+
+        & img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+
+        &:hover {
+            border-color: var(--color-border);
+        }
+
+        &.is-active {
+            border-color: var(--color-text);
+        }
+    }
+
+    .custom-badge {
+        color: oklch(from var(--color-accent-base) 0.42 c h);
+        background: color-mix(in oklch, var(--color-accent) 16%, transparent);
+        font-weight: 600;
+    }
+
+    .custom-initials {
+        letter-spacing: 0.12em;
+        font-size: 1.25rem;
+
+        &[data-style='Serif'] {
+            font-family: var(--font-serif);
+        }
+
+        &[data-style='Script'] {
+            font-family: var(--font-serif);
+            letter-spacing: 0.04em;
+            font-style: italic;
+        }
+
+        &[data-style='Block'] {
+            letter-spacing: 0.2em;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+    }
+
+    .custom-page-title {
+        margin-top: 1.5rem;
+    }
+
+    .custom-page-head--editorial {
+        padding-bottom: 0;
+
+        & .custom-page-title {
+            margin-top: 1rem;
+            font-size: clamp(2.75rem, 1.6rem + 3.6vw, 4.75rem);
+            line-height: 1;
+        }
+
+        & .custom-page-intro {
+            max-width: 38rem;
+        }
+    }
+
+    .custom-page-photo {
+        aspect-ratio: 21 / 9;
+        border-radius: 50% 50% var(--radius-xl) var(--radius-xl) / 22% 22% var(--radius-xl)
+            var(--radius-xl);
+    }
+
+    @media (width <= 767px) {
+        .custom-page-photo {
+            aspect-ratio: 4 / 3;
+            border-radius: 50% 50% var(--radius-xl) var(--radius-xl) / 18% 18% var(--radius-xl)
+                var(--radius-xl);
+        }
+    }
+
+    .custom-shape {
+        text-align: center;
+        color: var(--color-text);
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        display: flex;
+
+        & svg {
+            aspect-ratio: 1;
+            fill: none;
+            width: clamp(7rem, 5rem + 6vw, 9.5rem);
+            stroke: var(--color-primary-ink);
+            stroke-width: 1.1px;
+            stroke-linejoin: round;
+            background: var(--color-surface);
+            border: 1px solid var(--custom-hair);
+            border-radius: var(--radius-full);
+            transition:
+                border-color var(--duration-fast) var(--ease-out),
+                background-color var(--duration-fast) var(--ease-out);
+            padding: 1.75rem;
+        }
+
+        &:hover svg {
+            background: var(--color-bg-soft);
+            border-color: var(--custom-hair-strong);
+        }
+
+        &:hover .custom-shape-name {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    .custom-shape-name {
+        letter-spacing: -0.02em;
+        transition: color var(--duration-fast) var(--ease-out);
+        margin-top: 1.25rem;
+        font-size: 1.25rem;
+        font-weight: 500;
+    }
+
+    .custom-promo {
+        isolation: isolate;
+        color: #fff;
+        background: var(--color-secondary);
+        border-radius: var(--radius-card);
+        flex-direction: column;
+        justify-content: flex-end;
+        gap: 0.625rem;
+        height: 100%;
+        min-height: 22rem;
+        padding: 1.75rem;
+        text-decoration: none;
+        display: flex;
+        position: relative;
+        overflow: hidden;
+
+        & img {
+            z-index: -2;
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            transition: scale 1.2s var(--ease-out);
+            position: absolute;
+            inset: 0;
+        }
+
+        &:after {
+            content: '';
+            z-index: -1;
+            background: linear-gradient(to top, #140a12b8, #140a1200 62%);
+            position: absolute;
+            inset: 0;
+        }
+
+        &:hover img {
+            scale: 1.04;
+        }
+
+        & .eyebrow {
+            color: #ffffffc7;
+        }
+    }
+
+    .custom-flow {
+        gap: 2.5rem 2rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        & li {
+            border-top: 1px solid var(--custom-hair-strong);
+            padding-top: 1.5rem;
+        }
+
+        & p {
+            color: var(--color-text-soft);
+            margin: 0.5rem 0 0;
+        }
+    }
+
+    @media (width >= 640px) {
+        .custom-flow {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (width >= 1024px) {
+        .custom-flow {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+    }
+
+    .custom-flow-num {
+        font-family: var(--font-serif);
+        color: var(--color-primary-ink);
+        margin-bottom: 1.25rem;
+        font-size: 2.25rem;
+        font-style: italic;
+        line-height: 1;
+        display: block;
+    }
+
+    .custom-arch {
+        aspect-ratio: 4 / 5;
+        background: var(--color-bg-muted);
+        border-radius: 50% 50% var(--radius-xl) var(--radius-xl) / 30% 30% var(--radius-xl)
+            var(--radius-xl);
+        overflow: hidden;
+    }
+
+    @media (width <= 767px) {
+        .custom-shapes > li:last-child:nth-child(odd) {
+            grid-column: 1 / -1;
+        }
+    }
+
+    .custom-chapters {
+        & .timeline-item-date {
+            color: var(--color-primary-ink);
+            font-size: clamp(2rem, 1.6rem + 1vw, 2.5rem);
+            font-weight: 400;
+        }
+
+        & .timeline-item-title {
+            font-family: var(--font-sans);
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+
+        & .timeline-item-text {
+            color: var(--color-text-soft);
+            font-size: 1rem;
+        }
+
+        & .timeline-item-line {
+            background: var(--custom-hair-strong);
+        }
+
+        @media (width >= 1024px) {
+            overflow: visible;
+
+            & .timeline-item {
+                flex: 1 1 0;
+                min-width: 0;
+            }
+        }
+    }
+
+    .custom-person-name {
+        margin: 1.25rem 0 0;
+        font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+        line-height: 1.2;
+    }
+
+    .custom-person-role {
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--color-primary-ink);
+        margin: 0.375rem 0 0;
+        font-size: 0.8125rem;
+        font-weight: 600;
+    }
+
+    .custom-person-text {
+        max-width: 20rem;
+        color: var(--color-text-soft);
+        margin: 0.75rem 0 0;
+    }
+
+    .custom-feature-media img {
+        transition: scale 1.2s var(--ease-out);
+    }
+
+    .group:hover .custom-feature-media img,
+    .custom-post:hover .card-image img {
+        scale: 1.04;
+    }
+
+    .custom-post {
+        background: var(--color-surface);
+
+        & .card-image img {
+            transition: scale 1.2s var(--ease-out);
+        }
+    }
+
+    .custom-post-title {
+        letter-spacing: -0.02em;
+        font-size: 1.375rem;
+        font-weight: 400;
+        line-height: 1.25;
+    }
+
+    html[data-demo='jewelry-store-1'] {
+        & .btn:not(.btn-xs, .btn-sm, .btn-lg, .btn-xl, .btn-circle, .btn-icon),
+        & .breadcrumb--sm,
+        & .social-share-label,
+        & .testimonial-role,
+        & .footer-subscribe-msg,
+        & :is(.shop-meta, .wishlist-stock, .form-radio-card-desc),
+        & .shop-form .form-label,
+        & :is(.mini-cart-meta, .mini-cart-note, .nav-panel-foot-link, .site-search-tag) {
+            font-size: 0.9375rem;
+        }
+
+        & :is(.form-hint, .product-rating) {
+            font-size: 0.875rem;
+        }
+
+        & :is(.product-badge, .option-pill > span small) {
+            font-size: 0.8125rem;
+        }
+
+        & .product-card-cat {
+            letter-spacing: 0.12em;
+            font-size: 0.75rem;
+        }
+
+        & .badge.custom-badge {
+            font-size: 0.875rem;
+        }
+
+        & .cart-table thead th {
+            font-size: 0.8125rem;
+        }
+
+        & .cart-table .cart-col-price {
+            font-size: 0.9375rem;
+        }
+
+        & .shop-filters {
+            & .filter-list {
+                font-size: 0.9375rem;
+            }
+
+            & .filter-group > summary {
+                font-size: 0.8125rem;
+            }
+
+            & :is(.filter-count, .filter-list small) {
+                font-size: 0.75rem;
+            }
+        }
+
+        & .nav-megamenu .megamenu-item,
+        & .cascade-item {
+            font-size: 1rem;
+        }
+
+        & .nav-megamenu .megamenu-col-title {
+            font-size: 0.8125rem;
+        }
+    }
+}

@@ -1,11 +1,11 @@
-/* Draftmango home copy of Framo's demo-automation-1.js: the same animation with Draftmango's wording. The vendor file is unchanged. */
+/* Draftmango home copy of Draftmango's demo-automation-1.js: the same animation with Draftmango's wording. The vendor file is unchanged. */
 /**
  * demo-automation-1.js — SaaS Automation demo: the hero workflow that runs, and the agent run.
  *
  * A classic script (the page loads it with `defer`; it also works over file://), no imports,
  * one global. It does nothing when its elements are absent. Styles: css/demos/demo-automation-1.css.
  *
- * For frameworks — window.FramoAutomation1 = { init(root), destroy(root) }
+ * For frameworks — window.DraftmangoAutomation1 = { init(root), destroy(root) }
  *    init(root = document)     wires every [data-flow] found in root (root itself included). Safe
  *                              to call again: a canvas already wired is left alone.
  *    destroy(root = document)  stops them: observers disconnected, timers cleared, the finished
@@ -360,7 +360,7 @@
         }
     }
 
-    window.FramoAutomation1 = { init, destroy };
+    window.DraftmangoAutomation1 = { init, destroy };
 
     if (document.readyState === 'loading')
         document.addEventListener('DOMContentLoaded', () => init());

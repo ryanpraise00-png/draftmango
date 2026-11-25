@@ -1,4 +1,4 @@
-/* Validated Framo catalog and React starters. No generated fallback designs. */
+/* Validated Draftmango catalog and React starters. No generated fallback designs. */
 (() => {
  let catalogPromise;
  const read=async path=>{const r=await fetch(path);if(!r.ok)throw new Error('The template library is unavailable. Please try again.');return r.json()};

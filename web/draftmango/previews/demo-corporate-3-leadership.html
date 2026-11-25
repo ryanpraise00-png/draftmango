@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en" data-demo="corporate-3">
+    <head>
+        <meta charset="UTF-8">
+        <script async src="../assets/js/entrance.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Leadership — Corporate Services — Draftmango</title>
+        <link rel="icon" href="../assets/media/logo/favicon.ico" sizes="32x32">
+        <link rel="icon" href="../assets/media/logo/draftmango-mark.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="../assets/media/logo/apple-touch-icon.png">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="../assets/css/icons.css">
+        <link rel="stylesheet" href="../assets/css/app.css">
+        <link rel="stylesheet" href="../assets/css/vendor.css">
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" data-theme-fonts>
+        <link rel="stylesheet" href="../assets/css/demos/demo-corporate-3.css">
+        <link rel="stylesheet" href="../assets/css/themes/demo-corporate-3.css" data-theme-file>
+        <link rel="stylesheet" href="../assets/css/custom.css">
+    </head>
+    <body>
+
+        <header class="site-header header-contact header-transparent" data-header>
+
+            <!-- Main navbar -->
+            <nav class="navbar" role="navigation" aria-label="Main navigation">
+                <div class="navbar-inner">
+
+                    <!-- Brand -->
+                    <a href="demo-corporate-3.html" class="brand">
+
+                        <img class="brand-logo" src="../assets/media/logo/draftmango-logo.svg" alt="Draftmango" width="120" height="32" style="--logo-tint: url(#logo-tint-header)">
+
+                        <svg class="brand-tint" aria-hidden="true" focusable="false">
+                            <filter id="logo-tint-header" color-interpolation-filters="sRGB">
+                                <feFlood flood-color="currentColor" />
+                                <feComposite in2="SourceAlpha" operator="in" />
+                            </filter>
+                        </svg>
+
+                    </a>
+
+                    <!-- Desktop navigation links -->
+                    <ul class="nav-links" role="list">
+
+                        <!-- Corporate Services menu - the <li> items of . Inner pages: about, leadership, careers, services, service, industries, pricing, testimonials, blog, article, contact, quote -->
+
+                        <li>
+                            <a href="demo-corporate-3.html" class="nav-link">Home</a>
+                        </li>
+                        <li class="nav-cascade">
+                            <button class="nav-link active">
+                                About
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="cascade-panel custom-menu">
+                                <a href="demo-corporate-3-about.html" class="cascade-item">About Us</a>
+                                <a href="demo-corporate-3-leadership.html" class="cascade-item">Leadership</a>
+                                <a href="demo-corporate-3-careers.html" class="cascade-item">Careers</a>
+                            </div>
+                        </li>
+
+                        <!-- Services mega panel - two tabs (By Service, By Company Size), each with its rows (icon, link, one line), an overview link and a side card. Edit: the tabs (icon, title, caption), each row, the cards -->
+                        <li class="nav-megamenu nav-megamenu--tabs custom-menu-services">
+                            <button class="nav-link">
+                                Services
+                                <i class="ph ph-caret-down transition-transform duration-200"></i>
+                            </button>
+                            <div class="megamenu-panel" data-lenis-prevent>
+                                <div class="megamenu-inner megamenu-inner--tabs container">
+                                    <!-- hover(): a short dwell before switching; go(): arrow keys move between the tabs, Tab goes on into the open panel -->
+                                    <div class="tabs tabs-vertical tabs-rich megamenu-tabs" x-data="{ tab: 'service', tabs: ['service', 'size'], t: null, hover(v) { clearTimeout(this.t); this.t = setTimeout(() => this.tab = v, 120) }, go(d) { clearTimeout(this.t); const n = this.tabs.length; this.tab = this.tabs[(this.tabs.indexOf(this.tab) + d + n) % n]; this.$refs[this.tab].focus() } }">
+
+                                        <div class="tabs-nav" role="tablist" aria-label="Services" aria-orientation="vertical" @keydown.down.prevent="go(1)" @keydown.up.prevent="go(-1)">
+                                            <button type="button" class="tab-btn is-active" role="tab" id="c3-sv-tab-service" aria-controls="c3-sv-panel-service" x-ref="service" :class="{ 'is-active': tab === 'service' }" :aria-selected="tab === 'service'" :tabindex="tab === 'service' ? 0 : -1" @mouseenter="hover('service')" @mouseleave="clearTimeout(t)" @click="tab = 'service'">
+                                                <span class="tab-btn-icon" aria-hidden="true"><i class="ph ph-squares-four"></i></span>
+                                                <span class="tab-btn-title">By Service</span>
+                                                <span class="tab-btn-caption">Five teams under one contract</span>
+                                            </button>
+                                            <button type="button" class="tab-btn" role="tab" id="c3-sv-tab-size" aria-controls="c3-sv-panel-size" x-ref="size" tabindex="-1" :class="{ 'is-active': tab === 'size' }" :aria-selected="tab === 'size'" :tabindex="tab === 'size' ? 0 : -1" @mouseenter="hover('size')" @mouseleave="clearTimeout(t)" @click="tab = 'size'">
+                                                <span class="tab-btn-icon" aria-hidden="true"><i class="ph ph-buildings"></i></span>
+                                                <span class="tab-btn-title">By Company Size</span>
+                                                <span class="tab-btn-caption">From 20 people to 2,000</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="tabs-panels">
+
+                                            <!-- By Service -->
+                                            <div class="tabs-panel megamenu-tabpanel is-active" role="tabpanel" id="c3-sv-panel-service" aria-labelledby="c3-sv-tab-service" :class="{ 'is-active': tab === 'service' }">
+                                                <div class="megamenu-links">
+                                                    <div class="megamenu-col">
+                                                        <div class="custom-menu-row">
+                                                            <a href="demo-corporate-3-service.html" class="megamenu-item"><i class="ph ph-calculator" aria-hidden="true"></i>Finance &amp; Accounting</a>
+                                                            <span class="custom-menu-line">Bookkeeping, month-end close, FP&amp;A and a fractional CFO</span>
+                                                        </div>
+                                                        <div class="custom-menu-row">
+                                                            <a href="demo-corporate-3-services.html#hr-payroll" class="megamenu-item"><i class="ph ph-users-three" aria-hidden="true"></i>HR &amp; Payroll</a>
+                                                            <span class="custom-menu-line">Payroll in all 50 states, benefits and HR advice</span>
+                                                        </div>
+                                                        <div class="custom-menu-row">
+                                                            <a href="demo-corporate-3-services.html#it-security" class="megamenu-item"><i class="ph ph-shield-check" aria-hidden="true"></i>IT &amp; Security</a>
+                                                            <span class="custom-menu-line">Managed IT, devices and SOC 2 readiness</span>
+                                                        </div>
+                                                        <div class="custom-menu-row">
+                                                            <a href="demo-corporate-3-services.html#legal-compliance" class="megamenu-item"><i class="ph ph-scales" aria-hidden="true"></i>Legal &amp; Compliance</a>
+                                                            <span class="custom-menu-line">Entities, contracts, registered agent and annual filings</span>
+                                                        </div>
+                                                        <div class="custom-menu-row">
+                                                            <a href="demo-corporate-3-services.html#workplace" class="megamenu-item"><i class="ph ph-package" aria-hidden="true"></i>Workplace &amp; Procurement</a>
+                                                            <span class="custom-menu-line">Office setup, vendors and purchasing</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="megamenu-col megamenu-col--lead">
+                                                        <a href="demo-corporate-3-services.html" class="megamenu-item">All Services</a>
+                                                    </div>
+                                                </div>
+                                                <div class="megamenu-feature custom-menu-card relative isolate overflow-hidden flex flex-col gap-4 p-7 bg-primary text-white">
+                                                    <p class="m-0 text-[0.8125rem] font-semibold tracking-[0.12em] uppercase text-white/75">Free · 30 Minutes</p>
+                                                    <p class="m-0 font-heading text-[1.625rem] leading-[1.15] tracking-[-0.02em] text-white"><span class="font-light">Free back-office</span> <strong class="font-bold">review</strong></p>
+                                                    <p class="m-0 text-base leading-relaxed text-white/80">A specialist maps your finance, payroll and IT setup &mdash; and shows where the hours go.</p>
+                                                    <ul class="grid gap-2 m-0 p-0 list-none text-[0.9375rem] text-white" role="list">
+                                                        <li class="flex items-center gap-2.5"><i class="ph-bold ph-check text-white/75" aria-hidden="true"></i>30 minutes on a video call</li>
+                                                        <li class="flex items-center gap-2.5"><i class="ph-bold ph-check text-white/75" aria-hidden="true"></i>No obligation</li>
+                                                        <li class="flex items-center gap-2.5"><i class="ph-bold ph-check text-white/75" aria-hidden="true"></i>A written summary the next day</li>
+                                                    </ul>
+                                                    <div class="flex items-center gap-3 mt-auto pt-2">
+                                                        <span class="avatar-stack avatar-stack-sm" aria-hidden="true">
+                                                            <img src="../assets/media/placeholder/240x240.svg" alt="" width="240" height="240" loading="lazy" decoding="async">
+                                                            <img src="../assets/media/placeholder/240x240.svg" alt="" width="240" height="240" loading="lazy" decoding="async">
+                                                            <img src="../assets/media/placeholder/240x240.svg" alt="" width="240" height="240" loading="lazy" decoding="async">
+                                                        </span>
+                                                        <span class="text-[0.9375rem] leading-snug text-white/80">Hannah, Matthew or Laura</span>
+                                                    </div>
+                                                    <a href="demo-corporate-3-contact.html" class="btn btn-white justify-center">Book the Review</a>
+                                                </div>
+                                            </div>
+
+                                            <!-- By Company Size -->
+                                            <div class="tabs-panel megamenu-tabpanel" role="tabpanel" id="c3-sv-panel-size" aria-labelledby="c3-sv-tab-size" :class="{ 'is-active': tab === 'size' }">
+                                                <div class="megamenu-links">
+                                                    <div class="megamenu-col">
+                                                        <div class="custom-menu-row">
+                                                            <a href="demo-corporate-3-industries.html#startups" class="megamenu-item"><i class="ph ph-rocket-launch" aria-hidden="true"></i>Startups</a>
+                                                            <span class="custom-menu-line">20&ndash;50 people: clean books, payroll and laptops from day one</span>
+                                                        </div>
+                                                        <div class="custom-menu-row">
+                                                            <a href="demo-corporate-3-industries.html#growing-teams" class="megamenu-item"><i class="ph ph-trend-up" aria-hidden="true"></i>Growing Teams</a>
+                                                            <span class="custom-menu-line">50&ndash;150 people: a dedicated lead and monthly reporting</span>
+                                                        </div>
+                                                        <div class="custom-menu-row">
+                                                            <a href="demo-corporate-3-industries.html#mid-market" class="megamenu-item"><i class="ph ph-buildings" aria-hidden="true"></i>Mid-Market</a>
+                                                            <span class="custom-menu-line">150&ndash;500 people: multi-state payroll, audits and SOC 2</span>
+                                                        </div>
+                                                        <div class="custom-menu-row">
+                                                            <a href="demo-corporate-3-industries.html#enterprise" class="megamenu-item"><i class="ph ph-globe-hemisphere-west" aria-hidden="true"></i>Enterprise</a>
+                                                            <span class="custom-menu-line">500&ndash;2,000 people: every service under one SLA</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="megamenu-col megamenu-col--lead">
+                                                        <a href="demo-corporate-3-pricing.html" class="megamenu-item">Compare Plans</a>
+                                                    </div>
+                                                </div>
+                                                <div class="megamenu-feature custom-menu-card relative isolate overflow-hidden flex flex-col gap-4 p-7 bg-secondary text-white">
+                                                    <p class="m-0 text-[0.8125rem] font-semibold tracking-[0.12em] uppercase text-white/75">Essentials · Growth · Enterprise</p>
+                                                    <p class="m-0 font-heading text-[1.625rem] leading-[1.15] tracking-[-0.02em] text-white"><span class="font-light">Plans from</span> <strong class="font-bold tabular-nums">$1,490</strong> <span class="font-light">/ month</span></p>
+                                                    <p class="m-0 text-base leading-relaxed text-white/80">No setup fee. Yearly billing saves 10%. Cancel with 30 days&rsquo; notice.</p>
+                                                    <a href="demo-corporate-3-pricing.html" class="btn btn-white justify-center mt-auto">See Plans</a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="demo-corporate-3-industries.html" class="nav-link">Industries</a>
+                        </li>
+                        <li>
+                            <a href="demo-corporate-3-pricing.html" class="nav-link">Pricing</a>
+                        </li>
+                        <li>
+                            <a href="demo-corporate-3-testimonials.html" class="nav-link">Testimonials</a>
+                        </li>
+                        <li>
+                            <a href="demo-corporate-3-blog.html" class="nav-link">Blog</a>
+                        </li>
+                        <li>
+                            <a href="demo-corporate-3-contact.html" class="nav-link">Contact</a>
+                        </li>
+
+                    </ul>
+
+                    <!-- Right-side actions -->
+                    <div class="nav-actions">
+
+                        <!-- Meta group - display:contents by default; header-stacked turns it into its own row. -->
+                        <div class="nav-meta">
+
+                            <!--css .nav-contact). Edit: the label, the number -->
+                            <a href="tel:+15125550174" class="nav-contact">
+                                <span class="btn btn-primary btn-circle" aria-hidden="true">
+                                    <i class="ph ph-phone-call"></i>
+                                </span>
+                                <span class="nav-contact-text">
+                                    <span class="nav-contact-label">Mon–Fri 8am–6pm CT</span>
+                                    <span class="nav-contact-value">(512) 555-0174</span>
+                                </span>
+                            </a>
+
+                        </div><!-- /.nav-meta -->
+
+                        <!-- Corporate Services header action - the lead action; the menu panel carries _mobile-cta.html -->
+                        <a href="demo-corporate-3-quote.html" class="btn btn-primary">Get a Quote</a>
+
+                        <!-- Menu toggle - mobile hamburger below 1024px; also the close button on header-overlay-menu / header-side-drawer -->
+                        <button class="hamburger" data-toggle aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation menu">
+                            <i class="ph ph-list text-xl nav-toggle-open" aria-hidden="true"></i>
+                            <i class="ph ph-x text-xl nav-toggle-close" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Navigation panel - links are auto-generated by initMobileSync() in main.js -->
+                <!-- data-lenis-prevent: opts this scroll container out of Lenis smooth scrolling -->
+                <div id="mobile-nav" class="mobile-nav" data-mobile-nav data-lenis-prevent role="dialog" aria-modal="true" aria-label="Site navigation">
+
+                    <!-- Menu column - the scroll container -->
+                    <div class="nav-panel-menu">
+
+                        <!-- JS target: desktop nav items are injected here -->
+                        <div data-mobile-links></div>
+
+                        <!-- Mobile-only items: add or remove <a> elements here freely -->
+                        <!-- <a href="#" class="mobile-link" data-mobile-only>Exclusive Item</a> -->
+
+                        <!-- Corporate Services menu panel foot - the lead action and the phone under the links. Edit: the button, the number, the hours -->
+                        <div class="nav-panel-cta grid gap-3 mt-6">
+                            <a href="demo-corporate-3-quote.html" class="btn btn-primary btn-lg justify-center">Get a Quote</a>
+                            <a href="tel:+15125550174" class="btn btn-outline btn-lg justify-center tabular-nums"><i class="ph ph-phone" aria-hidden="true"></i>(512) 555-0174</a>
+                            <p class="m-0 text-center text-base text-soft">Mon – Fri, 8 am – 6 pm CT</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </nav>
+
+        </header>
+
+        <main>
+            <!-- Corporate Services page header - the inner pages' opening: an office photo under the ink veil (the page's header is "header-contact header-transparent"), the crumbs, the eyebrow, the two-line title (light line / bold line), the lead and the edge rail. Params: phImg, phAlt, phPos (object-position, e.g. "70% 50%"), phCrumb (this page); optional phTrail + phHref (a parent crumb); phEyebrow, phLight, phBold; optional phLead; optional phStrip "on" (room below for a card that straddles the edge, .custom-strip) -->
+            <section id="c3-page-head" class="custom-ph relative isolate flex flex-col justify-end overflow-clip bg-(--custom-ink) text-white" aria-labelledby="c3-page-title">
+                <div class="custom-ph-photo custom-hero-photo -z-1" style="--custom-pos: 65% 40%">
+                    <img src="../assets/media/placeholder/2880x1620.svg" alt="Draftmango leads planning a client's payroll migration in the glass meeting room" width="2880" height="1234" fetchpriority="high" decoding="async">
+                </div>
+                <p class="custom-rail custom-rail--end" aria-hidden="true">Finance · People · IT · Compliance &mdash; since 2006</p>
+                <div class="container">
+                    <nav class="custom-ph-crumb" aria-label="Breadcrumb" data-anim="fade" data-anim-duration="800">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="demo-corporate-3.html">Home</a></li>
+                            <li class="breadcrumb-item"><a href="demo-corporate-3-about.html">About</a></li>
+                            <li class="breadcrumb-item" aria-current="page">Leadership</li>
+                        </ol>
+                    </nav>
+                    <div class="max-w-[46rem] mt-[clamp(2rem,1.5rem+2vw,3.5rem)]">
+                        <div>
+                            <p class="line-label text-white max-sm:before:hidden" data-anim="fade-up">Leadership</p>
+                            <h1 id="c3-page-title" class="mt-6 mb-0 text-white text-[clamp(2.5rem,1.5rem+3.4vw,4.5rem)] leading-[1.05] tracking-[-0.024em] text-balance" data-anim="fade-up" data-anim-delay="100">
+                                <span class="block font-light tracking-[-0.02em]">The people</span>
+                                <span class="block font-bold">your lead answers to.</span>
+                            </h1>
+                        </div>
+                        <p class="mt-6 mb-0 max-w-[36rem] text-[clamp(1.0625rem,1rem+0.3vw,1.25rem)] leading-relaxed text-white/80 text-pretty" data-anim="fade-up" data-anim-delay="200">Six leaders who came up through the work: controllers, payroll managers, IT engineers. Each one still sits in on client reviews.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CEO - the chief executive's portrait beside her note, figures and links. Edit: the portrait, eyebrow, name, quote, paragraph, figures and links -->
+            <section class="section" aria-labelledby="c3-ld-ceo-title">
+                <div class="container grid gap-x-20 gap-y-12 items-center lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)]">
+                    <div class="relative" data-anim="fade-up">
+                        <img class="block w-full aspect-[4/5] object-cover object-top rounded-xl bg-soft" src="../assets/media/placeholder/859x972.svg" alt="Portrait of Rachel Monroe, Chief Executive Officer" width="859" height="972" loading="lazy" decoding="async">
+                        <p class="custom-ld-badge absolute start-6 bottom-6 m-0 flex items-center gap-3 py-3 ps-3 pe-5 rounded-pill bg-surface text-base font-semibold"><span class="grid place-items-center size-10 rounded-full bg-primary text-on-primary" aria-hidden="true"><i class="ph ph-calendar-check"></i></span>At Draftmango since 2009</p>
+                    </div>
+                    <div>
+                        <p class="eyebrow m-0" data-anim="fade-up">Chief Executive Officer</p>
+                        <h2 id="c3-ld-ceo-title" class="mt-4 mb-0 text-[clamp(2.125rem,1.4rem+2.4vw,3.375rem)] leading-[1.08] tracking-[-0.02em]" data-anim="fade-up" data-anim-delay="80"><span class="font-light tracking-[-0.02em]">Rachel</span> Monroe</h2>
+                        <blockquote class="mt-8 mb-0 font-heading text-[clamp(1.375rem,1.1rem+0.9vw,1.875rem)] font-light leading-[1.35] tracking-[-0.015em] text-(--color-text)" data-anim="fade-up" data-anim-delay="140">&ldquo;I joined as a controller and spent six years closing other people's books. The job hasn't changed much: <strong class="font-bold">make the numbers boring, so the business can be exciting.</strong>&rdquo;</blockquote>
+                        <p class="mt-7 mb-0 text-[1.0625rem] leading-relaxed text-soft" data-anim="fade-up" data-anim-delay="180">Rachel ran Finance Services from 2010 to 2016 and has led the group since. She still reviews ten client accounts a quarter, and every new lead shadows her for a week.</p>
+                        <dl class="grid grid-cols-3 gap-6 mt-10 pt-8 border-t border-(--color-border-soft)" data-anim="fade-up" data-anim-delay="220">
+                            <div class="grid gap-1">
+                                <dt class="order-2 text-[0.9375rem] text-soft">years at Draftmango</dt>
+                                <dd class="m-0 font-heading text-[2.25rem] font-light leading-none tracking-[-0.026em] text-primary-ink tabular-nums">17</dd>
+                            </div>
+                            <div class="grid gap-1">
+                                <dt class="order-2 text-[0.9375rem] text-soft">client reviews a year</dt>
+                                <dd class="m-0 font-heading text-[2.25rem] font-light leading-none tracking-[-0.026em] text-primary-ink tabular-nums">40</dd>
+                            </div>
+                            <div class="grid gap-1">
+                                <dt class="order-2 text-[0.9375rem] text-soft">leads she trained</dt>
+                                <dd class="m-0 font-heading text-[2.25rem] font-light leading-none tracking-[-0.026em] text-primary-ink tabular-nums">60+</dd>
+                            </div>
+                        </dl>
+                        <div class="flex flex-wrap gap-3 mt-10" data-anim="fade-up" data-anim-delay="260">
+                            <a href="#" class="btn btn-outline" data-social="linkedin"><i class="ph ph-linkedin-logo" aria-hidden="true"></i>Rachel on LinkedIn</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LEADERS - the five other leaders as portrait cards. Edit: the eyebrow, title, lead; per card the portrait, name, role, line and year -->
+            <section class="section bg-soft" aria-labelledby="c3-ld-team-title">
+                <div class="container">
+                    <div class="grid gap-x-16 gap-y-6 items-end mb-[clamp(2.75rem,2rem+2vw,4rem)] lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)]">
+                        <div data-anim="fade-up">
+                            <p class="eyebrow m-0">Leadership team</p>
+                            <h2 id="c3-ld-team-title" class="mt-4 mb-0 text-[clamp(2.125rem,1.4rem+2.4vw,3.375rem)] leading-[1.08] tracking-[-0.02em]"><span class="block font-light tracking-[-0.02em]">One leader per team.</span> <span class="block">Reachable by every client.</span></h2>
+                        </div>
+                        <p class="m-0 text-[1.0625rem] leading-relaxed text-soft" data-anim="fade-up" data-anim-delay="100">Your lead runs the day-to-day; these are the people they bring in when a question needs a second opinion.</p>
+                    </div>
+                    <ul class="grid gap-x-7 gap-y-14 m-0 p-0 list-none sm:grid-cols-2 lg:grid-cols-3" role="list" data-anim-stagger="90">
+                        <!-- Corporate Services leader card - one portrait card of the Leadership grid. Params: ldImg, ldName, ldRole, ldLine, ldSince -->
+                        <li class="group grid content-start gap-5" data-anim="fade-up">
+                            <img class="block w-full aspect-[4/5] object-cover object-top rounded-xl bg-soft" src="../assets/media/placeholder/857x972.svg" alt="Portrait of James Thornell" width="858" height="971" loading="lazy" decoding="async">
+                            <div class="grid gap-1.5">
+                                <p class="m-0 flex items-center justify-between gap-4">
+                                    <span class="font-heading text-[1.375rem] font-bold tracking-[-0.02em] text-(--color-text)">James Thornell</span>
+                                    <a href="#" class="social-link social-link--circle social-link--outline shrink-0" data-social="linkedin" aria-label="James Thornell on LinkedIn"><i class="ph ph-linkedin-logo" aria-hidden="true"></i></a>
+                                </p>
+                                <p class="m-0 text-base font-semibold text-primary-ink">Chief Operating Officer</p>
+                                <p class="mt-2 mb-0 text-base leading-relaxed text-soft">Opened the Dallas and Houston offices; oversees Legal &amp; Compliance and Workplace.</p>
+                                <p class="mt-3 mb-0 pt-3 border-t border-(--color-border-soft) text-[0.9375rem] text-soft">At Draftmango since <span class="font-semibold text-(--color-text) tabular-nums">2012</span></p>
+                            </div>
+                        </li>
+                        <!-- Corporate Services leader card - one portrait card of the Leadership grid. Params: ldImg, ldName, ldRole, ldLine, ldSince -->
+                        <li class="group grid content-start gap-5" data-anim="fade-up">
+                            <img class="block w-full aspect-[4/5] object-cover object-top rounded-xl bg-soft" src="../assets/media/placeholder/857x972.svg" alt="Portrait of Hannah Pryor" width="858" height="971" loading="lazy" decoding="async">
+                            <div class="grid gap-1.5">
+                                <p class="m-0 flex items-center justify-between gap-4">
+                                    <span class="font-heading text-[1.375rem] font-bold tracking-[-0.02em] text-(--color-text)">Hannah Pryor</span>
+                                    <a href="#" class="social-link social-link--circle social-link--outline shrink-0" data-social="linkedin" aria-label="Hannah Pryor on LinkedIn"><i class="ph ph-linkedin-logo" aria-hidden="true"></i></a>
+                                </p>
+                                <p class="m-0 text-base font-semibold text-primary-ink">Head of Finance Services, CPA</p>
+                                <p class="mt-2 mb-0 text-base leading-relaxed text-soft">Wrote the five-day close playbook every finance lead works from.</p>
+                                <p class="mt-3 mb-0 pt-3 border-t border-(--color-border-soft) text-[0.9375rem] text-soft">At Draftmango since <span class="font-semibold text-(--color-text) tabular-nums">2014</span></p>
+                            </div>
+                        </li>
+                        <!-- Corporate Services leader card - one portrait card of the Leadership grid. Params: ldImg, ldName, ldRole, ldLine, ldSince -->
+                        <li class="group grid content-start gap-5" data-anim="fade-up">
+                            <img class="block w-full aspect-[4/5] object-cover object-top rounded-xl bg-soft" src="../assets/media/placeholder/859x970.svg" alt="Portrait of Matthew Grant" width="858" height="971" loading="lazy" decoding="async">
+                            <div class="grid gap-1.5">
+                                <p class="m-0 flex items-center justify-between gap-4">
+                                    <span class="font-heading text-[1.375rem] font-bold tracking-[-0.02em] text-(--color-text)">Matthew Grant</span>
+                                    <a href="#" class="social-link social-link--circle social-link--outline shrink-0" data-social="linkedin" aria-label="Matthew Grant on LinkedIn"><i class="ph ph-linkedin-logo" aria-hidden="true"></i></a>
+                                </p>
+                                <p class="m-0 text-base font-semibold text-primary-ink">Head of IT &amp; Security</p>
+                                <p class="mt-2 mb-0 text-base leading-relaxed text-soft">Has taken forty clients through SOC&nbsp;2 &mdash; and the help desk to a 15-minute first answer.</p>
+                                <p class="mt-3 mb-0 pt-3 border-t border-(--color-border-soft) text-[0.9375rem] text-soft">At Draftmango since <span class="font-semibold text-(--color-text) tabular-nums">2015</span></p>
+                            </div>
+                        </li>
+                        <!-- Corporate Services leader card - one portrait card of the Leadership grid. Params: ldImg, ldName, ldRole, ldLine, ldSince -->
+                        <li class="group grid content-start gap-5" data-anim="fade-up">
+                            <img class="block w-full aspect-[4/5] object-cover object-top rounded-xl bg-soft" src="../assets/media/placeholder/857x970.svg" alt="Portrait of Laura Kensington" width="858" height="971" loading="lazy" decoding="async">
+                            <div class="grid gap-1.5">
+                                <p class="m-0 flex items-center justify-between gap-4">
+                                    <span class="font-heading text-[1.375rem] font-bold tracking-[-0.02em] text-(--color-text)">Laura Kensington</span>
+                                    <a href="#" class="social-link social-link--circle social-link--outline shrink-0" data-social="linkedin" aria-label="Laura Kensington on LinkedIn"><i class="ph ph-linkedin-logo" aria-hidden="true"></i></a>
+                                </p>
+                                <p class="m-0 text-base font-semibold text-primary-ink">Head of People Services, SHRM-SCP</p>
+                                <p class="mt-2 mb-0 text-base leading-relaxed text-soft">Runs payroll in all 50 states and the benefits renewals behind it.</p>
+                                <p class="mt-3 mb-0 pt-3 border-t border-(--color-border-soft) text-[0.9375rem] text-soft">At Draftmango since <span class="font-semibold text-(--color-text) tabular-nums">2017</span></p>
+                            </div>
+                        </li>
+                        <!-- Corporate Services leader card - one portrait card of the Leadership grid. Params: ldImg, ldName, ldRole, ldLine, ldSince -->
+                        <li class="group grid content-start gap-5" data-anim="fade-up">
+                            <img class="block w-full aspect-[4/5] object-cover object-top rounded-xl bg-soft" src="../assets/media/placeholder/857x970.svg" alt="Portrait of Owen Calloway" width="858" height="971" loading="lazy" decoding="async">
+                            <div class="grid gap-1.5">
+                                <p class="m-0 flex items-center justify-between gap-4">
+                                    <span class="font-heading text-[1.375rem] font-bold tracking-[-0.02em] text-(--color-text)">Owen Calloway</span>
+                                    <a href="#" class="social-link social-link--circle social-link--outline shrink-0" data-social="linkedin" aria-label="Owen Calloway on LinkedIn"><i class="ph ph-linkedin-logo" aria-hidden="true"></i></a>
+                                </p>
+                                <p class="m-0 text-base font-semibold text-primary-ink">Head of Client Success</p>
+                                <p class="mt-2 mb-0 text-base leading-relaxed text-soft">Built the named-lead model and the quarterly reviews clients renew for.</p>
+                                <p class="mt-3 mb-0 pt-3 border-t border-(--color-border-soft) text-[0.9375rem] text-soft">At Draftmango since <span class="font-semibold text-(--color-text) tabular-nums">2019</span></p>
+                            </div>
+                        </li>
+                        <li class="custom-ld-join relative isolate overflow-hidden flex flex-col justify-end gap-4 p-8 rounded-xl bg-primary text-white" data-anim="fade-up">
+                            <p class="m-0 text-[0.8125rem] font-semibold tracking-[0.12em] uppercase text-white/75">Careers</p>
+                            <p class="m-0 font-heading text-[1.75rem] leading-[1.15] tracking-[-0.02em] text-white"><span class="font-light">Six open roles in</span> <strong class="font-bold">Austin, Dallas, Houston and remote.</strong></p>
+                            <a href="demo-corporate-3-careers.html" class="btn btn-white self-start mt-2">View Open Roles <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- HOW WE ARE ORGANIZED - the named-lead model on the ink band: three layers and four figures. Edit: the eyebrow, title, lead; per layer the icon, title and line; the figures -->
+            <section class="section section-dark relative isolate overflow-clip bg-(--custom-ink) text-white pb-[calc(var(--section-space)+clamp(5rem,3rem+5vw,7.5rem))]" aria-labelledby="c3-ld-model-title">
+                <div class="glow -bottom-56 -start-56" style="--glow-size: 32rem; --glow-color: var(--color-tertiary-base); --glow-opacity: 0.18" aria-hidden="true"></div>
+                <div class="container">
+                    <div class="max-w-[46rem] mx-auto text-center" data-anim="fade-up">
+                        <p class="eyebrow m-0 text-(--custom-key-on-ink)">How we're organized</p>
+                        <h2 id="c3-ld-model-title" class="mt-4 mb-0 text-white text-[clamp(2.125rem,1.4rem+2.4vw,3.375rem)] leading-[1.08] tracking-[-0.02em]"><span class="block font-light tracking-[-0.02em]">You talk to one person.</span> <span class="block">Five teams answer.</span></h2>
+                    </div>
+                    <ol class="grid gap-5 m-0 mt-[clamp(3rem,2rem+3vw,4.5rem)] p-0 list-none md:grid-cols-3" data-anim-stagger="100">
+                        <li class="grid content-start gap-3 p-[clamp(1.75rem,1rem+2vw,2.5rem)] rounded-xl border border-white/12 bg-white/4" data-anim="fade-up">
+                            <span class="grid place-items-center size-13 rounded-lg bg-white/10 text-[1.5rem] text-(--custom-key-on-ink)" aria-hidden="true"><i class="ph ph-user-circle"></i></span>
+                            <h3 class="mt-4 mb-0 text-white text-[1.375rem] font-bold tracking-[-0.02em]">Your named lead</h3>
+                            <p class="m-0 text-base leading-relaxed text-white/72">One person who knows the whole picture, runs the monthly report and the quarterly review.</p>
+                        </li>
+                        <li class="grid content-start gap-3 p-[clamp(1.75rem,1rem+2vw,2.5rem)] rounded-xl border border-white/12 bg-white/4" data-anim="fade-up">
+                            <span class="grid place-items-center size-13 rounded-lg bg-white/10 text-[1.5rem] text-(--custom-key-on-ink)" aria-hidden="true"><i class="ph ph-squares-four"></i></span>
+                            <h3 class="mt-4 mb-0 text-white text-[1.375rem] font-bold tracking-[-0.02em]">Five specialist teams</h3>
+                            <p class="m-0 text-base leading-relaxed text-white/72">Finance, people, IT, compliance and workplace specialists who do the work behind your lead.</p>
+                        </li>
+                        <li class="grid content-start gap-3 p-[clamp(1.75rem,1rem+2vw,2.5rem)] rounded-xl border border-white/12 bg-white/4" data-anim="fade-up">
+                            <span class="grid place-items-center size-13 rounded-lg bg-white/10 text-[1.5rem] text-(--custom-key-on-ink)" aria-hidden="true"><i class="ph ph-seal-check"></i></span>
+                            <h3 class="mt-4 mb-0 text-white text-[1.375rem] font-bold tracking-[-0.02em]">A leader on call</h3>
+                            <p class="m-0 text-base leading-relaxed text-white/72">The head of each team signs off on audits, new states and anything unusual.</p>
+                        </li>
+                    </ol>
+                    <ul class="custom-figures grid grid-cols-2 gap-y-10 m-0 mt-[clamp(3rem,2rem+3vw,4.5rem)] pt-[clamp(2.5rem,2rem+1.5vw,3.5rem)] p-0 list-none border-t border-white/12 lg:grid-cols-4" role="list" data-anim-stagger="80">
+                        <li class="counter grid gap-2 px-6 text-center" data-anim="fade-up"><span class="counter-number font-heading text-[clamp(2.5rem,1.8rem+2.4vw,3.75rem)] font-light leading-none tracking-[-0.026em] text-white" data-counter="1">1</span><span class="counter-label text-base text-white/70">named lead per client</span></li>
+                        <li class="counter grid gap-2 px-6 text-center" data-anim="fade-up"><span class="counter-number font-heading text-[clamp(2.5rem,1.8rem+2.4vw,3.75rem)] font-light leading-none tracking-[-0.026em] text-white" data-counter="30">30</span><span class="counter-label text-base text-white/70">clients per lead, at most</span></li>
+                        <li class="counter grid gap-2 px-6 text-center" data-anim="fade-up"><span class="counter-number font-heading text-[clamp(2.5rem,1.8rem+2.4vw,3.75rem)] font-light leading-none tracking-[-0.026em] text-white" data-counter="15" data-suffix=" min">15 min</span><span class="counter-label text-base text-white/70">to a first answer</span></li>
+                        <li class="counter grid gap-2 px-6 text-center" data-anim="fade-up"><span class="counter-number font-heading text-[clamp(2.5rem,1.8rem+2.4vw,3.75rem)] font-light leading-none tracking-[-0.026em] text-white" data-counter="4">4</span><span class="counter-label text-base text-white/70">reviews a year</span></li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <!-- Corporate Services footer - the template columns footer (footer.css .footer-columns) on the lavender tint: the quote card straddling its top edge, five columns, the phone line, the small print. Edit: the card (line, actions), the columns, the offices, the phone and hours, the small print -->
+        <footer class="site-footer site-footer--soft footer-columns custom-footer relative isolate">
+
+            <!-- The quote card, rising over the section above -->
+            <div class="container relative z-2">
+                <div class="custom-footer-card relative isolate overflow-hidden grid gap-8 items-center bg-primary text-white lg:grid-cols-[minmax(0,1fr)_auto]" data-anim="fade-up">
+                    <h2 class="m-0 text-white text-[clamp(1.875rem,1.1rem+2.4vw,3.25rem)] leading-[1.08] tracking-[-0.02em]">
+                        <span class="block font-light">Hand us the back office.</span>
+                        <span class="block font-bold">Keep the business.</span>
+                    </h2>
+                    <div class="flex flex-wrap items-center gap-x-7 gap-y-4">
+                        <a href="demo-corporate-3-quote.html" class="btn btn-white btn-lg">Get a Quote <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+                        <a href="tel:+15125550174" class="custom-footer-card-call group inline-flex items-center gap-3 font-semibold text-white no-underline">
+                            <span class="custom-footer-card-icon" aria-hidden="true"><i class="ph ph-phone-call"></i></span>
+                            <span class="grid leading-tight"><span class="text-[0.875rem] font-normal text-white/75">or call us</span><span class="tabular-nums">(512) 555-0174</span></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-main">
+                <div class="container">
+
+                    <div class="grid grid-cols-1 gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.2fr)]">
+
+                        <div class="sm:col-span-2 lg:col-span-1 lg:pe-8" data-anim="fade-up">
+                            <a href="demo-corporate-3.html" class="brand inline-block text-[1.5rem]">
+
+                                <img class="brand-logo" src="../assets/media/logo/draftmango-logo.svg" alt="Draftmango" width="120" height="32" style="--logo-tint: url(#logo-tint-footer)">
+
+                                <svg class="brand-tint" aria-hidden="true" focusable="false">
+                                    <filter id="logo-tint-footer" color-interpolation-filters="sRGB">
+                                        <feFlood flood-color="currentColor" />
+                                        <feComposite in2="SourceAlpha" operator="in" />
+                                    </filter>
+                                </svg>
+                            </a>
+                            <p class="footer-detail mt-5 mb-0 max-w-[34ch] text-base leading-relaxed">One partner for finance, payroll, IT and compliance &mdash; for companies of 20 to 2,000 people since 2006.</p>
+                            <ul class="social-list mt-6" role="list">
+                                <li><a href="#" aria-label="LinkedIn" data-social="linkedin" class="social-link social-link--circle social-link--outline"><i class="ph ph-linkedin-logo"></i></a></li>
+                                <li><a href="#" aria-label="X" data-social="x" class="social-link social-link--circle social-link--outline"><i class="ph ph-x-logo"></i></a></li>
+                                <li><a href="#" aria-label="Facebook" data-social="facebook" class="social-link social-link--circle social-link--outline"><i class="ph ph-facebook-logo"></i></a></li>
+                                <li><a href="#" aria-label="YouTube" data-social="youtube" class="social-link social-link--circle social-link--outline"><i class="ph ph-youtube-logo"></i></a></li>
+                            </ul>
+                        </div>
+
+                        <div data-anim="fade-up" data-anim-delay="60">
+                            <p class="footer-col-title">Services</p>
+                            <ul class="footer-links footer-links--slide" role="list">
+                                <li><a href="demo-corporate-3-service.html">Finance &amp; Accounting</a></li>
+                                <li><a href="demo-corporate-3-services.html#hr-payroll">HR &amp; Payroll</a></li>
+                                <li><a href="demo-corporate-3-services.html#it-security">IT &amp; Security</a></li>
+                                <li><a href="demo-corporate-3-services.html#legal-compliance">Legal &amp; Compliance</a></li>
+                                <li><a href="demo-corporate-3-services.html#workplace">Workplace &amp; Procurement</a></li>
+                            </ul>
+                        </div>
+
+                        <div data-anim="fade-up" data-anim-delay="120">
+                            <p class="footer-col-title">Company</p>
+                            <ul class="footer-links footer-links--slide" role="list">
+                                <li><a href="demo-corporate-3-about.html">About Us</a></li>
+                                <li><a href="demo-corporate-3-leadership.html">Leadership</a></li>
+                                <li><a href="demo-corporate-3-industries.html">Industries</a></li>
+                                <li><a href="demo-corporate-3-testimonials.html">Testimonials</a></li>
+                                <li><a href="demo-corporate-3-careers.html">Careers</a></li>
+                            </ul>
+                        </div>
+
+                        <div data-anim="fade-up" data-anim-delay="180">
+                            <p class="footer-col-title">Get Started</p>
+                            <ul class="footer-links footer-links--slide" role="list">
+                                <li><a href="demo-corporate-3-pricing.html">Pricing</a></li>
+                                <li><a href="demo-corporate-3-quote.html">Get a Quote</a></li>
+                                <li><a href="demo-corporate-3-blog.html">Blog</a></li>
+                                <li><a href="demo-corporate-3-contact.html">Contact</a></li>
+                            </ul>
+                        </div>
+
+                        <div data-anim="fade-up" data-anim-delay="240">
+                            <p class="footer-col-title">Offices</p>
+                            <address class="not-italic grid gap-4 text-base leading-relaxed">
+                                <span><strong class="font-semibold text-(--footer-title)">Austin</strong> &middot; HQ<br>600 Congress Ave, Suite 1400<br>Austin, TX 78701</span>
+                                <span><strong class="font-semibold text-(--footer-title)">Dallas</strong> &middot; <strong class="font-semibold text-(--footer-title)">Houston</strong><br>Remote nationwide</span>
+                            </address>
+                        </div>
+
+                    </div>
+
+                    <!-- The phone line -->
+                    <div class="grid gap-x-10 gap-y-4 mt-16 pt-12 border-t border-(--footer-rule) xl:grid-cols-[minmax(0,1fr)_auto] xl:items-end" data-anim="fade-up">
+                        <div>
+                            <p class="m-0 text-base text-(--footer-body)">Talk to a specialist &middot; Mon&ndash;Fri, 8am&ndash;6pm CT</p>
+                            <a href="tel:+15125550174" class="block mt-3 whitespace-nowrap font-heading font-light text-[clamp(2.5rem,0.6rem+7.8vw,6.75rem)] leading-[0.95] tracking-[-0.02em] tabular-nums text-primary-ink no-underline transition-colors duration-300 hover:text-(--footer-title)">(512) 555-0174</a>
+                        </div>
+                        <a href="mailto:hello@draftmangobusinessgroup.com" class="text-(--footer-title) no-underline underline-offset-[6px] hover:underline text-[clamp(1.0625rem,1rem+0.4vw,1.375rem)] font-semibold xl:pb-5">hello@draftmangobusinessgroup.com</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="container footer-bottom-inner">
+                    <span>&copy; 2026 Draftmango Business Group. All rights reserved.</span>
+                    <ul class="footer-nav" role="list">
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </footer>
+
+        <!-- Back to top button -->
+        <button data-back-top aria-label="Back to top" class="back-to-top fixed bottom-8 right-8 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer border-0 bg-primary text-on-primary shadow-token-lg z-sticky">
+            <i class="ph ph-arrow-up"></i>
+        </button>
+
+        <script defer src="../assets/js/vendor.js"></script>
+        <script defer src="../assets/js/main.js"></script>
+        <script defer src="../assets/js/demos/demo-corporate-3.js"></script>
+    </body>
+</html>

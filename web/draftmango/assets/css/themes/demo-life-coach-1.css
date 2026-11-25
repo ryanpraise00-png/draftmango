@@ -1,0 +1,99 @@
+/* ================================================================
+ *  demo-life-coach-1.css — Draftmango theme for the Life Coach demo
+ *
+ *  The colors, fonts and layout settings of the Life Coach demo (a coral
+ *  for the actions, an aubergine ink for the panels and the footer, blush
+ *  for quiet fills, sage for meta and small marks and a sun yellow for the
+ *  rising discs, on a warm blush-cream ground).
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Each page also preloads this URL in its <head>
+   (the <link data-theme-fonts> line) so the fonts arrive sooner: after
+   changing it here, replace it in the pages too, or delete that line.
+   Fraunces (regular 400 and its italic, soft) sets the headings and
+   figures; Inter the text. */
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #ec6033;   /* main color: coral for buttons, links and focus; labels on it are white */
+    --color-secondary-base:  #2b2238;   /* second color: the aubergine ink of the panels and the footer; the dark scheme takes its hue */
+    --color-tertiary-base:   #f6d9cb;   /* third color: blush, for quiet fills */
+    --color-quaternary-base: #8a9e7b;   /* fourth color: sage, for meta and small marks */
+    --color-accent-base:     #f4b740;   /* attention color: sun, for the rising discs */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. */
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-text:      var(--color-secondary-base);   /* headings and body text: the aubergine ink (#2b2238) */
+    --color-text-soft: oklch(from var(--color-secondary-base) 0.4324 calc(c * 0.859) calc(h + 9.2));   /* secondary text: still the ink, softened, never a cool grey (#574b5f) */
+    --color-text-muted: oklch(from var(--color-secondary-base) 0.6117 calc(c * 0.541) calc(h + 28.3));  /* meta text: a warm mauve-grey (#8c7f8a) */
+    --color-bg:        oklch(from var(--color-tertiary-base) 0.9709 calc(c * 0.293) calc(h + 15.9));   /* page background: blush-cream (#fbf4ee) */
+    --color-bg-soft:   oklch(from var(--color-tertiary-base) 0.9408 calc(c * 0.499) calc(h + 15));   /* a step deeper: a deeper blush (#f5e9df) */
+    --color-bg-muted:  oklch(from var(--color-tertiary-base) 0.9276 calc(c * 0.613) calc(h + 13.8));   /* hover fills (#f3e4d8) */
+    --color-border:    oklch(from var(--color-tertiary-base) 0.9041 calc(c * 0.639) calc(h + 11.9));   /* lines and borders (#ecdcd0) */
+    --color-border-soft: oklch(from var(--color-tertiary-base) 0.9347 calc(c * 0.499) calc(h + 15)); /* the faintest rules (#f3e7dd) */
+    --color-dark:      var(--color-secondary-base);   /* dark sections and dark buttons (#2b2238) */
+    /* Brand-coloured text on the cream: the coral deepened to a terracotta so a link or a
+       label reads (the template default reads the coral at about 3:1) */
+    --color-primary-ink: oklch(from var(--color-primary-base) min(l, 0.55) c h);
+    /* Labels on the primary: white on the coral (the brand's choice, about 3.3:1), dark only on
+       a very light primary */
+    --color-on-primary: oklch(from var(--color-primary-base) clamp(0.2, (0.75 - l) * 1000, 1) 0 0);
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Fraunces', Georgia, 'Times New Roman', serif;   /* headings and figures */
+    --font-serif:   'Fraunces', Georgia, 'Times New Roman', serif;   /* italic accents */
+    --font-tertiary: 'Urbanist', system-ui, sans-serif;   /* display accents (unused by this demo) */
+
+    /* Stylesheets of the accent fonts, fetched only on pages that use them.
+       Change a family above and its URL here together. Set one to "" to
+       load nothing, e.g. when that font is a system font. */
+    --font-serif-src:    "";   /* Fraunces italic already comes with the @import above */
+    --font-tertiary-src: "https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800;900&display=swap";
+
+    /* Headings and buttons */
+    --heading-weight:     400;                     /* Fraunces regular: the range 300–600 is loaded */
+    --heading-tracking:   -0.02em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        1.5;      /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 9999px;   /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1240px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 1.25;   /* space between sections: 0.75 compact · 1 · 1.25 spacious */
+}

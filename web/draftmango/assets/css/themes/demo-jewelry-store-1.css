@@ -1,0 +1,100 @@
+/* ================================================================
+ *  demo-jewelry-store-1.css — Draftmango theme for the Jewelry Store demo
+ *
+ *  The colors, fonts and layout settings of the Jewelry Store
+ *  demo (Draftmango Fine Jewelry, demi-fine and fine rings, necklaces, earrings and bracelets, SoHo atelier, New York).
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here).
+   DM Serif Display for the headlines, the wordmark and the italic
+   accent words: a modern high-contrast display serif with presence
+   (picked in the stage-4 font check over Gilda Display + Jost, Tenor
+   Sans + Jost and Instrument Serif + Instrument Sans); DM Sans 400–600,
+   its open, quiet sans sibling, for the body, the buttons and the menu
+   (500 on the aubergine bar). The wordmark is DM Serif Display capitals. */
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400..600&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #6e3b63;   /* main color: mauve plum for buttons and links; labels on it are white */
+    --color-secondary-base:  #2a1626;   /* second color: deep aubergine for the text and the strip; the dark scheme takes its hue */
+    --color-tertiary-base:   #f1e6ee;   /* third color: lilac blush for soft fills */
+    --color-quaternary-base: #7a6a75;   /* fourth color: mauve grey for meta */
+    --color-accent-base:     #c7a06a;   /* attention color: champagne, for hairline details and rating stars; labels on it are white */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. White labels on the brand fills (a preset picks its own). */
+    --color-on-primary: #fff;
+    --color-on-accent:  #fff;
+
+    --color-primary:       var(--color-primary-base);
+    --color-primary-hover: oklch(from var(--color-primary-base) calc(l - 0.06) c h);
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-text:        var(--color-secondary-base);   /* headings and body text */
+    --color-text-soft:   oklch(from var(--color-quaternary-base) 0.46 c h);   /* running text */
+    --color-text-muted:  oklch(from var(--color-quaternary-base) 0.5 c h);   /* meta text */
+    --color-bg:          oklch(from var(--color-tertiary-base) 0.967 calc(c * 0.47) calc(h + 10));   /* page background: blush pearl (#f8f2f5) */
+    --color-bg-soft:     oklch(from var(--color-tertiary-base) 0.945 calc(c * 0.7) calc(h + 6));   /* a step deeper: bands and hover fills */
+    --color-bg-muted:    oklch(from var(--color-tertiary-base) 0.92 calc(c * 0.85) h);   /* behind photos while they load */
+    --color-surface:     oklch(from var(--color-tertiary-base) 0.99 calc(c * 0.2) h);   /* cards, menus and panels: a shade lighter than the page */
+    --color-border:      oklch(from var(--color-tertiary-base) 0.885 calc(c * 0.95) h);   /* lines and borders */
+    --color-border-soft: oklch(from var(--color-tertiary-base) 0.92 calc(c * 0.8) h);   /* the faintest rules */
+    --color-dark:        var(--color-secondary-base);   /* dark sections and dark buttons */
+    /* Brand-colored text on the ground, held at or under 0.5 lightness so a
+       preset's lighter primary still reads at 4.5:1 */
+    --color-primary-ink: oklch(from var(--color-primary-base) min(l, 0.5) c h);
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'DM Sans', system-ui, sans-serif;   /* body text, menu, buttons */
+    --font-heading: 'DM Serif Display', Georgia, serif;   /* headings and the wordmark */
+    --font-serif:   'DM Serif Display', Georgia, serif;   /* the italic accent words */
+
+    /* The serif comes in with the @import above (the headings use it),
+       so the on-demand loader has nothing left to fetch */
+    --font-serif-src: "";
+
+    /* Headings and buttons */
+    --heading-weight:     400;   /* DM Serif Display has one weight */
+    --heading-tracking:   -0.015em;
+    --btn-font-weight:    500;                     /* 500–600 */
+    --btn-letter-spacing: 0.01em;                  /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        1.5;      /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 9999px;  /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1320px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 0.6;      /* space between sections: 0.5 compact · 0.6 · 1 spacious */
+}

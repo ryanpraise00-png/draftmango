@@ -1,0 +1,91 @@
+/* ================================================================
+ *  demo-it-services-1.css — Draftmango theme for the IT Services demo
+ *
+ *  The colors, fonts and layout settings of the IT Services demo
+ *  (Draftmango IT, managed IT services for small and mid-sized businesses).
+ *  Orange-red for actions, charcoal bands, a warm-white page, and one
+ *  green kept for status lights.
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here).
+   Inter (700 / 400) for headings and text; 500 and 600 for labels and
+   buttons. */
+@import url("https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #ff5630;   /* main color: orange-red for buttons, links and focus; labels on it are white (the demo's choice, about 3.2:1) */
+    --color-secondary-base:  #16181d;   /* second color: charcoal for the bands and the footer; the dark scheme takes its hue */
+    --color-tertiary-base:   #f6f4f1;   /* third color: warm white, the page and soft fills */
+    --color-quaternary-base: #62666f;   /* fourth color: slate, for meta and small marks */
+    --color-accent-base:     #22c55e;   /* attention color: green, status lights only */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. */
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-text:      var(--color-secondary-base);   /* headings and body text (#16181d) */
+    --color-text-soft: oklch(from var(--color-secondary-base) 0.4204 calc(c * 1.332) calc(h + 1.2));   /* secondary text (#4a4d55) */
+    --color-bg:        var(--color-tertiary-base);   /* page background (#f6f4f1) */
+    --color-bg-soft:   oklch(from var(--color-tertiary-base) 0.941 calc(c * 1.64) calc(h + 2.4));   /* a step deeper (#eeebe6) */
+    --color-border:    oklch(from var(--color-tertiary-base) 0.9021 calc(c * 2.033) h);   /* lines and borders (#e2ded8) */
+    /* Labels on the primary: white (the demo's choice), dark only on a very light primary */
+    --color-on-primary: oklch(from var(--color-primary-base) clamp(0.2, (0.75 - l) * 1000, 1) 0 0);
+    --color-dark:      var(--color-secondary-base);   /* dark sections and dark buttons (#16181d) */
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Inter', system-ui, sans-serif;   /* headings and figures */
+    --font-serif:   'Instrument Serif', Georgia, 'Times New Roman', serif;   /* italic accents */
+    --font-tertiary: 'Urbanist', system-ui, sans-serif;   /* display accents (unused by this demo) */
+
+    /* Stylesheets of the accent fonts, fetched only on pages that use them.
+       Change a family above and its URL here together. Set one to "" to
+       load nothing, e.g. when that font is a system font. */
+    --font-serif-src:    "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap";
+    --font-tertiary-src: "https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800;900&display=swap";
+
+    /* Headings and buttons */
+    --heading-weight:     700;
+    --heading-tracking:   -0.035em;   /* the hero title tightens to -0.045em */
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        1;       /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 9999px;  /* one shape for every button: 0px square · 0.5rem rounded · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: 1280px;   /* widest content column (1140px, 1280px, 1320px, 1440px …) */
+    --section-y-scale: 1.2;   /* space between sections: 0.75 compact · 1 · 1.25 spacious */
+}

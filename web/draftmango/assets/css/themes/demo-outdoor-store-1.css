@@ -1,0 +1,91 @@
+/* ================================================================
+ *  demo-outdoor-store-1.css — Draftmango theme for the Outdoor Store demo
+ *
+ *  The colors, fonts and layout settings of the Outdoor Store
+ *  demo (Draftmango Outdoor, EDC, trail and camp gear, with a store in Bozeman, Montana).
+ *  Its pages load this file after the template's own CSS, so a value set
+ *  here wins. Each brand color generates its own scale of tints and
+ *  shades — change one line, the whole palette follows.
+ *
+ *  Your own CSS goes in custom.css, which loads after this file.
+ * ================================================================ */
+
+/* Body, heading and code fonts (Google Fonts). Change a family here, then
+   name it in --font-sans / --font-heading below. Keep JetBrains Mono in
+   the URL: code blocks use it (--font-mono). This @import must stay the
+   first rule in the file. Pages preload this URL on their own (the build
+   reads it from here).
+   Archivo 800 at its widest (125%) for headings (first candidate; the font check
+   compares it with Barlow Condensed 700 and Inter Display 800). The width is
+   font-stretch, which the demo CSS sets on the headings. Inter for the body. */
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..900&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Dark scheme: take ONE of these two lines out of this comment.
+@import url("../dark.css");                                     the whole site dark
+@import url("../dark.css") (prefers-color-scheme: dark);        dark when the visitor's system is
+*/
+
+:root {
+
+    /* ------------------------------------------------------------
+     *  BRAND COLORS
+     * ------------------------------------------------------------ */
+    --color-primary-base:    #f2601d;   /* main color: blaze for buttons, the cart count and the strip; labels on it are white */
+    --color-secondary-base:  #141617;   /* second color: basalt for the text, the dark bands and the header; the dark scheme takes its hue */
+    --color-tertiary-base:   #ebe9e3;   /* third color: stone for soft fills */
+    --color-quaternary-base: #6b6e70;   /* fourth color: graphite for meta */
+    --color-accent-base:     #8a9a5b;   /* attention color: moss, for small marks; labels on it are white */
+
+    /* Readable text (-ink), text on each fill (on-) and hover are derived
+       from the seeds. White labels on the brand fills (a preset picks its own). */
+    --color-on-primary: #fff;
+    --color-on-accent:  #fff;
+
+    --color-primary:       var(--color-primary-base);
+    --color-primary-hover: oklch(from var(--color-primary-base) calc(l - 0.06) c h);
+
+    /* ------------------------------------------------------------
+     *  NEUTRALS
+     *  Tinted by the seeds above, so a Style Switcher preset retints them
+     *  too. A plain hex here fixes one for good.
+     * ------------------------------------------------------------ */
+    --color-bg:          oklch(from var(--color-quaternary-base) 0.961 0.005 calc(h - 141));   /* page background: stone (#f3f2ee) */
+    --color-bg-soft:     oklch(from var(--color-quaternary-base) 0.935 0.007 calc(h - 141));   /* a step deeper: fills and hover rows */
+    --color-bg-muted:    oklch(from var(--color-quaternary-base) 0.910 0.008 calc(h - 141));   /* placeholders */
+    --color-border:      oklch(from var(--color-quaternary-base) 0.875 0.008 calc(h - 141));   /* lines and borders */
+    --color-border-soft: oklch(from var(--color-quaternary-base) 0.910 0.006 calc(h - 141));   /* the faintest rules */
+    --color-text:        var(--color-secondary-base);   /* headings and body text */
+    --color-text-soft:   oklch(from var(--color-quaternary-base) 0.48 c h);   /* running text */
+    --color-text-muted:  oklch(from var(--color-quaternary-base) 0.5 c h);   /* meta text */
+    --color-dark:        var(--color-secondary-base);   /* dark sections and dark buttons */
+    /* Brand-colored text on the ground, held at or under 0.5 lightness so a
+       preset's lighter primary still reads at 4.5:1 */
+    --color-primary-ink: oklch(from var(--color-primary-base) min(l, 0.5) c h);
+
+    /* ------------------------------------------------------------
+     *  TYPOGRAPHY
+     * ------------------------------------------------------------ */
+    --text-scale: 1;   /* text size, spacing follows: 0.875 = 14px · 1 = 16px · 1.125 = 18px */
+
+    --font-sans:    'Inter', system-ui, sans-serif;   /* body text */
+    --font-heading: 'Archivo', system-ui, sans-serif;   /* headings */
+
+    /* Headings and buttons */
+    --heading-weight:     800;   /* Archivo extra bold: 600–900 is loaded */
+    --heading-tracking:   -0.02em;
+    --btn-font-weight:    600;                     /* 500–700 */
+    --btn-letter-spacing: 0;                       /* button tracking */
+    --btn-text-transform: none;                    /* or uppercase: buttons in capitals */
+
+    /* ------------------------------------------------------------
+     *  SHAPE
+     * ------------------------------------------------------------ */
+    --radius-scale:        0.5;      /* corner rounding: 0 square · 0.5 subtle · 1 · 1.5 round */
+    --btn-radius-override: 0.5rem;  /* one shape for every button: 0px square · 0.5rem technical · 9999px pill */
+
+    /* ------------------------------------------------------------
+     *  LAYOUT
+     * ------------------------------------------------------------ */
+    --container-max: clamp(1520px, 87.5vw, 1680px);   /* widest content column: 1520px, growing to 1680px on big screens */
+    --section-y-scale: 0.55;     /* space between sections: 0.5 compact · 0.55 (≈ 70px at 1440, 44px on a phone) · 1 spacious */
+}

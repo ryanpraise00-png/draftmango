@@ -7,8 +7,8 @@ import {templateContentContext,indexTemplate,applyTemplateEdits} from '../server
 import {compileProject} from '../server/compiler.mjs';
 const template=await templateForPrompt('architecture');
 const files=template.files;
-const context=templateContentContext(files,'Rename framo studio to North Studio',{creating:true});
-const brand=context.fields.find(f=>f.value==='framo studio');
+const context=templateContentContext(files,'Rename draftmango studio to North Studio',{creating:true});
+const brand=context.fields.find(f=>f.value==='draftmango studio');
 const update=(edits=[],colours=[])=>({action:'update',title:'North Studio',message:'Updated the template content.',edits,colours});
 const edit=(value='North Studio')=>({id:brand.id,value,allMatching:true});
 
@@ -29,21 +29,21 @@ test('model can edit only supplied IDs; source, runtime, routing and arbitrary C
   {...update([edit()]),action:'reply'},
   update()
  ])assert.throws(()=>applyTemplateEdits(files,value,context,''),{code:'template_edit'});
- assert.ok(files['src/pages/Page0.jsx'].includes('framo studio'));
+ assert.ok(files['src/pages/Page0.jsx'].includes('draftmango studio'));
 });
 
 test('content edits preserve layout, imports, shared runtime and every unedited page',async()=>{
  const result=applyTemplateEdits(files,update([edit()]),context,'');
  assert.deepEqual(Object.keys(result.files),Object.keys(files));
  for(const [path,source] of Object.entries(files)){
-  const expected=source.replaceAll('"framo studio"','"North Studio"');
+  const expected=source.replaceAll('"draftmango studio"','"North Studio"');
   assert.equal(result.files[path],expected,path);
  }
  assert.ok((await compileProject(result.files)).files['assets/site.js']);
 });
 
 test('JSX quotes and attempted code injection stay literal text',async()=>{
- const original={...files,'src/pages/Page0.jsx':'export default function Page(){return <main><h1>Hello</h1><img alt="Example" src="https://draftmango.com/framo/photos/architecture-studio-1.jpg" /></main>}'};
+ const original={...files,'src/pages/Page0.jsx':'export default function Page(){return <main><h1>Hello</h1><img alt="Example" src="https://draftmango.com/draftmango/photos/architecture-studio-1.jpg" /></main>}'};
  const c=templateContentContext(original,'');
  const value='Quotes " and braces } <script>alert(1)</script>';
  const result=applyTemplateEdits(original,update(c.fields.filter(f=>['Hello','Example'].includes(f.value)).map(f=>({id:f.id,value,allMatching:false}))),c,'');

@@ -9,7 +9,7 @@ export {searchTemplates,templateDetails,templateFiles};
 const protocolVersions = ['2025-06-18','2025-03-26','2024-11-05'];
 const tools = [
   { name: 'search_templates', title: 'Search website templates',
-    description: 'Find human-designed Draftmango website templates (100 Framo design families) that fit a brief. The first result is the builder\'s own pick; the rest are ranked alternatives. Returns ids, names, categories, colours, fonts and page counts.',
+    description: 'Find human-designed Draftmango website templates (100 Draftmango design families) that fit a brief. The first result is the builder\'s own pick; the rest are ranked alternatives. Returns ids, names, categories, colours, fonts and page counts.',
     inputSchema: { type: 'object', properties: { brief: { type: 'string', description: 'What the website is for, e.g. "independent coffee roaster with online shop"' }, limit: { type: 'integer', minimum: 1, maximum: 10 } }, required: ['brief'], additionalProperties: false },
     annotations: { readOnlyHint: true }, run: async args => searchTemplates(args.brief, args.limit) },
   { name: 'template_details', title: 'Template details',
@@ -17,7 +17,7 @@ const tools = [
     inputSchema: { type: 'object', properties: { id: { type: 'string' } }, required: ['id'], additionalProperties: false },
     annotations: { readOnlyHint: true }, run: async args => templateDetails(args.id) },
   { name: 'get_template_files', title: 'Get template project files',
-    description: 'Return the complete React + Vite project for a template, with its CSS, fonts and placeholder imagery copied locally under public/framo/assets. Editable source files are in structuredContent.files, unchanged vendor text assets in structuredContent.assetFiles and binary assets (base64) in structuredContent.binaryFiles.',
+    description: 'Return the complete React + Vite project for a template, with its CSS, fonts and placeholder imagery copied locally under public/draftmango/assets. Editable source files are in structuredContent.files, unchanged vendor text assets in structuredContent.assetFiles and binary assets (base64) in structuredContent.binaryFiles.',
     inputSchema: { type: 'object', properties: { id: { type: 'string' }, site_name: { type: 'string', description: 'Shown in the browser tab title' } }, required: ['id'], additionalProperties: false },
     annotations: { readOnlyHint: true }, _meta: { 'io.isotris/files': true, 'io.isotris/templatePolicy': 'preserve-template-v1' },
     run: async args => templateFiles(args.id, args.site_name), files: true },

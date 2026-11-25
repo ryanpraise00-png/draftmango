@@ -1,5 +1,15 @@
 # Draftmango changelog
 
+## 25 November 2026 — Draftmango template library branding
+
+- Renamed the active library to `web/draftmango`, with matching component, stylesheet, importer, runtime and asset names. Updated all 100 design families and 1,150 preview pages to Draftmango branding, including the approved mango mark, wordmark and favicons.
+- Regenerated the React starters and 106 preview images. All 1,150 HTML pages were compared with the previous revision: only the name replacement changed their markup. Template layouts, styling rules, routes and interactions are retained.
+- New web/MCP packages use the same branded catalogue, hosted preview URLs and assets. No Isotris files changed. Existing versioned package archives are retained.
+- Kept original purchase/licence records untouched. Isolated the exact old hosted assets in `web/template-compat/v1` with SHA-256 checksums; legacy asset routes and workspace runtime detection preserve saved projects without rewriting their source or locks.
+- Included the public icon-data registry in version control; the broad account-data ignore rule previously excluded it.
+- Validation: syntax checks and production build passed; 144 non-browser regression tests passed, including all 100 template compilations, branded export/design guards, authenticated remote access and legacy asset compatibility. Captured all 100 template homepages and six showcase images through the browser, and checked the branded logo at mobile width.
+- Local review only; not deployed to production.
+
 ## 25 November 2026
 
 ### AI engine removed; workspace retained

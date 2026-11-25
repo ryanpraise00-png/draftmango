@@ -1,0 +1,4275 @@
+html[data-demo='makeup-store-1'] {
+    --topbar-h: 36px;
+}
+
+@media (width >= 1024px) {
+    html[data-demo='makeup-store-1'] {
+        --navbar-h: 80px;
+    }
+}
+
+@layer components {
+    html[data-demo='makeup-store-1'] {
+        --custom-round: calc(var(--radius-scale, 1) * 2rem);
+        --custom-photo-ink: oklch(from var(--color-secondary-base) min(l, 0.3) c h);
+        --custom-tile: color-mix(in oklch, var(--color-tertiary-base) 62%, #fff);
+        --custom-lit: #ffffffb8;
+        --custom-lacquer:
+            radial-gradient(circle at 32% 26%, #ffffff73, #fff0 32%),
+            radial-gradient(circle at 72% 82%, #00000029, #0000 58%);
+    }
+
+    html[data-demo='makeup-store-1'] .site-header {
+        background: var(--color-bg);
+
+        & .site-topbar {
+            background: color-mix(in oklch, var(--color-tertiary-base) 78%, var(--color-bg));
+            color: var(--color-text-soft);
+            border-bottom: 0;
+        }
+
+        & .site-topbar-text {
+            color: inherit;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        & .site-topbar-icon {
+            color: var(--color-primary-ink);
+        }
+
+        @media (width <= 479px) {
+            & .site-topbar-text {
+                display: block;
+            }
+        }
+
+        & .site-topbar-meta-item {
+            color: inherit;
+            text-underline-offset: 3px;
+            font-size: 0.875rem;
+            font-weight: 500;
+
+            & i {
+                color: var(--color-primary-ink);
+            }
+
+            &:hover {
+                color: var(--color-text);
+                text-decoration: underline;
+            }
+        }
+
+        & .nav-link {
+            color: var(--color-text);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            position: relative;
+
+            &:after {
+                content: '';
+                background: var(--color-primary);
+                border-radius: var(--radius-full);
+                width: 1.25rem;
+                height: 2px;
+                transition: scale var(--duration-base) var(--ease-out);
+                margin-left: -0.625rem;
+                position: absolute;
+                bottom: 0.25rem;
+                left: 50%;
+                scale: 0 1;
+            }
+
+            &:hover,
+            &.active {
+                color: var(--color-primary-ink);
+            }
+
+            &:hover:after,
+            &.active:after {
+                scale: 1;
+            }
+        }
+
+        & .nav-megamenu:is(:hover, :focus-within) > .nav-link {
+            color: var(--color-primary-ink);
+
+            &:after {
+                scale: 1;
+            }
+        }
+
+        & .nav-megamenu > .nav-link:after {
+            margin-left: -1.125rem;
+        }
+
+        & .nav-search-toggle {
+            color: var(--color-text);
+            border-color: var(--color-border);
+
+            &:hover,
+            &[aria-expanded='true'] {
+                color: var(--color-text);
+                background: var(--color-bg-soft);
+                border-color: var(--color-border);
+            }
+        }
+
+        & .shop-actions {
+            gap: 0.25rem;
+            margin-left: 0.25rem;
+        }
+
+        & .shop-action {
+            min-width: 2.75rem;
+            height: 2.75rem;
+            color: var(--color-text);
+            font-size: 1.375rem;
+
+            &:hover,
+            &[aria-expanded='true'] {
+                color: var(--color-text);
+                background: var(--color-bg-soft);
+            }
+        }
+
+        & .shop-action-count {
+            color: var(--color-on-primary);
+            background: var(--color-primary);
+            box-shadow: 0 0 0 2px var(--color-bg);
+            top: 0.125rem;
+            left: 1.5rem;
+        }
+    }
+
+    @media (width >= 1280px) {
+        html[data-demo='makeup-store-1'] .site-header {
+            --brand-slot-gap: clamp(1.75rem, 2.6vw, 3rem);
+
+            & .nav-search-toggle {
+                display: none;
+            }
+
+            & .nav-link {
+                padding-inline: 0.6875rem;
+            }
+        }
+    }
+
+    @media (width >= 1280px) and (width <= 1439px) {
+        html[data-demo='makeup-store-1'] .site-header {
+            --brand-slot-gap: 1.25rem;
+
+            & .nav-link {
+                padding-inline: 0.4375rem;
+            }
+
+            & .custom-search-field {
+                width: auto;
+                padding-inline: 0.875rem;
+            }
+
+            & .custom-search-field span {
+                display: none;
+            }
+
+            & .custom-bag {
+                padding-inline: 0.75rem 0.375rem;
+            }
+
+            & .custom-bag-label {
+                display: none;
+            }
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-search-field {
+        width: clamp(11rem, 14vw, 17rem);
+        height: 2.75rem;
+        font: inherit;
+        color: var(--color-text-muted);
+        text-align: left;
+        background: var(--color-bg-soft);
+        border: 1px solid var(--color-border-soft);
+        border-radius: var(--radius-full);
+        cursor: pointer;
+        transition:
+            color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out),
+            border-color var(--duration-fast) var(--ease-out);
+        align-items: center;
+        gap: 0.625rem;
+        padding-inline: 1.125rem;
+        font-size: 0.9375rem;
+        display: inline-flex;
+
+        & i {
+            color: var(--color-text);
+            font-size: 1.125rem;
+        }
+
+        & span {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        &:hover,
+        &[aria-expanded='true'] {
+            color: var(--color-text);
+            background: var(--custom-tile);
+            border-color: var(--color-border);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-brand {
+        color: var(--color-text);
+        flex-direction: column;
+        align-items: center;
+        line-height: 1;
+        display: inline-flex;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-brand-word {
+        font-family: var(--font-heading);
+        letter-spacing: 0.26em;
+        text-transform: uppercase;
+        margin-right: -0.26em;
+        font-size: 1.6875rem;
+        font-weight: 500;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-brand-sub {
+        letter-spacing: 0.44em;
+        text-transform: uppercase;
+        color: var(--color-text-muted);
+        margin-top: 0.3125rem;
+        margin-right: -0.44em;
+        font-size: 0.625rem;
+        font-weight: 500;
+    }
+
+    html[data-demo='makeup-store-1'] .site-header .custom-bag {
+        color: var(--color-on-primary);
+        background: var(--color-primary);
+        border-radius: var(--radius-full);
+        transition: background-color var(--duration-fast) var(--ease-out);
+        gap: 0.5rem;
+        margin-left: 0.5rem;
+        padding-inline: 1rem 0.375rem;
+        font-size: 1.25rem;
+
+        &:hover,
+        &[aria-expanded='true'] {
+            color: var(--color-on-primary);
+            background: var(--color-primary-hover);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-bag-label {
+        font-size: 0.9375rem;
+        font-weight: 600;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-bag-count {
+        min-width: 2rem;
+        height: 2rem;
+        color: var(--color-primary-ink);
+        border-radius: var(--radius-full);
+        background: #fff;
+        place-items: center;
+        padding-inline: 0.375rem;
+        font-size: 0.8125rem;
+        font-weight: 700;
+        display: grid;
+    }
+
+    @media (width <= 1279px) {
+        html[data-demo='makeup-store-1'] .site-header .nav-link {
+            padding-inline: 0.625rem;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-bag-label {
+            display: none;
+        }
+
+        html[data-demo='makeup-store-1'] .site-header .custom-bag {
+            padding-inline: 0.75rem 0.375rem;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-brand-word {
+            font-size: 1.5rem;
+        }
+    }
+
+    @media (width <= 1023px) {
+        html[data-demo='makeup-store-1'] .site-header .nav-search-toggle {
+            border: 0;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-panel-shades {
+            background: var(--color-bg-soft);
+            border-radius: var(--radius-xl);
+            align-items: center;
+            gap: 0.625rem;
+            padding: 0.875rem 1rem;
+            display: flex;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-panel-shade {
+            background: var(--custom-lacquer), var(--custom-shade);
+            border-radius: var(--radius-full);
+            flex-shrink: 0;
+            width: 2rem;
+            height: 2rem;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-panel-shades-label {
+            color: var(--color-text-soft);
+            margin-left: 0.375rem;
+            font-size: 0.875rem;
+        }
+    }
+
+    @media (width <= 639px) {
+        html[data-demo='makeup-store-1'] .site-header .shop-action--account {
+            display: none;
+        }
+
+        html[data-demo='makeup-store-1'] .site-header .custom-bag {
+            margin-left: 0.125rem;
+            padding-inline: 0.625rem 0.3125rem;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-bag-count {
+            min-width: 1.75rem;
+            height: 1.75rem;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-brand-word {
+            font-size: 1.375rem;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-brand-sub {
+            font-size: 0.5rem;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-mega-inner {
+        grid-template-columns: minmax(12rem, 15rem) minmax(0, 1fr) minmax(16rem, 18rem);
+        column-gap: clamp(2rem, 4vw, 4.5rem);
+        padding-block: 2.5rem 2.75rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-mega-inner--cols {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(16rem, 18rem);
+    }
+
+    html[data-demo='makeup-store-1'] .site-header .megamenu-col-title {
+        color: var(--color-text-muted);
+        margin-bottom: 0.5rem;
+        font-size: 0.8125rem;
+    }
+
+    html[data-demo='makeup-store-1'] .site-header .megamenu-item {
+        font-size: 0.9375rem;
+    }
+
+    html[data-demo='makeup-store-1'] .site-header .custom-mega-all {
+        color: var(--color-primary-ink);
+        margin-top: 0.5rem;
+        font-weight: 600;
+
+        & i {
+            font-size: 0.875rem;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-mega-note {
+        color: var(--color-text-soft);
+        margin: 1.5rem 0 0;
+        font-size: 0.875rem;
+
+        & a {
+            color: var(--color-primary-ink);
+            text-decoration: underline;
+            -webkit-text-decoration-color: color-mix(in oklch, currentColor 35%, transparent);
+            text-decoration-color: color-mix(in oklch, currentColor 35%, transparent);
+            text-underline-offset: 3px;
+            transition: text-decoration-color var(--duration-fast) var(--ease-out);
+            font-weight: 600;
+
+            &:hover {
+                text-decoration-color: currentColor;
+            }
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-wall-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.75rem;
+        display: grid;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-wall-family {
+        background: var(--color-bg-soft);
+        border-radius: var(--radius-xl);
+        grid-template-columns: repeat(2, 3.5rem);
+        place-content: start center;
+        gap: 0.625rem;
+        padding: 1rem 0.75rem 1.125rem;
+        display: grid;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-wall-label {
+        font-family: var(--font-heading);
+        text-align: center;
+        color: var(--color-text);
+        grid-column: 1 / -1;
+        margin-bottom: 0.25rem;
+        font-size: 1.125rem;
+        line-height: 1.2;
+    }
+
+    html[data-demo='makeup-store-1'] :is(.custom-swatch, .custom-tone) {
+        background: var(--custom-lacquer), var(--custom-shade);
+        outline-offset: 3px;
+        transition: outline-color var(--duration-fast) var(--ease-out);
+        outline: 2px solid #0000;
+        box-shadow: inset 0 0 0 1px #0000000f;
+
+        &:hover,
+        &:focus-visible {
+            outline-color: var(--color-text);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-swatch {
+        aspect-ratio: 1;
+        border-radius: var(--radius-full);
+        width: 3.5rem;
+        display: block;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-tone-grid {
+        background: var(--color-bg-soft);
+        border-radius: var(--radius-xl);
+        grid-template-columns: 4.5rem repeat(8, minmax(0, 1fr));
+        align-items: center;
+        gap: 0.5rem 0.375rem;
+        padding: 1.25rem 1.25rem 1rem;
+        display: grid;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-tone-row-label {
+        font-family: var(--font-heading);
+        color: var(--color-text);
+        font-size: 1.0625rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-tone {
+        border-radius: var(--radius-full);
+        background: linear-gradient(160deg, #ffffff47, #fff0 45%), var(--custom-shade);
+        height: 2.5rem;
+        display: block;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-tone-scale {
+        color: var(--color-text-muted);
+        grid-column: 2 / -1;
+        justify-content: space-between;
+        padding-top: 0.25rem;
+        font-size: 0.875rem;
+        display: flex;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-mega-card {
+        align-content: start;
+        gap: 0.25rem;
+        height: 100%;
+        display: grid;
+        position: relative;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-mega-card-media {
+        background:
+            radial-gradient(ellipse 60% 14% at 50% 88%, #50322824, transparent 70%),
+            var(--custom-tile);
+        border-radius: var(--radius-xl);
+        place-items: center;
+        height: 11.5rem;
+        margin-bottom: 0.875rem;
+        display: grid;
+
+        & img {
+            object-fit: contain;
+            width: auto;
+            max-width: 72%;
+            height: 8.75rem;
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-mega-card-tag {
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--color-primary-ink);
+        margin: 0;
+        font-size: 0.8125rem;
+        font-weight: 600;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-mega-card-name {
+        color: var(--color-text);
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 500;
+        line-height: 1.25;
+
+        & a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        & a:after {
+            content: '';
+            position: absolute;
+            inset: 0;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-mega-card-meta {
+        color: var(--color-text-muted);
+        margin: 0;
+        font-size: 0.875rem;
+
+        & i {
+            color: var(--color-accent-base);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-mega-card-foot {
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 0.75rem;
+        display: flex;
+
+        & strong {
+            font-family: var(--font-heading);
+            color: var(--color-text);
+            font-size: 1.375rem;
+            font-weight: 500;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-mega-card-add {
+        z-index: 1;
+        height: 2.5rem;
+        font: inherit;
+        color: var(--color-on-primary);
+        background: var(--color-primary);
+        border-radius: var(--radius-full);
+        cursor: pointer;
+        transition: background-color var(--duration-fast) var(--ease-out);
+        border: 0;
+        padding-inline: 1.125rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        position: relative;
+
+        & > * {
+            align-items: center;
+            gap: 0.375rem;
+            display: inline-flex;
+        }
+
+        &:hover {
+            background: var(--color-primary-hover);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-search-shades .site-search-tag {
+        align-items: center;
+        gap: 0.5rem;
+        display: inline-flex;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-dot {
+        background: var(--custom-lacquer), var(--custom-shade);
+        border-radius: var(--radius-full);
+        flex-shrink: 0;
+        width: 1rem;
+        height: 1rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-cart-thumb {
+        background: var(--custom-tile);
+
+        & img {
+            object-fit: contain;
+            width: 100%;
+            height: 100%;
+            padding-block: 0.5rem;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-hero {
+        padding-top: clamp(0.75rem, 1.4vw, 1.25rem);
+    }
+
+    html[data-demo='makeup-store-1'] .custom-stage {
+        --stage-pad: clamp(1.5rem, 4.4vw, 4.5rem);
+        --stage-inset: 1.25rem;
+        isolation: isolate;
+        height: clamp(34rem, calc(100svh - var(--header-h-rest, var(--header-h)) - 6rem), 54rem);
+        color: #fff;
+        background: oklch(from var(--color-secondary-base) 0.38 0.035 h);
+        border-radius: var(--custom-round);
+        grid-template-rows: 1fr auto;
+        grid-template-columns: minmax(0, 1fr) auto;
+        display: grid;
+        position: relative;
+        overflow: clip;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-stage-swiper {
+        grid-area: 1 / 1 / -1 / -1;
+        width: 100%;
+        height: 100%;
+
+        & .swiper-slide {
+            overflow: clip;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-stage-img {
+        object-fit: cover;
+        object-position: 62% 40%;
+        width: 100%;
+        height: 100%;
+        transition: scale 7s var(--ease-out);
+        scale: 1.04;
+    }
+
+    html[data-demo='makeup-store-1'] .swiper-slide-active .custom-stage-img {
+        scale: 1;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-stage-swiper:after {
+        content: '';
+        z-index: 2;
+        pointer-events: none;
+        background: linear-gradient(90deg, #1a0e0a57 0%, #1a0e0a24 38%, #1a0e0a00 58%);
+        position: absolute;
+        inset: 0;
+    }
+
+    html[data-demo='makeup-store-1'] :is(.custom-stage-copy, .custom-looks-bar, .custom-shelf) {
+        z-index: 2;
+        position: relative;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-stage-copy {
+        max-width: 44rem;
+        padding: var(--stage-pad) 0 1.5rem var(--stage-pad);
+        grid-area: 1 / 1;
+        align-self: center;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-eyebrow {
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 0 0 1.125rem;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        display: inline-flex;
+
+        & i {
+            color: var(--color-accent-base);
+            font-size: 1rem;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-hero-title {
+        letter-spacing: -0.035em;
+        color: inherit;
+        margin: 0;
+        font-size: clamp(2.75rem, 4.6vw, 4.75rem);
+        font-weight: 300;
+        line-height: 1.04;
+
+        & strong {
+            font-weight: 500;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-hero-lede {
+        color: #ffffffdb;
+        max-width: 28rem;
+        margin: 1.375rem 0 0;
+        font-size: 1.0625rem;
+        line-height: 1.6;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-hero-actions {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 2rem;
+        display: flex;
+
+        & .btn-white {
+            color: var(--custom-photo-ink);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-looks-bar {
+        padding: 0 0 var(--stage-inset) var(--stage-inset);
+        grid-area: 2 / 1;
+        align-self: end;
+        align-items: center;
+        gap: 0.75rem;
+        display: flex;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-looks {
+        border-radius: var(--radius-full);
+        background: #fff;
+        gap: 0.25rem;
+        padding: 0.375rem;
+        display: flex;
+        box-shadow: 0 14px 36px #3c23191a;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-look {
+        --fill: 1;
+        height: 2.75rem;
+        font: inherit;
+        color: var(--custom-photo-ink);
+        border-radius: var(--radius-full);
+        cursor: pointer;
+        transition: background-color var(--duration-fast) var(--ease-out);
+        background: none;
+        border: 0;
+        align-items: center;
+        gap: 0.625rem;
+        padding-inline: 0.5rem 1.125rem;
+        font-size: 0.9375rem;
+        font-weight: 500;
+        display: inline-flex;
+
+        &:hover {
+            background: color-mix(in oklch, var(--color-tertiary-base) 55%, #fff);
+        }
+
+        &[aria-selected='true'] {
+            background: var(--color-tertiary-base);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-look-dot {
+        background: var(--custom-lacquer), var(--custom-shade);
+        border-radius: var(--radius-full);
+        flex-shrink: 0;
+        width: 1.75rem;
+        height: 1.75rem;
+        position: relative;
+
+        &:after {
+            content: '';
+            border-radius: inherit;
+            background: conic-gradient(
+                var(--custom-shade) calc(var(--fill, 1) * 360deg),
+                transparent 0
+            );
+            opacity: 0;
+            transition: opacity var(--duration-fast) var(--ease-out);
+            position: absolute;
+            inset: -4px;
+            mask: radial-gradient(farthest-side, #0000 calc(100% - 2px), #000 calc(100% - 1.5px));
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-look[aria-selected='true'] .custom-look-dot:after {
+        opacity: 1;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-looks-nav {
+        gap: 0.5rem;
+        display: flex;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-round-btn {
+        width: 3.25rem;
+        height: 3.25rem;
+        color: var(--custom-photo-ink);
+        border-radius: var(--radius-full);
+        cursor: pointer;
+        transition:
+            color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out);
+        background: #fff;
+        border: 0;
+        place-items: center;
+        font-size: 1.0625rem;
+        display: grid;
+
+        &:hover {
+            color: var(--color-on-primary);
+            background: var(--color-primary);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-shelf {
+        width: min(30rem, 38vw);
+        margin: 0 var(--stage-inset) var(--stage-inset) 0;
+        background: var(--color-bg);
+        border-radius: max(0.75rem, var(--custom-round) - var(--stage-inset));
+        grid-area: 1 / 2 / -1;
+        align-self: end;
+        padding: 1.25rem;
+        display: grid;
+        box-shadow: 0 22px 56px #3c23191f;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-shelf-set {
+        opacity: 0;
+        visibility: hidden;
+        transition:
+            opacity 0.5s var(--ease-out),
+            visibility 0s 0.5s;
+        grid-area: 1 / 1;
+
+        &.is-active {
+            opacity: 1;
+            visibility: visible;
+            transition:
+                opacity 0.6s var(--ease-out) 0.15s,
+                visibility 0s;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-shelf-head {
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 1rem;
+        margin-bottom: 0.875rem;
+        display: flex;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-shelf-title {
+        color: var(--color-text);
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 500;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-shelf-meta {
+        color: var(--color-text-muted);
+        align-items: center;
+        gap: 0.5rem;
+        margin: 0;
+        font-size: 0.875rem;
+        display: inline-flex;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-shelf-dot {
+        background: var(--custom-shade);
+        border-radius: var(--radius-full);
+        width: 0.75rem;
+        height: 0.75rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-shelf-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.75rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-shelf-item {
+        align-content: start;
+        gap: 0.125rem;
+        min-width: 0;
+        display: grid;
+        position: relative;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-shelf-media {
+        aspect-ratio: 1 / 0.86;
+        background:
+            radial-gradient(ellipse 46% 8% at 50% 87%, #50322829, transparent 70%),
+            radial-gradient(circle at 50% 42%, var(--custom-lit), transparent 62%),
+            var(--custom-tile);
+        border-radius: max(0.5rem, var(--custom-round) - var(--stage-inset) - 0.5rem);
+        margin-bottom: 0.75rem;
+        display: block;
+        position: relative;
+
+        & img {
+            object-fit: contain;
+            width: 82%;
+            height: 80%;
+            position: absolute;
+            inset: 7% 9% 13%;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-shelf-name {
+        font-family: var(--font-sans);
+        letter-spacing: -0.005em;
+        color: var(--color-text);
+        text-wrap: balance;
+        min-height: 2.6em;
+        margin: 0;
+        font-size: 0.9375rem;
+        font-weight: 500;
+        line-height: 1.3;
+
+        & a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        & a:after {
+            content: '';
+            position: absolute;
+            inset: 0;
+        }
+
+        & a:hover {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-shelf-price {
+        color: var(--color-text-muted);
+        justify-content: space-between;
+        gap: 0.5rem;
+        margin: 0;
+        font-size: 0.875rem;
+        display: flex;
+
+        & strong {
+            color: var(--color-text);
+            font-weight: 600;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-shelf-add {
+        justify-content: center;
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-claims {
+        margin-top: 0.25rem;
+
+        & .marquee-text {
+            font-family: var(--font-heading);
+            color: var(--color-text-soft);
+            gap: 2rem;
+            padding-block: 1.25rem 1.125rem;
+            font-size: 1.125rem;
+            font-weight: 300;
+            animation-duration: 60s;
+        }
+
+        & .marquee-text__item strong {
+            font-weight: 500;
+        }
+
+        & .marquee-text__sep {
+            color: var(--color-accent-base);
+            font-size: 0.75rem;
+        }
+    }
+
+    @media (width >= 768px) and (height <= 800px) {
+        html[data-demo='makeup-store-1'] .custom-hero-lede {
+            display: none;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-hero-actions {
+            margin-top: 1.75rem;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-shelf-media {
+            aspect-ratio: 1 / 0.66;
+        }
+    }
+
+    @media (width >= 768px) and (width <= 1279px) {
+        html[data-demo='makeup-store-1'] .custom-stage-img {
+            object-position: 66% 40%;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-shelf {
+            width: min(25rem, 42vw);
+            padding: 1rem;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-shelf-price span {
+            display: none;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-look {
+            padding-inline: 0.375rem;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-look-name {
+            display: none;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-hero-lede {
+            max-width: 22rem;
+            font-size: 1rem;
+        }
+    }
+
+    @media (width <= 767px) {
+        html[data-demo='makeup-store-1'] .custom-stage {
+            height: auto;
+            color: var(--color-text);
+            background: none;
+            flex-direction: column;
+            display: flex;
+            overflow: visible;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-stage-swiper:after {
+            display: none;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-stage-swiper {
+            border-radius: var(--custom-round);
+            order: 1;
+            height: min(28rem, 112vw);
+            overflow: clip;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-stage-img {
+            object-position: 70% 30%;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-looks-bar {
+            order: 1;
+            justify-content: space-between;
+            align-self: stretch;
+            margin-top: -4.25rem;
+            padding: 0 0.75rem 0.75rem;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-look {
+            padding-inline: 0.375rem;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-look-name {
+            display: none;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-round-btn {
+            background: #fff;
+            width: 3rem;
+            height: 3rem;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-stage-copy {
+            order: 2;
+            max-width: none;
+            padding: 1.75rem 0.25rem 0;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-eyebrow {
+            margin-bottom: 0.875rem;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-hero-title {
+            font-size: clamp(2.5rem, 11vw, 3rem);
+        }
+
+        html[data-demo='makeup-store-1'] .custom-hero-lede {
+            color: var(--color-text-soft);
+            margin-top: 1rem;
+            font-size: 1rem;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-hero-actions {
+            margin-top: 1.5rem;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-hero-actions .btn {
+            flex: auto;
+            justify-content: center;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-hero-actions .btn-white {
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
+        }
+
+        html[data-demo='makeup-store-1'] .custom-shelf {
+            border: 1px solid var(--color-border-soft);
+            border-radius: var(--radius-2xl);
+            width: auto;
+            box-shadow: none;
+            order: 3;
+            margin: 1.75rem 0 0;
+            padding: 1rem;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-shelf-price span {
+            display: none;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        html[data-demo='makeup-store-1'] .custom-stage-img {
+            transition: none;
+            scale: 1;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-shelf-set {
+            transition: none;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-claims .marquee {
+            animation: none;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-head {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 1rem 2.5rem;
+        margin-bottom: 2rem;
+        display: flex;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-kicker {
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--color-primary-ink);
+        align-items: center;
+        gap: 0.625rem;
+        margin: 0 0 0.875rem;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        display: inline-flex;
+
+        &:before {
+            content: '';
+            opacity: 0.6;
+            background: currentColor;
+            width: 1.25rem;
+            height: 1px;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-h2 {
+        letter-spacing: -0.03em;
+        text-wrap: balance;
+        margin: 0;
+        font-size: clamp(1.875rem, 1.35rem + 1.5vw, 2.75rem);
+        font-weight: 300;
+        line-height: 1.08;
+
+        & strong {
+            font-weight: 500;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-lede {
+        max-width: 34rem;
+        color: var(--color-text-soft);
+        margin: 1rem 0 0;
+        font-size: 1.0625rem;
+        line-height: 1.6;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-more {
+        color: var(--color-text);
+        text-decoration: underline;
+        -webkit-text-decoration-color: color-mix(in oklch, currentColor 30%, transparent);
+        text-decoration-color: color-mix(in oklch, currentColor 30%, transparent);
+        text-underline-offset: 0.375rem;
+        transition:
+            color var(--duration-fast) var(--ease-out),
+            text-decoration-color var(--duration-fast) var(--ease-out);
+        align-items: center;
+        gap: 0.5rem;
+        padding-block: 0.375rem;
+        font-size: 0.9375rem;
+        font-weight: 600;
+        display: inline-flex;
+
+        & i {
+            transition: translate var(--duration-base) var(--ease-out);
+            font-size: 1rem;
+        }
+
+        &:hover {
+            color: var(--color-primary-ink);
+            text-decoration-color: currentColor;
+        }
+
+        &:hover i {
+            translate: 0.25rem;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-card {
+        & .product-card-media {
+            background:
+                radial-gradient(ellipse 40% 6% at 50% 88%, #5032281f, transparent 70%),
+                radial-gradient(circle at 50% 44%, var(--custom-lit), transparent 64%),
+                var(--custom-tile);
+        }
+
+        & .product-card-img {
+            object-fit: contain;
+            padding: 13% 16% 15%;
+        }
+
+        & .product-card-title {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        & .product-card-cat {
+            letter-spacing: 0;
+            text-transform: none;
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        & .product-price {
+            font-weight: 600;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-band .custom-card .product-card-media {
+        background:
+            radial-gradient(ellipse 40% 6% at 50% 88%, #5032281a, transparent 70%),
+            var(--color-surface, #fff);
+    }
+
+    html[data-demo='makeup-store-1'] .custom-card .product-card-thumbs {
+        gap: 0.5rem;
+
+        & button {
+            background: var(--custom-lacquer), var(--custom-s1);
+            border-radius: var(--radius-full);
+            width: 1.625rem;
+            box-shadow:
+                0 0 0 2px var(--color-bg),
+                0 0 0 3px var(--color-border);
+            padding: 0;
+            translate: none;
+
+            &:nth-child(2) {
+                background: var(--custom-lacquer), var(--custom-s2);
+            }
+
+            &:nth-child(3) {
+                background: var(--custom-lacquer), var(--custom-s3);
+            }
+
+            &.is-active {
+                box-shadow:
+                    0 0 0 2px var(--color-bg),
+                    0 0 0 3.5px var(--color-text);
+            }
+
+            &:focus-visible {
+                outline: 2px solid var(--color-primary);
+                outline-offset: 4px;
+            }
+        }
+
+        & img {
+            display: none;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] {
+        & .custom-v-foundation {
+            --custom-s1: #c99a72;
+            --custom-s2: #ecd0b6;
+            --custom-s3: #6b4230;
+        }
+
+        & .custom-v-concealer {
+            --custom-s1: #d9ae86;
+            --custom-s2: #efd8c2;
+            --custom-s3: #b98058;
+        }
+
+        & .custom-v-blush {
+            --custom-s1: #d9727c;
+            --custom-s2: #ec8c72;
+            --custom-s3: #b55e78;
+        }
+
+        & .custom-v-powder {
+            --custom-s1: #e8cfae;
+            --custom-s2: #f4ece2;
+            --custom-s3: #c48e5c;
+        }
+
+        & .custom-v-palette {
+            --custom-s1: #dc9a74;
+            --custom-s2: #cf8d93;
+            --custom-s3: #7d5a4c;
+        }
+
+        & .custom-v-mascara {
+            --custom-s1: #1f1a19;
+            --custom-s2: #4a3022;
+            --custom-s3: #4b2338;
+        }
+
+        & .custom-v-kohl {
+            --custom-s1: #232020;
+            --custom-s2: #5a3a28;
+            --custom-s3: #9c6b42;
+        }
+
+        & .custom-v-brow {
+            --custom-s1: #7a5235;
+            --custom-s2: #c7a06e;
+            --custom-s3: #4a3022;
+        }
+
+        & .custom-v-lipstick {
+            --custom-s1: #bf6a6c;
+            --custom-s2: #dc8a6c;
+            --custom-s3: #b3302a;
+        }
+
+        & .custom-v-gloss {
+            --custom-s1: #f29aae;
+            --custom-s2: #eeb08c;
+            --custom-s3: #c9456a;
+        }
+
+        & .custom-v-liner {
+            --custom-s1: #b97e70;
+            --custom-s2: #c46a78;
+            --custom-s3: #9c3f36;
+        }
+
+        & .custom-v-balm {
+            --custom-s1: #e8786a;
+            --custom-s2: #c47a86;
+            --custom-s3: #c2283c;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-cat-list {
+        gap: 1.25rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+
+        & > li {
+            flex: none;
+        }
+    }
+
+    @media (width >= 768px) {
+        html[data-demo='makeup-store-1'] .custom-cat-list {
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            gap: 1.5rem;
+            display: grid;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-cat {
+        gap: 0.25rem;
+
+        & .cat-bubble-img {
+            background:
+                radial-gradient(circle at 50% 40%, var(--custom-lit), transparent 62%),
+                var(--custom-tile);
+            place-items: center;
+            width: 7.5rem;
+            margin-bottom: 0.875rem;
+            display: grid;
+        }
+
+        & .cat-bubble-img img {
+            object-fit: contain;
+            width: 62%;
+            height: 62%;
+        }
+
+        & .cat-bubble-name {
+            font-family: var(--font-heading);
+            font-size: 1.1875rem;
+            font-weight: 400;
+        }
+
+        &:hover .cat-bubble-img {
+            box-shadow:
+                0 0 0 4px var(--color-bg),
+                0 0 0 5.5px var(--custom-shade);
+        }
+
+        &:hover .cat-bubble-img img {
+            scale: 1.06;
+        }
+
+        &:focus-visible {
+            outline: none;
+        }
+
+        &:focus-visible .cat-bubble-img {
+            box-shadow:
+                0 0 0 4px var(--color-bg),
+                0 0 0 6px var(--color-primary);
+        }
+    }
+
+    @media (width >= 768px) {
+        html[data-demo='makeup-store-1'] .custom-cat .cat-bubble-img {
+            width: min(100%, 11rem);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-tabs .tabs-nav {
+        margin-bottom: 2rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-finder {
+        gap: 2.5rem;
+        display: grid;
+    }
+
+    @media (width >= 1024px) {
+        html[data-demo='makeup-store-1'] .custom-finder {
+            grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+            align-items: stretch;
+            gap: clamp(2.5rem, 5vw, 5.5rem);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-finder-media {
+        background: var(--custom-tile);
+        border-radius: var(--custom-round);
+        min-height: 22rem;
+        margin: 0;
+        position: relative;
+        overflow: clip;
+
+        & img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            inset: 0;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-finder-note {
+        color: var(--custom-photo-ink);
+        border-radius: var(--radius-full);
+        background: #ffffffe6;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.625rem 1.125rem 0.625rem 0.625rem;
+        font-size: 0.9375rem;
+        font-weight: 500;
+        display: inline-flex;
+        position: absolute;
+        bottom: 1.25rem;
+        left: 1.25rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-finder-ramp {
+        border-radius: var(--radius-full);
+        background: linear-gradient(90deg, #f1d4c8, #e3b58a, #c99560, #a8734f, #6b4230);
+        width: 4.5rem;
+        height: 1.5rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-finder-body {
+        align-self: center;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-finder-step {
+        border: 0;
+        margin: 1.75rem 0 0;
+        padding: 0;
+
+        & legend {
+            align-items: center;
+            gap: 0.625rem;
+            margin-bottom: 0.875rem;
+            font-weight: 600;
+            display: flex;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-step-num {
+        width: 1.75rem;
+        height: 1.75rem;
+        color: var(--color-primary-ink);
+        background: var(--custom-tile);
+        border-radius: var(--radius-full);
+        place-items: center;
+        font-size: 0.8125rem;
+        display: grid;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-pill > span {
+        padding-block: 0.5rem;
+    }
+
+    html[data-demo='makeup-store-1'] :is(.custom-skin, .custom-match-skin) {
+        background: var(--custom-shade);
+        border-radius: var(--radius-full);
+        flex-shrink: 0;
+        width: 1.125rem;
+        height: 1.125rem;
+        display: block;
+        box-shadow: inset 0 0 0 1px #00000014;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-match {
+        background: var(--color-surface, #fff);
+        border: 1px solid var(--color-border-soft);
+        border-radius: var(--radius-2xl);
+        margin-top: 2rem;
+        padding: 1.25rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-match-head {
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+        display: flex;
+
+        & .custom-match-skin {
+            width: 1.75rem;
+            height: 1.75rem;
+            transition: background-color var(--duration-base) var(--ease-out);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-match-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.75rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-match-item {
+        gap: 0.125rem;
+        min-width: 0;
+        display: grid;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-match-thumb {
+        background:
+            radial-gradient(circle at 50% 42%, var(--custom-lit), transparent 64%),
+            var(--custom-tile);
+        border-radius: var(--radius-xl);
+        place-items: center;
+        height: 7rem;
+        margin-bottom: 0.5rem;
+        display: grid;
+
+        & img {
+            object-fit: contain;
+            width: auto;
+            max-width: 70%;
+            height: auto;
+            max-height: 5.5rem;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-match-name {
+        font-size: 0.9375rem;
+        font-weight: 500;
+        line-height: 1.3;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-match-meta {
+        color: var(--color-text-muted);
+        font-size: 0.875rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-match-foot {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1.25rem;
+        display: flex;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-trio {
+        gap: 1.5rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+    }
+
+    @media (width >= 768px) {
+        html[data-demo='makeup-store-1'] .custom-trio {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-look-card {
+        --dock-inset: 0.875rem;
+        isolation: isolate;
+        aspect-ratio: 4 / 5;
+        padding: var(--dock-inset);
+        background: var(--custom-tile);
+        border-radius: var(--custom-round);
+        flex-direction: column;
+        justify-content: space-between;
+        display: flex;
+        position: relative;
+        overflow: clip;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-look-img {
+        z-index: -1;
+        object-fit: cover;
+        object-position: 50% 30%;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        inset: 0;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-look-tag {
+        font-family: var(--font-heading);
+        color: var(--custom-photo-ink);
+        border-radius: var(--radius-full);
+        background: #ffffffe0;
+        align-self: flex-start;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 0;
+        padding: 0.5rem 1rem 0.5rem 0.75rem;
+        font-size: 1.0625rem;
+        display: inline-flex;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-look-dock {
+        background: var(--color-bg);
+        border-radius: max(0.75rem, var(--custom-round) - var(--dock-inset));
+        align-items: center;
+        gap: 0.875rem;
+        padding: 0.625rem;
+        display: flex;
+        box-shadow: 0 16px 40px #3c23191a;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-look-items {
+        gap: 0.375rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+
+        & li {
+            background: var(--custom-tile);
+            border-radius: max(0.5rem, var(--custom-round) - var(--dock-inset) - 0.625rem);
+            place-items: center;
+            width: 3.5rem;
+            height: 3.5rem;
+            display: grid;
+        }
+
+        & img {
+            object-fit: contain;
+            width: auto;
+            max-width: 2.75rem;
+            height: auto;
+            max-height: 2.75rem;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-look-sum {
+        flex: 1;
+        margin: 0;
+        line-height: 1.25;
+        display: grid;
+
+        & span {
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+        }
+
+        & strong {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-look-add {
+        width: 3rem;
+        height: 3rem;
+        color: var(--color-on-primary);
+        background: var(--color-primary);
+        flex-shrink: 0;
+
+        &:hover {
+            background: var(--color-primary-hover);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-new {
+        gap: 1.5rem;
+        display: grid;
+    }
+
+    @media (width >= 1024px) {
+        html[data-demo='makeup-store-1'] .custom-new {
+            grid-template-columns: minmax(15rem, 0.9fr) minmax(0, 4fr);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-new-intro {
+        color: var(--color-text-soft);
+        background: color-mix(in oklch, var(--color-accent-base) 14%, var(--color-bg));
+        border-radius: var(--radius-2xl);
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.5rem;
+        font-size: 0.9375rem;
+        line-height: 1.6;
+        display: flex;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-new-mark {
+        font-family: var(--font-heading);
+        letter-spacing: -0.02em;
+        color: var(--color-text);
+        margin: 0 0 auto;
+        padding-bottom: 1.25rem;
+        font-size: 2rem;
+        font-weight: 300;
+        line-height: 1;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-new-facts {
+        border-top: 1px solid color-mix(in oklch, var(--color-accent-base) 28%, transparent);
+        gap: 0.5rem;
+        margin: 0;
+        padding: 1rem 0 0;
+        list-style: none;
+        display: grid;
+
+        & li {
+            color: var(--color-text);
+            align-items: center;
+            gap: 0.625rem;
+            font-size: 0.9375rem;
+            display: flex;
+        }
+
+        & i {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-new-list > :nth-child(odd) .product-card-media {
+        background:
+            radial-gradient(ellipse 40% 6% at 50% 88%, #5032281f, transparent 70%),
+            radial-gradient(circle at 50% 42%, var(--custom-lit), transparent 62%),
+            color-mix(in oklch, var(--color-accent-base) 20%, var(--color-bg));
+    }
+
+    html[data-demo='makeup-store-1'] .custom-new-list .product-card-media {
+        aspect-ratio: 3 / 4;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-new-list .product-card-img {
+        padding: 16% 20% 18%;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-studio {
+        --dock-inset: 1.25rem;
+        isolation: isolate;
+        min-height: clamp(34rem, 44vw, 42rem);
+        padding: var(--dock-inset);
+        background: var(--custom-tile);
+        border-radius: var(--custom-round);
+        align-items: flex-end;
+        display: flex;
+        position: relative;
+        overflow: clip;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-studio-img {
+        z-index: -1;
+        object-fit: cover;
+        object-position: 62% 50%;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        inset: 0;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-studio-card {
+        background: var(--color-bg);
+        border-radius: max(0.75rem, var(--custom-round) - var(--dock-inset));
+        width: min(100%, 31rem);
+        padding: clamp(1.5rem, 2.6vw, 2.25rem);
+        box-shadow: 0 22px 56px #3c23191f;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-studio-facts {
+        gap: 0.5rem;
+        margin: 1.25rem 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        & li {
+            align-items: center;
+            gap: 0.625rem;
+            font-size: 0.9375rem;
+            display: flex;
+        }
+
+        & i {
+            color: var(--color-primary-ink);
+            font-size: 1.125rem;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-studio-times {
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1.25rem;
+        font-size: 0.875rem;
+        display: flex;
+
+        & span {
+            color: var(--color-text-muted);
+            margin-right: 0.25rem;
+        }
+
+        & a {
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-full);
+            transition:
+                color var(--duration-fast) var(--ease-out),
+                background-color var(--duration-fast) var(--ease-out),
+                border-color var(--duration-fast) var(--ease-out);
+            padding: 0.375rem 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+
+            &:hover {
+                color: var(--color-on-primary);
+                background: var(--color-primary);
+                border-color: var(--color-primary);
+            }
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-reviews {
+        gap: 2.5rem;
+        display: grid;
+    }
+
+    @media (width >= 1280px) {
+        html[data-demo='makeup-store-1'] .custom-reviews {
+            grid-template-columns: minmax(17rem, 1fr) minmax(0, 3fr);
+            gap: clamp(2.5rem, 4vw, 4.5rem);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-score {
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1.75rem;
+        display: flex;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-score-num {
+        font-family: var(--font-heading);
+        letter-spacing: -0.04em;
+        margin: 0;
+        font-size: 3.75rem;
+        font-weight: 300;
+        line-height: 1;
+    }
+
+    html[data-demo='makeup-store-1'] :is(.custom-reviews, .custom-card) .product-rating {
+        --rating-color: oklch(from var(--color-accent-base) calc(l - 0.06) c h);
+    }
+
+    html[data-demo='makeup-store-1'] .custom-review-list {
+        gap: 1.25rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+    }
+
+    @media (width >= 768px) {
+        html[data-demo='makeup-store-1'] .custom-review-list {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-review {
+        background: var(--color-surface, #fff);
+        border-radius: var(--radius-2xl);
+        flex-direction: column;
+        padding: 1.75rem 1.5rem 1.5rem;
+        display: flex;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-review-title {
+        letter-spacing: -0.015em;
+        margin: 1rem 0 0;
+        font-size: 1.25rem;
+        font-weight: 400;
+        line-height: 1.3;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-review-text {
+        color: var(--color-text-soft);
+        margin: 0.75rem 0 1.25rem;
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-review-shade {
+        white-space: nowrap;
+        color: var(--color-text-soft);
+        background: var(--color-bg-soft);
+        border-radius: var(--radius-full);
+        align-self: flex-start;
+        align-items: center;
+        gap: 0.5rem;
+        margin: auto 0 0;
+        padding: 0.4375rem 0.875rem 0.4375rem 0.5rem;
+        font-size: 0.875rem;
+        display: inline-flex;
+
+        & strong {
+            color: var(--color-text);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-review-foot {
+        color: var(--color-text-muted);
+        border-top: 1px solid var(--color-border-soft);
+        flex-direction: column;
+        gap: 0.25rem;
+        margin-top: 1.25rem;
+        padding-top: 1rem;
+        font-size: 0.875rem;
+        display: flex;
+
+        & strong {
+            color: var(--color-text);
+            font-weight: 600;
+        }
+
+        & a {
+            color: var(--color-primary-ink);
+            text-decoration: underline;
+            -webkit-text-decoration-color: color-mix(in oklch, currentColor 35%, transparent);
+            text-decoration-color: color-mix(in oklch, currentColor 35%, transparent);
+            text-underline-offset: 3px;
+
+            &:hover {
+                text-decoration-color: currentColor;
+            }
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-posts {
+        gap: 2.5rem 1.5rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+    }
+
+    @media (width >= 768px) {
+        html[data-demo='makeup-store-1'] .custom-posts {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-post {
+        color: var(--color-text);
+        flex-direction: column;
+        text-decoration: none;
+        display: flex;
+
+        &:hover .custom-post-title {
+            color: var(--color-primary-ink);
+        }
+
+        &:hover .custom-post-media img {
+            scale: 1.04;
+        }
+
+        &:focus-visible {
+            outline: none;
+        }
+
+        &:focus-visible .custom-post-media {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 4px;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-post-media {
+        aspect-ratio: 4 / 3;
+        background: var(--custom-tile);
+        border-radius: var(--radius-2xl);
+        display: block;
+        position: relative;
+        overflow: clip;
+
+        & img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            transition: scale 0.9s var(--ease-out);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-post-chip {
+        color: var(--custom-photo-ink);
+        border-radius: var(--radius-full);
+        background: #ffffffe6;
+        align-items: center;
+        gap: 0.375rem;
+        padding: 0.375rem 0.75rem;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        display: inline-flex;
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-post-meta {
+        color: var(--color-text-muted);
+        margin-top: 1.25rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-post-title {
+        font-family: var(--font-heading);
+        letter-spacing: -0.02em;
+        text-wrap: balance;
+        transition: color var(--duration-fast) var(--ease-out);
+        margin-top: 0.375rem;
+        font-size: 1.375rem;
+        line-height: 1.25;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-footer {
+        --footer-bg: color-mix(in oklch, var(--color-tertiary-base) 55%, var(--color-bg));
+        --footer-rule: color-mix(in oklch, var(--color-text) 16%, transparent);
+
+        & .footer-main {
+            padding-top: clamp(3rem, 5vw, 4.5rem);
+        }
+
+        & .footer-col-title {
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+            font-size: 0.8125rem;
+        }
+
+        & .footer-links a {
+            font-size: 0.9375rem;
+        }
+
+        & .footer-bottom {
+            border-top: 1px solid var(--footer-rule);
+        }
+
+        & .pay-mark {
+            color: var(--color-text-soft);
+            background: var(--color-surface, #fff);
+        }
+
+        & .pay-mark--visa {
+            color: var(--color-text-soft);
+        }
+
+        & .pay-mark-circles i {
+            background: color-mix(in oklch, var(--color-text) 45%, transparent);
+        }
+
+        & .pay-mark-circles i + i {
+            background: color-mix(in oklch, var(--color-text) 25%, transparent);
+            mix-blend-mode: normal;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-footer-cards {
+        gap: 1.25rem;
+        display: grid;
+    }
+
+    @media (width >= 1024px) {
+        html[data-demo='makeup-store-1'] .custom-footer-cards {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-fcard {
+        background: var(--color-surface, #fff);
+        border-radius: var(--custom-round);
+        flex-direction: column;
+        padding: clamp(1.5rem, 2.8vw, 2.5rem);
+        display: flex;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-fcard--insider {
+        --card-pad: clamp(1.5rem, 2.8vw, 2.5rem);
+        gap: var(--card-pad);
+        padding: var(--card-pad);
+        flex-direction: row;
+
+        & .custom-fcard-body {
+            flex-direction: column;
+            flex: 1;
+            display: flex;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-fcard-img {
+        object-fit: cover;
+        border-radius: max(0.75rem, var(--custom-round) - var(--card-pad));
+        width: 40%;
+        max-width: 18rem;
+        min-height: 100%;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-fcard-ramp {
+        margin: 0 0 1.75rem;
+        padding: 0;
+        list-style: none;
+        display: flex;
+
+        & li {
+            background: var(--custom-lacquer), var(--custom-shade);
+            border-radius: var(--radius-full);
+            width: 2.25rem;
+            height: 2.25rem;
+            box-shadow: 0 0 0 3px var(--color-surface, #fff);
+        }
+
+        & li + li {
+            margin-left: -0.5rem;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-fcard-title {
+        letter-spacing: -0.025em;
+        margin: 0;
+        font-size: clamp(1.5rem, 1.2rem + 0.8vw, 2rem);
+        font-weight: 400;
+        line-height: 1.15;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-fcard-text {
+        max-width: 28rem;
+        color: var(--color-text-soft);
+        margin: 0.875rem 0 0;
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-perks {
+        gap: 0.5rem;
+        margin: 1.125rem 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        & li {
+            align-items: center;
+            gap: 0.625rem;
+            font-size: 1rem;
+            display: flex;
+        }
+
+        & i {
+            color: var(--color-primary-ink);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-meter {
+        max-width: 22rem;
+        margin-top: 1.5rem;
+
+        & .progress {
+            background: var(--custom-tile);
+        }
+
+        & .progress-bar {
+            background: var(--color-primary);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-meter-note {
+        color: var(--color-text-muted);
+        margin: 0.625rem 0 0;
+        font-size: 0.875rem;
+
+        & strong {
+            color: var(--color-text);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-footer-grid {
+        gap: 3rem;
+        margin-top: clamp(3rem, 5vw, 4.5rem);
+        display: grid;
+    }
+
+    @media (width >= 1024px) {
+        html[data-demo='makeup-store-1'] .custom-footer-grid {
+            grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+            gap: 4rem;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-footer-brand {
+        color: var(--color-text);
+        margin-bottom: 2rem;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-footer-letter {
+        letter-spacing: -0.02em;
+        margin: 0;
+        font-size: 1.375rem;
+        font-weight: 400;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-footer-cols {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 2.5rem 2rem;
+        display: grid;
+    }
+
+    @media (width >= 768px) {
+        html[data-demo='makeup-store-1'] .custom-footer-cols {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+    }
+
+    @media (width <= 639px) {
+        html[data-demo='makeup-store-1'] .custom-fcard--insider {
+            flex-direction: column-reverse;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-fcard-img {
+            aspect-ratio: 16 / 9;
+            width: 100%;
+            max-width: none;
+            min-height: 0;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-look-sum {
+        white-space: nowrap;
+    }
+
+    @media (width >= 768px) and (width <= 1279px) {
+        html[data-demo='makeup-store-1'] .custom-look-dock {
+            gap: 0.625rem;
+            padding: 0.5rem;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-look-items {
+            gap: 0.25rem;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-look-items li {
+            width: 2.75rem;
+            height: 2.75rem;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-look-items img {
+            max-width: 2.125rem;
+            max-height: 2.125rem;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-look-sum span {
+            display: none;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-look-add {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-reviews-intro {
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: end;
+            column-gap: 3rem;
+            display: grid;
+
+            & > * {
+                grid-column: 1;
+            }
+
+            & .custom-score {
+                grid-area: 1 / 2 / span 3;
+                margin: 0;
+            }
+        }
+    }
+
+    @media (width <= 767px) {
+        html[data-demo='makeup-store-1'] .custom-swipe {
+            margin-inline: calc(var(--container-x) * -1);
+            padding-inline: var(--container-x);
+            scroll-snap-type: x mandatory;
+            scroll-padding-inline: var(--container-x);
+            scrollbar-width: none;
+            gap: 0.875rem;
+            display: flex;
+            overflow-x: auto;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+            & > * {
+                scroll-snap-align: start;
+                flex: 0 0 84%;
+            }
+        }
+
+        html[data-demo='makeup-store-1'] .custom-card .product-card-img {
+            padding: 10% 12% 14%;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-studio {
+            background: none;
+            min-height: 0;
+            padding: 0;
+            display: block;
+            overflow: visible;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-studio-img {
+            aspect-ratio: 4 / 3;
+            object-position: 70% 50%;
+            border-radius: var(--custom-round);
+            height: auto;
+            position: static;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-studio-card {
+            width: auto;
+            margin: -3rem 0.75rem 0;
+            position: relative;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-ph {
+        padding-top: clamp(1.25rem, 2.4vw, 2.25rem);
+    }
+
+    html[data-demo='makeup-store-1'] .custom-ph-row {
+        gap: 1rem 4rem;
+        margin-top: 1.75rem;
+        display: grid;
+
+        @media (width >= 1024px) {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 30rem);
+            align-items: end;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-ph-title {
+        letter-spacing: -0.035em;
+        text-wrap: balance;
+        margin: 0;
+        font-size: clamp(2.25rem, 1.6rem + 2vw, 3.5rem);
+        font-weight: 300;
+        line-height: 1.04;
+
+        & strong {
+            font-weight: 500;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-ph-title--lg {
+        color: inherit;
+        font-size: clamp(2.5rem, 1.7rem + 2.6vw, 4.25rem);
+    }
+
+    html[data-demo='makeup-store-1'] .custom-ph-lead {
+        max-width: 34rem;
+        color: var(--color-text-soft);
+        margin: 0;
+        font-size: 1.0625rem;
+        line-height: 1.6;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-ph--steps .custom-ph-lead {
+        margin-top: 1rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-ph-frame {
+        isolation: isolate;
+        color: #fff;
+        background: oklch(from var(--color-secondary-base) 0.38 0.035 h);
+        border-radius: var(--custom-round);
+        min-height: clamp(24rem, 52vh, 32rem);
+        display: flex;
+        position: relative;
+        overflow: clip;
+
+        &:after {
+            content: '';
+            z-index: -1;
+            background: linear-gradient(90deg, #1a0e0a99 0%, #1a0e0a42 48%, #1a0e0a00 72%);
+            position: absolute;
+            inset: 0;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-ph-img {
+        z-index: -2;
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        inset: 0;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-ph-copy {
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 3rem;
+        max-width: 42rem;
+        padding: clamp(1.5rem, 4vw, 3.5rem);
+        display: flex;
+
+        & .custom-ph-lead {
+            color: #ffffffdb;
+            margin-top: 1.25rem;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-chips .cat-chip-img {
+        background:
+            radial-gradient(circle at 50% 42%, var(--custom-lit), transparent 64%),
+            var(--custom-tile);
+
+        & img {
+            object-fit: contain;
+            padding: 14%;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-chips .cat-chip[aria-current='true'] {
+        border-color: var(--color-text);
+    }
+
+    html[data-demo='makeup-store-1'] .custom-filters .filter-option-swatch {
+        background: var(--custom-lacquer), var(--swatch);
+    }
+
+    html[data-demo='makeup-store-1'] .custom-promo {
+        isolation: isolate;
+        color: #fff;
+        background: oklch(from var(--color-secondary-base) 0.32 0.03 h);
+        border-radius: var(--custom-round);
+        flex-direction: column;
+        justify-content: flex-end;
+        height: 100%;
+        min-height: 24rem;
+        padding: clamp(1.75rem, 3vw, 2.75rem);
+        text-decoration: none;
+        display: flex;
+        position: relative;
+        overflow: clip;
+
+        &:after {
+            content: '';
+            z-index: -1;
+            background: linear-gradient(0deg, #1a0e0a9e, #1a0e0a00 62%);
+            position: absolute;
+            inset: 0;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-promo-img {
+        z-index: -2;
+        object-fit: cover;
+        object-position: 70% 30%;
+        width: 100%;
+        height: 100%;
+        transition: scale 1.6s var(--ease-out);
+        position: absolute;
+        inset: 0;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-promo:hover .custom-promo-img {
+        scale: 1.04;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-promo-title {
+        max-width: 15ch;
+        font-family: var(--font-heading);
+        letter-spacing: -0.03em;
+        font-size: clamp(1.75rem, 1.3rem + 1.2vw, 2.5rem);
+        font-weight: 300;
+        line-height: 1.08;
+
+        & strong {
+            font-weight: 500;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-promo-text {
+        color: #ffffffd6;
+        max-width: 26rem;
+        margin-top: 1rem;
+        line-height: 1.6;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-empty {
+        text-align: center;
+        background: var(--color-bg-soft);
+        border-radius: var(--custom-round);
+        margin-top: 2.5rem;
+        padding: 4rem 1.5rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-empty-icon {
+        width: 4rem;
+        height: 4rem;
+        color: var(--color-primary-ink);
+        background: var(--color-bg);
+        border-radius: var(--radius-full);
+        place-items: center;
+        font-size: 1.75rem;
+        display: inline-grid;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-brands {
+        border-top: 1px solid var(--color-border);
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+        gap: 0;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        & li {
+            min-height: 3.75rem;
+            font-family: var(--font-heading);
+            color: var(--color-text-soft);
+            border-bottom: 1px solid var(--color-border);
+            align-items: center;
+            font-size: 1.1875rem;
+            font-weight: 300;
+            display: flex;
+        }
+
+        & a {
+            white-space: nowrap;
+            color: var(--color-text);
+            align-items: baseline;
+            gap: 0.625rem;
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+
+            &:hover {
+                color: var(--color-primary-ink);
+            }
+        }
+
+        & span {
+            font-family: var(--font-sans);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--color-primary-ink);
+            font-size: 0.8125rem;
+            font-weight: 600;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-usp .usp-icon {
+        color: var(--color-primary-ink);
+    }
+
+    @media (width <= 767px) {
+        html[data-demo='makeup-store-1'] .custom-promo {
+            min-height: 32rem;
+        }
+
+        html[data-demo='makeup-store-1'] .custom-promo-img {
+            object-position: 72% 0%;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-wide {
+        max-width: min(120rem, 100%);
+    }
+
+    html[data-demo='makeup-store-1'] .custom-wallhead {
+        gap: 2.5rem 4rem;
+        margin-top: 1.75rem;
+        display: grid;
+
+        @media (width >= 1024px) {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+            align-items: end;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-wallboard {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.75rem;
+        display: grid;
+
+        @media (width <= 639px) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-family {
+        font: inherit;
+        color: var(--color-text);
+        background: var(--custom-tile);
+        border-radius: max(1rem, var(--custom-round) - 0.75rem);
+        cursor: pointer;
+        transition:
+            border-color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out);
+        border: 1px solid #0000;
+        justify-items: center;
+        gap: 0.875rem;
+        padding: 1.25rem 0.75rem 1rem;
+        display: grid;
+
+        &:hover {
+            border-color: var(--color-border);
+        }
+
+        &[aria-pressed='true'] {
+            background: var(--color-bg);
+            border-color: var(--color-text);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 3px;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-family-pans {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.375rem;
+        display: grid;
+
+        & i {
+            aspect-ratio: 1;
+            background: var(--custom-lacquer), var(--custom-shade);
+            border-radius: var(--radius-full);
+            width: 2.25rem;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-family-name {
+        font-family: var(--font-heading);
+        font-size: 1.125rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-types {
+        gap: 0.25rem;
+        margin-right: auto;
+        display: flex;
+
+        & button {
+            height: 2.5rem;
+            font: inherit;
+            color: var(--color-text-soft);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            background: none;
+            border: 0;
+            padding-inline: 1rem;
+            font-weight: 500;
+
+            &:hover {
+                color: var(--color-text);
+                background: var(--color-bg-soft);
+            }
+
+            &[aria-pressed='true'] {
+                color: var(--color-text);
+                background: var(--custom-tile);
+            }
+
+            &:focus-visible {
+                outline: 2px solid var(--color-primary);
+                outline-offset: 2px;
+            }
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-tip {
+        background: var(--color-bg-soft);
+        border-radius: var(--custom-round);
+        display: grid;
+        overflow: clip;
+
+        @media (width >= 768px) {
+            grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+            align-items: center;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-tip-img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        max-height: 30rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-tip-body {
+        padding: clamp(1.75rem, 4vw, 4rem);
+    }
+
+    html[data-demo='makeup-store-1'] .custom-pdp {
+        --custom-bare-nude: #c99a85;
+        --custom-peach-silk: #dc8a6c;
+        --custom-rose-clay: #bf6a6c;
+        --custom-petal-pout: #d98a98;
+        --custom-cinnamon: #9e4b33;
+        --custom-cherry-lacquer: #b3302a;
+        --custom-garnet: #8a1426;
+        --custom-velvet-fig: #6e1f3a;
+        background: var(--custom-tile);
+        padding-bottom: clamp(3rem, 6vw, 5rem);
+    }
+
+    html[data-demo='makeup-store-1'] .custom-views {
+        gap: 0.625rem;
+        display: flex;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-view {
+        background: var(--color-bg);
+        border-radius: var(--radius-lg);
+        cursor: pointer;
+        border: 1px solid #0000;
+        place-items: center;
+        width: 4rem;
+        height: 4.75rem;
+        padding: 0.375rem;
+        display: grid;
+        overflow: clip;
+
+        & img {
+            object-fit: contain;
+            width: 100%;
+            height: 100%;
+        }
+
+        &:hover {
+            border-color: var(--color-border);
+        }
+
+        &.is-active {
+            border-color: var(--color-text);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-view--photo {
+        padding: 0;
+
+        & img {
+            object-fit: cover;
+            object-position: 65% 35%;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-stagebox {
+        aspect-ratio: 1 / 1.02;
+        background:
+            radial-gradient(ellipse 30% 4% at 50% 86%, #50322829, transparent 70%),
+            radial-gradient(circle at 50% 44%, var(--custom-lit), transparent 62%),
+            var(--color-bg-soft);
+        border-radius: var(--custom-round);
+        position: relative;
+        overflow: clip;
+
+        & > img,
+        & > div {
+            transition: opacity 0.6s var(--ease-out);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-stagebox-bullet {
+        object-fit: contain;
+        width: 100%;
+        height: 78%;
+        position: absolute;
+        inset: 9% 0 13%;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-stagebox-photo {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        inset: 0;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-stagebox-row {
+        justify-content: center;
+        gap: 6%;
+        display: flex;
+        position: absolute;
+        inset: 18% 8% 14%;
+
+        & img {
+            object-fit: contain;
+            object-position: bottom;
+            width: 18%;
+            height: 100%;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-stagebox-tag {
+        background: var(--color-bg);
+        border-radius: var(--radius-full);
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem 0.5rem 0.625rem;
+        font-weight: 500;
+        display: inline-flex;
+        position: absolute;
+        bottom: 1rem;
+        left: 1rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-product-title {
+        letter-spacing: -0.035em;
+        margin-top: 0;
+        font-weight: 300;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-badge {
+        color: var(--color-primary-ink);
+        background: var(--color-bg);
+        font-weight: 600;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-buy {
+        border-top: 1px solid color-mix(in oklch, var(--color-text) 12%, transparent);
+        max-width: 32rem;
+        margin-top: 1.75rem;
+        padding-top: 1.75rem;
+
+        & .option-pill > input:not(:checked) + span {
+            background: var(--color-bg);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-shade-picker {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        display: flex;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-shade-pick {
+        background: var(--custom-lacquer), var(--custom-shade);
+        border-radius: var(--radius-full);
+        width: 2.5rem;
+        height: 2.5rem;
+        box-shadow:
+            0 0 0 3px var(--custom-tile),
+            0 0 0 4px transparent;
+        cursor: pointer;
+        transition: box-shadow var(--duration-fast) var(--ease-out);
+        position: relative;
+
+        & input {
+            opacity: 0;
+            cursor: pointer;
+            position: absolute;
+            inset: 0;
+        }
+
+        &:hover {
+            box-shadow:
+                0 0 0 3px var(--custom-tile),
+                0 0 0 4.5px var(--color-border);
+        }
+
+        &:has(:checked) {
+            box-shadow:
+                0 0 0 3px var(--custom-tile),
+                0 0 0 5px var(--color-text);
+        }
+
+        &:has(:focus-visible) {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 6px;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-heart {
+        width: 3.25rem;
+        height: 3.25rem;
+        color: var(--color-text);
+        background: var(--color-bg);
+        border-radius: var(--radius-full);
+        cursor: pointer;
+        transition:
+            color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out);
+        border: 0;
+        flex-shrink: 0;
+        place-items: center;
+        font-size: 1.25rem;
+        display: grid;
+
+        &:hover,
+        &[aria-pressed='true'] {
+            color: var(--color-on-primary);
+            background: var(--color-primary);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-perks-row {
+        color: var(--color-text-soft);
+        flex-wrap: wrap;
+        gap: 0.5rem 1.5rem;
+        margin: 1.5rem 0 0;
+        padding: 0;
+        font-size: 0.9375rem;
+        list-style: none;
+        display: flex;
+
+        & li {
+            align-items: center;
+            gap: 0.5rem;
+            display: flex;
+        }
+
+        & i {
+            color: var(--color-primary-ink);
+            font-size: 1.125rem;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-visit {
+        max-width: 32rem;
+        color: var(--color-text-soft);
+        background: var(--color-bg);
+        border-radius: var(--radius-xl);
+        align-items: center;
+        gap: 0.875rem;
+        margin-top: 1.5rem;
+        padding: 1rem 1.25rem;
+        font-size: 0.9375rem;
+        text-decoration: none;
+        display: flex;
+
+        & strong {
+            color: var(--color-text);
+            font-weight: 600;
+        }
+
+        & i {
+            color: var(--color-primary-ink);
+            font-size: 1.25rem;
+        }
+
+        & i:last-child {
+            transition: translate var(--duration-base) var(--ease-out);
+            margin-left: auto;
+            font-size: 1rem;
+        }
+
+        &:hover i:last-child {
+            translate: 0.25rem;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] :is(.custom-h3, .custom-h4) {
+        letter-spacing: -0.02em;
+        margin: 0;
+        font-weight: 400;
+        line-height: 1.15;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-h3 {
+        font-size: clamp(1.625rem, 1.3rem + 0.9vw, 2.125rem);
+    }
+
+    html[data-demo='makeup-store-1'] .custom-h4 {
+        font-size: 1.25rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-media {
+        aspect-ratio: 4 / 3;
+        border-radius: var(--custom-round);
+        overflow: clip;
+
+        & > img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-media--tile {
+        background:
+            radial-gradient(circle at 50% 44%, var(--custom-lit), transparent 62%),
+            var(--custom-tile);
+        place-items: center;
+        display: grid;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-media-row {
+        justify-content: center;
+        gap: 8%;
+        width: 70%;
+        height: 72%;
+        display: flex;
+
+        & img {
+            object-fit: contain;
+            object-position: bottom;
+            width: 16%;
+            height: 100%;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-facts {
+        border-top: 1px solid var(--color-border);
+        flex-wrap: wrap;
+        gap: 1.5rem 2.5rem;
+        margin: 2rem 0 0;
+        padding: 1.75rem 0 0;
+        list-style: none;
+        display: flex;
+
+        & li {
+            gap: 0.25rem;
+            display: grid;
+        }
+
+        & strong {
+            font-family: var(--font-heading);
+            letter-spacing: -0.03em;
+            font-size: 2.25rem;
+            font-weight: 300;
+            line-height: 1;
+        }
+
+        & span {
+            color: var(--color-text-soft);
+            font-size: 0.9375rem;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-steps {
+        gap: 1.25rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        @media (width >= 768px) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        @media (width >= 1280px) {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        & li {
+            background: var(--color-bg-soft);
+            border-radius: var(--radius-2xl);
+            align-content: start;
+            gap: 0.875rem;
+            padding: 1.75rem;
+            display: grid;
+        }
+
+        & p {
+            color: var(--color-text-soft);
+            margin: 0;
+            line-height: 1.6;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-specs {
+        border-top: 1px solid var(--color-border);
+        max-width: 46rem;
+        margin: 0 auto;
+
+        & > div {
+            border-bottom: 1px solid var(--color-border);
+            justify-content: space-between;
+            gap: 2rem;
+            padding-block: 1rem;
+            display: flex;
+        }
+
+        & dt {
+            color: var(--color-text-soft);
+        }
+
+        & dd {
+            text-align: right;
+            margin: 0;
+            font-weight: 600;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-bars {
+        border-top: 1px solid var(--color-border);
+        gap: 0.875rem;
+        margin: 1.75rem 0 0;
+        padding: 1.5rem 0 0;
+        list-style: none;
+        display: grid;
+
+        & li {
+            color: var(--color-text-soft);
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 0.375rem 1rem;
+            font-size: 0.9375rem;
+            display: grid;
+        }
+
+        & .progress {
+            grid-area: 2 / 1 / auto / -1;
+        }
+
+        & strong {
+            color: var(--color-text);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] #details .custom-review {
+        border: 1px solid var(--color-border-soft);
+    }
+
+    html[data-demo='makeup-store-1'] .custom-panel {
+        background: var(--color-bg-soft);
+        border-color: #0000;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-points {
+        color: var(--color-text-soft);
+        background: var(--color-bg);
+        border-radius: var(--radius-lg);
+        align-items: center;
+        gap: 0.625rem;
+        margin: 1.25rem 0 0;
+        padding: 0.75rem 1rem;
+        font-size: 0.9375rem;
+        display: flex;
+
+        & i {
+            color: var(--color-accent-base);
+            font-size: 1.125rem;
+        }
+
+        & strong {
+            color: var(--color-text);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-samples {
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-2xl);
+        margin-top: 2.5rem;
+        padding: 1.5rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-samples-title {
+        align-items: center;
+        gap: 0.625rem;
+        margin-bottom: 1.25rem;
+        font-weight: 600;
+        display: flex;
+
+        & i {
+            color: var(--color-primary-ink);
+            font-size: 1.25rem;
+        }
+
+        & span {
+            margin-left: auto;
+            font-weight: 400;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-samples-grid {
+        grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+        gap: 0.75rem;
+        display: grid;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-sample {
+        text-align: center;
+        border-radius: var(--radius-xl);
+        cursor: pointer;
+        transition:
+            border-color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out);
+        border: 1px solid #0000;
+        justify-items: center;
+        gap: 0.25rem;
+        padding: 0.75rem 0.5rem 0.875rem;
+        display: grid;
+        position: relative;
+
+        & input {
+            accent-color: var(--color-primary);
+            position: absolute;
+            top: 0.625rem;
+            right: 0.625rem;
+        }
+
+        &:hover {
+            background: var(--color-bg-soft);
+        }
+
+        &:has(:checked) {
+            border-color: var(--color-text);
+        }
+
+        &:has(:disabled) {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        &:has(:focus-visible) {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-sample-disc {
+        background:
+            radial-gradient(circle at 50% 42%, var(--custom-lit), transparent 64%),
+            var(--custom-tile);
+        border-radius: var(--radius-full);
+        place-items: center;
+        width: 4.5rem;
+        height: 4.5rem;
+        margin-bottom: 0.5rem;
+        display: grid;
+
+        & img {
+            object-fit: contain;
+            width: 2.875rem;
+            height: 2.875rem;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-sample-name {
+        font-size: 0.9375rem;
+        font-weight: 500;
+        line-height: 1.3;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-sample-size {
+        color: var(--color-text-muted);
+        font-size: 0.875rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-earned {
+        background: var(--color-bg-soft);
+        border-radius: var(--radius-2xl);
+        padding: 1.75rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-earned-title {
+        font-family: var(--font-heading);
+        letter-spacing: -0.02em;
+        margin: 0;
+        font-size: 1.625rem;
+        font-weight: 300;
+
+        & strong {
+            font-weight: 500;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-account {
+        align-items: start;
+        gap: 3rem;
+        display: grid;
+
+        @media (width >= 1024px) {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            align-items: center;
+            gap: 4rem;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-insider {
+        background: oklch(from var(--color-secondary-base) 0.38 0.035 h);
+        border-radius: var(--custom-round);
+        align-items: flex-end;
+        min-height: 36rem;
+        padding: 1rem;
+        display: flex;
+        position: relative;
+        overflow: clip;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-insider-img {
+        object-fit: cover;
+        object-position: 62% 30%;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        inset: 0;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-insider-card {
+        background: var(--color-bg);
+        border-radius: max(1rem, var(--custom-round) - 1rem);
+        width: min(100%, 26rem);
+        padding: 1.75rem;
+        position: relative;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-lookup {
+        gap: 2rem 4rem;
+        display: grid;
+
+        @media (width >= 1024px) {
+            grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+            align-items: center;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-lookup-form {
+        background: var(--color-surface, #fff);
+        border-radius: var(--radius-2xl);
+        padding: clamp(1.5rem, 3vw, 2.25rem);
+    }
+
+    html[data-demo='makeup-store-1'] .custom-quiz {
+        scroll-margin-top: calc(var(--header-h) + 1.5rem);
+    }
+
+    html[data-demo='makeup-store-1'] .custom-quiz-head {
+        border-bottom: 1px solid var(--color-border);
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 1.5rem 3rem;
+        margin-bottom: 2.5rem;
+        padding-bottom: 2rem;
+        display: flex;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-quiz-steps {
+        margin: 0;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-quiz-step {
+        border: 0;
+        min-width: 0;
+        margin: 0;
+        padding: 0;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-choices {
+        grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+        gap: 0.875rem;
+        margin-top: 1.75rem;
+        display: grid;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-choices--3 {
+        grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    }
+
+    html[data-demo='makeup-store-1'] .custom-choice {
+        background: var(--color-bg-soft);
+        border-radius: var(--radius-2xl);
+        cursor: pointer;
+        transition:
+            border-color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out);
+        border: 1px solid #0000;
+        justify-items: start;
+        gap: 0.375rem;
+        padding: 1.5rem 1.25rem 1.375rem;
+        display: grid;
+        position: relative;
+
+        & input {
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+        }
+
+        &:hover {
+            border-color: var(--color-border);
+        }
+
+        &:has(:checked) {
+            background: var(--color-bg);
+            border-color: var(--color-text);
+        }
+
+        &:has(:focus-visible) {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 3px;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-choice-skin {
+        background: var(--custom-lacquer), var(--custom-shade);
+        border-radius: var(--radius-full);
+        width: 3rem;
+        height: 3rem;
+        margin-bottom: 0.75rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-choice-icon {
+        width: 3rem;
+        height: 3rem;
+        color: var(--color-primary-ink);
+        background: var(--custom-tile);
+        border-radius: var(--radius-full);
+        place-items: center;
+        margin-bottom: 0.75rem;
+        font-size: 1.375rem;
+        display: grid;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-choice-name {
+        font-family: var(--font-heading);
+        font-size: 1.25rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-choice-note {
+        color: var(--color-text-soft);
+        font-size: 0.9375rem;
+        line-height: 1.45;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-tests {
+        gap: 0.75rem;
+        margin-top: 1.25rem;
+        display: grid;
+
+        @media (width >= 1024px) {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        & p {
+            color: var(--color-text-soft);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            gap: 0.75rem;
+            margin: 0;
+            padding: 1rem 1.25rem;
+            line-height: 1.5;
+            display: flex;
+        }
+
+        & i {
+            color: var(--color-primary-ink);
+            flex-shrink: 0;
+            font-size: 1.25rem;
+        }
+
+        & strong {
+            color: var(--color-text);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-result {
+        gap: 2rem;
+        display: grid;
+
+        @media (width >= 1024px) {
+            grid-template-columns: minmax(16rem, 0.8fr) minmax(0, 2fr);
+            gap: 3rem;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-result-shade {
+        background: var(--color-bg-soft);
+        border-radius: var(--radius-2xl);
+        padding: 2rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-result-skin {
+        background: var(--custom-lacquer), var(--custom-shade);
+        border-radius: var(--radius-full);
+        width: 5.5rem;
+        height: 5.5rem;
+        box-shadow: 0 0 0 6px var(--color-bg);
+        display: block;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-result-code {
+        font-family: var(--font-heading);
+        letter-spacing: -0.04em;
+        margin: 1.5rem 0 0.25rem;
+        font-size: 3.5rem;
+        font-weight: 300;
+        line-height: 1;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-result-note {
+        color: var(--color-text-soft);
+        border-top: 1px solid var(--color-border);
+        margin: 1.25rem 0 0;
+        padding-top: 1.25rem;
+        font-size: 0.9375rem;
+        line-height: 1.55;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-result-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        @media (width <= 639px) {
+            grid-template-columns: 1fr;
+        }
+
+        & li {
+            align-content: start;
+            gap: 0.25rem;
+            display: grid;
+        }
+
+        & .custom-match-thumb {
+            aspect-ratio: 1 / 0.9;
+            height: auto;
+            margin-bottom: 0.75rem;
+        }
+
+        & .custom-match-thumb img {
+            max-width: 64%;
+            max-height: 72%;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-result-foot {
+        flex-wrap: wrap;
+        grid-column: 1 / -1;
+        align-items: center;
+        gap: 1rem 1.5rem;
+        display: flex;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-ramp {
+        gap: 0.75rem;
+        display: grid;
+    }
+
+    html[data-demo='makeup-store-1'] :is(.custom-ramp-row, .custom-ramp-scale) {
+        grid-template-columns: 5.5rem repeat(8, minmax(0, 1fr));
+        align-items: center;
+        gap: 0.75rem;
+        display: grid;
+
+        & span {
+            color: var(--color-text-soft);
+            font-size: 0.9375rem;
+            font-weight: 500;
+        }
+
+        & i {
+            aspect-ratio: 1.6;
+            background: var(--custom-lacquer), var(--custom-shade);
+            border-radius: var(--radius-lg);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-ramp-scale span {
+        text-align: center;
+        color: var(--color-text-muted);
+        font-variant-numeric: tabular-nums;
+        font-size: 0.875rem;
+    }
+
+    @media (width <= 639px) {
+        html[data-demo='makeup-store-1'] :is(.custom-ramp-row, .custom-ramp-scale) {
+            grid-template-columns: 3.75rem repeat(8, minmax(0, 1fr));
+            gap: 0.25rem;
+        }
+
+        html[data-demo='makeup-store-1'] :is(.custom-ramp-row, .custom-ramp-scale) span {
+            font-size: 0.75rem;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-faq {
+        gap: 2rem 4rem;
+        display: grid;
+
+        @media (width >= 1024px) {
+            grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-cta {
+        isolation: isolate;
+        color: #fff;
+        background: oklch(from var(--color-secondary-base) 0.38 0.035 h);
+        border-radius: var(--custom-round);
+        align-items: center;
+        min-height: 28rem;
+        padding: clamp(1.75rem, 5vw, 4.5rem);
+        display: flex;
+        position: relative;
+        overflow: clip;
+
+        &:after {
+            content: '';
+            z-index: -1;
+            background: linear-gradient(90deg, #1a0e0ab8, #1a0e0a4d 55%, #1a0e0a00 85%);
+            position: absolute;
+            inset: 0;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-cta-img {
+        z-index: -2;
+        object-fit: cover;
+        object-position: 60% 40%;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        inset: 0;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-cta-copy {
+        max-width: 34rem;
+
+        & .custom-promo-title {
+            color: #fff;
+            max-width: 18ch;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-post .img-frame {
+        position: relative;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-post-play {
+        color: var(--color-text);
+        background: var(--color-bg);
+        border-radius: var(--radius-full);
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.875rem 0.5rem 0.625rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        display: inline-flex;
+        position: absolute;
+        bottom: 1rem;
+        left: 1rem;
+
+        & i {
+            width: 1.75rem;
+            height: 1.75rem;
+            color: var(--color-on-primary);
+            background: var(--color-primary);
+            border-radius: var(--radius-full);
+            place-items: center;
+            font-size: 0.75rem;
+            display: grid;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-post-num {
+        color: var(--color-primary-ink);
+        font-variant-numeric: tabular-nums;
+        font-size: 0.9375rem;
+        font-weight: 600;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-topic {
+        color: var(--color-primary-ink);
+        background: var(--custom-tile);
+        font-weight: 600;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-post-title {
+        letter-spacing: -0.02em;
+        text-wrap: balance;
+        margin-bottom: 0;
+        font-size: clamp(1.375rem, 1.2rem + 0.5vw, 1.625rem);
+        font-weight: 400;
+        line-height: 1.2;
+
+        & a {
+            color: inherit;
+            text-decoration: none;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-post-title--lg {
+        margin-top: 0;
+        font-size: clamp(1.75rem, 1.4rem + 1vw, 2.375rem);
+    }
+
+    html[data-demo='makeup-store-1'] .custom-quote {
+        font-family: var(--font-heading);
+        letter-spacing: -0.025em;
+        text-wrap: balance;
+        font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.75rem);
+        font-weight: 300;
+        line-height: 1.2;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-host {
+        background: var(--color-surface, #fff);
+        border-radius: var(--radius-2xl);
+        padding: 1.25rem 1.25rem 1.5rem;
+
+        & img {
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: var(--radius-xl);
+            width: 100%;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-host-role {
+        color: var(--color-primary-ink);
+        margin: 0.25rem 0 0;
+        font-size: 0.9375rem;
+        font-weight: 600;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-host-text {
+        color: var(--color-text-soft);
+        margin: 0.625rem 0 0;
+        line-height: 1.55;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-ways {
+        gap: 0.75rem;
+        margin: 3rem 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        @media (width >= 768px) {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        & a {
+            height: 100%;
+            color: var(--color-text);
+            background: var(--color-bg);
+            border-radius: var(--radius-xl);
+            transition: box-shadow var(--duration-base) var(--ease-out);
+            flex-direction: column;
+            gap: 1.75rem;
+            padding: 1.25rem 1.375rem;
+            text-decoration: none;
+            display: flex;
+
+            &:hover {
+                box-shadow: 0 16px 40px -20px #3c231940;
+            }
+        }
+
+        & span {
+            color: var(--color-primary-ink);
+            font-variant-numeric: tabular-nums;
+            justify-content: space-between;
+            display: flex;
+        }
+
+        & strong {
+            font-weight: 500;
+            line-height: 1.35;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-article h2 .custom-kicker {
+        font-family: var(--font-sans);
+        margin-bottom: 0.5rem;
+        display: flex;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-kit {
+        color: #fff;
+        background: var(--color-dark);
+        border-radius: var(--radius-2xl);
+        padding: clamp(1.75rem, 3vw, 2.25rem);
+    }
+
+    html[data-demo='makeup-store-1'] .custom-kit-title {
+        font-family: var(--font-heading);
+        letter-spacing: -0.03em;
+        color: #fff;
+        margin: 0.25rem 0 0;
+        font-size: 2rem;
+        font-weight: 300;
+
+        & strong {
+            color: inherit;
+            font-weight: 500;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-author {
+        background: var(--color-surface, #fff);
+        border-radius: var(--radius-2xl);
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1.5rem 2rem;
+        max-width: 48rem;
+        margin: 3.5rem auto 0;
+        padding: 1.75rem;
+        display: flex;
+
+        & img {
+            object-fit: cover;
+            border-radius: var(--radius-full);
+            width: 7rem;
+            height: 7rem;
+        }
+
+        & > div {
+            flex: 20rem;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-book-legend {
+        font-family: var(--font-heading);
+        letter-spacing: -0.02em;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.25rem;
+        font-size: 1.5rem;
+        display: flex;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-choices--2 {
+        grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+        margin-top: 0;
+    }
+
+    @media (width >= 640px) {
+        html[data-demo='makeup-store-1'] .custom-choices--2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-band .custom-steps li {
+        background: var(--color-surface, #fff);
+    }
+
+    html[data-demo='makeup-store-1'] .custom-choices--4 {
+        grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+        margin-top: 0;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-choice--row {
+        grid-template-columns: 1fr auto;
+        align-items: baseline;
+
+        & .custom-choice-note {
+            grid-column: 1 / -1;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-choice-price {
+        color: var(--color-primary-ink);
+        font-weight: 600;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-choice--artist {
+        text-align: center;
+        justify-items: center;
+
+        & img {
+            object-fit: cover;
+            border-radius: var(--radius-full);
+            width: 4.5rem;
+            height: 4.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        & .custom-choice-icon {
+            width: 4.5rem;
+            height: 4.5rem;
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-summary {
+        margin: 1rem 0 0;
+
+        & > div {
+            border-bottom: 1px solid var(--color-border);
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 0.875rem;
+            display: flex;
+        }
+
+        & dt {
+            color: var(--color-text-soft);
+        }
+
+        & dd {
+            text-align: right;
+            margin: 0;
+            font-weight: 600;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-booked {
+        text-align: center;
+        max-width: 40rem;
+        scroll-margin-top: calc(var(--header-h) + 2rem);
+        margin-inline: auto;
+        padding-block: 2rem;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-visit-block {
+        gap: 2.5rem 4rem;
+        display: grid;
+
+        @media (width >= 1024px) {
+            grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+            align-items: center;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-info {
+        gap: 1.25rem;
+        margin: 2rem 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        & li {
+            gap: 1rem;
+            display: flex;
+        }
+
+        & i {
+            width: 2.75rem;
+            height: 2.75rem;
+            color: var(--color-primary-ink);
+            background: var(--custom-tile);
+            border-radius: var(--radius-full);
+            flex-shrink: 0;
+            place-items: center;
+            font-size: 1.25rem;
+            display: grid;
+        }
+
+        & span {
+            color: var(--color-text-soft);
+            gap: 0.125rem;
+            line-height: 1.5;
+            display: grid;
+        }
+
+        & strong {
+            color: var(--color-text);
+            font-weight: 600;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-intro {
+        gap: 1.5rem 4rem;
+        display: grid;
+
+        @media (width >= 1024px) {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            align-items: end;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-intro-text p {
+        color: var(--color-text-soft);
+        margin: 0 0 1rem;
+        font-size: 1.0625rem;
+        line-height: 1.65;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-stats {
+        border-block: 1px solid var(--color-border);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 2rem 1.5rem;
+        margin: 3rem 0 0;
+        padding-block: 2.5rem;
+        display: grid;
+
+        @media (width >= 1024px) {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        & > div {
+            flex-direction: column-reverse;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            display: flex;
+        }
+
+        & dt {
+            color: var(--color-text-soft);
+            font-size: 0.9375rem;
+            line-height: 1.45;
+        }
+
+        & dd {
+            font-family: var(--font-heading);
+            letter-spacing: -0.045em;
+            font-variant-numeric: tabular-nums;
+            margin: 0;
+            font-size: clamp(3rem, 2.2rem + 2.4vw, 4.5rem);
+            font-weight: 300;
+            line-height: 1;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-press {
+        gap: 1.5rem 3rem;
+        margin: 2.5rem 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+
+        @media (width >= 768px) {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        & p {
+            font-family: var(--font-heading);
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 300;
+            line-height: 1.35;
+        }
+
+        & span {
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--color-primary-ink);
+            margin-top: 0.75rem;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            display: block;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-founders {
+        gap: 2.5rem 4rem;
+        display: grid;
+
+        @media (width >= 1024px) {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            align-items: center;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-media--tall {
+        aspect-ratio: 4 / 4.4;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-pull {
+        border-top: 1px solid var(--color-border);
+        margin: 2rem 0 0;
+        padding: 1.5rem 0 0;
+
+        & p {
+            font-family: var(--font-heading);
+            letter-spacing: -0.01em;
+            margin: 0;
+            font-size: 1.375rem;
+            font-weight: 300;
+            line-height: 1.4;
+        }
+
+        & footer {
+            color: var(--color-text-soft);
+            margin-top: 0.875rem;
+            font-size: 0.9375rem;
+        }
+
+        & strong {
+            color: var(--color-text);
+            font-weight: 600;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-signs {
+        font-family: var(--font-heading);
+        color: var(--color-primary-ink);
+        gap: 2rem;
+        margin: 1.75rem 0 0;
+        font-size: 1.75rem;
+        font-style: italic;
+        font-weight: 300;
+        display: flex;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-head--center {
+        text-align: center;
+        justify-content: center;
+
+        & .custom-kicker {
+            justify-content: center;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-timeline {
+        --timeline-color: var(--color-primary);
+        max-width: 64rem;
+        margin-inline: auto;
+
+        & .timeline-item-date {
+            font-family: var(--font-heading);
+            letter-spacing: -0.02em;
+            color: var(--color-primary-ink);
+            font-size: 1.5rem;
+            font-weight: 300;
+        }
+
+        & .timeline-item-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        & .timeline-item-text {
+            color: var(--color-text-soft);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-choose {
+        gap: 2.5rem 4rem;
+        display: grid;
+
+        @media (width >= 1024px) {
+            grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+            align-items: start;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-bigstat {
+        border-top: 1px solid var(--color-border);
+        align-items: baseline;
+        gap: 1rem;
+        margin: 2rem 0 0;
+        padding-top: 1.5rem;
+        display: flex;
+
+        & strong {
+            font-family: var(--font-heading);
+            letter-spacing: -0.04em;
+            color: var(--color-primary-ink);
+            white-space: nowrap;
+            font-size: 3.25rem;
+            font-weight: 300;
+            line-height: 1;
+        }
+
+        & span {
+            max-width: 12rem;
+            color: var(--color-text-soft);
+            line-height: 1.45;
+        }
+    }
+
+    @media (width >= 1280px) {
+        html[data-demo='makeup-store-1'] .custom-steps--2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-host--plain {
+        background: none;
+        padding: 0;
+    }
+
+    html[data-demo='makeup-store-1'] .custom-gallery {
+        gap: 2.5rem 4rem;
+        display: grid;
+
+        @media (width >= 1024px) {
+            grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+            align-items: center;
+        }
+    }
+
+    html[data-demo='makeup-store-1'] .custom-gallery-main {
+        aspect-ratio: 4 / 3.2;
+    }
+}
